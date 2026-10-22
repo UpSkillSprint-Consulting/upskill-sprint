@@ -1236,8 +1236,8 @@
             "Control Charts, Explained",
             "Before you start"
           ],
-          "text": "You’ll get the most from this lesson after The Normal Distribution: Meet the Bell Curve — control limits are the ±3σ idea applied over time. Its partner lesson, Process Capability (C p & C pk ) , is the natural next step: capability asks “does the process fit the spec?”, while control charts ask “is the process staying itself?” — and capability is only meaningful once this lesson’s answer is yes.",
-          "excerpt": "You’ll get the most from this lesson after The Normal Distribution: Meet the Bell Curve — control limits are the ±3σ idea applied over time. Its partner lesson, Process Capability (C p & C pk ) , is the natural next step: capability asks “does the process fit…",
+          "text": "Assess measurement error with a Gage R&R study before interpreting changes on a control chart. You’ll get the most from this lesson after The Normal Distribution: Meet the Bell Curve — control limits are the ±3σ idea applied over time. Its partner lesson, Process Capability (C p & C pk ) , is the natural next step: capability asks “does the process fit the spec?”, while control charts ask “is the process staying itself?” — and capability is only meaningful once this lesson’s answer is yes.",
+          "excerpt": "Assess measurement error with a Gage R&R study before interpreting changes on a control chart. You’ll get the most from this lesson after The Normal Distribution: Meet the Bell Curve — control limits are the ±3σ idea applied over time. Its partner lesson,…",
           "kinds": [
             "section",
             "formula"
@@ -23365,7 +23365,7 @@
             "Process Capability: Will Your Process Meet the Spec?",
             "Before you start"
           ],
-          "text": "This lesson builds directly on The Normal Distribution: Meet the Bell Curve . You should be comfortable with the mean μ, the standard deviation σ, and the idea that almost all values of a normal process fall within ±3σ of the mean. That “±3σ” span — 6σ wide in total — is the star of this lesson.",
+          "text": "This lesson builds directly on The Normal Distribution: Meet the Bell Curve . You should be comfortable with the mean μ, the standard deviation σ, and the idea that almost all values of a normal process fall within ±3σ of the mean. That “±3σ” span — 6σ wide in total — is the star of this lesson. Before estimating capability, assess measurement error with a Gage R&R study , then use control charts to assess process stability.",
           "excerpt": "This lesson builds directly on The Normal Distribution: Meet the Bell Curve . You should be comfortable with the mean μ, the standard deviation σ, and the idea that almost all values of a normal process fall within ±3σ of the mean. That “±3σ” span — 6σ wide…",
           "kinds": [
             "section",
@@ -23445,12 +23445,12 @@
         },
         {
           "id": "explorer-h",
-          "heading": "Interactive: capability explorer",
+          "heading": "Interactive: \\(C_{p}\\) and \\(C_{pk}\\) calculator",
           "breadcrumb": [
             "Process Capability: Will Your Process Meet the Spec?",
-            "Interactive: capability explorer"
+            "Interactive: \\(C_{p}\\) and \\(C_{pk}\\) calculator"
           ],
-          "text": "Move the sliders and watch both indices react. Try this experiment: leave the spread alone and slide the mean off-centre — C p won’t budge, but C pk will sink. Then re-centre the mean and widen σ instead — now both fall together. LSL: 94.0 USL: 106.0 Process mean μ: 100.0 Process σ: 1.5 C p 1.33 C pk 1.33 Out of spec ≈ 63 ppm Capable: C pk meets the common 1.33 benchmark.",
+          "text": "Move the sliders and watch both indices react. Try this experiment: leave the spread alone and slide the mean off-centre — C p won’t budge, but C pk will sink. Then re-centre the mean and widen σ instead — now both fall together. LSL: 94.0 USL: 106.0 Process mean μ: 100.0 Process σ: 1.5 C p 1.33 C pk 1.33 Out of spec ≈ 63 ppm Capable: C pk meets the common 1.33 benchmark. To work with your own measurements, open the engineering and statistics calculator and choose Advanced SPC.",
           "excerpt": "Move the sliders and watch both indices react. Try this experiment: leave the spread alone and slide the mean off-centre — C p won’t budge, but C pk will sink. Then re-centre the mean and widen σ instead — now both fall together. LSL: 94.0 USL: 106.0 Process…",
           "kinds": [
             "section",
@@ -40717,15 +40717,16 @@
         },
         {
           "id": "lesson-section-pipe-wall-micrometer-study",
-          "heading": "Pipe-Wall Micrometer Study",
+          "heading": "Gage R&R worked example: pipe-wall micrometer study",
           "breadcrumb": [
             "Gage R&RYou Can See",
-            "Pipe-Wall Micrometer Study"
+            "Gage R&R worked example: pipe-wall micrometer study"
           ],
           "text": "A quality team studies a 0.500 mm-wide tolerance using 10 pipe rings, 3 inspectors, and 2 randomized trials. ANOVA estimates: Repeatability σ 0.018 mm within-appraiser scatter Appraiser σ 0.012 mm between-appraiser effect Part σ 0.110 mm real sampled part spread \\(\\sigma_{GRR}=\\sqrt{0.018^2+0.012^2}=0.0216\\text{ mm}\\) \\(\\%StudyVar=100\\times0.0216/\\sqrt{0.0216^2+0.110^2}=19.3\\%\\) \\(\\%Tolerance=100\\times6(0.0216)/0.500=26.0\\%\\) \\(ndc=\\lfloor1.41(0.110/0.0216)\\rfloor=7\\) Conclusion: the system is conditionally acceptable under common guidelines, not automatically “passed.” It can distinguish at least five categories, but measurement error consumes a meaningful share of both study variation and tolerance. Repeatability is the larger component, so first investigate measurement force, contact cleanliness, positioning, fixturing, and instrument condition. Confirm the applicable customer criterion before release. 08 · Software implementation",
           "excerpt": "A quality team studies a 0.500 mm-wide tolerance using 10 pipe rings, 3 inspectors, and 2 randomized trials. ANOVA estimates: Repeatability σ 0.018 mm within-appraiser scatter Appraiser σ 0.012 mm between-appraiser effect Part σ 0.110 mm real sampled part…",
           "kinds": [
             "section",
+            "example",
             "formula"
           ]
         },
@@ -40968,7 +40969,7 @@
             "The Whole Lesson in One Minute",
             "Systematic error"
           ],
-          "text": "Bias, linearity, and stability can make precise results consistently wrong. Define the measurement decision and choose the correct study. Use representative parts, normal appraisers, repeats, randomization, blinding, and repositioning. Inspect graphs before reducing the study to one number. Interpret %Study Variation, %Tolerance, %Contribution, and ndc as different views—not interchangeable labels. Match the dominant source to corrective action, then repeat the study under the improved method. Never claim accuracy, linearity, or stability from Gage R&R alone.",
+          "text": "Bias, linearity, and stability can make precise results consistently wrong. Define the measurement decision and choose the correct study. Use representative parts, normal appraisers, repeats, randomization, blinding, and repositioning. Inspect graphs before reducing the study to one number. Interpret %Study Variation, %Tolerance, %Contribution, and ndc as different views—not interchangeable labels. Match the dominant source to corrective action, then repeat the study under the improved method. Never claim accuracy, linearity, or stability from Gage R&R alone. Once the measurement system is suitable, use control charts to assess process stability before interpreting process capability .",
           "excerpt": "Bias, linearity, and stability can make precise results consistently wrong. Define the measurement decision and choose the correct study. Use representative parts, normal appraisers, repeats, randomization, blinding, and repositioning. Inspect graphs before…",
           "kinds": [
             "section"

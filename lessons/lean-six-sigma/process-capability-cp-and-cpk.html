@@ -32,12 +32,12 @@
 <!-- EDIT: Lesson metadata -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Process Capability (Cp and Cpk) | UpSkill Sprint</title>
-<meta name="description" content="A beginner-friendly, interactive lesson on process capability: spec limits, Cp, Cpk, the 1.33 benchmark, and capability studies in Excel and Minitab.">
+<title>Cp and Cpk Calculator with Examples | UpSkill Sprint</title>
+<meta name="description" content="Use the free Cp and Cpk calculator, explore worked examples, and learn how to assess process capability with specification limits, Excel, and Minitab guidance.">
 <link rel="canonical" href="https://upskillsprint.com/lessons/lean-six-sigma/process-capability-cp-and-cpk">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Process Capability (Cp and Cpk) | UpSkill Sprint">
-<meta property="og:description" content="A beginner-friendly, interactive lesson on process capability: specification limits, Cp, Cpk, and the 1.33 benchmark.">
+<meta property="og:title" content="Cp and Cpk Calculator with Examples | UpSkill Sprint">
+<meta property="og:description" content="Use the free Cp and Cpk calculator, explore worked examples, and learn how to assess process capability with specification limits, Excel, and Minitab guidance.">
 <meta property="og:image" content="https://upskillsprint.com/assets/logo-og.png">
 <meta property="og:url" content="https://upskillsprint.com/lessons/lean-six-sigma/process-capability-cp-and-cpk">
 <meta name="twitter:card" content="summary">
@@ -574,7 +574,7 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
     <li><a href="#key-concepts">Two voices: customer and process</a></li>
     <li><a href="#terminology">Terminology</a></li>
     <li><a href="#core-formula">The formulas: C<sub>p</sub> and C<sub>pk</sub></a></li>
-    <li><a href="#capability-explorer">Interactive: capability explorer</a></li>
+    <li><a href="#capability-explorer">Interactive: \(C_{p}\) and \(C_{pk}\) calculator</a></li>
     <li><a href="#procedure">How to run a capability study</a></li>
     <li><a href="#worked-example">Worked example</a></li>
     <li><a href="#interpretation">Reading the numbers</a></li>
@@ -605,6 +605,9 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
     You should be comfortable with the mean &mu;, the standard deviation &sigma;, and the idea that almost all values of a
     normal process fall within &plusmn;3&sigma; of the mean. That &ldquo;&plusmn;3&sigma;&rdquo; span &mdash; 6&sigma; wide in total &mdash; is the
     star of this lesson.</p>
+  <p>Before estimating capability, assess measurement error with a
+    <a href="/lessons/quality-engineering/gauge-rr-study">Gage R&amp;R study</a>, then use
+    <a href="/lessons/control-charts-explained">control charts</a> to assess process stability.</p>
 </section>
 
 <!-- EDIT: Key concepts -->
@@ -692,7 +695,7 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
 
 <!-- EDIT: Interactive capability explorer -->
 <section id="capability-explorer" aria-labelledby="explorer-h">
-  <h2 id="explorer-h">Interactive: capability explorer</h2>
+  <h2 id="explorer-h">Interactive: \(C_{p}\) and \(C_{pk}\) calculator</h2>
   <p>Move the sliders and watch both indices react. Try this experiment: leave the spread alone and slide the
     <strong>mean</strong> off-centre &mdash; C<sub>p</sub> won&rsquo;t budge, but C<sub>pk</sub> will sink. Then re-centre the mean and
     widen <strong>&sigma;</strong> instead &mdash; now both fall together.</p>
@@ -740,6 +743,9 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
     </div>
     <p class="cap-verdict ok" id="cap-verdict" role="status" aria-live="polite">Capable: C<sub>pk</sub> meets the common 1.33 benchmark.</p>
   </div>
+  <p>To work with your own measurements, open the
+    <a href="/tools/engineering-statistics-calculator">engineering and statistics calculator</a>
+    and choose Advanced SPC.</p>
 </section>
 
 <!-- EDIT: Procedure -->
