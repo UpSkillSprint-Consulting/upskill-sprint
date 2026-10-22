@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 54,
   "contentLessonCount": 53,
-  "sectionCount": 2879,
+  "sectionCount": 2880,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -309,8 +309,21 @@
             "Root Cause Analysis: 5 Whys vs Fishbone Diagram",
             "References"
           ],
-          "text": "ASQ: Five Whys and Five Hows . ASQ: Fishbone Diagram . ASQ: Root Cause Analysis . ASQ: Root Cause Analysis Tools . Lean Enterprise Institute: 5 Whys . Lean Enterprise Institute: Fishbone Diagram . Back to Quality Engineering",
-          "excerpt": "ASQ: Five Whys and Five Hows . ASQ: Fishbone Diagram . ASQ: Root Cause Analysis . ASQ: Root Cause Analysis Tools . Lean Enterprise Institute: 5 Whys . Lean Enterprise Institute: Fishbone Diagram . Back to Quality Engineering",
+          "text": "ASQ: Five Whys and Five Hows . ASQ: Fishbone Diagram . ASQ: Root Cause Analysis . ASQ: Root Cause Analysis Tools . Lean Enterprise Institute: 5 Whys . Lean Enterprise Institute: Fishbone Diagram .",
+          "excerpt": "ASQ: Five Whys and Five Hows . ASQ: Fishbone Diagram . ASQ: Root Cause Analysis . ASQ: Root Cause Analysis Tools . Lean Enterprise Institute: 5 Whys . Lean Enterprise Institute: Fishbone Diagram .",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-related-lessons",
+          "heading": "Related lessons",
+          "breadcrumb": [
+            "Root Cause Analysis: 5 Whys vs Fishbone Diagram",
+            "Related lessons"
+          ],
+          "text": "What Is Lean Six Sigma? — plain-language overview of DMAIC and the eight wastes. Understanding Pareto Chart — vital-few analysis that pairs with root-cause work. ANOVA in Plain English — compare group means after you have identified candidate causes. Back to Quality Engineering",
+          "excerpt": "What Is Lean Six Sigma? — plain-language overview of DMAIC and the eight wastes. Understanding Pareto Chart — vital-few analysis that pairs with root-cause work. ANOVA in Plain English — compare group means after you have identified candidate causes. Back to…",
           "kinds": [
             "section"
           ]
