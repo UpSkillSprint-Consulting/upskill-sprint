@@ -150,7 +150,7 @@
         '<button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-' + tab.id + '" aria-label="Show ' + esc(tab.label) + ' menu">' + chevron() + '</button>' +
         '<div class="nav-panel" id="nav-d-' + tab.id + '" hidden>' + panelInner(tab) + '</div></div>';
     }).join('') + (mobile
-      ? '<div class="nav-drawer-footer"><a class="nav-drawer-account" href="/sign-in.html">Account</a><a class="nav-drawer-browse" href="/lessons">Browse lessons</a></div>'
+      ? '<div class="nav-drawer-footer"><a class="nav-drawer-account" href="/sign-in">Account</a><a class="nav-drawer-browse" href="/lessons">Browse lessons</a></div>'
       : '');
   }
 
