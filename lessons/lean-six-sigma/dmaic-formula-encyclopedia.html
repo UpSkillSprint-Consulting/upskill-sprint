@@ -32,11 +32,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DMAIC Formula Encyclopedia | UpSkill Sprint</title>
-  <meta name="description" content="Explore ASQ CSSBB, CQE, and Master Black Belt formulas across Pre-DMAIC, Define, Measure, Analyze, Improve, and Control with interactive examples.">
+  <meta name="description" content="Explore ASQ CSSBB, CQE and Master Black Belt formulas across DMAIC, with clear definitions, practical guidance and interactive examples for quality engineers.">
   <link rel="canonical" href="https://upskillsprint.com/lessons/lean-six-sigma/dmaic-formula-encyclopedia">
   <meta property="og:type" content="article">
   <meta property="og:title" content="DMAIC Formula Encyclopedia | UpSkill Sprint">
-  <meta property="og:description" content="Explore ASQ CSSBB, CQE, and Master Black Belt formulas across Pre-DMAIC, Define, Measure, Analyze, Improve, and Control with interactive examples.">
+  <meta property="og:description" content="Explore ASQ CSSBB, CQE and Master Black Belt formulas across DMAIC, with clear definitions, practical guidance and interactive examples for quality engineers.">
   <meta property="og:image" content="https://upskillsprint.com/assets/logo-og.png">
   <meta property="og:url" content="https://upskillsprint.com/lessons/lean-six-sigma/dmaic-formula-encyclopedia">
   <meta name="twitter:card" content="summary">
@@ -83,6 +83,7 @@
   </style>
   <script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
+  <script src="/lesson-payload-swap.js"></script>
 </head>
 <body>
   <main class="loader-card" id="loader-card" aria-live="polite">
@@ -137,15 +138,6 @@
       // Its render-on-every-keystroke handlers and independent theme must not run.
       dataScript.textContent = dataScript.textContent.slice(0, applicationStart);
       lesson.querySelectorAll('script[src*="mathjax"]').forEach(script => script.remove());
-      lesson.title = 'DMAIC Formula Encyclopedia | UpSkill Sprint Consulting';
-      // The decoded lesson has no canonical link, so document.write() would
-      // drop the loader's. Keep one canonical URL for this lesson.
-      if (!lesson.head.querySelector('link[rel="canonical"]')) {
-        const canonical = lesson.createElement('link');
-        canonical.rel = 'canonical';
-        canonical.href = 'https://upskillsprint.com/lessons/lean-six-sigma/dmaic-formula-encyclopedia';
-        lesson.head.append(canonical);
-      }
       lesson.body.classList.add('dmaic-encyclopedia-page');
       const styles = lesson.createElement('link');
       styles.rel = 'stylesheet'; styles.href = '/dmaic-encyclopedia-fixes.css?v=2';
@@ -155,9 +147,7 @@
       lesson.body.append(controller);
       lessonHTML = '<!DOCTYPE html>\n' + lesson.documentElement.outerHTML;
 
-      document.open();
-      document.write(lessonHTML);
-      document.close();
+      await window.upskillWriteLessonDocument(lessonHTML);
     } catch (error) {
       console.error(error);
       const card = document.getElementById('loader-card');

@@ -14,6 +14,17 @@
 
   var PRELOAD_TIMEOUT_MS = 4000;
 
+  function carryMetadata(html) {
+    var lesson = new DOMParser().parseFromString(html, 'text/html');
+    var selector = 'title, meta[name="description"], link[rel~="canonical"], meta[property^="og:"], meta[name^="twitter:"]';
+    // The public loader owns the SEO tags; older payloads must not override them.
+    lesson.head.querySelectorAll(selector).forEach(function (tag) { tag.remove(); });
+    document.head.querySelectorAll(selector).forEach(function (tag) {
+      lesson.head.appendChild(lesson.importNode(tag, true));
+    });
+    return '<!DOCTYPE html>\n' + lesson.documentElement.outerHTML;
+  }
+
   function blockingResources(html) {
     var head = html.split(/<\/head>/i)[0];
     var items = [];
@@ -52,6 +63,7 @@
   }
 
   window.upskillWriteLessonDocument = function (html) {
+    html = carryMetadata(html);
     var resources = blockingResources(html);
     var timeout = new Promise(function (resolve) { setTimeout(resolve, PRELOAD_TIMEOUT_MS); });
     return Promise.race([Promise.all(resources.map(preload)), timeout]).then(function () {
