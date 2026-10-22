@@ -46,6 +46,8 @@
     #create-account .auth-check { display: flex; gap: 10px; align-items: flex-start;
       font-size: 13.5px; line-height: 1.5; color: var(--muted); margin: 0 0 16px; cursor: pointer; }
     #create-account .auth-check input { margin-top: 3px; flex: 0 0 auto; }
+    #create-account .auth-check span { flex: 1; min-width: 0; }
+    #create-account .auth-check a { display: inline; }
     #create-account .auth-confirmation { text-align: center; }
     #create-account.auth-done form { display: none; }
   </style>
@@ -58,8 +60,8 @@
       <label class="field">Full name<input type="text" id="create-account-name" name="name" required minlength="2" maxlength="100" autocomplete="name"></label>
       <label class="field">Email<input type="email" id="create-account-email" name="email" required autocomplete="email"></label>
       <label class="field">Password<input type="password" id="create-account-password" name="password" required minlength="12" autocomplete="new-password" data-auth-password></label>
-      <label class="auth-check"><input type="checkbox" id="create-account-newsletter">Email me when new lessons are published (optional; unsubscribe anytime).</label>
-      <label class="auth-check"><input type="checkbox" id="create-account-terms" required>I agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms of Use</a> and acknowledge the <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</label>
+      <label class="auth-check"><input type="checkbox" id="create-account-newsletter"><span>Email me when new lessons are published (optional; unsubscribe anytime).</span></label>
+      <label class="auth-check"><input type="checkbox" id="create-account-terms" required><span>I agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms of Use</a> and acknowledge the <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span></label>
       <button type="submit" class="btn btn-teal" id="create-account-submit" style="width:100%;">Create account</button>
       <p id="create-account-status" role="status" aria-live="polite"></p>
     </form>
@@ -216,3 +218,4 @@
   </footer><script src="/contrast-fix.js"></script>
 </body>
 </html>
+
