@@ -29,7 +29,9 @@ export async function renderPublicDirectories(siteDir) {
     const rows = Array.from(root.querySelectorAll('[data-lesson-item]'));
     const paths = rows.map(row => new URL(row.getAttribute('href'), w.location.origin).pathname.replace(/\.html$/, '').replace(/\/$/, ''));
     if (new Set(paths).size !== paths.length) throw new Error('Duplicate lesson URLs after catalogue rendering.');
-    if (rows.length < 55) throw new Error(`Expected at least 55 lesson cards; found ${rows.length}.`);
+    const expected = [...library.matchAll(/\bpath: '([^']+)'/g)].map(m => m[1].replace(/\.html$/, '').replace(/\/$/, ''));
+    const missing = expected.filter(p => !paths.includes(p));
+    if (!expected.length || missing.length) throw new Error(`Lesson catalogue paths missing from the pre-rendered directory: ${missing.join(', ') || 'none found'}`);
     const output = html.slice(0, location.startOffset) + root.outerHTML + html.slice(location.endTag.endOffset);
     await writeFile(file, output, 'utf8');
     return rows.length;
