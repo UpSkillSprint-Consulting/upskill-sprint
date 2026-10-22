@@ -280,7 +280,7 @@ header.site nav.desktop-nav .nav-foot-solo {
   nav.mobile-nav[data-nav-root="mobile"] {
     position: fixed;
     z-index: 40;
-    top: var(--nav-header-offset);
+    top: 0;
     right: 0;
     bottom: 0;
     left: 0;
@@ -294,6 +294,15 @@ header.site nav.desktop-nav .nav-foot-solo {
 
   .mnav-check:checked ~ nav.mobile-nav[data-nav-root="mobile"] {
     display: flex;
+    padding-top: var(--nav-header-offset);
+  }
+
+  /* Header stays above the drawer so the close control remains reachable
+     and page content cannot show through above the menu. */
+  body.nav-drawer-open header.site,
+  body:has(.mnav-check:checked) header.site {
+    z-index: 50;
+    background: var(--paper, #fff);
   }
 
   body.nav-drawer-open,
