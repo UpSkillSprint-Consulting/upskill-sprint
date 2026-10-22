@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { relative } from 'node:path';
 import { privateToolPath } from '../content/tool-catalog.mjs';
 import { renderMinitabGuide } from './render-minitab-guide.mjs';
+import { renderPublicDirectories } from './render-public-directories.mjs';
 
 // A separate publish directory keeps function source and grading keys off the CDN.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -43,4 +44,5 @@ export async function stagePublicSite(source = root, destination = join(root, 'p
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   await stagePublicSite();
   await renderMinitabGuide(join(root, 'public-site'));
+  await renderPublicDirectories(join(root, 'public-site'));
 }
