@@ -171,6 +171,70 @@ that title. Do not change it in an unrelated PR, and do not edit their tests to 
 suffix. When such a lesson is next updated for another reason, the PR may move it to the
 standard by updating the title and its test together.
 
+### 2.2 SEO requirements for new lessons
+
+Write for learners first; search engines reward clear, well-structured lessons. These rules
+add to §2.1 (title, description, canonical, `og:*`), §12.5 (sitemap), §13.2 (images) and §22
+(MathJax). Do not repeat or override those sections.
+
+1. **One topic, one title, one H1.** Pick the main search phrase a learner would type (e.g.
+   "control chart", "Cp vs Cpk") and use it naturally in the `<title>` (format and ≤65-char
+   limit per §2.1), the single `<h1>`, and the first paragraph. Precedent: PR #320.
+2. **Description.** Meta description 120–160 characters, unique, stating what the learner
+   will be able to do. `og:description` (and `twitter:description` if present) MUST match it
+   exactly. Precedent: PR #321.
+3. **Headings.** Logical `<h2>`/`<h3>` outline with no skipped levels. Each heading describes
+   its section ("How to calculate Cpk", not "Part 2"). Never repeat keywords for their own
+   sake: no keyword stuffing, no hidden text, no forced keyword-variant headings.
+4. **Structured data.** Add one `<script type="application/ld+json">` after the stylesheet
+   links with a `@graph` holding a `BreadcrumbList` (Home → Lessons → lesson) and a
+   `LearningResource`, in the PR #326 format:
+
+   ```html
+   <script type="application/ld+json">
+   {
+     "@context": "https://schema.org",
+     "@graph": [
+       {"@type": "BreadcrumbList", "itemListElement": [
+         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://upskillsprint.com/"},
+         {"@type": "ListItem", "position": 2, "name": "Lessons", "item": "https://upskillsprint.com/lessons"},
+         {"@type": "ListItem", "position": 3, "name": "<H1 text>", "item": "<canonical URL>"}
+       ]},
+       {"@type": "LearningResource", "name": "<H1 text>", "description": "<meta description>", "url": "<canonical URL>", "learningResourceType": "Lesson", "educationalLevel": "<Beginner|Intermediate|Advanced>", "provider": {"@type": "Organization", "name": "UpSkill Sprint Consulting", "url": "https://upskillsprint.com/"}}
+     ]
+   }
+   </script>
+   ```
+
+   Every URL equals the extensionless canonical (§2.1). `description` equals the meta
+   description; `educationalLevel` agrees with the metadata `level` (§3). The JSON must parse.
+5. **Related lessons.** Inside `<main>`, after References and before the back-to-category
+   footer, add a related-lessons block (PR #327 format) linking **3–5 existing lessons**,
+   each with a one-line reason. Check every link resolves; never link a planned lesson.
+
+   ```html
+   <section class="related-lessons" style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);">
+     <h2>Related lessons</h2>
+     <ul>
+       <li><a href="/lessons/<slug>">Lesson title</a> — why it helps next.</li>
+     </ul>
+   </section>
+   ```
+
+6. **Internal links.** Use root-relative, extensionless URLs (`/lessons/...`, no `.html`) and
+   descriptive anchor text naming the destination ("Pareto chart lesson"). Never "click here",
+   "here", "this link" or a bare URL.
+7. **Images and media.** Follow §13.2 (alt text, `width`/`height`, `loading="lazy"` below the
+   fold). Images must be files under `assets/lessons/<slug>/`, never inline base64 `data:`
+   URIs (precedent: PR #322).
+8. **Scripts.** Lesson and third-party `<script src>` tags in `<head>` use `defer` (precedent:
+   PR #323), except the required site scripts in §5, which keep their exact tags.
+9. **Discoverability.** Register the lesson in the catalog (§12) so it appears on
+   `lessons.html`, update the `sitemap.xml` snapshot (§12.5), and regenerate
+   `assets/search/lesson-search-index.json` with `node scripts/build-lesson-search-index.mjs`
+   (or `npm run build:lesson-search-index`) and commit it. CI fails if the committed index
+   does not match the lesson sources (as happened on PR #327).
+
 ---
 
 ## 3. Lesson metadata block
@@ -1260,6 +1324,14 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] Logo is only the current wordmark (§4.0): header uses logo-wordmark.png with data-logo-light and data-logo-dark; footer uses logo-wordmark-on-dark.png; no logo-icon.png; no company-name span beside the image. Default og:image is logo-og.png unless a 1200×630 lesson poster is used.
 - [ ] <body> has data-lesson-page/category/level/interactive/lesson-type; progress card NOT hardcoded.
 - [ ] Exactly one <main id="lesson-content"> and one <h1>; no skipped heading levels.
+**SEO (§2.2)**
+- [ ] Main search phrase used naturally in <title>, the single <h1> and the opening paragraph; no keyword stuffing.
+- [ ] Meta description 120–160 chars; og:description (and twitter:description if present) match it exactly.
+- [ ] Descriptive H2/H3 headings in a logical outline.
+- [ ] BreadcrumbList + LearningResource JSON-LD in the #326 format; URLs equal the canonical; JSON parses.
+- [ ] Related-lessons block (#327 format) links 3–5 existing lessons; all internal links extensionless with descriptive anchor text (no "click here").
+- [ ] Images file-based (no base64 data: URIs); non-required <script src> tags deferred.
+- [ ] Lesson appears on lessons.html via the catalog; sitemap.xml updated; lesson-search-index.json regenerated and committed.
 - [ ] §7 quiz markup + grader copied exactly; dispatches upskill-quiz-result; dark kicker fix added.
 - [ ] Left-aligned "Back to <Category> lessons" link to /lessons#<category-slug>, with its dark-mode colour fix.
 **Accessibility & quality (§9, §10, §13.2, §21)**
