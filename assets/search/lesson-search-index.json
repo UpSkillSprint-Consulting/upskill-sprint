@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 54,
   "contentLessonCount": 53,
-  "sectionCount": 2880,
+  "sectionCount": 2884,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -916,11 +916,24 @@
             "Understanding Pareto Chart",
             "References"
           ],
-          "text": "Microsoft Support: Create a Pareto chart . Microsoft Support: SORTBY function . Microsoft Support: SCAN function . Minitab Support: Overview for Pareto Chart . Minitab Support: Enter your data for Pareto Chart . Minitab Support: Example of a weighted Pareto Chart . Back to Quality Engineering Next step: Use the largest validated category as the problem statement for a focused root-cause analysis. Continue to Root Cause Analysis: 5 Whys vs Fishbone Diagram",
+          "text": "Microsoft Support: Create a Pareto chart . Microsoft Support: SORTBY function . Microsoft Support: SCAN function . Minitab Support: Overview for Pareto Chart . Minitab Support: Enter your data for Pareto Chart . Minitab Support: Example of a weighted Pareto Chart .",
           "excerpt": "Microsoft Support: Create a Pareto chart . Microsoft Support: SORTBY function . Microsoft Support: SCAN function . Minitab Support: Overview for Pareto Chart . Minitab Support: Enter your data for Pareto Chart . Minitab Support: Example of a weighted Pareto…",
           "kinds": [
             "section",
             "example"
+          ]
+        },
+        {
+          "id": "lesson-section-related-lessons",
+          "heading": "Related lessons",
+          "breadcrumb": [
+            "Understanding Pareto Chart",
+            "Related lessons"
+          ],
+          "text": "Root Cause Analysis: 5 Whys vs Fishbone — dig into the vital few after prioritising. Control Charts, Explained — monitor the categories you chose to improve. What Is Lean Six Sigma? — plain-language overview of DMAIC and the eight wastes. Back to Quality Engineering Next step: Use the largest validated category as the problem statement for a focused root-cause analysis. Continue to Root Cause Analysis: 5 Whys vs Fishbone Diagram",
+          "excerpt": "Root Cause Analysis: 5 Whys vs Fishbone — dig into the vital few after prioritising. Control Charts, Explained — monitor the categories you chose to improve. What Is Lean Six Sigma? — plain-language overview of DMAIC and the eight wastes. Back to Quality…",
+          "kinds": [
+            "section"
           ]
         }
       ]
@@ -1521,6 +1534,19 @@
           "kinds": [
             "section"
           ]
+        },
+        {
+          "id": "lesson-section-related-lessons",
+          "heading": "Related lessons",
+          "breadcrumb": [
+            "Control Charts, Explained",
+            "Related lessons"
+          ],
+          "text": "Process Capability (Cp & Cpk) — the natural next step once the process is stable. Understanding Pareto Chart — prioritise the vital few before charting them. Root Cause Analysis: 5 Whys vs Fishbone — investigate special-cause signals.",
+          "excerpt": "Process Capability (Cp & Cpk) — the natural next step once the process is stable. Understanding Pareto Chart — prioritise the vital few before charting them. Root Cause Analysis: 5 Whys vs Fishbone — investigate special-cause signals.",
+          "kinds": [
+            "section"
+          ]
         }
       ]
     },
@@ -1664,8 +1690,21 @@
             "One-Way ANOVA: Comparing Group Means Using the F-Test",
             "Lesson Takeaway"
           ],
-          "text": "One-way ANOVA compares the mean response across one factor with multiple levels. It uses the F-statistic to compare between-group signal to within-group noise. ← Back to the Statistics lessons",
-          "excerpt": "One-way ANOVA compares the mean response across one factor with multiple levels. It uses the F-statistic to compare between-group signal to within-group noise. ← Back to the Statistics lessons",
+          "text": "One-way ANOVA compares the mean response across one factor with multiple levels. It uses the F-statistic to compare between-group signal to within-group noise.",
+          "excerpt": "One-way ANOVA compares the mean response across one factor with multiple levels. It uses the F-statistic to compare between-group signal to within-group noise.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-related-lessons",
+          "heading": "Related lessons",
+          "breadcrumb": [
+            "One-Way ANOVA: Comparing Group Means Using the F-Test",
+            "Related lessons"
+          ],
+          "text": "Hypothesis Testing for Beginners — the logic behind the p-value you just interpreted. ANOVA in Plain English — a lighter introduction before the full F-test. Two-Way ANOVA: Main Effects & Interaction — extend the same ideas to two factors. ← Back to the Statistics lessons",
+          "excerpt": "Hypothesis Testing for Beginners — the logic behind the p-value you just interpreted. ANOVA in Plain English — a lighter introduction before the full F-test. Two-Way ANOVA: Main Effects & Interaction — extend the same ideas to two factors. ← Back to the…",
           "kinds": [
             "section"
           ]
@@ -2392,6 +2431,19 @@
           "kinds": [
             "section",
             "example"
+          ]
+        },
+        {
+          "id": "lesson-section-related-lessons",
+          "heading": "Related lessons",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Related lessons"
+          ],
+          "text": "One-Way ANOVA: Comparing Group Means — compare three or more group means with the F-test. ANOVA in Plain English — the same idea without the statistical jargon. Two-Way ANOVA: Main Effects & Interaction — add a second factor and look for interaction.",
+          "excerpt": "One-Way ANOVA: Comparing Group Means — compare three or more group means with the F-test. ANOVA in Plain English — the same idea without the statistical jargon. Two-Way ANOVA: Main Effects & Interaction — add a second factor and look for interaction.",
+          "kinds": [
+            "section"
           ]
         }
       ]
