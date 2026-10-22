@@ -48,11 +48,12 @@ test('canonical lesson chrome is exact: no skip link and no extra header CTA', (
   assert.match(html, /<script src="\/site-sections\.js"><\/script>/);
   const preMain = bodyBeforeMain(html);
   assert.match(preMain, /<body[^>]*>\s*<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">\s*<header class="site lesson-sitebar">/);
+  const header = preMain.match(/<header class="site lesson-sitebar">[\s\S]*?<\/header>/)[0];
+  assert.doesNotMatch(header, /Browse lessons|header-cta/);
   assert.doesNotMatch(preMain, /skip-link|Skip to lesson content/);
-  assert.doesNotMatch(preMain, /Browse lessons|header-cta/);
-  const nav = preMain.match(/<nav class="desktop-nav"[\s\S]*?<\/nav>/)[0];
-  const labels = [...nav.matchAll(/<a [^>]*>([^<]+)<\/a>/g)].map(m => m[1]);
-  assert.deepEqual(labels, ['Start Here','Lessons','Engineering Tools','Services','Request a Topic','About','FAQ','Contact']);
+  const nav = preMain.match(/<nav\b[^>]*\bdesktop-nav\b[^>]*>[\s\S]*?<\/nav>/)[0];
+  const labels = [...nav.matchAll(/<a [^>]*class="nav-tab-link"[^>]*>([^<]+)<\/a>/g)].map(m => m[1]);
+  assert.deepEqual(labels, ['Start Here','Lessons','Exam Practice','Engineering Tools','Services','About']);
   assert.equal((html.match(/<footer class="site">/g) || []).length, 1);
   assert.match(html, /<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">\s*<a href="\/lessons#statistics"/);
 });

@@ -186,7 +186,7 @@ test('shared header styling shields navigation from standalone tool typography',
   assert.equal(header.querySelector('.brand span'), null);
   assert.equal(window.getComputedStyle(header.querySelector('.brand img.logo-wordmark')).height,'46px');
   assert.equal(window.getComputedStyle(header.querySelector('nav.desktop-nav')).fontSize,'13.5px');
-  assert.equal(header.querySelectorAll('nav.desktop-nav a').length,8);
+  assert.equal(header.querySelectorAll('nav.desktop-nav .nav-tab-link').length,6);
   assert.equal(header.querySelector('nav.desktop-nav [aria-current="page"]').textContent,'Engineering Tools');
   const links=Array.from(window.document.querySelectorAll('link[rel="stylesheet"]'));
   assert.ok(links.findIndex(l=>l.getAttribute('href')==='/assets/tool-site-header.css') > links.findIndex(l=>l.getAttribute('href')==='/tools/material-specification-compliance-checker.css'));

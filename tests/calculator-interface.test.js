@@ -116,7 +116,7 @@ test('compact workspace navigation stays synchronized with keyboard tabs and han
  d.querySelector('[data-page=pg-spc]').click();assert.equal(picker.value,'pg-spc');
  assert.equal(d.querySelectorAll('main').length,1);assert.equal(d.querySelectorAll('header.site').length,1);
  assert.equal(d.querySelectorAll('footer.site').length,1);
- assert.equal(d.querySelectorAll('header.site .desktop-nav a').length,8);
+ assert.equal(d.querySelectorAll('header.site .desktop-nav .nav-tab-link').length,6);
  assert.ok(d.getElementById('guide-paste').placeholder.includes('\n'));assert.ok(!d.getElementById('guide-paste').placeholder.includes('\\n'));
  dom.window.close();
 });
