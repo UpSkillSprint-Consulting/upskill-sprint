@@ -58,7 +58,7 @@
     style.id = 'auth-form-enhancement-styles';
     style.textContent = [
       '.auth-password-control{position:relative;display:block}',
-      '.auth-password-control input{padding-right:74px!important}',
+      '.auth-password-control input{width:100%;box-sizing:border-box;padding-right:74px!important}',
       '.auth-password-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);',
       'border:0;background:transparent;color:var(--teal);font:600 12.5px/1 "Work Sans",sans-serif;cursor:pointer;padding:8px}',
       '.auth-password-meter{height:4px;margin:-6px 0 8px;border-radius:999px;background:var(--line);overflow:hidden}',
