@@ -3,6 +3,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { relative } from 'node:path';
 import { privateToolPath } from '../content/tool-catalog.mjs';
+import { renderMinitabGuide } from './render-minitab-guide.mjs';
 
 // A separate publish directory keeps function source and grading keys off the CDN.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -39,4 +40,7 @@ export async function stagePublicSite(source = root, destination = join(root, 'p
   }
   console.log(`Staged ${count} public entries; server code and private grading keys excluded.`);
 }
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await stagePublicSite();
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  await stagePublicSite();
+  await renderMinitabGuide(join(root, 'public-site'));
+}
