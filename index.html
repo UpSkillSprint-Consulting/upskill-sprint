@@ -20,7 +20,13 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"UpSkill Sprint Consulting","url":"https://upskillsprint.com/index.html","logo":"https://upskillsprint.com/assets/logo-og.png","email":"skillsprintconsulting@gmail.com"}
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {"@type": "Organization", "@id": "https://upskillsprint.com/#organization", "name": "UpSkill Sprint Consulting", "url": "https://upskillsprint.com/", "logo": "https://upskillsprint.com/assets/logo-og.png", "email": "skillsprintconsulting@gmail.com"},
+    {"@type": "WebSite", "@id": "https://upskillsprint.com/#website", "url": "https://upskillsprint.com/", "name": "UpSkill Sprint", "publisher": {"@id": "https://upskillsprint.com/#organization"}, "description": "Free practical lessons in data analytics, quality engineering, Lean Six Sigma, SPC, statistics, and Excel."}
+  ]
+}
 </script>
   <script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
