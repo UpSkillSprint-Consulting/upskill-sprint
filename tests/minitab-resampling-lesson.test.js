@@ -49,8 +49,8 @@ test('resampling lesson carries canonical site assets, chrome, quiz, and categor
   assert.equal(document.querySelectorAll('header.site.lesson-sitebar').length, 1);
   assert.equal(document.querySelectorAll('footer.site').length, 1);
   assert.deepEqual(
-    Array.from(document.querySelectorAll('header.site .desktop-nav a')).map((link) => link.textContent.trim()),
-    ['Start Here', 'Lessons', 'Engineering Tools', 'Services', 'Request a Topic', 'About', 'FAQ', 'Contact'],
+    Array.from(document.querySelectorAll('header.site .desktop-nav .nav-tab-link')).map((link) => link.textContent.trim()),
+    ['Start Here', 'Lessons', 'Exam Practice', 'Engineering Tools', 'Services', 'About'],
   );
   assert.ok(document.querySelector('#quiz-form'));
   assert.equal(document.querySelectorAll('#quiz-form .quiz-question').length, 5);
@@ -59,7 +59,8 @@ test('resampling lesson carries canonical site assets, chrome, quiz, and categor
   assert.equal(document.querySelector('#practice-quiz'), null, 'the legacy duplicate quiz must stay removed');
   assert.equal(document.querySelectorAll('main .quiz').length, 0, 'only the canonical knowledge check should remain');
   assert.ok(html.includes("new CustomEvent('upskill-quiz-result'"));
-  assert.equal(document.querySelector('a[href="/lessons#statistics"]').textContent.trim(), '← Back to Statistics lessons');
+  const back = [...document.querySelectorAll('a[href="/lessons#statistics"]')].find((link) => !link.closest('nav, footer'));
+  assert.equal(back.textContent.trim(), '← Back to Statistics lessons');
   assert.ok(!html.includes('Want to save your progress and quiz scores for this lesson?'));
 });
 

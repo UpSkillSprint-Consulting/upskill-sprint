@@ -723,9 +723,11 @@ function looksLikeUnresolvedLoader(html) {
     /(?:^|[\/_-])(?:loader|payload|fragment|content)(?:[._-]|$)/i.test(source)
   );
 
-  return explicitLoaderAsset || importsAtRuntime || parsesMarkup || transformsPayload ||
+  const result = explicitLoaderAsset || importsAtRuntime || parsesMarkup || transformsPayload ||
     writesDocument || assemblesParts || requestsMarkup || fetchesMarkup ||
     (fetches && replacesChildren);
+  dom.window.close();
+  return result;
 }
 
 export function resolveLessonContent(rootDir, catalogEntry, wrapperHtml) {
@@ -843,7 +845,9 @@ export function extractSections(html, options = {}) {
   }
   finishCurrent();
 
-  return sections.filter((section) => section.heading && section.id);
+  const kept = sections.filter((section) => section.heading && section.id);
+  dom.window.close();
+  return kept;
 }
 
 function uniqueStrings(values) {

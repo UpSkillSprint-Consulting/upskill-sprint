@@ -1,0 +1,117 @@
+'use strict';
+
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const test = require('node:test');
+const { JSDOM } = require('jsdom');
+
+const ROOT = path.join(__dirname, '..');
+const read = (file) => fs.readFileSync(path.join(ROOT, file), 'utf8');
+const navApi = require(path.join(ROOT, 'site-nav.js'));
+
+const TAB_LABELS = ['Start Here', 'Lessons', 'Exam Practice', 'Engineering Tools', 'Services', 'About'];
+const TAB_HREFS = ['/start-here', '/lessons', '/exam-practice', '/engineering-tools', '/services', '/about'];
+
+function pageDom(file, url) {
+  const dom = new JSDOM(read(file), { url, pretendToBeVisual: true, runScripts: 'outside-only' });
+  dom.window.eval(read('site-nav.js'));
+  return dom;
+}
+
+function fileFor(urlPath) {
+  const clean = urlPath.split('#')[0].replace(/\/$/, '');
+  if (!clean) return 'index.html';
+  const rel = clean.replace(/^\//, '');
+  for (const candidate of [rel + '.html', rel + '/index.html', rel]) {
+    if (fs.existsSync(path.join(ROOT, candidate))) return candidate;
+  }
+  if (rel.startsWith('engineering-tools/grade-specification-lookup')) return 'scripts/build-grade-specification-lookup.mjs';
+  return null;
+}
+
+test('six primary tabs render with directory links and closed chevrons', () => {
+  const dom = pageDom('index.html', 'https://upskillsprint.com/');
+  const doc = dom.window.document;
+  const links = [...doc.querySelectorAll('nav.desktop-nav .nav-tab-link')];
+  assert.deepEqual(links.map((link) => link.textContent.trim()), TAB_LABELS);
+  assert.deepEqual(links.map((link) => link.getAttribute('href')), TAB_HREFS);
+  const buttons = [...doc.querySelectorAll('nav.desktop-nav .nav-chevron')];
+  assert.equal(buttons.length, 6);
+  buttons.forEach((button) => {
+    assert.equal(button.getAttribute('aria-expanded'), 'false');
+    assert.ok(button.getAttribute('aria-controls'));
+    assert.equal(doc.getElementById(button.getAttribute('aria-controls')).hidden, true);
+  });
+  assert.equal(doc.querySelector('nav.desktop-nav').getAttribute('aria-label'), 'Main');
+  dom.window.close();
+});
+
+test('a chevron opens its panel, closes the other panel, and Escape returns focus', () => {
+  const dom = pageDom('lessons.html', 'https://upskillsprint.com/lessons');
+  const doc = dom.window.document;
+  const buttons = [...doc.querySelectorAll('nav.desktop-nav .nav-chevron')];
+  const lessons = buttons[1];
+  const exam = buttons[2];
+  lessons.click();
+  assert.equal(lessons.getAttribute('aria-expanded'), 'true');
+  assert.equal(doc.getElementById(lessons.getAttribute('aria-controls')).hidden, false);
+  exam.click();
+  assert.equal(lessons.getAttribute('aria-expanded'), 'false');
+  assert.equal(doc.getElementById(lessons.getAttribute('aria-controls')).hidden, true);
+  assert.equal(exam.getAttribute('aria-expanded'), 'true');
+  doc.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  assert.equal(exam.getAttribute('aria-expanded'), 'false');
+  assert.equal(doc.getElementById(exam.getAttribute('aria-controls')).hidden, true);
+  assert.equal(doc.activeElement, exam);
+  exam.click();
+  doc.body.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true }));
+  assert.equal(exam.getAttribute('aria-expanded'), 'false');
+  dom.window.close();
+});
+
+test('every dropdown href points at a real page and every anchor exists', () => {
+  const seen = new Set();
+  for (const href of navApi.hrefs()) {
+    if (seen.has(href) || href.startsWith('mailto:')) continue;
+    seen.add(href);
+    const [urlPath, hash] = href.split('#');
+    const file = fileFor(urlPath);
+    assert.ok(file, `missing page for ${href}`);
+    if (!hash || !file.endsWith('.html')) continue;
+    const html = read(file);
+    assert.match(html, new RegExp(`id=["']${hash}["']`), `${href} anchor missing in ${file}`);
+  }
+});
+
+test('lesson menu counts follow the rendered catalog, including Soon for empty topics', () => {
+  const dom = new JSDOM(read('lessons.html'), {
+    url: 'https://upskillsprint.com/lessons',
+    pretendToBeVisual: true,
+    runScripts: 'outside-only'
+  });
+  dom.window.eval(read('chi-square-lesson-library.js'));
+  dom.window.eval(read('site-nav.js'));
+  dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
+  const doc = dom.window.document;
+  assert.equal(doc.documentElement.getAttribute('data-lesson-catalog-ready'), 'true');
+  let total = 0;
+  for (const section of doc.querySelectorAll('.lesson-category[id]')) {
+    const count = section.querySelectorAll('[data-lesson-item]').length;
+    total += count;
+    const shown = doc.querySelector(`nav.desktop-nav [data-nav-count="${section.id}"]`);
+    assert.ok(shown, section.id);
+    const soon = shown.parentElement.querySelector('[data-nav-soon]');
+    if (count === 0) {
+      assert.equal(shown.hidden, true, section.id);
+      assert.equal(soon.hidden, false, section.id);
+    } else {
+      assert.equal(shown.hidden, false, section.id);
+      assert.equal(shown.textContent, String(count), section.id);
+      assert.equal(soon.hidden, true, section.id);
+    }
+  }
+  assert.equal(doc.querySelector('nav.desktop-nav [data-nav-total]').textContent, `${total} lessons`);
+  assert.equal(doc.querySelector('nav.desktop-nav [data-nav-total-link]').textContent, `View all ${total} lessons →`);
+  dom.window.close();
+});
