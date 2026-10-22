@@ -2,6 +2,7 @@
 
 **Audience:** AI agents (including the `upskillsprint-agent` GitHub account) and human
 contributors who create or update lessons or engineering tools on upskillsprint.com.
+§2.2 (SEO) also governs new exam-practice pages.
 **Status:** Authoritative. If any instruction elsewhere conflicts with this file, follow this file.
 **Last verified against the code:** `main` @ `630089d` (PR #254), 6 Oct 2026. If the code and
 this guide disagree, stop and say so in your PR. Do not quietly pick one.
@@ -171,8 +172,12 @@ that title. Do not change it in an unrelated PR, and do not edit their tests to 
 suffix. When such a lesson is next updated for another reason, the PR may move it to the
 standard by updating the title and its test together.
 
-### 2.2 SEO requirements for new lessons
+### 2.2 SEO requirements for new lessons, exams and tools
 
+These rules apply to every new public page of three types: **lessons** (`lessons/**`),
+**exam practice** (listed on `/exam-practice`, run by `test-bank.html` with banks in
+`exam-catalog/`), and **engineering tools/calculators** (`tools/**`, listed on
+`/engineering-tools`). Rules 1–3 and 6–8 are shared; rules 4, 5 and 9 have type-specific notes.
 Write for learners first; search engines reward clear, well-structured lessons. These rules
 add to §2.1 (title, description, canonical, `og:*`), §12.5 (sitemap), §13.2 (images) and §22
 (MathJax). Do not repeat or override those sections.
@@ -186,7 +191,8 @@ add to §2.1 (title, description, canonical, `og:*`), §12.5 (sitemap), §13.2 (
 3. **Headings.** Logical `<h2>`/`<h3>` outline with no skipped levels. Each heading describes
    its section ("How to calculate Cpk", not "Part 2"). Never repeat keywords for their own
    sake: no keyword stuffing, no hidden text, no forced keyword-variant headings.
-4. **Structured data.** Add one `<script type="application/ld+json">` after the stylesheet
+4. **Structured data.** No exam or tool page carries JSON-LD yet, so the formats below set the
+   standard. **Lessons:** add one `<script type="application/ld+json">` after the stylesheet
    links with a `@graph` holding a `BreadcrumbList` (Home → Lessons → lesson) and a
    `LearningResource`, in the PR #326 format:
 
@@ -208,7 +214,18 @@ add to §2.1 (title, description, canonical, `og:*`), §12.5 (sitemap), §13.2 (
 
    Every URL equals the extensionless canonical (§2.1). `description` equals the meta
    description; `educationalLevel` agrees with the metadata `level` (§3). The JSON must parse.
-5. **Related lessons.** Inside `<main>`, after References and before the back-to-category
+
+   **Exams/quizzes:** same `@graph` and BreadcrumbList (position 2 = "Exam Practice",
+   `https://upskillsprint.com/exam-practice`), with
+   `{"@type": "Quiz", "name": …, "description": …, "url": …, "educationalLevel": …, "about": "<certification, e.g. ASQ CSSGB>", "provider": {…as above…}}`.
+   Only add it to a page with its own canonical; `test-bank.html` canonicalises to
+   `/exam-practice`, so new exam banks there add no JSON-LD of their own.
+
+   **Tools/calculators:** BreadcrumbList with position 2 = "Engineering Tools"
+   (`https://upskillsprint.com/engineering-tools`), plus
+   `{"@type": "WebApplication", "name": …, "description": …, "url": …, "applicationCategory": "EducationalApplication", "operatingSystem": "Any", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "CAD"}, "provider": {…as above…}}`.
+   Drop `offers` if the tool is not free to the public (access level per §12.4).
+5. **Related content.** Lessons: inside `<main>`, after References and before the back-to-category
    footer, add a related-lessons block (PR #327 format) linking **3–5 existing lessons**,
    each with a one-line reason. Check every link resolves; never link a planned lesson.
 
@@ -221,6 +238,10 @@ add to §2.1 (title, description, canonical, `og:*`), §12.5 (sitemap), §13.2 (
    </section>
    ```
 
+   Exams and tools use the same markup headed "Related lessons" (linking the lessons that teach
+   the exam topics or the tool's method) and may add a link to a related tool or exam. Tools
+   with a `how-to-use/` page link to it.
+
 6. **Internal links.** Use root-relative, extensionless URLs (`/lessons/...`, no `.html`) and
    descriptive anchor text naming the destination ("Pareto chart lesson"). Never "click here",
    "here", "this link" or a bare URL.
@@ -229,11 +250,15 @@ add to §2.1 (title, description, canonical, `og:*`), §12.5 (sitemap), §13.2 (
    URIs (precedent: PR #322).
 8. **Scripts.** Lesson and third-party `<script src>` tags in `<head>` use `defer` (precedent:
    PR #323), except the required site scripts in §5, which keep their exact tags.
-9. **Discoverability.** Register the lesson in the catalog (§12) so it appears on
+9. **Discoverability.** **Lessons:** register the lesson in the catalog (§12) so it appears on
    `lessons.html`, update the `sitemap.xml` snapshot (§12.5), and regenerate
    `assets/search/lesson-search-index.json` with `node scripts/build-lesson-search-index.mjs`
    (or `npm run build:lesson-search-index`) and commit it. CI fails if the committed index
    does not match the lesson sources (as happened on PR #327).
+   **Exams:** add the exam card/anchor (`#exam-<code>`) on `exam-practice.html` and its
+   `exam-catalog/` entry. **Tools:** add the tile on `engineering-tools.html` and the nav row
+   (§4.1). Both: update the `sitemap.xml` snapshot if the page has its own canonical. The
+   search index covers lessons only, so regenerate it only when lesson sources change.
 
 ---
 
@@ -1324,14 +1349,14 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] Logo is only the current wordmark (§4.0): header uses logo-wordmark.png with data-logo-light and data-logo-dark; footer uses logo-wordmark-on-dark.png; no logo-icon.png; no company-name span beside the image. Default og:image is logo-og.png unless a 1200×630 lesson poster is used.
 - [ ] <body> has data-lesson-page/category/level/interactive/lesson-type; progress card NOT hardcoded.
 - [ ] Exactly one <main id="lesson-content"> and one <h1>; no skipped heading levels.
-**SEO (§2.2)**
+**SEO (§2.2; lessons, exams and tools)**
 - [ ] Main search phrase used naturally in <title>, the single <h1> and the opening paragraph; no keyword stuffing.
 - [ ] Meta description 120–160 chars; og:description (and twitter:description if present) match it exactly.
 - [ ] Descriptive H2/H3 headings in a logical outline.
-- [ ] BreadcrumbList + LearningResource JSON-LD in the #326 format; URLs equal the canonical; JSON parses.
-- [ ] Related-lessons block (#327 format) links 3–5 existing lessons; all internal links extensionless with descriptive anchor text (no "click here").
+- [ ] JSON-LD per §2.2 rule 4 (lesson LearningResource, exam Quiz, tool WebApplication) with BreadcrumbList; URLs equal the canonical; JSON parses.
+- [ ] Related-lessons block (#327 format) links 3–5 existing lessons (exams/tools too); all internal links extensionless with descriptive anchor text (no "click here").
 - [ ] Images file-based (no base64 data: URIs); non-required <script src> tags deferred.
-- [ ] Lesson appears on lessons.html via the catalog; sitemap.xml updated; lesson-search-index.json regenerated and committed.
+- [ ] Listed on the right page (lessons.html via catalog / exam-practice.html / engineering-tools.html); sitemap.xml updated; lesson-search-index.json regenerated when lesson sources changed.
 - [ ] §7 quiz markup + grader copied exactly; dispatches upskill-quiz-result; dark kicker fix added.
 - [ ] Left-aligned "Back to <Category> lessons" link to /lessons#<category-slug>, with its dark-mode colour fix.
 **Accessibility & quality (§9, §10, §13.2, §21)**
