@@ -14,7 +14,7 @@ function setup(hash) {
   const dom = new JSDOM(html, { url: `https://upskillsprint.com${lessonPath}${hash || ''}`, runScripts: 'outside-only' });
   const { window: w } = dom;
   for (const script of w.document.scripts) {
-    if (!script.src && script.type !== 'application/json') w.eval(script.textContent);
+    if (!script.src && script.type !== 'application/json' && script.type !== 'application/ld+json') w.eval(script.textContent);
   }
   return { dom, w, d: w.document };
 }

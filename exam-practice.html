@@ -26,6 +26,30 @@
 <script src="/site-nav.js" defer></script>
 <script src="/site-sections.js"></script>
   <script defer src="/exam-directory.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://upskillsprint.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Exam Practice",
+          "item": "https://upskillsprint.com/exam-practice"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body class="exam-page">
   <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">

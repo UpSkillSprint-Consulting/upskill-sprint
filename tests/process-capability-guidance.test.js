@@ -8,7 +8,7 @@ const html = fs.readFileSync('lessons/lean-six-sigma/process-capability-cp-and-c
 function lessonPage(runExplorer = false) {
   const dom = new JSDOM(html, { runScripts: 'outside-only' });
   if (runExplorer) {
-    for (const script of dom.window.document.querySelectorAll('script:not([src])')) {
+    for (const script of dom.window.document.querySelectorAll('script:not([src]):not([type="application/ld+json"])')) {
       dom.window.eval(script.textContent);
     }
   }

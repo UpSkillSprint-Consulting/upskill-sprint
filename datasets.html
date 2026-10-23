@@ -24,6 +24,107 @@
   <link rel="stylesheet" href="/site-nav.css">
 <script src="/site-nav.js" defer></script>
 <script src="/site-sections.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://upskillsprint.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Datasets",
+          "item": "https://upskillsprint.com/datasets"
+        }
+      ]
+    },
+    {
+      "@type": "DataCatalog",
+      "name": "Excel and Minitab Practice Datasets",
+      "description": "Download free Excel and Minitab practice datasets with data dictionaries, workbook exercises and lessons for formulas, regression and resampling.",
+      "url": "https://upskillsprint.com/datasets",
+      "provider": {
+        "@type": "Organization",
+        "name": "UpSkill Sprint Consulting",
+        "url": "https://upskillsprint.com/"
+      },
+      "dataset": [
+        {
+          "@type": "Dataset",
+          "name": "Excel formula practice workbook",
+          "description": "An eight-sheet workbook with a reference guide, production data, beginner, intermediate and advanced practice sheets, an answer key and a capstone exercise.",
+          "isAccessibleForFree": true,
+          "creator": {
+            "@type": "Organization",
+            "name": "UpSkill Sprint Consulting",
+            "url": "https://upskillsprint.com/"
+          },
+          "distribution": {
+            "@type": "DataDownload",
+            "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "contentUrl": "https://upskillsprint.com/assets/lessons/excel-formula-fluency/excel-formula-fluency-practice-workbook.xlsx"
+          }
+        },
+        {
+          "@type": "Dataset",
+          "name": "Minitab regression practice dataset",
+          "description": "Fifty fictitious steel coils with tensile strength as the response and candidate predictors such as carbon, manganese, rolling temperature and cooling rate, plus a data dictionary.",
+          "isAccessibleForFree": true,
+          "creator": {
+            "@type": "Organization",
+            "name": "UpSkill Sprint Consulting",
+            "url": "https://upskillsprint.com/"
+          },
+          "distribution": {
+            "@type": "DataDownload",
+            "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "contentUrl": "https://upskillsprint.com/assets/lessons/choosing-the-right-regression-analysis-in-minitab/regression-practice-dataset.xlsx"
+          }
+        },
+        {
+          "@type": "Dataset",
+          "name": "Minitab resampling practice dataset",
+          "description": "120 fictitious strength measurements from a standard and a new process group, with pass/fail results, a column guide and a quick summary for bootstrap and randomization exercises.",
+          "isAccessibleForFree": true,
+          "creator": {
+            "@type": "Organization",
+            "name": "UpSkill Sprint Consulting",
+            "url": "https://upskillsprint.com/"
+          },
+          "distribution": {
+            "@type": "DataDownload",
+            "encodingFormat": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "contentUrl": "https://upskillsprint.com/assets/lessons/resampling-in-minitab/minitab-resampling-practice-dataset.xlsx"
+          }
+        },
+        {
+          "@type": "Dataset",
+          "name": "Excel CUBE function practice data",
+          "description": "Fictitious mill test records by month, mill, shift and steel grade, with pieces, rejects and Charpy impact energy, for practising CUBE formulas against a data model.",
+          "isAccessibleForFree": true,
+          "creator": {
+            "@type": "Organization",
+            "name": "UpSkill Sprint Consulting",
+            "url": "https://upskillsprint.com/"
+          },
+          "distribution": {
+            "@type": "DataDownload",
+            "encodingFormat": "text/csv",
+            "contentUrl": "https://upskillsprint.com/assets/lessons/excel-cube-functions/cube-practice-tests.csv"
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
   <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
@@ -51,7 +152,7 @@
     </section>
     <section aria-labelledby="resampling-dataset">
       <h2 id="resampling-dataset" style="font-size:21px;margin:36px 0 10px;">Minitab resampling practice dataset</h2>
-      <p style="font-size:15px;line-height:1.75;color:var(--ink-soft);">120 strength measurements from a standard and a new process group, with pass/fail results, a column guide and a quick summary for the five methods under Calc Sampling practice data with a practice guide and quick summary for bootstrap and randomization exercises in Minitab.gt; Resampling in Minitab.</p>
+      <p style="font-size:15px;line-height:1.75;color:var(--ink-soft);">120 strength measurements from a standard and a new process group, with pass/fail results, a column guide and a quick summary for bootstrap and randomization exercises in Minitab.</p>
       <p style="font-size:15px;line-height:1.75;color:var(--ink-soft);"><a href="/assets/lessons/resampling-in-minitab/minitab-resampling-practice-dataset.xlsx" download style="text-decoration:underline;">Download the resampling practice dataset (.xlsx, 16 KB)</a> · <a href="/lessons/statistics/resampling-in-minitab" style="text-decoration:underline;">Resampling in Minitab lesson</a></p>
     </section>
     <section aria-labelledby="cube-dataset">
