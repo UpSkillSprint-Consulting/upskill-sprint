@@ -19,6 +19,18 @@
     const host = document.getElementById('doeLessonContent');
     if (!host) return;
 
+    // Build-time pre-render (scripts/render-js-lessons.mjs) inlines the
+    // styles and content; only the application code still needs to run.
+    const inlineApp = host.dataset.prerendered === 'true' && document.getElementById('doe-lesson-app');
+    if (inlineApp) {
+      try {
+        new Function(inlineApp.textContent + '\n//# sourceURL=introduction-to-design-of-experiment-doe.js')();
+      } catch (error) {
+        console.error(error);
+      }
+      return;
+    }
+
     try {
       const results = await Promise.all([
         readParts(cssParts),
