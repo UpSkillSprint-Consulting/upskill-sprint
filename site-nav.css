@@ -8,7 +8,7 @@ nav.mobile-nav {
   --nav-panel-border: var(--line, #e3e7ee);
   --nav-panel-hover: #f3f6fa;
   --nav-foot: #f4f7fb;
-  --nav-muted: #3e4c5e;
+  --nav-muted: #5b6578;
   --nav-shadow: 0 18px 40px rgba(16, 24, 40, 0.16);
   --nav-header-offset: 78px;
 }
@@ -19,7 +19,7 @@ html[data-theme="dark"] nav.mobile-nav {
   --nav-panel-border: #26344F;
   --nav-panel-hover: #17243C;
   --nav-foot: #0E1628;
-  --nav-muted: #d5deea;
+  --nav-muted: var(--muted, #a9b6c8);
   --nav-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
 }
 
@@ -170,20 +170,32 @@ header.site nav.desktop-nav .nav-panel a:focus-visible {
   border-bottom-color: transparent;
 }
 
-header.site nav.desktop-nav .nav-name { flex: 1; min-width: 0; }
+header.site nav.desktop-nav .nav-name {
+  flex: 1;
+  min-width: 0;
+  color: var(--ink);
+  font-weight: 500;
+}
 
 header.site nav.desktop-nav .nav-count,
-header.site nav.desktop-nav .nav-desc,
 header.site nav.desktop-nav .nav-soon {
   color: var(--nav-muted);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
+}
+
+header.site nav.desktop-nav .nav-desc {
+  color: var(--muted, #5b6578);
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.4;
 }
 
 header.site nav.desktop-nav .nav-rich {
   align-items: flex-start;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  padding: 11px 12px;
 }
 
 header.site nav.desktop-nav .nav-exam .nav-acronym {
@@ -242,23 +254,27 @@ header.site nav.desktop-nav .nav-foot-secondary:hover {
 }
 
 header.site nav.desktop-nav .nav-book {
-  display: block;
-  width: 100%;
-  padding: 12px 16px;
-  border-radius: 10px;
-  background: #0e7490;
-  color: #ffffff;
-  font-weight: 700;
-  text-align: center;
+  display: inline-flex;
+  width: auto;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--accent, #1f4e5f);
+  font-weight: 600;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
-header.site nav.desktop-nav .nav-book:hover {
-  background: #0a5a70;
-  color: #ffffff;
+header.site nav.desktop-nav .nav-book:hover,
+header.site nav.desktop-nav .nav-book:focus-visible {
+  background: transparent;
+  color: var(--teal-dark, #163a47);
 }
 
 header.site nav.desktop-nav .nav-foot-solo {
   display: block;
+  text-align: left;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -373,14 +389,27 @@ nav.mobile-nav .nav-acc-panel a.nav-book {
 nav.mobile-nav .nav-acc-panel .nav-rich {
   align-items: flex-start;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   min-height: 44px;
+  text-align: left;
 }
 
-nav.mobile-nav .nav-desc,
+nav.mobile-nav .nav-name {
+  flex: 1;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+nav.mobile-nav .nav-desc {
+  color: var(--muted, #5b6578);
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
 nav.mobile-nav .nav-count {
   color: var(--nav-muted);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
 }
 
@@ -389,8 +418,6 @@ nav.mobile-nav .nav-acronym {
   color: var(--teal);
   font-weight: 700;
 }
-
-nav.mobile-nav .nav-name { flex: 1; }
 
 nav.mobile-nav .nav-drawer-footer {
   display: grid;
