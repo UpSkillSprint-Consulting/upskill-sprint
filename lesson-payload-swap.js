@@ -22,6 +22,16 @@
     document.head.querySelectorAll(selector).forEach(function (tag) {
       lesson.head.appendChild(lesson.importNode(tag, true));
     });
+    // Structured data: the wrapper's JSON-LD is authoritative when present;
+    // otherwise any payload-only graphs are kept as they are.
+    var ld = 'script[type="application/ld+json"]';
+    var wrapperLd = document.head.querySelectorAll(ld);
+    if (wrapperLd.length) {
+      lesson.querySelectorAll(ld).forEach(function (tag) { tag.remove(); });
+      wrapperLd.forEach(function (tag) {
+        lesson.head.appendChild(lesson.importNode(tag, true));
+      });
+    }
     return '<!DOCTYPE html>\n' + lesson.documentElement.outerHTML;
   }
 

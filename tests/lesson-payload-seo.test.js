@@ -71,7 +71,12 @@ for (const [name, file, payloadScript] of lessons) {
       assert.equal(doc.documentElement.dataset.theme, 'dark');
       assert.ok(doc.getElementById('lesson-swap-background'));
       assert.equal(doc.body.innerHTML, decoded.body.innerHTML, 'keep the complete decoded body');
-      assert.deepEqual(tags(doc, 'script'), tags(decoded, 'script'), 'keep script attributes and source');
+      const LD = 'script[type="application/ld+json"]';
+      const NON_LD = 'script:not([type="application/ld+json"])';
+      assert.deepEqual(tags(doc, NON_LD), tags(decoded, NON_LD), 'keep script attributes and source');
+      const shellLd = tags(new w.DOMParser().parseFromString(read(file), 'text/html'), LD);
+      if (shellLd.length) assert.deepEqual(tags(doc, LD), shellLd, 'wrapper JSON-LD carried over exactly once');
+      else assert.deepEqual(tags(doc, LD), tags(decoded, LD), 'payload-only JSON-LD kept');
       assert.deepEqual(tags(doc, 'link[rel="stylesheet"]'), tags(decoded, 'link[rel="stylesheet"]'));
       assert.deepEqual(tags(doc, 'style:not(#lesson-swap-background)'), tags(decoded, 'style'));
     } finally { w.close(); }
@@ -95,5 +100,23 @@ test('conflicting and duplicate payload SEO tags are replaced, without copying l
     assert.equal(w.document.querySelectorAll('script').length, 1);
     assert.equal(w.document.querySelector('h1').textContent, 'Keep this lesson');
     assert.equal(w.lessonRan, undefined, 'the test must not execute payload scripts');
+  } finally { w.close(); }
+});
+
+test('DMAIC keeps its wrapper LearningResource and BreadcrumbList exactly once after the swap', async () => {
+  const file = 'lessons/lean-six-sigma/dmaic-formula-encyclopedia.html';
+  const dom = await fixture(read(file), 'https://upskillsprint.com/' + file.replace(/\.html$/, ''));
+  const w = dom.window;
+  try {
+    await w.upskillWriteLessonDocument(`<!doctype html><html><head>
+      <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","name":"Stale payload graph"}</script>
+      </head><body><h1>Lesson</h1></body></html>`);
+    const types = Array.from(w.document.querySelectorAll('script[type="application/ld+json"]'), s => {
+      const data = JSON.parse(s.textContent);
+      return (data['@graph'] || [data]).map(node => node['@type']);
+    }).flat(2);
+    assert.equal(types.filter(t => t === 'LearningResource').length, 1);
+    assert.equal(types.filter(t => t === 'BreadcrumbList').length, 1);
+    assert.ok(!types.includes('Article'), 'stale payload graph replaced');
   } finally { w.close(); }
 });
