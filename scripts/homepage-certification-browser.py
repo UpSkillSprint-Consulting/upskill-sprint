@@ -160,7 +160,7 @@ def main():
                     # WebKit may resolve the new card surface before inherited title ink
                     # after a dark-to-light switch. Require the final title palette too;
                     # the unchanged per-card 4.5:1 checks below still validate every colour.
-                    expected_title = 'rgb(241, 245, 249)' if theme == 'dark' else 'rgb(16, 24, 40)'
+                    expected_title = 'rgb(241, 245, 249)' if theme == 'dark' else 'rgb(28, 36, 48)'
                     for title in page.locator('.exam-card h3').all():
                         expect(title).to_have_css('color', expected_title)
                     cards = page.locator('.exam-card').evaluate_all('''cards=>cards.map(card=>({
