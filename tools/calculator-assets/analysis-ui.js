@@ -32,7 +32,9 @@ const CalculatorUI=(()=>{
       all.slice(0,1500).forEach(p=>{if(p[0]>=xmin&&p[0]<=xmax&&p[1]>=ymin&&p[1]<=ymax)svg+=`<circle class="point" cx="${X(p[0])}" cy="${Y(p[1])}" r="3" opacity="0.65"><title>${fmt(p[0])}, ${fmt(p[1])}</title></circle>`;});
     }
     if(spec.line)svg+=`<polyline class="fit" points="${[...spec.line].sort((a,b)=>a[0]-b[0]).map(p=>`${X(p[0])},${Y(p[1])}`).join(' ')}"/>`;
-    svg+=`<text x="365" y="339" text-anchor="middle">${esc(spec.xlabel|| (bars?'Value':spec.type==='sequence'?'Observation':'X / fitted value / group'))}</text><text x="12" y="24">${bars?'Count':esc(spec.ylabel||'Y')}</text></svg>`;
+    const xLabel = spec.xlabel || (bars ? 'Value' : spec.type === 'sequence' ? 'Observation order' : 'X');
+    const yLabel = bars ? 'Count' : (spec.ylabel || 'Y');
+    svg+=`<text x="365" y="339" text-anchor="middle">${esc(xLabel)}</text><text x="12" y="24">${esc(yLabel)}</text></svg>`;
     return `<figure class="analysis-figure"><figcaption>${esc(spec.title)}</figcaption>${svg}${all.length>1500?'<p class="hint">Plot shows the first 1,500 points; calculations use all values.</p>':''}</figure>`;
   }
   function download(name,text,type='text/plain'){const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}

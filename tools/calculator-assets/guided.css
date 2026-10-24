@@ -50,3 +50,9 @@
 @media(max-width:1000px){:where(#calculator-shell) .guide-dataset-bar{grid-template-columns:1fr 1fr}:where(#calculator-shell) .guide-dataset-bar .analysis-actions{grid-column:1/-1}}
 @media(max-width:780px){:where(#calculator-shell) .guide-analysis-grid,:where(#calculator-shell) .guide-import-grid{grid-template-columns:1fr}:where(#calculator-shell) .guide-intro{align-items:flex-start;flex-direction:column;gap:10px}:where(#calculator-shell) .guide-steps{grid-template-columns:1fr}:where(#calculator-shell) .guide-steps li{padding:8px 14px}:where(#calculator-shell) .guide-data-panel,:where(#calculator-shell) .guide-question-panel,:where(#calculator-shell) .guide-result-panel{padding:16px}:where(#calculator-shell) .guide-dataset-bar{grid-template-columns:1fr}:where(#calculator-shell) .guide-analysis-grid{gap:16px}:where(#calculator-shell) .guide-import-grid{gap:18px}}
 @media print{:where(#calculator-shell) #guide-import-panel,:where(#calculator-shell) .guide-question-panel,:where(#calculator-shell) .guide-dataset-bar,:where(#calculator-shell) .guide-steps,:where(#calculator-shell) #guide-table-panel,:where(#calculator-shell) #pg-guide .analysis-actions{display:none}:where(#calculator-shell) .guide-analysis-grid{display:block}}
+
+:where(#calculator-shell) .guide-key-metrics{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+:where(#calculator-shell) .guide-key-metrics h4{width:100%;margin:0 0 4px;font-size:14px;font-weight:600;color:var(--calc-text)}
+:where(#calculator-shell) .guide-key-card{flex:1 1 140px;min-width:120px;padding:10px 12px;border:1px solid var(--calc-line);border-radius:8px;background:var(--calc-panel-2)}
+:where(#calculator-shell) .guide-key-card .k{font-size:12px;color:var(--calc-muted);font-weight:500}
+:where(#calculator-shell) .guide-key-card .v{font-size:18px;font-weight:600;color:var(--calc-text);margin-top:2px}

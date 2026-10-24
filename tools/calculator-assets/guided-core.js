@@ -149,9 +149,50 @@ const GuidedAnalysis = (() => {
   }
   function report(output,dataset){
     const {result,plan,options}=output;
-    return [result.title,'UpSkillSprint Guided Analysis v1',`Generated: ${output.generated}`,`Dataset: ${dataset.name}; revision ${dataset.revision}; source: ${dataset.source}`,`Included rows: ${plan.selected.length}; excluded rows: ${plan.excluded.length}`,
-      `Columns: ${dataset.columns.join(' | ')}`,`Settings: ${JSON.stringify(options)}`,'','Interpretation:',output.interpretation,'',...result.metrics.map(([k,v])=>`${k}: ${fmt(v)}`),'','Assumptions:',...result.notes,'','Next steps:',...plan.next,
-      ...result.tables.flatMap(t=>['',t.title,t.headers.join('\t'),...t.rows.map(r=>r.map(fmt).join('\t'))]),'','Exclusions (data row / source row / reason):',...plan.excluded.map(r=>`${r.row}\t${r.sourceRow}\t${r.reason}`),'','Included source data (CSV):',D.csv([['Data row','Source row',...dataset.columns],...plan.selected.map(r=>[r.index+1,r.sourceRow,...r.values])]),'','Import notes:',...dataset.notes,'','Dataset edit history:',...dataset.audit.map(a=>`${a.at}: ${a.action}`)].join('\n');
+    const key = result.metrics.filter(([k]) => /Cp\b|Cpk|p-value|flags|signal|Decision/i.test(k));
+    const summary = [
+      'EXECUTIVE SUMMARY',
+      result.title,
+      `Dataset: ${dataset.name} (${plan.selected.length} rows included, ${plan.excluded.length} excluded)`,
+      `Generated: ${output.generated}`,
+      '',
+      output.interpretation || 'No interpretation available.',
+      '',
+      ...(key.length ? ['Key results:', ...key.map(([k,v]) => `  ${k}: ${fmt(v)}`), ''] : []),
+      'This report is generated locally in your browser. Nothing is uploaded.',
+      '─'.repeat(48)
+    ];
+    return [...summary,
+      '',
+      'Report details:',
+      'UpSkillSprint Guided Analysis v1',
+      `Dataset: ${dataset.name}; revision ${dataset.revision}; source: ${dataset.source}`,
+      `Included rows: ${plan.selected.length}; excluded rows: ${plan.excluded.length}`,
+      `Columns: ${dataset.columns.join(' | ')}`,
+      `Settings: ${JSON.stringify(options)}`,
+      '',
+      'Full results:',
+      ...result.metrics.map(([k,v])=>`${k}: ${fmt(v)}`),
+      '',
+      'Assumptions:',
+      ...result.notes,
+      '',
+      'Next steps:',
+      ...plan.next.map((n,i)=>`${i+1}. ${n}`),
+      ...result.tables.flatMap(t=>['',t.title,t.headers.join('\t'),...t.rows.map(r=>r.map(fmt).join('\t'))]),
+      '',
+      'Exclusions (data row / source row / reason):',
+      ...plan.excluded.map(r=>`${r.row}\t${r.sourceRow}\t${r.reason}`),
+      '',
+      'Included source data (CSV):',
+      D.csv([['Data row','Source row',...dataset.columns],...plan.selected.map(r=>[r.index+1,r.sourceRow,...r.values])]),
+      '',
+      'Import notes:',
+      ...dataset.notes,
+      '',
+      'Dataset edit history:',
+      ...dataset.audit.map(a=>`${a.at}: ${a.action}`)
+    ].join('\n');
   }
   return {goals,prepare,plan,run,report};
 })();

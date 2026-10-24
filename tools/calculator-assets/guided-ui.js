@@ -194,8 +194,58 @@
     const {result,plan}=output,d=current();el('output').hidden=false;el('result-title').textContent=result.title;
     el('interpretation').textContent=output.interpretation;
     el('provenance').textContent=`${d.name} · revision ${d.revision} · ${plan.selected.length} rows included · ${plan.excluded.length} excluded · ${output.options.confidence*100}% confidence · response unit: ${output.options.unit||'not specified'}`;
+    const keyMetrics = result.metrics.filter(([k]) => /Cp\b|Cpk|p-value|flags|signal|Decision/i.test(k));
+    const keyBox = el('key-metrics');
+    if (keyBox) {
+      if (keyMetrics.length) {
+        keyBox.hidden = false;
+        keyBox.innerHTML = '<h4>Key results</h4>' + keyMetrics.map(([k,v]) =>
+          `<div class="guide-key-card"><div class="k">${esc(k)}</div><div class="v">${esc(CalculatorAnalysis.format(v))}</div></div>`
+        ).join('');
+      } else {
+        keyBox.hidden = true;
+        keyBox.innerHTML = '';
+      }
+    }
     el('metrics').innerHTML=result.metrics.map(([key,value])=>`<div class="res"><div class="k">${esc(key)}</div><div class="v">${esc(CalculatorAnalysis.format(value))}</div></div>`).join('');
     el('charts').innerHTML=result.charts.map(U.plot).join('');
+    el('charts').querySelectorAll('.analysis-figure').forEach((fig, i) => {
+      const svg = fig.querySelector('svg');
+      if (!svg) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'btn ghost';
+      btn.textContent = 'Download chart (high-res PNG)';
+      btn.style.marginTop = '6px';
+      btn.addEventListener('click', () => {
+        const xml = new XMLSerializer().serializeToString(svg);
+        const blob = new Blob([xml], {type: 'image/svg+xml'});
+        const url = URL.createObjectURL(blob);
+        const img = new Image();
+        img.onload = () => {
+          const scale = 2;
+          const vb = (svg.getAttribute('viewBox') || '0 0 720 345').split(/\s+/).map(Number);
+          const canvas = document.createElement('canvas');
+          canvas.width = (vb[2] || 720) * scale;
+          canvas.height = (vb[3] || 345) * scale;
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          canvas.toBlob(b => {
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(b);
+            a.download = 'chart-' + (i + 1) + '.png';
+            a.click();
+            URL.revokeObjectURL(url);
+            setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+          }, 'image/png');
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); };
+        img.src = url;
+      });
+      fig.appendChild(btn);
+    });
     el('tables').innerHTML=result.tables.map(t=>U.table({...t,rows:t.rows.slice(0,200)})+(t.rows.length>200?'<p class="hint">First 200 table rows shown. The downloaded report and results CSV include every result row.</p>':'')).join('');
     el('notes').innerHTML=result.notes.map(n=>`<p>${esc(n)}</p>`).join('');
     el('next-steps').innerHTML=plan.next.map(n=>`<li>${esc(n)}</li>`).join('');
