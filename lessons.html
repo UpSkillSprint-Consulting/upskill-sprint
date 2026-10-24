@@ -72,7 +72,7 @@
     }
     .library-tools {
       display: grid;
-      grid-template-columns: minmax(240px, 1.7fr) minmax(160px, .85fr) minmax(150px, .75fr) auto auto;
+      grid-template-columns: minmax(200px, 1.5fr) repeat(4, minmax(120px, .65fr)) auto auto;
       gap: 12px;
       align-items: end;
       padding-bottom: 20px;
@@ -476,6 +476,26 @@
               <option value="beginner">Beginner</option>
               <option value="intermediate">Intermediate</option>
               <option value="advanced">Advanced</option>
+            </select>
+          </label>
+
+          <label class="filter-field">
+            <span>Duration</span>
+            <select id="duration-filter">
+              <option value="">Any length</option>
+              <option value="short">Under 15 min</option>
+              <option value="medium">15–25 min</option>
+              <option value="long">Over 25 min</option>
+            </select>
+          </label>
+
+          <label class="filter-field">
+            <span>Tools used</span>
+            <select id="tools-filter">
+              <option value="">Any tool</option>
+              <option value="excel">Excel</option>
+              <option value="minitab">Minitab</option>
+              <option value="powerbi">Power BI</option>
             </select>
           </label>
 
