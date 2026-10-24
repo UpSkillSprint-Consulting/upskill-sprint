@@ -65,9 +65,11 @@
 :where(#calculator-shell) h1{font-family:var(--calc-disp);font-weight:700;font-size:clamp(26px,3.4vw,36px);letter-spacing:.02em;text-transform:none;line-height:1.1;margin-bottom:6px}
 :where(#calculator-shell) h1 .amp{color:var(--calc-accent)}
 :where(#calculator-shell) .tagline{color:var(--calc-muted);font-size:14px;margin:0 0 18px;line-height:1.5}
-:where(#calculator-shell) .tabs{display:flex;flex-wrap:wrap;gap:8px 6px;margin:8px 0 4px;padding-bottom:4px}
-:where(#calculator-shell) .tab{background:var(--calc-panel-2);border:1px solid transparent;border-radius:999px;color:var(--calc-muted);cursor:pointer;font-family:var(--calc-sans);font-size:13.5px;font-weight:500;letter-spacing:.01em;text-transform:none;padding:7px 14px;transition:all .12s;white-space:nowrap}
-:where(#calculator-shell) .tab:hover{color:var(--calc-text);background:var(--calc-panel)}
+:where(#calculator-shell) .tabs{display:flex;flex-wrap:nowrap;gap:6px;margin:12px 0 8px;padding:4px 0 8px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--calc-line) transparent}
+:where(#calculator-shell) .tabs::-webkit-scrollbar{height:4px}
+:where(#calculator-shell) .tabs::-webkit-scrollbar-thumb{background:var(--calc-line);border-radius:4px}
+:where(#calculator-shell) .tab{background:transparent;border:1px solid var(--calc-line-soft);border-radius:8px;color:var(--calc-muted);cursor:pointer;font-family:var(--calc-sans);font-size:13px;font-weight:500;letter-spacing:0;text-transform:none;padding:6px 12px;transition:all .12s;white-space:nowrap;flex-shrink:0}
+:where(#calculator-shell) .tab:hover{color:var(--calc-text);border-color:var(--calc-line);background:var(--calc-panel)}
 :where(#calculator-shell) .tab.active{color:#0A1118;background:var(--calc-accent);border-color:var(--calc-accent);font-weight:600}
 
 :where(#calculator-shell) .wrap{max-width:1240px;margin:0 auto;padding:28px clamp(16px,4vw,40px) 72px}
@@ -315,18 +317,18 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
 <div class="wrap">
 
 
-<div class="tool-overview" style="background:var(--calc-panel);border:1px solid var(--calc-line-soft);border-radius:14px;padding:16px 20px;margin-bottom:20px">
-  <h2 style="font-size:18px;margin-bottom:8px">What can this tool do?</h2>
-  <p class="hint" style="margin-bottom:12px">Choose a workspace above or start with Guided Analysis. Everything runs locally in your browser.</p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;font-size:13.5px">
-    <div><strong>Guided Analysis</strong><br>Import Excel/CSV, define a question, get interpreted results with assumptions.</div>
-    <div><strong>Distributions &amp; Lookup Tables</strong><br>PDF/CDF, inverse, shaded plots, and exam-style table lookups.</div>
-    <div><strong>Hypothesis Tests</strong><br>z, t, ANOVA, chi-square and more with critical regions.</div>
-    <div><strong>Data &amp; Quality / Advanced SPC</strong><br>Control charts, capability (Cp/Cpk), and process monitoring.</div>
-    <div><strong>Cost &amp; Savings</strong><br>Cost of Quality / Poor Quality ledgers and scenario comparison.</div>
-    <div><strong>Graphing, Lists &amp; Matrices, Finance, Programs</strong><br>Expressions, matrices, TVM, and short calculation programs.</div>
-  </div>
-</div>
+<div class="tool-overview" style="background:var(--calc-panel);border:1px solid var(--calc-line-soft);border-radius:12px;padding:18px 22px;margin-bottom:24px">
+  <h2 style="font-size:17px;margin:0 0 6px;font-weight:600">What can this tool do?</h2>
+  <p style="margin:0 0 14px;color:var(--calc-muted);font-size:14px;line-height:1.5">Everything runs locally in your browser. Start with Guided Analysis or pick a workspace above.</p>
+  <ul style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px 28px;font-size:13.5px;line-height:1.5">
+    <li><strong>Guided Analysis</strong> — Import Excel/CSV, define a question, get interpreted results.</li>
+    <li><strong>Distributions & Lookup</strong> — PDF/CDF, inverse, plots, and exam-style tables.</li>
+    <li><strong>Hypothesis Tests</strong> — z, t, ANOVA, chi-square with critical regions.</li>
+    <li><strong>Data & Quality / SPC</strong> — Control charts, capability (Cp/Cpk), monitoring.</li>
+    <li><strong>Cost & Savings</strong> — Cost of Quality ledgers and scenario comparison.</li>
+    <li><strong>Graphing & more</strong> — Expressions, matrices, TVM, and short programs.</li>
+  </ul>
+</div></div>
 
 
 <section class="page" id="pg-lookup" aria-label="Distribution lookup tables workspace">
