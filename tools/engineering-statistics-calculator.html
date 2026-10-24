@@ -437,6 +437,7 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
       <p id="guide-status" class="workspace-status" role="status" aria-live="polite">Import data, select your columns and review the suggested method.</p>
       <div id="guide-output" hidden><h3 id="guide-result-title"></h3><p id="guide-interpretation" class="guide-interpretation"></p><p id="guide-provenance" class="hint"></p><div id="guide-metrics" class="results"></div><div id="guide-charts"></div><div id="guide-tables"></div><details open><summary>Assumptions &amp; method notes</summary><div id="guide-notes"></div></details><div class="guide-next"><h3>What to do next</h3><ol id="guide-next-steps"></ol></div><details><summary id="guide-exclusion-heading">Row exclusions</summary><div id="guide-exclusions"></div></details></div>
       <div class="analysis-actions"><button class="btn ghost" id="guide-report" disabled>Download analysis report</button><button class="btn ghost" id="guide-result-csv" disabled>Download results CSV</button><button class="btn ghost" id="guide-open-analysis" disabled>Open in analysis tool</button></div>
+      <div class="analysis-actions" style="margin-top:8px"><button type="button" class="btn ghost" id="guide-save-workspace">Save this analysis (local)</button><button type="button" class="btn ghost" id="guide-load-last">Load last session</button><span class="hint" id="guide-persist-status" role="status" aria-live="polite">Local only — nothing leaves your browser.</span></div>
       <p class="hint">The report includes inputs, settings, exclusions, interpretation and next steps. Full results become unavailable when inputs change.</p>
     </div>
   </div>
@@ -1927,6 +1928,54 @@ buildTests(); buildPad(); updMem(); renderHistory(); edClear(); setBadges();
 <script src="/tools/calculator-assets/quality-cost-ui.js"></script>
 <script src="/contrast-fix.js"></script>
 <script src="/tools/calculator-assets/presentation.js"></script>
+<script>
+// Local persistence helpers for Guided Analysis (localStorage only)
+(function(){
+  var KEY = 'uss-calc-guide-last';
+  var FIELDS = ['guide-paste','guide-delimiter','guide-example','guide-name'];
+  var statusEl = document.getElementById('guide-persist-status');
+  function status(msg){ if(statusEl) statusEl.textContent = msg; }
+  function snapshot(){
+    var d = { ts: Date.now() };
+    FIELDS.forEach(function(id){ var el = document.getElementById(id); d[id] = el ? el.value : ''; });
+    return d;
+  }
+  function restore(data){
+    if(!data) return;
+    FIELDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if(!el || data[id] == null) return;
+      el.value = data[id];
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  }
+  var saveBtn = document.getElementById('guide-save-workspace');
+  var loadBtn = document.getElementById('guide-load-last');
+  if(saveBtn) saveBtn.addEventListener('click', function(){
+    try { localStorage.setItem(KEY, JSON.stringify(snapshot())); status('Saved locally at ' + new Date().toLocaleTimeString() + '.'); }
+    catch(e){ status('Your browser blocked local storage, or it is full.'); }
+  });
+  if(loadBtn) loadBtn.addEventListener('click', function(){
+    try {
+      var raw = localStorage.getItem(KEY);
+      if(!raw){ status('No saved session found.'); return; }
+      restore(JSON.parse(raw));
+      status('Loaded your last local session. Run the analysis again if needed.');
+    } catch(e){ status('Could not load the saved session.'); }
+  });
+  try { if(localStorage.getItem(KEY)) status('Previous local session available — select Load last session.'); } catch(e){}
+  var metrics = document.getElementById('guide-metrics');
+  if(metrics && 'MutationObserver' in window){
+    new MutationObserver(function(){
+      metrics.querySelectorAll('.res').forEach(function(el){
+        el.style.borderColor = 'var(--calc-accent)';
+        el.style.background = 'var(--calc-accent-dim)';
+      });
+    }).observe(metrics, { childList: true, subtree: true });
+  }
+})();
+</script>
 <script src="/tools/calculator-assets/lookup-math.js"></script>
 <script src="/test-bank-tables.js"></script>
 <script src="/tools/calculator-assets/lookup-ui.js"></script>
