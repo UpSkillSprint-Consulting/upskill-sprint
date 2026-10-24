@@ -186,6 +186,15 @@ html[data-theme="dark"] .theme-toggle::after { transform: translateX(22px); back
 @media (max-width: 560px) {
   .brand span { display: none; }
 }
+/* Phones: keep the logo inside its own box so it never slides under the Account button. */
+@media (max-width: 640px) {
+  header.site .brand { flex: 1 1 auto; }
+  header.site .brand img.logo-wordmark { max-width: 100%; height: auto; max-height: 40px; }
+}
+@media (max-width: 420px) {
+  header.site .header-actions { gap: 6px; }
+  header.site .account-menu-btn { padding-left: 8px; padding-right: 8px; }
+}
 
 /* homepage visual adapts to the active theme */
 .hero-visual text { fill: var(--ink-soft); }
