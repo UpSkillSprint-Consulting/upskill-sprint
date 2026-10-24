@@ -60,17 +60,17 @@
 :where(#calculator-shell) button{font-family:inherit}
 
 /* ================= Header & tabs ================= */
-:where(#calculator-shell) header{border-bottom:1px solid var(--calc-line-soft);background:linear-gradient(180deg,#0D1620 0%,var(--calc-bg) 100%);padding:18px clamp(14px,4vw,40px) 0}
+:where(#calculator-shell) header.calculator-heading{border-bottom:1px solid var(--calc-line-soft);background:linear-gradient(180deg,#0D1620 0%,var(--calc-bg) 100%);padding:24px clamp(16px,4vw,40px) 8px}
 :where(#calculator-shell) .hd{max-width:1240px;margin:0 auto}
-:where(#calculator-shell) h1{font-family:var(--calc-disp);font-weight:700;font-size:clamp(23px,3.2vw,32px);letter-spacing:.06em;text-transform:uppercase}
+:where(#calculator-shell) h1{font-family:var(--calc-disp);font-weight:700;font-size:clamp(26px,3.4vw,36px);letter-spacing:.02em;text-transform:none;line-height:1.1;margin-bottom:6px}
 :where(#calculator-shell) h1 .amp{color:var(--calc-accent)}
-:where(#calculator-shell) .tagline{color:var(--calc-muted);font-size:12.5px;margin:2px 0 14px}
-:where(#calculator-shell) .tabs{display:flex;gap:4px}
-:where(#calculator-shell) .tab{background:none;border:none;border-bottom:3px solid transparent;color:var(--calc-muted);cursor:pointer;font-family:var(--calc-disp);font-size:17px;letter-spacing:.07em;text-transform:uppercase;padding:8px 16px 10px;transition:color .12s}
-:where(#calculator-shell) .tab:hover{color:var(--calc-text)}
-:where(#calculator-shell) .tab.active{color:var(--calc-accent);border-bottom-color:var(--calc-accent)}
+:where(#calculator-shell) .tagline{color:var(--calc-muted);font-size:14px;margin:0 0 18px;line-height:1.5}
+:where(#calculator-shell) .tabs{display:flex;flex-wrap:wrap;gap:8px 6px;margin:8px 0 4px;padding-bottom:4px}
+:where(#calculator-shell) .tab{background:var(--calc-panel-2);border:1px solid transparent;border-radius:999px;color:var(--calc-muted);cursor:pointer;font-family:var(--calc-sans);font-size:13.5px;font-weight:500;letter-spacing:.01em;text-transform:none;padding:7px 14px;transition:all .12s;white-space:nowrap}
+:where(#calculator-shell) .tab:hover{color:var(--calc-text);background:var(--calc-panel)}
+:where(#calculator-shell) .tab.active{color:#0A1118;background:var(--calc-accent);border-color:var(--calc-accent);font-weight:600}
 
-:where(#calculator-shell) .wrap{max-width:1240px;margin:0 auto;padding:22px clamp(14px,4vw,40px) 60px}
+:where(#calculator-shell) .wrap{max-width:1240px;margin:0 auto;padding:28px clamp(16px,4vw,40px) 72px}
 :where(#calculator-shell) .page{display:none}
 :where(#calculator-shell) .page.active{display:block}
 :where(#calculator-shell) .panel{background:var(--calc-panel);border:1px solid var(--calc-line-soft);border-radius:14px}
@@ -293,7 +293,7 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
 <header class="calculator-heading"><div class="hd">
     <h1>Engineering <span class="amp">&amp;</span> Statistics Calculator</h1>
     <p class="tagline">Guided data analysis &middot; Excel/CSV import &middot; statistics, quality, graphing and scientific math &middot; <a href="/tools/calculator-manual" style="color:var(--calc-teal);text-decoration:underline" target="_blank" rel="noopener" title="Opens the user manual in a new tab">User Manual &rarr;</a></p>
-    <div class="calc-start"><p><strong>First visit?</strong> Load a worked example in Guided Analysis, choose your question, then run the analysis. Review assumptions before interpreting a result.</p><a href="/tools/calculator-manual#quick" target="_blank" rel="noopener" title="Opens the user manual in a new tab">Read the quick start <span aria-hidden="true">→</span></a></div>
+    <div class="calc-start" style="display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--calc-panel);border:1px solid var(--calc-line-soft);border-radius:12px;padding:14px 18px;margin:0 0 18px"><p style="margin:0;line-height:1.5"><strong>First visit?</strong> Load a worked example in Guided Analysis, choose your question, then run the analysis. Review assumptions before interpreting a result.</p><a href="/tools/calculator-manual#quick" target="_blank" rel="noopener" title="Opens the user manual in a new tab" style="white-space:nowrap">Read the quick start <span aria-hidden="true">→</span></a></div>
 <label class="calc-mobile-label" for="calc-workspace">Choose a workspace</label><select id="calc-workspace" class="f calc-mobile-select" aria-label="Choose a workspace"></select>
 <div class="tabs" role="tablist" aria-label="Calculator workspaces">
       <button class="tab active" data-page="pg-guide" role="tab">Guided Analysis</button>
