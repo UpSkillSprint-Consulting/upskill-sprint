@@ -72,7 +72,7 @@
 :where(#calculator-shell) .tab:hover{color:var(--calc-text);border-color:var(--calc-line);background:var(--calc-panel)}
 :where(#calculator-shell) .tab.active{color:#0A1118;background:var(--calc-accent);border-color:var(--calc-accent);font-weight:600}
 
-:where(#calculator-shell) .wrap{max-width:1080px;margin:0 auto;padding:24px clamp(16px,4vw,32px) 64px}
+:where(#calculator-shell) .wrap{max-width:1080px;margin:0 auto;padding:24px clamp(16px,4vw,32px) 64px;overflow-x:auto}
 :where(#calculator-shell) .page{display:none}
 :where(#calculator-shell) .page.active{display:block}
 :where(#calculator-shell) .panel{background:var(--calc-panel);border:1px solid var(--calc-line-soft);border-radius:14px}
@@ -313,13 +313,7 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
     </div>
   </div>
 </header>
-
 <div class="wrap">
-
-
-</div>
-
-
 <section class="page" id="pg-lookup" aria-label="Distribution lookup tables workspace">
  <div class="guide-intro"><div><h2>Distribution Lookup Tables</h2><p>Browse the reference tables used in the simulated exams. Choose a table, enter your lookup keys, and select Find to highlight the matching row, column and cell.</p></div><a href="/tools/calculator-manual#distribution-lookup" target="_blank" rel="noopener" title="Opens the user manual in a new tab">Lookup tables manual →</a></div>
  <p class="lookup-note">Table values are rounded and cover a fixed grid. This workspace requires exact tabulated keys; it does not interpolate or substitute degrees of freedom. For values outside the tables, use the <button class="btn ghost" id="lookup-open-distributions" type="button">Distributions calculator</button>.</p>
@@ -616,9 +610,7 @@ Disp S</textarea><label class="f" for="program-angle">Angle unit</label><select 
     </div>
   </div>
 </section>
-
 </div>
-
 <footer class="pg">
   <p><strong>New here?</strong> Read the <a href="/tools/calculator-manual" style="color:var(--calc-accent)" target="_blank" rel="noopener" title="Opens the user manual in a new tab">User Manual</a> — key reference, SHIFT/ALPHA system, register workflow, worked examples for distributions and hypothesis tests.</p>
   <p style="margin-top:6px"><strong>Numerical accuracy:</strong> distribution functions are computed with Lanczos gamma approximation and regularized incomplete gamma / beta functions (series + Lentz continued fractions); inverse CDFs use the Acklam rational approximation refined by Newton&ndash;Halley iteration. Selected calculations are regression-tested against independent reference values. Results use finite-precision arithmetic; extreme parameters can exceed the supported numerical range. Check method assumptions before using results for a decision.</p>
