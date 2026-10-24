@@ -339,6 +339,8 @@
     const topicFilter = documentObject.getElementById('topic-filter');
     const levelFilter = documentObject.getElementById('level-filter');
     const interactiveFilter = documentObject.getElementById('interactive-filter');
+    const durationFilter = documentObject.getElementById('duration-filter');
+    const toolsFilter = documentObject.getElementById('tools-filter');
     const clearButton = documentObject.getElementById('clear-filters');
     const resultsCount = documentObject.getElementById('results-count');
     const noResults = documentObject.getElementById('no-results');
@@ -468,7 +470,7 @@
     function render() {
       if (state.destroyed) return;
       const query = safeString(input.value).slice(0, 160);
-      const signature = [query, topicFilter.value, levelFilter.value, interactiveFilter.checked, state.mode].join('|');
+      const signature = [query, topicFilter.value, levelFilter.value, interactiveFilter.checked, durationFilter ? durationFilter.value : '', toolsFilter ? toolsFilter.value : '', state.mode].join('|');
       if (signature !== state.lastSearchSignature) state.visibleLimit = INITIAL_RESULT_LIMIT;
       state.lastSearchSignature = signature;
 
@@ -494,15 +496,41 @@
       const topic = topicFilter.value;
       const level = levelFilter.value;
       const interactiveOnly = interactiveFilter.checked;
-      const detailedFilter = Boolean(level || interactiveOnly);
+      const duration = durationFilter ? durationFilter.value : '';
+      const tool = toolsFilter ? toolsFilter.value : '';
+      const detailedFilter = Boolean(level || interactiveOnly || duration || tool);
       const hasAnyFilter = Boolean(topic || detailedFilter);
       let visibleCount = 0;
 
+      function minutesOf(row) {
+        const meta = row.querySelector('.lesson-meta');
+        if (!meta) return null;
+        const match = meta.textContent.match(/(\d+)\s*min/i);
+        return match ? Number(match[1]) : null;
+      }
+      function hasTool(row, key) {
+        const meta = row.querySelector('.lesson-meta');
+        if (!meta) return false;
+        const text = meta.textContent.toLowerCase();
+        if (key === 'excel') return text.indexOf('excel') !== -1;
+        if (key === 'minitab') return text.indexOf('minitab') !== -1;
+        if (key === 'powerbi') return text.indexOf('power bi') !== -1;
+        return true;
+      }
+
       const rows = Array.from(documentObject.querySelectorAll('[data-lesson-item]'));
       for (const row of rows) {
+        const mins = minutesOf(row);
+        let durationOk = true;
+        if (duration === 'short') durationOk = mins !== null && mins < 15;
+        else if (duration === 'medium') durationOk = mins !== null && mins >= 15 && mins <= 25;
+        else if (duration === 'long') durationOk = mins !== null && mins > 25;
+        const toolOk = !tool || hasTool(row, tool);
         const visible = (!topic || row.dataset.topic === topic) &&
           (!level || row.dataset.level === level) &&
-          (!interactiveOnly || row.dataset.interactive === 'true');
+          (!interactiveOnly || row.dataset.interactive === 'true') &&
+          durationOk &&
+          toolOk;
         row.hidden = !visible;
         if (visible) visibleCount += 1;
       }
@@ -747,7 +775,7 @@
           });
           recovery.appendChild(button);
         });
-        if (filters.topic || filters.level || filters.interactive !== 'all') {
+        if (filters.topic || filters.level || filters.interactive !== 'all' || (durationFilter && durationFilter.value) || (toolsFilter && toolsFilter.value)) {
           const allTopics = documentObject.createElement('button');
           allTopics.type = 'button';
           allTopics.textContent = 'Search without filters';
@@ -755,6 +783,8 @@
             topicFilter.value = '';
             levelFilter.value = '';
             interactiveFilter.checked = false;
+            if (durationFilter) durationFilter.value = '';
+            if (toolsFilter) toolsFilter.value = '';
             scheduleRender();
             input.focus();
           });
@@ -989,6 +1019,8 @@
       topicFilter.value = '';
       levelFilter.value = '';
       interactiveFilter.checked = false;
+      if (durationFilter) durationFilter.value = '';
+      if (toolsFilter) toolsFilter.value = '';
       setMode('all');
       render();
       input.focus();
@@ -1021,6 +1053,8 @@
     topicFilter.addEventListener('change', onFilterChange);
     levelFilter.addEventListener('change', onFilterChange);
     interactiveFilter.addEventListener('change', onFilterChange);
+    if (durationFilter) durationFilter.addEventListener('change', onFilterChange);
+    if (toolsFilter) toolsFilter.addEventListener('change', onFilterChange);
     clearButton.addEventListener('click', onClear, true);
     ui.modeButtons.forEach(function (button) {
       button.addEventListener('click', onModeClick);
@@ -1073,6 +1107,8 @@
         topicFilter.removeEventListener('change', onFilterChange);
         levelFilter.removeEventListener('change', onFilterChange);
         interactiveFilter.removeEventListener('change', onFilterChange);
+        if (durationFilter) durationFilter.removeEventListener('change', onFilterChange);
+        if (toolsFilter) toolsFilter.removeEventListener('change', onFilterChange);
         clearButton.removeEventListener('click', onClear, true);
         ui.modeButtons.forEach(function (button) {
           button.removeEventListener('click', onModeClick);
