@@ -69,7 +69,7 @@ test('public directory offers safe locked metadata before personalized access is
   ]);
   assert.equal(section.querySelector('.category-count').textContent,'8 released · 1 coming soon');
   assert.match(section.textContent,/timed or untimed/);
-  assert.match(section.textContent,/An administrator must grant access to each certification/);
+  assert.doesNotMatch(section.textContent,/An administrator must grant access to each certification/, "access card removed by request in PR #345");
   assert.equal(section.querySelectorAll('a[href^="/test-bank"]').length,0,'no unverified start links');
   assert.equal(section.querySelectorAll('.exam-coming-soon .exam-card').length,1);
   assert.equal(section.querySelector('.exam-coming-soon a, .exam-coming-soon button'),null);

@@ -28,7 +28,7 @@ test('simulator uses per-exam delivery while legacy membership rules remain avai
   assert.match(read('test-bank.html'), /<body[^>]*data-exam-delivery="source"/);
   // The source-only authoring gate remains for legacy QA. Delivery tests assert
   // the emitted production shell has none of these old tier attributes.
-  assert.match(read('exam-practice.html'), /An administrator must grant access to each certification\./);
+  assert.doesNotMatch(read('exam-practice.html'), /An administrator must grant access to each certification\./);
   assert.match(read('supabase/premium-simulator-access.sql'), /'exam:\/test-bank', 'premium'/);
 });
 test('signed-out users go to sign in; lower tiers are denied', async () => {
