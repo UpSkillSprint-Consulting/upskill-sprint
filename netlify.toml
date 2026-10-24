@@ -33,6 +33,11 @@
     Cache-Control = "private, no-store"
     X-Robots-Tag = "noindex"
 
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
 [[edge_functions]]
   path = "/test-bank"
   function = "test-bank-mobile-picker"
@@ -78,6 +83,19 @@
 [[redirects]]
   from = "/lesson/Lean Six Sigma/DMAIC Formula Encyclopedia/*"
   to = "/lessons/lean-six-sigma/dmaic-formula-encyclopedia"
+  status = 301
+  force = true
+
+# Obsolete lesson slugs seen as 404s in production logs.
+[[redirects]]
+  from = "/lessons/root-cause-analysis-5-whys-vs-fishbone-diagram"
+  to = "/lessons/root-cause-analysis-5-whys-fishbone"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/lessons/lean-six-sigma/what-is-lean-six-sigma"
+  to = "/lessons/what-is-lean-six-sigma"
   status = 301
   force = true
 
