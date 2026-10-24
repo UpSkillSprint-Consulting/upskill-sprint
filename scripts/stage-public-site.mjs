@@ -5,6 +5,7 @@ import { relative } from 'node:path';
 import { privateToolPath } from '../content/tool-catalog.mjs';
 import { renderMinitabGuide } from './render-minitab-guide.mjs';
 import { renderPublicDirectories } from './render-public-directories.mjs';
+import { renderJsLessons } from './render-js-lessons.mjs';
 
 // A separate publish directory keeps function source and grading keys off the CDN.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -45,4 +46,5 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   await stagePublicSite();
   await renderMinitabGuide(join(root, 'public-site'));
   await renderPublicDirectories(join(root, 'public-site'));
+  await renderJsLessons(join(root, 'public-site'));
 }
