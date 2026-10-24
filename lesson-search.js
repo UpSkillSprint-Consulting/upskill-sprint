@@ -551,11 +551,50 @@
       resultsCount.textContent = visibleCount + (visibleCount === 1 ? ' lesson' : ' lessons');
     }
 
+    function publishedMinutes(row) {
+      const meta = row && row.querySelector && row.querySelector('.lesson-meta');
+      if (!meta) return null;
+      const match = meta.textContent.match(/(\d+)\s*min/i);
+      return match ? Number(match[1]) : null;
+    }
+    function rowHasTool(row, key) {
+      const meta = row && row.querySelector && row.querySelector('.lesson-meta');
+      if (!meta) return false;
+      const text = meta.textContent.toLowerCase();
+      if (key === 'excel') return text.indexOf('excel') !== -1;
+      if (key === 'minitab') return text.indexOf('minitab') !== -1;
+      if (key === 'powerbi') return text.indexOf('power bi') !== -1;
+      return true;
+    }
+    function catalogRowFor(path) {
+      const want = canonicalPath(path, documentObject.baseURI);
+      return Array.from(documentObject.querySelectorAll('[data-lesson-item]')).find(function (row) {
+        return canonicalPath(row.getAttribute('href') || row.href || '', documentObject.baseURI) === want;
+      }) || null;
+    }
+    function passesDurationAndTools(result) {
+      const duration = durationFilter ? durationFilter.value : '';
+      const tool = toolsFilter ? toolsFilter.value : '';
+      if (!duration && !tool) return true;
+      const lesson = result.lesson || result;
+      const row = catalogRowFor(result.path || lesson.path || '');
+      if (duration) {
+        const mins = row ? publishedMinutes(row) : null;
+        if (mins === null) return false;
+        if (duration === 'short' && !(mins < 15)) return false;
+        if (duration === 'medium' && !(mins >= 15 && mins <= 25)) return false;
+        if (duration === 'long' && !(mins > 25)) return false;
+      }
+      if (tool && (!row || !rowHasTool(row, tool))) return false;
+      return true;
+    }
+
     function renderSearchResults(response, query) {
       hideCatalogSections();
-      const results = Array.isArray(response && response.results) ? response.results : [];
-      const totalLessons = Number(response && response.totalLessons) || results.length;
-      const totalSections = Number(response && response.totalSections) || results.reduce(function (total, result) {
+      const rawResults = Array.isArray(response && response.results) ? response.results : [];
+      const results = rawResults.filter(passesDurationAndTools);
+      const totalLessons = results.length;
+      const totalSections = results.reduce(function (total, result) {
         return total + (Number(result.totalSectionMatches) || (Array.isArray(result.sections) ? result.sections.length : 0));
       }, 0);
 
