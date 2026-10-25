@@ -26929,8 +26929,8 @@
             "Interaction Effects in Minitab",
             "Minitab methods, step by step"
           ],
-          "text": "Step 1 · Start here",
-          "excerpt": "Step 1 · Start here",
+          "text": "Step 1",
+          "excerpt": "Step 1",
           "kinds": [
             "section"
           ]
@@ -26943,8 +26943,8 @@
             "Minitab methods, step by step",
             "Visual screening"
           ],
-          "text": "Interaction Plot Stat → ANOVA → Interaction Plot Non-parallel or crossing lines suggest an interaction. Pair it with Stat → ANOVA → Main Effects Plot to see what averaging hides. Multi-Vari Chart Stat → Quality Tools → Multi-Vari Chart Works well on observational plant data before you commit to a model. Scatterplot with groups Graph → Scatterplot → With Regression and Groups Different slopes across groups indicate an interaction between a continuous X and a categorical X. Step 2 · Is it real?",
-          "excerpt": "Interaction Plot Stat → ANOVA → Interaction Plot Non-parallel or crossing lines suggest an interaction. Pair it with Stat → ANOVA → Main Effects Plot to see what averaging hides. Multi-Vari Chart Stat → Quality Tools → Multi-Vari Chart Works well on…",
+          "text": "Start here Interaction Plot Stat → ANOVA → Interaction Plot Non-parallel or crossing lines suggest an interaction. Pair it with Stat → ANOVA → Main Effects Plot to see what averaging hides. Multi-Vari Chart Stat → Quality Tools → Multi-Vari Chart Works well on observational plant data before you commit to a model. Scatterplot with groups Graph → Scatterplot → With Regression and Groups Different slopes across groups indicate an interaction between a continuous X and a categorical X. Step 2",
+          "excerpt": "Start here Interaction Plot Stat → ANOVA → Interaction Plot Non-parallel or crossing lines suggest an interaction. Pair it with Stat → ANOVA → Main Effects Plot to see what averaging hides. Multi-Vari Chart Stat → Quality Tools → Multi-Vari Chart Works well…",
           "kinds": [
             "section"
           ]
@@ -26957,8 +26957,8 @@
             "Minitab methods, step by step",
             "Formal testing"
           ],
-          "text": "Two-way ANOVA or GLM (categorical X's) Stat → ANOVA → General Linear Model → Fit General Linear Model Add A*B in the Model sub-dialog and read the p-value of the interaction term. Stat → ANOVA → General Linear Model → Factorial Plots draws the fitted interaction plot. Regression with an interaction term (continuous X's) Stat → Regression → Regression → Fit Regression Model Add X1*X2 in Model . Under Coding , choose Subtract the mean to keep VIF under control. Stat → Regression → Regression → Contour Plot then shows the twisted surface. Binary Logistic Regression Stat → Regression → Binary Logistic Regression → Fit Binary Logistic Model Include A*B terms for pass/fail responses such as Charpy acceptance. Step 3 · Cleanest evidence",
-          "excerpt": "Two-way ANOVA or GLM (categorical X's) Stat → ANOVA → General Linear Model → Fit General Linear Model Add A*B in the Model sub-dialog and read the p-value of the interaction term. Stat → ANOVA → General Linear Model → Factorial Plots draws the fitted…",
+          "text": "Is it real? Two-way ANOVA or GLM (categorical X's) Stat → ANOVA → General Linear Model → Fit General Linear Model Add A*B in the Model sub-dialog and read the p-value of the interaction term. Stat → ANOVA → General Linear Model → Factorial Plots draws the fitted interaction plot. Regression with an interaction term (continuous X's) Stat → Regression → Regression → Fit Regression Model Add X1*X2 in Model . Under Coding , choose Subtract the mean to keep VIF under control. Stat → Regression → Regression → Contour Plot then shows the twisted surface. Binary Logistic Regression Stat → Regression → Binary Logistic Regression → Fit Binary Logistic Model Include A*B terms for pass/fail responses such as Charpy acceptance. Step 3",
+          "excerpt": "Is it real? Two-way ANOVA or GLM (categorical X's) Stat → ANOVA → General Linear Model → Fit General Linear Model Add A*B in the Model sub-dialog and read the p-value of the interaction term. Stat → ANOVA → General Linear Model → Factorial Plots draws the…",
           "kinds": [
             "section"
           ]
@@ -26971,8 +26971,8 @@
             "Minitab methods, step by step",
             "Designed experiments"
           ],
-          "text": "2-level factorial DOE Stat → DOE → Factorial → Create Factorial Design then Stat → DOE → Factorial → Analyze Factorial Design . Use Stat → DOE → Factorial → Factorial Plots for the interaction panel, and the Pareto or Normal plot of standardized effects to spot a significant AB effect. Response surface Stat → DOE → Response Surface Captures curvature plus the interaction. Contour Plot and Surface Plot show the twist in the surface, and Response Optimizer finds settings. Step 4 · Many X's",
-          "excerpt": "2-level factorial DOE Stat → DOE → Factorial → Create Factorial Design then Stat → DOE → Factorial → Analyze Factorial Design . Use Stat → DOE → Factorial → Factorial Plots for the interaction panel, and the Pareto or Normal plot of standardized effects to…",
+          "text": "Cleanest evidence 2-level factorial DOE Stat → DOE → Factorial → Create Factorial Design Analyze the results with Stat → DOE → Factorial → Analyze Factorial Design . Use Stat → DOE → Factorial → Factorial Plots for the interaction panel, and the Pareto or Normal plot of standardized effects to spot a significant AB effect. Response surface Stat → DOE → Response Surface Captures curvature plus the interaction. Contour Plot and Surface Plot show the twist in the surface, and Response Optimizer finds settings. Step 4",
+          "excerpt": "Cleanest evidence 2-level factorial DOE Stat → DOE → Factorial → Create Factorial Design Analyze the results with Stat → DOE → Factorial → Analyze Factorial Design . Use Stat → DOE → Factorial → Factorial Plots for the interaction panel, and the Pareto or…",
           "kinds": [
             "section"
           ]
@@ -26985,8 +26985,8 @@
             "Minitab methods, step by step",
             "Exploratory machine learning"
           ],
-          "text": "CART, Random Forests and TreeNet Predictive Analytics Module → TreeNet® Regression → Fit Model Tree models pick up interactions without being told, and TreeNet's two-predictor partial dependence plots are useful for messy plant data. These commands need Minitab's Predictive Analytics Module. Treat what they find as a hypothesis to confirm.",
-          "excerpt": "CART, Random Forests and TreeNet Predictive Analytics Module → TreeNet® Regression → Fit Model Tree models pick up interactions without being told, and TreeNet's two-predictor partial dependence plots are useful for messy plant data. These commands need…",
+          "text": "Many X's CART, Random Forests and TreeNet Predictive Analytics Module → TreeNet® Regression → Fit Model Tree models pick up interactions without being told, and TreeNet's two-predictor partial dependence plots are useful for messy plant data. These commands need Minitab's Predictive Analytics Module. Treat what they find as a hypothesis to confirm.",
+          "excerpt": "Many X's CART, Random Forests and TreeNet Predictive Analytics Module → TreeNet® Regression → Fit Model Tree models pick up interactions without being told, and TreeNet's two-predictor partial dependence plots are useful for messy plant data. These commands…",
           "kinds": [
             "section"
           ]
