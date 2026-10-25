@@ -205,6 +205,22 @@ test('the Statistics Implementation section has all four required parts', () => 
   }
 });
 
+test('the tool guide covers both-categorical, both-continuous and mixed X\'s, and places two-way ANOVA', () => {
+  const sec = staticDoc.querySelector('#choosing-the-tool');
+  for (const id of ['tool-by-x-type', 'tool-by-response', 'where-anova-fits']) assert.ok(sec.querySelector(`#${id}`), `missing #${id}`);
+  const rows = [...sec.querySelectorAll('#tool-by-x-type + .table-scroll tbody th')].map(th => th.textContent);
+  assert.equal(rows.length, 3);
+  assert.match(rows[0], /^Both categorical/); assert.match(rows[1], /^Both continuous/); assert.match(rows[2], /^One categorical, one continuous/);
+  const text = sec.textContent.replace(/\s+/g, ' ');
+  for (const s of ['Two-way ANOVA', 'Stat → ANOVA → General Linear Model → Fit General Linear Model', 'Stat → ANOVA → Balanced ANOVA',
+    'Stat → Regression → Regression → Fit Regression Model', 'Stat → Regression → Poisson Regression → Fit Poisson Model',
+    'Stat → ANOVA → General Linear Model → Comparisons', 'General full factorial design', 'version 17', 'replicates']) {
+    assert.ok(text.includes(s), `tool guide mentions ${s}`);
+  }
+  near(11.350958788 ** 2, 128.84, 0.005, 'F = T squared for a 1-df term');
+  near(1412.67 / 10.964166666666657, 128.84, 0.005, 'F for AB');
+});
+
 test('embedded data matches the downloadable CSV files', async () => {
   const { window, I, errors } = await open();
   const doe = csv('doe-2x2-charpy.csv');

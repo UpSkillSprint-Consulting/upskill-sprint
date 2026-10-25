@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 55,
   "contentLessonCount": 54,
-  "sectionCount": 2920,
+  "sectionCount": 2923,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -26871,10 +26871,54 @@
             "Interaction Effects in Minitab",
             "Choosing the right Minitab tool"
           ],
-          "text": "The right tool depends on two things: whether your data comes from a designed experiment or from historical production , and whether your X's are categorical or continuous . Your situation Look first with Test with Planned experiment, factors at set levels Factorial Plots, Pareto of effects 2-level factorial DOE; Response Surface if there is curvature Historical data, categorical X's Multi-Vari Chart, Interaction Plot General Linear Model with A*B Historical data, continuous X's Scatterplot with groups, Contour Plot Regression with X1*X2 , predictors centered One continuous X, one categorical X Scatterplot with groups and fitted lines General Linear Model with a covariate × factor term Pass/fail response Interaction Plot of the percent passing Binary Logistic Regression with A*B Many X's, structure unknown TreeNet two-predictor dependence plots Confirm what the trees suggest with a model or a DOE",
-          "excerpt": "The right tool depends on two things: whether your data comes from a designed experiment or from historical production , and whether your X's are categorical or continuous . Your situation Look first with Test with Planned experiment, factors at set levels…",
+          "text": "Three questions decide the tool: what type of X's you have (both categorical, both continuous, or one of each), where the data came from (a designed experiment or historical production), and what type of response you measured. Start with the X's.",
+          "excerpt": "Three questions decide the tool: what type of X's you have (both categorical, both continuous, or one of each), where the data came from (a designed experiment or historical production), and what type of response you measured. Start with the X's.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "tool-by-x-type",
+          "heading": "By the type of your two X's (continuous response)",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Choosing the right Minitab tool",
+            "By the type of your two X's (continuous response)"
+          ],
+          "text": "Your two X's Look first with Designed experiment Historical data Both categorical e.g. mill line × shift, supplier × grade Interaction Plot, Multi-Vari Chart Full factorial. Two levels each: Stat → DOE → Factorial → Create Factorial Design ; more than two levels: the General full factorial design option. Analyze with Stat → DOE → Factorial → Analyze Factorial Design . Two-way ANOVA through Stat → ANOVA → General Linear Model → Fit General Linear Model with A*B . It handles unbalanced cell counts. For perfectly balanced data, Stat → ANOVA → Balanced ANOVA gives the same answer. Both continuous e.g. finishing temperature × Nb wt% Contour Plot; scatterplot of Y vs. X1 grouped by low and high X2 2-level factorial with center points; Response Surface if there is curvature. Factorial Plots and the Pareto of effects show AB. Regression: Stat → Regression → Regression → Fit Regression Model with X1*X2 , predictors centered. Keep the X's continuous; cutting them into bins throws information away. One categorical, one continuous e.g. furnace × soak time Graph → Scatterplot → With Regression and Groups ; different slopes mean an interaction Factorial design with one text factor and one numeric factor; analyze it the same way. GLM with the continuous X as a covariate and a covariate × factor term (analysis of covariance with separate slopes). Fit Regression Model with a categorical predictor fits the same model.",
+          "excerpt": "Your two X's Look first with Designed experiment Historical data Both categorical e.g. mill line × shift, supplier × grade Interaction Plot, Multi-Vari Chart Full factorial. Two levels each: Stat → DOE → Factorial → Create Factorial Design ; more than two…",
           "kinds": [
             "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "tool-by-response",
+          "heading": "When the response or the number of X's changes",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Choosing the right Minitab tool",
+            "When the response or the number of X's changes"
+          ],
+          "text": "Situation Look first with Test with Pass/fail response Interaction Plot of the percent passing Binary Logistic Regression with A*B Count response (defects per pipe) Interaction Plot of the mean count Poisson Regression with A*B : Stat → Regression → Poisson Regression → Fit Poisson Model Many X's, structure unknown TreeNet two-predictor dependence plots Confirm what the trees suggest with a model or a DOE",
+          "excerpt": "Situation Look first with Test with Pass/fail response Interaction Plot of the percent passing Binary Logistic Regression with A*B Count response (defects per pipe) Interaction Plot of the mean count Poisson Regression with A*B : Stat → Regression → Poisson…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "where-anova-fits",
+          "heading": "Where ANOVA fits",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Choosing the right Minitab tool",
+            "Where ANOVA fits"
+          ],
+          "text": "Two-way ANOVA is the interaction test for two categorical factors. It splits the total variation in Y into a part for A, a part for B, a part for A×B and the leftover error, then asks whether the A×B part is large compared with the error: \\[ F_{AB} = \\frac{\\text{MS}_{AB}}{\\text{MS}_{E}} = \\frac{\\text{SS}_{AB} / \\text{df}_{AB}}{\\text{SS}_{E} / \\text{df}_{E}}, \\qquad \\text{df}_{AB} = (a-1)(b-1) \\] where \\(a\\) and \\(b\\) are the numbers of levels of A and B, \\(\\text{SS}\\) is a sum of squares and \\(\\text{MS}\\) is a mean square. In the worked DOE below, \\(F_{AB} = 1412.67 / 10.96 = 128.84\\). ANOVA, regression and DOE analysis are the same general linear model with different X's, which is why every one of them prints an ANOVA table: Both X's categorical: the model is called two-way ANOVA. Minitab removed its separate Two-Way ANOVA command in version 17; run it through Fit General Linear Model. In the Model sub-dialog, select both factors, set Interactions through order to 2 and click Add . Both X's continuous: the same F-test appears as the X1*X2 row of the regression ANOVA table, and its p-value equals the p-value of the coefficient's t-test. Designed experiment: Analyze Factorial Design reports both the ANOVA table and the coded coefficients. For a two-level factor, Effect = 2 × Coef, and the F-value equals the T-value squared (\\(11.35^2 \\approx 128.84\\)). Two things change when a factor has more than two levels The interaction is no longer one number. A 3 × 4 design has \\((3-1)(4-1) = 6\\) interaction degrees of freedom, so read the interaction plot and compare cell means with Stat → ANOVA → General Linear Model → Comparisons on the A*B term. You need replicates. With one observation per cell, the interaction uses up every remaining degree of freedom and there is nothing left to estimate error, so the A×B F-test cannot be computed.",
+          "excerpt": "Two-way ANOVA is the interaction test for two categorical factors. It splits the total variation in Y into a part for A, a part for B, a part for A×B and the leftover error, then asks whether the A×B part is large compared with the error: \\[ F_{AB} =…",
+          "kinds": [
+            "section",
+            "example",
             "formula"
           ]
         },
@@ -27172,7 +27216,7 @@
             "Statistics Implementation",
             "Minitab Navigation"
           ],
-          "text": "Stat → ANOVA → Interaction Plot and Stat → ANOVA → Main Effects Plot : first look at any categorical factors. Stat → Quality Tools → Multi-Vari Chart : screening observational data by factor level. Graph → Scatterplot → With Regression and Groups : slope differences between groups. Stat → ANOVA → General Linear Model → Fit General Linear Model : unbalanced or historical data with categorical factors and covariates. Add A*B in Model . Stat → Regression → Regression → Fit Regression Model : continuous X's. Add X1*X2 in Model and choose Subtract the mean in Coding . Follow with Stat → Regression → Regression → Contour Plot . Stat → Regression → Binary Logistic Regression → Fit Binary Logistic Model : pass/fail responses. Stat → DOE → Factorial → Analyze Factorial Design and Stat → DOE → Factorial → Factorial Plots : designed experiments. Use Define Custom Factorial Design first when the data was not created in Minitab. Predictive Analytics Module → TreeNet® Regression → Fit Model : many predictors; requires the module. Stat → Basic Statistics → Correlation and Stat → Tables → Cross Tabulation and Chi-Square : association only. Choose the DOE route when you ran the experiment; it gives balanced, uncorrelated estimates. Choose GLM or regression for historical data, and treat any interaction found there as a lead to confirm.",
+          "text": "Stat → ANOVA → Interaction Plot and Stat → ANOVA → Main Effects Plot : first look at any categorical factors. Stat → Quality Tools → Multi-Vari Chart : screening observational data by factor level. Graph → Scatterplot → With Regression and Groups : slope differences between groups. Stat → ANOVA → General Linear Model → Fit General Linear Model : unbalanced or historical data with categorical factors and covariates. Add A*B in Model . Stat → Regression → Regression → Fit Regression Model : continuous X's. Add X1*X2 in Model and choose Subtract the mean in Coding . Follow with Stat → Regression → Regression → Contour Plot . Stat → ANOVA → Balanced ANOVA : two-way ANOVA when every cell has the same number of observations. Stat → ANOVA → General Linear Model → Comparisons on the A*B term compares cell means when factors have more than two levels. Stat → Regression → Binary Logistic Regression → Fit Binary Logistic Model : pass/fail responses. Stat → Regression → Poisson Regression → Fit Poisson Model : count responses such as defects per pipe. Stat → DOE → Factorial → Analyze Factorial Design and Stat → DOE → Factorial → Factorial Plots : designed experiments. Use Define Custom Factorial Design first when the data was not created in Minitab, and the General full factorial design option in Stat → DOE → Factorial → Create Factorial Design when a factor has more than two levels. Predictive Analytics Module → TreeNet® Regression → Fit Model : many predictors; requires the module. Stat → Basic Statistics → Correlation and Stat → Tables → Cross Tabulation and Chi-Square : association only. Choose the DOE route when you ran the experiment; it gives balanced, uncorrelated estimates. Choose GLM or regression for historical data, and treat any interaction found there as a lead to confirm.",
           "excerpt": "Stat → ANOVA → Interaction Plot and Stat → ANOVA → Main Effects Plot : first look at any categorical factors. Stat → Quality Tools → Multi-Vari Chart : screening observational data by factor level. Graph → Scatterplot → With Regression and Groups : slope…",
           "kinds": [
             "section"
@@ -27186,7 +27230,7 @@
             "Statistics Implementation",
             "Exam Tips"
           ],
-          "text": "The ASQ CSSBB and CQE bodies of knowledge both cover factorial designs and regression. Expect questions that give four cell means and ask for an effect or the interaction effect. Know the factor of two: Effect = 2 × Coef for coded factors. A common distractor offers the coefficient when the question asks for the effect. Non-parallel lines suggest interaction; parallel lines suggest none. Crossing lines are a stronger form of interaction, not a different concept. Correlation between predictors is multicollinearity, not interaction. Watch for answer options that swap the two. In practice, report simple effects whenever the interaction is significant, and confirm interactions from historical data with a designed experiment.",
+          "text": "The ASQ CSSBB and CQE bodies of knowledge both cover factorial designs and regression. Expect questions that give four cell means and ask for an effect or the interaction effect. Know the factor of two: Effect = 2 × Coef for coded factors. A common distractor offers the coefficient when the question asks for the effect. Non-parallel lines suggest interaction; parallel lines suggest none. Crossing lines are a stronger form of interaction, not a different concept. Correlation between predictors is multicollinearity, not interaction. Watch for answer options that swap the two. Know the interaction degrees of freedom, \\((a-1)(b-1)\\), and that testing A×B needs replicates in every cell. In practice, report simple effects whenever the interaction is significant, and confirm interactions from historical data with a designed experiment.",
           "excerpt": "The ASQ CSSBB and CQE bodies of knowledge both cover factorial designs and regression. Expect questions that give four cell means and ask for an effect or the interaction effect. Know the factor of two: Effect = 2 × Coef for coded factors. A common distractor…",
           "kinds": [
             "section",

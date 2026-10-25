@@ -480,19 +480,63 @@
 
     <section class="ixa-section" id="choosing-the-tool" aria-labelledby="choose-heading">
       <h2 id="choose-heading">Choosing the right Minitab tool</h2>
-      <p>The right tool depends on two things: whether your data comes from a <strong>designed experiment</strong> or from <strong>historical production</strong>, and whether your X's are <strong>categorical or continuous</strong>.</p>
-      <div class="table-scroll" tabindex="0" role="region" aria-label="Which Minitab tool to use for each situation">
+      <p>Three questions decide the tool: what <strong>type of X's</strong> you have (both categorical, both continuous, or one of each), where the <strong>data came from</strong> (a designed experiment or historical production), and what <strong>type of response</strong> you measured. Start with the X's.</p>
+
+      <h3 id="tool-by-x-type">By the type of your two X's (continuous response)</h3>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Which Minitab tool to use for each combination of X types and data source">
         <table class="ixa-table">
-          <thead><tr><th scope="col">Your situation</th><th scope="col">Look first with</th><th scope="col">Test with</th></tr></thead>
+          <thead><tr><th scope="col">Your two X's</th><th scope="col">Look first with</th><th scope="col">Designed experiment</th><th scope="col">Historical data</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Planned experiment, factors at set levels</th><td>Factorial Plots, Pareto of effects</td><td>2-level factorial DOE; Response Surface if there is curvature</td></tr>
-            <tr><th scope="row">Historical data, categorical X's</th><td>Multi-Vari Chart, Interaction Plot</td><td>General Linear Model with <code>A*B</code></td></tr>
-            <tr><th scope="row">Historical data, continuous X's</th><td>Scatterplot with groups, Contour Plot</td><td>Regression with <code>X1*X2</code>, predictors centered</td></tr>
-            <tr><th scope="row">One continuous X, one categorical X</th><td>Scatterplot with groups and fitted lines</td><td>General Linear Model with a covariate &times; factor term</td></tr>
+            <tr>
+              <th scope="row">Both categorical<br><span class="ixa-muted ixa-small">e.g. mill line &times; shift, supplier &times; grade</span></th>
+              <td>Interaction Plot, Multi-Vari Chart</td>
+              <td>Full factorial. Two levels each: <code class="ixa-path">Stat → DOE → Factorial → Create Factorial Design</code>; more than two levels: the <em>General full factorial design</em> option. Analyze with <code class="ixa-path">Stat → DOE → Factorial → Analyze Factorial Design</code>.</td>
+              <td><strong>Two-way ANOVA</strong> through <code class="ixa-path">Stat → ANOVA → General Linear Model → Fit General Linear Model</code> with <code>A*B</code>. It handles unbalanced cell counts. For perfectly balanced data, <code class="ixa-path">Stat → ANOVA → Balanced ANOVA</code> gives the same answer.</td>
+            </tr>
+            <tr>
+              <th scope="row">Both continuous<br><span class="ixa-muted ixa-small">e.g. finishing temperature &times; Nb wt%</span></th>
+              <td>Contour Plot; scatterplot of Y vs. X1 grouped by low and high X2</td>
+              <td>2-level factorial with center points; Response Surface if there is curvature. Factorial Plots and the Pareto of effects show AB.</td>
+              <td>Regression: <code class="ixa-path">Stat → Regression → Regression → Fit Regression Model</code> with <code>X1*X2</code>, predictors centered. Keep the X's continuous; cutting them into bins throws information away.</td>
+            </tr>
+            <tr>
+              <th scope="row">One categorical, one continuous<br><span class="ixa-muted ixa-small">e.g. furnace &times; soak time</span></th>
+              <td><code class="ixa-path">Graph → Scatterplot → With Regression and Groups</code>; different slopes mean an interaction</td>
+              <td>Factorial design with one text factor and one numeric factor; analyze it the same way.</td>
+              <td>GLM with the continuous X as a <em>covariate</em> and a covariate &times; factor term (analysis of covariance with separate slopes). Fit Regression Model with a categorical predictor fits the same model.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="tool-by-response">When the response or the number of X's changes</h3>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Which Minitab tool to use for other response types">
+        <table class="ixa-table">
+          <thead><tr><th scope="col">Situation</th><th scope="col">Look first with</th><th scope="col">Test with</th></tr></thead>
+          <tbody>
             <tr><th scope="row">Pass/fail response</th><td>Interaction Plot of the percent passing</td><td>Binary Logistic Regression with <code>A*B</code></td></tr>
+            <tr><th scope="row">Count response (defects per pipe)</th><td>Interaction Plot of the mean count</td><td>Poisson Regression with <code>A*B</code>: <code class="ixa-path">Stat → Regression → Poisson Regression → Fit Poisson Model</code></td></tr>
             <tr><th scope="row">Many X's, structure unknown</th><td>TreeNet two-predictor dependence plots</td><td>Confirm what the trees suggest with a model or a DOE</td></tr>
           </tbody>
         </table>
+      </div>
+
+      <h3 id="where-anova-fits">Where ANOVA fits</h3>
+      <p>Two-way ANOVA <em>is</em> the interaction test for two categorical factors. It splits the total variation in Y into a part for A, a part for B, a part for A&times;B and the leftover error, then asks whether the A&times;B part is large compared with the error:</p>
+      <div class="ixa-formula">\[ F_{AB} = \frac{\text{MS}_{AB}}{\text{MS}_{E}} = \frac{\text{SS}_{AB} / \text{df}_{AB}}{\text{SS}_{E} / \text{df}_{E}}, \qquad \text{df}_{AB} = (a-1)(b-1) \]</div>
+      <p>where \(a\) and \(b\) are the numbers of levels of A and B, \(\text{SS}\) is a sum of squares and \(\text{MS}\) is a mean square. In the worked DOE below, \(F_{AB} = 1412.67 / 10.96 = 128.84\).</p>
+      <p>ANOVA, regression and DOE analysis are the same general linear model with different X's, which is why every one of them prints an ANOVA table:</p>
+      <ul class="ixa-takeaways">
+        <li><strong>Both X's categorical:</strong> the model is called two-way ANOVA. Minitab removed its separate Two-Way ANOVA command in version 17; run it through Fit General Linear Model. In the <em>Model</em> sub-dialog, select both factors, set <em>Interactions through order</em> to 2 and click <em>Add</em>.</li>
+        <li><strong>Both X's continuous:</strong> the same F-test appears as the <code>X1*X2</code> row of the regression ANOVA table, and its p-value equals the p-value of the coefficient's t-test.</li>
+        <li><strong>Designed experiment:</strong> Analyze Factorial Design reports both the ANOVA table and the coded coefficients. For a two-level factor, Effect = 2 &times; Coef, and the F-value equals the T-value squared (\(11.35^2 \approx 128.84\)).</li>
+      </ul>
+      <div class="ixa-callout is-amber">
+        <p class="ixa-lead">Two things change when a factor has more than two levels</p>
+        <ul>
+          <li>The interaction is no longer one number. A 3 &times; 4 design has \((3-1)(4-1) = 6\) interaction degrees of freedom, so read the interaction plot and compare cell means with <code class="ixa-path">Stat → ANOVA → General Linear Model → Comparisons</code> on the <code>A*B</code> term.</li>
+          <li>You need replicates. With one observation per cell, the interaction uses up every remaining degree of freedom and there is nothing left to estimate error, so the A&times;B F-test cannot be computed.</li>
+        </ul>
       </div>
     </section>
 
@@ -797,8 +841,10 @@
         <li><code>Graph → Scatterplot → With Regression and Groups</code>: slope differences between groups.</li>
         <li><code>Stat → ANOVA → General Linear Model → Fit General Linear Model</code>: unbalanced or historical data with categorical factors and covariates. Add <code>A*B</code> in <em>Model</em>.</li>
         <li><code>Stat → Regression → Regression → Fit Regression Model</code>: continuous X's. Add <code>X1*X2</code> in <em>Model</em> and choose <em>Subtract the mean</em> in <em>Coding</em>. Follow with <code>Stat → Regression → Regression → Contour Plot</code>.</li>
+        <li><code>Stat → ANOVA → Balanced ANOVA</code>: two-way ANOVA when every cell has the same number of observations. <code>Stat → ANOVA → General Linear Model → Comparisons</code> on the <code>A*B</code> term compares cell means when factors have more than two levels.</li>
         <li><code>Stat → Regression → Binary Logistic Regression → Fit Binary Logistic Model</code>: pass/fail responses.</li>
-        <li><code>Stat → DOE → Factorial → Analyze Factorial Design</code> and <code>Stat → DOE → Factorial → Factorial Plots</code>: designed experiments. Use <code>Define Custom Factorial Design</code> first when the data was not created in Minitab.</li>
+        <li><code>Stat → Regression → Poisson Regression → Fit Poisson Model</code>: count responses such as defects per pipe.</li>
+        <li><code>Stat → DOE → Factorial → Analyze Factorial Design</code> and <code>Stat → DOE → Factorial → Factorial Plots</code>: designed experiments. Use <code>Define Custom Factorial Design</code> first when the data was not created in Minitab, and the <em>General full factorial design</em> option in <code>Stat → DOE → Factorial → Create Factorial Design</code> when a factor has more than two levels.</li>
         <li><code>Predictive Analytics Module → TreeNet® Regression → Fit Model</code>: many predictors; requires the module.</li>
         <li><code>Stat → Basic Statistics → Correlation</code> and <code>Stat → Tables → Cross Tabulation and Chi-Square</code>: association only.</li>
       </ul>
@@ -810,6 +856,7 @@
         <li>Know the factor of two: Effect = 2 &times; Coef for coded factors. A common distractor offers the coefficient when the question asks for the effect.</li>
         <li>Non-parallel lines suggest interaction; parallel lines suggest none. Crossing lines are a stronger form of interaction, not a different concept.</li>
         <li>Correlation between predictors is multicollinearity, not interaction. Watch for answer options that swap the two.</li>
+        <li>Know the interaction degrees of freedom, \((a-1)(b-1)\), and that testing A&times;B needs replicates in every cell.</li>
         <li>In practice, report simple effects whenever the interaction is significant, and confirm interactions from historical data with a designed experiment.</li>
       </ul>
     </section>
@@ -946,6 +993,14 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <label class="quiz-option"><input type="radio" name="q8" value="b"> A balanced, randomized 2×2 factorial experiment with replicates</label>
         <label class="quiz-option"><input type="radio" name="q8" value="c"> A high correlation between the two factors</label>
         <label class="quiz-option"><input type="radio" name="q8" value="d"> A Multi-Vari chart of historical heats</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Two categorical factors call for a two-way ANOVA, and Fit General Linear Model runs it with unequal cell counts. Balanced ANOVA needs equal counts, correlation only measures association, and regression with product terms is the route for continuous X's.">
+        <legend>9. You have historical Charpy results for three mill lines and two shifts, with unequal numbers of tests per combination. How do you test the line × shift interaction in Minitab?</legend>
+        <label class="quiz-option"><input type="radio" name="q9" value="a"> Stat → ANOVA → Balanced ANOVA</label>
+        <label class="quiz-option"><input type="radio" name="q9" value="b"> Stat → Basic Statistics → Correlation</label>
+        <label class="quiz-option"><input type="radio" name="q9" value="c"> Two-way ANOVA through Fit General Linear Model, with the line × shift term in the model</label>
+        <label class="quiz-option"><input type="radio" name="q9" value="d"> Fit Regression Model with centered predictors only</label>
         <div class="quiz-feedback"></div>
       </fieldset>
       <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
