@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Interaction Effects in Minitab",
+  "slug": "interaction-effects-in-minitab",
+  "category": "Lean Six Sigma",
+  "category_slug": "lean-six-sigma",
+  "level": "Intermediate",
+  "lesson_type": "General",
+  "estimated_minutes": 60,
+  "interactive": true,
+  "card_title": "Interaction Effects in Minitab",
+  "card_description": "Find, test and interpret two-factor interactions in Minitab, calculate effects by hand, fix VIF with centering, and tell interaction apart from association.",
+  "search_keywords": ["interaction effect", "interaction plot", "two-way interaction", "factorial DOE", "Minitab", "association vs interaction", "collinearity", "VIF", "centering predictors", "general linear model"],
+  "suggested_github_path": "lessons/lean-six-sigma/interaction-effects-in-minitab.html",
+  "access_level": "public"
+}
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interaction Effects in Minitab | UpSkill Sprint</title>
+  <meta name="description" content="Learn to find, test and interpret interaction effects in Minitab, work out 2x2 effects by hand, fix VIF by centering, and tell interaction from association.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/lean-six-sigma/interaction-effects-in-minitab">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Interaction Effects in Minitab | UpSkill Sprint">
+  <meta property="og:description" content="Learn to find, test and interpret interaction effects in Minitab, work out 2x2 effects by hand, fix VIF by centering, and tell interaction from association.">
+  <meta property="og:image" content="https://upskillsprint.com/assets/logo-og.png">
+  <meta property="og:url" content="https://upskillsprint.com/lessons/lean-six-sigma/interaction-effects-in-minitab">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/site-nav.css">
+<script src="/site-nav.js" defer></script>
+<script src="/site-sections.js"></script>
+  <script defer src="/assets/js/math.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {"@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://upskillsprint.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Lessons", "item": "https://upskillsprint.com/lessons"},
+        {"@type": "ListItem", "position": 3, "name": "Interaction Effects in Minitab", "item": "https://upskillsprint.com/lessons/lean-six-sigma/interaction-effects-in-minitab"}
+      ]},
+      {"@type": "LearningResource", "name": "Interaction Effects in Minitab", "description": "Learn to find, test and interpret interaction effects in Minitab, work out 2x2 effects by hand, fix VIF by centering, and tell interaction from association.", "url": "https://upskillsprint.com/lessons/lean-six-sigma/interaction-effects-in-minitab", "learningResourceType": "Lesson", "educationalLevel": "Intermediate", "provider": {"@type": "Organization", "name": "UpSkill Sprint Consulting", "url": "https://upskillsprint.com/"}}
+    ]
+  }
+  </script>
+  <style id="ixa-lesson-style">
+    /* Dark maritime design for this lesson; every token is lesson-scoped (--ixa-). */
+    :root {
+      color-scheme: light dark;
+      --ixa-page: #f3f6fa;
+      --ixa-surface: #ffffff;
+      --ixa-surface-2: #e9eff6;
+      --ixa-line: #c3d1e0;
+      --ixa-grid: #dbe4ee;
+      --ixa-ink: #0d1b30;
+      --ixa-ink-2: #2b3d55;
+      --ixa-muted: #4a5f78;
+      --ixa-accent: #0b6f8f;
+      --ixa-accent-ink: #ffffff;
+      --ixa-amber: #8f5300;
+      --ixa-accent-soft: #e2f1f7;
+      --ixa-amber-soft: #fbf0dc;
+      --ixa-good: #166534;
+      --ixa-good-soft: #e9f7ee;
+      --ixa-bad: #b42318;
+      --ixa-bad-soft: #fdf0ef;
+      --ixa-link: #075985;
+      --ixa-focus: #b45309;
+      --ixa-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Menlo, Consolas, monospace;
+    }
+    html[data-theme="dark"] {
+      --ixa-page: #071120;
+      --ixa-surface: #0d1b30;
+      --ixa-surface-2: #12243f;
+      --ixa-line: #2c4668;
+      --ixa-grid: #1c3150;
+      --ixa-ink: #e6eef7;
+      --ixa-ink-2: #c8d6e5;
+      --ixa-muted: #a3b8cd;
+      --ixa-accent: #3fb6d8;
+      --ixa-accent-ink: #04121f;
+      --ixa-amber: #f2b544;
+      --ixa-accent-soft: #0f2c42;
+      --ixa-amber-soft: #2a2412;
+      --ixa-good: #6ee7a0;
+      --ixa-good-soft: #10291c;
+      --ixa-bad: #fca5a5;
+      --ixa-bad-soft: #2c1515;
+      --ixa-link: #7dd3fc;
+      --ixa-focus: #fbbf24;
+    }
+    #lesson-content { background: var(--ixa-page); color: var(--ixa-ink); padding: 0 0 40px; }
+    .ixa-wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+    .ixa-hero { background: var(--ixa-surface); color: var(--ixa-ink); border-bottom: 1px solid var(--ixa-line); padding: 44px 0 34px; margin-bottom: 30px; }
+    .ixa-kicker { font-family: var(--ixa-mono); font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ixa-accent); margin: 0 0 8px; font-weight: 600; }
+    .ixa-hero h1 { font-size: clamp(2rem, 5.5vw, 3rem); line-height: 1.08; margin: 0 0 14px; color: var(--ixa-ink); letter-spacing: -.01em; text-wrap: balance; }
+    .ixa-lede { font-size: 1.12rem; line-height: 1.6; color: var(--ixa-ink-2); max-width: 66ch; margin: 0; }
+    .ixa-pills { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 18px 0 0; }
+    .ixa-pills li { font-family: var(--ixa-mono); font-size: 12.5px; color: var(--ixa-ink); background: var(--ixa-surface-2); border: 1px solid var(--ixa-line); border-radius: 999px; padding: 4px 11px; }
+    .ixa-toc { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .95rem; }
+    .ixa-toc a { color: var(--ixa-link); text-decoration: underline; text-underline-offset: 3px; }
+    .ixa-section { padding: 26px 0 10px; border-top: 1px solid var(--ixa-line); margin-top: 26px; }
+    .ixa-section:first-of-type { border-top: 0; margin-top: 0; }
+    #lesson-content h2 { font-size: clamp(1.5rem, 3.6vw, 2rem); line-height: 1.15; margin: 0 0 12px; color: var(--ixa-ink); text-wrap: balance; }
+    #lesson-content h3 { font-size: 1.2rem; line-height: 1.25; margin: 26px 0 10px; color: var(--ixa-ink); }
+    #lesson-content p, #lesson-content li { line-height: 1.65; color: var(--ixa-ink); }
+    #lesson-content p { max-width: 70ch; margin: 0 0 12px; }
+    #lesson-content main a, #lesson-content p a, #lesson-content li a, #lesson-content td a { color: var(--ixa-link); }
+    .ixa-muted { color: var(--ixa-muted) !important; }
+    .ixa-small { font-size: .9rem; }
+    .ixa-path { font-family: var(--ixa-mono); font-size: .86em; color: var(--ixa-ink); background: var(--ixa-surface-2); border: 1px solid var(--ixa-line); border-radius: 4px; padding: 1px 6px; white-space: normal; }
+    #lesson-content code { font-family: var(--ixa-mono); font-size: .88em; color: var(--ixa-ink); background: var(--ixa-surface-2); border-radius: 3px; padding: 0 4px; }
+    .ixa-takeaways { padding-left: 1.2rem; margin: 0; display: grid; gap: 6px; }
+    .ixa-grid-2 { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 680px) { .ixa-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .ixa-grid-3 { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 720px) { .ixa-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    .ixa-card { background: var(--ixa-surface); color: var(--ixa-ink); border: 1px solid var(--ixa-line); border-radius: 10px; padding: 16px; min-width: 0; }
+    .ixa-card h3 { margin-top: 0 !important; }
+    .ixa-fig { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .ixa-fig svg { width: 100%; height: auto; display: block; }
+    .ixa-fig figcaption { font-size: .92rem; color: var(--ixa-muted); line-height: 1.5; }
+    .ixa-tag { display: inline-block; font-family: var(--ixa-mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; border-radius: 4px; padding: 2px 7px; border: 1px solid var(--ixa-line); color: var(--ixa-ink); background: var(--ixa-surface-2); }
+    .ixa-tag.is-hot { color: var(--ixa-amber); background: var(--ixa-amber-soft); border-color: var(--ixa-amber); }
+    /* svg marks */
+    .ixa-ax { stroke: var(--ixa-muted); stroke-width: 1.2; fill: none; }
+    .ixa-gr { stroke: var(--ixa-grid); stroke-width: 1; fill: none; }
+    .ixa-l1 { stroke: var(--ixa-accent); stroke-width: 3; fill: none; stroke-linecap: round; }
+    .ixa-l2 { stroke: var(--ixa-amber); stroke-width: 3; fill: none; stroke-linecap: round; stroke-dasharray: 7 4; }
+    .ixa-l0 { stroke: var(--ixa-ink-2); stroke-width: 3; fill: none; stroke-linecap: round; }
+    .ixa-d1 { fill: var(--ixa-accent); } .ixa-d2 { fill: var(--ixa-amber); } .ixa-d0 { fill: var(--ixa-ink-2); }
+    .ixa-pt { fill: var(--ixa-accent); fill-opacity: .8; }
+    .ixa-t { fill: var(--ixa-muted); font-family: var(--ixa-mono); font-size: 11px; }
+    .ixa-t-sm { fill: var(--ixa-muted); font-family: var(--ixa-mono); font-size: 9.5px; }
+    .ixa-t1 { fill: var(--ixa-accent); font-family: var(--ixa-mono); font-size: 11px; font-weight: 700; }
+    .ixa-t2 { fill: var(--ixa-amber); font-family: var(--ixa-mono); font-size: 11px; font-weight: 700; }
+    .ixa-bar { fill: var(--ixa-accent); }
+    .ixa-t-in { fill: var(--ixa-accent-ink); font-family: var(--ixa-mono); font-size: 11px; font-weight: 700; }
+    .ixa-bar.is-high { fill: var(--ixa-amber); }
+    /* tables */
+    .table-scroll { overflow-x: auto; border: 1px solid var(--ixa-line); border-radius: 10px; background: var(--ixa-surface); margin: 12px 0 16px; }
+    .table-scroll:focus-visible { outline: 3px solid var(--ixa-focus); outline-offset: 2px; }
+    .ixa-table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: .93rem; color: var(--ixa-ink); background: var(--ixa-surface); }
+    .ixa-table th, .ixa-table td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--ixa-line); vertical-align: top; color: var(--ixa-ink); }
+    .ixa-table thead th { font-family: var(--ixa-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; background: var(--ixa-surface-2); font-weight: 600; }
+    .ixa-table tbody th { font-weight: 600; background: var(--ixa-surface); }
+    .ixa-table tr:last-child > * { border-bottom: 0; }
+    .ixa-table.is-num td { font-variant-numeric: tabular-nums; }
+    .ixa-table.is-compact { min-width: 0; }
+    /* method rows */
+    .ixa-method { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 18px 0; border-bottom: 1px solid var(--ixa-line); }
+    @media (min-width: 700px) { .ixa-method { grid-template-columns: 150px minmax(0, 1fr); gap: 22px; } }
+    .ixa-method:last-child { border-bottom: 0; }
+    .ixa-method .ixa-step { font-family: var(--ixa-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ixa-accent); font-weight: 700; margin: 0; }
+    .ixa-method h3 { margin: 2px 0 0 !important; }
+    .ixa-method ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; min-width: 0; }
+    .ixa-method li strong { display: block; }
+    /* callouts */
+    .ixa-callout { background: var(--ixa-surface); color: var(--ixa-ink); border: 1px solid var(--ixa-line); border-left: 4px solid var(--ixa-accent); border-radius: 8px; padding: 14px 18px; margin: 16px 0; }
+    .ixa-callout.is-amber { border-left-color: var(--ixa-amber); }
+    .ixa-callout > :last-child { margin-bottom: 0 !important; }
+    .ixa-callout ul { margin: 6px 0 0; padding-left: 1.2rem; display: grid; gap: 6px; }
+    .ixa-callout .ixa-lead { font-weight: 700; color: var(--ixa-ink); }
+    .ixa-formula { background: var(--ixa-surface); color: var(--ixa-ink); border: 1px solid var(--ixa-line); border-radius: 8px; padding: 6px 14px; margin: 12px 0; overflow-x: auto; }
+    /* labs */
+    .ixa-lab { background: var(--ixa-surface); color: var(--ixa-ink); border: 1px solid var(--ixa-line); border-radius: 12px; padding: 18px; display: grid; grid-template-columns: 1fr; gap: 18px; margin: 14px 0; }
+    @media (min-width: 760px) { .ixa-lab { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); } }
+    .ixa-lab > * { min-width: 0; }
+    .ixa-plots { display: grid; grid-template-columns: 1fr; gap: 12px; min-width: 0; }
+    @media (min-width: 520px) { .ixa-plots.is-pair { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+    .ixa-plot-title { font-family: var(--ixa-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ixa-muted); margin: 0 0 4px; }
+    .ixa-controls { display: grid; gap: 14px; align-content: start; min-width: 0; }
+    .ixa-ctl { display: grid; gap: 4px; }
+    .ixa-ctl label { display: flex; justify-content: space-between; gap: 10px; font-size: .92rem; color: var(--ixa-ink); font-weight: 600; }
+    .ixa-ctl output { font-family: var(--ixa-mono); font-variant-numeric: tabular-nums; color: var(--ixa-ink); font-weight: 600; }
+    .ixa-ctl input[type="range"] { width: 100%; accent-color: var(--ixa-accent); min-height: 28px; }
+    .ixa-inputs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .ixa-inputs label { display: grid; gap: 4px; font-size: .88rem; color: var(--ixa-ink); font-weight: 600; }
+    .ixa-inputs input { font: inherit; font-family: var(--ixa-mono); font-variant-numeric: tabular-nums; color: var(--ixa-ink); background: var(--ixa-page); border: 1px solid var(--ixa-line); border-radius: 6px; padding: 7px 9px; min-height: 40px; width: 100%; box-sizing: border-box; }
+    .ixa-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ixa-btn { font: inherit; font-size: .9rem; font-weight: 600; color: var(--ixa-ink); background: var(--ixa-surface-2); border: 1px solid var(--ixa-line); border-radius: 8px; padding: 8px 12px; min-height: 40px; cursor: pointer; }
+    .ixa-btn:hover { border-color: var(--ixa-accent); }
+    .ixa-btn[aria-pressed="true"] { background: var(--ixa-accent); color: var(--ixa-accent-ink); border-color: var(--ixa-accent); }
+    #lesson-content button:focus-visible, #lesson-content input:focus-visible, #lesson-content summary:focus-visible, #lesson-content a:focus-visible { outline: 3px solid var(--ixa-focus); outline-offset: 2px; }
+    .ixa-readout { display: grid; grid-template-columns: 1fr auto; gap: 4px 14px; font-size: .92rem; color: var(--ixa-ink-2); margin: 0; }
+    .ixa-readout dt { color: var(--ixa-ink-2); }
+    .ixa-readout dd { margin: 0; font-family: var(--ixa-mono); font-variant-numeric: tabular-nums; color: var(--ixa-ink); font-weight: 600; text-align: right; }
+    .ixa-verdict { border-radius: 8px; padding: 10px 12px; background: var(--ixa-accent-soft); color: var(--ixa-ink); border: 1px solid var(--ixa-line); font-size: .93rem; line-height: 1.5; }
+    .ixa-verdict.is-hot { background: var(--ixa-amber-soft); }
+    .ixa-verdict strong { display: block; font-size: 1.02rem; }
+    .ixa-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+    /* drill */
+    .ixa-drill { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 560px) { .ixa-drill { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 860px) { .ixa-drill { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    .ixa-drill .ixa-card { display: grid; gap: 10px; align-content: start; }
+    .ixa-drill-q { font-weight: 700; margin: 0 !important; }
+    .ixa-fb { font-size: .9rem; min-height: 1.4em; margin: 0 !important; color: var(--ixa-ink); }
+    .ixa-fb.is-good { color: var(--ixa-good); }
+    .ixa-fb.is-bad { color: var(--ixa-bad); }
+    /* compare */
+    .ixa-kv { margin: 0; display: grid; gap: 10px; }
+    .ixa-kv dt { font-family: var(--ixa-mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ixa-muted); font-weight: 600; }
+    .ixa-kv dd { margin: 2px 0 0; color: var(--ixa-ink); line-height: 1.55; }
+    /* practice details */
+    .ixa-details { background: var(--ixa-surface); color: var(--ixa-ink); border: 1px solid var(--ixa-line); border-radius: 8px; margin: 10px 0; }
+    .ixa-details summary { cursor: pointer; padding: 13px 16px; font-weight: 600; color: var(--ixa-ink); }
+    .ixa-details .ixa-ans { padding: 0 16px 14px; border-top: 1px solid var(--ixa-line); padding-top: 12px; }
+    .ixa-downloads { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; }
+    .ixa-dl { display: inline-block; font-weight: 600; color: var(--ixa-accent-ink) !important; background: var(--ixa-accent); border-radius: 8px; padding: 9px 14px; text-decoration: underline; text-underline-offset: 3px; }
+    .ixa-dl.is-quiet { color: var(--ixa-ink) !important; background: var(--ixa-surface-2); border: 1px solid var(--ixa-line); }
+    .ixa-steps { padding-left: 1.3rem; display: grid; gap: 8px; margin: 8px 0 14px; }
+    .ixa-refs { padding-left: 1.2rem; display: grid; gap: 6px; }
+    @media (prefers-reduced-motion: reduce) { :where(#lesson-content) * { transition: none !important; animation: none !important; } }
+  </style>
+</head>
+<body data-lesson-page="true" data-category="lean-six-sigma" data-level="intermediate" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img class="logo-wordmark" src="/assets/logo-wordmark.png" data-logo-light="/assets/logo-wordmark.png" data-logo-dark="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></a>
+  <nav data-nav-root="desktop" class="desktop-nav" aria-label="Main"><div class="nav-item" data-nav-item="start"><a class="nav-tab-link" data-nav-tab="start" href="/start-here">Start Here</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-start" aria-label="Show Start Here menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-start" hidden><div class="nav-panel-head"><span>Learning paths</span></div><div class="nav-rows"><a class="nav-row" href="/start-here#quality-improvement-basics"><span class="nav-name">Quality Improvement Basics</span></a><a class="nav-row" href="/start-here#data-analysis-basics"><span class="nav-name">Data Analysis Basics</span></a><a class="nav-row" href="/start-here#lean-six-sigma-tools"><span class="nav-name">Lean Six Sigma Tools</span></a><a class="nav-row" href="/start-here#excel-and-power-bi-skills"><span class="nav-name">Excel and Power BI Skills</span></a><a class="nav-row" href="/start-here#statistics-for-decision-making"><span class="nav-name">Statistics for Decision-Making</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/start-here">See all learning paths →</a></div></div></div><div class="nav-item" data-nav-item="lessons"><a class="nav-tab-link" data-nav-tab="lessons" href="/lessons" aria-current="page">Lessons</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-lessons" aria-label="Show Lessons menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-lessons" hidden><div class="nav-panel-head"><span>Lesson library</span><span data-nav-total hidden></span></div><div class="nav-rows"><a class="nav-row" href="/lessons#data-analytics"><span class="nav-name">Data Analytics</span><span class="nav-count" data-nav-count="data-analytics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#quality-engineering"><span class="nav-name">Quality Engineering</span><span class="nav-count" data-nav-count="quality-engineering" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#lean-six-sigma"><span class="nav-name">Lean Six Sigma</span><span class="nav-count" data-nav-count="lean-six-sigma" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#statistics"><span class="nav-name">Statistics</span><span class="nav-count" data-nav-count="statistics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#power-bi-excel-sql"><span class="nav-name">Power BI, Excel &amp; SQL</span><span class="nav-count" data-nav-count="power-bi-excel-sql" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#project-management"><span class="nav-name">Project Management</span><span class="nav-count" data-nav-count="project-management" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#business-decision-making"><span class="nav-name">Business Decision-Making</span><span class="nav-count" data-nav-count="business-decision-making" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#ai-for-work"><span class="nav-name">AI for Work</span><span class="nav-count" data-nav-count="ai-for-work" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/lessons" data-nav-total-link>View all lessons →</a><a class="nav-foot-secondary" href="/request-topic">Request a topic</a></div></div></div><div class="nav-item nav-item-wide" data-nav-item="exam"><a class="nav-tab-link" data-nav-tab="exam" href="/exam-practice">Exam Practice</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-exam" aria-label="Show Exam Practice menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-exam" hidden><div class="nav-panel-head"><span>Certifications</span></div><div class="nav-rows"><a class="nav-row nav-exam" href="/exam-practice#exam-cssbb"><span class="nav-acronym">CSSBB</span><span class="nav-name">Six Sigma Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqe"><span class="nav-acronym">CQE</span><span class="nav-name">Quality Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-mbb"><span class="nav-acronym">CMBB</span><span class="nav-name">Six Sigma Master Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cssgb"><span class="nav-acronym">CSSGB</span><span class="nav-name">Six Sigma Green Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cmq"><span class="nav-acronym">CMQ/OE</span><span class="nav-name">Manager of Quality / Org. Excellence</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cre"><span class="nav-acronym">CRE</span><span class="nav-name">Reliability Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-pmp"><span class="nav-acronym">PMP</span><span class="nav-name">Project Management Professional</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-nppe"><span class="nav-acronym">NPPE</span><span class="nav-name">National Professional Practice Exam</span></a><span class="nav-row nav-exam is-soon" aria-disabled="true"><span class="nav-acronym">CQA</span><span class="nav-name">Quality Auditor</span><span class="nav-soon">Coming soon</span></span></div><div class="nav-foot"><a class="nav-foot-primary" href="/exam-practice">All exams →</a><a class="nav-foot-secondary" href="/exam-practice#my-exams">My exams</a></div></div></div><div class="nav-item" data-nav-item="tools"><a class="nav-tab-link" data-nav-tab="tools" href="/engineering-tools">Engineering Tools</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-tools" aria-label="Show Engineering Tools menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-tools" hidden><div class="nav-panel-head"><span>Tools</span></div><div class="nav-rows"><a class="nav-row" href="/tools/engineering-statistics-calculator"><span class="nav-name">Engineering &amp; Statistics Calculator</span></a><a class="nav-row" href="/tools/unit-converter"><span class="nav-name">Unit Converter</span></a><a class="nav-row" href="/engineering-tools/grade-specification-lookup/"><span class="nav-name">Material Specification Lookup</span></a><a class="nav-row" href="/tools/material-specification-compliance-checker"><span class="nav-name">Material Specification Compliance Checker</span></a><a class="nav-row" href="/tools/steel-phase-explorer"><span class="nav-name">Steel Phase &amp; Transformation Explorer</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/engineering-tools">All tools →</a><a class="nav-foot-secondary" href="/engineering-tools#suggest-a-tool">Suggest a tool</a></div></div></div><div class="nav-item nav-item-wide" data-nav-item="services"><a class="nav-tab-link" data-nav-tab="services" href="/services">Services</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-services" aria-label="Show Services menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-services" hidden><div class="nav-panel-head"><span>Services</span></div><div class="nav-rows"><a class="nav-row nav-rich" href="/services#corporate-training"><span class="nav-name">Corporate Training</span><span class="nav-desc">Team workshops on Lean Six Sigma and quality tools</span></a><a class="nav-row nav-rich" href="/services#one-on-one-coaching"><span class="nav-name">One-on-One Coaching</span><span class="nav-desc">Excel, Power BI, Minitab, statistics</span></a><a class="nav-row nav-rich" href="/services#consulting-support"><span class="nav-name">Consulting Support</span><span class="nav-desc">Root cause analysis, KPIs, quality investigations</span></a><a class="nav-row nav-rich" href="/services#custom-lessons"><span class="nav-name">Custom Lessons</span><span class="nav-desc">Training built around your team's needs</span></a><a class="nav-row nav-rich" href="/services#data-dashboard-support"><span class="nav-name">Data &amp; Dashboard Support</span><span class="nav-desc">Excel, Power BI and SQL help</span></a></div><div class="nav-foot nav-foot-solo"><a class="nav-book" href="/contact">Book a consultation</a></div></div></div><div class="nav-item" data-nav-item="about"><a class="nav-tab-link" data-nav-tab="about" href="/about">About</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-about" aria-label="Show About menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-about" hidden><div class="nav-panel-head"><span>About</span></div><div class="nav-rows"><a class="nav-row nav-rich" href="/about"><span class="nav-name">About UpSkill Sprint</span><span class="nav-desc">Who builds the lessons and why</span></a><a class="nav-row nav-rich" href="/faq"><span class="nav-name">FAQ</span><span class="nav-desc">Free lessons, accounts, exams</span></a><a class="nav-row nav-rich" href="/request-topic"><span class="nav-name">Request a Topic</span><span class="nav-desc">Tell us the lesson you need</span></a><a class="nav-row nav-rich" href="/contact"><span class="nav-name">Contact</span><span class="nav-desc">Questions and partnerships</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a></div></div></div></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<nav class="mobile-nav" data-nav-root="mobile" aria-label="Main"><div class="nav-acc" data-nav-acc="start"><button type="button" class="nav-acc-btn" data-nav-tab="start" aria-expanded="false" aria-controls="nav-m-start"><span>Start Here</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-start" hidden><a class="nav-row" href="/start-here#quality-improvement-basics"><span class="nav-name">Quality Improvement Basics</span></a><a class="nav-row" href="/start-here#data-analysis-basics"><span class="nav-name">Data Analysis Basics</span></a><a class="nav-row" href="/start-here#lean-six-sigma-tools"><span class="nav-name">Lean Six Sigma Tools</span></a><a class="nav-row" href="/start-here#excel-and-power-bi-skills"><span class="nav-name">Excel and Power BI Skills</span></a><a class="nav-row" href="/start-here#statistics-for-decision-making"><span class="nav-name">Statistics for Decision-Making</span></a><a class="nav-foot-primary nav-acc-all" href="/start-here">See all learning paths →</a></div></div><div class="nav-acc" data-nav-acc="lessons"><button type="button" class="nav-acc-btn" data-nav-tab="lessons" aria-current="page" aria-expanded="false" aria-controls="nav-m-lessons"><span>Lessons</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-lessons" hidden><a class="nav-row" href="/lessons#data-analytics"><span class="nav-name">Data Analytics</span><span class="nav-count" data-nav-count="data-analytics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#quality-engineering"><span class="nav-name">Quality Engineering</span><span class="nav-count" data-nav-count="quality-engineering" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#lean-six-sigma"><span class="nav-name">Lean Six Sigma</span><span class="nav-count" data-nav-count="lean-six-sigma" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#statistics"><span class="nav-name">Statistics</span><span class="nav-count" data-nav-count="statistics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#power-bi-excel-sql"><span class="nav-name">Power BI, Excel &amp; SQL</span><span class="nav-count" data-nav-count="power-bi-excel-sql" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#project-management"><span class="nav-name">Project Management</span><span class="nav-count" data-nav-count="project-management" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#business-decision-making"><span class="nav-name">Business Decision-Making</span><span class="nav-count" data-nav-count="business-decision-making" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#ai-for-work"><span class="nav-name">AI for Work</span><span class="nav-count" data-nav-count="ai-for-work" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-foot-primary nav-acc-all" href="/lessons" data-nav-total-link>View all lessons →</a><a class="nav-foot-secondary" href="/request-topic">Request a topic</a></div></div><div class="nav-acc" data-nav-acc="exam"><button type="button" class="nav-acc-btn" data-nav-tab="exam" aria-expanded="false" aria-controls="nav-m-exam"><span>Exam Practice</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-exam" hidden><a class="nav-row nav-exam" href="/exam-practice#exam-cssbb"><span class="nav-acronym">CSSBB</span><span class="nav-name">Six Sigma Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqe"><span class="nav-acronym">CQE</span><span class="nav-name">Quality Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-mbb"><span class="nav-acronym">CMBB</span><span class="nav-name">Six Sigma Master Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cssgb"><span class="nav-acronym">CSSGB</span><span class="nav-name">Six Sigma Green Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cmq"><span class="nav-acronym">CMQ/OE</span><span class="nav-name">Manager of Quality / Org. Excellence</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cre"><span class="nav-acronym">CRE</span><span class="nav-name">Reliability Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-pmp"><span class="nav-acronym">PMP</span><span class="nav-name">Project Management Professional</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-nppe"><span class="nav-acronym">NPPE</span><span class="nav-name">National Professional Practice Exam</span></a><span class="nav-row nav-exam is-soon" aria-disabled="true"><span class="nav-acronym">CQA</span><span class="nav-name">Quality Auditor</span><span class="nav-soon">Coming soon</span></span><a class="nav-foot-primary nav-acc-all" href="/exam-practice">All exams →</a><a class="nav-foot-secondary" href="/exam-practice#my-exams">My exams</a></div></div><div class="nav-acc" data-nav-acc="tools"><button type="button" class="nav-acc-btn" data-nav-tab="tools" aria-expanded="false" aria-controls="nav-m-tools"><span>Engineering Tools</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-tools" hidden><a class="nav-row" href="/tools/engineering-statistics-calculator"><span class="nav-name">Engineering &amp; Statistics Calculator</span></a><a class="nav-row" href="/tools/unit-converter"><span class="nav-name">Unit Converter</span></a><a class="nav-row" href="/engineering-tools/grade-specification-lookup/"><span class="nav-name">Material Specification Lookup</span></a><a class="nav-row" href="/tools/material-specification-compliance-checker"><span class="nav-name">Material Specification Compliance Checker</span></a><a class="nav-row" href="/tools/steel-phase-explorer"><span class="nav-name">Steel Phase &amp; Transformation Explorer</span></a><a class="nav-foot-primary nav-acc-all" href="/engineering-tools">All tools →</a><a class="nav-foot-secondary" href="/engineering-tools#suggest-a-tool">Suggest a tool</a></div></div><div class="nav-acc" data-nav-acc="services"><button type="button" class="nav-acc-btn" data-nav-tab="services" aria-expanded="false" aria-controls="nav-m-services"><span>Services</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-services" hidden><a class="nav-row nav-rich" href="/services#corporate-training"><span class="nav-name">Corporate Training</span><span class="nav-desc">Team workshops on Lean Six Sigma and quality tools</span></a><a class="nav-row nav-rich" href="/services#one-on-one-coaching"><span class="nav-name">One-on-One Coaching</span><span class="nav-desc">Excel, Power BI, Minitab, statistics</span></a><a class="nav-row nav-rich" href="/services#consulting-support"><span class="nav-name">Consulting Support</span><span class="nav-desc">Root cause analysis, KPIs, quality investigations</span></a><a class="nav-row nav-rich" href="/services#custom-lessons"><span class="nav-name">Custom Lessons</span><span class="nav-desc">Training built around your team's needs</span></a><a class="nav-row nav-rich" href="/services#data-dashboard-support"><span class="nav-name">Data &amp; Dashboard Support</span><span class="nav-desc">Excel, Power BI and SQL help</span></a><a class="nav-book nav-acc-all" href="/contact">Book a consultation</a></div></div><div class="nav-acc" data-nav-acc="about"><button type="button" class="nav-acc-btn" data-nav-tab="about" aria-expanded="false" aria-controls="nav-m-about"><span>About</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-about" hidden><a class="nav-row nav-rich" href="/about"><span class="nav-name">About UpSkill Sprint</span><span class="nav-desc">Who builds the lessons and why</span></a><a class="nav-row nav-rich" href="/faq"><span class="nav-name">FAQ</span><span class="nav-desc">Free lessons, accounts, exams</span></a><a class="nav-row nav-rich" href="/request-topic"><span class="nav-name">Request a Topic</span><span class="nav-desc">Tell us the lesson you need</span></a><a class="nav-row nav-rich" href="/contact"><span class="nav-name">Contact</span><span class="nav-desc">Questions and partnerships</span></a><a class="nav-foot-primary nav-acc-all" href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a></div></div><div class="nav-drawer-footer"><a class="nav-drawer-account" href="/sign-in">Account</a><a class="nav-drawer-browse" href="/lessons">Browse lessons</a></div></nav>
+<main id="lesson-content">
+  <div class="ixa-hero">
+    <div class="ixa-wrap">
+      <p class="ixa-kicker">Lean Six Sigma · Analyze phase</p>
+      <h1>Interaction Effects in Minitab</h1>
+      <p class="ixa-lede">Interaction effects are what happens when one factor's effect on your response depends on where another factor is set. This lesson shows how to spot them, test them, and explain them in Minitab, and how they differ from two variables simply moving together.</p>
+      <ul class="ixa-pills" aria-label="Lesson facts">
+        <li>Intermediate</li><li>60 min</li><li>Interactive</li><li>Excel + Minitab</li><li>CSSBB · CQE</li>
+      </ul>
+      <nav class="ixa-toc" aria-label="On this page">
+        <a href="#what-is-an-interaction">What an interaction is</a>
+        <a href="#interaction-explorer">Interaction explorer</a>
+        <a href="#effects-by-hand">Effects by hand</a>
+        <a href="#minitab-methods">Minitab methods</a>
+        <a href="#worked-doe-example">Worked DOE</a>
+        <a href="#centering-and-vif">Centering and VIF</a>
+        <a href="#association-vs-interaction">Association vs. interaction</a>
+        <a href="#spot-the-interaction">Practice drill</a>
+        <a href="#quiz">Quiz</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="ixa-wrap">
+
+    <section class="ixa-section" id="what-you-will-learn" aria-labelledby="learn-heading">
+      <h2 id="learn-heading">What you will be able to do</h2>
+      <ul class="ixa-takeaways">
+        <li>Recognize an interaction effect on a plot, in a model equation, and in Minitab output.</li>
+        <li>Choose the right Minitab tool for designed experiments, historical data, continuous or categorical factors, and pass/fail responses.</li>
+        <li>Calculate main effects, the interaction effect and coded coefficients of a 2&times;2 design by hand.</li>
+        <li>Use centering to remove the artificial collinearity an interaction term creates.</li>
+        <li>Explain the difference between association, collinearity and interaction, with counter-examples.</li>
+      </ul>
+      <div class="ixa-downloads">
+        <a class="ixa-dl" href="/assets/lessons/interaction-effects-in-minitab/interaction-effects-practice-dataset.xlsx" download>Download the practice dataset (Excel .xlsx)</a>
+        <a class="ixa-dl is-quiet" href="/assets/lessons/interaction-effects-in-minitab/doe-2x2-charpy.csv" download>DOE runs (CSV)</a>
+        <a class="ixa-dl is-quiet" href="/assets/lessons/interaction-effects-in-minitab/historical-heats.csv" download>Historical heats (CSV)</a>
+      </div>
+      <p class="ixa-muted ixa-small">All data in this lesson is fictitious and was generated for teaching. The steel examples show realistic shapes, not plant results.</p>
+    </section>
+
+    <section class="ixa-section" id="what-is-an-interaction" aria-labelledby="what-heading">
+      <h2 id="what-heading">What an interaction effect is</h2>
+      <p>An interaction exists when changing factor A moves the response Y by a different amount, or in a different direction, depending on where factor B is set. On an interaction plot, that shows up as lines that are not parallel.</p>
+      <div class="ixa-grid-2">
+        <figure class="ixa-fig ixa-card">
+          <span class="ixa-tag">No interaction</span>
+          <svg viewBox="0 0 240 160" role="img" aria-labelledby="fig-par-title">
+            <title id="fig-par-title">Two parallel lines: Charpy energy falls with finishing temperature by the same amount at low and high Nb.</title>
+            <line class="ixa-ax" x1="40" y1="12" x2="40" y2="122"/><line class="ixa-ax" x1="40" y1="122" x2="230" y2="122"/>
+            <line class="ixa-l1" x1="60" y1="36" x2="210" y2="74"/><line class="ixa-l2" x1="60" y1="64" x2="210" y2="102"/>
+            <circle class="ixa-d1" cx="60" cy="36" r="4"/><circle class="ixa-d1" cx="210" cy="74" r="4"/>
+            <circle class="ixa-d2" cx="60" cy="64" r="4"/><circle class="ixa-d2" cx="210" cy="102" r="4"/>
+            <text class="ixa-t-sm" x="60" y="137" text-anchor="middle">Low</text><text class="ixa-t-sm" x="210" y="137" text-anchor="middle">High</text>
+            <text class="ixa-t-sm" x="135" y="153" text-anchor="middle">Finishing temperature (A)</text>
+            <text class="ixa-t-sm" x="16" y="67" text-anchor="middle" transform="rotate(-90 16 67)">Charpy (Y)</text>
+            <text class="ixa-t1" x="104" y="36">High Nb</text><text class="ixa-t2" x="150" y="112">Low Nb</text>
+          </svg>
+          <figcaption>Same slope at both Nb levels. A and B act independently, so each main effect tells the whole story.</figcaption>
+        </figure>
+        <figure class="ixa-fig ixa-card">
+          <span class="ixa-tag is-hot">Interaction</span>
+          <svg viewBox="0 0 240 160" role="img" aria-labelledby="fig-int-title">
+            <title id="fig-int-title">Two crossing lines: temperature barely changes Charpy energy at high Nb but drops it sharply at low Nb.</title>
+            <line class="ixa-ax" x1="40" y1="12" x2="40" y2="122"/><line class="ixa-ax" x1="40" y1="122" x2="230" y2="122"/>
+            <line class="ixa-l1" x1="60" y1="42" x2="210" y2="50"/><line class="ixa-l2" x1="60" y1="30" x2="210" y2="108"/>
+            <circle class="ixa-d1" cx="60" cy="42" r="4"/><circle class="ixa-d1" cx="210" cy="50" r="4"/>
+            <circle class="ixa-d2" cx="60" cy="30" r="4"/><circle class="ixa-d2" cx="210" cy="108" r="4"/>
+            <text class="ixa-t-sm" x="60" y="137" text-anchor="middle">Low</text><text class="ixa-t-sm" x="210" y="137" text-anchor="middle">High</text>
+            <text class="ixa-t-sm" x="135" y="153" text-anchor="middle">Finishing temperature (A)</text>
+            <text class="ixa-t-sm" x="16" y="67" text-anchor="middle" transform="rotate(-90 16 67)">Charpy (Y)</text>
+            <text class="ixa-t1" x="158" y="40">High Nb</text><text class="ixa-t2" x="150" y="116">Low Nb</text>
+          </svg>
+          <figcaption>Temperature hurts toughness a lot at low Nb and barely at high Nb. "The effect of temperature" has no single answer.</figcaption>
+        </figure>
+      </div>
+
+      <h3 id="model-behind-the-plot">The model behind the plot</h3>
+      <p>A two-factor model with an interaction term is</p>
+      <div class="ixa-formula">\[ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \beta_{12} X_1 X_2 + \varepsilon \]</div>
+      <p>where \(Y\) is the response, \(X_1\) and \(X_2\) are the two factors, \(\beta_0\) is the intercept, \(\beta_1\) and \(\beta_2\) are the main-effect coefficients, \(\beta_{12}\) is the interaction coefficient and \(\varepsilon\) is random error. Group the terms that contain \(X_1\) and the reason the lines stop being parallel becomes clear:</p>
+      <div class="ixa-formula">\[ \text{slope of } Y \text{ in } X_1 = \frac{\partial Y}{\partial X_1} = \beta_1 + \beta_{12} X_2 \]</div>
+      <p>The slope of \(X_1\) is no longer a single number. It changes with \(X_2\). When \(\beta_{12} = 0\), the slope is \(\beta_1\) everywhere and the lines are parallel. Testing the interaction in Minitab is testing whether \(\beta_{12}\) is different from zero.</p>
+
+      <h3 id="three-shapes">Three shapes an interaction can take</h3>
+      <div class="ixa-grid-3">
+        <figure class="ixa-fig ixa-card">
+          <svg viewBox="0 0 200 120" role="img" aria-labelledby="shape-syn-title">
+            <title id="shape-syn-title">Synergistic: both lines rise, the B-high line much more steeply.</title>
+            <line class="ixa-ax" x1="20" y1="10" x2="20" y2="100"/><line class="ixa-ax" x1="20" y1="100" x2="190" y2="100"/>
+            <line class="ixa-l2" x1="40" y1="80" x2="170" y2="66"/><line class="ixa-l1" x1="40" y1="74" x2="170" y2="18"/>
+            <text class="ixa-t1" x="112" y="20">B high</text><text class="ixa-t2" x="112" y="92">B low</text>
+          </svg>
+          <figcaption><strong>Synergistic.</strong> A pushes Y the same way at both B levels, but much harder at one of them.</figcaption>
+        </figure>
+        <figure class="ixa-fig ixa-card">
+          <svg viewBox="0 0 200 120" role="img" aria-labelledby="shape-damp-title">
+            <title id="shape-damp-title">Dampening: one line falls steeply, the other barely moves.</title>
+            <line class="ixa-ax" x1="20" y1="10" x2="20" y2="100"/><line class="ixa-ax" x1="20" y1="100" x2="190" y2="100"/>
+            <line class="ixa-l2" x1="40" y1="22" x2="170" y2="86"/><line class="ixa-l1" x1="40" y1="34" x2="170" y2="42"/>
+            <text class="ixa-t1" x="120" y="30">B high</text><text class="ixa-t2" x="104" y="80">B low</text>
+          </svg>
+          <figcaption><strong>Dampening (antagonistic).</strong> One factor level shields the response from the other factor. This is the Charpy example.</figcaption>
+        </figure>
+        <figure class="ixa-fig ixa-card">
+          <svg viewBox="0 0 200 120" role="img" aria-labelledby="shape-cross-title">
+            <title id="shape-cross-title">Crossover: the lines cross, so the effect of A reverses direction with B.</title>
+            <line class="ixa-ax" x1="20" y1="10" x2="20" y2="100"/><line class="ixa-ax" x1="20" y1="100" x2="190" y2="100"/>
+            <line class="ixa-l2" x1="40" y1="22" x2="170" y2="84"/><line class="ixa-l1" x1="40" y1="84" x2="170" y2="22"/>
+            <text class="ixa-t1" x="146" y="16">B high</text><text class="ixa-t2" x="146" y="95">B low</text>
+          </svg>
+          <figcaption><strong>Crossover.</strong> The effect of A reverses direction. A main-effects plot alone can make A look useless.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="ixa-section" id="interaction-explorer" aria-labelledby="explorer-heading">
+      <h2 id="explorer-heading">Interaction explorer</h2>
+      <p>This builds the coded model Minitab fits for a 2&times;2 design, with A and B at \(-1\) and \(+1\):</p>
+      <div class="ixa-formula">\[ Y = 50 + a\,A + b\,B + ab\,(A \times B) \]</div>
+      <p>where \(a\), \(b\) and \(ab\) are the coded coefficients. Move the \(ab\) slider and watch the interaction plot lose its parallel lines. The main-effects plot on the left averages over B, so it cannot show you what the interaction is doing.</p>
+      <div class="ixa-lab" role="group" aria-label="Interaction explorer">
+        <div class="ixa-plots is-pair">
+          <div>
+            <p class="ixa-plot-title" id="ex-main-label">Main effect of A</p>
+            <svg id="ixa-ex-main" viewBox="0 0 220 250" role="img" aria-labelledby="ixa-ex-main-title">
+              <title id="ixa-ex-main-title">Main effects plot of A</title>
+              <g id="ixa-ex-main-grid"></g>
+              <line class="ixa-ax" x1="46" y1="20" x2="46" y2="200"/><line class="ixa-ax" x1="46" y1="200" x2="210" y2="200"/>
+              <text class="ixa-t" x="72" y="218" text-anchor="middle">A −1</text><text class="ixa-t" x="186" y="218" text-anchor="middle">A +1</text>
+              <line id="ixa-ex-mline" class="ixa-l0" x1="72" y1="110" x2="186" y2="110"/>
+              <circle id="ixa-ex-m1" class="ixa-d0" r="5" cx="72" cy="110"/><circle id="ixa-ex-m2" class="ixa-d0" r="5" cx="186" cy="110"/>
+              <text class="ixa-t" x="128" y="240" text-anchor="middle">Averaged over B</text>
+            </svg>
+          </div>
+          <div>
+            <p class="ixa-plot-title">Interaction plot</p>
+            <svg id="ixa-ex-int" viewBox="0 0 220 250" role="img" aria-labelledby="ixa-ex-int-title">
+              <title id="ixa-ex-int-title">Interaction plot of A by B</title>
+              <g id="ixa-ex-int-grid"></g>
+              <line class="ixa-ax" x1="46" y1="20" x2="46" y2="200"/><line class="ixa-ax" x1="46" y1="200" x2="210" y2="200"/>
+              <text class="ixa-t" x="72" y="218" text-anchor="middle">A −1</text><text class="ixa-t" x="186" y="218" text-anchor="middle">A +1</text>
+              <line id="ixa-ex-lo" class="ixa-l2" x1="72" y1="110" x2="186" y2="110"/>
+              <line id="ixa-ex-hi" class="ixa-l1" x1="72" y1="110" x2="186" y2="110"/>
+              <circle id="ixa-ex-lo1" class="ixa-d2" r="5" cx="72" cy="110"/><circle id="ixa-ex-lo2" class="ixa-d2" r="5" cx="186" cy="110"/>
+              <circle id="ixa-ex-hi1" class="ixa-d1" r="5" cx="72" cy="110"/><circle id="ixa-ex-hi2" class="ixa-d1" r="5" cx="186" cy="110"/>
+              <text class="ixa-t1" x="60" y="240">— B +1</text><text class="ixa-t2" x="130" y="240">- - B −1</text>
+            </svg>
+          </div>
+        </div>
+        <div class="ixa-controls">
+          <div class="ixa-ctl"><label for="ixa-ex-a">Main-effect coefficient a <output id="ixa-ex-a-out" for="ixa-ex-a">6</output></label><input id="ixa-ex-a" type="range" min="-10" max="10" step="1" value="6"></div>
+          <div class="ixa-ctl"><label for="ixa-ex-b">Main-effect coefficient b <output id="ixa-ex-b-out" for="ixa-ex-b">4</output></label><input id="ixa-ex-b" type="range" min="-10" max="10" step="1" value="4"></div>
+          <div class="ixa-ctl"><label for="ixa-ex-ab">Interaction coefficient ab <output id="ixa-ex-ab-out" for="ixa-ex-ab">0</output></label><input id="ixa-ex-ab" type="range" min="-10" max="10" step="1" value="0"></div>
+          <div class="ixa-btns" role="group" aria-label="Presets">
+            <button type="button" class="ixa-btn" data-ixa-preset="6,4,0">Parallel</button>
+            <button type="button" class="ixa-btn" data-ixa-preset="6,4,4">Synergistic</button>
+            <button type="button" class="ixa-btn" data-ixa-preset="-7,4,-5">Dampening</button>
+            <button type="button" class="ixa-btn" data-ixa-preset="0,2,8">Crossover</button>
+          </div>
+          <dl class="ixa-readout">
+            <dt>Effect of A at B −1</dt><dd id="ixa-ex-r-lo">12</dd>
+            <dt>Effect of A at B +1</dt><dd id="ixa-ex-r-hi">12</dd>
+            <dt>Main effect of A (= 2a)</dt><dd id="ixa-ex-r-a">12</dd>
+            <dt>AB effect (= 2ab)</dt><dd id="ixa-ex-r-ab">0</dd>
+          </dl>
+          <div id="ixa-ex-verdict" class="ixa-verdict" role="status" aria-live="polite"><strong>Parallel</strong>No interaction.</div>
+        </div>
+      </div>
+      <p class="ixa-muted ixa-small">Minitab reports <em>Effect</em> as twice the coded coefficient, because each factor moves two coded units from \(-1\) to \(+1\). Try the crossover preset: the main-effects plot goes flat, while the interaction plot shows A matters a lot in opposite directions.</p>
+    </section>
+
+    <section class="ixa-section" id="effects-by-hand" aria-labelledby="hand-heading">
+      <h2 id="hand-heading">Calculating 2&times;2 effects by hand</h2>
+      <p>In a 2&times;2 design every effect is a difference between two averages. Write \(\bar{y}_{+-}\) for the mean response at A high and B low, and so on for the other three cells. Then</p>
+      <div class="ixa-formula">\[
+\begin{aligned}
+\text{Effect}_A &= \frac{\bar{y}_{+-} + \bar{y}_{++}}{2} - \frac{\bar{y}_{--} + \bar{y}_{-+}}{2} \\
+\text{Effect}_B &= \frac{\bar{y}_{-+} + \bar{y}_{++}}{2} - \frac{\bar{y}_{--} + \bar{y}_{+-}}{2} \\
+\text{Effect}_{AB} &= \frac{\bar{y}_{--} + \bar{y}_{++}}{2} - \frac{\bar{y}_{+-} + \bar{y}_{-+}}{2}
+\end{aligned}
+\]</div>
+      <p>where the first sign in each subscript is the level of A and the second is the level of B. The AB effect compares the two cells where A and B are at the <em>same</em> level with the two cells where they differ, which is the sign of the product \(A \times B\). Minitab's coded coefficient is half the effect:</p>
+      <div class="ixa-formula">\[ \text{Coef} = \frac{\text{Effect}}{2} \qquad \text{SE}_{\text{Coef}} = \sqrt{\frac{\text{MSE}}{N}} \]</div>
+      <p>where \(\text{MSE}\) is the mean square error from the ANOVA and \(N\) is the total number of runs.</p>
+
+      <h3 id="hand-worked-example">Worked example with the practice data</h3>
+      <p>The DOE sheet in the practice dataset has 12 runs: finishing temperature (A) at 820 and 880 °C, Nb (B) at 0.020 and 0.040 wt%, three replicates per cell. The four cell means of Charpy energy are:</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Cell means of Charpy energy for the 2x2 design">
+        <table class="ixa-table is-num is-compact">
+          <thead><tr><th scope="col">Cell</th><th scope="col">A (temperature)</th><th scope="col">B (Nb)</th><th scope="col">Mean Charpy (J)</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">\(\bar{y}_{--}\)</th><td>820 °C</td><td>0.020 %</td><td>137.30</td></tr>
+            <tr><th scope="row">\(\bar{y}_{+-}\)</th><td>880 °C</td><td>0.020 %</td><td>88.00</td></tr>
+            <tr><th scope="row">\(\bar{y}_{-+}\)</th><td>820 °C</td><td>0.040 %</td><td>132.97</td></tr>
+            <tr><th scope="row">\(\bar{y}_{++}\)</th><td>880 °C</td><td>0.040 %</td><td>127.07</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ixa-formula">\[
+\begin{aligned}
+\text{Effect}_A &= \frac{88.00 + 127.07}{2} - \frac{137.30 + 132.97}{2} = 107.53 - 135.13 = -27.60 \\
+\text{Effect}_{AB} &= \frac{137.30 + 127.07}{2} - \frac{88.00 + 132.97}{2} = 132.18 - 110.48 = 21.70 \\
+\text{Coef}_{AB} &= \frac{21.70}{2} = 10.85
+\end{aligned}
+\]</div>
+      <p>The B effect works out to 17.37 J. Now look at the <strong>simple effects</strong>, the effect of temperature inside each Nb level. At low Nb, raising temperature costs \(88.00 - 137.30 = -49.3\) J. At high Nb it costs only \(127.07 - 132.97 = -5.9\) J. The main effect of \(-27.6\) J is the average of those two very different numbers, and describes neither of them.</p>
+
+      <h3 id="effect-calculator">Effect calculator</h3>
+      <p>Type any four cell means. The calculator applies the formulas above and redraws the interaction plot. It opens with the practice-data means, rounded to two decimals, so a coefficient can differ from Minitab's in the last digit.</p>
+      <div class="ixa-lab" role="group" aria-label="2x2 effect calculator">
+        <div class="ixa-controls">
+          <div class="ixa-inputs">
+            <label for="ixa-c-mm">A −1, B −1<input id="ixa-c-mm" type="number" step="0.01" value="137.30" inputmode="decimal"></label>
+            <label for="ixa-c-pm">A +1, B −1<input id="ixa-c-pm" type="number" step="0.01" value="88.00" inputmode="decimal"></label>
+            <label for="ixa-c-mp">A −1, B +1<input id="ixa-c-mp" type="number" step="0.01" value="132.97" inputmode="decimal"></label>
+            <label for="ixa-c-pp">A +1, B +1<input id="ixa-c-pp" type="number" step="0.01" value="127.07" inputmode="decimal"></label>
+          </div>
+          <div class="ixa-btns"><button type="button" class="ixa-btn" id="ixa-c-reset">Reset to practice data</button></div>
+        </div>
+        <div>
+          <svg id="ixa-c-plot" viewBox="0 0 260 200" role="img" aria-labelledby="ixa-c-plot-title">
+            <title id="ixa-c-plot-title">Interaction plot of the four cell means</title>
+            <line class="ixa-ax" x1="44" y1="14" x2="44" y2="160"/><line class="ixa-ax" x1="44" y1="160" x2="250" y2="160"/>
+            <text class="ixa-t" x="70" y="178" text-anchor="middle">A −1</text><text class="ixa-t" x="224" y="178" text-anchor="middle">A +1</text>
+            <text id="ixa-c-ymax" class="ixa-t-sm" x="40" y="24" text-anchor="end"></text><text id="ixa-c-ymin" class="ixa-t-sm" x="40" y="154" text-anchor="end"></text>
+            <line id="ixa-c-lo" class="ixa-l2" x1="70" y1="80" x2="224" y2="80"/><line id="ixa-c-hi" class="ixa-l1" x1="70" y1="80" x2="224" y2="80"/>
+            <text class="ixa-t1" x="60" y="196">— B +1</text><text class="ixa-t2" x="140" y="196">- - B −1</text>
+          </svg>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Calculated effects and coefficients">
+            <table class="ixa-table is-num is-compact">
+              <thead><tr><th scope="col">Term</th><th scope="col">Effect</th><th scope="col">Coef</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">A</th><td id="ixa-c-ea"></td><td id="ixa-c-ca"></td></tr>
+                <tr><th scope="row">B</th><td id="ixa-c-eb"></td><td id="ixa-c-cb"></td></tr>
+                <tr><th scope="row">AB</th><td id="ixa-c-eab"></td><td id="ixa-c-cab"></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p id="ixa-c-simple" class="ixa-small" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ixa-section" id="choosing-the-tool" aria-labelledby="choose-heading">
+      <h2 id="choose-heading">Choosing the right Minitab tool</h2>
+      <p>The right tool depends on two things: whether your data comes from a <strong>designed experiment</strong> or from <strong>historical production</strong>, and whether your X's are <strong>categorical or continuous</strong>.</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Which Minitab tool to use for each situation">
+        <table class="ixa-table">
+          <thead><tr><th scope="col">Your situation</th><th scope="col">Look first with</th><th scope="col">Test with</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Planned experiment, factors at set levels</th><td>Factorial Plots, Pareto of effects</td><td>2-level factorial DOE; Response Surface if there is curvature</td></tr>
+            <tr><th scope="row">Historical data, categorical X's</th><td>Multi-Vari Chart, Interaction Plot</td><td>General Linear Model with <code>A*B</code></td></tr>
+            <tr><th scope="row">Historical data, continuous X's</th><td>Scatterplot with groups, Contour Plot</td><td>Regression with <code>X1*X2</code>, predictors centered</td></tr>
+            <tr><th scope="row">One continuous X, one categorical X</th><td>Scatterplot with groups and fitted lines</td><td>General Linear Model with a covariate &times; factor term</td></tr>
+            <tr><th scope="row">Pass/fail response</th><td>Interaction Plot of the percent passing</td><td>Binary Logistic Regression with <code>A*B</code></td></tr>
+            <tr><th scope="row">Many X's, structure unknown</th><td>TreeNet two-predictor dependence plots</td><td>Confirm what the trees suggest with a model or a DOE</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="ixa-section" id="minitab-methods" aria-labelledby="methods-heading">
+      <h2 id="methods-heading">Minitab methods, step by step</h2>
+      <div class="ixa-method">
+        <div><p class="ixa-step">Step 1 · Start here</p><h3 id="visual-screening">Visual screening</h3></div>
+        <ul>
+          <li><strong>Interaction Plot</strong><code class="ixa-path">Stat → ANOVA → Interaction Plot</code> Non-parallel or crossing lines suggest an interaction. Pair it with <code class="ixa-path">Stat → ANOVA → Main Effects Plot</code> to see what averaging hides.</li>
+          <li><strong>Multi-Vari Chart</strong><code class="ixa-path">Stat → Quality Tools → Multi-Vari Chart</code> Works well on observational plant data before you commit to a model.</li>
+          <li><strong>Scatterplot with groups</strong><code class="ixa-path">Graph → Scatterplot → With Regression and Groups</code> Different slopes across groups indicate an interaction between a continuous X and a categorical X.</li>
+        </ul>
+      </div>
+      <div class="ixa-method">
+        <div><p class="ixa-step">Step 2 · Is it real?</p><h3 id="formal-testing">Formal testing</h3></div>
+        <ul>
+          <li><strong>Two-way ANOVA or GLM (categorical X's)</strong><code class="ixa-path">Stat → ANOVA → General Linear Model → Fit General Linear Model</code> Add <code>A*B</code> in the <em>Model</em> sub-dialog and read the p-value of the interaction term. <code class="ixa-path">Stat → ANOVA → General Linear Model → Factorial Plots</code> draws the fitted interaction plot.</li>
+          <li><strong>Regression with an interaction term (continuous X's)</strong><code class="ixa-path">Stat → Regression → Regression → Fit Regression Model</code> Add <code>X1*X2</code> in <em>Model</em>. Under <em>Coding</em>, choose <em>Subtract the mean</em> to keep VIF under control. <code class="ixa-path">Stat → Regression → Regression → Contour Plot</code> then shows the twisted surface.</li>
+          <li><strong>Binary Logistic Regression</strong><code class="ixa-path">Stat → Regression → Binary Logistic Regression → Fit Binary Logistic Model</code> Include <code>A*B</code> terms for pass/fail responses such as Charpy acceptance.</li>
+        </ul>
+      </div>
+      <div class="ixa-method">
+        <div><p class="ixa-step">Step 3 · Cleanest evidence</p><h3 id="designed-experiments">Designed experiments</h3></div>
+        <ul>
+          <li><strong>2-level factorial DOE</strong><code class="ixa-path">Stat → DOE → Factorial → Create Factorial Design</code> then <code class="ixa-path">Stat → DOE → Factorial → Analyze Factorial Design</code>. Use <code class="ixa-path">Stat → DOE → Factorial → Factorial Plots</code> for the interaction panel, and the <em>Pareto</em> or <em>Normal</em> plot of standardized effects to spot a significant AB effect.</li>
+          <li><strong>Response surface</strong><code class="ixa-path">Stat → DOE → Response Surface</code> Captures curvature plus the interaction. <em>Contour Plot</em> and <em>Surface Plot</em> show the twist in the surface, and <em>Response Optimizer</em> finds settings.</li>
+        </ul>
+      </div>
+      <div class="ixa-method">
+        <div><p class="ixa-step">Step 4 · Many X's</p><h3 id="exploratory-ml">Exploratory machine learning</h3></div>
+        <ul>
+          <li><strong>CART, Random Forests and TreeNet</strong><code class="ixa-path">Predictive Analytics Module → TreeNet® Regression → Fit Model</code> Tree models pick up interactions without being told, and TreeNet's two-predictor partial dependence plots are useful for messy plant data. These commands need Minitab's Predictive Analytics Module. Treat what they find as a hypothesis to confirm.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="ixa-section" id="worked-doe-example" aria-labelledby="doe-heading">
+      <h2 id="doe-heading">Worked example: a 2&times;2 DOE on Charpy energy</h2>
+      <p>Open <code>DOE_2x2</code> in the practice workbook (or the DOE CSV). The runs are listed in standard order with their randomized run order.</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="The 12 runs of the 2x2 Charpy experiment">
+        <table class="ixa-table is-num">
+          <thead><tr><th scope="col">StdOrder</th><th scope="col">RunOrder</th><th scope="col">Temperature (°C)</th><th scope="col">Nb (wt%)</th><th scope="col">A</th><th scope="col">B</th><th scope="col">Charpy (J)</th></tr></thead>
+          <tbody id="ixa-doe-rows">
+            <tr><th scope="row">1</th><td>3</td><td>820</td><td>0.020</td><td>−1</td><td>−1</td><td>133.1</td></tr>
+            <tr><th scope="row">2</th><td>8</td><td>880</td><td>0.020</td><td>+1</td><td>−1</td><td>87.8</td></tr>
+            <tr><th scope="row">3</th><td>9</td><td>820</td><td>0.040</td><td>−1</td><td>+1</td><td>135.5</td></tr>
+            <tr><th scope="row">4</th><td>6</td><td>880</td><td>0.040</td><td>+1</td><td>+1</td><td>128.0</td></tr>
+            <tr><th scope="row">5</th><td>4</td><td>820</td><td>0.020</td><td>−1</td><td>−1</td><td>141.6</td></tr>
+            <tr><th scope="row">6</th><td>12</td><td>880</td><td>0.020</td><td>+1</td><td>−1</td><td>88.7</td></tr>
+            <tr><th scope="row">7</th><td>5</td><td>820</td><td>0.040</td><td>−1</td><td>+1</td><td>136.0</td></tr>
+            <tr><th scope="row">8</th><td>2</td><td>880</td><td>0.040</td><td>+1</td><td>+1</td><td>127.8</td></tr>
+            <tr><th scope="row">9</th><td>10</td><td>820</td><td>0.020</td><td>−1</td><td>−1</td><td>137.2</td></tr>
+            <tr><th scope="row">10</th><td>7</td><td>880</td><td>0.020</td><td>+1</td><td>−1</td><td>87.5</td></tr>
+            <tr><th scope="row">11</th><td>11</td><td>820</td><td>0.040</td><td>−1</td><td>+1</td><td>127.4</td></tr>
+            <tr><th scope="row">12</th><td>1</td><td>880</td><td>0.040</td><td>+1</td><td>+1</td><td>125.4</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="doe-minitab-steps">Running it in Minitab</h3>
+      <ol class="ixa-steps">
+        <li>Paste the data into a worksheet. Choose <code class="ixa-path">Stat → DOE → Factorial → Define Custom Factorial Design</code>, select the temperature and Nb columns as factors, and set their low and high levels.</li>
+        <li>Choose <code class="ixa-path">Stat → DOE → Factorial → Analyze Factorial Design</code>, enter <code>Charpy_J</code> as the response, and under <em>Terms</em> include A, B and AB.</li>
+        <li>Under <em>Graphs</em>, tick <em>Pareto</em> and <em>Normal</em> effects plots and the residual four-in-one.</li>
+        <li>Choose <code class="ixa-path">Stat → DOE → Factorial → Factorial Plots</code> and select the interaction plot.</li>
+      </ol>
+      <h3 id="doe-output">What the output shows</h3>
+      <p>These are the values the practice data produces (Minitab rounds p-values below 0.0005 to 0.000):</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Coded coefficients for the Charpy DOE">
+        <table class="ixa-table is-num">
+          <thead><tr><th scope="col">Term</th><th scope="col">Effect</th><th scope="col">Coef</th><th scope="col">SE Coef</th><th scope="col">T-Value</th><th scope="col">P-Value</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Constant</th><td>–</td><td>121.333</td><td>0.956</td><td>126.94</td><td>0.000</td></tr>
+            <tr><th scope="row">A (temperature)</th><td>−27.600</td><td>−13.800</td><td>0.956</td><td>−14.44</td><td>0.000</td></tr>
+            <tr><th scope="row">B (Nb)</th><td>17.367</td><td>8.683</td><td>0.956</td><td>9.08</td><td>0.000</td></tr>
+            <tr><th scope="row">A&times;B</th><td>21.700</td><td>10.850</td><td>0.956</td><td>11.35</td><td>0.000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Analysis of variance for the Charpy DOE">
+        <table class="ixa-table is-num">
+          <thead><tr><th scope="col">Source</th><th scope="col">DF</th><th scope="col">Adj SS</th><th scope="col">Adj MS</th><th scope="col">F-Value</th><th scope="col">P-Value</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">A</th><td>1</td><td>2285.28</td><td>2285.28</td><td>208.43</td><td>0.000</td></tr>
+            <tr><th scope="row">B</th><td>1</td><td>904.80</td><td>904.80</td><td>82.52</td><td>0.000</td></tr>
+            <tr><th scope="row">A&times;B</th><td>1</td><td>1412.67</td><td>1412.67</td><td>128.84</td><td>0.000</td></tr>
+            <tr><th scope="row">Error</th><td>8</td><td>87.71</td><td>10.96</td><td>–</td><td>–</td></tr>
+            <tr><th scope="row">Total</th><td>11</td><td>4690.47</td><td>–</td><td>–</td><td>–</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="ixa-small ixa-muted">Model summary: S = 3.311, R-sq = 98.13%, R-sq(adj) = 97.43%. Minitab also prints Model, Linear and 2-Way Interactions subtotal rows; they are left out here.</p>
+      <p>Check the standard error with the formula from the hand-calculation section: \(\sqrt{10.96/12} = 0.956\). Every coefficient has the same standard error because the design is balanced and orthogonal.</p>
+      <div class="ixa-grid-2">
+        <figure class="ixa-fig ixa-card">
+          <svg viewBox="0 0 260 210" role="img" aria-labelledby="doe-plot-title">
+            <title id="doe-plot-title">Interaction plot of the practice data: at 0.040 percent Nb Charpy falls from 132.97 to 127.07 joules; at 0.020 percent Nb it falls from 137.30 to 88.00 joules.</title>
+            <line class="ixa-gr" x1="50" y1="30" x2="250" y2="30"/><line class="ixa-gr" x1="50" y1="70" x2="250" y2="70"/><line class="ixa-gr" x1="50" y1="110" x2="250" y2="110"/><line class="ixa-gr" x1="50" y1="150" x2="250" y2="150"/>
+            <text class="ixa-t-sm" x="44" y="33" text-anchor="end">140</text><text class="ixa-t-sm" x="44" y="73" text-anchor="end">120</text><text class="ixa-t-sm" x="44" y="113" text-anchor="end">100</text><text class="ixa-t-sm" x="44" y="153" text-anchor="end">80</text>
+            <line class="ixa-ax" x1="50" y1="20" x2="50" y2="165"/><line class="ixa-ax" x1="50" y1="165" x2="250" y2="165"/>
+            <line class="ixa-l1" x1="80" y1="44.07" x2="220" y2="55.87"/><line class="ixa-l2" x1="80" y1="35.4" x2="220" y2="134"/>
+            <circle class="ixa-d1" cx="80" cy="44.07" r="4.5"/><circle class="ixa-d1" cx="220" cy="55.87" r="4.5"/>
+            <circle class="ixa-d2" cx="80" cy="35.4" r="4.5"/><circle class="ixa-d2" cx="220" cy="134" r="4.5"/>
+            <text class="ixa-t-sm" x="80" y="180" text-anchor="middle">820 °C</text><text class="ixa-t-sm" x="220" y="180" text-anchor="middle">880 °C</text>
+            <text class="ixa-t1" x="150" y="40">0.040 % Nb</text><text class="ixa-t2" x="92" y="120">0.020 % Nb</text>
+            <text class="ixa-t-sm" x="150" y="202" text-anchor="middle">Mean Charpy (J) by temperature</text>
+          </svg>
+          <figcaption>The lines are far from parallel, which is what the AB p-value says formally.</figcaption>
+        </figure>
+        <div class="ixa-callout">
+          <p class="ixa-lead">How to write up the finding</p>
+          <p>"Finishing temperature and Nb interact (p &lt; 0.001). At 0.020% Nb, raising the finishing temperature from 820 to 880 °C lowers mean Charpy energy by 49.3 J. At 0.040% Nb the same change lowers it by only 5.9 J."</p>
+          <p>Report the simple effects. "Temperature lowers Charpy by 27.6 J" is the main effect, and it is true of neither Nb level.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ixa-section" id="centering-and-vif" aria-labelledby="vif-heading">
+      <h2 id="vif-heading">Continuous X's: centering and VIF</h2>
+      <p>With continuous predictors in raw units, the product term \(X_1 X_2\) is almost a copy of \(X_1\) and \(X_2\) themselves, because both are far from zero. That creates collinearity even when the two X's are unrelated. The variance inflation factor measures it:</p>
+      <div class="ixa-formula">\[ \text{VIF}_j = \frac{1}{1 - R_j^2} \]</div>
+      <p>where \(R_j^2\) is the R-squared from regressing predictor \(j\) on all the other predictors. A VIF above about 5 to 10 is usually treated as a problem. Centering, which means subtracting each predictor's mean before forming the product, removes the artificial part.</p>
+      <p>The <code>Historical_Heats</code> sheet holds 40 heats with recorded finishing temperature, Nb and Charpy energy. Temperature and Nb are almost uncorrelated (\(r = -0.07\)). Switch between raw and centered predictors:</p>
+      <div class="ixa-lab" role="group" aria-label="Centering and VIF demonstration">
+        <div>
+          <p class="ixa-plot-title">VIF of each term (log scale)</p>
+          <svg id="ixa-vif-plot" viewBox="0 0 300 190" role="img" aria-labelledby="ixa-vif-title">
+            <title id="ixa-vif-title">VIF by term</title>
+            <g id="ixa-vif-grid"></g>
+            <g id="ixa-vif-bars"></g>
+          </svg>
+        </div>
+        <div class="ixa-controls">
+          <div class="ixa-btns" role="group" aria-label="Predictor coding">
+            <button type="button" class="ixa-btn" id="ixa-vif-raw" aria-pressed="true">Raw units</button>
+            <button type="button" class="ixa-btn" id="ixa-vif-cen" aria-pressed="false">Centered (subtract the mean)</button>
+          </div>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Regression coefficients for the historical heats">
+            <table class="ixa-table is-num is-compact">
+              <thead><tr><th scope="col">Term</th><th scope="col">Coef</th><th scope="col">SE Coef</th><th scope="col">VIF</th></tr></thead>
+              <tbody id="ixa-vif-table"></tbody>
+            </table>
+          </div>
+          <p id="ixa-vif-note" class="ixa-verdict" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+      <p>Two things to notice. First, the VIFs in raw units come from the product term, not from any relationship between temperature and Nb. Second, centering does not change the interaction coefficient (32.21 J per °C per wt% Nb) or its p-value (0.0003). It only stabilizes the main-effect coefficients, whose standard errors shrink dramatically. In Minitab, set this under <em>Coding</em> in <code class="ixa-path">Stat → Regression → Regression → Fit Regression Model</code>.</p>
+    </section>
+
+    <section class="ixa-section" id="association-vs-interaction" aria-labelledby="assoc-heading">
+      <h2 id="assoc-heading">Association vs. interaction</h2>
+      <p><strong>Association</strong> is a two-variable idea: X and Y move together. <strong>Interaction</strong> is a three-variable idea: the effect of \(X_1\) on Y depends on the level of \(X_2\). Interaction always needs a response variable; association doesn't.</p>
+      <div class="ixa-grid-2">
+        <div class="ixa-card">
+          <h3 id="assoc-card">Association: 2 variables</h3>
+          <dl class="ixa-kv">
+            <div><dt>The question</dt><dd>When finishing temperature goes up, does Charpy energy tend to go down?</dd></div>
+            <div><dt>Minitab tools</dt><dd>Correlation, scatterplot, chi-square. <code class="ixa-path">Stat → Basic Statistics → Correlation</code> for continuous variables, <code class="ixa-path">Stat → Tables → Cross Tabulation and Chi-Square</code> for categorical ones.</dd></div>
+            <div><dt>The answer</dt><dd>One relationship, with one direction and strength.</dd></div>
+          </dl>
+        </div>
+        <div class="ixa-card">
+          <h3 id="interaction-card">Interaction: 3 variables</h3>
+          <dl class="ixa-kv">
+            <div><dt>The question</dt><dd>Does finishing temperature affect Charpy energy <em>differently</em> for high-Nb heats vs. low-Nb heats?</dd></div>
+            <div><dt>Minitab tools</dt><dd>An <code>A*B</code> term in ANOVA, regression or a DOE.</dd></div>
+            <div><dt>The answer</dt><dd>A relationship that changes with context: non-parallel lines.</dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <h3 id="independent-ideas">The two are independent of each other</h3>
+      <p>Knowing whether two X's are correlated tells you nothing about whether they interact on Y, and the reverse.</p>
+      <div class="ixa-grid-2">
+        <figure class="ixa-fig ixa-card">
+          <span class="ixa-tag is-hot">Interaction without association</span>
+          <svg viewBox="0 0 320 140" role="img" aria-labelledby="ind-1-title">
+            <title id="ind-1-title">Left: four design points at the corners of a square, correlation zero. Right: crossing lines showing a strong interaction.</title>
+            <line class="ixa-ax" x1="24" y1="12" x2="24" y2="112"/><line class="ixa-ax" x1="24" y1="112" x2="140" y2="112"/>
+            <circle class="ixa-pt" cx="48" cy="34" r="5"/><circle class="ixa-pt" cx="118" cy="34" r="5"/><circle class="ixa-pt" cx="48" cy="92" r="5"/><circle class="ixa-pt" cx="118" cy="92" r="5"/>
+            <text class="ixa-t-sm" x="82" y="128" text-anchor="middle">A</text><text class="ixa-t-sm" x="12" y="64" text-anchor="middle">B</text><text class="ixa-t-sm" x="82" y="66" text-anchor="middle">r = 0</text>
+            <line class="ixa-ax" x1="184" y1="12" x2="184" y2="112"/><line class="ixa-ax" x1="184" y1="112" x2="308" y2="112"/>
+            <line class="ixa-l1" x1="200" y1="92" x2="292" y2="30"/><line class="ixa-l2" x1="200" y1="30" x2="292" y2="92"/>
+            <text class="ixa-t-sm" x="246" y="128" text-anchor="middle">A → Y</text><text class="ixa-t1" x="262" y="24">B+</text><text class="ixa-t2" x="262" y="106">B−</text>
+          </svg>
+          <figcaption>In a balanced 2&times;2 DOE, A and B are perfectly uncorrelated by design, yet A&times;B can be the largest effect in the model.</figcaption>
+        </figure>
+        <figure class="ixa-fig ixa-card">
+          <span class="ixa-tag">Association without interaction</span>
+          <svg viewBox="0 0 320 140" role="img" aria-labelledby="ind-2-title">
+            <title id="ind-2-title">Left: carbon and manganese rising together, strongly correlated. Right: two parallel lines, no interaction on hardness.</title>
+            <line class="ixa-ax" x1="24" y1="12" x2="24" y2="112"/><line class="ixa-ax" x1="24" y1="112" x2="140" y2="112"/>
+            <circle class="ixa-pt" cx="34" cy="100" r="3.5"/><circle class="ixa-pt" cx="44" cy="94" r="3.5"/><circle class="ixa-pt" cx="50" cy="88" r="3.5"/><circle class="ixa-pt" cx="58" cy="86" r="3.5"/><circle class="ixa-pt" cx="66" cy="76" r="3.5"/><circle class="ixa-pt" cx="74" cy="72" r="3.5"/>
+            <circle class="ixa-pt" cx="82" cy="64" r="3.5"/><circle class="ixa-pt" cx="90" cy="58" r="3.5"/><circle class="ixa-pt" cx="98" cy="54" r="3.5"/><circle class="ixa-pt" cx="108" cy="44" r="3.5"/><circle class="ixa-pt" cx="118" cy="38" r="3.5"/><circle class="ixa-pt" cx="128" cy="28" r="3.5"/>
+            <text class="ixa-t-sm" x="82" y="128" text-anchor="middle">C %</text><text class="ixa-t-sm" x="12" y="64" text-anchor="middle">Mn</text><text class="ixa-t-sm" x="34" y="26">r ≈ 0.96</text>
+            <line class="ixa-ax" x1="184" y1="12" x2="184" y2="112"/><line class="ixa-ax" x1="184" y1="112" x2="308" y2="112"/>
+            <line class="ixa-l1" x1="200" y1="70" x2="292" y2="26"/><line class="ixa-l2" x1="200" y1="96" x2="292" y2="52"/>
+            <text class="ixa-t-sm" x="246" y="128" text-anchor="middle">C → hardness</text><text class="ixa-t1" x="210" y="50">Mn high</text><text class="ixa-t2" x="240" y="94">Mn low</text>
+          </svg>
+          <figcaption>Carbon and Mn are strongly correlated in the practice heats, yet each adds its own effect to hardness the same way regardless of the other. The lines stay parallel.</figcaption>
+        </figure>
+      </div>
+
+      <h3 id="assoc-lab">Association and interaction lab</h3>
+      <p>Set how strongly \(X_1\) and \(X_2\) are correlated, and separately how strongly they interact on Y. The two dials are independent, and so are the two pictures.</p>
+      <div class="ixa-lab" role="group" aria-label="Association and interaction lab">
+        <div class="ixa-plots is-pair">
+          <div>
+            <p class="ixa-plot-title">X1 vs. X2 (80 points)</p>
+            <svg id="ixa-al-scatter" viewBox="0 0 220 220" role="img" aria-labelledby="ixa-al-scatter-title">
+              <title id="ixa-al-scatter-title">Scatterplot of X1 against X2</title>
+              <line class="ixa-ax" x1="20" y1="10" x2="20" y2="200"/><line class="ixa-ax" x1="20" y1="200" x2="210" y2="200"/>
+              <g id="ixa-al-points"></g>
+              <text class="ixa-t-sm" x="115" y="216" text-anchor="middle">X1</text>
+            </svg>
+          </div>
+          <div>
+            <p class="ixa-plot-title">Effect of X1 on Y</p>
+            <svg id="ixa-al-int" viewBox="0 0 220 220" role="img" aria-labelledby="ixa-al-int-title">
+              <title id="ixa-al-int-title">Interaction plot of X1 by X2</title>
+              <line class="ixa-ax" x1="20" y1="10" x2="20" y2="200"/><line class="ixa-ax" x1="20" y1="200" x2="210" y2="200"/>
+              <line id="ixa-al-lo" class="ixa-l2" x1="40" y1="105" x2="190" y2="105"/><line id="ixa-al-hi" class="ixa-l1" x1="40" y1="105" x2="190" y2="105"/>
+              <text class="ixa-t1" x="30" y="24">— X2 high</text><text class="ixa-t2" x="120" y="24">- - X2 low</text>
+              <text class="ixa-t-sm" x="115" y="216" text-anchor="middle">X1 low → high</text>
+            </svg>
+          </div>
+        </div>
+        <div class="ixa-controls">
+          <div class="ixa-ctl"><label for="ixa-al-rho">Correlation between X1 and X2 <output id="ixa-al-rho-out" for="ixa-al-rho">0.00</output></label><input id="ixa-al-rho" type="range" min="-0.95" max="0.95" step="0.05" value="0"></div>
+          <div class="ixa-ctl"><label for="ixa-al-int-s">Interaction coefficient <output id="ixa-al-int-out" for="ixa-al-int-s">4</output></label><input id="ixa-al-int-s" type="range" min="-6" max="6" step="1" value="4"></div>
+          <dl class="ixa-readout">
+            <dt>Sample correlation r</dt><dd id="ixa-al-r">0.00</dd>
+            <dt>Slope of X1 at X2 low</dt><dd id="ixa-al-slo">0</dd>
+            <dt>Slope of X1 at X2 high</dt><dd id="ixa-al-shi">8</dd>
+          </dl>
+          <div id="ixa-al-verdict" class="ixa-verdict" role="status" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <h3 id="collinearity-mixup">The common mix-up: collinearity</h3>
+      <div class="ixa-callout is-amber">
+        <p>When people say "these two variables interact," they often mean the two X's are correlated. That is <strong>collinearity</strong>, a data problem that inflates VIF and muddies coefficients. <strong>Interaction</strong> is a real effect on Y that you put in the model on purpose.</p>
+      </div>
+      <p>The practice heats show both ideas at once. Carbon and manganese are strongly associated (\(r = 0.956\), VIF = 11.6 in a two-predictor model), but the C&times;Mn term in a hardness model is nowhere near significant (p = 0.80). The two elements are collinear and do not interact. Temperature and Nb are the opposite case: unrelated (\(r = -0.07\)) and strongly interacting on Charpy energy (p = 0.0003).</p>
+    </section>
+
+    <section class="ixa-section" id="spot-the-interaction" aria-labelledby="spot-heading">
+      <h2 id="spot-heading">Practice drill: spot the interaction</h2>
+      <p>Each plot shows four cell means. Decide whether the plot shows an interaction worth testing, then check your answer.</p>
+      <div class="ixa-drill" id="ixa-drill"></div>
+      <p id="ixa-drill-score" class="ixa-small ixa-muted" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="ixa-section" id="reading-results" aria-labelledby="reading-heading">
+      <h2 id="reading-heading">Reading interaction results correctly</h2>
+      <div class="ixa-callout">
+        <ul>
+          <li>If \(A \times B\) is significant, don't interpret the main effects on their own. Describe the effect with the interaction plot, the contour plot or the simple effects.</li>
+          <li>Keep the model hierarchical: retain A and B even if they aren't significant on their own.</li>
+          <li>Check residuals and VIF. With historical data, correlated X's can create or hide apparent interactions, which is where a DOE earns its keep.</li>
+          <li>Separate statistical from practical significance. A tiny interaction can be significant with lots of data; ask whether the change in simple effects matters to the process.</li>
+          <li>Interactions can depend on the scale of Y. A multiplicative process can show an interaction in raw units that disappears after a log transform. Say which scale you analyzed.</li>
+          <li>Don't extrapolate. An interaction found between 820 and 880 °C says nothing about 900 °C.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="ixa-section" id="statistics-implementation" aria-labelledby="impl-heading">
+      <h2 id="impl-heading">Statistics Implementation</h2>
+
+      <h3 id="excel-functions">Excel Functions</h3>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Excel functions for interaction and association analysis">
+        <table class="ixa-table">
+          <thead><tr><th scope="col">Function</th><th scope="col">Syntax</th><th scope="col">Purpose</th><th scope="col">When to use it</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>AVERAGEIFS</code></th><td><code>AVERAGEIFS(average_range, criteria_range1, criteria1, …)</code></td><td>Mean of the rows that meet every condition</td><td>Cell means and main-effect averages of a factorial design</td></tr>
+            <tr><th scope="row"><code>SUMPRODUCT</code></th><td><code>SUMPRODUCT(array1, [array2], …)</code></td><td>Sum of element-wise products</td><td>Contrasts: multiply the coded AB column by Y and divide by half the runs</td></tr>
+            <tr><th scope="row"><code>LINEST</code></th><td><code>LINEST(known_y's, [known_x's], [const], [stats])</code></td><td>Least-squares coefficients, with regression statistics when <code>stats</code> is TRUE</td><td>Fitting a model with a product column; coefficients come back in reverse column order</td></tr>
+            <tr><th scope="row"><code>INDEX</code></th><td><code>INDEX(array, row_num, [column_num])</code></td><td>One value from an array</td><td>Pulling a single coefficient or R-squared out of <code>LINEST</code></td></tr>
+            <tr><th scope="row"><code>CORREL</code></th><td><code>CORREL(array1, array2)</code></td><td>Pearson correlation coefficient</td><td>Checking association between two X's or between X and Y</td></tr>
+            <tr><th scope="row"><code>RSQ</code></th><td><code>RSQ(known_y's, known_x's)</code></td><td>R-squared of a one-predictor regression</td><td>Two-predictor VIF: <code>=1/(1-RSQ(x1, x2))</code></td></tr>
+            <tr><th scope="row"><code>T.DIST.2T</code></th><td><code>T.DIST.2T(x, deg_freedom)</code></td><td>Two-tailed t probability (x must be non-negative)</td><td>p-value of a coefficient from its t-value</td></tr>
+            <tr><th scope="row"><code>F.DIST.RT</code></th><td><code>F.DIST.RT(x, deg_freedom1, deg_freedom2)</code></td><td>Right-tailed F probability</td><td>p-value of an ANOVA F-value</td></tr>
+            <tr><th scope="row"><code>CHISQ.TEST</code></th><td><code>CHISQ.TEST(actual_range, expected_range)</code></td><td>p-value of a chi-square test</td><td>Association between two categorical variables</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="excel-use-cases">Excel Use Cases</h3>
+      <p>The <code>Effects_Worksheet</code> tab of the practice workbook contains every formula below, live. On <code>DOE_2x2</code>, columns E, F, G and H hold A, B, AB and Charpy for rows 2 to 13.</p>
+      <ul class="ixa-takeaways">
+        <li><strong>Cell mean (A low, B low):</strong> <code>=AVERAGEIFS(H2:H13, E2:E13, -1, F2:F13, -1)</code> returns 137.30.</li>
+        <li><strong>AB effect:</strong> <code>=AVERAGEIFS(H2:H13, G2:G13, 1) - AVERAGEIFS(H2:H13, G2:G13, -1)</code> returns 21.70. The equivalent contrast is <code>=SUMPRODUCT(G2:G13, H2:H13)/6</code>.</li>
+        <li><strong>AB coefficient from regression:</strong> <code>=INDEX(LINEST(H2:H13, E2:G13), 1, 1)</code> returns 10.85, half the effect.</li>
+        <li><strong>p-value of the AB F-test:</strong> <code>=F.DIST.RT(128.84, 1, 8)</code> returns about 0.000003.</li>
+        <li><strong>Association of C and Mn:</strong> on <code>Historical_Heats</code>, <code>=CORREL(D2:D41, E2:E41)</code> returns 0.956 and <code>=1/(1-RSQ(D2:D41, E2:E41))</code> returns a VIF of 11.6.</li>
+      </ul>
+
+      <h3 id="minitab-navigation">Minitab Navigation</h3>
+      <ul class="ixa-takeaways">
+        <li><code>Stat → ANOVA → Interaction Plot</code> and <code>Stat → ANOVA → Main Effects Plot</code>: first look at any categorical factors.</li>
+        <li><code>Stat → Quality Tools → Multi-Vari Chart</code>: screening observational data by factor level.</li>
+        <li><code>Graph → Scatterplot → With Regression and Groups</code>: slope differences between groups.</li>
+        <li><code>Stat → ANOVA → General Linear Model → Fit General Linear Model</code>: unbalanced or historical data with categorical factors and covariates. Add <code>A*B</code> in <em>Model</em>.</li>
+        <li><code>Stat → Regression → Regression → Fit Regression Model</code>: continuous X's. Add <code>X1*X2</code> in <em>Model</em> and choose <em>Subtract the mean</em> in <em>Coding</em>. Follow with <code>Stat → Regression → Regression → Contour Plot</code>.</li>
+        <li><code>Stat → Regression → Binary Logistic Regression → Fit Binary Logistic Model</code>: pass/fail responses.</li>
+        <li><code>Stat → DOE → Factorial → Analyze Factorial Design</code> and <code>Stat → DOE → Factorial → Factorial Plots</code>: designed experiments. Use <code>Define Custom Factorial Design</code> first when the data was not created in Minitab.</li>
+        <li><code>Predictive Analytics Module → TreeNet® Regression → Fit Model</code>: many predictors; requires the module.</li>
+        <li><code>Stat → Basic Statistics → Correlation</code> and <code>Stat → Tables → Cross Tabulation and Chi-Square</code>: association only.</li>
+      </ul>
+      <p>Choose the DOE route when you ran the experiment; it gives balanced, uncorrelated estimates. Choose GLM or regression for historical data, and treat any interaction found there as a lead to confirm.</p>
+
+      <h3 id="exam-tips">Exam Tips</h3>
+      <ul class="ixa-takeaways">
+        <li>The ASQ CSSBB and CQE bodies of knowledge both cover factorial designs and regression. Expect questions that give four cell means and ask for an effect or the interaction effect.</li>
+        <li>Know the factor of two: Effect = 2 &times; Coef for coded factors. A common distractor offers the coefficient when the question asks for the effect.</li>
+        <li>Non-parallel lines suggest interaction; parallel lines suggest none. Crossing lines are a stronger form of interaction, not a different concept.</li>
+        <li>Correlation between predictors is multicollinearity, not interaction. Watch for answer options that swap the two.</li>
+        <li>In practice, report simple effects whenever the interaction is significant, and confirm interactions from historical data with a designed experiment.</li>
+      </ul>
+    </section>
+
+    <section class="ixa-section" id="practice-questions" aria-labelledby="practice-heading">
+      <h2 id="practice-heading">Worked practice questions</h2>
+      <details class="ixa-details">
+        <summary>Your GLM shows A&times;B with p = 0.002 and factor A with p = 0.41. Can you drop A from the model?</summary>
+        <div class="ixa-ans"><p><strong>No.</strong> Keep the model hierarchical. And don't conclude A has no effect: a non-significant main effect alongside a significant interaction often means A's effect reverses direction across B levels. Read the interaction plot.</p></div>
+      </details>
+      <details class="ixa-details">
+        <summary>Two X's in your historical data have r = 0.92. Does that mean they interact?</summary>
+        <div class="ixa-ans"><p><strong>No.</strong> That is association between the X's (collinearity). It inflates VIF and makes their separate effects hard to estimate. Whether they interact on Y is a different question, answered by an \(X_1 X_2\) term.</p></div>
+      </details>
+      <details class="ixa-details">
+        <summary>Why is a 2&times;2 factorial DOE the cleanest way to establish an interaction?</summary>
+        <div class="ixa-ans"><p>The design is <strong>orthogonal</strong>: A, B and AB are uncorrelated by construction, so each effect is estimated independently. Randomization also protects against lurking variables that can fake an interaction in historical data.</p></div>
+      </details>
+      <details class="ixa-details">
+        <summary>You fit X1*X2 on continuous predictors and VIF jumps to 25. What do you change?</summary>
+        <div class="ixa-ans"><p>Center or standardize the predictors (<em>Coding</em> in Fit Regression Model). The product of uncentered variables is highly correlated with X1 and X2 themselves; centering removes most of that artificial collinearity.</p></div>
+      </details>
+      <details class="ixa-details">
+        <summary>In Minitab's DOE output, the coded coefficient for AB is 3.5. What is the AB effect?</summary>
+        <div class="ixa-ans"><p><strong>7.0.</strong> Effect = 2 &times; coefficient, because each factor moves two coded units from \(-1\) to \(+1\).</p></div>
+      </details>
+    </section>
+
+    <section class="ixa-section" id="key-takeaways" aria-labelledby="takeaways-heading">
+      <h2 id="takeaways-heading">Key takeaways</h2>
+      <ul class="ixa-takeaways">
+        <li>An interaction means the effect of one X on Y depends on another X. Look for non-parallel lines; in the model, the slope of \(X_1\) is \(\beta_1 + \beta_{12} X_2\).</li>
+        <li>Screen visually (Interaction Plot, Multi-Vari, grouped scatterplot), then test the \(A \times B\) term in GLM, regression or a DOE.</li>
+        <li>When the interaction is significant, describe effects through simple effects or the interaction plot, not main effects alone.</li>
+        <li>Center continuous predictors before forming a product term. It fixes the VIF without changing the interaction estimate.</li>
+        <li>Association is two variables moving together. Interaction needs a response and a third variable. Correlated X's are collinearity, not interaction.</li>
+      </ul>
+    </section>
+
+    <style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Parallel lines mean the effect of A is the same at every level of B, which is the definition of no interaction. Non-parallel or crossing lines are what suggest an interaction.">
+        <legend>1. On a Minitab interaction plot, the two lines are almost parallel. What does that suggest?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> A strong interaction between A and B</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> A and B are highly correlated</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> Little or no interaction: the effect of A is about the same at both B levels</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="d"> Neither factor has a main effect</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="For factors coded -1 and +1, Minitab reports Effect = 2 × Coef, because each factor moves two coded units. A coefficient of 3.5 is an effect of 7.0.">
+        <legend>2. Minitab's coded coefficient for AB is 3.5. What is the AB effect?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> 1.75</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> 7.0</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> 3.5</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="d"> 12.25</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="Keep the model hierarchical and describe the effect through the interaction plot or simple effects. A large interaction with a small main effect often means the effect of A reverses direction across B.">
+        <legend>3. A GLM shows A × B with p = 0.002 and A with p = 0.41. What should you do?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> Keep A in the model and interpret A through the interaction plot or simple effects</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> Drop A because it is not significant</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Drop A × B because A is not significant</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="d"> Conclude A has no effect on Y</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="d" data-explanation="A correlation between two predictors is association between the X's, also called collinearity. It says nothing about whether the effect of one X on Y depends on the other.">
+        <legend>4. Two predictors in historical data have r = 0.92. What does this tell you?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> They interact strongly on Y</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> At least one of them has no effect on Y</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> The interaction term must be included in the model</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="d"> They are collinear, which inflates VIF, but it says nothing about interaction</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="The product of two uncentered predictors is nearly a copy of the predictors themselves. Subtracting the mean (Coding in Fit Regression Model) removes that artificial collinearity and leaves the interaction estimate unchanged.">
+        <legend>5. You add X1*X2 to a regression on temperature (°C) and Nb (wt%), and the VIFs jump into the thousands. What is the best fix?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> Remove the interaction term</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> Center the predictors by subtracting their means before forming the product</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> Collect more data until the VIFs fall</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="d"> Switch to a Multi-Vari chart</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Effect AB = (137.30 + 127.07)/2 - (88.00 + 132.97)/2 = 132.18 - 110.48 = 21.70 J. It compares the cells where A and B are at the same level with the cells where they differ.">
+        <legend>6. Cell means are 137.30 (A-, B-), 88.00 (A+, B-), 132.97 (A-, B+) and 127.07 (A+, B+). What is the AB effect?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> -27.60 J</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> 17.37 J</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> 21.70 J</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="d"> 10.85 J</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="Inside the low-Nb cells, temperature moves Charpy from 137.30 to 88.00 J, a simple effect of -49.3 J. The main effect of -27.6 J averages this with the -5.9 J at high Nb.">
+        <legend>7. Using the same cell means, what is the simple effect of temperature (A) at low Nb?</legend>
+        <label class="quiz-option"><input type="radio" name="q7" value="a"> -49.3 J</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="b"> -27.6 J</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="c"> -5.9 J</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="d"> -13.8 J</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="A balanced, randomized factorial design makes A, B and AB orthogonal, so each effect is estimated independently, and randomization protects against lurking variables. Historical data can only point to an interaction worth confirming.">
+        <legend>8. Which source gives the strongest evidence that an interaction is real?</legend>
+        <label class="quiz-option"><input type="radio" name="q8" value="a"> A TreeNet partial dependence plot on two years of plant data</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="b"> A balanced, randomized 2×2 factorial experiment with replicates</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="c"> A high correlation between the two factors</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="d"> A Multi-Vari chart of historical heats</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+    <section class="ixa-section" id="references" aria-labelledby="refs-heading">
+      <h2 id="refs-heading">References</h2>
+      <ul class="ixa-refs">
+        <li>Montgomery, D. C. <em>Design and Analysis of Experiments</em>. Wiley.</li>
+        <li>Box, G. E. P., Hunter, J. S., and Hunter, W. G. <em>Statistics for Experimenters</em>. Wiley.</li>
+        <li>Kutner, M. H., Nachtsheim, C. J., Neter, J., and Li, W. <em>Applied Linear Statistical Models</em>. McGraw-Hill.</li>
+        <li><a href="https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/regression/how-to/fit-regression-model/perform-the-analysis/specify-the-coding-scheme">Minitab Support: coding for continuous variables in Fit Regression Model</a></li>
+        <li><a href="https://support.minitab.com/en-us/minitab/help-and-how-to/statistical-modeling/using-fitted-models/how-to/contour-plot/before-you-start/example-with-a-regression-model">Minitab Support: contour plot with a regression model</a></li>
+      </ul>
+    </section>
+
+    <section class="related-lessons" style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);">
+      <h2>Related lessons</h2>
+      <ul>
+        <li><a href="/lessons/introduction-to-design-of-experiment-doe">Introduction to Design of Experiment (DOE)</a> — builds the factorial designs this lesson analyzes.</li>
+        <li><a href="/lessons/two-way-anova">Two-Way ANOVA lesson</a> — the ANOVA table behind a two-factor interaction test.</li>
+        <li><a href="/lessons/statistics/choosing-the-right-regression-analysis-in-minitab">Choosing the Right Regression Analysis in Minitab</a> — where interaction terms fit among regression methods.</li>
+        <li><a href="/lessons/statistics/pearson-spearman-kendall-correlation-coefficients">Pearson, Spearman and Kendall correlation lesson</a> — measuring association properly.</li>
+        <li><a href="/lessons/power-bi-excel-sql/introduction-to-symmetry-variability-and-multi-vari-charts-in-minitab">Symmetry, Variability and Multi-Vari Charts in Minitab</a> — the screening chart used in Step 1.</li>
+      </ul>
+    </section>
+
+  </div>
+</main>
+
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#lean-six-sigma" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Lean Six Sigma lessons</a>
+</section>
+
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img class="logo-wordmark" src="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var NS = 'http://www.w3.org/2000/svg';
+  /* Fictitious practice data; identical to the downloadable CSV files. */
+  /* [StdOrder, RunOrder, A, B, Charpy_J] */
+  var DOE_ROWS = [[1, 3, -1, -1, 133.1], [2, 8, 1, -1, 87.8], [3, 9, -1, 1, 135.5], [4, 6, 1, 1, 128.0], [5, 4, -1, -1, 141.6], [6, 12, 1, -1, 88.7], [7, 5, -1, 1, 136.0], [8, 2, 1, 1, 127.8], [9, 10, -1, -1, 137.2], [10, 7, 1, -1, 87.5], [11, 11, -1, 1, 127.4], [12, 1, 1, 1, 125.4]];
+  /* [FinishTemp_C, Nb_wt_pct, C_wt_pct, Mn_wt_pct, Charpy_J, Hardness_HV10] */
+  var HEATS = [[861, 0.03, 0.108, 1.6, 111.3, 184], [829, 0.028, 0.108, 1.57, 126.0, 182], [883, 0.03, 0.091, 1.24, 100.8, 166], [823, 0.022, 0.077, 1.24, 125.7, 151], [851, 0.023, 0.063, 1.01, 108.5, 132], [861, 0.031, 0.083, 1.28, 120.5, 164], [849, 0.036, 0.085, 1.3, 126.5, 157], [861, 0.039, 0.063, 0.96, 124.5, 135], [836, 0.03, 0.063, 1.07, 128.8, 141], [857, 0.037, 0.12, 1.63, 131.5, 195], [880, 0.018, 0.099, 1.5, 86.3, 179], [833, 0.026, 0.074, 1.12, 133.0, 156], [846, 0.032, 0.086, 1.35, 134.2, 163], [826, 0.035, 0.118, 1.56, 136.7, 187], [858, 0.023, 0.114, 1.57, 118.5, 182], [875, 0.026, 0.111, 1.51, 106.0, 186], [859, 0.039, 0.084, 1.38, 125.6, 164], [816, 0.034, 0.09, 1.38, 126.6, 171], [879, 0.031, 0.101, 1.61, 105.1, 183], [866, 0.022, 0.064, 1.13, 95.9, 141], [856, 0.038, 0.093, 1.43, 137.0, 169], [871, 0.021, 0.076, 1.26, 100.6, 153], [846, 0.036, 0.113, 1.54, 121.5, 190], [824, 0.022, 0.064, 1.09, 134.0, 140], [847, 0.025, 0.101, 1.54, 119.9, 183], [856, 0.025, 0.112, 1.55, 106.6, 199], [846, 0.033, 0.074, 1.2, 126.6, 155], [875, 0.03, 0.114, 1.59, 116.9, 184], [846, 0.021, 0.112, 1.61, 115.0, 200], [816, 0.026, 0.061, 1.04, 144.3, 140], [876, 0.032, 0.102, 1.46, 108.1, 175], [833, 0.034, 0.06, 1.06, 132.7, 143], [847, 0.021, 0.09, 1.36, 120.2, 168], [879, 0.021, 0.086, 1.26, 89.0, 159], [821, 0.03, 0.072, 1.22, 139.0, 149], [876, 0.039, 0.079, 1.16, 119.2, 149], [828, 0.023, 0.108, 1.46, 139.0, 183], [877, 0.02, 0.079, 1.16, 90.2, 159], [878, 0.021, 0.069, 1.2, 87.6, 148], [867, 0.032, 0.102, 1.45, 113.5, 181]];
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, attrs, parent) {
+    var n = document.createElementNS(NS, tag);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  function setAttrs(id, attrs) { var n = $(id); if (!n) return; for (var k in attrs) n.setAttribute(k, attrs[k]); }
+  function signed(v, d) { var s = v.toFixed(d === undefined ? 0 : d); if (Number(s) === 0) s = (0).toFixed(d === undefined ? 0 : d); return (Number(s) > 0 ? '+' : '') + s.replace('-', '−'); }
+  function num(v, d) { return v.toFixed(d).replace('-', '−'); }
+
+  /* ---------- linear algebra ---------- */
+  function solve(A, b) {
+    var n = b.length, M = A.map(function (r, i) { return r.slice().concat([b[i]]); });
+    for (var c = 0; c < n; c++) {
+      var p = c;
+      for (var r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r;
+      var t = M[c]; M[c] = M[p]; M[p] = t;
+      for (r = 0; r < n; r++) {
+        if (r === c) continue;
+        var f = M[r][c] / M[c][c];
+        for (var k = c; k <= n; k++) M[r][k] -= f * M[c][k];
+      }
+    }
+    return M.map(function (r, i) { return r[n] / r[i]; });
+  }
+  function inverse(A) {
+    var n = A.length;
+    return A.map(function (_, j) { var e = A.map(function (__, i) { return i === j ? 1 : 0; }); return solve(A, e); })
+      .reduce(function (inv, col, j) { col.forEach(function (v, i) { inv[i][j] = v; }); return inv; }, A.map(function () { return new Array(n); }));
+  }
+  /* Ordinary least squares with an intercept. cols: array of predictor arrays. */
+  function ols(cols, y) {
+    var n = y.length, p = cols.length + 1, X = [];
+    for (var i = 0; i < n; i++) X.push([1].concat(cols.map(function (c) { return c[i]; })));
+    var XtX = [], Xty = [];
+    for (var a = 0; a < p; a++) {
+      XtX.push([]); Xty.push(0);
+      for (var b = 0; b < p; b++) { var s = 0; for (i = 0; i < n; i++) s += X[i][a] * X[i][b]; XtX[a].push(s); }
+      for (i = 0; i < n; i++) Xty[a] += X[i][a] * y[i];
+    }
+    var beta = solve(XtX, Xty), sse = 0, mean = y.reduce(function (s, v) { return s + v; }, 0) / n, sst = 0;
+    for (i = 0; i < n; i++) {
+      var fit = 0; for (a = 0; a < p; a++) fit += X[i][a] * beta[a];
+      sse += (y[i] - fit) * (y[i] - fit); sst += (y[i] - mean) * (y[i] - mean);
+    }
+    var mse = sse / (n - p), inv = inverse(XtX);
+    return { b: beta, se: inv.map(function (r, j) { return Math.sqrt(mse * r[j]); }), r2: 1 - sse / sst, mse: mse, dfe: n - p };
+  }
+  function vifs(cols) {
+    return cols.map(function (c, i) {
+      var others = cols.filter(function (_, j) { return j !== i; });
+      return 1 / (1 - ols(others, c).r2);
+    });
+  }
+  function corr(x, y) {
+    var n = x.length, mx = 0, my = 0, sxy = 0, sxx = 0, syy = 0, i;
+    for (i = 0; i < n; i++) { mx += x[i] / n; my += y[i] / n; }
+    for (i = 0; i < n; i++) { sxy += (x[i] - mx) * (y[i] - my); sxx += (x[i] - mx) * (x[i] - mx); syy += (y[i] - my) * (y[i] - my); }
+    return sxy / Math.sqrt(sxx * syy);
+  }
+  function mean(a) { return a.reduce(function (s, v) { return s + v; }, 0) / a.length; }
+
+  /* ---------- 2x2 effects ---------- */
+  function cellMeans(rows) {
+    function m(a, b) { return mean(rows.filter(function (r) { return r[2] === a && r[3] === b; }).map(function (r) { return r[4]; })); }
+    return { mm: m(-1, -1), pm: m(1, -1), mp: m(-1, 1), pp: m(1, 1) };
+  }
+  function effects(c) {
+    var A = (c.pm + c.pp) / 2 - (c.mm + c.mp) / 2;
+    var B = (c.mp + c.pp) / 2 - (c.mm + c.pm) / 2;
+    var AB = (c.mm + c.pp) / 2 - (c.pm + c.mp) / 2;
+    return { A: A, B: B, AB: AB, coefA: A / 2, coefB: B / 2, coefAB: AB / 2, simpleLowB: c.pm - c.mm, simpleHighB: c.pp - c.mp };
+  }
+  function explorerVerdict(a, b, ab) {
+    var lo = 2 * (a - ab), hi = 2 * (a + ab);
+    if (ab === 0) return { title: 'Parallel', text: 'No interaction. A has the same effect at both levels of B, so the main effects tell the full story.', hot: false };
+    if (Math.abs(ab) <= 1) return { title: 'Nearly parallel', text: 'A small interaction. In real data it may not be statistically significant; check the p-value of the A×B term.', hot: false };
+    if (lo * hi < 0) return { title: 'Crossover interaction', text: 'The effect of A reverses direction depending on B. The main-effects plot alone would mislead you badly here.', hot: true };
+    if (lo === 0 || hi === 0) return { title: 'Interaction: A matters at only one level of B', text: 'A changes Y at one level of B and has no effect at the other.', hot: true };
+    return { title: 'Interaction: same direction, different strength', text: 'A moves Y the same way at both levels of B, but much more strongly when B is ' + (Math.abs(hi) > Math.abs(lo) ? 'high.' : 'low.'), hot: true };
+  }
+
+  /* ---------- seeded random numbers for the association lab ---------- */
+  function mulberry32(seed) {
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  var Z = (function () {
+    var r = mulberry32(20261025), z1 = [], z2 = [];
+    for (var i = 0; i < 80; i++) {
+      var u1 = r() || 1e-9, u2 = r(), u3 = r() || 1e-9, u4 = r();
+      z1.push(Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2));
+      z2.push(Math.sqrt(-2 * Math.log(u3)) * Math.cos(2 * Math.PI * u4));
+    }
+    return { z1: z1, z2: z2 };
+  })();
+  function labPoints(rho) {
+    var k = Math.sqrt(1 - rho * rho);
+    return { x1: Z.z1.slice(), x2: Z.z1.map(function (v, i) { return rho * v + k * Z.z2[i]; }) };
+  }
+
+  var DRILL = [
+    { lo: [50, 60], hi: [70, 80], ans: false, why: 'Both lines rise by 10. They are parallel, so there is no interaction.' },
+    { lo: [40, 45], hi: [60, 90], ans: true, why: 'A adds 5 at B low but 30 at B high. Same direction, very different strength.' },
+    { lo: [30, 70], hi: [70, 30], ans: true, why: 'The lines cross: A raises Y at one level of B and lowers it at the other.' },
+    { lo: [20, 50], hi: [22, 52], ans: false, why: 'A adds 30 at both B levels. B barely matters, and nothing interacts.' },
+    { lo: [60, 61], hi: [40, 80], ans: true, why: 'A does nothing at B low and adds 40 at B high. A matters at only one level of B.' },
+    { lo: [80, 60], hi: [70, 50], ans: false, why: 'Both lines fall by 20. Parallel lines mean no interaction.' }
+  ];
+
+  window.IXA = { DOE_ROWS: DOE_ROWS, HEATS: HEATS, solve: solve, ols: ols, vifs: vifs, corr: corr, cellMeans: cellMeans,
+    effects: effects, explorerVerdict: explorerVerdict, labPoints: labPoints, DRILL: DRILL };
+
+  /* ---------- explorer ---------- */
+  function exY(v) { return 200 - (v - 15) / 70 * 180; }
+  function gridY(gid) {
+    var g = $(gid); if (!g || g.childNodes.length) return;
+    [20, 35, 50, 65, 80].forEach(function (v) {
+      el('line', { class: 'ixa-gr', x1: 46, x2: 210, y1: exY(v), y2: exY(v) }, g);
+      var t = el('text', { class: 'ixa-t', x: 40, y: exY(v) + 4, 'text-anchor': 'end' }, g); t.textContent = v;
+    });
+  }
+  function drawExplorer() {
+    var a = +$('ixa-ex-a').value, b = +$('ixa-ex-b').value, ab = +$('ixa-ex-ab').value;
+    $('ixa-ex-a-out').textContent = num(a, 0); $('ixa-ex-b-out').textContent = num(b, 0); $('ixa-ex-ab-out').textContent = num(ab, 0);
+    function Y(A, B) { return 50 + a * A + b * B + ab * A * B; }
+    var lo1 = exY(Y(-1, -1)), lo2 = exY(Y(1, -1)), hi1 = exY(Y(-1, 1)), hi2 = exY(Y(1, 1));
+    setAttrs('ixa-ex-lo', { y1: lo1, y2: lo2 }); setAttrs('ixa-ex-hi', { y1: hi1, y2: hi2 });
+    setAttrs('ixa-ex-lo1', { cy: lo1 }); setAttrs('ixa-ex-lo2', { cy: lo2 }); setAttrs('ixa-ex-hi1', { cy: hi1 }); setAttrs('ixa-ex-hi2', { cy: hi2 });
+    var m1 = exY(50 - a), m2 = exY(50 + a);
+    setAttrs('ixa-ex-mline', { y1: m1, y2: m2 }); setAttrs('ixa-ex-m1', { cy: m1 }); setAttrs('ixa-ex-m2', { cy: m2 });
+    var eLo = 2 * (a - ab), eHi = 2 * (a + ab);
+    $('ixa-ex-r-lo').textContent = signed(eLo); $('ixa-ex-r-hi').textContent = signed(eHi);
+    $('ixa-ex-r-a').textContent = signed(2 * a); $('ixa-ex-r-ab').textContent = signed(2 * ab);
+    var v = explorerVerdict(a, b, ab), box = $('ixa-ex-verdict');
+    box.className = 'ixa-verdict' + (v.hot ? ' is-hot' : '');
+    box.innerHTML = '';
+    var s = document.createElement('strong'); s.textContent = v.title; box.appendChild(s); box.appendChild(document.createTextNode(v.text));
+    $('ixa-ex-int-title').textContent = 'Interaction plot: the effect of A is ' + num(eLo, 0) + ' at B low and ' + num(eHi, 0) + ' at B high. ' + v.title + '.';
+    $('ixa-ex-main-title').textContent = 'Main effects plot: averaged over B, A moves Y by ' + num(2 * a, 0) + '.';
+  }
+
+  /* ---------- effect calculator ---------- */
+  var CALC_IDS = { mm: 'ixa-c-mm', pm: 'ixa-c-pm', mp: 'ixa-c-mp', pp: 'ixa-c-pp' };
+  var CALC_DEFAULT = { mm: '137.30', pm: '88.00', mp: '132.97', pp: '127.07' };
+  function drawCalc() {
+    var c = {}, ok = true;
+    Object.keys(CALC_IDS).forEach(function (k) { var v = parseFloat($(CALC_IDS[k]).value); if (!isFinite(v)) ok = false; c[k] = v; });
+    var out = $('ixa-c-simple');
+    if (!ok) { out.textContent = 'Enter a number in all four cells to see the effects.'; return; }
+    var e = effects(c);
+    $('ixa-c-ea').textContent = num(e.A, 2); $('ixa-c-ca').textContent = num(e.coefA, 3);
+    $('ixa-c-eb').textContent = num(e.B, 2); $('ixa-c-cb').textContent = num(e.coefB, 3);
+    $('ixa-c-eab').textContent = num(e.AB, 2); $('ixa-c-cab').textContent = num(e.coefAB, 3);
+    out.textContent = 'Simple effect of A: ' + num(e.simpleLowB, 2) + ' at B low and ' + num(e.simpleHighB, 2) + ' at B high. ' +
+      (Math.abs(e.AB) < 1e-9 ? 'The lines are parallel.' : 'The main effect of A (' + num(e.A, 2) + ') is the average of those two.');
+    var vals = [c.mm, c.pm, c.mp, c.pp], lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals);
+    if (hi - lo < 1e-9) { lo -= 1; hi += 1; }
+    var pad = (hi - lo) * 0.1; lo -= pad; hi += pad;
+    function y(v) { return 150 - (v - lo) / (hi - lo) * 130; }
+    setAttrs('ixa-c-lo', { y1: y(c.mm), y2: y(c.pm) }); setAttrs('ixa-c-hi', { y1: y(c.mp), y2: y(c.pp) });
+    $('ixa-c-ymax').textContent = hi.toFixed(0); $('ixa-c-ymin').textContent = lo.toFixed(0);
+    $('ixa-c-plot-title').textContent = 'Interaction plot of the four cell means. At B low, Y goes from ' + num(c.mm, 2) + ' to ' + num(c.pm, 2) +
+      '; at B high, from ' + num(c.mp, 2) + ' to ' + num(c.pp, 2) + '.';
+  }
+
+  /* ---------- VIF demo ---------- */
+  var T = HEATS.map(function (h) { return h[0]; }), NB = HEATS.map(function (h) { return h[1]; }), CH = HEATS.map(function (h) { return h[4]; });
+  function vifModel(centered) {
+    var mt = centered ? mean(T) : 0, mn = centered ? mean(NB) : 0;
+    var t = T.map(function (v) { return v - mt; }), n = NB.map(function (v) { return v - mn; }), tn = t.map(function (v, i) { return v * n[i]; });
+    var fit = ols([t, n, tn], CH);
+    return { fit: fit, vif: vifs([t, n, tn]) };
+  }
+  window.IXA.vifModel = vifModel;
+  function fmtCoef(v) { var a = Math.abs(v); return num(v, a >= 100 ? 1 : a >= 1 ? 3 : 4); }
+  function drawVif(centered) {
+    var m = vifModel(centered), names = ['Temperature', 'Nb', 'Temp × Nb'];
+    $('ixa-vif-raw').setAttribute('aria-pressed', String(!centered));
+    $('ixa-vif-cen').setAttribute('aria-pressed', String(centered));
+    var grid = $('ixa-vif-grid'), bars = $('ixa-vif-bars');
+    function x(v) { return 100 + Math.log10(Math.max(v, 1)) / 4 * 185; }
+    if (!grid.childNodes.length) {
+      [1, 10, 100, 1000, 10000].forEach(function (v) {
+        el('line', { class: 'ixa-gr', x1: x(v), x2: x(v), y1: 14, y2: 160 }, grid);
+        var t = el('text', { class: 'ixa-t-sm', x: x(v), y: 176, 'text-anchor': 'middle' }, grid); t.textContent = v >= 1000 ? (v / 1000) + 'k' : v;
+      });
+      var ref = el('line', { class: 'ixa-ax', x1: x(10), x2: x(10), y1: 14, y2: 160, 'stroke-dasharray': '4 3' }, grid);
+      ref.setAttribute('stroke-width', '1.5');
+    }
+    while (bars.firstChild) bars.removeChild(bars.firstChild);
+    m.vif.forEach(function (v, i) {
+      var y0 = 26 + i * 46;
+      var lab = el('text', { class: 'ixa-t', x: 94, y: y0 + 17, 'text-anchor': 'end' }, bars); lab.textContent = names[i];
+      el('rect', { class: 'ixa-bar' + (v > 10 ? ' is-high' : ''), x: 100, y: y0, width: Math.max(2, x(v) - 100), height: 24, rx: 3 }, bars);
+      var inside = x(v) > 230;
+      var val = el('text', { class: inside ? 'ixa-t-in' : 'ixa-t', x: inside ? x(v) - 6 : x(v) + 4, y: y0 + 17, 'text-anchor': inside ? 'end' : 'start' }, bars); val.textContent = v >= 100 ? v.toFixed(0) : v.toFixed(2);
+    });
+    var tb = $('ixa-vif-table'); tb.innerHTML = '';
+    ['Constant'].concat(names).forEach(function (nm, j) {
+      var tr = document.createElement('tr'), th = document.createElement('th');
+      th.scope = 'row'; th.textContent = nm; tr.appendChild(th);
+      [fmtCoef(m.fit.b[j]), fmtCoef(m.fit.se[j]), j === 0 ? '–' : (m.vif[j - 1] >= 100 ? m.vif[j - 1].toFixed(0) : m.vif[j - 1].toFixed(2))].forEach(function (t) {
+        var td = document.createElement('td'); td.textContent = t; tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+    $('ixa-vif-note').textContent = centered
+      ? 'Centered: every VIF is close to 1. The interaction coefficient is still ' + m.fit.b[3].toFixed(2) + ', with the same standard error, but the Nb coefficient is now estimated about ' + Math.round(vifModel(false).fit.se[2] / m.fit.se[2]) + ' times more precisely.'
+      : 'Raw units: the Nb and product terms have VIFs above 2000, even though temperature and Nb are almost uncorrelated (r = ' + num(corr(T, NB), 2) + ').';
+    $('ixa-vif-title').textContent = 'VIF by term, ' + (centered ? 'centered' : 'raw') + ' predictors: ' +
+      names.map(function (nm, i) { return nm + ' ' + (m.vif[i] >= 100 ? m.vif[i].toFixed(0) : m.vif[i].toFixed(2)); }).join(', ') + '.';
+  }
+
+  /* ---------- association lab ---------- */
+  function drawLab() {
+    var rho = +$('ixa-al-rho').value, k = +$('ixa-al-int-s').value;
+    $('ixa-al-rho-out').textContent = num(rho, 2); $('ixa-al-int-out').textContent = num(k, 0);
+    var P = labPoints(rho), g = $('ixa-al-points');
+    while (g.firstChild) g.removeChild(g.firstChild);
+    function sx(v) { return 24 + (Math.max(-3.2, Math.min(3.2, v)) + 3.2) / 6.4 * 182; }
+    function sy(v) { return 196 - (Math.max(-3.2, Math.min(3.2, v)) + 3.2) / 6.4 * 182; }
+    P.x1.forEach(function (v, i) { el('circle', { class: 'ixa-pt', cx: sx(v).toFixed(1), cy: sy(P.x2[i]).toFixed(1), r: 3 }, g); });
+    var r = corr(P.x1, P.x2);
+    function Y(x1, x2) { return 4 * x1 + 2 * x2 + k * x1 * x2; }
+    function py(v) { return 105 - v / 12 * 75; }
+    setAttrs('ixa-al-lo', { y1: py(Y(-1, -1)), y2: py(Y(1, -1)) }); setAttrs('ixa-al-hi', { y1: py(Y(-1, 1)), y2: py(Y(1, 1)) });
+    var sLo = (Y(1, -1) - Y(-1, -1)) / 2, sHi = (Y(1, 1) - Y(-1, 1)) / 2;
+    $('ixa-al-r').textContent = num(r, 2); $('ixa-al-slo').textContent = num(sLo, 0); $('ixa-al-shi').textContent = num(sHi, 0);
+    var assoc = Math.abs(r) >= 0.7 ? 'strongly associated' : Math.abs(r) >= 0.3 ? 'moderately associated' : 'essentially unassociated';
+    var inter = k === 0 ? 'and they do not interact: the slope of X1 is the same at both X2 levels.' : 'and they interact: the slope of X1 is ' + num(sLo, 0) + ' at X2 low and ' + num(sHi, 0) + ' at X2 high.';
+    var box = $('ixa-al-verdict');
+    box.className = 'ixa-verdict' + (k !== 0 ? ' is-hot' : '');
+    box.textContent = 'X1 and X2 are ' + assoc + ' (r = ' + num(r, 2) + '), ' + inter;
+    $('ixa-al-scatter-title').textContent = 'Scatterplot of 80 points, sample correlation ' + num(r, 2) + '.';
+    $('ixa-al-int-title').textContent = 'Interaction plot: slope of X1 is ' + num(sLo, 0) + ' at X2 low and ' + num(sHi, 0) + ' at X2 high.';
+  }
+
+  /* ---------- drill ---------- */
+  function buildDrill() {
+    var host = $('ixa-drill'); if (!host) return;
+    var answered = {};
+    DRILL.forEach(function (item, i) {
+      var card = document.createElement('div'); card.className = 'ixa-card';
+      var q = document.createElement('p'); q.className = 'ixa-drill-q'; q.textContent = 'Plot ' + (i + 1); card.appendChild(q);
+      var svg = el('svg', { viewBox: '0 0 170 120', role: 'img', 'aria-labelledby': 'ixa-dr-t' + i }, card);
+      var title = el('title', { id: 'ixa-dr-t' + i }, svg);
+      title.textContent = 'Plot ' + (i + 1) + ': at B low, Y goes from ' + item.lo[0] + ' to ' + item.lo[1] + '; at B high, from ' + item.hi[0] + ' to ' + item.hi[1] + '.';
+      el('line', { class: 'ixa-ax', x1: 24, y1: 8, x2: 24, y2: 104 }, svg); el('line', { class: 'ixa-ax', x1: 24, y1: 104, x2: 164, y2: 104 }, svg);
+      function y(v) { return 100 - v * 0.9; }
+      el('line', { class: 'ixa-l2', x1: 40, x2: 150, y1: y(item.lo[0]), y2: y(item.lo[1]) }, svg);
+      el('line', { class: 'ixa-l1', x1: 40, x2: 150, y1: y(item.hi[0]), y2: y(item.hi[1]) }, svg);
+      var t1 = el('text', { class: 'ixa-t-sm', x: 40, y: 116, 'text-anchor': 'middle' }, svg); t1.textContent = 'A−';
+      var t2 = el('text', { class: 'ixa-t-sm', x: 150, y: 116, 'text-anchor': 'middle' }, svg); t2.textContent = 'A+';
+      var btns = document.createElement('div'); btns.className = 'ixa-btns'; btns.setAttribute('role', 'group'); btns.setAttribute('aria-label', 'Answer for plot ' + (i + 1));
+      var fb = document.createElement('p'); fb.className = 'ixa-fb'; fb.setAttribute('aria-live', 'polite'); fb.id = 'ixa-dr-fb' + i;
+      [['Interaction', true], ['No interaction', false]].forEach(function (opt) {
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'ixa-btn'; b.textContent = opt[0];
+        b.setAttribute('aria-pressed', 'false'); b.setAttribute('data-ixa-drill', String(i)); b.setAttribute('data-ixa-choice', String(opt[1]));
+        b.addEventListener('click', function () {
+          Array.prototype.forEach.call(btns.children, function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+          var right = opt[1] === item.ans;
+          answered[i] = right;
+          fb.className = 'ixa-fb ' + (right ? 'is-good' : 'is-bad');
+          fb.textContent = (right ? 'Correct. ' : 'Not quite. ') + item.why;
+          var n = Object.keys(answered).length, c = Object.keys(answered).filter(function (key) { return answered[key]; }).length;
+          $('ixa-drill-score').textContent = 'Drill score: ' + c + ' of ' + n + ' answered correctly' + (n === DRILL.length ? '.' : ' so far.');
+        });
+        btns.appendChild(b);
+      });
+      card.appendChild(btns); card.appendChild(fb); host.appendChild(card);
+    });
+  }
+
+  function fillDoeTable() {
+    var tb = $('ixa-doe-rows'); if (!tb || tb.children.length) return;
+    DOE_ROWS.forEach(function (r) {
+      var tr = document.createElement('tr');
+      var th = document.createElement('th'); th.scope = 'row'; th.textContent = r[0]; tr.appendChild(th);
+      [r[1], r[2] < 0 ? 820 : 880, r[3] < 0 ? '0.020' : '0.040', signed(r[2]), signed(r[3]), r[4].toFixed(1)].forEach(function (v) {
+        var td = document.createElement('td'); td.textContent = v; tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+  }
+
+  function init() {
+    gridY('ixa-ex-main-grid'); gridY('ixa-ex-int-grid');
+    ['ixa-ex-a', 'ixa-ex-b', 'ixa-ex-ab'].forEach(function (id) { $(id).addEventListener('input', drawExplorer); });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-ixa-preset]'), function (btn) {
+      btn.addEventListener('click', function () {
+        var p = btn.getAttribute('data-ixa-preset').split(',');
+        $('ixa-ex-a').value = p[0]; $('ixa-ex-b').value = p[1]; $('ixa-ex-ab').value = p[2]; drawExplorer();
+      });
+    });
+    drawExplorer();
+    Object.keys(CALC_IDS).forEach(function (k) { $(CALC_IDS[k]).addEventListener('input', drawCalc); });
+    $('ixa-c-reset').addEventListener('click', function () { Object.keys(CALC_IDS).forEach(function (k) { $(CALC_IDS[k]).value = CALC_DEFAULT[k]; }); drawCalc(); });
+    drawCalc();
+    var centered = false;
+    $('ixa-vif-raw').addEventListener('click', function () { centered = false; drawVif(false); });
+    $('ixa-vif-cen').addEventListener('click', function () { centered = true; drawVif(true); });
+    drawVif(centered);
+    ['ixa-al-rho', 'ixa-al-int-s'].forEach(function (id) { $(id).addEventListener('input', drawLab); });
+    drawLab();
+    buildDrill();
+    fillDoeTable();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+<style id="interaction-effects-in-minitab-dark-overrides">
+html[data-theme="dark"] .quiz-section .lesson-kicker { color: #7dd3fc; }
+html[data-theme="dark"] [aria-label="Return to lesson category"] a { color: #7dd3fc !important; }
+html[data-theme="dark"] #lesson-content .related-lessons a { color: #7dd3fc; }
+</style>
+</body>
+</html>

@@ -1,9 +1,9 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 54,
-  "contentLessonCount": 53,
-  "sectionCount": 2884,
+  "lessonCount": 55,
+  "contentLessonCount": 54,
+  "sectionCount": 2920,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -26704,6 +26704,546 @@
           ],
           "text": "",
           "excerpt": "Knowledge check",
+          "kinds": [
+            "section"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lean-six-sigma--interaction-effects-in-minitab",
+      "path": "/lessons/lean-six-sigma/interaction-effects-in-minitab",
+      "title": "Interaction Effects in Minitab",
+      "description": "Find, test and interpret two-factor interactions in Minitab, calculate effects by hand, fix VIF with centering, and tell interaction apart from association.",
+      "topic": "lean-six-sigma",
+      "level": "intermediate",
+      "minutes": 60,
+      "interactive": true,
+      "keywords": [
+        "interaction effect",
+        "interaction plot",
+        "two-way interaction",
+        "factorial DOE",
+        "Minitab",
+        "association vs interaction",
+        "collinearity",
+        "VIF",
+        "centering predictors",
+        "general linear model",
+        "interaction effect interaction plot two way interaction a*b factorial doe 2x2 design main effects simple effects coded coefficient general linear model regression interaction term centering predictors vif multicollinearity collinearity association vs interaction correlation multi-vari chart treenet charpy minitab excel lean six sigma intermediate interactive"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "lesson-section-interaction-effects-in-minitab",
+          "heading": "Interaction Effects in Minitab",
+          "breadcrumb": [
+            "Interaction Effects in Minitab"
+          ],
+          "text": "Interaction effects are what happens when one factor's effect on your response depends on where another factor is set. This lesson shows how to spot them, test them, and explain them in Minitab, and how they differ from two variables simply moving together. Intermediate 60 min Interactive Excel + Minitab CSSBB · CQE",
+          "excerpt": "Interaction effects are what happens when one factor's effect on your response depends on where another factor is set. This lesson shows how to spot them, test them, and explain them in Minitab, and how they differ from two variables simply moving together.…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "learn-heading",
+          "heading": "What you will be able to do",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "What you will be able to do"
+          ],
+          "text": "Recognize an interaction effect on a plot, in a model equation, and in Minitab output. Choose the right Minitab tool for designed experiments, historical data, continuous or categorical factors, and pass/fail responses. Calculate main effects, the interaction effect and coded coefficients of a 2×2 design by hand. Use centering to remove the artificial collinearity an interaction term creates. Explain the difference between association, collinearity and interaction, with counter-examples. Download the practice dataset (Excel .xlsx) DOE runs (CSV) Historical heats (CSV) All data in this lesson is fictitious and was generated for teaching. The steel examples show realistic shapes, not plant results.",
+          "excerpt": "Recognize an interaction effect on a plot, in a model equation, and in Minitab output. Choose the right Minitab tool for designed experiments, historical data, continuous or categorical factors, and pass/fail responses. Calculate main effects, the interaction…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "what-heading",
+          "heading": "What an interaction effect is",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "What an interaction effect is"
+          ],
+          "text": "An interaction exists when changing factor A moves the response Y by a different amount, or in a different direction, depending on where factor B is set. On an interaction plot, that shows up as lines that are not parallel. No interaction Same slope at both Nb levels. A and B act independently, so each main effect tells the whole story. Interaction Temperature hurts toughness a lot at low Nb and barely at high Nb. \"The effect of temperature\" has no single answer.",
+          "excerpt": "An interaction exists when changing factor A moves the response Y by a different amount, or in a different direction, depending on where factor B is set. On an interaction plot, that shows up as lines that are not parallel. No interaction Same slope at both…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "model-behind-the-plot",
+          "heading": "The model behind the plot",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "What an interaction effect is",
+            "The model behind the plot"
+          ],
+          "text": "A two-factor model with an interaction term is \\[ Y = \\beta_0 + \\beta_1 X_1 + \\beta_2 X_2 + \\beta_{12} X_1 X_2 + \\varepsilon \\] where \\(Y\\) is the response, \\(X_1\\) and \\(X_2\\) are the two factors, \\(\\beta_0\\) is the intercept, \\(\\beta_1\\) and \\(\\beta_2\\) are the main-effect coefficients, \\(\\beta_{12}\\) is the interaction coefficient and \\(\\varepsilon\\) is random error. Group the terms that contain \\(X_1\\) and the reason the lines stop being parallel becomes clear: \\[ \\text{slope of } Y \\text{ in } X_1 = \\frac{\\partial Y}{\\partial X_1} = \\beta_1 + \\beta_{12} X_2 \\] The slope of \\(X_1\\) is no longer a single number. It changes with \\(X_2\\). When \\(\\beta_{12} = 0\\), the slope is \\(\\beta_1\\) everywhere and the lines are parallel. Testing the interaction in Minitab is testing whether \\(\\beta_{12}\\) is different from zero.",
+          "excerpt": "A two-factor model with an interaction term is \\[ Y = \\beta_0 + \\beta_1 X_1 + \\beta_2 X_2 + \\beta_{12} X_1 X_2 + \\varepsilon \\] where \\(Y\\) is the response, \\(X_1\\) and \\(X_2\\) are the two factors, \\(\\beta_0\\) is the intercept, \\(\\beta_1\\) and \\(\\beta_2\\) are…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "three-shapes",
+          "heading": "Three shapes an interaction can take",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "What an interaction effect is",
+            "Three shapes an interaction can take"
+          ],
+          "text": "Synergistic. A pushes Y the same way at both B levels, but much harder at one of them. Dampening (antagonistic). One factor level shields the response from the other factor. This is the Charpy example. Crossover. The effect of A reverses direction. A main-effects plot alone can make A look useless.",
+          "excerpt": "Synergistic. A pushes Y the same way at both B levels, but much harder at one of them. Dampening (antagonistic). One factor level shields the response from the other factor. This is the Charpy example. Crossover. The effect of A reverses direction. A…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "explorer-heading",
+          "heading": "Interaction explorer",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Interaction explorer"
+          ],
+          "text": "This builds the coded model Minitab fits for a 2×2 design, with A and B at \\(-1\\) and \\(+1\\): \\[ Y = 50 + a\\,A + b\\,B + ab\\,(A \\times B) \\] where \\(a\\), \\(b\\) and \\(ab\\) are the coded coefficients. Move the \\(ab\\) slider and watch the interaction plot lose its parallel lines. The main-effects plot on the left averages over B, so it cannot show you what the interaction is doing. Main effect of A Interaction plot Main-effect coefficient a 6 Main-effect coefficient b 4 Interaction coefficient ab 0 Effect of A at B −1 12 Effect of A at B +1 12 Main effect of A (= 2a) 12 AB effect (= 2ab) 0 Parallel No interaction. Minitab reports Effect as twice the coded coefficient, because each factor moves two coded units from \\(-1\\) to \\(+1\\). Try the crossover preset: the main-effects plot goes flat, while the interaction plot shows A matters a lot in opposite directions.",
+          "excerpt": "This builds the coded model Minitab fits for a 2×2 design, with A and B at \\(-1\\) and \\(+1\\): \\[ Y = 50 + a\\,A + b\\,B + ab\\,(A \\times B) \\] where \\(a\\), \\(b\\) and \\(ab\\) are the coded coefficients. Move the \\(ab\\) slider and watch the interaction plot lose…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "hand-heading",
+          "heading": "Calculating 2×2 effects by hand",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Calculating 2×2 effects by hand"
+          ],
+          "text": "In a 2×2 design every effect is a difference between two averages. Write \\(\\bar{y}_{+-}\\) for the mean response at A high and B low, and so on for the other three cells. Then \\[ \\begin{aligned} \\text{Effect}_A &= \\frac{\\bar{y}_{+-} + \\bar{y}_{++}}{2} - \\frac{\\bar{y}_{--} + \\bar{y}_{-+}}{2} \\\\ \\text{Effect}_B &= \\frac{\\bar{y}_{-+} + \\bar{y}_{++}}{2} - \\frac{\\bar{y}_{--} + \\bar{y}_{+-}}{2} \\\\ \\text{Effect}_{AB} &= \\frac{\\bar{y}_{--} + \\bar{y}_{++}}{2} - \\frac{\\bar{y}_{+-} + \\bar{y}_{-+}}{2} \\end{aligned} \\] where the first sign in each subscript is the level of A and the second is the level of B. The AB effect compares the two cells where A and B are at the same level with the two cells where they differ, which is the sign of the product \\(A \\times B\\). Minitab's coded coefficient is half the effect: \\[ \\text{Coef} = \\frac{\\text{Effect}}{2} \\qquad \\text{SE}_{\\text{Coef}} = \\sqrt{\\frac{\\text{MSE}}{N}} \\] where \\(\\text{MSE}\\) is the mean square error from the ANOVA and \\(N\\) is the total number of runs.",
+          "excerpt": "In a 2×2 design every effect is a difference between two averages. Write \\(\\bar{y}_{+-}\\) for the mean response at A high and B low, and so on for the other three cells. Then \\[ \\begin{aligned} \\text{Effect}_A &= \\frac{\\bar{y}_{+-} + \\bar{y}_{++}}{2} -…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "hand-worked-example",
+          "heading": "Worked example with the practice data",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Calculating 2×2 effects by hand",
+            "Worked example with the practice data"
+          ],
+          "text": "The DOE sheet in the practice dataset has 12 runs: finishing temperature (A) at 820 and 880 °C, Nb (B) at 0.020 and 0.040 wt%, three replicates per cell. The four cell means of Charpy energy are: Cell A (temperature) B (Nb) Mean Charpy (J) \\(\\bar{y}_{--}\\) 820 °C 0.020 % 137.30 \\(\\bar{y}_{+-}\\) 880 °C 0.020 % 88.00 \\(\\bar{y}_{-+}\\) 820 °C 0.040 % 132.97 \\(\\bar{y}_{++}\\) 880 °C 0.040 % 127.07 \\[ \\begin{aligned} \\text{Effect}_A &= \\frac{88.00 + 127.07}{2} - \\frac{137.30 + 132.97}{2} = 107.53 - 135.13 = -27.60 \\\\ \\text{Effect}_{AB} &= \\frac{137.30 + 127.07}{2} - \\frac{88.00 + 132.97}{2} = 132.18 - 110.48 = 21.70 \\\\ \\text{Coef}_{AB} &= \\frac{21.70}{2} = 10.85 \\end{aligned} \\] The B effect works out to 17.37 J. Now look at the simple effects , the effect of temperature inside each Nb level. At low Nb, raising temperature costs \\(88.00 - 137.30 = -49.3\\) J. At high Nb it costs only \\(127.07 - 132.97 = -5.9\\) J. The main effect of \\(-27.6\\) J is the average of those two very different numbers, and describes neither of them.",
+          "excerpt": "The DOE sheet in the practice dataset has 12 runs: finishing temperature (A) at 820 and 880 °C, Nb (B) at 0.020 and 0.040 wt%, three replicates per cell. The four cell means of Charpy energy are: Cell A (temperature) B (Nb) Mean Charpy (J) \\(\\bar{y}_{--}\\)…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "effect-calculator",
+          "heading": "Effect calculator",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Calculating 2×2 effects by hand",
+            "Effect calculator"
+          ],
+          "text": "Type any four cell means. The calculator applies the formulas above and redraws the interaction plot. It opens with the practice-data means, rounded to two decimals, so a coefficient can differ from Minitab's in the last digit. A −1, B −1 A +1, B −1 A −1, B +1 A +1, B +1 Term Effect Coef A B AB",
+          "excerpt": "Type any four cell means. The calculator applies the formulas above and redraws the interaction plot. It opens with the practice-data means, rounded to two decimals, so a coefficient can differ from Minitab's in the last digit. A −1, B −1 A +1, B −1 A −1, B…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "choose-heading",
+          "heading": "Choosing the right Minitab tool",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Choosing the right Minitab tool"
+          ],
+          "text": "The right tool depends on two things: whether your data comes from a designed experiment or from historical production , and whether your X's are categorical or continuous . Your situation Look first with Test with Planned experiment, factors at set levels Factorial Plots, Pareto of effects 2-level factorial DOE; Response Surface if there is curvature Historical data, categorical X's Multi-Vari Chart, Interaction Plot General Linear Model with A*B Historical data, continuous X's Scatterplot with groups, Contour Plot Regression with X1*X2 , predictors centered One continuous X, one categorical X Scatterplot with groups and fitted lines General Linear Model with a covariate × factor term Pass/fail response Interaction Plot of the percent passing Binary Logistic Regression with A*B Many X's, structure unknown TreeNet two-predictor dependence plots Confirm what the trees suggest with a model or a DOE",
+          "excerpt": "The right tool depends on two things: whether your data comes from a designed experiment or from historical production , and whether your X's are categorical or continuous . Your situation Look first with Test with Planned experiment, factors at set levels…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "methods-heading",
+          "heading": "Minitab methods, step by step",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Minitab methods, step by step"
+          ],
+          "text": "Step 1 · Start here",
+          "excerpt": "Step 1 · Start here",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "visual-screening",
+          "heading": "Visual screening",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Minitab methods, step by step",
+            "Visual screening"
+          ],
+          "text": "Interaction Plot Stat → ANOVA → Interaction Plot Non-parallel or crossing lines suggest an interaction. Pair it with Stat → ANOVA → Main Effects Plot to see what averaging hides. Multi-Vari Chart Stat → Quality Tools → Multi-Vari Chart Works well on observational plant data before you commit to a model. Scatterplot with groups Graph → Scatterplot → With Regression and Groups Different slopes across groups indicate an interaction between a continuous X and a categorical X. Step 2 · Is it real?",
+          "excerpt": "Interaction Plot Stat → ANOVA → Interaction Plot Non-parallel or crossing lines suggest an interaction. Pair it with Stat → ANOVA → Main Effects Plot to see what averaging hides. Multi-Vari Chart Stat → Quality Tools → Multi-Vari Chart Works well on…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "formal-testing",
+          "heading": "Formal testing",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Minitab methods, step by step",
+            "Formal testing"
+          ],
+          "text": "Two-way ANOVA or GLM (categorical X's) Stat → ANOVA → General Linear Model → Fit General Linear Model Add A*B in the Model sub-dialog and read the p-value of the interaction term. Stat → ANOVA → General Linear Model → Factorial Plots draws the fitted interaction plot. Regression with an interaction term (continuous X's) Stat → Regression → Regression → Fit Regression Model Add X1*X2 in Model . Under Coding , choose Subtract the mean to keep VIF under control. Stat → Regression → Regression → Contour Plot then shows the twisted surface. Binary Logistic Regression Stat → Regression → Binary Logistic Regression → Fit Binary Logistic Model Include A*B terms for pass/fail responses such as Charpy acceptance. Step 3 · Cleanest evidence",
+          "excerpt": "Two-way ANOVA or GLM (categorical X's) Stat → ANOVA → General Linear Model → Fit General Linear Model Add A*B in the Model sub-dialog and read the p-value of the interaction term. Stat → ANOVA → General Linear Model → Factorial Plots draws the fitted…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "designed-experiments",
+          "heading": "Designed experiments",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Minitab methods, step by step",
+            "Designed experiments"
+          ],
+          "text": "2-level factorial DOE Stat → DOE → Factorial → Create Factorial Design then Stat → DOE → Factorial → Analyze Factorial Design . Use Stat → DOE → Factorial → Factorial Plots for the interaction panel, and the Pareto or Normal plot of standardized effects to spot a significant AB effect. Response surface Stat → DOE → Response Surface Captures curvature plus the interaction. Contour Plot and Surface Plot show the twist in the surface, and Response Optimizer finds settings. Step 4 · Many X's",
+          "excerpt": "2-level factorial DOE Stat → DOE → Factorial → Create Factorial Design then Stat → DOE → Factorial → Analyze Factorial Design . Use Stat → DOE → Factorial → Factorial Plots for the interaction panel, and the Pareto or Normal plot of standardized effects to…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "exploratory-ml",
+          "heading": "Exploratory machine learning",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Minitab methods, step by step",
+            "Exploratory machine learning"
+          ],
+          "text": "CART, Random Forests and TreeNet Predictive Analytics Module → TreeNet® Regression → Fit Model Tree models pick up interactions without being told, and TreeNet's two-predictor partial dependence plots are useful for messy plant data. These commands need Minitab's Predictive Analytics Module. Treat what they find as a hypothesis to confirm.",
+          "excerpt": "CART, Random Forests and TreeNet Predictive Analytics Module → TreeNet® Regression → Fit Model Tree models pick up interactions without being told, and TreeNet's two-predictor partial dependence plots are useful for messy plant data. These commands need…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "doe-heading",
+          "heading": "Worked example: a 2×2 DOE on Charpy energy",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Worked example: a 2×2 DOE on Charpy energy"
+          ],
+          "text": "Open DOE_2x2 in the practice workbook (or the DOE CSV). The runs are listed in standard order with their randomized run order. StdOrder RunOrder Temperature (°C) Nb (wt%) A B Charpy (J) 1 3 820 0.020 −1 −1 133.1 2 8 880 0.020 +1 −1 87.8 3 9 820 0.040 −1 +1 135.5 4 6 880 0.040 +1 +1 128.0 5 4 820 0.020 −1 −1 141.6 6 12 880 0.020 +1 −1 88.7 7 5 820 0.040 −1 +1 136.0 8 2 880 0.040 +1 +1 127.8 9 10 820 0.020 −1 −1 137.2 10 7 880 0.020 +1 −1 87.5 11 11 820 0.040 −1 +1 127.4 12 1 880 0.040 +1 +1 125.4",
+          "excerpt": "Open DOE_2x2 in the practice workbook (or the DOE CSV). The runs are listed in standard order with their randomized run order. StdOrder RunOrder Temperature (°C) Nb (wt%) A B Charpy (J) 1 3 820 0.020 −1 −1 133.1 2 8 880 0.020 +1 −1 87.8 3 9 820 0.040 −1 +1…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "doe-minitab-steps",
+          "heading": "Running it in Minitab",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Worked example: a 2×2 DOE on Charpy energy",
+            "Running it in Minitab"
+          ],
+          "text": "Paste the data into a worksheet. Choose Stat → DOE → Factorial → Define Custom Factorial Design , select the temperature and Nb columns as factors, and set their low and high levels. Choose Stat → DOE → Factorial → Analyze Factorial Design , enter Charpy_J as the response, and under Terms include A, B and AB. Under Graphs , tick Pareto and Normal effects plots and the residual four-in-one. Choose Stat → DOE → Factorial → Factorial Plots and select the interaction plot.",
+          "excerpt": "Paste the data into a worksheet. Choose Stat → DOE → Factorial → Define Custom Factorial Design , select the temperature and Nb columns as factors, and set their low and high levels. Choose Stat → DOE → Factorial → Analyze Factorial Design , enter Charpy_J as…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "doe-output",
+          "heading": "What the output shows",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Worked example: a 2×2 DOE on Charpy energy",
+            "What the output shows"
+          ],
+          "text": "These are the values the practice data produces (Minitab rounds p-values below 0.0005 to 0.000): Term Effect Coef SE Coef T-Value P-Value Constant – 121.333 0.956 126.94 0.000 A (temperature) −27.600 −13.800 0.956 −14.44 0.000 B (Nb) 17.367 8.683 0.956 9.08 0.000 A×B 21.700 10.850 0.956 11.35 0.000 Source DF Adj SS Adj MS F-Value P-Value A 1 2285.28 2285.28 208.43 0.000 B 1 904.80 904.80 82.52 0.000 A×B 1 1412.67 1412.67 128.84 0.000 Error 8 87.71 10.96 – – Total 11 4690.47 – – – Model summary: S = 3.311, R-sq = 98.13%, R-sq(adj) = 97.43%. Minitab also prints Model, Linear and 2-Way Interactions subtotal rows; they are left out here. Check the standard error with the formula from the hand-calculation section: \\(\\sqrt{10.96/12} = 0.956\\). Every coefficient has the same standard error because the design is balanced and orthogonal. The lines are far from parallel, which is what the AB p-value says formally. How to write up the finding \"Finishing temperature and Nb interact (p < 0.001). At 0.020% Nb, raising the finishing temperature from 820 to 880 °C lowers mean Charpy energy by 49.3 J. At 0.040% Nb the same change lowers it by only 5.9 J.\" Report the simple effects. \"Temperature lowers Charpy by 27.6 J\" is the main effect, and it is true of neither Nb level.",
+          "excerpt": "These are the values the practice data produces (Minitab rounds p-values below 0.0005 to 0.000): Term Effect Coef SE Coef T-Value P-Value Constant – 121.333 0.956 126.94 0.000 A (temperature) −27.600 −13.800 0.956 −14.44 0.000 B (Nb) 17.367 8.683 0.956 9.08…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "vif-heading",
+          "heading": "Continuous X's: centering and VIF",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Continuous X's: centering and VIF"
+          ],
+          "text": "With continuous predictors in raw units, the product term \\(X_1 X_2\\) is almost a copy of \\(X_1\\) and \\(X_2\\) themselves, because both are far from zero. That creates collinearity even when the two X's are unrelated. The variance inflation factor measures it: \\[ \\text{VIF}_j = \\frac{1}{1 - R_j^2} \\] where \\(R_j^2\\) is the R-squared from regressing predictor \\(j\\) on all the other predictors. A VIF above about 5 to 10 is usually treated as a problem. Centering, which means subtracting each predictor's mean before forming the product, removes the artificial part. The Historical_Heats sheet holds 40 heats with recorded finishing temperature, Nb and Charpy energy. Temperature and Nb are almost uncorrelated (\\(r = -0.07\\)). Switch between raw and centered predictors: VIF of each term (log scale) Term Coef SE Coef VIF Two things to notice. First, the VIFs in raw units come from the product term, not from any relationship between temperature and Nb. Second, centering does not change the interaction coefficient (32.21 J per °C per wt% Nb) or its p-value (0.0003). It only stabilizes the main-effect coefficients, whose standard errors shrink dramatically. In Minitab, set this under Coding in Stat → Regression → Regression → Fit Regression Model .",
+          "excerpt": "With continuous predictors in raw units, the product term \\(X_1 X_2\\) is almost a copy of \\(X_1\\) and \\(X_2\\) themselves, because both are far from zero. That creates collinearity even when the two X's are unrelated. The variance inflation factor measures it:…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "assoc-heading",
+          "heading": "Association vs. interaction",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Association vs. interaction"
+          ],
+          "text": "Association is a two-variable idea: X and Y move together. Interaction is a three-variable idea: the effect of \\(X_1\\) on Y depends on the level of \\(X_2\\). Interaction always needs a response variable; association doesn't.",
+          "excerpt": "Association is a two-variable idea: X and Y move together. Interaction is a three-variable idea: the effect of \\(X_1\\) on Y depends on the level of \\(X_2\\). Interaction always needs a response variable; association doesn't.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "assoc-card",
+          "heading": "Association: 2 variables",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Association vs. interaction",
+            "Association: 2 variables"
+          ],
+          "text": "The question When finishing temperature goes up, does Charpy energy tend to go down? Minitab tools Correlation, scatterplot, chi-square. Stat → Basic Statistics → Correlation for continuous variables, Stat → Tables → Cross Tabulation and Chi-Square for categorical ones. The answer One relationship, with one direction and strength.",
+          "excerpt": "The question When finishing temperature goes up, does Charpy energy tend to go down? Minitab tools Correlation, scatterplot, chi-square. Stat → Basic Statistics → Correlation for continuous variables, Stat → Tables → Cross Tabulation and Chi-Square for…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "interaction-card",
+          "heading": "Interaction: 3 variables",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Association vs. interaction",
+            "Interaction: 3 variables"
+          ],
+          "text": "The question Does finishing temperature affect Charpy energy differently for high-Nb heats vs. low-Nb heats? Minitab tools An A*B term in ANOVA, regression or a DOE. The answer A relationship that changes with context: non-parallel lines.",
+          "excerpt": "The question Does finishing temperature affect Charpy energy differently for high-Nb heats vs. low-Nb heats? Minitab tools An A*B term in ANOVA, regression or a DOE. The answer A relationship that changes with context: non-parallel lines.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "independent-ideas",
+          "heading": "The two are independent of each other",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Association vs. interaction",
+            "The two are independent of each other"
+          ],
+          "text": "Knowing whether two X's are correlated tells you nothing about whether they interact on Y, and the reverse. Interaction without association In a balanced 2×2 DOE, A and B are perfectly uncorrelated by design, yet A×B can be the largest effect in the model. Association without interaction Carbon and Mn are strongly correlated in the practice heats, yet each adds its own effect to hardness the same way regardless of the other. The lines stay parallel.",
+          "excerpt": "Knowing whether two X's are correlated tells you nothing about whether they interact on Y, and the reverse. Interaction without association In a balanced 2×2 DOE, A and B are perfectly uncorrelated by design, yet A×B can be the largest effect in the model.…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "assoc-lab",
+          "heading": "Association and interaction lab",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Association vs. interaction",
+            "Association and interaction lab"
+          ],
+          "text": "Set how strongly \\(X_1\\) and \\(X_2\\) are correlated, and separately how strongly they interact on Y. The two dials are independent, and so are the two pictures. X1 vs. X2 (80 points) Effect of X1 on Y Correlation between X1 and X2 0.00 Interaction coefficient 4 Sample correlation r 0.00 Slope of X1 at X2 low 0 Slope of X1 at X2 high 8",
+          "excerpt": "Set how strongly \\(X_1\\) and \\(X_2\\) are correlated, and separately how strongly they interact on Y. The two dials are independent, and so are the two pictures. X1 vs. X2 (80 points) Effect of X1 on Y Correlation between X1 and X2 0.00 Interaction coefficient…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "collinearity-mixup",
+          "heading": "The common mix-up: collinearity",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Association vs. interaction",
+            "The common mix-up: collinearity"
+          ],
+          "text": "When people say \"these two variables interact,\" they often mean the two X's are correlated. That is collinearity , a data problem that inflates VIF and muddies coefficients. Interaction is a real effect on Y that you put in the model on purpose. The practice heats show both ideas at once. Carbon and manganese are strongly associated (\\(r = 0.956\\), VIF = 11.6 in a two-predictor model), but the C×Mn term in a hardness model is nowhere near significant (p = 0.80). The two elements are collinear and do not interact. Temperature and Nb are the opposite case: unrelated (\\(r = -0.07\\)) and strongly interacting on Charpy energy (p = 0.0003).",
+          "excerpt": "When people say \"these two variables interact,\" they often mean the two X's are correlated. That is collinearity , a data problem that inflates VIF and muddies coefficients. Interaction is a real effect on Y that you put in the model on purpose. The practice…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "spot-heading",
+          "heading": "Practice drill: spot the interaction",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Practice drill: spot the interaction"
+          ],
+          "text": "Each plot shows four cell means. Decide whether the plot shows an interaction worth testing, then check your answer.",
+          "excerpt": "Each plot shows four cell means. Decide whether the plot shows an interaction worth testing, then check your answer.",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "reading-heading",
+          "heading": "Reading interaction results correctly",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Reading interaction results correctly"
+          ],
+          "text": "If \\(A \\times B\\) is significant, don't interpret the main effects on their own. Describe the effect with the interaction plot, the contour plot or the simple effects. Keep the model hierarchical: retain A and B even if they aren't significant on their own. Check residuals and VIF. With historical data, correlated X's can create or hide apparent interactions, which is where a DOE earns its keep. Separate statistical from practical significance. A tiny interaction can be significant with lots of data; ask whether the change in simple effects matters to the process. Interactions can depend on the scale of Y. A multiplicative process can show an interaction in raw units that disappears after a log transform. Say which scale you analyzed. Don't extrapolate. An interaction found between 820 and 880 °C says nothing about 900 °C.",
+          "excerpt": "If \\(A \\times B\\) is significant, don't interpret the main effects on their own. Describe the effect with the interaction plot, the contour plot or the simple effects. Keep the model hierarchical: retain A and B even if they aren't significant on their own.…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "impl-heading",
+          "heading": "Statistics Implementation",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Statistics Implementation"
+          ],
+          "text": "",
+          "excerpt": "Statistics Implementation",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "excel-functions",
+          "heading": "Excel Functions",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Statistics Implementation",
+            "Excel Functions"
+          ],
+          "text": "Function Syntax Purpose When to use it AVERAGEIFS AVERAGEIFS(average_range, criteria_range1, criteria1, …) Mean of the rows that meet every condition Cell means and main-effect averages of a factorial design SUMPRODUCT SUMPRODUCT(array1, [array2], …) Sum of element-wise products Contrasts: multiply the coded AB column by Y and divide by half the runs LINEST LINEST(known_y's, [known_x's], [const], [stats]) Least-squares coefficients, with regression statistics when stats is TRUE Fitting a model with a product column; coefficients come back in reverse column order INDEX INDEX(array, row_num, [column_num]) One value from an array Pulling a single coefficient or R-squared out of LINEST CORREL CORREL(array1, array2) Pearson correlation coefficient Checking association between two X's or between X and Y RSQ RSQ(known_y's, known_x's) R-squared of a one-predictor regression Two-predictor VIF: =1/(1-RSQ(x1, x2)) T.DIST.2T T.DIST.2T(x, deg_freedom) Two-tailed t probability (x must be non-negative) p-value of a coefficient from its t-value F.DIST.RT F.DIST.RT(x, deg_freedom1, deg_freedom2) Right-tailed F probability p-value of an ANOVA F-value CHISQ.TEST CHISQ.TEST(actual_range, expected_range) p-value of a chi-square test Association between two categorical variables",
+          "excerpt": "Function Syntax Purpose When to use it AVERAGEIFS AVERAGEIFS(average_range, criteria_range1, criteria1, …) Mean of the rows that meet every condition Cell means and main-effect averages of a factorial design SUMPRODUCT SUMPRODUCT(array1, [array2], …) Sum of…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "excel-use-cases",
+          "heading": "Excel Use Cases",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Statistics Implementation",
+            "Excel Use Cases"
+          ],
+          "text": "The Effects_Worksheet tab of the practice workbook contains every formula below, live. On DOE_2x2 , columns E, F, G and H hold A, B, AB and Charpy for rows 2 to 13. Cell mean (A low, B low): =AVERAGEIFS(H2:H13, E2:E13, -1, F2:F13, -1) returns 137.30. AB effect: =AVERAGEIFS(H2:H13, G2:G13, 1) - AVERAGEIFS(H2:H13, G2:G13, -1) returns 21.70. The equivalent contrast is =SUMPRODUCT(G2:G13, H2:H13)/6 . AB coefficient from regression: =INDEX(LINEST(H2:H13, E2:G13), 1, 1) returns 10.85, half the effect. p-value of the AB F-test: =F.DIST.RT(128.84, 1, 8) returns about 0.000003. Association of C and Mn: on Historical_Heats , =CORREL(D2:D41, E2:E41) returns 0.956 and =1/(1-RSQ(D2:D41, E2:E41)) returns a VIF of 11.6.",
+          "excerpt": "The Effects_Worksheet tab of the practice workbook contains every formula below, live. On DOE_2x2 , columns E, F, G and H hold A, B, AB and Charpy for rows 2 to 13. Cell mean (A low, B low): =AVERAGEIFS(H2:H13, E2:E13, -1, F2:F13, -1) returns 137.30. AB…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "minitab-navigation",
+          "heading": "Minitab Navigation",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Statistics Implementation",
+            "Minitab Navigation"
+          ],
+          "text": "Stat → ANOVA → Interaction Plot and Stat → ANOVA → Main Effects Plot : first look at any categorical factors. Stat → Quality Tools → Multi-Vari Chart : screening observational data by factor level. Graph → Scatterplot → With Regression and Groups : slope differences between groups. Stat → ANOVA → General Linear Model → Fit General Linear Model : unbalanced or historical data with categorical factors and covariates. Add A*B in Model . Stat → Regression → Regression → Fit Regression Model : continuous X's. Add X1*X2 in Model and choose Subtract the mean in Coding . Follow with Stat → Regression → Regression → Contour Plot . Stat → Regression → Binary Logistic Regression → Fit Binary Logistic Model : pass/fail responses. Stat → DOE → Factorial → Analyze Factorial Design and Stat → DOE → Factorial → Factorial Plots : designed experiments. Use Define Custom Factorial Design first when the data was not created in Minitab. Predictive Analytics Module → TreeNet® Regression → Fit Model : many predictors; requires the module. Stat → Basic Statistics → Correlation and Stat → Tables → Cross Tabulation and Chi-Square : association only. Choose the DOE route when you ran the experiment; it gives balanced, uncorrelated estimates. Choose GLM or regression for historical data, and treat any interaction found there as a lead to confirm.",
+          "excerpt": "Stat → ANOVA → Interaction Plot and Stat → ANOVA → Main Effects Plot : first look at any categorical factors. Stat → Quality Tools → Multi-Vari Chart : screening observational data by factor level. Graph → Scatterplot → With Regression and Groups : slope…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "exam-tips",
+          "heading": "Exam Tips",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Statistics Implementation",
+            "Exam Tips"
+          ],
+          "text": "The ASQ CSSBB and CQE bodies of knowledge both cover factorial designs and regression. Expect questions that give four cell means and ask for an effect or the interaction effect. Know the factor of two: Effect = 2 × Coef for coded factors. A common distractor offers the coefficient when the question asks for the effect. Non-parallel lines suggest interaction; parallel lines suggest none. Crossing lines are a stronger form of interaction, not a different concept. Correlation between predictors is multicollinearity, not interaction. Watch for answer options that swap the two. In practice, report simple effects whenever the interaction is significant, and confirm interactions from historical data with a designed experiment.",
+          "excerpt": "The ASQ CSSBB and CQE bodies of knowledge both cover factorial designs and regression. Expect questions that give four cell means and ask for an effect or the interaction effect. Know the factor of two: Effect = 2 × Coef for coded factors. A common distractor…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "practice-heading",
+          "heading": "Worked practice questions",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Worked practice questions"
+          ],
+          "text": "Your GLM shows A×B with p = 0.002 and factor A with p = 0.41. Can you drop A from the model? No. Keep the model hierarchical. And don't conclude A has no effect: a non-significant main effect alongside a significant interaction often means A's effect reverses direction across B levels. Read the interaction plot. Two X's in your historical data have r = 0.92. Does that mean they interact? No. That is association between the X's (collinearity). It inflates VIF and makes their separate effects hard to estimate. Whether they interact on Y is a different question, answered by an \\(X_1 X_2\\) term. Why is a 2×2 factorial DOE the cleanest way to establish an interaction? The design is orthogonal : A, B and AB are uncorrelated by construction, so each effect is estimated independently. Randomization also protects against lurking variables that can fake an interaction in historical data. You fit X1*X2 on continuous predictors and VIF jumps to 25. What do you change? Center or standardize the predictors ( Coding in Fit Regression Model). The product of uncentered variables is highly correlated with X1 and X2 themselves; centering removes most of that artificial collinearity. In Minitab's DOE output, the coded coefficient for AB is 3.5. What is the AB effect? 7.0. Effect = 2 × coefficient, because each factor moves two coded units from \\(-1\\) to \\(+1\\).",
+          "excerpt": "Your GLM shows A×B with p = 0.002 and factor A with p = 0.41. Can you drop A from the model? No. Keep the model hierarchical. And don't conclude A has no effect: a non-significant main effect alongside a significant interaction often means A's effect reverses…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "takeaways-heading",
+          "heading": "Key takeaways",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Key takeaways"
+          ],
+          "text": "An interaction means the effect of one X on Y depends on another X. Look for non-parallel lines; in the model, the slope of \\(X_1\\) is \\(\\beta_1 + \\beta_{12} X_2\\). Screen visually (Interaction Plot, Multi-Vari, grouped scatterplot), then test the \\(A \\times B\\) term in GLM, regression or a DOE. When the interaction is significant, describe effects through simple effects or the interaction plot, not main effects alone. Center continuous predictors before forming a product term. It fixes the VIF without changing the interaction estimate. Association is two variables moving together. Interaction needs a response and a third variable. Correlated X's are collinearity, not interaction.",
+          "excerpt": "An interaction means the effect of one X on Y depends on another X. Look for non-parallel lines; in the model, the slope of \\(X_1\\) is \\(\\beta_1 + \\beta_{12} X_2\\). Screen visually (Interaction Plot, Multi-Vari, grouped scatterplot), then test the \\(A \\times…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "refs-heading",
+          "heading": "References",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "References"
+          ],
+          "text": "Montgomery, D. C. Design and Analysis of Experiments . Wiley. Box, G. E. P., Hunter, J. S., and Hunter, W. G. Statistics for Experimenters . Wiley. Kutner, M. H., Nachtsheim, C. J., Neter, J., and Li, W. Applied Linear Statistical Models . McGraw-Hill. Minitab Support: coding for continuous variables in Fit Regression Model Minitab Support: contour plot with a regression model",
+          "excerpt": "Montgomery, D. C. Design and Analysis of Experiments . Wiley. Box, G. E. P., Hunter, J. S., and Hunter, W. G. Statistics for Experimenters . Wiley. Kutner, M. H., Nachtsheim, C. J., Neter, J., and Li, W. Applied Linear Statistical Models . McGraw-Hill.…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-related-lessons",
+          "heading": "Related lessons",
+          "breadcrumb": [
+            "Interaction Effects in Minitab",
+            "Related lessons"
+          ],
+          "text": "Introduction to Design of Experiment (DOE) — builds the factorial designs this lesson analyzes. Two-Way ANOVA lesson — the ANOVA table behind a two-factor interaction test. Choosing the Right Regression Analysis in Minitab — where interaction terms fit among regression methods. Pearson, Spearman and Kendall correlation lesson — measuring association properly. Symmetry, Variability and Multi-Vari Charts in Minitab — the screening chart used in Step 1.",
+          "excerpt": "Introduction to Design of Experiment (DOE) — builds the factorial designs this lesson analyzes. Two-Way ANOVA lesson — the ANOVA table behind a two-factor interaction test. Choosing the Right Regression Analysis in Minitab — where interaction terms fit among…",
           "kinds": [
             "section"
           ]
