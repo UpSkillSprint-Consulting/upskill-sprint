@@ -351,6 +351,18 @@
       description: 'DOE, Design of Experiment'
     },
     {
+      marker: 'data-interaction-effects-in-minitab',
+      sectionId: 'lean-six-sigma',
+      path: '/lessons/lean-six-sigma/interaction-effects-in-minitab',
+      topic: 'lean-six-sigma',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'interaction effect interaction plot two way interaction a*b factorial doe 2x2 design main effects simple effects coded coefficient general linear model regression interaction term centering predictors vif multicollinearity collinearity association vs interaction correlation multi-vari chart treenet charpy minitab excel lean six sigma intermediate interactive',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>60 min</span><span>Excel + Minitab</span>',
+      title: 'Interaction Effects in Minitab',
+      description: 'Find, test and interpret two-factor interactions in Minitab, calculate effects by hand, fix VIF with centering, and tell interaction apart from association.'
+    },
+    {
       marker: 'data-short-run-spc-control-charts',
       sectionId: 'lean-six-sigma',
       path: '/lessons/lean-six-sigma/short-run-spc-control-charts',
