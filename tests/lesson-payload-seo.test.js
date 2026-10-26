@@ -79,6 +79,22 @@ for (const [name, file, payloadScript] of lessons) {
       else assert.deepEqual(tags(doc, LD), tags(decoded, LD), 'payload-only JSON-LD kept');
       assert.deepEqual(tags(doc, 'link[rel="stylesheet"]'), tags(decoded, 'link[rel="stylesheet"]'));
       assert.deepEqual(tags(doc, 'style:not(#lesson-swap-background)'), tags(decoded, 'style'));
+      if (name === 'DMAIC') {
+        const logo = doc.querySelector('header.site .brand img');
+        assert.equal(logo.getAttribute('src'), '/assets/logo-wordmark.png');
+        assert.equal(logo.dataset.logoLight, '/assets/logo-wordmark.png');
+        assert.equal(logo.dataset.logoDark, '/assets/logo-wordmark-on-dark.png');
+        assert.equal(logo.alt, 'UpSkill Sprint Consulting');
+        assert.equal(doc.querySelectorAll('header.site, footer.site').length, 2);
+        assert.equal(doc.querySelectorAll('img[src*="logo-icon.png"]').length, 0);
+        assert.equal(doc.querySelector('header.site .brand span'), null);
+        assert.deepEqual(Array.from(doc.querySelectorAll('header.site [data-nav-item]'), node => node.dataset.navItem),
+          ['start', 'lessons', 'exam', 'tools', 'services', 'about']);
+        assert.ok(doc.querySelector('link[href="/site-nav.css"]'));
+        assert.ok(doc.querySelector('script[src="/site-nav.js"][defer]'));
+        assert.ok(doc.querySelector('#mnav-check'));
+        assert.ok(doc.querySelector('label[for="mnav-check"].mobile-menu-btn'));
+      }
     } finally { w.close(); }
   });
 }

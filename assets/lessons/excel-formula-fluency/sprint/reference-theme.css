@@ -91,3 +91,46 @@ html[data-theme="dark"] .toc a {color:#cbd8e7;}
 html[data-theme="dark"] .toc :is(a:hover,a.active) {background:#12362f; color:#a3efd1;}
 html[data-theme="dark"] tr:hover td {background:#192b40;}
 html[data-theme="dark"] header.site .header-cta {background:#67d4df !important; color:#071120 !important;}
+
+/* Keep reference controls readable when shared badge styles and dark surfaces apply. */
+html:not([data-theme="dark"]) #lesson-content .badge:not(.advanced) {
+  color:#1f4e5f;
+}
+#lesson-content .skill-node.locked {
+  opacity:1;
+  border-style:dashed;
+}
+html[data-theme="dark"] #lesson-content :is(
+  .capability-card small,.audit-dropzone p,.audit-kpi span,.audit-check small,
+  .audit-points,.industry-card p,.cert-requirement small,.credential-id,
+  .portfolio-stat span,.org-kpi span,.team-card small,.assignment-card small,
+  .legend,.skill-node p,.path-card p,.project-card p,.project-status.not-started,
+  .badge-card p,.instructor-kpi span,.insight-card span,.profile-choice span
+) {
+  color:var(--excel-reference-muted);
+}
+html[data-theme="dark"] #lesson-content :is(
+  .controls,.live-controls,.audit-settings,.portfolio-form,.org-top,.author-form,
+  .org-form-grid,.settings-block,.coach-composer
+) label {
+  color:var(--excel-reference-muted);
+}
+html[data-theme="dark"] #lesson-content .coach-context-item b {
+  color:#c7d2fe;
+}
+html[data-theme="dark"] #lesson-content :is(.skill-prereq b,.instructor-kpi strong) {
+  color:var(--excel-reference-ink);
+}
+html[data-theme="dark"] #lesson-content .badge-card.locked :is(h4,p,.badge-earned) {
+  color:var(--excel-reference-muted);
+}
+html[data-theme="dark"] #lesson-content :is(.skill-node-score,.project-status.completed,.badge-earned) {
+  color:var(--excel-reference-excel);
+}
+html[data-theme="dark"] #lesson-content .project-status.started {
+  color:#7dd3fc;
+}
+html[data-theme="dark"] #lesson-content .heatmap :is(th,td):first-child {
+  background:var(--excel-reference-card);
+  color:var(--excel-reference-ink);
+}

@@ -83,3 +83,46 @@ test('last-row practice rejects the old XMATCH idiom and accepts the displayed r
     assert.match(h.el('feedback').textContent, /last-to-first.*TRUE/);
   } finally { h.dom.window.close(); }
 });
+
+test('Excel scroll regions keep unique names across refreshes and new examples', () => {
+  const h = page();
+  try {
+    const document = h.w.document;
+    const section = document.createElement('section');
+    section.innerHTML = '<h2>Shared formula topic</h2>' +
+      '<span class="formula">First example</span><span class="formula">Second example</span>' +
+      '<span id="author-example" class="formula" role="region" aria-label="Scrollable Excel formula example — Shared formula topic">Author-named example</span>' +
+      '<h3 id="author-region-title">Author-named calculation</h3><span class="formula" aria-labelledby="author-region-title">Labelled-by example</span>';
+    document.querySelector('main').append(section);
+    h.w.P3 = {};
+    const source = html.match(/P3\.ensureScrollableAccess=function\(\)\{[\s\S]*?\n  \};/);
+    assert.ok(source, 'the live accessibility helper must be present');
+    h.w.eval(source[0]);
+    const regions = () => [...document.querySelectorAll('[role="region"]')];
+    const name = el => el.getAttribute('aria-labelledby')
+      ? document.getElementById(el.getAttribute('aria-labelledby')).textContent.trim()
+      : el.getAttribute('aria-label');
+    const assertUnique = () => {
+      const names = regions().map(name);
+      assert.ok(names.every(Boolean), 'all scroll regions need an accessible name');
+      assert.equal(new Set(names).size, names.length, 'separate scroll regions must have unique names');
+    };
+
+    h.w.P3.ensureScrollableAccess();
+    assertUnique();
+    const originalNames = new Map(regions().map(el => [el, name(el)]));
+    assert.equal(document.getElementById('author-example').getAttribute('aria-label'), 'Scrollable Excel formula example — Shared formula topic');
+    assert.equal(section.querySelector('[aria-labelledby]').getAttribute('aria-label'), null, 'keep the author-provided label relationship');
+    h.w.P3.ensureScrollableAccess();
+    for (const [el, label] of originalNames) assert.equal(name(el), label);
+
+    const added = document.createElement('span');
+    added.className = 'formula';
+    added.textContent = 'New example';
+    section.prepend(added);
+    h.w.P3.ensureScrollableAccess();
+    assertUnique();
+    for (const [el, label] of originalNames) assert.equal(name(el), label, 'refresh must preserve existing names');
+    assert.equal(added.tabIndex, 0);
+  } finally { h.dom.window.close(); }
+});

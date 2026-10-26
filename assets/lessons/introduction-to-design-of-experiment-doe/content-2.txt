@@ -86,6 +86,7 @@
               Paste columns for Factor A, Factor B, Factor C, and Response. The importer expects all eight combinations.
               If duplicate treatment combinations are supplied, their responses are averaged and a warning is shown.
             </p>
+            <label for="import3Text" data-search-exclude>Three-factor dataset to import</label>
             <textarea id="import3Text">Time,Force,Current,Strength
 10,2,9,187
 16,2,9,318

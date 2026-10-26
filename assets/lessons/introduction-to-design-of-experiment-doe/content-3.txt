@@ -68,7 +68,7 @@
         <details>
           <summary>Excel implementation</summary>
           <div>
-            <div class="table-wrap">
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Excel functions for factorial designs">
               <table>
                 <thead>
                   <tr>
@@ -116,7 +116,7 @@
         <details>
           <summary>Minitab implementation and exam navigation</summary>
           <div>
-            <div class="table-wrap">
+            <div class="table-wrap" tabindex="0" role="region" aria-label="Minitab procedures for factorial designs">
               <table>
                 <thead>
                   <tr>
