@@ -164,7 +164,7 @@
 
     try {
       const responses = await Promise.all(partNames.map(async function (partName) {
-        const response = await fetch(assetRoot + partName + '?v=pr166-v2', { cache: 'no-cache' });
+        const response = await fetch(assetRoot + partName + '?v=a11y-2026-10-26', { cache: 'no-cache' });
         if (!response.ok) {
           throw new Error('Unable to load ' + partName + ' (' + response.status + ')');
         }

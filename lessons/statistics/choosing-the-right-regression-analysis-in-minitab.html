@@ -93,6 +93,7 @@ h4{color:var(--teal)}
   font-size:.78rem;font-weight:700;margin-right:6px
 }
 table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.95rem}
+#practice > [tabindex="0"]:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 th{background:var(--navy);color:white;text-align:left}
 th,td{border:1px solid var(--line);padding:10px;vertical-align:top}
 tr:nth-child(even) td{background:#fafcfe}
@@ -1564,7 +1565,7 @@ method has something to reveal.
 <a class="btn btn-teal" style="display:inline-block;background:#0f6b78;color:#fff;padding:11px 18px;border-radius:10px;text-decoration:none;font-weight:600" href="/assets/lessons/choosing-the-right-regression-analysis-in-minitab/regression-practice-dataset.xlsx" download>&#8681; Download the practice dataset (Excel .xlsx)</a>
 </p>
 
-<div style="overflow-x:auto">
+<div style="overflow-x:auto" tabindex="0" role="region" aria-label="Practice dataset column descriptions">
 <table>
 <thead><tr><th>Column</th><th>Role</th><th>What it does in the data</th></tr></thead>
 <tbody>
@@ -1864,11 +1865,11 @@ The final model should be statistically sound, physically credible, interpretabl
 </div>
 </section>
 
-  </main>
+<div class="footer" data-search-exclude>
+  <p>Lesson: <strong>Choosing the Right Regression Analysis in Minitab</strong></p>
 </div>
 
-<div class="footer">
-  <p>Lesson: <strong>Choosing the Right Regression Analysis in Minitab</strong></p>
+  </main>
 </div>
 
 <script>

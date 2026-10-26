@@ -56,6 +56,7 @@
     --copq-prevention: #2e7d32;
     --copq-appraisal: #1565c0;
     --copq-internal: #b75300;
+    --copq-internal-text: #a34400;
     --copq-external: #c62828;
     --copq-bg-panel: #f7f8fa;
     --copq-border: var(--line, #dfe3e8);
@@ -65,7 +66,7 @@
     --copq-iceberg-water: #bfe3f0;
     --copq-iceberg-deep: #0d3b52;
   }
-  html[data-theme="dark"] { --copq-internal: #ef6c00; }
+  html[data-theme="dark"] { --copq-internal: #ef6c00; --copq-internal-text: #ef6c00; }
 
   .copq-section {
     max-width: var(--maxw, 880px);
@@ -135,6 +136,7 @@
   }
   .copq-formula-table th { background: var(--copq-bg-panel); }
   .copq-scroll-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .copq-scroll-wrap[tabindex]:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 
   /* ===== Iceberg widget ===== */
   .copq-iceberg-wrap {
@@ -551,7 +553,7 @@
   }
   .copq-tree-leaf.prevention h5 { color: var(--copq-prevention); }
   .copq-tree-leaf.appraisal h5  { color: var(--copq-appraisal); }
-  .copq-tree-leaf.internal h5   { color: var(--copq-internal); }
+  .copq-tree-leaf.internal h5   { color: var(--copq-internal-text); }
   .copq-tree-leaf.external h5   { color: var(--copq-external); }
   .copq-tree-leaf ul { margin: 0; padding-left: 1.1rem; font-size: 0.82rem; line-height: 1.55; }
 
@@ -753,7 +755,7 @@
 .copq-tree-leaf .was-h5 { margin: 0 0 0.4rem; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; }
 .copq-tree-leaf.prevention .was-h5 { color: var(--copq-prevention); }
 .copq-tree-leaf.appraisal .was-h5 { color: var(--copq-appraisal); }
-.copq-tree-leaf.internal .was-h5 { color: var(--copq-internal); }
+.copq-tree-leaf.internal .was-h5 { color: var(--copq-internal-text); }
 .copq-tree-leaf.external .was-h5 { color: var(--copq-external); }
 
 /* Keep re-levelled headings looking the same as before. */
@@ -1009,7 +1011,7 @@ body h3.was-h5{font-family:"Work Sans", Arial, sans-serif;font-weight:700}
       further to the right and flattens the curve dramatically, so the penalty for chasing near-100% conformance
       becomes small instead of severe.
     </p>
-    <div class="copq-scroll-wrap">
+    <div class="copq-scroll-wrap" tabindex="0" role="region" aria-label="Classical and modern cost of quality curves">
       <svg class="copq-chart-svg" width="860" height="400" viewBox="0 0 860 400" preserveAspectRatio="xMinYMin meet" role="img" aria-labelledby="copq-chart-title-1 copq-chart-desc-1">
         <title id="copq-chart-title-1">Classical vs. modern cost of quality curves</title>
         <desc id="copq-chart-desc-1">Left panel: classical view where total cost of quality is sharply U-shaped with an interior optimum around one-third conformance. Right panel: modern view where the same curves produce a much flatter total cost curve with its minimum shifted well to the right, around 60 percent conformance, and only a slight rise toward 100 percent.</desc>
@@ -1728,5 +1730,17 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   });
 })();
 </script>
+<style id="copq-accessibility-dark-overrides">
+/* Keep category fills distinct from text on dark surfaces. */
+html[data-theme="dark"] .copq-toc a,
+html[data-theme="dark"] .copq-tree-leaf.appraisal .was-h5,
+html[data-theme="dark"] .copq-bucket[data-bucket="appraisal"] .was-h5 { color: #90caf9; }
+html[data-theme="dark"] .copq-tree-leaf.prevention .was-h5,
+html[data-theme="dark"] .copq-bucket[data-bucket="prevention"] .was-h5 { color: #81c784; }
+html[data-theme="dark"] .copq-tree-leaf.external .was-h5,
+html[data-theme="dark"] .copq-bucket[data-bucket="external"] .was-h5 { color: #ef9a9a; }
+html[data-theme="dark"] .copq-paf-card.internal { background: #b75300; color: #fff; }
+html[data-theme="dark"] .copq-chip-group .was-h4 { color: #7fc4dd; }
+</style>
 </body>
 </html>

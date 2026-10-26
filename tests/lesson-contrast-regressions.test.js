@@ -65,8 +65,12 @@ function luminance(channels) {
 }
 
 function assertReadable(window, element, context) {
-  const foreground = luminance(rgb(window.getComputedStyle(element).color));
-  const surface = luminance(background(window, element));
+  const style = window.getComputedStyle(element);
+  const surfaceChannels = background(window, element);
+  const opacity = Number(style.opacity || 1);
+  const foreground = luminance(rgb(style.color).map((channel, index) =>
+    channel * opacity + surfaceChannels[index] * (1 - opacity)));
+  const surface = luminance(surfaceChannels);
   const ratio = (Math.max(foreground, surface) + 0.05) / (Math.min(foreground, surface) + 0.05);
   assert.ok(ratio >= 4.5, `${context}: ${ratio.toFixed(2)}:1 is below 4.5:1`);
 }
@@ -83,6 +87,15 @@ function assertTextAndDescendants(window, elements, context) {
 }
 
 for (const theme of ['light', 'dark']) {
+  test(`COPQ navigation, category cards and headings have 4.5:1 source contrast in ${theme} mode`, t => {
+    const window = openLesson(t, 'lessons/quality-engineering/cost-of-poor-quality.html', theme);
+    const elements = window.document.querySelectorAll(
+      '.copq-toc a, .copq-paf-card.internal .was-h4, .copq-paf-card.internal p, ' +
+      '.copq-tree-leaf .was-h5, .copq-bucket .was-h5, .copq-chip-group .was-h4'
+    );
+    assertTextAndDescendants(window, elements, `${theme} COPQ`);
+  });
+
   test(`ANOVA formula text has 4.5:1 source contrast in ${theme} mode`, t => {
     const window = openLesson(t, 'lessons/one-way-anova.html', theme);
     assertTextAndDescendants(window,

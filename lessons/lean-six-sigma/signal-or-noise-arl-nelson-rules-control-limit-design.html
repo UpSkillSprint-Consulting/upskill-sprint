@@ -714,7 +714,7 @@
   <h3>The systematic result</h3>
   <p>One random draw is a story, not proof. Here's what a large simulation (thousands of trials per row, both methods calibrated to ARL₀ ≈ 370) says about the average number of points needed to catch a shift of each size:</p>
 
-  <div class="table-scroll" style="overflow-x:auto" tabindex="0" role="region" aria-label="Lesson reference table; scroll horizontally"><table>
+  <div class="table-scroll" style="overflow-x:auto" tabindex="0" role="region" aria-label="Shewhart and CUSUM average run length comparison; scroll horizontally"><table>
     <tr><th>Shift size</th><th>Shewhart ARL₁ (exact)</th><th>CUSUM ARL₁ (simulated)</th><th>CUSUM is</th></tr>
     <tr><td class="num">0.25σ</td><td class="num">281.2</td><td class="num">120.7</td><td>2.3× faster</td></tr>
     <tr><td class="num">0.50σ</td><td class="num">155.2</td><td class="num">35.0</td><td>4.4× faster</td></tr>
@@ -738,7 +738,7 @@
   <h2 id="p5-heading">Summary reference</h2>
   <p>One table, all eight tests, the math behind each probability.</p>
 
-  <div class="table-scroll" style="overflow-x:auto" tabindex="0" role="region" aria-label="Lesson reference table; scroll horizontally"><table>
+  <div class="table-scroll" style="overflow-x:auto" tabindex="0" role="region" aria-label="Nelson rule probability summary; scroll horizontally"><table>
     <tr><th>#</th><th>Rule</th><th>P (one side)</th><th>P (both)</th><th>Detects</th></tr>
     <tr><td class="num">1</td><td>1 point beyond 3σ</td><td class="num">0.00135</td><td class="num">0.0027</td><td>Sudden large shift, outlier</td></tr>
     <tr><td class="num">2</td><td>9 in a row, same side of mean</td><td class="num">0.00195</td><td class="num">0.0039</td><td>Sustained small shift</td></tr>
@@ -782,7 +782,7 @@ df.groupby(['sample_no','heat_no','test_orientation_code']).first().unstack('tes
   <p>Every number in this lesson &mdash; α, β, ARL, the eight Nelson-test probabilities, CUSUM's k and H &mdash; can be reproduced in Excel or navigated to directly in Minitab. This section is the "how do I actually build this" reference.</p>
 
   <h3>Excel Functions</h3>
-  <div class="table-scroll" style="overflow-x:auto" tabindex="0" role="region" aria-label="Lesson reference table; scroll horizontally"><table>
+  <div class="table-scroll" style="overflow-x:auto" tabindex="0" role="region" aria-label="Excel functions for control chart calculations; scroll horizontally"><table>
     <tr><th>Function</th><th>Syntax</th><th>Purpose</th><th>When to use it</th></tr>
     <tr><td class="num">NORM.S.DIST</td><td class="num">=NORM.S.DIST(z,TRUE)</td><td>Standard normal CDF, &Phi;(z).</td><td>Compute one-sided tail area beyond a control limit, e.g. <code class="inline">=1-NORM.S.DIST(3,TRUE)</code> for the 3&sigma; tail (&asymp; 0.00135), the building block of &alpha; and ARL&#8320;.</td></tr>
     <tr><td class="num">NORM.S.INV</td><td class="num">=NORM.S.INV(probability)</td><td>Inverse standard normal CDF (z from a probability).</td><td>Back-solve for a control limit width given a target &alpha;, or find the crossing point between two shifted normal curves.</td></tr>
@@ -820,7 +820,7 @@ df.groupby(['sample_no','heat_no','test_orientation_code']).first().unstack('tes
   </div>
 
   <h3>Minitab Navigation</h3>
-  <div class="table-scroll" style="overflow-x:auto" tabindex="0" role="region" aria-label="Lesson reference table; scroll horizontally"><table>
+  <div class="table-scroll" style="overflow-x:auto" tabindex="0" role="region" aria-label="Minitab control chart menu paths; scroll horizontally"><table>
     <tr><th>Task</th><th>Menu path</th><th>Notes</th></tr>
     <tr><td>Build a Shewhart individuals chart (3&sigma; limits)</td><td><code>Stat &rarr; Control Charts &rarr; Variables Charts for Individuals &rarr; I-MR</code></td><td>Minitab plots the individuals (I) chart with 3&sigma; limits by default and the moving-range (MR) chart alongside it &mdash; the direct equivalent of the Part 1/3 simulations.</td></tr>
     <tr><td>Turn on the Nelson (Western Electric) zone tests</td><td><code>Stat &rarr; Control Charts &rarr; I-MR &rarr; I-MR Options &rarr; Tests</code> tab</td><td>Minitab lists all 8 tests by number, matching this lesson's numbering exactly, and lets you select a subset. Selecting all 8 reproduces the inflated combined-&alpha; effect discussed in Part 3 &mdash; most practitioners enable only 1, 2, 3, and 5.</td></tr>
@@ -1755,8 +1755,17 @@ quizItems.forEach((item, idx) => {
 (function(){
   'use strict';
   const root=document.getElementById('lesson-content');
+  const usedLabels=new Set(Array.from(root.querySelectorAll('[role="region"][aria-label]'),e=>e.getAttribute('aria-label')));
   root.querySelectorAll('.math').forEach(e=>{
-    e.tabIndex=0;e.setAttribute('role','region');e.setAttribute('aria-label','Formula or calculation');
+    e.tabIndex=0;e.setAttribute('role','region');
+    if(e.getAttribute('aria-label')||e.getAttribute('aria-labelledby'))return;
+    const heading=e.closest('.test-card')?.querySelector('.test-title')||e.closest('.part')?.querySelector('h2');
+    const context=heading?': '+heading.textContent.trim():'';
+    const base='Formula or calculation'+context;
+    let name=base,suffix=1;
+    while(usedLabels.has(name))name=base+' '+(++suffix);
+    e.setAttribute('aria-label',name);
+    usedLabels.add(name);
   });
   root.querySelectorAll('.derive-toggle').forEach(button=>{
     const panel=document.getElementById('deriv-'+button.dataset.idx);

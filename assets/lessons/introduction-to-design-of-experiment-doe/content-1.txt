@@ -149,6 +149,7 @@
               Paste four rows with columns for Factor A, Factor B, and Response. Headers are optional.
               Comma-, tab-, or semicolon-separated data are accepted.
             </p>
+            <label for="import2Text" data-search-exclude>Two-factor dataset to import</label>
             <textarea id="import2Text">Height,Angle,Deviation
 6,0,34
 6,90,84

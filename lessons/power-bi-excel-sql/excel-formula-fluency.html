@@ -619,7 +619,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
         <option value="#excel-introduction">Start here: Introduction to Excel</option>
         <option value="#excel-sprint">Excel Formula Sprint</option><option value="#sprint-assignment">Your assignment</option><option value="#sprint-learning">Placement, practice and review</option><option value="#sprint-dashboard">Sprint progress</option><option value="#sprint-certificates">Sprint certificates</option><option value="#start">Formula reference</option><option value="#diagnostic">Reference diagnostic</option><option value="#grammar">1. Formula grammar</option><option value="#dynamic">2. Dynamic ranges</option><option value="#analysis">3. Analytical formulas</option><option value="#functional">4. Modern formula programming</option><option value="#design">5. Model design</option><option value="#live-lab">Reference workbook lab</option><option value="#practice">Reference challenges</option><option value="#mastery-center">Reference mastery tracker</option><option value="#capstone">Reference capstone</option>
       </select>
-      <nav class="toc-links">
+      <nav class="toc-links" aria-label="Excel lesson sections">
         <a href="#excel-introduction">Start here: Introduction to Excel</a>
         <a href="#excel-sprint">Excel Formula Sprint</a>
         <a href="#sprint-assignment">Your assignment</a>
@@ -747,7 +747,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 </section>
 
 <dialog class="coach-dialog" id="coachDialog">
-  <div class="coach-app"><div class="coach-head"><div><h3>Excel Coach</h3><span id="coachSubhead">Context connected · local reasoning active</span></div><button class="close-button" id="closeCoach" aria-label="Close coach">×</button></div><div class="coach-toolbar"><select id="coachMode" aria-label="Coaching mode"><option value="socratic">Socratic guide</option><option value="hint">Progressive hint</option><option value="explain">Explain simply</option><option value="debug">Formula debugger</option></select><span class="coach-chip" id="coachSkillChip">Formula Foundations</span><span class="coach-chip" id="coachPathChip">Excel Foundations</span></div><div class="coach-messages" id="coachMessages"></div><div class="coach-composer"><div class="coach-suggestions"><button class="coach-suggestion" data-coach-prompt="Give me one hint for my current challenge.">One hint</button><button class="coach-suggestion" data-coach-prompt="Help me debug my current formula.">Debug</button><button class="coach-suggestion" data-coach-prompt="Explain this concept with a steel mill example.">Steel example</button><button class="coach-suggestion" data-coach-prompt="Show me the final solution and explain every part.">Reveal & explain</button></div><div class="coach-composer-row"><textarea id="coachInput" placeholder="Ask about a formula, error, workbook finding, or next skill…"></textarea><button class="btn" id="sendCoach">Send</button></div></div></div>
+  <div class="coach-app"><div class="coach-head"><div><h3>Excel Coach</h3><span id="coachSubhead">Context connected · local reasoning active</span></div><button class="close-button" id="closeCoach" aria-label="Close coach">×</button></div><div class="coach-toolbar"><select id="coachMode" aria-label="Coaching mode"><option value="socratic">Socratic guide</option><option value="hint">Progressive hint</option><option value="explain">Explain simply</option><option value="debug">Formula debugger</option></select><span class="coach-chip" id="coachSkillChip">Formula Foundations</span><span class="coach-chip" id="coachPathChip">Excel Foundations</span></div><div class="coach-messages" id="coachMessages"></div><div class="coach-composer"><div class="coach-suggestions"><button class="coach-suggestion" data-coach-prompt="Give me one hint for my current challenge.">One hint</button><button class="coach-suggestion" data-coach-prompt="Help me debug my current formula.">Debug</button><button class="coach-suggestion" data-coach-prompt="Explain this concept with a steel mill example.">Steel example</button><button class="coach-suggestion" data-coach-prompt="Show me the final solution and explain every part.">Reveal & explain</button></div><label for="coachInput" data-search-exclude>Your question for the Excel Coach</label><div class="coach-composer-row"><textarea id="coachInput" placeholder="Ask about a formula, error, workbook finding, or next skill…"></textarea><button class="btn" id="sendCoach">Send</button></div></div></div>
 </dialog>
 <button class="coach-fab" id="coachFab"><i>fx</i><span>Excel Coach</span></button>
 <!-- PHASE3_PLATFORM_END -->
@@ -863,11 +863,11 @@ Validate lookup and return-array dimensions</textarea></div>
   <div class="account-modal">
     <div class="account-head"><h3>Learner profiles & sync</h3><button class="close-button" id="closeAccountDialog" aria-label="Close">×</button></div>
     <div class="account-body">
-      <aside class="profile-list"><div id="profileChoices"></div><button class="btn secondary" id="newProfile" style="width:100%;margin-top:8px">+ New profile</button></aside>
+      <aside class="profile-list" aria-label="Reference learner profiles"><div id="profileChoices"></div><button class="btn secondary" id="newProfile" style="width:100%;margin-top:8px">+ New profile</button></aside>
       <div class="account-settings">
         <div class="account-summary"><span class="phase2-avatar" id="settingsAvatar">L</span><div><h3 id="settingsProfileName" style="margin:0">Learner</h3><span class="subtle" id="settingsProfileMeta">Learner profile</span></div></div>
         <div class="settings-block"><h4>Profile settings</h4><div class="settings-row"><input id="profileNameInput" aria-label="Profile name"><select id="profileRoleInput" aria-label="Profile role"><option value="learner">Learner</option><option value="instructor">Instructor</option></select><button class="btn" id="saveProfileSettings">Save</button></div></div>
-        <div class="settings-block"><h4>Cloud-ready progress sync</h4><p class="subtle">Local-first saving works immediately. To sync across devices, enter your organization’s HTTPS progress endpoint. The adapter sends the active profile as JSON; authentication belongs at your endpoint or deployment layer.</p><div class="settings-row"><input id="syncEndpointInput" type="url" placeholder="https://learning.example.com/api/progress"><button class="btn" id="syncNow">Sync now</button></div><div class="sync-status" id="syncStatus">Local copy is safe. No cloud endpoint configured.</div></div>
+        <div class="settings-block"><h4>Cloud-ready progress sync</h4><p class="subtle">Local-first saving works immediately. To sync across devices, enter your organization’s HTTPS progress endpoint. The adapter sends the active profile as JSON; authentication belongs at your endpoint or deployment layer.</p><label for="syncEndpointInput" data-search-exclude>Progress sync URL</label><div class="settings-row"><input id="syncEndpointInput" type="url" placeholder="https://learning.example.com/api/progress"><button class="btn" id="syncNow">Sync now</button></div><div class="sync-status" id="syncStatus">Local copy is safe. No cloud endpoint configured.</div></div>
         <div class="settings-block"><h4>Portability</h4><div class="author-actions"><button class="btn secondary" id="exportProfile">Export profile</button><button class="btn secondary" id="importProfile">Import profile</button><input type="file" accept="application/json" id="importProfileFile" hidden></div></div>
       </div>
     </div>
@@ -1150,7 +1150,7 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
       <button class="btn secondary" id="restoreDataset">Restore mission data</button>
     </div>
     <div class="live-layout">
-      <aside class="mission-panel">
+      <aside class="mission-panel" aria-label="Workbook mission">
         <span class="section-kicker" id="missionSkill"></span>
         <h3 id="missionTitle"></h3>
         <p id="missionPrompt"></p>
@@ -2318,10 +2318,19 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
       ["#schemaConsole","Scrollable schema validation output"],
       [".heatmap-wrap","Scrollable cohort skills table"]
     ];
+    const usedLabels=new Set(Array.from(document.querySelectorAll('[role="region"][aria-label]'),el=>el.getAttribute("aria-label")));
     regions.forEach(([selector,label])=>document.querySelectorAll(selector).forEach(el=>{
       if(el.tabIndex<0)el.tabIndex=0;
       if(!el.getAttribute("role"))el.setAttribute("role","region");
-      if(!el.getAttribute("aria-label"))el.setAttribute("aria-label",label);
+      if(!el.getAttribute("aria-label")&&!el.getAttribute("aria-labelledby")){
+        const heading=el.closest("section")?.querySelector("h2,h3");
+        const context=heading?.textContent.trim().replace(/\s+/g," ");
+        const base=context?`${label} — ${context}`:label;
+        let name=base,suffix=1;
+        while(usedLabels.has(name))name=`${base} ${++suffix}`;
+        el.setAttribute("aria-label",name);
+        usedLabels.add(name);
+      }
     }));
   };
   P3.refresh=function(){

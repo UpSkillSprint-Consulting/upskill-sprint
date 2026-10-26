@@ -99,6 +99,30 @@ test('Signal or Noise fixes inaccessible charts, responsive scroll areas and off
   assert.match(html, /aria-expanded/);
   assert.match(html, /--lesson-arl-site-header-height/);
 });
+
+test('Signal or Noise names repeated calculation regions without replacing author labels', () => {
+  const page = new JSDOM(html, { runScripts: 'outside-only' });
+  try {
+    const document = page.window.document;
+    const card = document.createElement('div');
+    card.className = 'test-card';
+    card.innerHTML = '<strong class="test-title">Shared Nelson rule</strong>' +
+      '<div class="math">First derivation</div><div class="math">Second derivation</div>' +
+      '<div class="math" role="region" aria-label="Formula or calculation: Shared Nelson rule">Author-named derivation</div>';
+    document.getElementById('p2').append(card);
+    const script = document.getElementById('signal-noise-accessibility').textContent;
+    const names = () => [...document.querySelectorAll('#lesson-content [role="region"]')]
+      .map(el => el.getAttribute('aria-label'));
+
+    page.window.eval(script);
+    const firstNames = names();
+    assert.ok(firstNames.every(Boolean));
+    assert.equal(new Set(firstNames).size, firstNames.length, 'calculation and table regions need distinct names');
+    assert.equal(card.lastElementChild.getAttribute('aria-label'), 'Formula or calculation: Shared Nelson rule');
+    page.window.eval(script);
+    assert.deepEqual(names(), firstNames, 'initialisation must not rename existing regions');
+  } finally { page.window.close(); }
+});
 test('Signal or Noise retains the four Statistics Implementation parts and catalog registration', () => {
   const names = [...doc.querySelectorAll('#p6 h3')].map(e => e.textContent);
   assert.deepEqual(names, ['Excel Functions', 'Excel Use Cases', 'Minitab Navigation', 'Exam Tips']);

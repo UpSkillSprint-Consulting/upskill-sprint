@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 55,
   "contentLessonCount": 54,
-  "sectionCount": 2923,
+  "sectionCount": 2941,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -1697,6 +1697,47 @@
           ]
         },
         {
+          "id": "learning-path-h",
+          "heading": "Your learning path",
+          "breadcrumb": [
+            "One-Way ANOVA: Comparing Group Means Using the F-Test",
+            "Your learning path"
+          ],
+          "text": "This is lesson 4 of 6 in the normal distribution and ANOVA path.",
+          "excerpt": "This is lesson 4 of 6 in the normal distribution and ANOVA path.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-before-you-start",
+          "heading": "Before you start",
+          "breadcrumb": [
+            "One-Way ANOVA: Comparing Group Means Using the F-Test",
+            "Your learning path",
+            "Before you start"
+          ],
+          "text": "ANOVA in Plain English — the intuition behind comparing variation between and within groups.",
+          "excerpt": "ANOVA in Plain English — the intuition behind comparing variation between and within groups.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-next-steps",
+          "heading": "Next steps",
+          "breadcrumb": [
+            "One-Way ANOVA: Comparing Group Means Using the F-Test",
+            "Your learning path",
+            "Next steps"
+          ],
+          "text": "Two-Way ANOVA: Main Effects, Interaction, and Treatment Combinations — extend the same ideas to two factors and their interaction.",
+          "excerpt": "Two-Way ANOVA: Main Effects, Interaction, and Treatment Combinations — extend the same ideas to two factors and their interaction.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
           "id": "lesson-section-related-lessons",
           "heading": "Related lessons",
           "breadcrumb": [
@@ -1972,6 +2013,47 @@
           "kinds": [
             "section",
             "example"
+          ]
+        },
+        {
+          "id": "learning-path-h",
+          "heading": "Your learning path",
+          "breadcrumb": [
+            "Two-Way ANOVA: Main Effects, Interaction, and Treatment Combinations",
+            "Your learning path"
+          ],
+          "text": "This is lesson 5 of 6 in the normal distribution and ANOVA path.",
+          "excerpt": "This is lesson 5 of 6 in the normal distribution and ANOVA path.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-before-you-start",
+          "heading": "Before you start",
+          "breadcrumb": [
+            "Two-Way ANOVA: Main Effects, Interaction, and Treatment Combinations",
+            "Your learning path",
+            "Before you start"
+          ],
+          "text": "One-Way ANOVA: Comparing Group Means Using the F-Test — sums of squares, the F-ratio and the ANOVA table.",
+          "excerpt": "One-Way ANOVA: Comparing Group Means Using the F-Test — sums of squares, the F-ratio and the ANOVA table.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-next-steps",
+          "heading": "Next steps",
+          "breadcrumb": [
+            "Two-Way ANOVA: Main Effects, Interaction, and Treatment Combinations",
+            "Your learning path",
+            "Next steps"
+          ],
+          "text": "ANOVA Analysis: The Complete One-Stop Masterclass — pull every ANOVA design, assumption check and follow-up test together.",
+          "excerpt": "ANOVA Analysis: The Complete One-Stop Masterclass — pull every ANOVA design, assumption check and follow-up test together.",
+          "kinds": [
+            "section"
           ]
         }
       ]
@@ -2722,6 +2804,44 @@
           ],
           "text": "ANOVA is not meant to make statistics sound complicated. It is a practical decision tool. Use it when you need to compare more than two group averages and decide whether the observed differences deserve investigation. ← Back to the Statistics lessons",
           "excerpt": "ANOVA is not meant to make statistics sound complicated. It is a practical decision tool. Use it when you need to compare more than two group averages and decide whether the observed differences deserve investigation. ← Back to the Statistics lessons",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "learning-path-h",
+          "heading": "Your learning path",
+          "breadcrumb": [
+            "Your learning path"
+          ],
+          "text": "This is lesson 3 of 6 in the normal distribution and ANOVA path.",
+          "excerpt": "This is lesson 3 of 6 in the normal distribution and ANOVA path.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-before-you-start",
+          "heading": "Before you start",
+          "breadcrumb": [
+            "Your learning path",
+            "Before you start"
+          ],
+          "text": "The Normal Distribution: Meet the Bell Curve — why ANOVA assumes roughly normal residuals. Hypothesis Testing for Beginners — null hypotheses and p-values.",
+          "excerpt": "The Normal Distribution: Meet the Bell Curve — why ANOVA assumes roughly normal residuals. Hypothesis Testing for Beginners — null hypotheses and p-values.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-next-steps",
+          "heading": "Next steps",
+          "breadcrumb": [
+            "Your learning path",
+            "Next steps"
+          ],
+          "text": "One-Way ANOVA: Comparing Group Means Using the F-Test — work through the full one-way F-test.",
+          "excerpt": "One-Way ANOVA: Comparing Group Means Using the F-Test — work through the full one-way F-test.",
           "kinds": [
             "section"
           ]
@@ -13214,6 +13334,47 @@
           "kinds": [
             "section"
           ]
+        },
+        {
+          "id": "learning-path-h",
+          "heading": "Your learning path",
+          "breadcrumb": [
+            "ANOVA Analysis: The Complete One-Stop Masterclass",
+            "Your learning path"
+          ],
+          "text": "This is lesson 6 of 6 in the normal distribution and ANOVA path.",
+          "excerpt": "This is lesson 6 of 6 in the normal distribution and ANOVA path.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-before-you-start",
+          "heading": "Before you start",
+          "breadcrumb": [
+            "ANOVA Analysis: The Complete One-Stop Masterclass",
+            "Your learning path",
+            "Before you start"
+          ],
+          "text": "One-Way ANOVA: Comparing Group Means Using the F-Test — the one-way F-test. Two-Way ANOVA: Main Effects, Interaction, and Treatment Combinations — main effects and interaction.",
+          "excerpt": "One-Way ANOVA: Comparing Group Means Using the F-Test — the one-way F-test. Two-Way ANOVA: Main Effects, Interaction, and Treatment Combinations — main effects and interaction.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-next-steps",
+          "heading": "Next steps",
+          "breadcrumb": [
+            "ANOVA Analysis: The Complete One-Stop Masterclass",
+            "Your learning path",
+            "Next steps"
+          ],
+          "text": "Interaction Effects in Minitab — analyse interaction effects in designed experiments with Minitab.",
+          "excerpt": "Interaction Effects in Minitab — analyse interaction effects in designed experiments with Minitab.",
+          "kinds": [
+            "section"
+          ]
         }
       ]
     },
@@ -14593,6 +14754,47 @@
           ],
           "text": "NIST/SEMATECH e-Handbook of Statistical Methods — Normal Distribution: itl.nist.gov/div898/handbook OpenStax, Introductory Statistics (open textbook), chapter on the Normal Distribution: openstax.org",
           "excerpt": "NIST/SEMATECH e-Handbook of Statistical Methods — Normal Distribution: itl.nist.gov/div898/handbook OpenStax, Introductory Statistics (open textbook), chapter on the Normal Distribution: openstax.org",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "learning-path-h",
+          "heading": "Your learning path",
+          "breadcrumb": [
+            "The Normal Distribution: Meet the Bell Curve",
+            "Your learning path"
+          ],
+          "text": "This is lesson 1 of 6 in the normal distribution and ANOVA path.",
+          "excerpt": "This is lesson 1 of 6 in the normal distribution and ANOVA path.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-before-you-start",
+          "heading": "Before you start",
+          "breadcrumb": [
+            "The Normal Distribution: Meet the Bell Curve",
+            "Your learning path",
+            "Before you start"
+          ],
+          "text": "Probability Basics: The Language of Chance — the probability ideas the bell curve builds on.",
+          "excerpt": "Probability Basics: The Language of Chance — the probability ideas the bell curve builds on.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-next-steps",
+          "heading": "Next steps",
+          "breadcrumb": [
+            "The Normal Distribution: Meet the Bell Curve",
+            "Your learning path",
+            "Next steps"
+          ],
+          "text": "Beyond the Bell: The Normal Distribution and Its Relatives — see how the normal connects to the Weibull, lognormal, t and binomial.",
+          "excerpt": "Beyond the Bell: The Normal Distribution and Its Relatives — see how the normal connects to the Weibull, lognormal, t and binomial.",
           "kinds": [
             "section"
           ]
@@ -18628,6 +18830,47 @@
           ],
           "text": "NIST/SEMATECH e-Handbook of Statistical Methods — Gallery of Distributions (normal, Weibull, lognormal, t): itl.nist.gov/div898/handbook OpenStax, Introductory Statistics (open textbook), chapter on the Central Limit Theorem: openstax.org",
           "excerpt": "NIST/SEMATECH e-Handbook of Statistical Methods — Gallery of Distributions (normal, Weibull, lognormal, t): itl.nist.gov/div898/handbook OpenStax, Introductory Statistics (open textbook), chapter on the Central Limit Theorem: openstax.org",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "learning-path-h",
+          "heading": "Your learning path",
+          "breadcrumb": [
+            "Beyond the Bell: The Normal Distribution and Its Relatives",
+            "Your learning path"
+          ],
+          "text": "This is lesson 2 of 6 in the normal distribution and ANOVA path.",
+          "excerpt": "This is lesson 2 of 6 in the normal distribution and ANOVA path.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-before-you-start",
+          "heading": "Before you start",
+          "breadcrumb": [
+            "Beyond the Bell: The Normal Distribution and Its Relatives",
+            "Your learning path",
+            "Before you start"
+          ],
+          "text": "The Normal Distribution: Meet the Bell Curve — mean, standard deviation and z-scores on the bell curve.",
+          "excerpt": "The Normal Distribution: Meet the Bell Curve — mean, standard deviation and z-scores on the bell curve.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-next-steps",
+          "heading": "Next steps",
+          "breadcrumb": [
+            "Beyond the Bell: The Normal Distribution and Its Relatives",
+            "Your learning path",
+            "Next steps"
+          ],
+          "text": "ANOVA in Plain English — use normal-based thinking to compare several group means.",
+          "excerpt": "ANOVA in Plain English — use normal-based thinking to compare several group means.",
           "kinds": [
             "section"
           ]

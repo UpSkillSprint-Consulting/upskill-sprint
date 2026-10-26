@@ -125,7 +125,7 @@ strong { color: var(--ink); }
 
 /* Visible focus for keyboard users */
 a:focus-visible, button:focus-visible, input:focus-visible,
-select:focus-visible, [role="switch"]:focus-visible {
+select:focus-visible, [role="switch"]:focus-visible, .table-scroll[tabindex]:focus-visible {
   outline: var(--focus-ring);
   outline-offset: 2px;
 }
@@ -849,7 +849,7 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
     <table>
       <caption>Common \(C_{pk}\) benchmarks: centred, stable normal model, two-sided specs, no mean shift</caption>
       <thead>
-        <tr><th scope="col">\(C_{pk} = C_{p}\)</th><th scope="col">Modelled out-of-spec ppm</th><th scope="col">Typical reading</th></tr>
+        <tr><th scope="col"><span class="sr-only" data-search-exclude>Capability index for a centred process: </span>\(C_{pk} = C_{p}\)</th><th scope="col">Modelled out-of-spec ppm</th><th scope="col">Typical reading</th></tr>
       </thead>
       <tbody>
         <tr><td>\(&lt; 1.00\)</td><td>More than approximately \(2700\,\mathrm{ppm}\)</td><td>Not capable &mdash; the process cannot reliably hold the spec</td></tr>
@@ -994,7 +994,7 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
   </div>
 
   <h3>Minitab navigation</h3>
-  <div class="table-scroll">
+  <div class="table-scroll" tabindex="0" role="region" aria-label="Minitab menu paths for capability analysis">
     <table>
       <caption>Minitab menu paths for capability analysis</caption>
       <thead>

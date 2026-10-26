@@ -4777,7 +4777,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         document
           .querySelector("main")
           .insertAdjacentHTML(
-            "beforebegin",
+            "afterbegin",
             `<div class="learning-toolbar"><div class="wrap"><span id="progressCopy" class="progress-copy">0 of 5 methods completed</span><div class="progress-track" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><div id="progressFill" class="progress-fill"></div></div><div class="toolbar-actions"><button class="tiny-btn" type="button" onclick="toggleTextSize(this)" aria-pressed="false">Larger text</button><button class="tiny-btn" type="button" onclick="toggleContrast(this)" aria-pressed="false">High contrast</button><button class="tiny-btn" type="button" onclick="toggleMotion(this)" aria-pressed="false">Reduce motion</button><button class="tiny-btn" type="button" onclick="resetLesson()">Reset lesson</button></div></div></div><div id="helpBackdrop" class="help-backdrop" hidden onclick="closeHelp()"></div><aside id="helpPop" class="help-pop" role="dialog" aria-modal="true" aria-labelledby="helpTitle" hidden><h3 id="helpTitle">Term help</h3><p id="helpText"></p><button class="btn" type="button" onclick="closeHelp()">Got it</button></aside>`,
           );
         updateProgress();
