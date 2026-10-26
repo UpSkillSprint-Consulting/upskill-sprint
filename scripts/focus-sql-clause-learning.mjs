@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { applySiteChrome } from './lib/site-chrome.mjs';
 
 const root = process.cwd();
 const lessonPath = path.join(root, 'lessons', 'writing-your-first-sql-query.html');
@@ -107,6 +108,10 @@ const scriptTag = '  <script src="/lessons/sql-clause-focus.js"></script>\n';
 const bodyClose = lessonHtml.lastIndexOf('</body>');
 if (bodyClose < 0) throw new Error('Unable to locate the SQL lesson body closing tag.');
 lessonHtml = lessonHtml.slice(0, bodyClose) + scriptTag + lessonHtml.slice(bodyClose);
+
+// The archived lesson carries an old header (retired logo, short nav), so
+// stamp the shared site chrome onto it.
+lessonHtml = applySiteChrome(lessonHtml, 'lessons/writing-your-first-sql-query.html');
 
 fs.writeFileSync(lessonPath, lessonHtml, 'utf8');
 console.log('Focused one-clause-at-a-time learning interface installed.');

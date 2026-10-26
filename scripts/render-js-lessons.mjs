@@ -10,6 +10,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { gunzipSync } from 'node:zlib';
 import { JSDOM } from 'jsdom';
+import { applySiteChrome } from './lib/site-chrome.mjs';
 
 const SEO = 'title, meta[name="description"], link[rel~="canonical"], meta[property^="og:"], meta[name^="twitter:"], script[type="application/ld+json"]';
 
@@ -85,7 +86,9 @@ export async function renderJsLessons(siteDir) {
     const wrapper = await readFile(file, 'utf8');
     const decoded = gunzipSync(Buffer.from(await lesson.payload(siteDir), 'base64')).toString('utf8');
     if (!decoded.includes(lesson.marker)) throw new Error(lesson.page + ': payload validation failed.');
-    await writeFile(file, mergeCompressedLesson(wrapper, decoded, lesson), 'utf8');
+    // The payloads carry an old header (retired logo, no dropdown or mobile
+    // nav), so stamp the shared site chrome onto the merged page.
+    await writeFile(file, applySiteChrome(mergeCompressedLesson(wrapper, decoded, lesson), lesson.page), 'utf8');
   }
   const read = names => Promise.all(names.map(n => readFile(join(siteDir, doe.dir, n), 'utf8'))).then(p => p.join(''));
   const file = join(siteDir, doe.page);

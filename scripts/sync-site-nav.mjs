@@ -7,61 +7,12 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 
-const require = createRequire(import.meta.url);
+import { currentTab, replaceNavs, ensureScript, ensureMobile } from './lib/site-chrome.mjs';
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const { markup } = require(path.join(root, 'site-nav.js'));
+const { markup } = createRequire(import.meta.url)(path.join(root, 'site-nav.js'));
 
 const SKIP = new Set(['node_modules', '.git', 'public-site', '.tmp', 'artifacts']);
-
-function currentTab(rel) {
-  const file = rel.replace(/\\/g, '/');
-  if (/(^|\/)start-here\.html$/.test(file)) return 'start';
-  if (/(^|\/)lessons\.html$/.test(file) || file.startsWith('lessons/') || file.includes('/lessons/')) return 'lessons';
-  if (/exam-practice|test-bank|admin-exam-access/.test(file)) return 'exam';
-  if (file.startsWith('tools/') || file.includes('/tools/') || file.includes('engineering-tools')) return 'tools';
-  if (/(^|\/)services\.html$/.test(file)) return 'services';
-  if (/(^|\/)(about|faq|contact|request-topic|privacy|terms|request)\.html$/.test(file)) return 'about';
-  return '';
-}
-
-function retag(open, kind) {
-  let tag = open;
-  if (/aria-label=/.test(tag)) tag = tag.replace(/aria-label="[^"]*"/, 'aria-label="Main"');
-  else tag = tag.replace('<nav', '<nav aria-label="Main"');
-  if (!/data-nav-root=/.test(tag)) tag = tag.replace('<nav', `<nav data-nav-root="${kind}"`);
-  return tag;
-}
-
-function replaceNavs(source, tab) {
-  return source.replace(/<nav\b([^>]*\bclass="[^"]*\b(desktop-nav|mobile-nav)\b[^"]*"[^>]*)>([\s\S]*?)<\/nav>/g, function (full, attrs, kind) {
-    const open = retag(`<nav${attrs}>`, kind === 'mobile-nav' ? 'mobile' : 'desktop');
-    const inner = markup(kind === 'mobile-nav' ? 'mobile' : 'desktop', tab);
-    return `${open}${inner}</nav>`;
-  });
-}
-
-function ensureScript(source) {
-  if (source.includes('site-nav.js')) return source;
-  if (!source.includes('site-sections.js') && !/<nav\b[^>]*\bdesktop-nav\b/.test(source)) return source;
-  const block = '<link rel="stylesheet" href="/site-nav.css">\n<script src="/site-nav.js" defer></script>\n';
-  if (source.includes('<script src="/site-sections.js"></script>')) {
-    return source.replace('<script src="/site-sections.js"></script>', `${block}<script src="/site-sections.js"></script>`);
-  }
-  if (source.includes('<script src="/theme.js"></script>')) {
-    return source.replace('<script src="/theme.js"></script>', `<script src="/theme.js"></script>\n${block}`);
-  }
-  if (source.includes('</head>')) return source.replace('</head>', `${block}</head>`);
-  return source;
-}
-
-function ensureMobile(source, tab) {
-  if (/<nav\b[^>]*\bmobile-nav\b/.test(source)) return source;
-  if (!/<header\b[^>]*\bclass="[^"]*\bsite\b/.test(source)) return source;
-  const block = `\n<nav class="mobile-nav" data-nav-root="mobile" aria-label="Main">${markup('mobile', tab)}</nav>`;
-  return source.replace(/<header\b[^>]*\bclass="[^"]*\bsite\b[^"]*"[^>]*>[\s\S]*?<\/header>/, function (header) {
-    return header + block;
-  });
-}
 
 async function walk(dir, out) {
   const entries = await readdir(dir, { withFileTypes: true });
