@@ -83,6 +83,7 @@
         var order = shuffle([0, 1, 2, 3], rnd);
         return {id: q.id, stem: q.stem, sub: q.sub, why: q.why, options: order.map(function (k) { return q.options[k]; }), answer: order.indexOf(q.answer)};
       })};
+      if (window.__ExamPreviewTools) window.__ExamPreviewTools.build();
       view = 'quiz'; render(); announce('ExamPreview started. Question 1 of ' + session.items.length + '.');
       var first = host.querySelector('[data-opt]'); if (first) first.focus({preventScroll: true});
     }).catch(function () {
@@ -98,6 +99,7 @@
     return '<section id="tb-revealed-answer" class="tb-revealed-answer" tabindex="-1" aria-labelledby="tb-revealed-title"><h3 id="tb-revealed-title">Answer revealed — counted as incorrect</h3><p><strong>Correct answer: ' +
       esc(String.fromCharCode(65 + q.answer) + '. ' + q.options[q.answer]) + '</strong></p><p>' + safeHtml(q.why) + '</p></section>';
   }
+  function stopTools() { if (window.__ExamPreviewTools) window.__ExamPreviewTools.stop(); }
   function quizHTML() {
     var n = session.items.length, q = session.items[session.i], meta = SUB[q.sub], dm = DM[meta.domain], col = dm.color;
     var revealed = !!session.revealed[session.i], flagged = Object.keys(session.flags).filter(function (k) { return session.flags[k]; }).length, rv = revealCount();
@@ -111,6 +113,9 @@
     var toolbar = '<div class="tb-toolbar"><span class="tb-timer untimed">Untimed</span>' +
       '<button type="button" class="tb-tbtn' + (session.flags[session.i] ? ' on' : '') + '" data-flag aria-pressed="' + !!session.flags[session.i] + '">\u2691 ' + (session.flags[session.i] ? 'Flagged' : 'Flag') + '</button>' +
       '<button type="button" class="tb-tbtn" data-reveal aria-describedby="tb-reveal-hint" ' + (revealed ? 'aria-controls="tb-revealed-answer" ' : '') + 'aria-expanded="' + revealed + '"' + (revealed ? ' disabled' : '') + '>' + (revealed ? 'Answer Revealed' : 'Reveal Answer') + '</button>' +
+      '<button type="button" class="tb-tbtn" data-formulas>\u2630 Formulas</button>' +
+      '<button type="button" class="tb-tbtn" data-tables>\u25a4 Tables</button>' +
+      '<button type="button" class="tb-tbtn" data-calc>\u00f7 Calc</button>' +
       '<button type="button" class="tb-ghost" data-quit>Exit</button></div>';
     return '<div class="tb-quiz" data-question-id="' + esc(q.id) + '"><div class="tb-quiztop"><div><div class="tb-diag-kick">ExamPreview &middot; Free CSSBB questions &middot; untimed</div>' +
       '<div class="tb-quizprog">Question ' + (session.i + 1) + ' of ' + n + ' &middot; ' + answeredCount() + ' answered' + (rv ? ' &middot; ' + rv + ' revealed' : '') + (flagged ? ' &middot; ' + flagged + ' flagged' : '') + '</div></div>' + toolbar + '</div>' +
@@ -136,7 +141,12 @@
     var sb = host.querySelector('[data-submit]'); if (sb) sb.addEventListener('click', submit);
     var fl = host.querySelector('[data-flag]'); if (fl) fl.addEventListener('click', function () { session.flags[session.i] = !session.flags[session.i]; render(); var f = host.querySelector('[data-flag]'); if (f) f.focus({preventScroll: true}); });
     var rv = host.querySelector('[data-reveal]'); if (rv) rv.addEventListener('click', function () { session.revealed[session.i] = true; delete session.answers[session.i]; render(); var p = host.querySelector('#tb-revealed-answer'); if (p) p.focus({preventScroll: true}); });
-    var qt = host.querySelector('[data-quit]'); if (qt) qt.addEventListener('click', function () { session = null; view = 'start'; render(); });
+    // Formulas, Tables and Calc: the real exam's tools (exam-tools.js is generated from test-bank.html).
+    ['formulas', 'tables', 'calc'].forEach(function (name) {
+      var b = host.querySelector('[data-' + name + ']');
+      if (b) b.addEventListener('click', function () { var t = window.__ExamPreviewTools; if (t) t.toggle(name); });
+    });
+    var qt = host.querySelector('[data-quit]'); if (qt) qt.addEventListener('click', function () { stopTools(); session = null; view = 'start'; render(); });
   }
   function go(i) {
     session.i = Math.max(0, Math.min(session.items.length - 1, i)); render();
@@ -155,7 +165,7 @@
   function band(p) { return p >= 80 ? '80-100' : p >= 60 ? '60-79' : p >= 40 ? '40-59' : '0-39'; }
   function submit() {
     if (session.completed) return;
-    session.completed = true; session.result = grade(); view = 'results'; render();
+    session.completed = true; session.result = grade(); stopTools(); view = 'results'; render();
     announce('Results: you answered ' + session.result.correct + ' of ' + session.result.total + ' correctly.');
     var h = host.querySelector('.tb-resverd h2'); if (h) { h.setAttribute('tabindex', '-1'); h.focus({preventScroll: true}); }
     var top = host.querySelector('.tb-resbar'); if (top && top.scrollIntoView) top.scrollIntoView({block: 'start'});

@@ -10,13 +10,13 @@ const POOL = 'exam-preview/cssbb-questions.json';
 const CONSENT = 'Yes, email me when the complete Black Belt question bank is available, plus occasional UpSkill Sprint updates. I can unsubscribe at any time.';
 const tick = (w, ms = 20) => new Promise(r => w.setTimeout(r, ms));
 
-async function open({failFetch = false} = {}) {
+async function open({failFetch = false, tools = ''} = {}) {
   // Inline only the ExamPreview engine. Site chrome scripts are not needed, and
   // fetch is stubbed so any request other than the free pool fails loudly.
   const requests = [];
   // The engine is deferred in the page, so run it after the body has parsed.
   const html = read(PAGE).replace(/<script\b[^>]*src=[^>]*><\/script>/g, '')
-    .replace('</body>', () => '<script>' + read('exam-preview/exam-preview.js') + '</script></body>');
+    .replace('</body>', () => tools + '<script>' + read('exam-preview/exam-preview.js') + '</script></body>');
   const errors = [];
   const virtualConsole = new VirtualConsole();
   virtualConsole.on('jsdomError', e => errors.push(e.message));
@@ -197,4 +197,35 @@ test('ExamPreview SEO, entry points and privacy addition', () => {
   assert.match(privacy, /id="exampreview-waitlist"/);
   assert.match(privacy, /we'll act on it within 10 business days\. We never sell your information\./);
   assert.match(read('sitemap.xml'), /https:\/\/upskillsprint\.com\/exam-preview\/cssbb</);
+});
+
+test('ExamPreview has the real exam Formulas, Tables and Calc tools, with no paid or auth calls', async () => {
+  const {extractExamToolsJs} = await import('../scripts/build-exampreview.mjs');
+  const generated = await extractExamToolsJs(root);
+  const page = read('test-bank.html');
+  for (const marker of ['REFS={\n    cssbb:[', 'function calcEval(expr){', 'function buildTools(){', 'function toggleTool(name){'])
+    assert.ok(page.includes(marker) && generated.includes(marker), marker + ' is lifted from the real exam');
+  assert.match(read(PAGE), /src="\/test-bank-tables\.js"[\s\S]*src="\/exam-preview\/exam-tools\.js"[\s\S]*src="\/exam-preview\/exam-preview\.js"/);
+  const t = await open({tools: '<script>' + read('test-bank-tables.js') + '</script><script>' + generated + '</script>'});
+  const {d, w, requests, errors} = t;
+  d.querySelector('[data-ep-start]').click(); await tick(w);
+  const labels = [...d.querySelectorAll('.tb-toolbar .tb-tbtn')].map(b => b.textContent.trim());
+  for (const label of ['\u2630 Formulas', '\u25a4 Tables', '\u00f7 Calc']) assert.ok(labels.includes(label), label);
+  for (const b of d.querySelectorAll('[data-formulas],[data-tables],[data-calc]')) assert.equal(b.tagName, 'BUTTON');
+  d.querySelector('[data-formulas]').click();
+  assert.equal(d.getElementById('tb-formulas').hidden, false);
+  assert.match(d.getElementById('tb-reflist').textContent, /Cpk/);
+  d.querySelector('[data-tables]').click(); await tick(w);
+  assert.equal(d.getElementById('tb-tables').hidden, false);
+  assert.ok(d.querySelector('#tb-tables [data-tbl-mount]').children.length > 0);
+  d.querySelector('[data-calc]').click();
+  assert.equal(d.getElementById('tb-calc').hidden, false);
+  for (const k of ['2', '+', '3']) d.querySelector(`#tb-calc [data-k="${k}"]`).click();
+  d.querySelector('#tb-calc [data-act="eq"]').click();
+  assert.equal(d.getElementById('tb-calcdisp').textContent, '5');
+  d.querySelector('[data-quit]').click();
+  for (const id of ['tb-formulas', 'tb-tables', 'tb-calc']) assert.equal(d.getElementById(id).hidden, true, id + ' closes on exit');
+  for (const r of requests) assert.match(r.url, /^(\/exam-preview\/cssbb-questions\.json|\/reference-tables\/[a-z_]+\.json)$/);
+  assert.ok(!requests.some(r => /exam-content|supabase|\.netlify\/functions/i.test(r.url)));
+  assert.deepEqual(errors, []);
 });
