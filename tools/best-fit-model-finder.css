@@ -98,5 +98,4 @@ color-scheme: dark;
 #bfm-tool.bfm-embedded { --bfm-display: var(--calc-disp, 'Barlow Condensed', 'Arial Narrow', sans-serif); background: transparent; padding-bottom: 0; }
 #bfm-tool.bfm-embedded .bfm-wrap { max-width: none; padding-left: 0; padding-right: 0; }
 #bfm-tool.bfm-embedded .bfm-section:first-child { padding-top: 6px; }
-#calculator-shell .tab[data-page="pg-fit"][hidden] { display: none !important; }
 #bfm-tool #bfm-best-reasons { padding-left: 1.25em; margin: 10px 0; }

@@ -11,7 +11,7 @@ const ROUTE = '/tools/best-fit-model-finder';
 const html = fs.readFileSync(path.join(ROOT, 'tools', 'best-fit-model-finder.html'), 'utf8');
 const guide = fs.readFileSync(path.join(ROOT, 'docs', 'LESSON_CREATION_GUIDE.md'), 'utf8');
 const directory = fs.readFileSync(path.join(ROOT, 'engineering-tools.html'), 'utf8');
-const sql = fs.readFileSync(path.join(ROOT, 'supabase', 'administrator-best-fit-model-finder-access.sql'), 'utf8');
+const sql = fs.readFileSync(path.join(ROOT, 'supabase', 'public-best-fit-model-finder-access.sql'), 'utf8');
 const C = require('../tools/best-fit-model-finder-core.js');
 const doc = new JSDOM(html, { url: `https://upskillsprint.com${ROUTE}` }).window.document;
 
@@ -31,7 +31,7 @@ function runtime() {
   return { window: dom.window, document: dom.window.document, errors };
 }
 
-test('head metadata, JSON-LD and the Administrator gate', () => {
+test('head metadata, JSON-LD and Public access', () => {
   assert.equal(doc.title, 'Best-Fit Model Finder | UpSkill Sprint');
   assert.ok(doc.title.length <= 65);
   const description = doc.querySelector('meta[name="description"]').content;
@@ -43,14 +43,17 @@ test('head metadata, JSON-LD and the Administrator gate', () => {
   const app = ld['@graph'].find(node => node['@type'] === 'WebApplication');
   assert.equal(app.url, `https://upskillsprint.com${ROUTE}`);
   assert.equal(app.description, description);
-  assert.equal(app.offers, undefined, 'not free to the public, so no offers');
+  assert.equal(app.offers.price, '0', 'free to the public');
+  assert.equal(app.offers.priceCurrency, 'CAD');
   const crumbs = ld['@graph'].find(node => node['@type'] === 'BreadcrumbList').itemListElement;
   assert.equal(crumbs[1].item, 'https://upskillsprint.com/engineering-tools');
 
-  assert.ok(doc.body.hasAttribute('data-require-auth'));
-  assert.equal(doc.body.getAttribute('data-required-access'), 'administrator');
-  assert.equal(doc.body.getAttribute('data-access-resource'), `tool:${ROUTE}`);
-  assert.match(sql, new RegExp(`'tool:${ROUTE}', 'administrator'`));
+  for (const gate of ['data-require-auth', 'data-required-access', 'data-access-resource']) {
+    assert.equal(doc.body.hasAttribute(gate), false, `public tool must not carry ${gate}`);
+  }
+  assert.doesNotMatch(html, /Administrator preview/);
+  assert.match(sql, new RegExp(`'tool:${ROUTE}', 'public'`));
+  assert.equal(fs.existsSync(path.join(ROOT, 'supabase', 'administrator-best-fit-model-finder-access.sql')), false);
   assert.doesNotMatch(sql, /\b(create|alter|drop|grant)\b/i);
 });
 
@@ -86,7 +89,8 @@ test('engineering tools directory lists the finder without breaking per-tool gra
   const card = dir.getElementById('best-fit-model-finder');
   assert.ok(card);
   assert.equal(card.hasAttribute('data-tool'), false, 'no tool_catalog key, so the grant directory still validates');
-  assert.equal(card.querySelector('a.tool-action').getAttribute('href'), ROUTE);
+  assert.equal(card.querySelector('a.tool-action.primary').getAttribute('href'), ROUTE);
+  assert.match(card.querySelector('.tool-status').textContent, /Free to use/);
   assert.equal(dir.querySelectorAll('[data-tool]').length, 3, 'the three catalogued tools are unchanged');
 });
 
@@ -230,14 +234,14 @@ test('the Find best linear model button fits, recommends and opens the pick', as
   window.close();
 });
 
-test('calculator carries the finder as an admin-only tab after Distribution Lookup Tables', () => {
+test('calculator carries the finder as a tab after Distribution Lookup Tables', () => {
   const calc = fs.readFileSync(path.join(ROOT, 'tools', 'engineering-statistics-calculator.html'), 'utf8');
   const cdoc = new JSDOM(calc).window.document;
   const tabs = [...cdoc.querySelectorAll('#calculator-shell .tab[data-page]')].map(t => t.dataset.page);
   assert.equal(tabs[tabs.indexOf('pg-lookup') + 1], 'pg-fit', 'the finder tab follows Distribution Lookup Tables');
   const tab = cdoc.querySelector('.tab[data-page="pg-fit"]');
   assert.equal(tab.textContent, 'Best-Fit Model Finder');
-  assert.ok(tab.hasAttribute('hidden'), 'hidden until the administrator check passes');
+  assert.equal(tab.hasAttribute('hidden'), false, 'visible to everyone');
   const page = cdoc.getElementById('pg-fit');
   assert.ok(page.classList.contains('page'));
   assert.ok(page.querySelector('#bfm-tool.bfm-embedded #bfm-best-linear'));
@@ -249,42 +253,19 @@ test('calculator carries the finder as an admin-only tab after Distribution Look
   assert.equal(new Set(ids).size, ids.length, 'no duplicate finder ids in the calculator');
 });
 
-async function tabHarness(level, user) {
-  const dom = new JSDOM(`<!doctype html><body><div id="calculator-shell">
-    <button class="tab active" data-page="pg-guide">Guided</button><button class="tab" data-page="pg-lookup">Lookup</button>
-    <button class="tab" data-page="pg-fit" hidden>Best-Fit Model Finder</button><button class="tab" data-page="pg-test">Tests</button></div>
-    <select id="calc-workspace"><option value="pg-guide">Guided</option><option value="pg-lookup">Lookup</option><option value="pg-fit">Finder</option><option value="pg-test">Tests</option></select>
+test('the calculator tab loads the finder scripts on first visit, for everyone', async () => {
+  const dom = new JSDOM(`<!doctype html><head></head><body><div id="calculator-shell">
+    <button class="tab active" data-page="pg-guide">Guided</button><button class="tab" data-page="pg-fit">Best-Fit Model Finder</button></div>
     <section class="page" id="pg-fit"></section></body>`, { runScripts: 'outside-only' });
-  const w = dom.window, calls = [];
-  w.UpskillAuth = {
-    isConfigured: () => true,
-    onChange: listener => listener(user),
-    getClient: () => ({ rpc: (name, args) => { calls.push([name, args]); return Promise.resolve({ data: level, error: null }); } })
-  };
+  const w = dom.window, d = w.document;
   w.eval(fs.readFileSync(path.join(ROOT, 'tools', 'calculator-assets', 'bestfit-tab.js'), 'utf8'));
+  assert.equal(d.querySelector('script[src="/tools/best-fit-model-finder-core.js"]'), null, 'nothing loads until the tab is opened');
+  d.querySelector('[data-page="pg-fit"]').click();
   await new Promise(resolve => setTimeout(resolve, 20));
-  return { w, d: w.document, calls };
-}
-
-test('the calculator tab appears only for administrator accounts', async () => {
-  const admin = await tabHarness('administrator', { id: 'admin' });
-  const options = [...admin.d.querySelectorAll('#calc-workspace option')].map(o => o.value);
-  assert.equal(admin.d.querySelector('[data-page="pg-fit"]').hidden, false);
-  assert.deepEqual(options, ['pg-guide', 'pg-lookup', 'pg-fit', 'pg-test']);
-  assert.equal(admin.calls[0][0], 'current_access_level', 'uses the server-computed access level, like the Account menu');
-  admin.d.querySelector('[data-page="pg-fit"]').click();
-  await new Promise(resolve => setTimeout(resolve, 20));
-  const srcs = [...admin.d.querySelectorAll('script[src]')].map(s => s.getAttribute('src'));
-  assert.ok(srcs.includes('/tools/best-fit-model-finder-core.js'), 'finder scripts load on first visit');
+  const srcs = [...d.querySelectorAll('script[src]')].map(s => s.getAttribute('src'));
+  assert.ok(srcs.includes('/tools/best-fit-model-finder-core.js'));
   assert.ok(srcs.includes('/assets/js/math.js'));
-
-  const member = await tabHarness('premium', { id: 'member' });
-  assert.equal(member.d.querySelector('[data-page="pg-fit"]').hidden, true);
-  assert.equal(member.d.querySelector('#calc-workspace option[value="pg-fit"]'), null);
-  member.d.querySelector('[data-page="pg-fit"]').click();
-  assert.equal(member.d.querySelector('script[src="/tools/best-fit-model-finder-core.js"]'), null, 'nothing loads without access');
-
-  const anon = await tabHarness('administrator', null);
-  assert.equal(anon.d.querySelector('[data-page="pg-fit"]').hidden, true);
-  assert.equal(anon.calls.length, 0, 'signed-out visitors are never checked or shown the tab');
+  assert.equal(srcs.filter(s => s === '/assets/js/math.js').length, 1);
+  assert.doesNotMatch(fs.readFileSync(path.join(ROOT, 'tools', 'calculator-assets', 'bestfit-tab.js'), 'utf8'), /current_access_level|can_access_content|UpskillAuth/);
+  w.close();
 });
