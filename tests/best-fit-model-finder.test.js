@@ -249,7 +249,7 @@ test('calculator carries the finder as an admin-only tab after Distribution Look
   assert.equal(new Set(ids).size, ids.length, 'no duplicate finder ids in the calculator');
 });
 
-async function tabHarness(granted, user) {
+async function tabHarness(level, user) {
   const dom = new JSDOM(`<!doctype html><body><div id="calculator-shell">
     <button class="tab active" data-page="pg-guide">Guided</button><button class="tab" data-page="pg-lookup">Lookup</button>
     <button class="tab" data-page="pg-fit" hidden>Best-Fit Model Finder</button><button class="tab" data-page="pg-test">Tests</button></div>
@@ -259,32 +259,32 @@ async function tabHarness(granted, user) {
   w.UpskillAuth = {
     isConfigured: () => true,
     onChange: listener => listener(user),
-    getClient: () => ({ rpc: (name, args) => { calls.push([name, args]); return Promise.resolve({ data: granted, error: null }); } })
+    getClient: () => ({ rpc: (name, args) => { calls.push([name, args]); return Promise.resolve({ data: level, error: null }); } })
   };
   w.eval(fs.readFileSync(path.join(ROOT, 'tools', 'calculator-assets', 'bestfit-tab.js'), 'utf8'));
   await new Promise(resolve => setTimeout(resolve, 20));
   return { w, d: w.document, calls };
 }
 
-test('the calculator tab appears only for accounts that pass the administrator rule', async () => {
-  const admin = await tabHarness(true, { id: 'admin' });
+test('the calculator tab appears only for administrator accounts', async () => {
+  const admin = await tabHarness('administrator', { id: 'admin' });
   const options = [...admin.d.querySelectorAll('#calc-workspace option')].map(o => o.value);
   assert.equal(admin.d.querySelector('[data-page="pg-fit"]').hidden, false);
   assert.deepEqual(options, ['pg-guide', 'pg-lookup', 'pg-fit', 'pg-test']);
-  assert.equal(JSON.stringify(admin.calls[0]), JSON.stringify(['can_access_content', { requested_resource_key: 'tool:/tools/best-fit-model-finder' }]));
+  assert.equal(admin.calls[0][0], 'current_access_level', 'uses the server-computed access level, like the Account menu');
   admin.d.querySelector('[data-page="pg-fit"]').click();
   await new Promise(resolve => setTimeout(resolve, 20));
   const srcs = [...admin.d.querySelectorAll('script[src]')].map(s => s.getAttribute('src'));
   assert.ok(srcs.includes('/tools/best-fit-model-finder-core.js'), 'finder scripts load on first visit');
   assert.ok(srcs.includes('/assets/js/math.js'));
 
-  const member = await tabHarness(false, { id: 'member' });
+  const member = await tabHarness('premium', { id: 'member' });
   assert.equal(member.d.querySelector('[data-page="pg-fit"]').hidden, true);
   assert.equal(member.d.querySelector('#calc-workspace option[value="pg-fit"]'), null);
   member.d.querySelector('[data-page="pg-fit"]').click();
   assert.equal(member.d.querySelector('script[src="/tools/best-fit-model-finder-core.js"]'), null, 'nothing loads without access');
 
-  const anon = await tabHarness(true, null);
+  const anon = await tabHarness('administrator', null);
   assert.equal(anon.d.querySelector('[data-page="pg-fit"]').hidden, true);
   assert.equal(anon.calls.length, 0, 'signed-out visitors are never checked or shown the tab');
 });

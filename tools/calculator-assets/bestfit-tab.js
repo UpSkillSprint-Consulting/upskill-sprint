@@ -1,12 +1,13 @@
 /* Best-Fit Model Finder tab in the Engineering & Statistics Calculator.
- * The tab and its workspace-picker option stay hidden unless the signed-in account passes
- * can_access_content('tool:/tools/best-fit-model-finder'), the same administrator rule as the
- * standalone page. This is a soft gate: the markup ships with the public calculator.
+ * The tab and its workspace-picker option stay hidden unless the server reports the signed-in
+ * account's access level as administrator (public.current_access_level(), the same RPC the
+ * Account menu uses; never editable user metadata). No content rule is needed for the tab.
+ * This is a soft gate: the markup ships with the public calculator.
  * The finder scripts load on the first visit to the tab.
  */
 (function () {
   'use strict';
-  var RESOURCE = 'tool:/tools/best-fit-model-finder';
+  var REQUIRED = 'administrator';
   var tab = document.querySelector('#calculator-shell .tab[data-page="pg-fit"]');
   var page = document.getElementById('pg-fit');
   var picker = document.getElementById('calc-workspace');
@@ -63,10 +64,10 @@
       if (!user) { hide(); return; }
       var client = auth.getClient && auth.getClient();
       if (!client || typeof client.rpc !== 'function') { hide(); return; }
-      Promise.resolve().then(function () { return client.rpc('can_access_content', { requested_resource_key: RESOURCE }); })
+      Promise.resolve().then(function () { return client.rpc('current_access_level'); })
         .then(function (result) {
           if (mine !== revision) return;
-          if (result && !result.error && result.data === true) show(); else hide();
+          if (result && !result.error && result.data === REQUIRED) show(); else hide();
         })
         .catch(function () { if (mine === revision) hide(); });
     });
