@@ -42,6 +42,25 @@
       ctaBody: 'Three full question sets, a mixed set, a placement diagnostic, a 165-question timed mock exam and focused quizzes by Body of Knowledge area, all in this same simulator.',
       fullBank: 'The full bank tests the same depth across 165-question mock exams.'
     },
+    cssgb: {
+      // Green Belt shares the Black Belt domain colours in the real exam (DM).
+      dm: null,
+      bok: [
+        {domain: 'enterprise', subs: [{id: 'cssgb-org', name: 'I. Overview: Six Sigma and the Organization', lesson: '/lessons/what-is-lean-six-sigma', lessonName: 'What Is Lean Six Sigma'}]},
+        {domain: 'define', subs: [{id: 'cssgb-define', name: 'II. Define Phase', lesson: '/lessons/what-is-lean-six-sigma', lessonName: 'Define & Voice of the Customer'}]},
+        {domain: 'measure', subs: [{id: 'cssgb-measure', name: 'III. Measure Phase', lesson: '/lessons/lean-six-sigma/process-capability-cp-and-cpk', lessonName: 'Process Capability (Cp & Cpk)'}]},
+        {domain: 'analyze', subs: [{id: 'cssgb-analyze', name: 'IV. Analyze Phase', lesson: '/lessons/hypothesis-testing-for-beginners', lessonName: 'Hypothesis Testing'}]},
+        {domain: 'improve', subs: [{id: 'cssgb-improve', name: 'V. Improve Phase', lesson: '/lessons/introduction-to-design-of-experiment-doe', lessonName: 'Design of Experiments'}]},
+        {domain: 'control', subs: [{id: 'cssgb-control', name: 'VI. Control Phase', lesson: '/lessons/control-charts-explained', lessonName: 'Control Charts, Explained'}]}
+      ],
+      examName: 'ASQ Certified Six Sigma Green Belt',
+      short: 'CSSGB',
+      startTitle: 'Free CSSGB practice questions: ExamPreview',
+      ctaLabel: 'Get the complete Green Belt question bank',
+      ctaTitle: 'Practise with the complete Green Belt question bank',
+      ctaBody: 'Two full 110-question exam sets, timed or untimed, plus focused quizzes by Body of Knowledge area, all in this same simulator.',
+      fullBank: 'The full bank tests the same depth across 110-question mock exams.'
+    },
     pmp: {
       dm: {
         'pmp-people': {name: 'People', color: '#1a5276'},
@@ -65,6 +84,7 @@
   };
   var EXAM = body.dataset.examPreview, CFG = CONFIGS[EXAM];
   if (!CFG) return;
+  if (!CFG.dm) CFG.dm = CONFIGS.cssbb.dm;
   var DM = CFG.dm, BOK = CFG.bok;
   var SUB = {};
   BOK.forEach(function (d) { d.subs.forEach(function (s) { SUB[s.id] = {domain: d.domain, name: s.name, lesson: s.lesson, lessonName: s.lessonName}; }); });

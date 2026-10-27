@@ -42,7 +42,7 @@ function between(src, start, end) {
 
 export async function extractExamToolsJs(root = ROOT) {
   const page = await readFile(join(root, 'test-bank.html'), 'utf8');
-  const refs = between(page, '  var REFS={', '  /* Green Belt');
+  const refs = between(page, '  var REFS={', '  /* The MBB source simulation');
   const calc = between(page, '  function factorial(', '  function fmtClock(');
   const tools = between(page, '  function calcKeys(){', '  function isAnswerRevealed(');
   if (!/REFS=\{\s*cssbb:\[/.test(refs) || /stem\s*:/.test(refs + calc + tools)) throw new Error('Unexpected content in extracted exam tools.');
