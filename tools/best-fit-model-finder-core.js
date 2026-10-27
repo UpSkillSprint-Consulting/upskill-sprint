@@ -678,6 +678,11 @@
     }
     var aic = -2 * m.ll + 2 * k, aicc = aic + 2 * k * (k + 1) / (n - k - 1);
     var ck = checks(m.fitScale.fit, m.fitScale.res);
+    if (spec.linearized) {
+      var vbar = mean(m.fitScale.v), tss = 0, rss = 0;
+      for (var q = 0; q < n; q++) { tss += (m.fitScale.v[q] - vbar) * (m.fitScale.v[q] - vbar); rss += m.fitScale.res[q] * m.fitScale.res[q]; }
+      m.fitScale.r2 = tss > 0 ? 1 - rss / tss : NaN;
+    }
     var cv = opts.cv === false ? NaN : crossValidate(spec, x, y, Math.min(opts.folds || 10, n));
     var flags = [];
     if (ck.curved) flags.push('curve remains');
@@ -766,6 +771,34 @@
     return { best: best, bestPassing: passing[0] || null, ties: ties, simplest: simplest, cvBest: cvBest, warnings: warnings };
   }
 
+  /* The single best "linear" model: a straight line after transforming x and/or y
+     (ladder, logit, Arrhenius, Box-Cox, Box-Tidwell). Prefer models that pass both
+     residual checks; among those within 2 AICc of the best, take the fewest parameters,
+     so a plain ladder rung beats an estimated Box-Cox power that fits no better. */
+  function bestLinear(models) {
+    var pool = models.filter(function (m) { return m.linearized && m.comparable && isFinite(m.aicc); });
+    if (!pool.length) return null;
+    var byA = rank(pool, 'aicc'), passing = byA.filter(function (m) { return m.passes; });
+    var base = passing.length ? passing : byA, top = base[0];
+    var near = base.filter(function (m) { return m.aicc - top.aicc < 2; });
+    var pick = near.slice().sort(function (a, b) { return a.k - b.k || a.aicc - b.aicc; })[0];
+    var others = base.filter(function (m) { return m !== pick; });
+    var reasons = [];
+    reasons.push('It is a straight line on the ' + pick.fitScale.yLabel + ' versus ' + pick.fitScale.xLabel + ' scale (R² ' + pick.fitScale.r2.toFixed(4) + ' on that scale).');
+    if (passing.length) reasons.push('It passes both residual checks: no leftover curve (p ' + fmtP(pick.curvP) + ') and even spread (p ' + fmtP(pick.spreadP) + ').');
+    else reasons.push('No straight-line transformation passes both residual checks, so this is the best of the ones that fail. Treat it with caution.');
+    if (pick !== top) reasons.push('It is within 2 AICc of ' + top.name + ' and uses fewer parameters, so it is the simpler equal choice.');
+    if (others.length) reasons.push('Next best: ' + others[0].name + ', ' + (others[0].aicc - pick.aicc >= 0 ? 'ΔAICc ' + (others[0].aicc - pick.aicc).toFixed(2) : 'within 2 AICc') + '.');
+    reasons.push('Compared ' + pool.length + ' straight-line transformations' + (passing.length ? ', ' + passing.length + ' of which pass both checks.' : '.'));
+    var overall = rank(models.filter(function (m) { return m.comparable; }), 'aicc')[0], beaten = null;
+    if (overall && !overall.linearized && pick.aicc - overall.aicc > 10) {
+      beaten = overall;
+      reasons.push('A model that is not a straight-line transformation fits much better: ' + overall.name + ' (lower AICc by ' + (pick.aicc - overall.aicc).toFixed(1) + '). The relationship may not be linearizable; consider that model instead.');
+    }
+    return { pick: pick, passing: passing.length > 0, near: near, runnersUp: others.slice(0, 3), poolSize: pool.length, passingCount: passing.length, betterNonlinear: beaten, reasons: reasons };
+  }
+  function fmtP(p) { return !isFinite(p) ? 'n/a' : p < 0.001 ? '< 0.001' : p.toFixed(3); }
+
   /* Fictitious sample datasets for trying the tool. */
   function sample(key) {
     var r = rng({ hallpetch: 11, growth: 25, charpy: 83 }[key] || 1), x = [], y = [];
@@ -779,7 +812,7 @@
   }
 
   var api = {
-    RUNGS: RUNGS, prepare: prepare, describe: describe, fitAll: fitAll, rank: rank, buildSpecs: buildSpecs, evaluate: evaluate,
+    RUNGS: RUNGS, prepare: prepare, describe: describe, fitAll: fitAll, rank: rank, bestLinear: bestLinear, buildSpecs: buildSpecs, evaluate: evaluate,
     fitTransformed: fitTransformed, xLadder: xLadder, yLadder: yLadder, yLogit: yLogit, yBoxCox: yBoxCox,
     fitPoly: fitPoly, fitBoxCox: fitBoxCox, fitPowerX: fitPowerX, fitNLS: fitNLS, fitGLM: fitGLM, lm: lm,
     checks: checks, fUpper: fUpper, tTwoSided: tTwoSided, t975: t975, lgamma: lgamma, fmt: fmt, sample: sample, rng: rng

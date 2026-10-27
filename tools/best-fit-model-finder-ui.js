@@ -8,6 +8,7 @@
   var fmt = C.fmt;
   function fmtP(p) { return !isFinite(p) ? 'n/a' : p < 0.001 ? '< 0.001' : p.toFixed(3); }
   function num(v, d) { return isFinite(v) ? v.toFixed(d) : '–'; }
+  function scrollTo(el) { if (el && typeof el.scrollIntoView === 'function') el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   function typeset(el) { if (el && window.UpskillMath && typeof window.UpskillMath.typeset === 'function') window.UpskillMath.typeset([el]); }
 
   var state = { dataset: null, workbook: null, result: null, selected: null, x: [], y: [] };
@@ -26,7 +27,7 @@
     xs.value = String(numCols[0] != null ? numCols[0] : 0);
     ys.value = String(numCols[1] != null ? numCols[1] : Math.min(1, cols.length - 1));
     $('bfm-setup').hidden = false;
-    $('results').hidden = true; $('detail').hidden = true;
+    $('results').hidden = true; $('detail').hidden = true; $('best').hidden = true;
     renderPreview();
     status(label + ': ' + dataset.rows.length + ' rows, ' + cols.length + ' columns.' + (dataset.notes && dataset.notes.length ? ' ' + dataset.notes.join(' ') : ''));
     refreshSummary();
@@ -113,7 +114,7 @@
   });
 
   /* ---------- fitting ---------- */
-  function run() {
+  function run(after) {
     var p = selectedPairs();
     var yType = $('bfm-ytype').value;
     var opts = { xOffset: +$('bfm-offset').value || 0, yScale: yType === 'unit' ? 1 : yType === 'percent' ? 100 : null, tempUnit: $('bfm-temp').value || null, folds: +$('bfm-folds').value };
@@ -129,11 +130,53 @@
         $('results').hidden = false;
         renderSummary(); renderBoard();
         select(C.rank(state.result.models, $('bfm-rankby').value)[0].id);
+        if (typeof after === 'function') after();
       } catch (e) { st.className = 'bfm-note bfm-error'; st.textContent = e.message; }
-      btn.disabled = false;
+      btn.disabled = false; $('bfm-best-linear').disabled = false;
     }, 20);
   }
-  $('bfm-run').addEventListener('click', run);
+  $('bfm-run').addEventListener('click', function () { $('best').hidden = true; run(); });
+
+  /* ---------- best linear model ---------- */
+  function showBestLinear() {
+    var b = C.bestLinear(state.result.models), sec = $('best');
+    sec.hidden = false;
+    if (!b) {
+      $('bfm-best-status').textContent = 'Not available';
+      $('bfm-best-name').textContent = 'No straight-line transformation could be fitted';
+      $('bfm-best-eq').textContent = '';
+      $('bfm-best-reasons').innerHTML = '<li>Check that x and y vary and that the values suit the transformations, or set an offset.</li>';
+      $('bfm-best-runners').innerHTML = '';
+      $('bfm-best-open').disabled = true;
+      return;
+    }
+    var m = b.pick;
+    $('bfm-best-open').disabled = false;
+    $('bfm-best-status').textContent = b.betterNonlinear ? 'Best straight-line option, but see the warning' : b.passing ? 'Recommended' : 'Best available, fails a check';
+    $('bfm-best-name').textContent = m.name;
+    $('bfm-best-eq').textContent = m.equation;
+    $('bfm-best-back').textContent = [m.back ? 'On the original scale: ' + m.back : '', m.extra || ''].filter(Boolean).join(' · ');
+    var ul = $('bfm-best-reasons'); ul.innerHTML = '';
+    b.reasons.forEach(function (r) { var li = doc.createElement('li'); li.textContent = r; ul.appendChild(li); });
+    var tb = $('bfm-best-runners'); tb.innerHTML = '';
+    b.runnersUp.forEach(function (q) {
+      var tr = doc.createElement('tr'), th = doc.createElement('th'); th.scope = 'row'; th.textContent = q.name; tr.appendChild(th);
+      [num(q.aicc - m.aicc, 2), num(q.r2, 4)].forEach(function (v) { var td = doc.createElement('td'); td.className = 'bfm-num'; td.textContent = v; tr.appendChild(td); });
+      var td2 = doc.createElement('td'); td2.appendChild(tag('shape', !q.curved)); td2.appendChild(tag('spread', !q.funnel)); tr.appendChild(td2);
+      tb.appendChild(tr);
+    });
+    if (!b.runnersUp.length) tb.innerHTML = '<tr><td colspan="4">No other straight-line models to compare.</td></tr>';
+    var fs = m.fitScale, eu = extent(fs.u), reg = fitLine(fs.u, fs.v), line = [];
+    for (var i = 0; i <= 60; i++) { var u = eu[0] + (eu[1] - eu[0]) * i / 60; line.push([u, reg.a + reg.b * u]); }
+    plot($('bfm-best-plot'), { xs: fs.u, ys: fs.v, curves: [{ cls: 'bfm-fitline', pts: line }], xLabel: fs.xLabel, yLabel: fs.yLabel });
+    $('bfm-best-cap').textContent = 'Straight line on the transformed scale: ' + fs.yLabel + ' vs ' + fs.xLabel;
+    $('bfm-best-plot').setAttribute('aria-label', 'Transformed data, ' + fs.yLabel + ' against ' + fs.xLabel + ', with the fitted straight line.');
+    select(m.id);
+    scrollTo(sec);
+  }
+  $('bfm-best-linear').addEventListener('click', function () { $('bfm-best-linear').disabled = true; run(showBestLinear); });
+  $('bfm-best-open').addEventListener('click', function () { var b = C.bestLinear(state.result.models); if (b) { select(b.pick.id); scrollTo($('detail')); } });
+  $('bfm-best-all').addEventListener('click', function () { scrollTo($('results')); });
 
   function nameOf(m) { return m ? m.name : 'none'; }
   function renderSummary() {
@@ -187,7 +230,7 @@
       b.type = 'button'; b.className = 'bfm-pick'; b.textContent = 'View';
       b.setAttribute('aria-label', 'View ' + m.name);
       b.setAttribute('aria-pressed', state.selected && state.selected.id === m.id ? 'true' : 'false');
-      b.addEventListener('click', function () { select(m.id); $('detail').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+      b.addEventListener('click', function () { select(m.id); scrollTo($('detail')); });
       act.appendChild(b); tr.appendChild(act);
       body.appendChild(tr);
     });
@@ -214,7 +257,7 @@
   function plot(svg, o) {
     while (svg.firstChild) svg.removeChild(svg.firstChild);
     var vb = (svg.getAttribute('viewBox') || '0 0 380 280').split(/[\s,]+/).map(Number), W = vb[2], H = vb[3];
-    var m = { l: 56, r: 12, t: 12, b: 42 }, ex = extent(o.xs), ey = extent(o.ys);
+    var m = { l: 56, r: 24, t: 12, b: 42 }, ex = extent(o.xs), ey = extent(o.ys);
     if (o.zero) ey = [Math.min(ey[0], 0), Math.max(ey[1], 0)];
     var tx = niceTicks(ex[0], ex[1], 4), ty = niceTicks(ey[0], ey[1], 4);
     var sx = function (v) { return m.l + (v - tx.lo) / (tx.hi - tx.lo) * (W - m.l - m.r); };
@@ -328,5 +371,5 @@
     download('best-fit-' + m.id.replace(/[^a-z0-9.-]+/gi, '-') + '.csv', rows);
   });
 
-  window.BestFitUI = { state: function () { return state; }, run: run, select: select };
+  window.BestFitUI = { state: function () { return state; }, run: run, select: select, showBestLinear: showBestLinear };
 })();

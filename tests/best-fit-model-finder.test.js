@@ -185,3 +185,44 @@ test('the page loads samples, pasted tables, ranks, selects and predicts', async
   assert.deepEqual(errors, []);
   window.close();
 });
+
+test('best linear model picks the simplest passing straight-line transformation', () => {
+  const pickFor = (key, opts) => { const d = C.sample(key); return C.bestLinear(C.fitAll(d.x, d.y, Object.assign({ cv: false }, opts)).models); };
+  const hp = pickFor('hallpetch');
+  assert.equal(hp.pick.id, 'ladder|-0.5|1');
+  assert.equal(hp.passing, true);
+  assert.ok(hp.reasons.some(r => /straight line on the y versus 1\/√x scale/.test(r)));
+  assert.equal(pickFor('growth').pick.id, 'ladder|1|0');
+  const charpy = pickFor('charpy', { tempUnit: 'C' });
+  assert.equal(charpy.passing, false, 'no straight-line transform suits an S-curve');
+  assert.equal(charpy.betterNonlinear.id, 'nls|tanh');
+  assert.ok(charpy.reasons.some(r => /not be linearizable/.test(r)));
+  /* Among near-ties the fewest parameters win: an estimated Box-Cox power never beats a tied plain rung. */
+  for (const key of ['hallpetch', 'growth']) {
+    const r = pickFor(key);
+    assert.ok(r.near.every(m => m.k >= r.pick.k));
+  }
+  assert.equal(C.bestLinear([]), null);
+});
+
+test('the Find best linear model button fits, recommends and opens the pick', async () => {
+  const { window, document, errors } = runtime();
+  const $ = id => document.getElementById(id);
+  $('bfm-paste').value = 'Grain,Yield\n' + C.sample('hallpetch').x.map((x, i) => `${x},${C.sample('hallpetch').y[i]}`).join('\n');
+  $('bfm-use-paste').click();
+  assert.equal($('best').hidden, true);
+  $('bfm-best-linear').click();
+  await new Promise(resolve => setTimeout(resolve, 2500));
+  assert.equal($('best').hidden, false);
+  assert.equal($('bfm-best-name').textContent, 'Inverse square root (Hall–Petch)');
+  assert.equal($('bfm-best-status').textContent, 'Recommended');
+  assert.match($('bfm-best-eq').textContent, /\/√x/);
+  assert.ok($('bfm-best-reasons').children.length >= 3);
+  assert.ok(document.querySelector('#bfm-best-plot path.bfm-fitline'));
+  assert.equal($('bfm-detail-name').textContent, 'Inverse square root (Hall–Petch)');
+  assert.equal($('bfm-best-linear').disabled, false);
+  $('bfm-use-paste').click();
+  assert.equal($('best').hidden, true, 'loading new data clears the old recommendation');
+  assert.deepEqual(errors, []);
+  window.close();
+});
