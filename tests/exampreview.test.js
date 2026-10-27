@@ -200,6 +200,9 @@ test('ExamPreview SEO, entry points and privacy addition', () => {
   assert.match(privacy, /id="exampreview-waitlist"/);
   assert.match(privacy, /we'll act on it within 10 business days\. We never sell your information\./);
   assert.match(read('sitemap.xml'), /https:\/\/upskillsprint\.com\/exam-preview\/cssbb</);
+  const related = [...html.matchAll(/<section class="related-lessons[\s\S]*?<\/section>/g)][0][0];
+  assert.match(related, /<ul>\s*<li><a href="\/lessons\/lean-six-sigma\/dmaic-formula-encyclopedia">DMAIC Formula Encyclopedia<\/a> — /, 'DMAIC encyclopedia is the first related lesson');
+  assert.ok(fs.existsSync(path.join(root, 'lessons/lean-six-sigma/dmaic-formula-encyclopedia.html')));
 });
 
 test('ExamPreview has the real exam Formulas, Tables and Calc tools, with no paid or auth calls', async () => {
