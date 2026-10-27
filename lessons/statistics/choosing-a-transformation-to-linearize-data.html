@@ -34,7 +34,9 @@
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/lessons-theme.css">
   <script src="/theme.js"></script>
-  <script src="/site-sections.js"></script>
+  <link rel="stylesheet" href="/site-nav.css">
+<script src="/site-nav.js" defer></script>
+<script src="/site-sections.js"></script>
   <script defer src="/assets/js/math.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -214,6 +216,10 @@
   pre.lz-code { background: var(--lesson-lz-code-bg); color: var(--lesson-lz-code-ink); padding: 14px 16px; border-radius: 8px; overflow-x: auto; font-family: var(--lesson-lz-mono); font-size: .85rem; line-height: 1.55; margin: 12px 0; max-width: 100%; }
   pre.lz-code code { background: none; color: inherit; padding: 0; }
   .lz-refs li { margin: 6px 0; }
+  #lesson-content .related-lessons { max-width: 1120px; margin-left: auto; margin-right: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .lz-toolcta { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between; border: 1px solid var(--lesson-lz-accent); border-radius: 10px; padding: 14px 18px; margin: 18px 0; background: var(--lesson-lz-panel); color: var(--lesson-lz-ink); }
+  .lz-toolcta p { margin: 0; max-width: 62ch; color: var(--lesson-lz-ink); }
+  .lz-toolcta a.lz-toolcta-link { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
 
   @media (max-width: 960px) {
     .lz-hero-grid, .lz-lab, .lz-bulge, .lz-tool, .lz-chooser, .lz-controls { grid-template-columns: minmax(0, 1fr); }
@@ -238,6 +244,7 @@
     <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
   </div>
 </header>
+<nav class="mobile-nav" data-nav-root="mobile" aria-label="Main"><div class="nav-acc" data-nav-acc="start"><button type="button" class="nav-acc-btn" data-nav-tab="start" aria-expanded="false" aria-controls="nav-m-start"><span>Start Here</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-start" hidden><a class="nav-row" href="/start-here#quality-improvement-basics"><span class="nav-name">Quality Improvement Basics</span></a><a class="nav-row" href="/start-here#data-analysis-basics"><span class="nav-name">Data Analysis Basics</span></a><a class="nav-row" href="/start-here#lean-six-sigma-tools"><span class="nav-name">Lean Six Sigma Tools</span></a><a class="nav-row" href="/start-here#excel-and-power-bi-skills"><span class="nav-name">Excel and Power BI Skills</span></a><a class="nav-row" href="/start-here#statistics-for-decision-making"><span class="nav-name">Statistics for Decision-Making</span></a><a class="nav-foot-primary nav-acc-all" href="/start-here">See all learning paths →</a></div></div><div class="nav-acc" data-nav-acc="lessons"><button type="button" class="nav-acc-btn" data-nav-tab="lessons" aria-current="page" aria-expanded="false" aria-controls="nav-m-lessons"><span>Lessons</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-lessons" hidden><a class="nav-row" href="/lessons#data-analytics"><span class="nav-name">Data Analytics</span><span class="nav-count" data-nav-count="data-analytics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#quality-engineering"><span class="nav-name">Quality Engineering</span><span class="nav-count" data-nav-count="quality-engineering" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#lean-six-sigma"><span class="nav-name">Lean Six Sigma</span><span class="nav-count" data-nav-count="lean-six-sigma" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#statistics"><span class="nav-name">Statistics</span><span class="nav-count" data-nav-count="statistics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#power-bi-excel-sql"><span class="nav-name">Power BI, Excel &amp; SQL</span><span class="nav-count" data-nav-count="power-bi-excel-sql" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#project-management"><span class="nav-name">Project Management</span><span class="nav-count" data-nav-count="project-management" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#business-decision-making"><span class="nav-name">Business Decision-Making</span><span class="nav-count" data-nav-count="business-decision-making" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#ai-for-work"><span class="nav-name">AI for Work</span><span class="nav-count" data-nav-count="ai-for-work" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-foot-primary nav-acc-all" href="/lessons" data-nav-total-link>View all lessons →</a><a class="nav-foot-secondary" href="/request-topic">Request a topic</a></div></div><div class="nav-acc" data-nav-acc="exam"><button type="button" class="nav-acc-btn" data-nav-tab="exam" aria-expanded="false" aria-controls="nav-m-exam"><span>Exam Practice</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-exam" hidden><a class="nav-row nav-exam" href="/exam-practice#exam-cssbb"><span class="nav-acronym">CSSBB</span><span class="nav-name">Six Sigma Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqe"><span class="nav-acronym">CQE</span><span class="nav-name">Quality Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-mbb"><span class="nav-acronym">CMBB</span><span class="nav-name">Six Sigma Master Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cssgb"><span class="nav-acronym">CSSGB</span><span class="nav-name">Six Sigma Green Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cmq"><span class="nav-acronym">CMQ/OE</span><span class="nav-name">Manager of Quality / Org. Excellence</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cre"><span class="nav-acronym">CRE</span><span class="nav-name">Reliability Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-pmp"><span class="nav-acronym">PMP</span><span class="nav-name">Project Management Professional</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-nppe"><span class="nav-acronym">NPPE</span><span class="nav-name">National Professional Practice Exam</span></a><span class="nav-row nav-exam is-soon" aria-disabled="true"><span class="nav-acronym">CQA</span><span class="nav-name">Quality Auditor</span><span class="nav-soon">Coming soon</span></span><a class="nav-foot-primary nav-acc-all" href="/exam-practice">All exams →</a><a class="nav-foot-secondary" href="/exam-practice#my-exams">My exams</a></div></div><div class="nav-acc" data-nav-acc="tools"><button type="button" class="nav-acc-btn" data-nav-tab="tools" aria-expanded="false" aria-controls="nav-m-tools"><span>Engineering Tools</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-tools" hidden><a class="nav-row" href="/tools/engineering-statistics-calculator"><span class="nav-name">Engineering &amp; Statistics Calculator</span></a><a class="nav-row" href="/tools/unit-converter"><span class="nav-name">Unit Converter</span></a><a class="nav-row" href="/engineering-tools/grade-specification-lookup/"><span class="nav-name">Material Specification Lookup</span></a><a class="nav-row" href="/tools/material-specification-compliance-checker"><span class="nav-name">Material Specification Compliance Checker</span></a><a class="nav-row" href="/tools/steel-phase-explorer"><span class="nav-name">Steel Phase &amp; Transformation Explorer</span></a><a class="nav-foot-primary nav-acc-all" href="/engineering-tools">All tools →</a><a class="nav-foot-secondary" href="/engineering-tools#suggest-a-tool">Suggest a tool</a></div></div><div class="nav-acc" data-nav-acc="services"><button type="button" class="nav-acc-btn" data-nav-tab="services" aria-expanded="false" aria-controls="nav-m-services"><span>Services</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-services" hidden><a class="nav-row nav-rich" href="/services#corporate-training"><span class="nav-name">Corporate Training</span><span class="nav-desc">Team workshops on Lean Six Sigma and quality tools</span></a><a class="nav-row nav-rich" href="/services#one-on-one-coaching"><span class="nav-name">One-on-One Coaching</span><span class="nav-desc">Excel, Power BI, Minitab, statistics</span></a><a class="nav-row nav-rich" href="/services#consulting-support"><span class="nav-name">Consulting Support</span><span class="nav-desc">Root cause analysis, KPIs, quality investigations</span></a><a class="nav-row nav-rich" href="/services#custom-lessons"><span class="nav-name">Custom Lessons</span><span class="nav-desc">Training built around your team's needs</span></a><a class="nav-row nav-rich" href="/services#data-dashboard-support"><span class="nav-name">Data &amp; Dashboard Support</span><span class="nav-desc">Excel, Power BI and SQL help</span></a><a class="nav-book nav-acc-all" href="/contact">Book a consultation</a></div></div><div class="nav-acc" data-nav-acc="about"><button type="button" class="nav-acc-btn" data-nav-tab="about" aria-expanded="false" aria-controls="nav-m-about"><span>About</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-about" hidden><a class="nav-row nav-rich" href="/about"><span class="nav-name">About UpSkill Sprint</span><span class="nav-desc">Who builds the lessons and why</span></a><a class="nav-row nav-rich" href="/faq"><span class="nav-name">FAQ</span><span class="nav-desc">Free lessons, accounts, exams</span></a><a class="nav-row nav-rich" href="/request-topic"><span class="nav-name">Request a Topic</span><span class="nav-desc">Tell us the lesson you need</span></a><a class="nav-row nav-rich" href="/contact"><span class="nav-name">Contact</span><span class="nav-desc">Questions and partnerships</span></a><a class="nav-foot-primary nav-acc-all" href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a></div></div><div class="nav-drawer-footer"><a class="nav-drawer-account" href="/sign-in">Account</a><a class="nav-drawer-browse" href="/lessons">Browse lessons</a></div></nav>
 <main id="lesson-content">
 
 <header class="lz-hero">
@@ -302,7 +309,7 @@
     <div class="lz-prose">
       <h3 id="why-log-is-zero">Why the log sits at power 0</h3>
       <p>The raw power \(x^{0}\) is just 1, which is useless. The Box–Cox form fixes this by scaling each power so the ladder is continuous:</p>
-      <div class="lz-formula">\[ x^{(\lambda)} = \begin{cases} \dfrac{x^{\lambda} - 1}{\lambda}, & \lambda \ne 0 \\[6pt] \ln x, & \lambda = 0 \end{cases} \qquad\text{because}\qquad \lim_{\lambda \to 0} \frac{x^{\lambda} - 1}{\lambda} = \ln x . \]</div>
+      <div class="lz-formula" tabindex="0" role="region" aria-label="Formula: Box-Cox power family with the log at power zero">\[ x^{(\lambda)} = \begin{cases} \dfrac{x^{\lambda} - 1}{\lambda}, & \lambda \ne 0 \\[6pt] \ln x, & \lambda = 0 \end{cases} \qquad\text{because}\qquad \lim_{\lambda \to 0} \frac{x^{\lambda} - 1}{\lambda} = \ln x . \]</div>
       <p>where \(x > 0\) and \(\lambda\) is the power. The limit follows from \(x^{\lambda} = e^{\lambda \ln x} \approx 1 + \lambda \ln x\) for small \(\lambda\). Dividing by \(\lambda\) also keeps the order of the points for negative powers. That is why the lab and the table write \(-1/x\) rather than \(1/x\): the minus sign stops the plot from flipping left to right, so the direction of the trend stays easy to read.</p>
       <div class="lz-callout"><strong>Range matters.</strong> Power transformations only bend data that span a wide ratio. If the largest value is less than about twice the smallest, every rung looks almost the same. Look for an offset to subtract first, or use a polynomial term. The <em>Recovery time</em> dataset in the lab shows this.</div>
     </div>
@@ -391,21 +398,25 @@
           <dl class="lz-readout">
             <div class="lz-stat"><dt>Curvature check</dt><dd id="lz-r-curv">–</dd></div>
             <div class="lz-stat"><dt>Spread check</dt><dd id="lz-r-spread">–</dd></div>
-            <div class="lz-stat"><dt>R² transformed scale</dt><dd id="lz-r-r2">–</dd></div>
-            <div class="lz-stat"><dt>R² original y scale</dt><dd id="lz-r-r2o">–</dd></div>
+            <div class="lz-stat"><dt class="lz-mathlabel">\(R^{2}\), transformed scale</dt><dd id="lz-r-r2">–</dd></div>
+            <div class="lz-stat"><dt class="lz-mathlabel">\(R^{2}\), original y scale</dt><dd id="lz-r-r2o">–</dd></div>
           </dl>
           <div class="lz-equation" id="lz-equation" tabindex="0" role="region" aria-label="Fitted equation"></div>
           <div class="lz-callout lz-note" id="lz-expert-note" hidden></div>
         </div>
       </div>
     </div>
+    <div class="lz-toolcta">
+      <p><strong>Try it on your own data.</strong> The Best-Fit Model Finder takes your Excel or CSV file, lets you explore these same rungs live, and with one click finds the best linear model across every transformation in this lesson.</p>
+      <a class="lz-toolcta-link" href="/tools/best-fit-model-finder">Open the Best-Fit Model Finder</a>
+    </div>
     <div class="lz-prose">
       <h3 id="how-the-checks-work">How the two checks work</h3>
       <p>The <strong>curvature check</strong> is a partial F-test. It refits the transformed data with squared and cubed terms added and asks whether they explain significantly more than the straight line:</p>
-      <div class="lz-formula">\[ F = \frac{(\text{SSE}_{1} - \text{SSE}_{3})/2}{\text{SSE}_{3}/(n-4)} \]</div>
+      <div class="lz-formula" tabindex="0" role="region" aria-label="Formula: Partial F statistic for the curvature check">\[ F = \frac{(\text{SSE}_{1} - \text{SSE}_{3})/2}{\text{SSE}_{3}/(n-4)} \]</div>
       <p>where \(\text{SSE}_{1}\) is the error sum of squares of the straight line, \(\text{SSE}_{3}\) that of the cubic, and \(n\) the number of points. A p-value below 0.05 means a curve remains. The cubic term matters: a symmetric S-curve has no quadratic signal, so a quadratic-only test would miss it.</p>
       <p>The <strong>spread check</strong> correlates the absolute residuals \(|e_i|\) with the fitted values \(\hat{y}_i\) and tests that correlation with \(t = r\sqrt{n-2}/\sqrt{1-r^{2}}\). A p-value below 0.05 means the spread trends with the level: a funnel. Both checks are screening tools. With large samples they flag tiny departures, and with small ones they miss real ones, so always look at the residual plot too.</p>
-      <p>Watch the two R² values. The transformed-scale R² describes the line you fitted, but it is measured in different units for every choice of y. The original-scale R² back-transforms the predictions and scores them against the raw y, so it is comparable across choices.</p>
+      <p>Watch the two \(R^{2}\) values. The transformed-scale \(R^{2}\) describes the line you fitted, but it is measured in different units for every choice of y. The original-scale \(R^{2}\) back-transforms the predictions and scores them against the raw y, so it is comparable across choices.</p>
     </div>
   </div>
 </section>
@@ -453,9 +464,9 @@
       </ul>
       <h3 id="variance-stabilizing">Choosing the y transform from the mean–variance relationship</h3>
       <p>The delta method gives the variance of a transformed variable \(g(Y)\) with mean \(\mu\):</p>
-      <div class="lz-formula">\[ \operatorname{Var}\!\left[g(Y)\right] \approx \left[g'(\mu)\right]^{2} \operatorname{Var}(Y). \]</div>
+      <div class="lz-formula" tabindex="0" role="region" aria-label="Formula: Delta-method variance of a transformed variable">\[ \operatorname{Var}\!\left[g(Y)\right] \approx \left[g'(\mu)\right]^{2} \operatorname{Var}(Y). \]</div>
       <p>If the standard deviation grows as a power of the mean, \(\sigma_Y \propto \mu^{k}\), then choosing \(g(y) = y^{1-k}\) gives \(g'(\mu) \propto \mu^{-k}\), and the variance of \(g(Y)\) becomes constant. So the variance-stabilizing power is \(\lambda = 1 - k\).</p>
-      <div class="lz-formula">\[ \begin{aligned} \sigma_Y \propto \mu^{k} \quad&\Longrightarrow\quad \lambda = 1 - k \\ k = 0.5\ \text{(counts)} \quad&\Longrightarrow\quad \lambda = 0.5,\ \sqrt{y} \\ k = 1\ \text{(constant CV)} \quad&\Longrightarrow\quad \lambda = 0,\ \ln y \\ k = 2 \quad&\Longrightarrow\quad \lambda = -1,\ 1/y \end{aligned} \]</div>
+      <div class="lz-formula" tabindex="0" role="region" aria-label="Formula: Variance-stabilizing powers">\[ \begin{aligned} \sigma_Y \propto \mu^{k} \quad&\Longrightarrow\quad \lambda = 1 - k \\ k = 0.5\ \text{(counts)} \quad&\Longrightarrow\quad \lambda = 0.5,\ \sqrt{y} \\ k = 1\ \text{(constant CV)} \quad&\Longrightarrow\quad \lambda = 0,\ \ln y \\ k = 2 \quad&\Longrightarrow\quad \lambda = -1,\ 1/y \end{aligned} \]</div>
       <p>where \(k\) is estimated as the slope of \(\ln(\text{SD})\) against \(\ln(\text{mean})\) across groups or bins of x.</p>
     </div>
     <div class="table-scroll" tabindex="0" role="region" aria-label="Variance-stabilizing transformations by type of data">
@@ -483,9 +494,9 @@
       <p class="lz-step">Part 7</p>
       <h2 id="box-cox-h">Let the data choose y: the Box–Cox method</h2>
       <p>Box and Cox (1964) proposed estimating the power for y by maximum likelihood. To compare SSE across powers, the transformed response must be on a common scale, so it is divided by a power of the geometric mean \(\dot{y}\):</p>
-      <div class="lz-formula">\[ z^{(\lambda)} = \begin{cases} \dfrac{y^{\lambda} - 1}{\lambda\,\dot{y}^{\,\lambda - 1}}, & \lambda \ne 0 \\[6pt] \dot{y}\,\ln y, & \lambda = 0 \end{cases} \qquad \dot{y} = \exp\!\left(\frac{1}{n}\sum_{i=1}^{n} \ln y_i\right) \]</div>
+      <div class="lz-formula" tabindex="0" role="region" aria-label="Formula: Box-Cox scaled transform with the geometric mean">\[ z^{(\lambda)} = \begin{cases} \dfrac{y^{\lambda} - 1}{\lambda\,\dot{y}^{\,\lambda - 1}}, & \lambda \ne 0 \\[6pt] \dot{y}\,\ln y, & \lambda = 0 \end{cases} \qquad \dot{y} = \exp\!\left(\frac{1}{n}\sum_{i=1}^{n} \ln y_i\right) \]</div>
       <p>where \(y_i > 0\). For each \(\lambda\), regress \(z^{(\lambda)}\) on the predictors and record the error sum of squares \(\text{SSE}(\lambda)\). The profile log-likelihood is</p>
-      <div class="lz-formula">\[ \ell(\lambda) = -\frac{n}{2}\ln\!\left(\frac{\text{SSE}(\lambda)}{n}\right), \qquad \text{95\% CI: } \left\{\lambda : \ell(\lambda) \ge \ell(\hat{\lambda}) - \tfrac{1}{2}\chi^{2}_{1,\,0.95}\right\} \]</div>
+      <div class="lz-formula" tabindex="0" role="region" aria-label="Formula: Box-Cox profile log-likelihood and confidence interval">\[ \ell(\lambda) = -\frac{n}{2}\ln\!\left(\frac{\text{SSE}(\lambda)}{n}\right), \qquad \text{95\% CI: } \left\{\lambda : \ell(\lambda) \ge \ell(\hat{\lambda}) - \tfrac{1}{2}\chi^{2}_{1,\,0.95}\right\} \]</div>
       <p>where \(\hat{\lambda}\) maximises \(\ell\) and \(\tfrac{1}{2}\chi^{2}_{1,\,0.95} = 1.92\). In practice you then <strong>round</strong> to the simplest rung inside the interval (1, 0.5, 0, −0.5, −1). A rounded power is easier to explain, and the fit is almost as good.</p>
     </div>
     <div class="lz-tool">
@@ -516,7 +527,7 @@
       <p class="lz-step">Part 8</p>
       <h2 id="box-tidwell-h">Let the data choose x: the Box–Tidwell method</h2>
       <p>When the spread is already even, you want to transform x, not y. Box and Tidwell (1962) estimate the power \(\alpha\) in \(E(y) = \beta_0 + \beta_1 x^{\alpha}\) with a short iteration based on a Taylor expansion around the current guess \(\alpha_0\):</p>
-      <div class="lz-formula">\[ \begin{aligned} x^{\alpha} &\approx x^{\alpha_0} + (\alpha - \alpha_0)\,x^{\alpha_0}\ln x \\ &= z + \frac{\alpha - \alpha_0}{\alpha_0}\, z \ln z, \qquad z = x^{\alpha_0} \end{aligned} \]</div>
+      <div class="lz-formula" tabindex="0" role="region" aria-label="Formula: Box-Tidwell Taylor expansion">\[ \begin{aligned} x^{\alpha} &\approx x^{\alpha_0} + (\alpha - \alpha_0)\,x^{\alpha_0}\ln x \\ &= z + \frac{\alpha - \alpha_0}{\alpha_0}\, z \ln z, \qquad z = x^{\alpha_0} \end{aligned} \]</div>
       <p>So the iteration is:</p>
       <ol>
         <li>Fit \(y = \beta_0 + \beta_1 z\) and keep \(\hat{\beta}_1\).</li>
@@ -559,7 +570,7 @@
     <p>\(\ln 0\) and \(1/0\) do not exist. The usual patch is \(\ln(y + c)\), but the answer depends on \(c\). Adding 1 to counts in the hundreds changes almost nothing; adding 1 to counts near 0 changes the shape completely. If you must shift, choose \(c\) for a reason (half the detection limit, or the smallest non-zero value divided by two), report it, and check that the conclusions survive a different \(c\). Often the better answer is \(\sqrt{y}\), which handles zeros, or a Poisson or Tweedie model with a log link, which models \(\ln E(y)\) without ever logging a zero.</p>
     <h3 id="negatives">Negative values</h3>
     <p>The power ladder needs positive data. For variables that cross zero (deviations, residuals, temperature in °C), use the Yeo–Johnson transformation, which applies Box–Cox to \(y + 1\) for \(y \ge 0\) and a mirrored version for \(y < 0\):</p>
-    <div class="lz-formula">\[ \psi(\lambda, y) = \begin{cases} \dfrac{(y + 1)^{\lambda} - 1}{\lambda}, & y \ge 0,\ \lambda \ne 0 \\[6pt] \ln(y + 1), & y \ge 0,\ \lambda = 0 \\[6pt] -\dfrac{(1 - y)^{2 - \lambda} - 1}{2 - \lambda}, & y < 0,\ \lambda \ne 2 \\[6pt] -\ln(1 - y), & y < 0,\ \lambda = 2 \end{cases} \]</div>
+    <div class="lz-formula" tabindex="0" role="region" aria-label="Formula: Yeo-Johnson transformation">\[ \psi(\lambda, y) = \begin{cases} \dfrac{(y + 1)^{\lambda} - 1}{\lambda}, & y \ge 0,\ \lambda \ne 0 \\[6pt] \ln(y + 1), & y \ge 0,\ \lambda = 0 \\[6pt] -\dfrac{(1 - y)^{2 - \lambda} - 1}{2 - \lambda}, & y < 0,\ \lambda \ne 2 \\[6pt] -\ln(1 - y), & y < 0,\ \lambda = 2 \end{cases} \]</div>
     <p>Better still, ask whether the variable has a natural zero. Temperature converted to kelvin is positive, and Arrhenius needs kelvin anyway.</p>
     <h3 id="proportions">Proportions and percentages</h3>
     <p>A proportion is trapped between 0 and 1, so its relationship with x flattens at both ends into an S-curve. The logit \(\ln[p/(1-p)]\) stretches both ends to infinity and usually straightens it. Exact 0% and 100% readings are undefined on the logit scale; with counts behind them, use logistic regression on the counts instead of transforming percentages.</p>
@@ -581,13 +592,13 @@
       <li><strong>Lack-of-fit test.</strong> With replicate x values, Minitab's pure-error lack-of-fit test checks linearity formally.</li>
     </ol>
     <h3 id="fair-comparison">Comparing models fairly</h3>
-    <p>R² measures the share of variance explained <em>in the response you fitted</em>. If one model predicts \(y\) and another predicts \(\ln y\), their R² values describe different quantities and cannot be ranked. Three fair comparisons:</p>
+    <p>\(R^{2}\) measures the share of variance explained <em>in the response you fitted</em>. If one model predicts \(y\) and another predicts \(\ln y\), their \(R^{2}\) values describe different quantities and cannot be ranked. Three fair comparisons:</p>
     <ul>
       <li>Back-transform each model's predictions to the original scale and compute \(R^{2}_{\text{orig}} = 1 - \sum(y_i - \tilde{y}_i)^{2} / \sum(y_i - \bar{y})^{2}\), where \(\tilde{y}_i\) is the back-transformed prediction. The lab reports this.</li>
       <li>Compare the Box–Cox log-likelihood \(\ell(\lambda)\) at each candidate power. The geometric-mean scaling makes them comparable.</li>
       <li>Compare out-of-sample prediction error on the original scale with cross-validation.</li>
     </ul>
-    <p>Comparing models with different x transforms but the same y is simpler: the R² values and S are directly comparable.</p>
+    <p>Comparing models with different x transforms but the same y is simpler: the \(R^{2}\) values and \(S\) are directly comparable.</p>
   </div>
 </section>
 
@@ -612,10 +623,10 @@
     </div>
     <p><strong>Step 1: the raw fit looks good and is wrong.</strong> A straight line on raw y gives \(R^{2} = 0.943\). The residuals run plus, minus, minus, minus, minus, plus: a U-shape. The curve bulges down and right, and the jumps between points grow with y, which suggests a multiplicative process. Move y down.</p>
     <p><strong>Step 2: fit \(\ln y\) on x.</strong></p>
-    <div class="lz-formula">\[ \begin{aligned} \widehat{\ln y} &= -0.5430 + 0.3415\,x \\ R^{2} &= 0.9998 \end{aligned} \]</div>
+    <div class="lz-formula" tabindex="0" role="region" aria-label="Formula: Worked example: fitted log model">\[ \begin{aligned} \widehat{\ln y} &= -0.5430 + 0.3415\,x \\ R^{2} &= 0.9998 \end{aligned} \]</div>
     <p>The residuals on the log scale are all within \(\pm 0.015\) with no pattern. Strictly, \(0.9998\) cannot be compared with \(0.943\) because the responses differ; the evidence is the residual pattern.</p>
     <p><strong>Step 3: interpret the slope.</strong> Each extra thousand tonnes multiplies the defect rate by \(e^{0.3415}\):</p>
-    <div class="lz-formula">\[ \begin{aligned} e^{0.3415} &= 1.407 \;\Rightarrow\; +40.7\% \text{ per kt} \\ \text{Doubling distance} &= \frac{\ln 2}{0.3415} = 2.03\ \text{kt} \end{aligned} \]</div>
+    <div class="lz-formula" tabindex="0" role="region" aria-label="Formula: Worked example: growth rate and doubling distance">\[ \begin{aligned} e^{0.3415} &= 1.407 \;\Rightarrow\; +40.7\% \text{ per kt} \\ \text{Doubling distance} &= \frac{\ln 2}{0.3415} = 2.03\ \text{kt} \end{aligned} \]</div>
     <p><strong>Step 4: back-transform a prediction.</strong> At 7 kt the model gives \(\widehat{\ln y} = -0.5430 + 0.3415 \times 7 = 1.8478\), so the predicted median rate is \(e^{1.8478} = 6.35\) defects per 100 pipes. The smearing correction here is \(\tfrac{1}{n}\sum e^{e_i} = 1.00003\) because the residuals are tiny, so the mean and median agree. With noisier data they would not; Part 12 shows how far apart they can drift.</p>
     <p><strong>Step 5: act.</strong> The rate doubles about every 2 kt. Seven kilotonnes is outside the observed range, so treat the 7 kt figure as a warning for planning the next roll change, not a forecast to bank on.</p>
   </div>
@@ -644,9 +655,9 @@
     <div class="lz-prose">
       <h3 id="retransformation-bias">Retransformation bias</h3>
       <p>Transforming back with the inverse function gives the right answer for <strong>quantiles</strong>, because monotone functions preserve order. So \(e^{\widehat{\ln y}}\) is a good estimate of the <strong>median</strong> of y. It is not the mean. If the log-scale errors are normal with variance \(\sigma^{2}\), the mean on the original scale is larger:</p>
-      <div class="lz-formula">\[ E(y \mid x) = \exp\!\left(\mu_x + \tfrac{1}{2}\sigma^{2}\right) \]</div>
+      <div class="lz-formula" tabindex="0" role="region" aria-label="Formula: Lognormal mean on the original scale">\[ E(y \mid x) = \exp\!\left(\mu_x + \tfrac{1}{2}\sigma^{2}\right) \]</div>
       <p>where \(\mu_x\) is the log-scale prediction. Duan's smearing estimator makes no normality assumption. It multiplies the naive back-transform by the average of the exponentiated residuals \(e_i\):</p>
-      <div class="lz-formula">\[ \hat{E}(y \mid x) = e^{\hat{\mu}_x} \cdot \frac{1}{n}\sum_{i=1}^{n} e^{e_i} \]</div>
+      <div class="lz-formula" tabindex="0" role="region" aria-label="Formula: Duan smearing estimator">\[ \hat{E}(y \mid x) = e^{\hat{\mu}_x} \cdot \frac{1}{n}\sum_{i=1}^{n} e^{e_i} \]</div>
       <p>Use the median when you are describing a typical part. Use the mean when you are summing across parts, such as total scrap cost or total defects per shift. Interval endpoints back-transform directly: exponentiate the lower and upper limits of a prediction interval on the log scale and you get a valid, asymmetric interval on the original scale.</p>
     </div>
     <div class="lz-tool">
@@ -679,12 +690,12 @@
       <p>These are the mistakes that show up most in reports and exam questions. Open each one for the reason and the fix.</p>
     </div>
     <div class="lz-fails">
-      <details><summary><h3 id="fail-r2">Picking the transformation with the highest R²</h3></summary><p>Each choice of y changes what R² measures, and logs often inflate it by compressing the large, noisy values. Choose from residual plots, theory, and the original-scale or Box–Cox comparison in Part 10.</p></details>
+      <details><summary><h3 id="fail-r2">Picking the transformation with the highest \(R^{2}\)</h3></summary><p>Each choice of y changes what \(R^{2}\) measures, and logs often inflate it by compressing the large, noisy values. Choose from residual plots, theory, and the original-scale or Box–Cox comparison in Part 10.</p></details>
       <details><summary><h3 id="fail-nonmonotone">Laddering a curve that changes direction</h3></summary><p>Every rung is monotone, so it can bend a curve but never unbend a U, a peak, or an S. Add a squared term, fit a spline, or use a model with the right shape (logistic, hyperbolic tangent).</p></details>
       <details><summary><h3 id="fail-univariate-bc">Running Box–Cox on y alone</h3></summary><p>Control-chart Box–Cox and column-normalizing tools ignore x. A response that depends strongly on x can look skewed while its residuals are perfect. Profile the regression SSE instead.</p></details>
       <details><summary><h3 id="fail-wrong-axis">Logging y when only the trend is curved</h3></summary><p>If the residual spread is even, logging y creates a funnel in the other direction. Straighten with x and leave the good errors alone.</p></details>
       <details><summary><h3 id="fail-arbitrary-c">Adding 1 to dodge the zeros</h3></summary><p>\(\ln(y+1)\) is a different transformation for every scale of y. Results can flip with the choice of constant. Use \(\sqrt{y}\), a stated and justified constant, or a model with a log link.</p></details>
-      <details><summary><h3 id="fail-narrow-range">Expecting a log to bend a narrow range</h3></summary><p>When max/min is close to 1, \(\ln x\) is almost linear in x. The curvature is coming from somewhere else, often an offset. Subtract it or use a polynomial.</p></details>
+      <details><summary><h3 id="fail-narrow-range">Expecting a log to bend a narrow range</h3></summary><p>When \(x_{\max}/x_{\min}\) is close to 1, \(\ln x\) is almost linear in x. The curvature is coming from somewhere else, often an offset. Subtract it or use a polynomial.</p></details>
       <details><summary><h3 id="fail-naive-mean">Reporting \(e^{\hat{\mu}}\) as the average</h3></summary><p>It estimates the median. Totals and costs built from it will be low. Apply the smearing or lognormal correction.</p></details>
       <details><summary><h3 id="fail-outliers">Transforming to hide an outlier</h3></summary><p>A log can pull a wild point into line, but if the point is a recording error or a different process, it still is. Investigate first, then decide whether it belongs in the model.</p></details>
       <details><summary><h3 id="fail-extrapolate">Extrapolating on the transformed scale</h3></summary><p>A line on log axes becomes an exponential on raw axes, so small slope errors grow fast outside the data. Keep predictions inside the observed range, or say clearly that they are extrapolations.</p></details>
@@ -768,6 +779,10 @@
         <ul id="lz-rec-avoid"></ul>
       </div>
     </div>
+    <div class="lz-toolcta">
+      <p><strong>Ready for real data?</strong> Load your own x–y data into the Best-Fit Model Finder to rank every model from this lesson by AICc and cross-validation, check residuals, and predict with intervals. It is also a tab in the Engineering &amp; Statistics Calculator.</p>
+      <a class="lz-toolcta-link" href="/tools/best-fit-model-finder">Open the Best-Fit Model Finder</a>
+    </div>
   </div>
 </section>
 
@@ -790,8 +805,8 @@
             <tr><td><code>SQRT</code></td><td><code>SQRT(number)</code></td><td>Square root</td><td>Counts; non-negative values</td></tr>
             <tr><td><code>POWER</code></td><td><code>POWER(number, power)</code></td><td>Any rung of the ladder</td><td>Reciprocals and Box–Cox powers; same as <code>^</code></td></tr>
             <tr><td><code>GEOMEAN</code></td><td><code>GEOMEAN(number1, [number2], …)</code></td><td>Geometric mean</td><td>The scaling constant \(\dot{y}\) in Box–Cox</td></tr>
-            <tr><td><code>DEVSQ</code></td><td><code>DEVSQ(number1, [number2], …)</code></td><td>Sum of squared deviations</td><td>Total sum of squares for SSE and R² by hand</td></tr>
-            <tr><td><code>RSQ</code></td><td><code>RSQ(known_y's, known_x's)</code></td><td>R² of a straight line</td><td>Comparing x transforms with the same y</td></tr>
+            <tr><td><code>DEVSQ</code></td><td><code>DEVSQ(number1, [number2], …)</code></td><td>Sum of squared deviations</td><td>Total sum of squares for \(\text{SSE}\) and \(R^{2}\) by hand</td></tr>
+            <tr><td><code>RSQ</code></td><td><code>RSQ(known_y's, known_x's)</code></td><td>\(R^{2}\) of a straight line</td><td>Comparing x transforms with the same y</td></tr>
             <tr><td><code>SLOPE</code> / <code>INTERCEPT</code></td><td><code>SLOPE(known_y's, known_x's)</code></td><td>Line coefficients</td><td>Exponents (log–log) and growth rates (semi-log)</td></tr>
             <tr><td><code>STEYX</code></td><td><code>STEYX(known_y's, known_x's)</code></td><td>Standard error of the regression, S</td><td>Log-scale \(\sigma\) for the lognormal mean correction</td></tr>
             <tr><td><code>LINEST</code></td><td><code>LINEST(known_y's, [known_x's], [const], [stats])</code></td><td>Full regression with statistics</td><td>Box–Tidwell step with two predictors; standard errors</td></tr>
@@ -810,9 +825,9 @@
       <p><strong>Power law (log–log).</strong> In <code>C2</code> enter <code>=LN(A2)</code>, in <code>D2</code> enter <code>=LN(B2)</code>, and fill down. The exponent is <code>=SLOPE(D2:D41,C2:C41)</code> and the coefficient is <code>=EXP(INTERCEPT(D2:D41,C2:C41))</code>.</p>
       <p><strong>Exponential in one step.</strong> <code>=INDEX(LOGEST(B2:B41,A2:A41),1)</code> returns \(m\); the growth per unit of x is <code>=INDEX(LOGEST(B2:B41,A2:A41),1)-1</code>. <code>=LN(INDEX(LOGEST(B2:B41,A2:A41),1))</code> equals the slope of \(\ln y\) on x.</p>
       <p><strong>Box–Cox profile.</strong> Put a trial \(\lambda\) in <code>H1</code>. In <code>E2</code> enter <code>=IF($H$1=0,GEOMEAN($B$2:$B$41)*LN(B2),(B2^$H$1-1)/($H$1*GEOMEAN($B$2:$B$41)^($H$1-1)))</code> and fill down. Then <code>SSE</code> is <code>=DEVSQ(E2:E41)*(1-RSQ(E2:E41,A2:A41))</code>. Use <code>Data &gt; What-If Analysis &gt; Data Table</code> over \(\lambda\) from −2 to 2, pick the smallest SSE, and keep every \(\lambda\) whose SSE is below <code>=MIN(SSE range)*EXP(CHISQ.INV(0.95,1)/40)</code> as the 95% interval.</p>
-      <p><strong>Fair R² on the original scale.</strong> After fitting \(\ln y\), put <code>=EXP(TREND($D$2:$D$41,$A$2:$A$41,A2))</code> in <code>F2</code> and fill down. Then <code>=1-SUMXMY2(B2:B41,F2:F41)/DEVSQ(B2:B41)</code>.</p>
+      <p><strong>Fair \(R^{2}\) on the original scale.</strong> After fitting \(\ln y\), put <code>=EXP(TREND($D$2:$D$41,$A$2:$A$41,A2))</code> in <code>F2</code> and fill down. Then <code>=1-SUMXMY2(B2:B41,F2:F41)/DEVSQ(B2:B41)</code>.</p>
       <p><strong>Smearing correction.</strong> With log-scale residuals in <code>G2:G41</code>, the factor is <code>=AVERAGE(EXP(G2:G41))</code> in Excel 365 (enter as an array formula in older versions). Multiply each back-transformed prediction by it.</p>
-      <div class="lz-callout"><strong>Chart trendline caution.</strong> Excel's Exponential and Power trendlines fit on the log scale, and the R² they display is the log-scale value. Do not set it beside a Linear trendline's R² and pick the bigger number.</div>
+      <div class="lz-callout"><strong>Chart trendline caution.</strong> Excel's Exponential and Power trendlines fit on the log scale, and the \(R^{2}\) they display is the log-scale value. Do not set it beside a Linear trendline's \(R^{2}\) and pick the bigger number.</div>
     </section>
     <section id="minitab-navigation" aria-labelledby="minitab-navigation-h" class="lz-prose">
       <h3 id="minitab-navigation-h">Minitab Navigation</h3>
@@ -821,7 +836,7 @@
         <li><code>Graph &gt; Scatterplot &gt; With Regression</code> for the first look at the bend.</li>
         <li><code>Stat &gt; Regression &gt; Fitted Line Plot</code>. Choose <em>Linear</em>, <em>Quadratic</em> or <em>Cubic</em>. Under <em>Options</em>, tick <em>Logten of Y</em> and/or <em>Logten of X</em> (with the matching <em>Display logscale</em> boxes) to try semi-log and log–log fits quickly.</li>
         <li><code>Calc &gt; Calculator</code> to create transformed columns with <code>LN( )</code>, <code>LOGTEN( )</code>, <code>SQRT( )</code>, <code>EXPO( )</code> and <code>**</code> for powers, for example <code>C1**(-0.5)</code>.</li>
-        <li><code>Stat &gt; Regression &gt; Regression &gt; Fit Regression Model</code>, then <em>Options</em> &gt; <em>Box-Cox transformation</em>: choose <em>Optimal λ</em>, <em>λ = 0 (natural log)</em>, <em>λ = 0.5 (square root)</em> or enter a value. This is the regression-aware Box–Cox to use for linearizing.</li>
+        <li><code>Stat &gt; Regression &gt; Regression &gt; Fit Regression Model</code>, then <em>Options</em> &gt; <em>Box-Cox transformation</em>: choose <em>Optimal \(\lambda\)</em>, <em>\(\lambda = 0\) (natural log)</em>, <em>\(\lambda = 0.5\) (square root)</em> or enter a value. This is the regression-aware Box–Cox to use for linearizing.</li>
         <li>In the same dialog, <em>Graphs</em> &gt; <em>Four in one</em> and <em>Residuals versus the variables</em> give the diagnostic plots from Part 10.</li>
         <li><code>Stat &gt; Control Charts &gt; Box-Cox Transformation</code> is univariate. Use it for control charts and capability, not for choosing a regression transform.</li>
         <li><code>Stat &gt; Quality Tools &gt; Johnson Transformation</code> normalises a single column for capability work. It does not linearize relationships.</li>
@@ -836,8 +851,8 @@
         <li>Memorise the Box–Cox map: \(\lambda = 2\) square, 1 none, 0.5 square root, 0 natural log, −0.5 reciprocal square root, −1 reciprocal. Box–Cox needs strictly positive data.</li>
         <li>ASQ CSSBB and CQE questions often pair data types with transforms: counts → square root, proportions → arcsine square root, multiplicative or right-skewed data → log.</li>
         <li>For capability on transformed data, both the data and the specification limits are transformed with the same \(\lambda\). Johnson transformation is the alternative when Box–Cox fails.</li>
-        <li>On a log–log plot the slope is an exponent; on a semi-log plot (log y) the slope is a growth rate. Expect a question that asks which plot makes an exponential straight.</li>
-        <li>Higher R² after transforming y is not evidence that the model is better. Answer choices that rely on it are usually the distractor.</li>
+        <li>On a log–log plot the slope is an exponent; on a semi-log plot (\(\log y\)) the slope is a growth rate. Expect a question that asks which plot makes an exponential straight.</li>
+        <li>Higher \(R^{2}\) after transforming y is not evidence that the model is better. Answer choices that rely on it are usually the distractor.</li>
         <li>In practice, record the transformation, the reason, and the back-transform method in the analysis report so the next engineer can reproduce it.</li>
       </ul>
     </section>
@@ -958,19 +973,19 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <div class="quiz-feedback"></div>
       </fieldset>
       <fieldset class="quiz-question" data-answer="a" data-explanation="Round to the simplest power inside the 95% interval. Zero, the natural log, is inside the interval and is easy to interpret, so it is the standard choice.">
-        <legend>3. A regression Box-Cox gives lambda-hat = 0.08 with a 95% interval from -0.15 to 0.30. What should you use?</legend>
-        <label class="quiz-option"><input type="radio" name="q3" value="a"> The natural log of y</label>
-        <label class="quiz-option"><input type="radio" name="q3" value="b"> y raised to exactly 0.08</label>
-        <label class="quiz-option"><input type="radio" name="q3" value="c"> The square root of y</label>
+        <legend>3. A regression Box–Cox gives \(\hat{\lambda} = 0.08\) with a 95% interval from \(-0.15\) to \(0.30\). What should you use?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> The natural log of \(y\)</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> \(y^{0.08}\), the exact estimate</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> The square root of \(y\)</label>
         <label class="quiz-option"><input type="radio" name="q3" value="d"> No transformation, because the interval includes 0.30</label>
         <div class="quiz-feedback"></div>
       </fieldset>
       <fieldset class="quiz-question" data-answer="d" data-explanation="The two R-squared values measure explained variance in different responses, y and ln y, so they cannot be ranked. Compare residual plots, original-scale predictions, or Box-Cox likelihoods instead.">
-        <legend>4. Model A regresses y on x (R-squared 0.91). Model B regresses ln y on x (R-squared 0.96). What can you conclude?</legend>
-        <label class="quiz-option"><input type="radio" name="q4" value="a"> Model B is better because its R-squared is higher</label>
+        <legend>4. Model A regresses \(y\) on \(x\) (\(R^{2} = 0.91\)). Model B regresses \(\ln y\) on \(x\) (\(R^{2} = 0.96\)). What can you conclude?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> Model B is better because its \(R^{2}\) is higher</label>
         <label class="quiz-option"><input type="radio" name="q4" value="b"> Model A is better because it needs no back-transform</label>
-        <label class="quiz-option"><input type="radio" name="q4" value="c"> They are equivalent because both R-squared values exceed 0.9</label>
-        <label class="quiz-option"><input type="radio" name="q4" value="d"> Nothing yet: the R-squared values are on different scales</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> They are equivalent because both \(R^{2}\) values exceed 0.9</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="d"> Nothing yet: the \(R^{2}\) values are on different scales</label>
         <div class="quiz-feedback"></div>
       </fieldset>
       <fieldset class="quiz-question" data-answer="b" data-explanation="Every rung of the ladder is monotone, so it cannot remove a turn in the curve. A quadratic term models the minimum directly.">
@@ -982,7 +997,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <div class="quiz-feedback"></div>
       </fieldset>
       <fieldset class="quiz-question" data-answer="c" data-explanation="Exponentiating a log-scale prediction preserves order, so it estimates the median. The mean is higher, by about exp of half the log-scale variance, or by Duan's smearing factor.">
-        <legend>6. You fit ln y on x and report exp(predicted ln y). What does that number estimate?</legend>
+        <legend>6. You fit \(\ln y\) on \(x\) and report \(e^{\widehat{\ln y}}\). What does that number estimate?</legend>
         <label class="quiz-option"><input type="radio" name="q6" value="a"> The mean of y at that x</label>
         <label class="quiz-option"><input type="radio" name="q6" value="b"> The upper prediction limit of y</label>
         <label class="quiz-option"><input type="radio" name="q6" value="c"> The median of y at that x</label>
@@ -1011,7 +1026,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   </div>
 </section>
 
-<section class="related-lessons lz-wrap" style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);">
+<section class="related-lessons" style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);">
   <h2>Related lessons</h2>
   <ul>
     <li><a href="/lessons/data-analytics/statistical-transformations">Statistical Transformations lesson</a> — the beginner tour of log, square-root and scaling transforms that this lesson builds on.</li>

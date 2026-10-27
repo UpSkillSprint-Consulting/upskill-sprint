@@ -134,6 +134,20 @@ test('statistics implementation, structure and related links are present', () =>
     assert.ok(wrap.getAttribute('aria-label'));
   }
   assert.doesNotMatch(html, /\$\$|\$\\/, 'no dollar math delimiters');
+  const finder = [...doc.querySelectorAll('#lesson-content a[href="/tools/best-fit-model-finder"]')];
+  assert.ok(finder.length >= 2, 'links to the Best-Fit Model Finder from the lab and the chooser');
+  assert.ok(finder.every(a => /Best-Fit Model Finder/.test(a.textContent)), 'descriptive anchor text');
+  for (const f of doc.querySelectorAll('.lz-formula')) {
+    assert.equal(f.getAttribute('tabindex'), '0'); assert.equal(f.getAttribute('role'), 'region'); assert.ok(f.getAttribute('aria-label'));
+  }
+  const formulaLabels = [...doc.querySelectorAll('.lz-formula')].map(f => f.getAttribute('aria-label'));
+  assert.equal(new Set(formulaLabels).size, formulaLabels.length, 'each formula region has a unique name');
+  const prose = [...doc.querySelectorAll('#lesson-content p, #lesson-content li, #lesson-content td, #lesson-content dt, #lesson-content legend, #lesson-content h3, #lesson-content .quiz-option')]
+    .map(el => el.textContent.replace(/\\\([\s\S]*?\\\)/g, '')).join(' ');
+  assert.doesNotMatch(prose, /R²|R-squared|lambda-hat|max\/min/, 'math symbols in prose are LaTeX');
+  assert.equal(count(html, '<link rel="stylesheet" href="/site-nav.css">'), 1, 'shared nav styles load');
+  assert.equal(count(html, '<script src="/site-nav.js" defer></script>'), 1);
+  assert.ok(doc.querySelector('nav.mobile-nav[data-nav-root="mobile"]'), 'mobile nav present like every other lesson');
 });
 
 test('worked example numbers match their own data', () => {
