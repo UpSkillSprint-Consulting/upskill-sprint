@@ -161,7 +161,7 @@ test('free pool is original: no paid-bank ids or stems, and the public page carr
 
 test('public-content audit allows only a genuine ExamPreview pool', async () => {
   const {freePoolProblem, FREE_POOL_PATHS} = await import('../scripts/audit-exam-public-content.mjs');
-  assert.deepEqual([...FREE_POOL_PATHS], [POOL, 'exam-preview/pmp-questions.json', 'exam-preview/cssgb-questions.json']);
+  assert.deepEqual([...FREE_POOL_PATHS], [POOL, 'exam-preview/pmp-questions.json', 'exam-preview/cssgb-questions.json', 'exam-preview/mbb-questions.json']);
   assert.equal(freePoolProblem(read(POOL), POOL), null);
   assert.match(freePoolProblem(read(POOL), 'exam-preview/pmp-questions.json'), /non-ExamPreview/, 'a pool may hold only its own exam');
   assert.equal(freePoolProblem(read(POOL)), null);
@@ -194,7 +194,7 @@ test('ExamPreview SEO, entry points and privacy addition', () => {
   assert.equal(ld['@graph'][1].description, desc);
   assert.equal(ld['@graph'][1].url, 'https://upskillsprint.com/exam-preview/cssbb');
   assert.match(read('exam-practice.html'), /href="\/exam-preview\/cssbb"/);
-  assert.match(read('exam-directory.js'), /EXAM_PREVIEWS = \['cssbb','cssgb','pmp'\]/);
+  assert.match(read('exam-directory.js'), /EXAM_PREVIEWS = \['cssbb','cssgb','mbb','pmp'\]/);
   assert.match(read('exam-directory.js'), /EXAM_PREVIEWS\.includes\(row\.exam_key\)&&status!=='granted'[^\n]*'\/exam-preview\/'\+row\.exam_key/);
   const privacy = read('privacy.html');
   assert.match(privacy, /id="exampreview-waitlist"/);

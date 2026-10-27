@@ -1,0 +1,434 @@
+{
+  "examId": "mbb",
+  "schemaVersion": "1.0.0",
+  "bankVersion": "exampreview-pilot-draft-2026-10-27",
+  "pool": "exampreview-free",
+  "sets": {
+    "preview": [
+      "mbb:exampreview:ep-mbb-01",
+      "mbb:exampreview:ep-mbb-02",
+      "mbb:exampreview:ep-mbb-03",
+      "mbb:exampreview:ep-mbb-04",
+      "mbb:exampreview:ep-mbb-05",
+      "mbb:exampreview:ep-mbb-06",
+      "mbb:exampreview:ep-mbb-07",
+      "mbb:exampreview:ep-mbb-08",
+      "mbb:exampreview:ep-mbb-09",
+      "mbb:exampreview:ep-mbb-10",
+      "mbb:exampreview:ep-mbb-11",
+      "mbb:exampreview:ep-mbb-12",
+      "mbb:exampreview:ep-mbb-13",
+      "mbb:exampreview:ep-mbb-14",
+      "mbb:exampreview:ep-mbb-15",
+      "mbb:exampreview:ep-mbb-16",
+      "mbb:exampreview:ep-mbb-17",
+      "mbb:exampreview:ep-mbb-18",
+      "mbb:exampreview:ep-mbb-19",
+      "mbb:exampreview:ep-mbb-20"
+    ]
+  },
+  "contents": {
+    "mbb:exampreview:ep-mbb-01": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "6",
+          "8",
+          "11",
+          "32"
+        ],
+        "stem": "An executive team commits to $6.0 million in finance-validated annual savings from its Lean Six Sigma deployment. Historical data show that a Black Belt completes 4 projects a year, the average completed project claims $250,000, and finance validates only 75% of claimed savings. Assuming every Black Belt works full time on projects, how many Black Belts must the MBB plan for?",
+        "sub": "mbb-enterprise",
+        "why": "Validated savings per Black Belt = 4 × $250,000 × 0.75 = $750,000 a year, so $6.0M ÷ $750,000 = <b>8 Black Belts</b>. Six Black Belts ignores the 75% realization rate and plans on claimed rather than validated savings, a classic cause of missed deployment targets. Eleven applies the 75% realization rate twice (6 ÷ 0.75 ÷ 0.75 ≈ 10.7). Thirty-two is the number of projects needed ($6.0M ÷ $250,000 ÷ 0.75), not the number of Black Belts, because each Black Belt completes four projects a year."
+      }
+    },
+    "mbb:exampreview:ep-mbb-02": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Cascade the 40% target unchanged to every plant, because a stretch goal drives innovation",
+          "Run catchball: negotiate targets and means with the plants and IT, make the ERP dependency an explicit annual objective with an owner, and reconcile the total before the plan is finalized",
+          "Lower the breakthrough objective to 25% so that the plan matches what the plants have already offered",
+          "Launch Black Belt projects at each plant now and revisit the ERP issue at the year-end review"
+        ],
+        "stem": "During hoshin kanri planning, the executive team sets a breakthrough objective to cut order-to-cash time by 40%. Plant managers reply that their units can deliver about 25% with current resources, and that the rest depends on an ERP change owned by IT. What should the MBB recommend as the NEXT step in the process?",
+        "sub": "mbb-enterprise",
+        "why": "<b>Catchball</b> is the two-way negotiation in hoshin kanri: targets and the means to reach them are passed up and down until the levels agree. Here the gap is a cross-functional dependency, so it must become an owned objective (on the X-matrix) before the plan is locked. Cascading the target unchanged skips catchball and produces targets nobody believes. Dropping to 25% abandons the breakthrough without testing whether the ERP change closes the gap. Launching projects and leaving the dependency to year-end guarantees the 40% is missed and bypasses the planning cycle."
+      }
+    },
+    "mbb:exampreview:ep-mbb-03": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "$480,000, because all three items are real economic benefits",
+          "$380,000, because redeployed labour counts once the people are working elsewhere",
+          "$200,000; the redeployed inspectors are soft savings unless the budget falls, and unbudgeted capacity is cost avoidance",
+          "$100,000, because only avoided capital spending is verified by finance"
+        ],
+        "stem": "A Black Belt reports $480,000 in annual savings: $200,000 from lower scrap material purchases, $180,000 from freeing 3 inspectors who were moved to a new product line with no change in headcount budget, and $100,000 in avoided future capacity spending that was never in the budget. Under a typical finance-validated benefits policy, how much should be booked as hard (bottom-line) savings?",
+        "sub": "mbb-enterprise",
+        "why": "Hard savings must show up as a reduction against the budget or prior spend. Lower scrap purchases do, so <b>$200,000</b> is hard. Redeployed labour with no budget reduction is a <b>soft</b> (capacity) benefit, and avoided spending that was never budgeted is <b>cost avoidance</b>. Booking $480,000 overstates the P&amp;L impact and erodes finance's trust in the deployment. $380,000 counts redeployment as hard savings, which it is not unless headcount or overtime falls. $100,000 gets the categories backwards: unbudgeted avoidance is the weakest claim, not the only valid one."
+      }
+    },
+    "mbb:exampreview:ep-mbb-04": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "Lead time 8 days; PCE 2.1%",
+          "Lead time 0.125 days; PCE 50%",
+          "Lead time 8 days; PCE 6.25%",
+          "Lead time 8 days; PCE 50%"
+        ],
+        "stem": "An insurance claims office works one 8-hour shift a day. A value-stream walk counts 1,200 claims in process, and the office closes an average of 150 claims a day. Touch time that the customer would pay for totals 4 hours per claim. What are the average lead time and the process cycle efficiency (PCE), using working hours?",
+        "sub": "mbb-org",
+        "why": "Little's Law: lead time = WIP ÷ throughput = 1,200 ÷ 150 = <b>8 working days</b> = 64 working hours, so PCE = 4 ÷ 64 = <b>6.25%</b>. A PCE of 2.1% divides by 8 × 24 = 192 calendar hours, which the stem rules out by asking for working hours. A lead time of 0.125 days inverts Little's Law (throughput ÷ WIP). A PCE of 50% compares the 4 hours of value-added time with a single 8-hour day instead of the whole 8-day lead time."
+      }
+    },
+    "mbb:exampreview:ep-mbb-05": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Awareness; launch a new communication campaign explaining why standard work matters",
+          "Desire; link standard-work audit scores to managers' performance bonuses",
+          "Reinforcement; publish unit rankings so that low performers feel pressure",
+          "Knowledge and ability; provide hands-on coaching at the gemba and practice in leader standard work"
+        ],
+        "stem": "Six months into a Lean deployment, a pulse survey of nurse managers shows strong agreement that standard work is needed and that they want it to succeed, but audits find that fewer than a third of units sustain it. Interviews reveal managers do not know how to run leader standard work or coach staff at the board. Using the ADKAR model, where is the barrier and what should the MBB do?",
+        "sub": "mbb-org",
+        "why": "ADKAR is sequential, and the survey already shows Awareness and Desire. The interviews show a gap in <b>Knowledge and Ability</b>: managers want to do it but cannot, so the fix is practice and coaching where the work happens. More communication repeats what they already accept. Bonuses address Desire, which is not the gap, and can drive gaming of audits. Rankings are a form of reinforcement, which only works once people are able to perform; applied now, they punish a skills gap."
+      }
+    },
+    "mbb:exampreview:ep-mbb-06": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Quarterly validated savings broken down by business unit",
+          "Leading measures such as the share of projects passing each tollgate on schedule, sponsor review attendance and the pipeline of approved charters against belt capacity",
+          "An annual employee engagement survey of Black Belts",
+          "Customer satisfaction scores for the company as a whole"
+        ],
+        "stem": "A deployment scorecard tracks only validated savings and the number of projects closed each quarter. The steering committee wants early warning that the deployment is drifting before savings fall. Which addition BEST meets that need?",
+        "sub": "mbb-org",
+        "why": "Savings and closed projects are <b>lagging</b> results. Tollgate timeliness, sponsor engagement and pipeline coverage are <b>leading</b> indicators that move months before savings do. Breaking savings down by unit is more detail on the same lagging measure. An annual survey is too infrequent to give early warning and does not measure project flow. Company-wide customer satisfaction is lagging and affected by many factors outside the deployment."
+      }
+    },
+    "mbb:exampreview:ep-mbb-07": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "A and C ($1.32M)",
+          "A and D ($1.30M)",
+          "B and E ($1.16M)",
+          "B, C and D ($1.38M)"
+        ],
+        "stem": "The portfolio has capacity for 10 Black Belts this cycle. Projects (Black Belts needed; expected annual benefit) are: A (7; $900k), B (4; $560k), C (3; $420k), D (3; $400k), E (5; $600k). Projects are independent and cannot be partly staffed. Which selection maximizes total benefit within capacity?",
+        "sub": "mbb-portfolio",
+        "why": "This is a knapsack problem; check feasible combinations of up to 10 Black Belts. <b>B + C + D</b> uses exactly 10 and yields <b>$1.38M</b>, the maximum. A + C is what you get by funding the largest project first, but it uses all 10 Black Belts for less. A + D also uses 10 Black Belts but yields $1.30M. B + E uses only 9 and returns $1.16M. Ranking by size or by ratio alone does not guarantee the best constrained portfolio."
+      }
+    },
+    "mbb:exampreview:ep-mbb-08": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "NPV is about −$21,638; reject at the hurdle rate, even though simple payback is under 3 years",
+          "NPV is about +$20,000; accept, because cumulative savings exceed the investment",
+          "NPV is about +$23,817; accept, because each year's savings clear the hurdle rate",
+          "NPV is about −$21,638; accept anyway, because payback within the 3-year horizon is the deciding test"
+        ],
+        "stem": "A sponsor wants to fund a $200,000 automation project because \"it pays back inside three years.\" Savings ramp up as the line is learned: $40,000 at the end of year 1, then $90,000 at the end of years 2 and 3, with nothing after that. The hurdle rate is 10%. What should the portfolio board conclude?",
+        "sub": "mbb-portfolio",
+        "why": "PV = 40,000/1.1 + 90,000/1.1² + 90,000/1.1³ = 36,364 + 74,380 + 67,618 = $178,362, so NPV = <b>−$21,638</b>. Simple payback is about 2.8 years because $220,000 of undiscounted savings exceeds $200,000, but payback ignores the time value of money and everything after the cut-off, so the board should <b>reject</b> at a 10% hurdle. +$20,000 is the undiscounted surplus. +$23,817 assumes $90,000 in all three years and ignores the ramp-up. The last option has the right NPV but lets the weaker payback rule override it."
+      }
+    },
+    "mbb:exampreview:ep-mbb-09": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "Continue, because stopping would waste the $350,000 already invested",
+          "Continue but cut scope, so that the original business case still looks positive",
+          "Stop or re-scope the project, because only future costs and benefits matter, and reassign the Black Belt",
+          "Pause the decision until the project reaches the Improve tollgate"
+        ],
+        "stem": "At the Analyze tollgate, a project has spent $350,000 of a $500,000 budget. New data show the remaining expected benefit is $120,000 in present value, while the remaining $150,000 of spend is still needed. Another project in the queue could use the same Black Belt to deliver a far higher return. What should the portfolio board do?",
+        "sub": "mbb-portfolio",
+        "why": "The $350,000 is <b>sunk</b> and irrelevant. Going forward the project would spend $150,000 to gain $120,000, and the Black Belt has a better use, so the board should <b>stop or re-scope and reallocate</b>. Continuing to avoid \"wasting\" money is the sunk-cost fallacy. Cutting scope to make the original case look good misreads the purpose of a tollgate. Waiting for Improve spends more of the remaining $150,000 and delays the better project."
+      }
+    },
+    "mbb:exampreview:ep-mbb-10": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "t = 1.20; no significant gain, so the workshop did not work",
+          "t = 3.79; a significant knowledge gain, which is Kirkpatrick Level 2 evidence and not yet proof of on-the-job use",
+          "t = 3.79; a significant gain that proves the workshop will improve project results (Level 4)",
+          "t = 12.0; a highly significant gain at Kirkpatrick Level 2"
+        ],
+        "stem": "Ten Green Belt trainees took the same hypothesis-testing quiz before and after a workshop. The mean improvement was 6 points with a standard deviation of the differences of 5 points. At α = 0.05, what is the test result, and what does it show?",
+        "sub": "mbb-training",
+        "why": "Paired t = 6 ÷ (5/√10) = <b>3.79</b>, above the critical t of 2.262 (df = 9), so the gain is significant. A test score measures <b>learning (Level 2)</b>, not behaviour (Level 3) or results (Level 4). t = 1.20 uses the standard deviation instead of the standard error. Claiming Level 4 from a quiz skips behaviour and results entirely. t = 12.0 divides by 5/10 instead of 5/√10."
+      }
+    },
+    "mbb:exampreview:ep-mbb-11": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Design the three-day course as requested, since the division is the client",
+          "Replace classroom training with e-learning modules to save time",
+          "Run the course and add a post-test so that its effectiveness can be measured",
+          "Report that the performance gap is not a skills gap, and work with leaders on sponsor and data-access barriers instead of building the course"
+        ],
+        "stem": "A division asks the MBB for a new three-day statistics course because its Black Belt projects are stalling. Tollgate records show most delays happen while waiting for sponsor sign-off and data access, and the Black Belts' analyses pass technical review. What should the MBB do?",
+        "sub": "mbb-training",
+        "why": "A training needs analysis first asks whether the gap is caused by a lack of skill. Here the evidence points to <b>sponsorship and system barriers</b>, which training will not fix. Building the course as requested wastes money and leaves the cause untouched. Switching delivery method answers the wrong question. A post-test would only measure learning that was never the problem."
+      }
+    },
+    "mbb:exampreview:ep-mbb-12": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Help the Black Belt prepare to raise it with the sponsor directly, using the signed charter and the schedule impact of each addition, and offer to clarify the governance rules only if the conversation stalls",
+          "Attend the meeting and lead the discussion yourself, because the VP outranks the Black Belt",
+          "Advise the Black Belt to absorb the additions quietly, since challenging a vice-president could harm the deployment",
+          "Ask the steering committee to replace the sponsor, because repeated scope changes show a lack of commitment"
+        ],
+        "stem": "A Black Belt you mentor tells you that the project sponsor, a vice-president, has added two new deliverables in the last three steering meetings without changing the deadline or resources. The team is now behind, and the Black Belt asks you to attend the next meeting and \"tell the VP to stop.\" What is the MBB's BEST response?",
+        "sub": "mbb-coaching",
+        "why": "An MBB builds the Black Belt's capability to manage <b>stakeholders</b>, not just the project. Preparing the Black Belt to hold the scope conversation, with the charter and impact data as neutral evidence, solves the problem and grows the skill. You stay ready to back up the governance if needed. Taking over the meeting rescues the Black Belt and signals to the VP that the Black Belt cannot lead. Absorbing the changes guarantees a late, under-resourced project and teaches the team that charters do not matter. Asking to replace the sponsor is a drastic escalation before anyone has even raised the issue with them."
+      }
+    },
+    "mbb:exampreview:ep-mbb-13": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Ask how the readings were collected and what was happening then, and agree that the points stay in unless an assignable cause is confirmed; present the data as is, with the open question",
+          "Delete the points yourself so that the sponsor meeting goes smoothly, and investigate later",
+          "Tell the Black Belt to postpone the meeting indefinitely until the process is capable",
+          "Escalate to the Champion immediately that the Black Belt is acting unethically"
+        ],
+        "stem": "A Black Belt you mentor plans to delete three high readings from a capability study because \"they make Cpk look bad\" before presenting to the sponsor tomorrow. The readings are not yet explained. How should you respond as MBB?",
+        "sub": "mbb-coaching",
+        "why": "Good coaching uses <b>questions</b> to build the Black Belt's judgement while holding the line on data integrity: points are only excluded once an assignable cause is confirmed and documented. Deleting them yourself models the very behaviour you need to correct and misleads the sponsor. Postponing indefinitely avoids the issue and delays decisions. Escalating straight to the Champion skips coaching and damages trust when no misconduct has yet happened."
+      }
+    },
+    "mbb:exampreview:ep-mbb-14": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "48.0 to 52.0 g; first signal at sample 2, because the reading of 52.4 g is above the UCL",
+          "44.0 to 56.0 g; no signal, because every reading is inside the limits",
+          "48.0 to 52.0 g; first signal at sample 6, when the EWMA reaches about 52.03 g, although no single reading breaches the individuals-chart limits",
+          "49.33 to 50.67 g; first signal at sample 3"
+        ],
+        "stem": "A fill-weight process has a target of 50.0 g and a known σ of 2.0 g. An EWMA chart with λ = 0.2, L = 3 and a starting value of z₀ = 50.0 is used to catch small sustained shifts. The next six readings are 51.8, 52.4, 51.6, 52.9, 53.1 and 53.4 g. Using the steady-state limits, what are the limits and where does the chart first signal?",
+        "sub": "mbb-analytics",
+        "why": "Limits = μ ± Lσ√(λ/(2 − λ)) = 50 ± 3 × 2 × √(0.2/1.8) = <b>48.0 to 52.0 g</b>. The EWMA zᵢ = 0.2xᵢ + 0.8zᵢ₋₁ runs 50.36, 50.77, 50.93, 51.33, 51.68, then <b>52.03 at sample 6</b>, which is the first point above the UCL. Using the exact time-varying limits, which are narrower early on, still gives sample 6. This is the point of an EWMA: it builds up evidence of a small shift that an individuals chart (44.0 to 56.0 g) does not see. The first option plots the raw readings against EWMA limits, which is not valid. The second uses individuals-chart limits and misses the shift. The last option omits the square root in the limit formula."
+      }
+    },
+    "mbb:exampreview:ep-mbb-15": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "R² = 0.84; adjusted R² = 0.826; F = 36.75",
+          "R² = 0.84; adjusted R² = 0.817; F = 5.25",
+          "R² = 0.84; adjusted R² = 0.817; F = 36.75",
+          "R² = 0.19; adjusted R² = 0.07; F = 0.19"
+        ],
+        "stem": "Software output for a regression of cycle time on three predictors (n = 25) shows: Regression SS = 840 (df 3), Residual SS = 160 (df 21), Total SS = 1,000 (df 24). What are R², adjusted R² and the overall F statistic?",
+        "sub": "mbb-analytics",
+        "why": "R² = 840/1,000 = <b>0.84</b>. Adjusted R² = 1 − (160/21)/(1,000/24) = 1 − 7.619/41.667 = <b>0.817</b>. F = MSR/MSE = (840/3)/(160/21) = 280/7.619 = <b>36.75</b>. An adjusted R² of 0.826 divides by n − k = 22 instead of n − k − 1 = 21. F = 5.25 divides the sums of squares without dividing by their degrees of freedom. The last option inverts the ratios (residual over regression)."
+      }
+    },
+    "mbb:exampreview:ep-mbb-16": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Each 1 °C increase raises the probability of failure by 0.405",
+          "Each 1 °C increase multiplies the odds of failure by about 0.67",
+          "Each 1 °C increase raises the odds of failure by 40.5%",
+          "Each 1 °C increase raises the odds of failure by a factor of about 1.50, that is, about 50%"
+        ],
+        "stem": "A binary logistic regression of seal failure (1 = fail) on sealing temperature gives a coefficient of 0.405 per °C (p < 0.001). Which interpretation is correct?",
+        "sub": "mbb-analytics",
+        "why": "In logistic regression the coefficient is on the log-odds scale, so the odds ratio is e<sup>0.405</sup> = <b>1.50</b>: the odds rise by about 50% per °C. The coefficient is not a change in probability, which depends on where you start on the curve. Reading 0.405 as a 40.5% change in odds forgets to exponentiate. 0.67 is e<sup>−0.405</sup>, the odds ratio for a 1 °C decrease."
+      }
+    },
+    "mbb:exampreview:ep-mbb-17": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "%Study Variation is 6.25%, so the gauge is excellent and no action is needed",
+          "%Study Variation is 25% and the number of distinct categories is 5; the system is marginal, mostly due to repeatability, so look first at the gauge or fixture",
+          "%Study Variation is 25% and the number of distinct categories is 5; the system is marginal, mostly due to reproducibility, so retrain the operators",
+          "%Study Variation is 50% and the number of distinct categories is 2, so the gauge is unacceptable"
+        ],
+        "stem": "A crossed Gage R&R (ANOVA method) reports variance components: repeatability 0.0016, reproducibility 0.0009, part-to-part 0.0375. Which conclusion is correct?",
+        "sub": "mbb-analytics",
+        "why": "Total GRR variance = 0.0016 + 0.0009 = 0.0025, which is 6.25% of the total 0.0400 (that is the <b>%Contribution</b>). %Study Variation uses standard deviations: √(0.0025/0.04) = <b>25%</b>, which is marginal (10–30%). ndc = 1.41 × √(0.0375/0.0025) = 5.46, truncated to <b>5</b>. Repeatability is the larger part, pointing to the equipment rather than the operators. The first option confuses %Contribution with %Study Variation. The third has the right numbers but blames the wrong source. The last miscalculates both figures."
+      }
+    },
+    "mbb:exampreview:ep-mbb-18": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "α = 1.682; 20 runs",
+          "α = 1.732; 20 runs",
+          "α = 1.414; 17 runs",
+          "α = 1.682; 14 runs"
+        ],
+        "stem": "After a screening study, a team plans a rotatable central composite design in 3 factors with a full 2³ factorial core and 6 centre points to fit a second-order model. What axial distance α should be used, and how many runs does the design have?",
+        "sub": "mbb-analytics",
+        "why": "Rotatability needs α = (number of factorial points)<sup>1/4</sup> = 8<sup>1/4</sup> = <b>1.682</b>. Runs = 8 factorial + 2 × 3 axial + 6 centre = <b>20</b>. α = 1.732 (√3) gives a spherical design, which is not rotatable for k = 3 with this core. α = 1.414 is the rotatable value for 2 factors. 14 runs leaves out the centre points, which the model needs to estimate pure error and curvature."
+      }
+    },
+    "mbb:exampreview:ep-mbb-19": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "9 blends; the model cannot be fitted because mixture designs need a factorial core",
+          "6 blends; the model needs an intercept that the design cannot estimate",
+          "3 blends; only the pure components are tested, so blending effects are missed",
+          "6 blends; the Scheffé quadratic also has 6 terms, so the model is saturated and leaves no degrees of freedom to test lack of fit"
+        ],
+        "stem": "A coatings team blends three resins whose proportions must sum to 1. It proposes an unreplicated {3, 2} simplex-lattice design and plans to fit a Scheffé quadratic model. How many distinct blends are in the design, and what is the main weakness of the plan?",
+        "sub": "mbb-analytics",
+        "why": "A {q, m} simplex lattice has C(q + m − 1, m) points: C(4, 2) = <b>6</b> (3 pure blends and 3 binary 50/50 blends). The Scheffé quadratic has 3 linear and 3 binary terms, also <b>6</b>, so it fits perfectly with no residual. Add the centroid, check blends or replicates. Nine blends would be a 3² factorial, which is not valid when proportions must sum to 1. The Scheffé model deliberately has no intercept, because of that sum-to-1 constraint. Three blends would be a {3, 1} lattice."
+      }
+    },
+    "mbb:exampreview:ep-mbb-20": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "R(500) = 77.9%; the hazard rate increases with age (wear-out), so time-based replacement can be justified",
+          "R(500) = 60.7%; failures are random, so preventive replacement will not help",
+          "R(500) = 77.9%; failures are random (constant hazard), so run to failure",
+          "R(500) = 22.1%; the hazard rate falls with age (infant mortality), so burn-in is needed"
+        ],
+        "stem": "Life data for a pump bearing fit a two-parameter Weibull distribution with shape β = 2.0 and scale η = 1,000 hours. What is the reliability at 500 hours, and what does β imply for maintenance strategy?",
+        "sub": "mbb-analytics",
+        "why": "R(t) = exp[−(t/η)<sup>β</sup>] = exp[−(0.5)²] = exp(−0.25) = <b>77.9%</b>. β &gt; 1 means an increasing hazard rate, that is, <b>wear-out</b>, so scheduled replacement before failure can pay off. 60.7% is exp(−0.5), which treats β as 1. The third option has the right reliability but misreads β = 2 as a constant hazard (β = 1). 22.1% is the probability of failure, not reliability, and infant mortality needs β &lt; 1."
+      }
+    }
+  },
+  "meta": {
+    "mbb:exampreview:ep-mbb-01": {
+      "domain": "Enterprise-Wide Planning",
+      "subtopic": "Deployment capacity planning",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "mbb:exampreview:ep-mbb-02": {
+      "domain": "Enterprise-Wide Planning",
+      "subtopic": "Hoshin kanri catchball",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "mbb:exampreview:ep-mbb-03": {
+      "domain": "Enterprise-Wide Planning",
+      "subtopic": "Benefit classification",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "mbb:exampreview:ep-mbb-04": {
+      "domain": "Organizational Competencies",
+      "subtopic": "Little's Law and process cycle efficiency",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "mbb:exampreview:ep-mbb-05": {
+      "domain": "Organizational Competencies",
+      "subtopic": "Change management (ADKAR)",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "mbb:exampreview:ep-mbb-06": {
+      "domain": "Organizational Competencies",
+      "subtopic": "Leading and lagging measures",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "mbb:exampreview:ep-mbb-07": {
+      "domain": "Project Portfolio Management",
+      "subtopic": "Constrained portfolio selection",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "mbb:exampreview:ep-mbb-08": {
+      "domain": "Project Portfolio Management",
+      "subtopic": "NPV versus payback",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "mbb:exampreview:ep-mbb-09": {
+      "domain": "Project Portfolio Management",
+      "subtopic": "Stage-gate decision and sunk cost",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "mbb:exampreview:ep-mbb-10": {
+      "domain": "Training Design & Delivery",
+      "subtopic": "Evaluating training (paired t-test and Kirkpatrick)",
+      "difficulty": "hard",
+      "kind": "interpretation"
+    },
+    "mbb:exampreview:ep-mbb-11": {
+      "domain": "Training Design & Delivery",
+      "subtopic": "Needs analysis",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "mbb:exampreview:ep-mbb-12": {
+      "domain": "Coaching & Mentoring",
+      "subtopic": "Coaching a Black Belt on sponsor scope creep",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "mbb:exampreview:ep-mbb-13": {
+      "domain": "Coaching & Mentoring",
+      "subtopic": "Coaching a Black Belt through a judgement call",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "mbb:exampreview:ep-mbb-14": {
+      "domain": "Advanced Analytics",
+      "subtopic": "Advanced SPC (EWMA)",
+      "difficulty": "hard",
+      "kind": "interpretation"
+    },
+    "mbb:exampreview:ep-mbb-15": {
+      "domain": "Advanced Analytics",
+      "subtopic": "Multiple regression ANOVA output",
+      "difficulty": "hard",
+      "kind": "interpretation"
+    },
+    "mbb:exampreview:ep-mbb-16": {
+      "domain": "Advanced Analytics",
+      "subtopic": "Logistic regression odds ratio",
+      "difficulty": "hard",
+      "kind": "interpretation"
+    },
+    "mbb:exampreview:ep-mbb-17": {
+      "domain": "Advanced Analytics",
+      "subtopic": "Gage R&R variance components",
+      "difficulty": "hard",
+      "kind": "interpretation"
+    },
+    "mbb:exampreview:ep-mbb-18": {
+      "domain": "Advanced Analytics",
+      "subtopic": "Response surface (central composite design)",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "mbb:exampreview:ep-mbb-19": {
+      "domain": "Advanced Analytics",
+      "subtopic": "Mixture design",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "mbb:exampreview:ep-mbb-20": {
+      "domain": "Advanced Analytics",
+      "subtopic": "Weibull reliability",
+      "difficulty": "hard",
+      "kind": "calculation"
+    }
+  }
+}

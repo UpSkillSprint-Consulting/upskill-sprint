@@ -1,4 +1,4 @@
-/* ExamPreview: a public, untimed preview (CSSBB, PMP) that renders with the real exam
+/* ExamPreview: a public, untimed preview (CSSBB, CSSGB, MBB, PMP) that renders with the real exam
    simulator's markup and classes (test-bank.html quizHTML/resultsHTML and the
    test-bank-current-attempt-review.js answer review). It only ever loads the
    free pool named on <body data-question-pool>, never the paid bank, and it
@@ -60,6 +60,31 @@
       ctaTitle: 'Practise with the complete Green Belt question bank',
       ctaBody: 'Two full 110-question exam sets, timed or untimed, plus focused quizzes by Body of Knowledge area, all in this same simulator.',
       fullBank: 'The full bank tests the same depth across 110-question mock exams.'
+    },
+    mbb: {
+      dm: {
+        mbbent: {name: 'Enterprise-Wide Planning', color: '#2c8fa6'},
+        mbborg: {name: 'Organizational Competencies', color: '#3b6fb0'},
+        mbbportfolio: {name: 'Project Portfolio Management', color: '#6b52b5'},
+        mbbtraining: {name: 'Training Design & Delivery', color: '#0e8f86'},
+        mbbcoaching: {name: 'Coaching & Mentoring', color: '#b8791b'},
+        mbbanalytics: {name: 'Advanced Analytics', color: '#c0453f'}
+      },
+      bok: [
+        {domain: 'mbbent', subs: [{id: 'mbb-enterprise', name: 'I. Enterprise-Wide Planning', lesson: '/lessons/what-is-lean-six-sigma', lessonName: 'What Is Lean Six Sigma'}]},
+        {domain: 'mbborg', subs: [{id: 'mbb-org', name: 'II. Organizational Competencies for Deployment', lesson: '/lessons/7-management-planning-tools', lessonName: '7 Management & Planning Tools'}]},
+        {domain: 'mbbportfolio', subs: [{id: 'mbb-portfolio', name: 'III. Project Portfolio Management', lesson: '/lessons/complete-14-quality-tools-project', lessonName: 'The Complete Quality Toolbox'}]},
+        {domain: 'mbbtraining', subs: [{id: 'mbb-training', name: 'IV. Training Design and Delivery', lesson: '/lessons.html', lessonName: 'Browse lessons'}]},
+        {domain: 'mbbcoaching', subs: [{id: 'mbb-coaching', name: 'V. Coaching and Mentoring Responsibilities', lesson: '/lessons.html', lessonName: 'Browse lessons'}]},
+        {domain: 'mbbanalytics', subs: [{id: 'mbb-analytics', name: 'VI. Advanced Data Management and Analytic Methods', lesson: '/lessons/introduction-to-design-of-experiment-doe', lessonName: 'Design of Experiments'}]}
+      ],
+      examName: 'ASQ Certified Six Sigma Master Black Belt',
+      short: 'MBB',
+      startTitle: 'Free MBB practice questions: ExamPreview',
+      ctaLabel: 'Get the complete Master Black Belt question bank',
+      ctaTitle: 'Practise with the complete Master Black Belt question bank',
+      ctaBody: 'Three full exam sets and a mixed set, timed or untimed, plus focused quizzes by Body of Knowledge area, all in this same simulator.',
+      fullBank: 'The full bank tests the same depth across 100- and 175-question exam sets.'
     },
     pmp: {
       dm: {
