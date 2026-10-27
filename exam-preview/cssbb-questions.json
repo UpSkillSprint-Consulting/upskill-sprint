@@ -1,0 +1,435 @@
+{
+  "examId": "cssbb",
+  "schemaVersion": "1.0.0",
+  "bankVersion": "exampreview-pilot-2026-10-26",
+  "pool": "exampreview-free",
+  "sets": {
+    "preview": [
+      "cssbb:exampreview:ep-cssbb-01",
+      "cssbb:exampreview:ep-cssbb-02",
+      "cssbb:exampreview:ep-cssbb-03",
+      "cssbb:exampreview:ep-cssbb-04",
+      "cssbb:exampreview:ep-cssbb-05",
+      "cssbb:exampreview:ep-cssbb-06",
+      "cssbb:exampreview:ep-cssbb-07",
+      "cssbb:exampreview:ep-cssbb-08",
+      "cssbb:exampreview:ep-cssbb-09",
+      "cssbb:exampreview:ep-cssbb-10",
+      "cssbb:exampreview:ep-cssbb-11",
+      "cssbb:exampreview:ep-cssbb-12",
+      "cssbb:exampreview:ep-cssbb-13",
+      "cssbb:exampreview:ep-cssbb-14",
+      "cssbb:exampreview:ep-cssbb-15",
+      "cssbb:exampreview:ep-cssbb-16",
+      "cssbb:exampreview:ep-cssbb-17",
+      "cssbb:exampreview:ep-cssbb-18",
+      "cssbb:exampreview:ep-cssbb-19",
+      "cssbb:exampreview:ep-cssbb-20"
+    ]
+  },
+  "contents": {
+    "cssbb:exampreview:ep-cssbb-01": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "+$30,000",
+          "+$13,395",
+          "−$789",
+          "−$15,000"
+        ],
+        "stem": "A project costs $150,000 up front and is expected to save $60,000 at the end of each of the next three years. Using the company's 10% discount rate (annual compounding), the project's net present value (NPV) is closest to:",
+        "sub": "p1",
+        "why": "Discount each year's saving: NPV = −150,000 + 60,000(1/1.1 + 1/1.1² + 1/1.1³) = −150,000 + 60,000 × 2.48685 = <b>−$789</b>. The project roughly breaks even and slightly destroys value at the hurdle rate. +$30,000 ignores the time value of money (simple payback logic); +$13,395 discounts at 5% instead of 10%; −$15,000 treats one year of interest on the investment as the whole cost of capital."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-02": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "+30 units/h",
+          "+20 units/h",
+          "0 units/h",
+          "+10 units/h"
+        ],
+        "stem": "A three-station line runs in series. Station capacities are 120, 90 and 110 units/h, and demand is unlimited. A kaizen team raises Station 3 to 140 units/h. The line's throughput changes by:",
+        "sub": "p1",
+        "why": "A series line can only produce as fast as its constraint, Station 2 at 90 units/h — before and after the project. Improving a non-bottleneck yields <b>no throughput gain</b> (it may only build WIP in front of the constraint). +30 is the local gain at Station 3; +20 and +10 come from comparing Station 3 to the other non-constraint figures. The project should have targeted Station 2 (TOC step 'exploit/elevate the constraint')."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-03": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Escalate to the Champion so the expectation is enforced from the top",
+          "Add the new sheet to the layered process audit so non-compliance is recorded",
+          "Schedule refresher training for his whole crew on the new sheet",
+          "Meet him one-on-one to understand his concerns and involve him in refining the standard"
+        ],
+        "stem": "After a new standard work sheet is rolled out, a respected shift supervisor agrees with it in meetings but quietly keeps his crew on the old checklist. As Black Belt, your BEST first response is to:",
+        "sub": "p2",
+        "why": "This is passive (covert) resistance from an informal leader. The first move is to <b>understand the root of the resistance and give him ownership</b> — he may know a real gap in the new standard, and his buy-in will carry his crew. Escalation and audits treat the symptom and harden resistance; they are later steps if dialogue fails. Retraining assumes a skills gap when the behaviour shows a will (buy-in) gap."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-04": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Norming — step back and let the team set its own rules",
+          "Performing — delegate more decisions to the team",
+          "Forming — repeat the project kickoff and introductions",
+          "Storming — clarify roles and responsibilities and revisit ground rules and the charter"
+        ],
+        "stem": "Three weeks into a project, team members who were polite at kickoff now openly question the charter's scope, argue over who owns data collection and challenge the Black Belt's choice of method. The team is MOST likely in which stage, and what should the facilitator do?",
+        "sub": "tm",
+        "why": "Challenging scope, roles and the leader's approach after an initially polite start is classic <b>storming</b>. The facilitator should surface the conflict constructively: clarify roles (e.g., RACI), reconfirm ground rules and the charter. 'Norming' is tempting because the team is fighting about rules, but norming is when agreement starts to form. Restarting the kickoff ignores the real issue; performing teams do not dispute the charter."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-05": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Nominal group technique",
+          "Multivoting",
+          "Delphi technique",
+          "Round-robin brainstorming"
+        ],
+        "stem": "In a cause-generation session, a senior engineer dominates and newer operators stay silent. The Black Belt wants every member, in the same room, to generate ideas independently and then rank them with equal weight. The BEST tool is:",
+        "sub": "tm",
+        "why": "<b>Nominal group technique</b> has members write ideas silently and independently, share them one at a time, then rank them privately — neutralising dominant voices in both generation and selection. Delphi is anonymous and iterative but designed for dispersed experts via questionnaires, not a live session. Multivoting only addresses the ranking step. Round-robin brainstorming gives turns but ideas are still generated aloud and can be anchored by the senior engineer."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-06": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Must-be (basic) attribute: its absence now causes strong dissatisfaction, but its presence adds little satisfaction",
+          "One-dimensional (performance) attribute: satisfaction rises in proportion to how much tracking is provided",
+          "Indifferent attribute: customers no longer care whether it is offered",
+          "Reverse attribute: customers now prefer not to have it"
+        ],
+        "stem": "When a courier first offered live map tracking of deliveries, customers were delighted. Today nearly every competitor offers it. In Kano terms, live tracking has MOST likely become a:",
+        "sub": "def",
+        "why": "Kano attributes decay over time: yesterday's delighter becomes today's <b>must-be</b>. Customers now expect it, so lacking it hurts badly while having it earns little credit. It is not one-dimensional (more tracking doesn't proportionally raise satisfaction) and certainly not indifferent — remove it and complaints follow."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-07": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Faster delivery for all customers",
+          "At least 98% of orders delivered within 2 business days of order confirmation",
+          "Add a second regional distribution centre",
+          "Raise the average post-delivery satisfaction score to 4.5 out of 5"
+        ],
+        "stem": "Survey comments for an online retailer repeatedly say \"my order always shows up late.\" Which is the BEST critical-to-quality (CTQ) requirement to carry into the Measure phase?",
+        "sub": "def",
+        "why": "A CTQ translates the voice of the customer into a <b>specific, measurable requirement with an operational definition and target</b>. 'Faster delivery' is still the customer's vague language; a new distribution centre is a solution, not a requirement; a satisfaction score is a lagging outcome that doesn't define what 'late' means, so it can't be measured at the process."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-08": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "1.33",
+          "1.67",
+          "0.50",
+          "1.00"
+        ],
+        "stem": "A shaft diameter has LSL = 9.0 mm and USL = 10.6 mm. The process is stable and normal with mean 10.0 mm and standard deviation 0.20 mm. Cpk is:",
+        "sub": "mea",
+        "why": "Cpk uses the nearer specification limit: Cpk = min[(USL − μ)/3σ, (μ − LSL)/3σ] = min[0.6/0.6, 1.0/0.6] = min(1.00, 1.67) = <b>1.00</b>. 1.33 is Cp (the potential if centred); 1.67 uses the farther limit; 0.50 divides by 6σ instead of 3σ."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-09": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "6.25%",
+          "25%",
+          "35%",
+          "15%"
+        ],
+        "stem": "A crossed gauge R&R study gives repeatability σ = 0.03, reproducibility σ = 0.04 and total (study) variation σ = 0.20, all in the same units. The measurement system's %Study Variation (%GRR) is closest to:",
+        "sub": "mea",
+        "why": "Variances add, standard deviations don't: σ_GRR = √(0.03² + 0.04²) = 0.05, so %SV = 0.05/0.20 = <b>25%</b> — in the AIAG 10–30% 'may be acceptable depending on the application' band. 35% adds the standard deviations directly; 6.25% is %Contribution (variance ratio 0.0025/0.04), a different metric; 15% ignores reproducibility."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-10": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "2.75",
+          "3.67",
+          "4.25",
+          "4.75"
+        ],
+        "stem": "Inspectors check 1,200 assemblies, each with 5 defect opportunities, and find 18 defects. Using the conventional 1.5σ shift (short-term Z = long-term Z + 1.5), the short-term sigma level is closest to:",
+        "sub": "mea",
+        "why": "DPMO = 18 / (1,200 × 5) × 10⁶ = 3,000. The long-term Z for a 0.3% tail is ≈ 2.75; adding the 1.5σ shift gives <b>≈ 4.25</b>. 2.75 forgets the shift; 3.67 uses defects per unit (15,000 ppm) and ignores opportunities; 4.75 is a misread of the sigma table."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-11": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "33",
+          "752",
+          "1,067",
+          "1,068"
+        ],
+        "stem": "Before a sampling audit, a Black Belt wants to estimate the proportion of incorrectly coded claims to within ±3 percentage points at 95% confidence. There is no reliable prior estimate of the proportion. The minimum number of claims to sample is:",
+        "sub": "mea",
+        "why": "With no prior estimate, use the most conservative p = 0.5 (it maximises p(1 − p)). n = z²p(1 − p)/E² = 1.96² × 0.25 / 0.03² = 1,067.1, and sample sizes are always <b>rounded up</b>: 1,068. 1,067 rounds down; 752 uses z = 1.645 (90% two-sided); 33 forgets to square the ratio."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-12": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "+0.80",
+          "−0.80",
+          "−0.64",
+          "+0.41"
+        ],
+        "stem": "A simple linear regression of scrap rate (Y) on line speed (X) gives the fitted equation Ŷ = 14.2 − 2.3X with R² = 0.64. The correlation coefficient r is:",
+        "sub": "ana",
+        "why": "In simple linear regression |r| = √R² = 0.80, and r takes the <b>sign of the slope</b> (negative here), so r = −0.80. +0.80 forgets the sign; −0.64 confuses r with R²; 0.41 squares R² again."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-13": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Address Mode 2 first because its RPN is twice as high",
+          "Address Mode 1 first because a severity of 9–10 should be prioritized even when RPN is low (AIAG-VDA Action Priority)",
+          "Take no action on either because both RPNs are below 125",
+          "Reduce the Detection rating of Mode 2 first, since detection is cheapest to improve"
+        ],
+        "stem": "A process FMEA lists two failure modes. Mode 1: Severity 10 (safety hazard), Occurrence 2, Detection 3 (RPN 60). Mode 2: Severity 4, Occurrence 6, Detection 5 (RPN 120). Following current AIAG-VDA practice, the team should:",
+        "sub": "ana",
+        "why": "RPN multiplies ordinal ratings and can bury safety risks. AIAG-VDA (2019) replaced RPN ranking with <b>Action Priority</b>, which puts high severity (9–10) first — a safety hazard must be addressed even at low occurrence. RPN thresholds such as 125 are arbitrary and not a valid basis for 'no action'. Improving detection is the weakest form of control; prevention (reducing occurrence) or design change (reducing severity) is preferred."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-14": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "There is insufficient evidence of a difference; with n = 6 per group the test may have low power, so a real difference could have been missed",
+          "There is a 12% probability that the null hypothesis is true",
+          "The two suppliers are statistically equivalent, so switch suppliers",
+          "The new supplier is worse because the p-value is above 0.05"
+        ],
+        "stem": "A two-sample t-test compares a new supplier's material with the current one using 6 samples each. The p-value is 0.12 at α = 0.05. The MOST defensible conclusion is:",
+        "sub": "ana",
+        "why": "Failing to reject H₀ is <b>not proof of equality</b>; with small samples the risk of a Type II error (β) can be large, so check power or run an equivalence test before switching. A p-value is P(data at least this extreme | H₀ true), not P(H₀ true). A p-value above α says nothing about direction."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-15": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "3",
+          "1.5",
+          "6",
+          "13"
+        ],
+        "stem": "A 2² factorial (one replicate, coded −1/+1) gives these yields: (1) = 20, a = 30, b = 24, ab = 40. The AB interaction EFFECT is:",
+        "sub": "imp",
+        "why": "AB effect = [(1) + ab − a − b] / 2 = (20 + 40 − 30 − 24)/2 = <b>3</b>. 6 is the contrast not divided by 2^(k−1); 1.5 is the regression coefficient (half the effect) — a classic mix-up; 13 is the main effect of A."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-16": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "It is Resolution IV, so main effects are clear of two-factor interactions",
+          "It is Resolution III, and main effect A is aliased with the BD and CE interactions",
+          "It is Resolution V, so all two-factor interactions can be estimated",
+          "It is Resolution III, and A is aliased only with the BCDE interaction"
+        ],
+        "stem": "A 2^(5−2) fractional factorial is built with generators D = AB and E = AC. Which statement is correct?",
+        "sub": "imp",
+        "why": "The defining relation is I = ABD = ACE = BCDE (the product ABD·ACE = BCDE). The shortest word has 3 letters, so it is <b>Resolution III</b>. Multiplying A through gives A = BD = CE = ABCDE, so A is confounded with two-factor interactions BD and CE. A common slip is to use only one generator and forget that ABD and ACE each generate their own aliases."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-17": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "3",
+          "4",
+          "5",
+          "6"
+        ],
+        "stem": "A cell works one 8-hour shift with 60 minutes of total breaks and lunch. Customer demand is 600 units per shift. Total work content is 180 seconds per unit. The theoretical minimum number of operators is:",
+        "sub": "imp",
+        "why": "Takt = available time ÷ demand = (480 − 60) min × 60 s / 600 = 42 s. Minimum operators = 180/42 = 4.29, always <b>rounded up to 5</b>. Choosing 4 comes from either rounding down or using the full 480 min (takt 48 s → 3.75 → 4) — both leave the line short of demand."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-18": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Run at high temperature and install dehumidifiers to control humidity",
+          "Add humidity as a covariate in the control plan and inspect 100%",
+          "Run at the temperature giving the highest mean strength and widen the tolerance",
+          "Run at low temperature to minimise sensitivity to humidity, then use line pressure to bring the mean back to target"
+        ],
+        "stem": "In a robust design experiment, cure temperature (control factor) interacts strongly with ambient humidity (noise factor): at low temperature, bond strength barely changes with humidity; at high temperature, it varies widely. Line pressure shifts mean bond strength but does not interact with humidity. The BEST strategy is:",
+        "sub": "dfss",
+        "why": "Robust design <b>exploits the control × noise interaction</b>: pick the control-factor setting that flattens the response to noise, then use an 'adjustment' factor that moves the mean without affecting variation (line pressure) to hit target. Controlling the noise itself (dehumidifiers) is usually costly and is what robust design avoids. Maximising the mean or inspecting does not reduce variation."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-19": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "54.00",
+          "55.16",
+          "52.31",
+          "58.46"
+        ],
+        "stem": "An X̄–R chart uses subgroups of n = 5. After 25 subgroups the grand mean is 50.0 and R̄ = 4.0. Using A₂ = 0.577 (n = 5), the upper control limit for X̄ is:",
+        "sub": "con",
+        "why": "UCL = X̿ + A₂R̄ = 50.0 + 0.577 × 4.0 = <b>52.31</b>. 55.16 uses 3R̄/d₂ — the limit for individual values — forgetting to divide by √n for subgroup means; 58.46 adds the R-chart UCL (D₄R̄ = 8.46); 54.00 adds R̄ directly."
+      }
+    },
+    "cssbb:exampreview:ep-cssbb-20": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Treat it as a signal of a special cause: follow the reaction plan, investigate and document",
+          "Widen the control limits to the specification limits so in-spec parts don't cause alarms",
+          "Take no action, because all parts meet specification",
+          "Immediately adjust the process mean down by the distance the point exceeded the UCL"
+        ],
+        "stem": "On a stable X̄ chart, one subgroup mean plots above the UCL, but every individual part in that subgroup is within specification. The operator should:",
+        "sub": "con",
+        "why": "Control limits are the <b>voice of the process</b>; specification limits are the voice of the customer. A point beyond the UCL signals a likely special cause even if parts are in spec — the reaction plan exists to find it before it produces defects. Replacing control limits with spec limits defeats SPC; reflexive adjustment without diagnosis is tampering and can increase variation."
+      }
+    }
+  },
+  "meta": {
+    "cssbb:exampreview:ep-cssbb-01": {
+      "domain": "Enterprise & Leadership",
+      "subtopic": "Project financials (NPV)",
+      "difficulty": "medium-hard",
+      "kind": "calculation"
+    },
+    "cssbb:exampreview:ep-cssbb-02": {
+      "domain": "Enterprise & Leadership",
+      "subtopic": "Theory of constraints",
+      "difficulty": "medium",
+      "kind": "calculation"
+    },
+    "cssbb:exampreview:ep-cssbb-03": {
+      "domain": "Enterprise & Leadership",
+      "subtopic": "Change management / resistance",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "cssbb:exampreview:ep-cssbb-04": {
+      "domain": "Enterprise & Leadership",
+      "subtopic": "Team dynamics (Tuckman)",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "cssbb:exampreview:ep-cssbb-05": {
+      "domain": "Enterprise & Leadership",
+      "subtopic": "Team tools",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "cssbb:exampreview:ep-cssbb-06": {
+      "domain": "Define",
+      "subtopic": "Kano model",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "cssbb:exampreview:ep-cssbb-07": {
+      "domain": "Define",
+      "subtopic": "VOC to CTQ translation",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "cssbb:exampreview:ep-cssbb-08": {
+      "domain": "Measure",
+      "subtopic": "Process capability (Cp/Cpk)",
+      "difficulty": "medium-hard",
+      "kind": "calculation"
+    },
+    "cssbb:exampreview:ep-cssbb-09": {
+      "domain": "Measure",
+      "subtopic": "Measurement system analysis (GR&R)",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "cssbb:exampreview:ep-cssbb-10": {
+      "domain": "Measure",
+      "subtopic": "DPMO and sigma level",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "cssbb:exampreview:ep-cssbb-11": {
+      "domain": "Measure",
+      "subtopic": "Sample size for a proportion",
+      "difficulty": "medium-hard",
+      "kind": "calculation"
+    },
+    "cssbb:exampreview:ep-cssbb-12": {
+      "domain": "Analyze",
+      "subtopic": "Correlation and regression",
+      "difficulty": "medium",
+      "kind": "calculation"
+    },
+    "cssbb:exampreview:ep-cssbb-13": {
+      "domain": "Analyze",
+      "subtopic": "FMEA prioritisation",
+      "difficulty": "medium-hard",
+      "kind": "conceptual"
+    },
+    "cssbb:exampreview:ep-cssbb-14": {
+      "domain": "Analyze",
+      "subtopic": "Hypothesis testing interpretation",
+      "difficulty": "medium-hard",
+      "kind": "conceptual"
+    },
+    "cssbb:exampreview:ep-cssbb-15": {
+      "domain": "Improve",
+      "subtopic": "DOE interaction effect",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "cssbb:exampreview:ep-cssbb-16": {
+      "domain": "Improve",
+      "subtopic": "Fractional factorial resolution and aliasing",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "cssbb:exampreview:ep-cssbb-17": {
+      "domain": "Improve",
+      "subtopic": "Takt time and line balancing",
+      "difficulty": "medium-hard",
+      "kind": "calculation"
+    },
+    "cssbb:exampreview:ep-cssbb-18": {
+      "domain": "Improve",
+      "subtopic": "Robust design (DFSS)",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "cssbb:exampreview:ep-cssbb-19": {
+      "domain": "Control",
+      "subtopic": "X̄–R chart limits",
+      "difficulty": "medium-hard",
+      "kind": "calculation"
+    },
+    "cssbb:exampreview:ep-cssbb-20": {
+      "domain": "Control",
+      "subtopic": "Control limits vs specification limits",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    }
+  },
+  "notice": "Free ExamPreview pool: 20 original questions written for the public preview. Not drawn from, and verified not to overlap with, the paid CSSBB bank."
+}

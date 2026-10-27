@@ -1,0 +1,30 @@
+/* ExamPreview additions only. Everything else comes from the real simulator styles (exam-ui.css). */
+.tb-ep-start{background:var(--card,#fff);border:1px solid var(--line);border-radius:14px;padding:24px}
+.tb-ep-start h2{font-family:"Source Serif 4",serif;font-size:22px;color:var(--ink);margin:6px 0 10px}
+.tb-ep-facts{margin:0 0 18px;padding-left:20px;color:var(--ink-soft,var(--ink));font-size:15px;line-height:1.6}
+.tb-ep-question{border:0;margin:0;padding:0;min-width:0}
+.tb-ep-question>legend.tb-stem{padding:0;width:100%}
+.tb-ep-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.tb-ep-error{color:#a3332f;font-weight:600}
+.tb-ep-cta{margin:26px 0 0;padding:22px;border:2px solid var(--accent,#1f4e5f);border-radius:12px;background:var(--card,#fff)}
+.tb-ep-cta h2{font-family:"Source Serif 4",serif;font-size:22px;color:var(--ink);margin:6px 0 8px}
+.tb-ep-cta p{color:var(--ink-soft,var(--ink));font-size:15px;line-height:1.6;max-width:68ch}
+.tb-ep-waitlist{margin:18px 0 0;padding:22px;border:1px solid var(--line);border-radius:12px;background:var(--card,#fff)}
+.tb-ep-waitlist h3{font-family:"Source Serif 4",serif;font-size:20px;color:var(--ink);margin:0 0 8px}
+.tb-ep-waitlist p{color:var(--ink-soft,var(--ink));font-size:15px;line-height:1.6}
+.tb-ep-field{display:grid;gap:6px;font-weight:600;color:var(--ink);max-width:420px}
+.tb-ep-field input{min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font:inherit;background:var(--card,#fff);color:var(--ink)}
+.tb-ep-hint{font-size:13.5px!important;color:var(--muted)!important}
+.tb-ep-consent{display:flex;gap:10px;align-items:flex-start;margin:12px 0;color:var(--ink);font-size:15px;line-height:1.5;cursor:pointer}
+.tb-ep-consent input{width:22px;height:22px;margin:2px 0 0;flex:none;accent-color:var(--accent,#1f4e5f)}
+.tb-ep-related{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line)}
+.tb-ep-related h2{font-family:"Source Serif 4",serif;font-size:20px;color:var(--ink)}
+.tb-ep-related li{margin:6px 0;color:var(--ink-soft,var(--ink));line-height:1.6}
+.tb-ep-related a{text-decoration:underline}
+.exam-preview-page .tb-opt,.exam-preview-page .tb-navcell,.exam-preview-page .tb-tbtn,.exam-preview-page .btn{min-height:44px}
+.exam-preview-page :focus-visible{outline:3px solid var(--accent,#1f4e5f);outline-offset:2px}
+html[data-theme="dark"] .exam-preview-page :focus-visible{outline-color:#9be3ea}
+@media(max-width:760px){.tb-ep-start,.tb-ep-cta,.tb-ep-waitlist{padding:16px}.tb-ep-cta .btn{width:100%}}
+
+/* Let the long CTA label wrap on narrow screens instead of overflowing. */
+#ep-cta [data-ep-cta]{white-space:normal;max-width:100%;height:auto;text-align:center;line-height:1.35}
