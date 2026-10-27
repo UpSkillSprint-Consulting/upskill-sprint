@@ -78,7 +78,7 @@ export async function buildExamDelivery(root = ROOT) {
   shell = shell.replace(/(<body\b[^>]*)(>)/, tag => tag.replace(/ data-require-auth| data-required-access="[^"]*"| data-access-resource="[^"]*"/g, ''));
   if (!shell.includes('data-exam-delivery="shell"')) throw new Error('Missing exam shell marker.');
   shell = shell.replace('</head>', '<link rel="stylesheet" href="/exam-access.css">\n<script defer src="/exam-access-loader.js"></script>\n</head>');
-  shell = shell.replace(/(<body[^>]*>)/, '$1\n<section id="exam-access-status" class="exam-access-status" role="status" aria-live="polite"><h1>Checking exam access</h1><p>Please wait while we check your account.</p></section><noscript><p>Enable JavaScript and sign in to open your assigned exams.</p></noscript>');
+  shell = shell.replace(/(<body[^>]*>)/, '$1\n<section id="exam-access-status" class="exam-access-status" role="status" aria-live="polite" aria-busy="true"><h1>Checking exam access</h1><p>Please wait while we check your account.</p></section><noscript><p>Enable JavaScript and sign in to open your assigned exams.</p></noscript>');
   if (/\b(?:stem|answer)["']?\s*:\s*["'\d]/.test(shell)) throw new Error('Question data found in loading shell.');
   const output = join(root, PRIVATE_DIRECTORY);
   await rm(output, { recursive: true, force: true });

@@ -4278,7 +4278,9 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       '<div class="tb-sec">'+(live?'Practice modes':'Choose your practice mode')+'</div>'+
       (live?'<p class="tb-modenote">Full Exam uses '+esc(examNoun(e))+' ('+fullExamCount(e)+' questions). Choose a test set separately inside Quick Quiz and Focused Quiz.</p>':'')+
       '<div class="tb-modes">'+modesHTML(e)+'</div>'+
-      '<a class="tb-requestlink" href="request-topic.html">Request this exam &rarr;</a>';
+      /* Only unbuilt exams ask for a bank to be built. A live exam on this page
+         is already unlocked for the learner, so a request link would mislead. */
+      (live?'':'<a class="tb-requestlink" href="request-topic.html">Request this exam &rarr;</a>');
   }
 
   /* ---------- quiz player ---------- */

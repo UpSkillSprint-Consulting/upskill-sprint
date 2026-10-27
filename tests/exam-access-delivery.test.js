@@ -242,7 +242,7 @@ for (const mode of ['full','quick','focus','diagnostic']) {
 }
 
 const settle = () => new Promise(resolve => setImmediate(resolve));
-async function loaderApp({ signedIn=true, status=200, pending=false } = {}) {
+async function loaderApp({ signedIn=true, status=200, pending=false, statuses=null } = {}) {
   const errors = [], requests = [], revoked = [];
   const console = new VirtualConsole();
   console.on('jsdomError',error=>{ if (!error.message.includes('navigation')) errors.push(error.message); });
@@ -258,11 +258,13 @@ async function loaderApp({ signedIn=true, status=200, pending=false } = {}) {
   w.UpskillAuth={isConfigured:()=>true,getUser:()=>current,getClient:()=>({auth:{getSession:async()=>({data:{session:current?{user:current,access_token:TOKEN}:null}})}}),onChange:fn=>{change=fn;fn(current);}};
   w.fetch=async(url,init)=>{
     requests.push({url,init});
+    if(statuses&&statuses.length)nextStatus=statuses.shift();
     if(pending)await new Promise(resolve=>{release=resolve;});
     return new Response(JSON.stringify(nextStatus===200?(url.includes('check=1')?{allowed:true,exam:'cssgb'}:packet):{message:'denied'}),{status:nextStatus});
   };
   w.eval(await fs.readFile(path.join(ROOT,'exam-access-loader.js'),'utf8'));
   await settle(); await settle();
+  if (status===403||statuses) { await new Promise(resolve=>setTimeout(resolve,700)); await settle(); await settle(); }
   return {dom,w,errors,requests,revoked,release:()=>release(),status:value=>{nextStatus=value;},change:user=>{current=user;change(user);}};
 }
 
@@ -274,7 +276,7 @@ test('signed-out and locked users see a useful message without executing or stor
       assert.equal(app.w.document.body.classList.contains('exam-access-ready'),false);
       assert.ok(app.w.document.querySelector('#exam-access-status a[href="/exam-practice"]'));
       assert.equal(app.w.localStorage.length,0); assert.equal(app.w.sessionStorage.length,0);
-      assert.equal(app.requests.length,options.signedIn===false?0:1);
+      assert.equal(app.requests.length,options.signedIn===false?0:options.status===403?2:1,'a 403 is confirmed once before the lock card shows');
       if(options.status===403)assert.match(app.w.document.getElementById('exam-access-status').textContent,/locked/);
       assert.deepEqual(app.errors,[]);
     } finally { closeDom(app.dom); }
@@ -338,5 +340,32 @@ test('returning to the tab rechecks access without polling or further content de
     assert.equal(app.requests.length,2);assert.match(app.requests[1].url,/check=1/);
     assert.equal(app.w.document.body.classList.contains('exam-access-ready'),false);
     assert.deepEqual(app.errors,[]);
+  } finally { closeDom(app.dom); }
+});
+
+test('a transient 403 while loading never paints the lock card over an unlocked exam',async()=>{
+  const app=await loaderApp({statuses:[403,200]});const {w}=app;
+  try {
+    assert.equal(app.requests.length,2);
+    assert.equal(w.document.body.classList.contains('exam-access-ready'),true);
+    const status=w.document.getElementById('exam-access-status');
+    assert.equal(status.hidden,true);
+    assert.equal(status.getAttribute('aria-busy'),'false');
+    assert.doesNotMatch(status.textContent,/locked/);
+    assert.equal(w.document.querySelector('#tb-overview a.tb-requestlink'),null,'an unlocked live exam has no "Request this exam" link');
+    assert.deepEqual(app.errors,[]);
+  } finally { closeDom(app.dom); }
+});
+
+test('the loading state is neutral and busy until the access check resolves',async()=>{
+  const app=await loaderApp({pending:true});const {w}=app;
+  try {
+    const status=w.document.getElementById('exam-access-status');
+    assert.equal(status.hidden,false);
+    assert.equal(status.getAttribute('aria-busy'),'true');
+    assert.match(status.textContent,/Checking exam access/);
+    assert.doesNotMatch(status.textContent,/locked/);
+    assert.equal(w.__TB,undefined);
+    app.release();await settle();await settle();
   } finally { closeDom(app.dom); }
 });

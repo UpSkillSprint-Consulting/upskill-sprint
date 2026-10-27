@@ -4,12 +4,13 @@
   var exam = params.get('exam');
   var published = ['cssbb','mbb','cssgb','cqe','cmq','cre','pmp','nppe'];
   var auth, userId, revision = 0, loaded = false, started = false, stopped = false;
-  var checking = null, starting = false, blobs = [], authTimeout;
+  var checking = null, starting = false, blobs = [], authTimeout, confirmedDenial = false;
 
-  function show(title, message, signIn, retry) {
+  function show(title, message, signIn, retry, busy) {
     document.body.classList.remove('exam-access-ready');
     var host = document.getElementById('exam-access-status');
     host.hidden = false;
+    host.setAttribute('aria-busy', busy ? 'true' : 'false');
     host.replaceChildren();
     var heading = document.createElement('h1'); heading.textContent = title;
     var detail = document.createElement('p'); detail.textContent = message;
@@ -27,8 +28,12 @@
     var catalog = document.createElement('a'); catalog.href = '/exam-practice'; catalog.textContent = 'Back to exams'; host.append(catalog);
   }
 
+  function showChecking(message) { show('Checking exam access', message, false, false, true); }
+
   function unlock() {
-    document.getElementById('exam-access-status').hidden = true;
+    var host = document.getElementById('exam-access-status');
+    host.setAttribute('aria-busy', 'false');
+    host.hidden = true;
     document.body.classList.add('exam-access-ready');
   }
 
@@ -82,7 +87,7 @@
       if (!loaded || stopped || starting) return false;
       starting = true;
       var version = revision;
-      show('Checking exam access', 'Your practice session will start when access is confirmed.');
+      showChecking('Your practice session will start when access is confirmed.');
       try {
         await check();
         if (version !== revision || stopped) return false;
@@ -114,7 +119,20 @@
       });
       if (!window.__TB || !window.__TB.EXAMS[exam]) throw { status:503 };
       unlock();
-    } catch (error) { if (version === revision) deny(error); }
+    } catch (error) {
+      if (version !== revision || stopped) return;
+      // A first 403 while the session is still settling must not paint the
+      // lock card over an exam the learner can open. Keep the neutral
+      // checking state and confirm once with a freshly read session; only a
+      // confirmed denial reveals the lock card. No content is executed first.
+      if (error && error.status === 403 && !confirmedDenial) {
+        confirmedDenial = true;
+        await new Promise(function (resolve) { setTimeout(resolve, 600); });
+        if (version === revision && !stopped) return load();
+        return;
+      }
+      deny(error);
+    }
   }
 
   function install() {
@@ -131,7 +149,7 @@
       Promise.resolve().then(function () {
         if (version !== revision || stopped) return;
         if (loaded && userId) {
-          show('Switching accounts', 'Checking this account’s exam access.');
+          show('Switching accounts', 'Checking this account’s exam access.', false, false, true);
           stopped = true; dispose(); window.location.replace('/test-bank?exam=' + exam); return;
         }
         if (loaded) { deny({ status:401 }); return; }
@@ -143,7 +161,7 @@
   function resume() {
     if (!loaded || stopped || document.visibilityState === 'hidden') return;
     var version = revision;
-    show('Checking exam access', 'Checking your access before returning to the exam.');
+    showChecking('Checking your access before returning to the exam.');
     check().then(function () { if (version === revision && !stopped) unlock(); }).catch(deny);
   }
 
