@@ -55,6 +55,7 @@
       ],
       examName: 'PMI Project Management Professional (PMP)',
       short: 'PMP',
+      tables: false,
       startTitle: 'Free PMP practice questions: ExamPreview',
       ctaLabel: 'Get the complete PMP question bank',
       ctaTitle: 'Practise with the complete PMP question bank',
@@ -128,6 +129,8 @@
         return {id: q.id, stem: q.stem, sub: q.sub, ecoTask: q.ecoTask, why: q.why, options: order.map(function (k) { return q.options[k]; }), answer: order.indexOf(q.answer)};
       })};
       if (window.__ExamPreviewTools) window.__ExamPreviewTools.build();
+      // Exams without reference tables (PMP) drop the Tables drawer.
+      if (CFG.tables === false) { var td = document.getElementById('tb-tables'); if (td) td.remove(); }
       view = 'quiz'; render(); announce('ExamPreview started. Question 1 of ' + session.items.length + '.');
       var first = host.querySelector('[data-opt]'); if (first) first.focus({preventScroll: true});
     }).catch(function () {
@@ -158,7 +161,7 @@
       '<button type="button" class="tb-tbtn' + (session.flags[session.i] ? ' on' : '') + '" data-flag aria-pressed="' + !!session.flags[session.i] + '">\u2691 ' + (session.flags[session.i] ? 'Flagged' : 'Flag') + '</button>' +
       '<button type="button" class="tb-tbtn" data-reveal aria-describedby="tb-reveal-hint" ' + (revealed ? 'aria-controls="tb-revealed-answer" ' : '') + 'aria-expanded="' + revealed + '"' + (revealed ? ' disabled' : '') + '>' + (revealed ? 'Answer Revealed' : 'Reveal Answer') + '</button>' +
       '<button type="button" class="tb-tbtn" data-formulas>\u2630 Formulas</button>' +
-      '<button type="button" class="tb-tbtn" data-tables>\u25a4 Tables</button>' +
+      (CFG.tables === false ? '' : '<button type="button" class="tb-tbtn" data-tables>\u25a4 Tables</button>') +
       '<button type="button" class="tb-tbtn" data-calc>\u00f7 Calc</button>' +
       '<button type="button" class="tb-ghost" data-quit>Exit</button></div>';
     return '<div class="tb-quiz" data-question-id="' + esc(q.id) + '"><div class="tb-quiztop"><div><div class="tb-diag-kick">ExamPreview &middot; Free ' + CFG.short + ' questions &middot; untimed</div>' +

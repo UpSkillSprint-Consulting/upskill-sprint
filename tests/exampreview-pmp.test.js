@@ -118,15 +118,19 @@ test('PMP SEO, entry points, sitemap and privacy', () => {
   assert.match(read('sitemap.xml'), /https:\/\/upskillsprint\.com\/exam-preview\/pmp</);
 });
 
-test('PMP ExamPreview shows the real PMP formula sheet, Tables and Calc', async () => {
+test('PMP ExamPreview shows the real PMP formula sheet and Calc, with no Tables', async () => {
   const {extractExamToolsJs} = await import('../scripts/build-exampreview.mjs');
   const generated = await extractExamToolsJs(root);
   assert.match(read(PAGE), /src="\/assets\/js\/math\.js"[\s\S]*src="\/exam-preview\/test-bank-pmp-formulas\.js"[\s\S]*src="\/exam-preview\/exam-tools\.js"[\s\S]*src="\/exam-preview\/exam-preview\.js"/);
-  const t = await open({tools: ['test-bank-tables.js', 'test-bank-pmp-formulas.js'].map(f => '<script>' + read(f) + '</script>').join('') + '<script>' + generated + '</script>'});
+  assert.doesNotMatch(read(PAGE), /test-bank-tables\.js/, 'PMP page does not load the tables');
+  const t = await open({tools: ['test-bank-pmp-formulas.js'].map(f => '<script>' + read(f) + '</script>').join('') + '<script>' + generated + '</script>'});
   const {d, w, requests, errors} = t;
   d.querySelector('[data-ep-start]').click(); await tick(w);
   const labels = [...d.querySelectorAll('.tb-toolbar .tb-tbtn')].map(b => b.textContent.trim());
-  for (const label of ['\u2630 Formulas', '\u25a4 Tables', '\u00f7 Calc']) assert.ok(labels.includes(label), label);
+  for (const label of ['\u2630 Formulas', '\u00f7 Calc']) assert.ok(labels.includes(label), label);
+  assert.ok(!labels.some(l => /Tables/.test(l)), 'no Tables button on PMP');
+  assert.equal(d.querySelector('[data-tables]'), null);
+  assert.equal(d.getElementById('tb-tables'), null, 'no Tables drawer on PMP');
   d.querySelector('[data-formulas]').click();
   const pane = d.getElementById('tb-formulas');
   assert.equal(pane.hidden, false);
@@ -142,9 +146,7 @@ test('PMP ExamPreview shows the real PMP formula sheet, Tables and Calc', async 
   for (const key of ['6', '*', '7']) d.querySelector(`#tb-calc [data-k="${key}"]`).click();
   d.querySelector('#tb-calc [data-act="eq"]').click();
   assert.equal(d.getElementById('tb-calcdisp').textContent, '42');
-  d.querySelector('[data-tables]').click(); await tick(w);
-  assert.equal(d.getElementById('tb-tables').hidden, false);
-  for (const r of requests) assert.match(r.url, /^(\/exam-preview\/pmp-questions\.json|\/reference-tables\/[a-z_]+\.json)$/);
+  for (const r of requests) assert.match(r.url, /^\/exam-preview\/pmp-questions\.json$/);
   assert.deepEqual(errors, []);
   w.close();
 });
