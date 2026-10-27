@@ -1,0 +1,454 @@
+{
+  "examId": "pmp",
+  "schemaVersion": "1.0.0",
+  "bankVersion": "exampreview-pilot-draft-2026-10-27",
+  "pool": "exampreview-free",
+  "sets": {
+    "preview": [
+      "pmp:exampreview:ep-pmp-01",
+      "pmp:exampreview:ep-pmp-02",
+      "pmp:exampreview:ep-pmp-03",
+      "pmp:exampreview:ep-pmp-04",
+      "pmp:exampreview:ep-pmp-05",
+      "pmp:exampreview:ep-pmp-06",
+      "pmp:exampreview:ep-pmp-07",
+      "pmp:exampreview:ep-pmp-08",
+      "pmp:exampreview:ep-pmp-09",
+      "pmp:exampreview:ep-pmp-10",
+      "pmp:exampreview:ep-pmp-11",
+      "pmp:exampreview:ep-pmp-12",
+      "pmp:exampreview:ep-pmp-13",
+      "pmp:exampreview:ep-pmp-14",
+      "pmp:exampreview:ep-pmp-15",
+      "pmp:exampreview:ep-pmp-16",
+      "pmp:exampreview:ep-pmp-17",
+      "pmp:exampreview:ep-pmp-18",
+      "pmp:exampreview:ep-pmp-19",
+      "pmp:exampreview:ep-pmp-20"
+    ]
+  },
+  "contents": {
+    "pmp:exampreview:ep-pmp-01": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Tell the developer to raise the request again and escalate it herself if there is no reply by tomorrow",
+          "Contact the infrastructure manager directly to clear the access approval, and keep the team informed",
+          "Ask the product owner to drop the deployment story from the sprint goal",
+          "Log the delay in the risk register and review it at the sprint retrospective"
+        ],
+        "stem": "In the daily stand-up, a developer says for the third day that she cannot deploy to the test environment because the infrastructure group has not approved her access request. The infrastructure manager is outside the team, and the sprint goal depends on that deployment. As the team's servant leader, what should you do FIRST?",
+        "sub": "pmp-people",
+        "why": "A blocker that has lasted three days and threatens the sprint goal is an <b>impediment the servant leader should remove</b>, especially when it sits outside the team's control. Pushing it back to the developer wastes her time on work that is not hers. Dropping the story gives up the goal before trying to clear the blocker. The impediment has already happened, so it is an issue rather than a risk, and waiting until the retrospective is too late.",
+        "ecoTask": "Remove impediments and manage issues"
+      }
+    },
+    "pmp:exampreview:ep-pmp-02": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Split the specialist's time 50/50 so that both leaders get part of what they asked for",
+          "Let the functional manager decide, because resource assignments belong to the functional line",
+          "Ask the sponsor to rule on the priority immediately",
+          "Bring both leaders together to compare the two pieces of work against the project's business objectives and agree a sequence"
+        ],
+        "stem": "On a hybrid project, the product owner wants the only database specialist to spend the next sprint on a new reporting feature. The specialist's functional manager has already promised her to a data-migration milestone on the predictive side of the same project, and both leaders say their work is the priority. What should the project manager do?",
+        "sub": "pmp-people",
+        "why": "Both requests are legitimate and come from the same project, so the conflict should be resolved by <b>collaborating on the shared objective</b>: compare value, deadlines and dependencies, then agree on the order. A 50/50 split is a compromise that may cause both pieces of work to miss their dates. Deferring to the functional manager ignores the product owner's accountability for value. Escalating to the sponsor is the fallback if the two leaders cannot agree, not the first move.",
+        "ecoTask": "Manage conflict"
+      }
+    },
+    "pmp:exampreview:ep-pmp-03": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Speak privately with the senior developer about the effect of the comment, and reset the retrospective so it focuses on the process rather than individuals",
+          "Remove the tester from quality tasks until she builds more experience",
+          "Skip retrospectives for a few sprints until the tension settles",
+          "Ask the tester to present a root-cause analysis of the defect at the next sprint review"
+        ],
+        "stem": "After a defect that a junior tester missed reached production, a senior developer publicly named the tester in the sprint review. In the two retrospectives since then, the tester has said nothing and the team has raised no improvement items. What is the BEST action for the agile project leader?",
+        "sub": "pmp-people",
+        "why": "The silence shows a loss of <b>psychological safety</b>: people stop raising problems when blame is public. The leader should deal privately with the behaviour that caused it and re-establish a blameless, process-focused retrospective. Taking the tester off quality work confirms the blame. Cancelling retrospectives removes the team's main improvement loop. Having her present the defect in public puts more blame on her.",
+        "ecoTask": "Lead the project team"
+      }
+    },
+    "pmp:exampreview:ep-pmp-04": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Require everyone to work the same core hours in Eastern Time",
+          "Escalate the missed hand-offs to each engineer's functional manager",
+          "Move all communication to a single weekly status meeting",
+          "Facilitate a session where the team agrees on working agreements for overlap hours, response times and hand-off channels, and record them in the team charter"
+        ],
+        "stem": "A predictive project brings together engineers from Halifax, Manila and Warsaw who have not worked together before. In the first two weeks, people have missed hand-offs because nobody knows when others are online, and some expect replies within an hour while others reply the next day. What should the project manager do NEXT?",
+        "sub": "pmp-people",
+        "why": "Missed hand-offs and different expectations about replies show that the team has <b>no shared ground rules</b>. Rules the team agrees on together and records in the team charter fix the problem and build ownership. Making one city's hours apply to everyone is unfair, and it is unworkable when Halifax and Manila are about 12 hours apart. Escalating blames people for the absence of an agreement. A single weekly meeting slows hand-offs even more.",
+        "ecoTask": "Develop a common vision"
+      }
+    },
+    "pmp:exampreview:ep-pmp-05": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Let her do it if it really is small and the team still meets its sprint commitment",
+          "Ask the developer to tell the director that the team does not accept outside requests",
+          "Add the button to the sprint backlog and remove a story of equal size",
+          "Point the director to the product owner so the request can be weighed against the product backlog"
+        ],
+        "stem": "Midway through a sprint, a regional sales director messages a developer directly and asks her to add a new export button \"since it's only an afternoon's work.\" The developer asks you, the team coach, what to do. What is the BEST response?",
+        "sub": "pmp-people",
+        "why": "The <b>product owner owns the backlog and its priorities</b>. Sending the request there respects the director's need and protects the sprint. Accepting work on the side, even small work, damages transparency and starts scope creep. Refusing outright harms the relationship with an important stakeholder. Changing sprint scope is a decision for the product owner and the developers, not one the coach makes alone.",
+        "ecoTask": "Engage stakeholders"
+      }
+    },
+    "pmp:exampreview:ep-pmp-06": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Planning poker, where everyone reveals an estimate at the same time and the highest and lowest estimators explain their reasoning",
+          "Have the architect estimate alone, because he has the most experience",
+          "Average all the estimates after open discussion",
+          "Use a Delphi survey by email over the next two weeks"
+        ],
+        "stem": "During relative estimating, the team's architect always gives his estimate first, and the other members' estimates then cluster closely around his. The project manager wants independent estimates that bring out hidden differences in assumptions. Which technique BEST fits?",
+        "sub": "pmp-people",
+        "why": "Revealing estimates simultaneously in <b>planning poker</b> stops anchoring, and having the people with the outlying estimates explain them brings out the hidden assumptions. Relying on the architect alone loses the team's knowledge and its ownership of the estimate. Averaging after open discussion keeps the anchoring problem. Delphi does prevent anchoring, but it is far too slow for estimating a backlog during a session.",
+        "ecoTask": "Lead the project team"
+      }
+    },
+    "pmp:exampreview:ep-pmp-07": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "Reassign his remaining work packages to more dependable team members",
+          "Report the pattern to his functional manager for performance action",
+          "Meet with him privately to understand what has changed and agree on how to get back on track",
+          "Raise the issue at the next team meeting so that expectations are clear to everyone"
+        ],
+        "stem": "A normally reliable team member has missed three work-package deadlines in a row, and the work he submitted has needed rework. Other team members are starting to complain. What should the project manager do FIRST?",
+        "sub": "pmp-people",
+        "why": "A sudden drop from someone who is usually reliable points to a cause the project manager does not yet know, such as workload, unclear requirements or personal circumstances. The first step is a <b>private, fact-based conversation</b> followed by a joint plan. Reassigning his work or escalating to his manager acts before the cause is known. Raising it at a team meeting embarrasses him in front of his colleagues.",
+        "ecoTask": "Lead the project team"
+      }
+    },
+    "pmp:exampreview:ep-pmp-08": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "$445,000",
+          "$500,000",
+          "$555,556",
+          "$444,444"
+        ],
+        "stem": "A construction project has a budget at completion (BAC) of $400,000. At the latest status date, planned value is $200,000, earned value is $180,000 and actual cost is $225,000. The project manager expects the current cost performance to continue. What is the estimate at completion (EAC)?",
+        "sub": "pmp-process",
+        "why": "CPI = EV/AC = 180,000/225,000 = 0.80. If the current cost efficiency continues, <b>EAC = BAC/CPI = $500,000</b>. $445,000 (AC + BAC − EV) assumes that the remaining work will be done at the budgeted rate, which contradicts the scenario. $555,556 (BAC divided by CPI × SPI) is the formula to use when schedule pressure also affects cost. $444,444 divides BAC by SPI (0.90), which uses a schedule index to forecast cost.",
+        "ecoTask": "Plan and manage finance"
+      }
+    },
+    "pmp:exampreview:ep-pmp-09": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "0.83",
+          "0.87",
+          "1.15",
+          "1.20"
+        ],
+        "stem": "An IT infrastructure project has a BAC of $250,000. To date, EV = $100,000 and AC = $120,000. The sponsor insists that the project still finish within the original budget. What cost performance must the remaining work achieve?",
+        "sub": "pmp-process",
+        "why": "To-complete performance index based on BAC: <b>TCPI = (BAC − EV)/(BAC − AC) = 150,000/130,000 ≈ 1.15</b>. Every remaining dollar must earn $1.15 of work, which is very hard to achieve when CPI is only 0.83. This is a sign to re-baseline or to ask for a decision on extra funds. 0.83 is the current CPI. 0.87 inverts the TCPI formula. 1.20 is AC/EV, the inverse of CPI. (As a cross-check, at CPI 0.83 the EAC is $300,000, so VAC = −$50,000.)",
+        "ecoTask": "Plan and manage finance"
+      }
+    },
+    "pmp:exampreview:ep-pmp-10": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "8.0 days; σ = 2.0 days",
+          "8.0 days; σ = 4.0 days",
+          "9.0 days; σ = 2.0 days",
+          "7.0 days; σ = 2.0 days"
+        ],
+        "stem": "For a permit-approval activity, the team estimates 4 days optimistic, 7 days most likely and 16 days pessimistic. Using a beta (PERT) distribution, what are the expected duration and the standard deviation?",
+        "sub": "pmp-process",
+        "why": "Beta (PERT): <b>E = (O + 4M + P)/6 = (4 + 28 + 16)/6 = 8.0 days, and σ = (P − O)/6 = 2.0 days</b>. 9.0 days is the triangular mean (O + M + P)/3. A σ of 4.0 divides by 3 instead of 6. 7.0 days is simply the most likely estimate, which ignores the long pessimistic tail.",
+        "ecoTask": "Plan and manage schedule"
+      }
+    },
+    "pmp:exampreview:ep-pmp-11": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "0 days",
+          "1 day",
+          "2 days",
+          "3 days"
+        ],
+        "stem": "Network (durations in days): A = 3 and B = 5 start the project. C (4 days) follows A. D (6 days) follows both A and B. E (2 days) follows C. The project ends when D and E are both finished. If activity C slips by 3 days, by how much is the project's finish date delayed?",
+        "sub": "pmp-process",
+        "why": "Paths: A–C–E = 9, A–D = 9 and B–D = <b>11 (critical)</b>. C has total float of 11 − 9 = 2 days. A 3-day slip uses up the 2 days of float and pushes A–C–E to 12 days, so the finish moves out by <b>1 day</b>. Answering 0 assumes that a non-critical activity can never delay the finish. Answering 2 confuses the float with the delay. Answering 3 treats C as if it were on the critical path.",
+        "ecoTask": "Plan and manage schedule"
+      }
+    },
+    "pmp:exampreview:ep-pmp-12": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "8",
+          "8.3, planning a partial final sprint",
+          "9",
+          "10"
+        ],
+        "stem": "An agile team has 250 story points left in its release backlog. Its last four sprints delivered 26, 34, 30 and 30 points, and the team's makeup will not change. Using average velocity, how many more sprints should the team forecast to complete the release?",
+        "sub": "pmp-process",
+        "why": "Average velocity = 120/4 = 30 points per sprint. 250/30 = 8.33, and sprints are fixed timeboxes, so the forecast is <b>9 sprints</b>. Answering 8 rounds down and leaves 10 points undone. Teams do not plan partial sprints. 10 sprints uses the worst sprint (26 points), which is useful as a pessimistic bound but is not the average-based forecast the question asks for.",
+        "ecoTask": "Develop and manage project scope"
+      }
+    },
+    "pmp:exampreview:ep-pmp-13": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Add the report, because a senior executive has requested it",
+          "Analyze the impact of the report on scope, schedule, cost and risk, and submit a change request through integrated change control",
+          "Decline politely, because the scope baseline is frozen",
+          "Ask the team to start the report informally while the paperwork is prepared"
+        ],
+        "stem": "On a predictive project with an approved baseline, a senior executive tells the project manager in a hallway that he wants an additional regulatory report added to the deliverables, and adds that \"it shouldn't affect anything.\" What should the project manager do NEXT?",
+        "sub": "pmp-process",
+        "why": "Any change to an approved baseline goes through <b>integrated change control</b>: assess the impact, then the change control board or authorized approver decides. A senior title does not bypass the process, and \"it shouldn't affect anything\" is an assumption to test. A baseline is controlled rather than frozen, so declining is wrong too. Starting the work informally is gold plating or scope creep, with no approval.",
+        "ecoTask": "Manage and control changes"
+      }
+    },
+    "pmp:exampreview:ep-pmp-14": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "The risk owner carries out the planned contingent response and the project manager updates the risk register and stakeholders",
+          "The project manager calls a full risk-identification workshop to reassess the project",
+          "The team waits to see whether the vendor recovers before acting",
+          "The project manager submits a change request to the sponsor to approve a new risk response"
+        ],
+        "stem": "The risk register for a hybrid warehouse-automation project says: \"If the robot vendor misses factory acceptance by more than one week (trigger), the risk owner engages the pre-qualified backup integrator (contingent response).\" The vendor has just confirmed a two-week slip. What should happen NEXT?",
+        "sub": "pmp-process",
+        "why": "The trigger has occurred, and the response was <b>already planned and approved</b>, so the risk owner should carry it out now and the register and communications should be updated. A new workshop or a new approval repeats work that was done in planning and wastes the lead time the trigger was meant to protect. Waiting ignores the trigger, which is why the trigger was defined in the first place.",
+        "ecoTask": "Plan and manage risk"
+      }
+    },
+    "pmp:exampreview:ep-pmp-15": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "Done, because the product owner has accepted it",
+          "Done, with a technical-debt item added to the backlog for the tests",
+          "Not done; it returns to the product backlog and is not counted in velocity for this sprint",
+          "Partially done, so the team counts half of its points toward velocity"
+        ],
+        "stem": "At sprint review, the product owner confirms that a story meets all of its acceptance criteria. However, the team's definition of done requires automated regression tests, and none were written for this story. What is the correct status of the story?",
+        "sub": "pmp-process",
+        "why": "Acceptance criteria are specific to a story, but the <b>definition of done applies to every increment</b>. A story that fails the definition of done is not done, however happy the product owner is. It goes back to the product backlog and earns no velocity this sprint. Accepting it with a debt ticket weakens the definition of done, and there is no such thing as partial credit for story points.",
+        "ecoTask": "Plan and optimize quality"
+      }
+    },
+    "pmp:exampreview:ep-pmp-16": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Continue as planned and deal with compliance in a hardening sprint just before release",
+          "Ask the developers to research the regulation and rewrite the affected features this sprint",
+          "Escalate to the sponsor to delay the release until the rules are clearer",
+          "Work with the organization's privacy or compliance lead to assess the regulation's impact, then have the product owner reprioritize the backlog with the resulting requirements"
+        ],
+        "stem": "Four sprints into building a patient-booking app, the team learns that a new provincial privacy regulation will take effect before the planned release and will change consent and data-retention rules. What should the project leader do FIRST?",
+        "sub": "pmp-business",
+        "why": "A compliance change is a <b>requirement that must be analyzed with the right experts</b> and then brought into the backlog so the product owner can prioritize it like any other value or risk. Leaving it to a final hardening sprint stores up risk and rework. Developers interpreting the law on their own is risky and bypasses the product owner. Delaying the release before anyone knows the impact is premature.",
+        "ecoTask": "Plan and manage project compliance"
+      }
+    },
+    "pmp:exampreview:ep-pmp-17": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "The project stays open for six months until the 20% reduction can be confirmed",
+          "Ownership of benefit measurement, the targets and the review dates is transferred to the operational business owner, as set out in the benefits management plan",
+          "The 20% target is removed from the closure report, because it falls outside project scope",
+          "The team runs a two-week pilot to prove the 20% reduction before closing"
+        ],
+        "stem": "A project to deploy a new customer-service platform is ready to close, and all deliverables have been accepted. The business case promised a 20% reduction in average call-handling time, which can only be measured after six months of operation. What should the project manager ensure before closing?",
+        "sub": "pmp-business",
+        "why": "Benefits often arrive <b>after the project closes</b>. The project manager's job is to make sure someone in operations owns tracking them, with clear measures and dates, through the benefits management plan. Keeping the project open for six months wastes resources. Dropping the target breaks the link to the business case. A two-week pilot cannot validly show a result that needs six months of operation.",
+        "ecoTask": "Ensure value-based delivery"
+      }
+    },
+    "pmp:exampreview:ep-pmp-18": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Work with the business sponsor and change-management lead on a plan that explains the reasons for the change, involves supervisors in testing and adds role-based training before go-live",
+          "Move go-live forward so supervisors get used to the system sooner",
+          "Ask HR to make use of the new system part of the supervisors' performance objectives",
+          "Record the survey result as a risk and proceed, because the supervisors' concerns are outside the project's scope"
+        ],
+        "stem": "A hybrid ERP rollout is technically on track, but a readiness survey shows that most warehouse supervisors do not understand why the change is happening and expect it to add work. Go-live is in eight weeks. What is the BEST action?",
+        "sub": "pmp-business",
+        "why": "Adoption decides whether the project delivers value, so <b>supporting organizational change</b> is part of the project manager's work. Explaining the reasons for the change, involving the people affected and training them meets the readiness gap directly. Bringing go-live forward makes the gap worse. Making use of the system mandatory gets compliance rather than understanding. Calling adoption out of scope ignores the business case.",
+        "ecoTask": "Support organizational change"
+      }
+    },
+    "pmp:exampreview:ep-pmp-19": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "Absorb the cost using the contingency reserve, because the project's budget is still intact",
+          "Switch to a cheaper component supplier straight away to protect the margin",
+          "Analyze the effect on the business case and bring the options to the sponsor for a decision on whether, and how, to continue",
+          "Pause all work until the tariff situation is resolved"
+        ],
+        "stem": "Midway through a hybrid product-development project, new import tariffs raise the cost of a key component by 35%. The project's own budget can absorb the increase, but the product's projected margin falls below the threshold in the approved business case. What should the project manager do?",
+        "sub": "pmp-business",
+        "why": "The issue is <b>no longer just project cost but whether the investment is still viable</b>, which is the sponsor's or governance body's decision. The project manager should quantify the impact and present options, such as redesign, a different supplier, a price change or stopping. Absorbing the cost hides a business-case failure. Switching suppliers on her own is a decision above the project manager's authority and carries quality risk. Pausing everything is an overreaction that adds cost.",
+        "ecoTask": "Evaluate and address external business environment changes"
+      }
+    },
+    "pmp:exampreview:ep-pmp-20": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Produce the Gantt chart, because PMO standards apply to all projects",
+          "Refuse, because Gantt charts are not used in agile",
+          "Ask the sponsor to exempt the team from PMO reporting",
+          "Meet the PMO to understand what it needs to know, and offer tailored artifacts such as a release roadmap, burn-up chart and milestone forecasts that answer those needs"
+        ],
+        "stem": "The organization's PMO asks the new agile team to submit a detailed 12-month Gantt chart with task-level dates so that it can track the project the same way as every other project. What is the BEST response from the project leader?",
+        "sub": "pmp-business",
+        "why": "Governance needs are legitimate, but the format should be <b>tailored to the delivery approach</b>. Start with what the PMO is trying to learn, such as forecasts, risks and spending, and give it agile artifacts that answer those questions. A task-level 12-month Gantt chart for agile work would be false precision. Refusing outright, or going around the PMO through the sponsor, damages the relationship and avoids accountability.",
+        "ecoTask": "Define and establish project governance"
+      }
+    }
+  },
+  "meta": {
+    "pmp:exampreview:ep-pmp-01": {
+      "approach": "Agile",
+      "ecoTask": "Lead the team / remove impediments",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-02": {
+      "approach": "Hybrid",
+      "ecoTask": "Manage conflict",
+      "difficulty": "medium-hard",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-03": {
+      "approach": "Agile",
+      "ecoTask": "Support team performance / psychological safety",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-04": {
+      "approach": "Predictive",
+      "ecoTask": "Build a shared understanding / team ground rules",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-05": {
+      "approach": "Agile",
+      "ecoTask": "Engage stakeholders / protect the team",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-06": {
+      "approach": "Hybrid",
+      "ecoTask": "Facilitate team decisions / estimating",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-07": {
+      "approach": "Predictive",
+      "ecoTask": "Manage team performance",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-08": {
+      "approach": "Predictive",
+      "ecoTask": "Manage budget / earned value (EAC)",
+      "difficulty": "medium-hard",
+      "kind": "calculation"
+    },
+    "pmp:exampreview:ep-pmp-09": {
+      "approach": "Predictive",
+      "ecoTask": "Manage budget / earned value (TCPI, VAC)",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "pmp:exampreview:ep-pmp-10": {
+      "approach": "Predictive",
+      "ecoTask": "Plan and manage schedule (PERT)",
+      "difficulty": "medium",
+      "kind": "calculation"
+    },
+    "pmp:exampreview:ep-pmp-11": {
+      "approach": "Predictive",
+      "ecoTask": "Plan and manage schedule (float / critical path)",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "pmp:exampreview:ep-pmp-12": {
+      "approach": "Agile",
+      "ecoTask": "Plan and manage scope / release forecasting",
+      "difficulty": "medium",
+      "kind": "calculation"
+    },
+    "pmp:exampreview:ep-pmp-13": {
+      "approach": "Predictive",
+      "ecoTask": "Manage project changes",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-14": {
+      "approach": "Hybrid",
+      "ecoTask": "Manage risk",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-15": {
+      "approach": "Agile",
+      "ecoTask": "Manage quality / definition of done",
+      "difficulty": "medium-hard",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-16": {
+      "approach": "Agile",
+      "ecoTask": "Plan and manage project compliance",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-17": {
+      "approach": "Predictive",
+      "ecoTask": "Evaluate and deliver project benefits and value",
+      "difficulty": "medium-hard",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-18": {
+      "approach": "Hybrid",
+      "ecoTask": "Support organizational change",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-19": {
+      "approach": "Hybrid",
+      "ecoTask": "Evaluate and address external business environment changes",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "pmp:exampreview:ep-pmp-20": {
+      "approach": "Agile",
+      "ecoTask": "Support governance / tailoring",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    }
+  }
+}
