@@ -81,6 +81,9 @@ test('shared chrome, assets and scoped styles', () => {
     assert.equal(wrap.getAttribute('tabindex'), '0');
     assert.equal(wrap.getAttribute('role'), 'region');
   }
+  assert.equal(count(html, '<link rel="stylesheet" href="/site-nav.css">'), 1, 'shared nav styles load');
+  assert.ok(doc.querySelector('nav.mobile-nav[data-nav-root="mobile"]'));
+  for (const f of doc.querySelectorAll('.bfm-formula')) { assert.equal(f.getAttribute('role'), 'region'); assert.equal(f.getAttribute('tabindex'), '0'); }
   for (const a of doc.querySelectorAll('.related-lessons a')) assert.ok(fs.existsSync(path.join(ROOT, `${a.getAttribute('href')}.html`)), a.href);
 });
 
