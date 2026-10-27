@@ -63,6 +63,8 @@
       }
       controls.appendChild(request);
     }
+    // The free ExamPreview is public; offer it to anyone without CSSBB access.
+    if(row.exam_key==='cssbb'&&status!=='granted'){const preview=node('a','Try 20 free questions (ExamPreview) →','exam-card-preview');preview.href='/exam-preview/cssbb';controls.appendChild(preview);}
     card.appendChild(controls);return card;
   }
   function filter() {

@@ -9,6 +9,19 @@ const bankFile = /(?:^|\/)test-bank-(?:cssbb|cssgb|mbb|cqe|cmq|cre|pmp|nppe)-(?:
 const textFile = /\.(?:html?|[cm]?js|json|map)$/i;
 const questionLiteral = /["']?stem["']?\s*:\s*["'`]/;
 const answerLiteral = /["']?(?:answer|correctAnswer)["']?\s*:\s*(?:\d|["'`])/;
+// The only public question file: the free ExamPreview pool. It is allowed
+// solely when every question carries an ExamPreview id, so a paid bank copied
+// to this path still blocks the build.
+export const FREE_POOL_PATHS = new Set(['exam-preview/cssbb-questions.json']);
+export function freePoolProblem(content) {
+  let data;
+  try { data = JSON.parse(content); } catch { return 'Free ExamPreview pool is not valid JSON'; }
+  const ids = data && data.contents && typeof data.contents === 'object' ? Object.keys(data.contents) : [];
+  if (data?.pool !== 'exampreview-free' || !ids.length || ids.some(id => !/^cssbb:exampreview:ep-cssbb-\d{2}$/.test(id))) {
+    return 'Free ExamPreview pool contains non-ExamPreview questions';
+  }
+  return null;
+}
 
 export async function auditExamPublicContent(directory) {
   const root = resolve(directory);
@@ -44,6 +57,11 @@ export async function auditExamPublicContent(directory) {
       }
       if (textFile.test(name)) {
         const content = await readFile(path, 'utf8');
+        if (FREE_POOL_PATHS.has(name)) {
+          const problem = freePoolProblem(content);
+          if (problem) findings.push({ path: name, reason: problem });
+          continue;
+        }
         let texts = [content];
         if (/\.map$/i.test(name)) {
           try {
