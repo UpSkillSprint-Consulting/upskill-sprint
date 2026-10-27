@@ -399,6 +399,33 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
   </div>
 </section>
 
+<section class="bfm-section" id="bfm-explore" aria-labelledby="bfm-explore-h" hidden>
+  <div class="bfm-wrap">
+    <h2 id="bfm-explore-h">Explore transformations</h2>
+    <p class="bfm-note">Climb the ladder of powers for x and y and watch the fit change in real time on your own data. The left plot shows the model drawn back on the original scale, the middle plot the transformed data with its straight line, and the right plot the residuals.</p>
+    <div class="bfm-panel bfm-xcontrols">
+      <fieldset class="bfm-rungs" id="bfm-x-rungs"><legend>Transform x</legend><div class="bfm-rung-set"></div></fieldset>
+      <fieldset class="bfm-rungs" id="bfm-y-rungs"><legend>Transform y</legend><div class="bfm-rung-set"></div></fieldset>
+      <div class="bfm-row">
+        <label class="bfm-field" for="bfm-ex-xc">Subtract from x (offset) <input type="number" id="bfm-ex-xc" value="0" step="any"></label>
+        <label class="bfm-field" for="bfm-ex-yc">Add to y (start value) <input type="number" id="bfm-ex-yc" value="0" step="any"></label>
+        <button type="button" class="bfm-btn bfm-ghost" id="bfm-ex-reset">Back to raw data</button>
+        <button type="button" class="bfm-btn bfm-ghost" id="bfm-ex-best" disabled>Use the best linear model</button>
+      </div>
+    </div>
+    <div class="bfm-grid3" style="margin-top:12px">
+      <figure class="bfm-plot"><svg id="bfm-ex-orig" viewBox="0 0 380 280" role="img" aria-label="Original data with the model drawn back on the original scale"></svg><figcaption>Original scale, fitted model</figcaption></figure>
+      <figure class="bfm-plot"><svg id="bfm-ex-trans" viewBox="0 0 380 280" role="img" aria-label="Transformed data with a straight-line fit"></svg><figcaption>Transformed scale, straight line</figcaption></figure>
+      <figure class="bfm-plot"><svg id="bfm-ex-resid" viewBox="0 0 380 280" role="img" aria-label="Residuals against fitted values"></svg><figcaption>Residuals vs fitted</figcaption></figure>
+    </div>
+    <div role="status" aria-live="polite">
+      <p class="bfm-row" style="margin:12px 0 0"><span id="bfm-ex-verdict" class="bfm-verdict is-bad">–</span> <span class="bfm-mono bfm-note" id="bfm-ex-n"></span></p>
+      <dl class="bfm-stats" id="bfm-ex-stats"></dl>
+    </div>
+    <div class="bfm-eq" id="bfm-ex-eq" tabindex="0" role="region" aria-label="Explorer fitted equation" style="margin-top:10px"></div>
+  </div>
+</section>
+
 <section class="bfm-section" id="bfm-best" aria-labelledby="bfm-best-h" hidden>
   <div class="bfm-wrap">
     <h2 id="bfm-best-h">Best linear model</h2>
@@ -465,6 +492,7 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
     <p class="bfm-note" id="bfm-detail-note"></p>
     <div class="bfm-eq" id="bfm-detail-eq" tabindex="0" role="region" aria-label="Fitted equation"></div>
     <p class="bfm-note" id="bfm-detail-back"></p>
+    <p><button type="button" class="bfm-btn bfm-ghost" id="bfm-detail-explore" hidden>Explore this transformation</button></p>
     <div class="bfm-grid3" style="margin-top:12px">
       <figure class="bfm-plot"><svg id="bfm-plot-fit" viewBox="0 0 380 280" role="img" aria-label="Data with the fitted curve"></svg>
         <figcaption>Data on the original scale</figcaption>

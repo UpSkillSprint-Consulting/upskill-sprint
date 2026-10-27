@@ -29,8 +29,11 @@
     $('bfm-setup').hidden = false;
     $('bfm-results').hidden = true; $('bfm-detail').hidden = true; $('bfm-best').hidden = true;
     renderPreview();
+    ex.xp = 1; ex.yp = 1; ex.xc = 0; ex.yc = 0; syncExplorer();
+    $('bfm-explore').hidden = false; $('bfm-ex-best').disabled = true;
     status(label + ': ' + dataset.rows.length + ' rows, ' + cols.length + ' columns.' + (dataset.notes && dataset.notes.length ? ' ' + dataset.notes.join(' ') : ''));
     refreshSummary();
+    explorerUpdate();
   }
   function renderPreview() {
     var d = state.dataset, wrap = $('bfm-preview-wrap');
@@ -61,7 +64,7 @@
     if (info.yCounts) bits.push('y is whole numbers, so Poisson count models will be included.');
     out.textContent = bits.join(' ');
   }
-  ['bfm-x', 'bfm-y', 'bfm-ytype'].forEach(function (id) { $(id).addEventListener('change', refreshSummary); });
+  ['bfm-x', 'bfm-y', 'bfm-ytype'].forEach(function (id) { $(id).addEventListener('change', function () { refreshSummary(); explorerUpdate(); }); });
 
   $('bfm-use-paste').addEventListener('click', function () {
     try {
@@ -140,6 +143,9 @@
   /* ---------- best linear model ---------- */
   function showBestLinear() {
     var b = C.bestLinear(state.result.models), sec = $('bfm-best');
+    var r0 = b && explorerRungsFor(b.pick);
+    $('bfm-ex-best').disabled = !r0;
+    $('bfm-ex-best').onclick = r0 ? function () { setExplorer(r0); scrollTo($('bfm-explore')); } : null;
     sec.hidden = false;
     if (!b) {
       $('bfm-best-status').textContent = 'Not available';
@@ -293,6 +299,9 @@
     $('bfm-detail-note').textContent = m.family + ' · ' + m.note;
     $('bfm-detail-eq').textContent = m.equation;
     $('bfm-detail-back').textContent = [m.back ? 'On the original scale: ' + m.back : '', m.extra || ''].filter(Boolean).join(' · ');
+    var exb = $('bfm-detail-explore'), rungs = explorerRungsFor(m);
+    exb.hidden = !rungs;
+    exb.onclick = rungs ? function () { setExplorer(rungs); scrollTo($('bfm-explore')); } : null;
     var d = state.dataset, xName = d.columns[+$('bfm-x').value], yName = d.columns[+$('bfm-y').value];
     var ex = extent(state.x), ranked = C.rank(state.result.models, $('bfm-rankby').value).filter(function (q) { return q.id !== m.id; }).slice(0, 2);
     var curves = ranked.map(function (q) { return { cls: 'bfm-altline', pts: curveOf(q, ex[0], ex[1]) }; });
@@ -371,5 +380,75 @@
     download('best-fit-' + m.id.replace(/[^a-z0-9.-]+/gi, '-') + '.csv', rows);
   });
 
-  window.BestFitUI = { state: function () { return state; }, run: run, select: select, showBestLinear: showBestLinear };
+  /* ---------- live transformation explorer ---------- */
+  var ex = { xp: 1, yp: 1, xc: 0, yc: 0 };
+  var RUNG_TXT = { '-2': '−1/v²', '-1': '−1/v', '-0.5': '−1/√v', '0': 'ln v', '0.5': '√v', '1': 'v', '2': 'v²', '3': 'v³', 'logit': 'logit v' };
+  function buildRungs(id, name, letter, logit) {
+    var wrap = $(id).querySelector('.bfm-rung-set'), list = C.RUNGS.slice();
+    if (logit) list.push('logit');
+    list.forEach(function (p, i) {
+      var lab = doc.createElement('label'); lab.className = 'bfm-rung';
+      var inp = doc.createElement('input'); inp.type = 'radio'; inp.name = name; inp.value = String(p); inp.id = name + '-' + i;
+      var span = doc.createElement('span'); span.textContent = RUNG_TXT[String(p)].replace('v', letter);
+      lab.appendChild(inp); lab.appendChild(span); wrap.appendChild(lab);
+      inp.addEventListener('change', function () {
+        var v = inp.value === 'logit' ? 'logit' : parseFloat(inp.value);
+        if (letter === 'x') ex.xp = v; else ex.yp = v;
+        explorerUpdate();
+      });
+    });
+  }
+  buildRungs('bfm-x-rungs', 'bfm-ex-xp', 'x', false);
+  buildRungs('bfm-y-rungs', 'bfm-ex-yp', 'y', true);
+  function syncExplorer() {
+    doc.querySelectorAll('input[name="bfm-ex-xp"]').forEach(function (i) { i.checked = i.value === String(ex.xp); });
+    doc.querySelectorAll('input[name="bfm-ex-yp"]').forEach(function (i) { i.checked = i.value === String(ex.yp); });
+    $('bfm-ex-xc').value = ex.xc; $('bfm-ex-yc').value = ex.yc;
+  }
+  function setExplorer(r) { ex.xp = r.xp; ex.yp = r.yp; ex.xc = r.xc || 0; ex.yc = 0; syncExplorer(); explorerUpdate(); }
+  /* Ladder and logit models map straight onto the explorer's rungs. */
+  function explorerRungsFor(m) {
+    var parts = m.id.split('|'), off = +$('bfm-offset').value || 0;
+    if (parts[0] === 'ladder') return { xp: parseFloat(parts[1]), yp: parseFloat(parts[2]), xc: off };
+    if (parts[0] === 'logit') return { xp: parseFloat(parts[1]), yp: 'logit', xc: off };
+    return null;
+  }
+  $('bfm-ex-xc').addEventListener('input', function () { var v = parseFloat(this.value); ex.xc = isFinite(v) ? v : 0; explorerUpdate(); });
+  $('bfm-ex-yc').addEventListener('input', function () { var v = parseFloat(this.value); ex.yc = isFinite(v) ? v : 0; explorerUpdate(); });
+  $('bfm-ex-reset').addEventListener('click', function () { setExplorer({ xp: 1, yp: 1, xc: 0 }); });
+  function exVerdict(cls, text) { var v = $('bfm-ex-verdict'); v.className = 'bfm-verdict ' + cls; v.textContent = text; }
+  function explorerUpdate() {
+    if (!state.dataset || $('bfm-explore').hidden) return;
+    var p = selectedPairs(), d = state.dataset, xName = d.columns[+$('bfm-x').value], yName = d.columns[+$('bfm-y').value];
+    var stats = $('bfm-ex-stats'); stats.innerHTML = '';
+    ['bfm-ex-orig', 'bfm-ex-trans', 'bfm-ex-resid'].forEach(function (id) { var svg = $(id); while (svg.firstChild) svg.removeChild(svg.firstChild); });
+    if (p.x.length < 6) { exVerdict('is-bad', '✕ Choose two numeric columns with at least six complete pairs.'); $('bfm-ex-n').textContent = ''; $('bfm-ex-eq').textContent = ''; return; }
+    var yType = $('bfm-ytype').value;
+    var r = C.explore(p.x, p.y, { xp: ex.xp, yp: ex.yp, xc: ex.xc, yc: ex.yc, yScale: yType === 'unit' ? 1 : yType === 'percent' ? 100 : null });
+    $('bfm-ex-n').textContent = r.ok ? r.n + ' of ' + p.x.length + ' points used' + (r.dropped ? ' (' + r.dropped + ' undefined on this rung)' : '') : '';
+    if (!r.ok) {
+      plot($('bfm-ex-orig'), { xs: p.x, ys: p.y, xLabel: xName, yLabel: yName });
+      exVerdict('is-bad', '✕ ' + r.reason); $('bfm-ex-eq').textContent = ''; return;
+    }
+    var ex0 = extent(p.x);
+    plot($('bfm-ex-orig'), { xs: p.x, ys: p.y, curves: [{ cls: 'bfm-fitline', pts: curveOf(r, ex0[0], ex0[1]) }], xLabel: xName, yLabel: yName });
+    var fs = r.fitScale, eu = extent(fs.u), reg = fitLine(fs.u, fs.v), line = [];
+    for (var i = 0; i <= 60; i++) { var u = eu[0] + (eu[1] - eu[0]) * i / 60; line.push([u, reg.a + reg.b * u]); }
+    plot($('bfm-ex-trans'), { xs: fs.u, ys: fs.v, curves: [{ cls: 'bfm-fitline', pts: line }], xLabel: r.xLabel, yLabel: r.yLabel });
+    plot($('bfm-ex-resid'), { xs: fs.fit, ys: fs.res, zero: true, xLabel: 'Fitted value', yLabel: 'Residual' });
+    var text;
+    if (!r.curved && !r.funnel) { exVerdict('is-good', '✓ Straight and even'); text = 'straight and even'; }
+    else if (r.curved && r.funnel) { exVerdict('is-bad', '✕ Still curved, and the spread fans out'); text = 'still curved with uneven spread'; }
+    else if (r.curved) { exVerdict('is-bad', '✕ Still curved'); text = 'still curved'; }
+    else { exVerdict('is-bad', '✕ Straight, but the spread fans out'); text = 'straight but with uneven spread'; }
+    $('bfm-ex-trans').setAttribute('aria-label', 'Transformed data, ' + r.yLabel + ' against ' + r.xLabel + ', R squared ' + num(r.r2, 3) + '.');
+    $('bfm-ex-resid').setAttribute('aria-label', 'Residuals against fitted values: ' + text + '.');
+    [['Curvature check', 'p ' + fmtP(r.curvP) + (r.curved ? ' ✕' : ' ✓')], ['Spread check', 'p ' + fmtP(r.spreadP) + (r.funnel ? ' ✕' : ' ✓')],
+      ['R² transformed scale', num(r.r2, 4)], ['R² original y scale', isFinite(r.r2orig) ? num(r.r2orig, 4) : 'n/a']].forEach(function (s2) {
+      var w = doc.createElement('div'); w.className = 'bfm-stat'; var dt = doc.createElement('dt'); dt.textContent = s2[0]; var dd = doc.createElement('dd'); dd.textContent = s2[1]; w.appendChild(dt); w.appendChild(dd); stats.appendChild(w);
+    });
+    $('bfm-ex-eq').textContent = r.equation;
+  }
+
+  window.BestFitUI = { state: function () { return state; }, run: run, select: select, showBestLinear: showBestLinear, explorer: function () { return ex; }, explorerUpdate: explorerUpdate };
 })();

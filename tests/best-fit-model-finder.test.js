@@ -269,3 +269,61 @@ test('the calculator tab loads the finder scripts on first visit, for everyone',
   assert.doesNotMatch(fs.readFileSync(path.join(ROOT, 'tools', 'calculator-assets', 'bestfit-tab.js'), 'utf8'), /current_access_level|can_access_content|UpskillAuth/);
   w.close();
 });
+
+test('explore() fits any rung live, dropping only the points a rung cannot take', () => {
+  const hp = C.sample('hallpetch');
+  const raw = C.explore(hp.x, hp.y, { xp: 1, yp: 1 });
+  assert.ok(raw.ok && raw.curved, 'a straight line on raw Hall-Petch data is curved');
+  const best = C.explore(hp.x, hp.y, { xp: -0.5, yp: 1 });
+  assert.ok(!best.curved && !best.funnel);
+  assert.equal(best.equation, 'y = 178.5 + 625.5/√x');
+  assert.ok(best.fitScale.u.every(u => u > 0), 'plotted in physical orientation');
+  const charpy = C.sample('charpy');
+  const logx = C.explore(charpy.x, charpy.y, { xp: 0, yp: 1 });
+  assert.ok(logx.ok && logx.dropped > 0 && logx.n + logx.dropped === charpy.x.length);
+  const shifted = C.explore(charpy.x, charpy.y, { xp: 0, yp: 1, xc: -120 });
+  assert.equal(shifted.dropped, 0);
+  assert.match(shifted.equation, /ln \(x \+ 120\)/);
+  const bad = C.explore(hp.x, hp.y, { xp: 1, yp: 'logit' });
+  assert.equal(bad.ok, false);
+  assert.match(bad.reason, /Fewer than six points/);
+  const start = C.explore([1, 2, 3, 4, 5, 6, 7], [0, 1, 3, 6, 10, 15, 21], { xp: 1, yp: 0, yc: 1 });
+  assert.ok(start.ok && start.dropped === 0, 'a start value lets the log take zeros');
+  assert.match(start.yLabel, /ln \(y \+ 1\)/);
+});
+
+test('the live explorer appears with data and updates as rungs change', async () => {
+  const { window, document, errors } = runtime();
+  const $ = id => document.getElementById(id);
+  assert.equal($('bfm-explore').hidden, true);
+  $('bfm-paste').value = 'Grain,Yield\n' + C.sample('hallpetch').x.map((x, i) => `${x},${C.sample('hallpetch').y[i]}`).join('\n');
+  $('bfm-use-paste').click();
+  assert.equal($('bfm-explore').hidden, false);
+  assert.equal(document.querySelectorAll('#bfm-x-rungs input').length, 8);
+  assert.equal(document.querySelectorAll('#bfm-y-rungs input').length, 9, 'eight rungs plus logit');
+  assert.match($('bfm-ex-verdict').textContent, /Still curved/);
+  const pick = (name, value) => { const el = document.querySelector(`input[name="${name}"][value="${value}"]`); el.checked = true; el.dispatchEvent(new window.Event('change')); };
+  pick('bfm-ex-xp', '-0.5');
+  assert.match($('bfm-ex-verdict').textContent, /Straight and even/);
+  assert.equal($('bfm-ex-eq').textContent, 'y = 178.5 + 625.5/√x');
+  assert.ok(document.querySelector('#bfm-ex-trans path.bfm-fitline'));
+  pick('bfm-ex-yp', 'logit');
+  assert.match($('bfm-ex-verdict').textContent, /Fewer than six points/);
+  $('bfm-ex-reset').click();
+  assert.equal(window.BestFitUI.explorer().xp, 1);
+  /* The best-linear result and the model detail both hand their rungs to the explorer. */
+  $('bfm-best-linear').click();
+  await new Promise(resolve => setTimeout(resolve, 2500));
+  assert.equal($('bfm-ex-best').disabled, false);
+  $('bfm-ex-best').click();
+  assert.equal(window.BestFitUI.explorer().xp, -0.5);
+  window.BestFitUI.select('ladder|0|0');
+  assert.equal($('bfm-detail-explore').hidden, false);
+  $('bfm-detail-explore').click();
+  assert.equal(window.BestFitUI.explorer().yp, 0);
+  assert.match($('bfm-ex-eq').textContent, /^ln y = /);
+  window.BestFitUI.select('nls|tanh');
+  assert.equal($('bfm-detail-explore').hidden, true, 'nonlinear models have no rung equivalent');
+  assert.deepEqual(errors, []);
+  window.close();
+});

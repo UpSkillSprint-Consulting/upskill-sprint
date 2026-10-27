@@ -780,6 +780,48 @@
     return { best: best, bestPassing: passing[0] || null, ties: ties, simplest: simplest, cvBest: cvBest, warnings: warnings };
   }
 
+  /* Live explorer: one ladder (or logit) choice for x and y, fitted as a straight line.
+     Unlike fitAll, points the transformation cannot take are dropped and counted, so the
+     user can see the effect of each rung immediately (as in the lesson's lab).
+     opts: {xp, yp ('logit' allowed), xc (subtract from x), yc (add to y), yScale (1|100 for logit)} */
+  function explore(x, y, opts) {
+    var xc = +opts.xc || 0, yc = +opts.yc || 0, xp = opts.xp, yp = opts.yp;
+    var xf = xLadder(xp, xc);
+    var base = yp === 'logit' ? yLogit(opts.yScale || (y.every(function (v) { return v + yc < 1; }) ? 1 : 100)) : yLadder(yp);
+    var yLab = yc ? (yc < 0 ? '(y − ' + fmt(-yc) + ')' : '(y + ' + fmt(yc) + ')') : 'y';
+    var yf = {
+      flip: base.flip, label: yp === 'logit' ? base.label.replace('y', yLab) : rungLabel(yp, yLab),
+      fwd: function (t) { return base.fwd(t + yc); }, inv: function (v) { return base.inv(v) - yc; }, logJac: function (t) { return base.logJac(t + yc); }
+    };
+    var xs = [], ys = [], dropped = 0;
+    for (var i = 0; i < x.length; i++) {
+      if (isFinite(xf.fwd(x[i])) && isFinite(yf.fwd(y[i]))) { xs.push(x[i]); ys.push(y[i]); } else dropped++;
+    }
+    if (xs.length < 6) return { ok: false, dropped: dropped, reason: 'Fewer than six points can take this transformation. Try another rung, an offset or a start value.' };
+    var m = fitTransformed(xs, ys, xf, yf);
+    if (m.skip) return { ok: false, dropped: dropped, reason: 'This combination cannot be fitted: ' + m.skip + '.' };
+    var ck = checks(m.fitScale.fit, m.fitScale.res);
+    var fs = m.fitScale, vbar = mean(fs.v), tss = 0, rss = 0;
+    for (var q = 0; q < fs.v.length; q++) { tss += (fs.v[q] - vbar) * (fs.v[q] - vbar); rss += fs.res[q] * fs.res[q]; }
+    var my = mean(ys), sst = 0, sse = 0, bad = 0;
+    for (var j = 0; j < xs.length; j++) {
+      var pr = m.predict(xs[j]);
+      sst += (ys[j] - my) * (ys[j] - my);
+      if (!isFinite(pr)) { bad++; continue; }
+      sse += (ys[j] - pr) * (ys[j] - pr);
+    }
+    /* Equation in physical form: undo the order-preserving sign on negative rungs. */
+    var a = m.a, b = m.b;
+    if (typeof yp === 'number' && yp < 0) { a = -a; b = -b; }
+    if (typeof xp === 'number' && xp < 0) b = -b;
+    var eq = (yf.label + ' = ' + fmt(a) + signed(b) + '·' + xf.label).replace(/·1\//g, '/');
+    return {
+      ok: true, n: xs.length, dropped: dropped, x: xs, y: ys, fitScale: fs, predict: m.predict,
+      r2: tss > 0 ? 1 - rss / tss : NaN, r2orig: bad ? NaN : 1 - sse / sst,
+      curvP: ck.curvP, spreadP: ck.spreadP, curved: ck.curved, funnel: ck.funnel, equation: eq, xLabel: xf.label, yLabel: yf.label
+    };
+  }
+
   /* The single best "linear" model: a straight line after transforming x and/or y
      (ladder, logit, Arrhenius, Box-Cox, Box-Tidwell). Prefer models that pass both
      residual checks; among those within 2 AICc of the best, take the fewest parameters,
@@ -821,7 +863,7 @@
   }
 
   var api = {
-    RUNGS: RUNGS, prepare: prepare, describe: describe, fitAll: fitAll, rank: rank, bestLinear: bestLinear, buildSpecs: buildSpecs, evaluate: evaluate,
+    RUNGS: RUNGS, prepare: prepare, describe: describe, fitAll: fitAll, rank: rank, bestLinear: bestLinear, explore: explore, buildSpecs: buildSpecs, evaluate: evaluate,
     fitTransformed: fitTransformed, xLadder: xLadder, yLadder: yLadder, yLogit: yLogit, yBoxCox: yBoxCox,
     fitPoly: fitPoly, fitBoxCox: fitBoxCox, fitPowerX: fitPowerX, fitNLS: fitNLS, fitGLM: fitGLM, lm: lm,
     checks: checks, fUpper: fUpper, tTwoSided: tTwoSided, t975: t975, lgamma: lgamma, fmt: fmt, sample: sample, rng: rng
