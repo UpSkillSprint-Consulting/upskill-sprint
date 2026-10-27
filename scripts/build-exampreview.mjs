@@ -30,7 +30,8 @@ export async function extractExamUiCss(root = ROOT) {
 }
 
 // The Formulas, Tables and Calc tools are lifted verbatim from test-bank.html
-// too: the CSSBB formula sheet (REFS.cssbb), the calculator engine and the
+// too: the formula sheets (REFS.cssbb, REFS.cssgb, which shares it, and REFS.mbb,
+// the Black Belt sheet plus the MBB-only groups), the calculator engine and the
 // drawer/calculator overlay code. The Tables drawer uses the shared public
 // /test-bank-tables.js, exactly as the real exam does.
 function between(src, start, end) {
@@ -42,7 +43,7 @@ function between(src, start, end) {
 
 export async function extractExamToolsJs(root = ROOT) {
   const page = await readFile(join(root, 'test-bank.html'), 'utf8');
-  const refs = between(page, '  var REFS={', '  /* The MBB source simulation');
+  const refs = between(page, '  var REFS={', '  function factorial(');
   const calc = between(page, '  function factorial(', '  function fmtClock(');
   const tools = between(page, '  function calcKeys(){', '  function isAnswerRevealed(');
   if (!/REFS=\{\s*cssbb:\[/.test(refs) || /stem\s*:/.test(refs + calc + tools)) throw new Error('Unexpected content in extracted exam tools.');
