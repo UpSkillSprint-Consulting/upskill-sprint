@@ -277,6 +277,7 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
 <link rel="stylesheet" href="/tools/calculator-assets/presentation.css">
 <link rel="stylesheet" href="/tools/calculator-assets/lookup.css">
 <link rel="stylesheet" href="/tools/calculator-assets/lookup-math.css">
+<link rel="stylesheet" href="/tools/best-fit-model-finder.css">
 </head>
 <body>
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
@@ -299,6 +300,7 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
       <button class="tab active" data-page="pg-guide" role="tab">Guided Analysis</button>
       <button class="tab" data-page="pg-dist" role="tab">Distributions</button>
       <button class="tab" data-page="pg-lookup" role="tab">Distribution Lookup Tables</button>
+      <button class="tab" data-page="pg-fit" role="tab" hidden>Best-Fit Model Finder</button>
       <button class="tab" data-page="pg-test" role="tab">Hypothesis Tests</button>
       <button class="tab" data-page="pg-data" role="tab">Data &amp; Quality</button>
       <button class="tab" data-page="pg-spc" role="tab">Advanced SPC</button>
@@ -324,6 +326,201 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
   <div id="lookup-help" class="lookup-help" aria-live="polite"></div>
   <div data-tbl-mount></div>
  </div>
+</section>
+
+<section class="page" id="pg-fit" aria-label="Best-fit model finder workspace">
+<div id="bfm-tool" class="bfm-embedded">
+<!-- BFM_WORKSPACE_START -->
+<section class="bfm-section" id="bfm-data" aria-labelledby="bfm-data-h">
+  <div class="bfm-wrap">
+    <h2 id="bfm-data-h">1. Load your data</h2>
+    <div class="bfm-grid2">
+      <div class="bfm-panel">
+        <label class="bfm-field" for="bfm-paste">Paste a table from Excel or CSV (first row as headers)
+          <textarea id="bfm-paste" spellcheck="false" placeholder="Grain size,Yield strength&#10;4.2,488&#10;12.7,355"></textarea>
+        </label>
+        <div class="bfm-row" style="margin-top:8px">
+          <button type="button" class="bfm-btn bfm-ghost" id="bfm-use-paste">Use pasted table</button>
+          <span class="bfm-note">Use a period for decimals.</span>
+        </div>
+      </div>
+      <div class="bfm-panel">
+        <label class="bfm-field" for="bfm-file">Import Excel (.xlsx), CSV or TSV
+          <input type="file" id="bfm-file" accept=".xlsx,.csv,.tsv,.txt,text/csv,text/tab-separated-values,text/plain">
+        </label>
+        <div class="bfm-row" id="bfm-sheet-row" hidden style="margin-top:8px">
+          <label class="bfm-field" for="bfm-sheet">Worksheet <select id="bfm-sheet"></select></label>
+        </div>
+        <p class="bfm-note">Files stay in this browser. Nothing is uploaded to a server. Up to 10 MB, 10,000 rows and 40 columns.</p>
+        <p class="bfm-field" style="margin-top:12px">Or try a fictitious sample</p>
+        <div class="bfm-row">
+          <button type="button" class="bfm-btn bfm-ghost" data-sample="hallpetch">Yield strength vs grain size</button>
+          <button type="button" class="bfm-btn bfm-ghost" data-sample="growth">Defects vs tonnage</button>
+          <button type="button" class="bfm-btn bfm-ghost" data-sample="charpy">Charpy energy vs temperature</button>
+        </div>
+      </div>
+    </div>
+    <p id="bfm-load-status" class="bfm-note" role="status" aria-live="polite"></p>
+
+    <div class="bfm-panel" id="bfm-setup" hidden style="margin-top:14px">
+      <div class="bfm-row">
+        <label class="bfm-field" for="bfm-x">x (predictor) column <select id="bfm-x"></select></label>
+        <label class="bfm-field" for="bfm-y">y (response) column <select id="bfm-y"></select></label>
+        <label class="bfm-field" for="bfm-ytype">What is y?
+          <select id="bfm-ytype">
+            <option value="continuous">A measurement</option>
+            <option value="unit">A proportion between 0 and 1</option>
+            <option value="percent">A percentage between 0 and 100</option>
+          </select>
+        </label>
+        <label class="bfm-field" for="bfm-temp">Is x a temperature?
+          <select id="bfm-temp">
+            <option value="">No</option>
+            <option value="C">Yes, °C</option>
+            <option value="K">Yes, K</option>
+            <option value="F">Yes, °F</option>
+          </select>
+        </label>
+        <label class="bfm-field" for="bfm-offset">Subtract from x (offset)
+          <input type="number" id="bfm-offset" value="0" step="any">
+        </label>
+        <label class="bfm-field" for="bfm-folds">Cross-validation
+          <select id="bfm-folds"><option value="10">10-fold</option><option value="5">5-fold</option><option value="0">Off (faster)</option></select>
+        </label>
+      </div>
+      <p class="bfm-note" id="bfm-data-summary"></p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Preview of the first rows of the loaded table" id="bfm-preview-wrap"></div>
+      <div class="bfm-row" style="margin-top:10px">
+        <button type="button" class="bfm-btn" id="bfm-best-linear">Find best linear model</button>
+        <button type="button" class="bfm-btn bfm-ghost" id="bfm-run">Fit and rank all models</button>
+        <span id="bfm-run-status" class="bfm-note" role="status" aria-live="polite"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bfm-section" id="bfm-best" aria-labelledby="bfm-best-h" hidden>
+  <div class="bfm-wrap">
+    <h2 id="bfm-best-h">Best linear model</h2>
+    <p class="bfm-note">Every model that becomes a straight line after transforming x and/or y was checked: the 64 ladder-of-powers combinations, logit, Arrhenius, Box–Cox and Box–Tidwell. The pick passes both residual checks where possible and, among near-ties, has the fewest parameters.</p>
+    <div class="bfm-grid2">
+      <div class="bfm-panel">
+        <p class="bfm-eyebrow" id="bfm-best-status">Recommended</p>
+        <h3 id="bfm-best-name" style="margin-top:0">–</h3>
+        <div class="bfm-eq" id="bfm-best-eq" tabindex="0" role="region" aria-label="Best linear model equation"></div>
+        <p class="bfm-note" id="bfm-best-back"></p>
+        <ul id="bfm-best-reasons"></ul>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Runner-up linear models">
+          <table class="bfm-table"><caption>Runners-up</caption><thead><tr><th scope="col">Model</th><th scope="col" class="bfm-num">ΔAICc</th><th scope="col" class="bfm-num">R² (y)</th><th scope="col">Checks</th></tr></thead><tbody id="bfm-best-runners"></tbody></table>
+        </div>
+        <div class="bfm-row" style="margin-top:10px">
+          <button type="button" class="bfm-btn" id="bfm-best-open">Open full details</button>
+          <button type="button" class="bfm-btn bfm-ghost" id="bfm-best-all">See all ranked models</button>
+        </div>
+      </div>
+      <figure class="bfm-plot"><svg id="bfm-best-plot" viewBox="0 0 380 280" role="img" aria-label="Data on the transformed scale with the fitted straight line"></svg><figcaption id="bfm-best-cap">Transformed scale</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="bfm-section" id="bfm-results" aria-labelledby="bfm-results-h" hidden>
+  <div class="bfm-wrap">
+    <h2 id="bfm-results-h">2. Ranked models</h2>
+    <div id="bfm-summary" role="status" aria-live="polite"></div>
+    <div class="bfm-row" style="margin-top:10px">
+      <label class="bfm-field" for="bfm-rankby">Rank by
+        <select id="bfm-rankby">
+          <option value="aicc">AICc on the original y scale</option>
+          <option value="cv">Cross-validated RMSE</option>
+          <option value="r2">R² on the original y scale</option>
+        </select>
+      </label>
+      <label class="bfm-field" for="bfm-filter">Show
+        <select id="bfm-filter">
+          <option value="top">Top 25</option>
+          <option value="passing">Only models passing both residual checks</option>
+          <option value="named">Named models only (no generic ladder rungs)</option>
+          <option value="all">All fitted models</option>
+        </select>
+      </label>
+      <button type="button" class="bfm-btn bfm-ghost" id="bfm-dl-board">Download leaderboard (CSV)</button>
+    </div>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Leaderboard of fitted models" style="max-height:560px">
+      <table class="bfm-table" id="bfm-board">
+        <thead><tr>
+          <th scope="col">#</th><th scope="col">Model</th><th scope="col">Family</th><th scope="col" class="bfm-num">k</th>
+          <th scope="col" class="bfm-num">AICc</th><th scope="col" class="bfm-num">ΔAICc</th><th scope="col" class="bfm-num">Weight</th>
+          <th scope="col" class="bfm-num">R² (y)</th><th scope="col" class="bfm-num">CV RMSE</th><th scope="col">Checks</th><th scope="col">View</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <details class="bfm-details" id="bfm-skipped-wrap"><summary id="bfm-skipped-sum">Models that could not be fitted</summary><ul id="bfm-skipped"></ul></details>
+  </div>
+</section>
+
+<section class="bfm-section" id="bfm-detail" aria-labelledby="bfm-detail-h" hidden>
+  <div class="bfm-wrap">
+    <h2 id="bfm-detail-h">3. <span id="bfm-detail-name">Selected model</span></h2>
+    <p class="bfm-note" id="bfm-detail-note"></p>
+    <div class="bfm-eq" id="bfm-detail-eq" tabindex="0" role="region" aria-label="Fitted equation"></div>
+    <p class="bfm-note" id="bfm-detail-back"></p>
+    <div class="bfm-grid3" style="margin-top:12px">
+      <figure class="bfm-plot"><svg id="bfm-plot-fit" viewBox="0 0 380 280" role="img" aria-label="Data with the fitted curve"></svg>
+        <figcaption>Data on the original scale</figcaption>
+        <ul class="bfm-legend"><li><span></span>Selected model</li><li><span class="is-alt"></span>Next two by rank</li></ul></figure>
+      <figure class="bfm-plot"><svg id="bfm-plot-resid" viewBox="0 0 380 280" role="img" aria-label="Residuals against fitted values"></svg><figcaption>Residuals vs fitted (fitting scale)</figcaption></figure>
+      <figure class="bfm-plot"><svg id="bfm-plot-scale" viewBox="0 0 380 280" role="img" aria-label="Data on the fitting scale"></svg><figcaption id="bfm-scale-cap">Fitting scale</figcaption></figure>
+    </div>
+    <dl class="bfm-stats" id="bfm-detail-stats"></dl>
+    <div class="bfm-grid2" style="margin-top:12px">
+      <div>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Estimated parameters">
+          <table class="bfm-table"><caption>Parameters</caption><thead><tr><th scope="col">Name</th><th scope="col" class="bfm-num">Estimate</th><th scope="col" class="bfm-num">Std. error</th></tr></thead><tbody id="bfm-params"></tbody></table>
+        </div>
+        <div id="bfm-detail-flags"></div>
+      </div>
+      <div class="bfm-panel">
+        <h3 style="margin-top:0">Predict</h3>
+        <div class="bfm-row">
+          <label class="bfm-field" for="bfm-x0">x value <input type="number" id="bfm-x0" step="any"></label>
+          <button type="button" class="bfm-btn" id="bfm-predict">Predict</button>
+        </div>
+        <div role="status" aria-live="polite"><dl class="bfm-stats" id="bfm-pred-out"></dl></div>
+        <p class="bfm-note">For models fitted on a transformed scale, the plain back-transform is the median; the smearing estimate is the mean. Intervals are 95% prediction intervals for a single new observation. GLM rows give the mean only.</p>
+        <button type="button" class="bfm-btn bfm-ghost" id="bfm-dl-fit">Download fitted values (CSV)</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bfm-section" id="bfm-method" aria-labelledby="bfm-method-h">
+  <div class="bfm-wrap bfm-prose">
+    <h2 id="bfm-method-h">How the ranking works</h2>
+    <p><strong>Every model is scored on y itself.</strong> A model fitted to \(g(y)\) assumes normal errors on that scale. Its log-likelihood for the original y adds the Jacobian of the transformation, which is what makes AICc comparable across \(y\), \(\ln y\), \(\sqrt{y}\) and the rest:</p>
+    <div class="bfm-formula">\[ \ell_{y} = -\frac{n}{2}\left[\ln\!\left(\frac{2\pi\,\text{SSE}_{g}}{n}\right) + 1\right] + \sum_{i=1}^{n} \ln\left|g'(y_i)\right| \]</div>
+    <p>where \(\text{SSE}_{g}\) is the error sum of squares on the fitting scale and \(n\) is the number of points.</p>
+    <div class="bfm-formula">\[ \text{AICc} = -2\ell_{y} + 2k + \frac{2k(k+1)}{n-k-1}, \qquad w_m = \frac{e^{-\Delta_m/2}}{\sum_j e^{-\Delta_j/2}} \]</div>
+    <p>where \(k\) counts every estimated parameter including the error variance, \(\Delta_m\) is a model's AICc minus the lowest AICc, and \(w_m\) is its Akaike weight. Models within \(\Delta < 2\) are effectively tied: prefer the simplest one, or the one with a physical meaning. The Poisson GLM has a discrete likelihood, so its AICc is shown but not ranked against the continuous models; compare it by cross-validated RMSE.</p>
+    <p><strong>Cross-validated RMSE</strong> refits each model on 9 of 10 folds and predicts the held-out tenth on the original y scale, so overfitting costs it directly. <strong>R² (y)</strong> scores back-transformed median predictions against the raw y, exactly as in the lesson.</p>
+    <p><strong>Checks</strong> apply the lesson's two screens to each model's residuals on its fitting scale: a partial F-test for leftover curvature (squared and cubed fitted terms) and a test of whether the absolute residuals trend with the fitted value. A model that wins on AICc but fails a check is fitting the wrong shape or the wrong error structure.</p>
+    <details class="bfm-details"><summary>Model families tried</summary>
+      <ul>
+        <li><strong>Ladder of powers:</strong> all 64 combinations of \(x^{p}\) and \(y^{q}\) for \(p, q \in \{-2, -1, -\tfrac12, 0, \tfrac12, 1, 2, 3\}\), which include linear, exponential, power law, logarithmic, reciprocal and Hall–Petch forms.</li>
+        <li><strong>Logit</strong> of proportions or percentages against \(x\) and \(\ln x\).</li>
+        <li><strong>Arrhenius</strong> \(\ln y\) and \(y\) against \(1/T\) in kelvin, when x is a temperature.</li>
+        <li><strong>Box–Cox</strong> power on y estimated by maximum likelihood, against five x rungs.</li>
+        <li><strong>Box–Tidwell</strong> \(y = a + b\,x^{\alpha}\) with \(\alpha\) estimated.</li>
+        <li><strong>Polynomials</strong> (quadratic and cubic).</li>
+        <li><strong>Nonlinear least squares:</strong> exponential and power law with additive error, exponential approach to a floor or ceiling, and the hyperbolic-tangent transition curve.</li>
+        <li><strong>GLMs with a log link:</strong> Gamma for positive skewed y and Poisson for counts, against \(x\) and \(\ln x\).</li>
+      </ul>
+    </details>
+    <div class="bfm-callout"><strong>Use judgement.</strong> The best statistical fit is not automatically the right model. Prefer a model whose form matches the physics, check it on new data, and do not extrapolate a cubic or a back-transformed exponential far beyond the observed range.</div>
+  </div>
+</section>
+<!-- BFM_WORKSPACE_END -->
+</div>
 </section>
 
 <section class="page" id="pg-cost" aria-label="Cost of quality and savings workspace">
@@ -1917,5 +2114,6 @@ buildTests(); buildPad(); updMem(); renderHistory(); edClear(); setBadges();
 <script src="/tools/calculator-assets/lookup-math.js"></script>
 <script src="/test-bank-tables.js"></script>
 <script src="/tools/calculator-assets/lookup-ui.js"></script>
+<script src="/tools/calculator-assets/bestfit-tab.js"></script>
 </body>
 </html>

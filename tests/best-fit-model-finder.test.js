@@ -65,9 +65,12 @@ test('shared chrome, assets and scoped styles', () => {
   assert.equal(html.match(/<input type="checkbox" id="mnav-check"[\s\S]*?<\/header>/)[0].trim(), expectedHeader.trim());
   assert.equal(html.match(/<footer class="site">[\s\S]*?<\/footer>/)[0].trim(), expectedFooter.trim());
   assert.equal(doc.querySelectorAll('h1').length, 1);
-  for (const id of ['bfm-tool-style', 'best-fit-model-finder-dark-overrides']) {
-    for (const match of doc.getElementById(id).textContent.matchAll(/(--[\w-]+)\s*:/g)) assert.match(match[1], /^--bfm-/, match[1]);
+  const css = fs.readFileSync(path.join(ROOT, 'tools', 'best-fit-model-finder.css'), 'utf8');
+  assert.equal(count(html, '<link rel="stylesheet" href="/tools/best-fit-model-finder.css">'), 1);
+  for (const text of [css, doc.getElementById('best-fit-model-finder-dark-overrides').textContent]) {
+    for (const match of text.matchAll(/(--[\w-]+)\s*:/g)) assert.match(match[1], /^--bfm-/, match[1]);
   }
+  assert.match(css, /html\[data-theme="dark"\] #bfm-tool \{/);
   assert.equal(html.lastIndexOf('<style'), html.indexOf('<style id="best-fit-model-finder-dark-overrides"'));
   const ids = [...doc.querySelectorAll('[id]')].map(el => el.id);
   assert.equal(new Set(ids).size, ids.length, 'ids are unique');
@@ -160,7 +163,7 @@ test('the page loads samples, pasted tables, ranks, selects and predicts', async
   document.querySelector('[data-sample="hallpetch"]').click();
   await new Promise(resolve => setTimeout(resolve, 2500));
   assert.match($('bfm-run-status').textContent, /Fitted \d+ models/);
-  assert.equal($('results').hidden, false);
+  assert.equal($('bfm-results').hidden, false);
   assert.match($('bfm-summary').textContent, /Best by AICc: Inverse square root \(Hall–Petch\)/);
   assert.equal(document.querySelectorAll('#bfm-board tbody tr').length, 25);
   assert.equal($('bfm-detail-name').textContent, 'Inverse square root (Hall–Petch)');
@@ -178,7 +181,7 @@ test('the page loads samples, pasted tables, ranks, selects and predicts', async
   $('bfm-paste').value = 'Speed,Time\n' + [8, 12, 16, 20, 25, 30, 35, 40, 50, 60].map(v => `${v},${(720 / v + 5).toFixed(2)}`).join('\n');
   $('bfm-use-paste').click();
   assert.match($('bfm-load-status').textContent, /Pasted table: 10 rows, 2 columns/);
-  assert.equal($('results').hidden, true);
+  assert.equal($('bfm-results').hidden, true);
   $('bfm-run').click();
   await new Promise(resolve => setTimeout(resolve, 1500));
   assert.match($('bfm-summary').textContent, /Reciprocal x/);
@@ -210,10 +213,10 @@ test('the Find best linear model button fits, recommends and opens the pick', as
   const $ = id => document.getElementById(id);
   $('bfm-paste').value = 'Grain,Yield\n' + C.sample('hallpetch').x.map((x, i) => `${x},${C.sample('hallpetch').y[i]}`).join('\n');
   $('bfm-use-paste').click();
-  assert.equal($('best').hidden, true);
+  assert.equal($('bfm-best').hidden, true);
   $('bfm-best-linear').click();
   await new Promise(resolve => setTimeout(resolve, 2500));
-  assert.equal($('best').hidden, false);
+  assert.equal($('bfm-best').hidden, false);
   assert.equal($('bfm-best-name').textContent, 'Inverse square root (Hall–Petch)');
   assert.equal($('bfm-best-status').textContent, 'Recommended');
   assert.match($('bfm-best-eq').textContent, /\/√x/);
@@ -222,7 +225,66 @@ test('the Find best linear model button fits, recommends and opens the pick', as
   assert.equal($('bfm-detail-name').textContent, 'Inverse square root (Hall–Petch)');
   assert.equal($('bfm-best-linear').disabled, false);
   $('bfm-use-paste').click();
-  assert.equal($('best').hidden, true, 'loading new data clears the old recommendation');
+  assert.equal($('bfm-best').hidden, true, 'loading new data clears the old recommendation');
   assert.deepEqual(errors, []);
   window.close();
+});
+
+test('calculator carries the finder as an admin-only tab after Distribution Lookup Tables', () => {
+  const calc = fs.readFileSync(path.join(ROOT, 'tools', 'engineering-statistics-calculator.html'), 'utf8');
+  const cdoc = new JSDOM(calc).window.document;
+  const tabs = [...cdoc.querySelectorAll('#calculator-shell .tab[data-page]')].map(t => t.dataset.page);
+  assert.equal(tabs[tabs.indexOf('pg-lookup') + 1], 'pg-fit', 'the finder tab follows Distribution Lookup Tables');
+  const tab = cdoc.querySelector('.tab[data-page="pg-fit"]');
+  assert.equal(tab.textContent, 'Best-Fit Model Finder');
+  assert.ok(tab.hasAttribute('hidden'), 'hidden until the administrator check passes');
+  const page = cdoc.getElementById('pg-fit');
+  assert.ok(page.classList.contains('page'));
+  assert.ok(page.querySelector('#bfm-tool.bfm-embedded #bfm-best-linear'));
+  const block = s => s.slice(s.indexOf('<!-- BFM_WORKSPACE_START -->'), s.indexOf('<!-- BFM_WORKSPACE_END -->'));
+  assert.equal(block(calc), block(html), 'the calculator workspace matches the standalone page exactly');
+  assert.equal(count(calc, '<link rel="stylesheet" href="/tools/best-fit-model-finder.css">'), 1);
+  assert.ok(calc.indexOf('/tools/calculator-assets/presentation.js') < calc.indexOf('/tools/calculator-assets/bestfit-tab.js'));
+  const ids = [...cdoc.querySelectorAll('[id^="bfm"]')].map(el => el.id);
+  assert.equal(new Set(ids).size, ids.length, 'no duplicate finder ids in the calculator');
+});
+
+async function tabHarness(granted, user) {
+  const dom = new JSDOM(`<!doctype html><body><div id="calculator-shell">
+    <button class="tab active" data-page="pg-guide">Guided</button><button class="tab" data-page="pg-lookup">Lookup</button>
+    <button class="tab" data-page="pg-fit" hidden>Best-Fit Model Finder</button><button class="tab" data-page="pg-test">Tests</button></div>
+    <select id="calc-workspace"><option value="pg-guide">Guided</option><option value="pg-lookup">Lookup</option><option value="pg-fit">Finder</option><option value="pg-test">Tests</option></select>
+    <section class="page" id="pg-fit"></section></body>`, { runScripts: 'outside-only' });
+  const w = dom.window, calls = [];
+  w.UpskillAuth = {
+    isConfigured: () => true,
+    onChange: listener => listener(user),
+    getClient: () => ({ rpc: (name, args) => { calls.push([name, args]); return Promise.resolve({ data: granted, error: null }); } })
+  };
+  w.eval(fs.readFileSync(path.join(ROOT, 'tools', 'calculator-assets', 'bestfit-tab.js'), 'utf8'));
+  await new Promise(resolve => setTimeout(resolve, 20));
+  return { w, d: w.document, calls };
+}
+
+test('the calculator tab appears only for accounts that pass the administrator rule', async () => {
+  const admin = await tabHarness(true, { id: 'admin' });
+  const options = [...admin.d.querySelectorAll('#calc-workspace option')].map(o => o.value);
+  assert.equal(admin.d.querySelector('[data-page="pg-fit"]').hidden, false);
+  assert.deepEqual(options, ['pg-guide', 'pg-lookup', 'pg-fit', 'pg-test']);
+  assert.equal(JSON.stringify(admin.calls[0]), JSON.stringify(['can_access_content', { requested_resource_key: 'tool:/tools/best-fit-model-finder' }]));
+  admin.d.querySelector('[data-page="pg-fit"]').click();
+  await new Promise(resolve => setTimeout(resolve, 20));
+  const srcs = [...admin.d.querySelectorAll('script[src]')].map(s => s.getAttribute('src'));
+  assert.ok(srcs.includes('/tools/best-fit-model-finder-core.js'), 'finder scripts load on first visit');
+  assert.ok(srcs.includes('/assets/js/math.js'));
+
+  const member = await tabHarness(false, { id: 'member' });
+  assert.equal(member.d.querySelector('[data-page="pg-fit"]').hidden, true);
+  assert.equal(member.d.querySelector('#calc-workspace option[value="pg-fit"]'), null);
+  member.d.querySelector('[data-page="pg-fit"]').click();
+  assert.equal(member.d.querySelector('script[src="/tools/best-fit-model-finder-core.js"]'), null, 'nothing loads without access');
+
+  const anon = await tabHarness(true, null);
+  assert.equal(anon.d.querySelector('[data-page="pg-fit"]').hidden, true);
+  assert.equal(anon.calls.length, 0, 'signed-out visitors are never checked or shown the tab');
 });

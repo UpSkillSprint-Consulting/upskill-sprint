@@ -27,7 +27,7 @@
     xs.value = String(numCols[0] != null ? numCols[0] : 0);
     ys.value = String(numCols[1] != null ? numCols[1] : Math.min(1, cols.length - 1));
     $('bfm-setup').hidden = false;
-    $('results').hidden = true; $('detail').hidden = true; $('best').hidden = true;
+    $('bfm-results').hidden = true; $('bfm-detail').hidden = true; $('bfm-best').hidden = true;
     renderPreview();
     status(label + ': ' + dataset.rows.length + ' rows, ' + cols.length + ' columns.' + (dataset.notes && dataset.notes.length ? ' ' + dataset.notes.join(' ') : ''));
     refreshSummary();
@@ -127,7 +127,7 @@
         state.x = p.x; state.y = p.y;
         state.result = C.fitAll(p.x, p.y, opts);
         st.textContent = 'Fitted ' + state.result.models.length + ' models in ' + ((Date.now() - t0) / 1000).toFixed(1) + ' s.';
-        $('results').hidden = false;
+        $('bfm-results').hidden = false;
         renderSummary(); renderBoard();
         select(C.rank(state.result.models, $('bfm-rankby').value)[0].id);
         if (typeof after === 'function') after();
@@ -135,11 +135,11 @@
       btn.disabled = false; $('bfm-best-linear').disabled = false;
     }, 20);
   }
-  $('bfm-run').addEventListener('click', function () { $('best').hidden = true; run(); });
+  $('bfm-run').addEventListener('click', function () { $('bfm-best').hidden = true; run(); });
 
   /* ---------- best linear model ---------- */
   function showBestLinear() {
-    var b = C.bestLinear(state.result.models), sec = $('best');
+    var b = C.bestLinear(state.result.models), sec = $('bfm-best');
     sec.hidden = false;
     if (!b) {
       $('bfm-best-status').textContent = 'Not available';
@@ -175,8 +175,8 @@
     scrollTo(sec);
   }
   $('bfm-best-linear').addEventListener('click', function () { $('bfm-best-linear').disabled = true; run(showBestLinear); });
-  $('bfm-best-open').addEventListener('click', function () { var b = C.bestLinear(state.result.models); if (b) { select(b.pick.id); scrollTo($('detail')); } });
-  $('bfm-best-all').addEventListener('click', function () { scrollTo($('results')); });
+  $('bfm-best-open').addEventListener('click', function () { var b = C.bestLinear(state.result.models); if (b) { select(b.pick.id); scrollTo($('bfm-detail')); } });
+  $('bfm-best-all').addEventListener('click', function () { scrollTo($('bfm-results')); });
 
   function nameOf(m) { return m ? m.name : 'none'; }
   function renderSummary() {
@@ -230,7 +230,7 @@
       b.type = 'button'; b.className = 'bfm-pick'; b.textContent = 'View';
       b.setAttribute('aria-label', 'View ' + m.name);
       b.setAttribute('aria-pressed', state.selected && state.selected.id === m.id ? 'true' : 'false');
-      b.addEventListener('click', function () { select(m.id); scrollTo($('detail')); });
+      b.addEventListener('click', function () { select(m.id); scrollTo($('bfm-detail')); });
       act.appendChild(b); tr.appendChild(act);
       body.appendChild(tr);
     });
@@ -288,7 +288,7 @@
     if (!m) return;
     state.selected = m;
     renderBoard();
-    $('detail').hidden = false;
+    $('bfm-detail').hidden = false;
     $('bfm-detail-name').textContent = m.name;
     $('bfm-detail-note').textContent = m.family + ' · ' + m.note;
     $('bfm-detail-eq').textContent = m.equation;

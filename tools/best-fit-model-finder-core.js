@@ -160,6 +160,7 @@
       fwd: function (y) { return ladder(y, p); },
       inv: function (v) { return ladderInv(v, p); },
       logJac: function (y) { return ladderLogJac(y, p); },
+      flip: p < 0,
       needsPositive: p <= 0 || (p !== Math.round(p))
     };
   }
@@ -183,11 +184,11 @@
   function xLadder(p, c) {
     c = c || 0;
     var base = c ? shifted(c) : 'x';
-    return { p: p, c: c, label: rungLabel(p, base), fwd: function (x) { return ladder(x - c, p); } };
+    return { p: p, c: c, flip: p < 0, label: rungLabel(p, base), fwd: function (x) { return ladder(x - c, p); } };
   }
   function xArrhenius(unit) {
     var toK = unit === 'K' ? function (t) { return t; } : unit === 'F' ? function (t) { return (t - 32) * 5 / 9 + 273.15; } : function (t) { return t + 273.15; };
-    return { p: 'arrhenius', unit: unit, label: '1/T (K)', fwd: function (x) { var k = toK(x); return k > 0 ? -1 / k : NaN; }, toK: toK };
+    return { p: 'arrhenius', unit: unit, flip: true, label: '1/T (K)', fwd: function (x) { var k = toK(x); return k > 0 ? -1 / k : NaN; }, toK: toK };
   }
 
   function shifted(c) { return c < 0 ? '(x + ' + fmt(-c) + ')' : '(x − ' + fmt(c) + ')'; }
@@ -244,9 +245,17 @@
     for (var k = 0; k < n; k++) { fitv[k] = a + b * u[k]; res[k] = v[k] - fitv[k]; sse += res[k] * res[k]; }
     if (!(sse > 0)) sse = 1e-300;
     var s2 = sse / (n - 2);
+    /* For display, undo the order-preserving minus sign on negative powers so the
+       fitting-scale plot shows 1/x (not -1/x) under the label "1/x". */
+    var fx = xf.flip ? -1 : 1, fy = yf.flip ? -1 : 1;
+    var scale = {
+      u: fx === 1 ? u : u.map(function (t) { return -t; }), v: fy === 1 ? v : v.map(function (t) { return -t; }),
+      fit: fy === 1 ? fitv : fitv.map(function (t) { return -t; }), res: fy === 1 ? res : res.map(function (t) { return -t; }),
+      xLabel: xf.label, yLabel: yf.label
+    };
     return {
       params: [{ name: 'a', value: a, se: Math.sqrt(s2 * (1 / n + mu * mu / sxx)) }, { name: 'b', value: b, se: Math.sqrt(s2 / sxx) }],
-      a: a, b: b, ll: gaussLL(sse, n) + jac, fitScale: { u: u, v: v, fit: fitv, res: res, xLabel: xf.label, yLabel: yf.label },
+      a: a, b: b, ll: gaussLL(sse, n) + jac, fitScale: scale,
       predict: function (x0) { return yf.inv(a + b * xf.fwd(x0)); },
       predictMean: function (x0) {
         var c = a + b * xf.fwd(x0), s = 0;
@@ -325,7 +334,7 @@
   function fitPowerX(x, y, c) {
     for (var i = 0; i < x.length; i++) if (!(x[i] - c > 0)) return { skip: 'needs every x' + (c ? ' − offset' : '') + ' to be positive' };
     var xfFor = function (al) {
-      return { label: '', fwd: function (t) { var d = t - c; if (Math.abs(al) < 1e-9) return Math.log(d); return al < 0 ? -Math.pow(d, al) : Math.pow(d, al); } };
+      return { label: '', flip: al < 0, fwd: function (t) { var d = t - c; if (Math.abs(al) < 1e-9) return Math.log(d); return al < 0 ? -Math.pow(d, al) : Math.pow(d, al); } };
     };
     var prof = function (al) { var m = fitTransformed(x, y, xfFor(al), yLadder(1)); return m.skip ? -Infinity : m.ll; };
     var al = profileMax(prof, -3, 3);
