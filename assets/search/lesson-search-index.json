@@ -1,9 +1,9 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 55,
-  "contentLessonCount": 54,
-  "sectionCount": 2941,
+  "lessonCount": 56,
+  "contentLessonCount": 55,
+  "sectionCount": 2990,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -21237,6 +21237,732 @@
           "kinds": [
             "section",
             "formula"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "statistics--choosing-a-transformation-to-linearize-data",
+      "path": "/lessons/statistics/choosing-a-transformation-to-linearize-data",
+      "title": "Choosing a Transformation to Linearize Data",
+      "description": "Straighten a curved scatter plot with the right transformation: bulge rule, Box-Cox, Box-Tidwell, residual checks, back-transforms and when to stop.",
+      "topic": "statistics",
+      "level": "intermediate",
+      "minutes": 75,
+      "interactive": true,
+      "keywords": [
+        "transformation",
+        "linearize",
+        "ladder of powers",
+        "bulge rule",
+        "box-cox",
+        "box-tidwell",
+        "log transformation",
+        "log-log plot",
+        "residual plot",
+        "nonlinear regression",
+        "back-transformation",
+        "smearing estimator",
+        "minitab",
+        "excel",
+        "choosing transformation linearize data curved scatter plot ladder of powers tukey bulge rule box-cox box-tidwell log transformation log-log semi-log square root reciprocal logit yeo-johnson residual plot curvature spread variance stabilizing back-transformation smearing retransformation bias nonlinear regression minitab excel python intermediate statistics"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "lesson-section-choosing-a-transformation-to-linearize-data",
+          "heading": "Choosing a Transformation to Linearize Data",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data"
+          ],
+          "text": "Your scatter plot curves, and a straight-line regression will not fit it honestly. This lesson shows you how to pick the transformation that makes the relationship linear: which variable to change, which power to use, how to let the data choose, how to prove it worked, and when no transformation will help. Intermediate 75 min 6 interactive tools Excel · Minitab · Python",
+          "excerpt": "Your scatter plot curves, and a straight-line regression will not fit it honestly. This lesson shows you how to pick the transformation that makes the relationship linear: which variable to change, which power to use, how to let the data choose, how to prove…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "objectives-heading",
+          "heading": "By the end you can",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "By the end you can"
+          ],
+          "text": "Read the shape of a curve and pick a move on the ladder of powers. Decide whether to transform x, y, or both, from the residual spread. Estimate the power with Box–Cox for y and Box–Tidwell for x. Prove the fix with residual checks and compare models fairly. Back-transform predictions without bias and recognise when to stop transforming. Raw axes: curved, fanning out Log–log axes: straight, even Part 1",
+          "excerpt": "Read the shape of a curve and pick a move on the ladder of powers. Decide whether to transform x, y, or both, from the residual spread. Estimate the power with Box–Cox for y and Box–Tidwell for x. Prove the fix with residual checks and compare models fairly.…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "why-linearize-h",
+          "heading": "Why straighten a curved scatter plot?",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Why straighten a curved scatter plot?"
+          ],
+          "text": "Ordinary least-squares regression assumes four things about the model \\( y = \\beta_0 + \\beta_1 x + \\varepsilon \\): the mean of \\(y\\) is a straight-line function of \\(x\\), the errors \\(\\varepsilon\\) have constant variance, they are independent, and for intervals and tests they are roughly normal. A curved scatter plot breaks the first assumption. A plot that fans out breaks the second. A transformation re-expresses one or both variables so that both assumptions hold on the new scale. Straightening pays off in three ways. The model fits the data, so residuals carry no leftover pattern. The slope becomes a single, interpretable number such as a growth rate or an exponent. And confidence and prediction intervals have the right width everywhere, not too narrow at one end and too wide at the other. Two different problems, one family of fixes. Curvature is a problem with the mean . Uneven spread is a problem with the variance . Transforming y changes both. Transforming x changes only the mean. Keeping that distinction in mind is most of the skill. You do not always need to linearize. If you only need predictions and have plenty of data, a nonlinear model or a flexible method may serve you better. If physics hands you a nonlinear law with parameters you care about, fit that law directly with nonlinear regression. Part 13 covers these exits. Part 2",
+          "excerpt": "Ordinary least-squares regression assumes four things about the model \\( y = \\beta_0 + \\beta_1 x + \\varepsilon \\): the mean of \\(y\\) is a straight-line function of \\(x\\), the errors \\(\\varepsilon\\) have constant variance, they are independent, and for…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "ladder-h",
+          "heading": "The ladder of powers",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "The ladder of powers"
+          ],
+          "text": "John Tukey arranged the useful re-expressions in order of strength, as powers \\(x^{p}\\). Moving down the ladder (smaller \\(p\\)) pulls in large values and spreads out small ones. Moving up (larger \\(p\\)) does the opposite. The further you move from \\(p = 1\\), the stronger the bend you remove. Tukey's ladder of powers (applies to x or y) Power \\(p\\) Re-expression Effect on large values Typical use 3 \\(x^{3}\\) Stretches strongly Rare; strong left-bulging curves 2 \\(x^{2}\\) Stretches Curves that steepen at the high end of x 1 \\(x\\) No change The starting point 0.5 \\(\\sqrt{x}\\) Compresses mildly Counts; variance proportional to the mean 0 \\(\\ln x\\) Compresses Multiplicative effects; growth; spread proportional to the mean −0.5 \\(-1/\\sqrt{x}\\) Compresses strongly Hall–Petch grain-size effect −1 \\(-1/x\\) Compresses very strongly Rates and times; Arrhenius temperature terms −2 \\(-1/x^{2}\\) Most compression Rare; extreme right skew",
+          "excerpt": "John Tukey arranged the useful re-expressions in order of strength, as powers \\(x^{p}\\). Moving down the ladder (smaller \\(p\\)) pulls in large values and spreads out small ones. Moving up (larger \\(p\\)) does the opposite. The further you move from \\(p = 1\\),…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "why-log-is-zero",
+          "heading": "Why the log sits at power 0",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "The ladder of powers",
+            "Why the log sits at power 0"
+          ],
+          "text": "The raw power \\(x^{0}\\) is just 1, which is useless. The Box–Cox form fixes this by scaling each power so the ladder is continuous: \\[ x^{(\\lambda)} = \\begin{cases} \\dfrac{x^{\\lambda} - 1}{\\lambda}, & \\lambda \\ne 0 \\\\[6pt] \\ln x, & \\lambda = 0 \\end{cases} \\qquad\\text{because}\\qquad \\lim_{\\lambda \\to 0} \\frac{x^{\\lambda} - 1}{\\lambda} = \\ln x . \\] where \\(x > 0\\) and \\(\\lambda\\) is the power. The limit follows from \\(x^{\\lambda} = e^{\\lambda \\ln x} \\approx 1 + \\lambda \\ln x\\) for small \\(\\lambda\\). Dividing by \\(\\lambda\\) also keeps the order of the points for negative powers. That is why the lab and the table write \\(-1/x\\) rather than \\(1/x\\): the minus sign stops the plot from flipping left to right, so the direction of the trend stays easy to read. Range matters. Power transformations only bend data that span a wide ratio. If the largest value is less than about twice the smallest, every rung looks almost the same. Look for an offset to subtract first, or use a polynomial term. The Recovery time dataset in the lab shows this. Part 3",
+          "excerpt": "The raw power \\(x^{0}\\) is just 1, which is useless. The Box–Cox form fixes this by scaling each power so the ladder is continuous: \\[ x^{(\\lambda)} = \\begin{cases} \\dfrac{x^{\\lambda} - 1}{\\lambda}, & \\lambda \\ne 0 \\\\[6pt] \\ln x, & \\lambda = 0 \\end{cases}…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "bulge-rule-h",
+          "heading": "Read the bend with Tukey's bulge rule",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Read the bend with Tukey's bulge rule"
+          ],
+          "text": "Look at which corner of the plot the curve bulges toward. Then move each variable in the direction of the bulge: if it bulges up , move y up the ladder; down , move y down. If it bulges right , move x up; left , move x down. You can move either variable, or both a little. Pick a quadrant to see what it means.",
+          "excerpt": "Look at which corner of the plot the curve bulges toward. Then move each variable in the direction of the bulge: if it bulges up , move y up the ladder; down , move y down. If it bulges right , move x up; left , move x down. You can move either variable, or…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lz-bulge-title",
+          "heading": "Rises fast, then flattens",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Read the bend with Tukey's bulge rule",
+            "Rises fast, then flattens"
+          ],
+          "text": "The rule tells you the direction , not the distance. Start one rung away, check the plot, and keep going until the bend disappears or reverses. If it reverses, you went too far; step back half a rung. The lab below lets you do exactly that, and Parts 7 and 8 replace trial and error with estimates. Part 4",
+          "excerpt": "The rule tells you the direction , not the distance. Start one rung away, check the plot, and keep going until the bend disappears or reverses. If it reverses, you went too far; step back half a rung. The lab below lets you do exactly that, and Parts 7 and 8…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lab-h",
+          "heading": "Transformation lab",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Transformation lab"
+          ],
+          "text": "Pick a dataset, then climb the ladder for x and y. The left plot shows the original data with the fitted model drawn back on the original scale. The middle plot shows the transformed data with its straight line. The right plot shows residuals against fitted values, which is where the truth lives. All ten datasets are fictitious, generated for practice, and modelled on behaviour you see in steel and pipe plants. Dataset Subtract from x (offset) Add to y (start value) Transform x Transform y Original scale, fitted model Transformed scale, straight line Residuals vs fitted Checking… Curvature check – Spread check – \\(R^{2}\\), transformed scale – \\(R^{2}\\), original y scale – Try it on your own data. The Best-Fit Model Finder takes your Excel or CSV file, lets you explore these same rungs live, and with one click finds the best linear model across every transformation in this lesson. Open the Best-Fit Model Finder",
+          "excerpt": "Pick a dataset, then climb the ladder for x and y. The left plot shows the original data with the fitted model drawn back on the original scale. The middle plot shows the transformed data with its straight line. The right plot shows residuals against fitted…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "how-the-checks-work",
+          "heading": "How the two checks work",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Transformation lab",
+            "How the two checks work"
+          ],
+          "text": "The curvature check is a partial F-test. It refits the transformed data with squared and cubed terms added and asks whether they explain significantly more than the straight line: \\[ F = \\frac{(\\text{SSE}_{1} - \\text{SSE}_{3})/2}{\\text{SSE}_{3}/(n-4)} \\] where \\(\\text{SSE}_{1}\\) is the error sum of squares of the straight line, \\(\\text{SSE}_{3}\\) that of the cubic, and \\(n\\) the number of points. A p-value below 0.05 means a curve remains. The cubic term matters: a symmetric S-curve has no quadratic signal, so a quadratic-only test would miss it. The spread check correlates the absolute residuals \\(|e_i|\\) with the fitted values \\(\\hat{y}_i\\) and tests that correlation with \\(t = r\\sqrt{n-2}/\\sqrt{1-r^{2}}\\). A p-value below 0.05 means the spread trends with the level: a funnel. Both checks are screening tools. With large samples they flag tiny departures, and with small ones they miss real ones, so always look at the residual plot too. Watch the two \\(R^{2}\\) values. The transformed-scale \\(R^{2}\\) describes the line you fitted, but it is measured in different units for every choice of y. The original-scale \\(R^{2}\\) back-transforms the predictions and scores them against the raw y, so it is comparable across choices. Part 5",
+          "excerpt": "The curvature check is a partial F-test. It refits the transformed data with squared and cubed terms added and asks whether they explain significantly more than the straight line: \\[ F = \\frac{(\\text{SSE}_{1} - \\text{SSE}_{3})/2}{\\text{SSE}_{3}/(n-4)} \\]…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "known-forms-h",
+          "heading": "Match the curve to a known model",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Match the curve to a known model"
+          ],
+          "text": "Before you reach for the ladder, ask whether the process already has a law. If it does, the law tells you the exact transformation and gives the slope a physical meaning. Many engineering relationships are one of a handful of forms. Linearizable models Model Equation Plot this Slope means Engineering example Exponential \\(y = a\\,e^{bx}\\) \\(\\ln y\\) vs \\(x\\) \\(b\\); each unit of x multiplies y by \\(e^{b}\\) Defect growth with roll wear; bacterial growth Power law \\(y = a\\,x^{b}\\) \\(\\ln y\\) vs \\(\\ln x\\) Exponent \\(b\\); elasticity Paris crack growth \\(da/dN = C\\,\\Delta K^{m}\\); Hollomon \\(\\sigma = K\\varepsilon^{n}\\); Basquin S–N curve Logarithmic \\(y = a + b\\ln x\\) \\(y\\) vs \\(\\ln x\\) Change in y per doubling is \\(b\\ln 2\\) Learning curves; diminishing returns Reciprocal \\(y = a + b/x\\) \\(y\\) vs \\(1/x\\) \\(b\\) is the inverse-proportional part Cycle time vs speed; time = distance / rate Inverse-square-root \\(y = a + b\\,x^{-1/2}\\) \\(y\\) vs \\(x^{-1/2}\\) Strengthening coefficient Hall–Petch: \\(\\sigma_y = \\sigma_0 + k_y d^{-1/2}\\) Arrhenius \\(k = A\\,e^{-E_a/(RT)}\\) \\(\\ln k\\) vs \\(1/T\\) (kelvin) \\(-E_a/R\\) Diffusion, scale growth, reaction rates Logistic \\(p = \\dfrac{1}{1 + e^{-(a + bx)}}\\) \\(\\ln\\!\\left(\\tfrac{p}{1-p}\\right)\\) vs \\(x\\) Change in log-odds per unit x Charpy percent shear area vs temperature; pass rate vs dose Weibull CDF \\(F = 1 - e^{-(t/\\eta)^{\\beta}}\\) \\(\\ln[-\\ln(1-F)]\\) vs \\(\\ln t\\) Shape \\(\\beta\\) Weibull probability plot in reliability where \\(a\\), \\(b\\), \\(A\\), \\(C\\), \\(K\\) and \\(k_y\\) are constants, \\(E_a\\) is an activation energy, \\(R\\) is the gas constant, \\(T\\) is absolute temperature, \\(p\\) and \\(F\\) are proportions between 0 and 1, \\(\\eta\\) is the Weibull scale and \\(\\beta\\) its shape. Exponential or power? They look alike on raw axes. Plot both: if \\(\\ln y\\) vs \\(x\\) is straight, it is exponential; if \\(\\ln y\\) vs \\(\\ln x\\) is straight, it is a power law. An exponential curves upward on log–log paper, and a power law curves downward on semi-log paper. Part 6",
+          "excerpt": "Before you reach for the ladder, ask whether the process already has a law. If it does, the law tells you the exact transformation and gives the slope a physical meaning. Many engineering relationships are one of a handful of forms. Linearizable models Model…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "curvature-vs-spread-h",
+          "heading": "Which axis to transform: curvature or spread?",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Which axis to transform: curvature or spread?"
+          ],
+          "text": "The bulge rule says you may move x or y. The residual spread decides which. Look at the residuals from a straight-line fit on raw data: Spread is even, only the trend curves. Transform x . It straightens the mean and leaves the well-behaved errors alone. Spread grows with the level (a funnel). Transform y . The error is multiplicative, and the right y transform usually removes the curve as well. Both problems, and fixing y over-corrects the curve. Fix the spread with y first, then straighten what is left with x.",
+          "excerpt": "The bulge rule says you may move x or y. The residual spread decides which. Look at the residuals from a straight-line fit on raw data: Spread is even, only the trend curves. Transform x . It straightens the mean and leaves the well-behaved errors alone.…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "variance-stabilizing",
+          "heading": "Choosing the y transform from the mean–variance relationship",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Which axis to transform: curvature or spread?",
+            "Choosing the y transform from the mean–variance relationship"
+          ],
+          "text": "The delta method gives the variance of a transformed variable \\(g(Y)\\) with mean \\(\\mu\\): \\[ \\operatorname{Var}\\!\\left[g(Y)\\right] \\approx \\left[g'(\\mu)\\right]^{2} \\operatorname{Var}(Y). \\] If the standard deviation grows as a power of the mean, \\(\\sigma_Y \\propto \\mu^{k}\\), then choosing \\(g(y) = y^{1-k}\\) gives \\(g'(\\mu) \\propto \\mu^{-k}\\), and the variance of \\(g(Y)\\) becomes constant. So the variance-stabilizing power is \\(\\lambda = 1 - k\\). \\[ \\begin{aligned} \\sigma_Y \\propto \\mu^{k} \\quad&\\Longrightarrow\\quad \\lambda = 1 - k \\\\ k = 0.5\\ \\text{(counts)} \\quad&\\Longrightarrow\\quad \\lambda = 0.5,\\ \\sqrt{y} \\\\ k = 1\\ \\text{(constant CV)} \\quad&\\Longrightarrow\\quad \\lambda = 0,\\ \\ln y \\\\ k = 2 \\quad&\\Longrightarrow\\quad \\lambda = -1,\\ 1/y \\end{aligned} \\] where \\(k\\) is estimated as the slope of \\(\\ln(\\text{SD})\\) against \\(\\ln(\\text{mean})\\) across groups or bins of x. Variance-stabilizing transformations Data behaviour Variance pattern Transform y Better model, if available Counts (defects, inclusions) \\(\\sigma^{2} \\propto \\mu\\) \\(\\sqrt{y}\\) or \\(\\sqrt{y + 3/8}\\) with small counts Poisson regression Percentage errors, growth, concentrations \\(\\sigma \\propto \\mu\\) \\(\\ln y\\) Gamma or lognormal model with a log link Times to complete, rates of very skewed processes \\(\\sigma \\propto \\mu^{2}\\) \\(1/y\\) Gamma model with an inverse link Proportions from n trials \\(\\sigma^{2} = p(1-p)/n\\) \\(\\arcsin\\sqrt{p}\\) or \\(\\operatorname{logit}(p)\\) Binary or binomial logistic regression Correlation coefficients depends on \\(\\rho\\) Fisher's \\(z = \\operatorname{artanh}(r)\\) – Transforming y moves the errors with it. If y has constant spread and you take its log, you create a reverse funnel: small y values spread out and large ones get squeezed. Load Yield strength vs grain size in the lab and set y to \\(\\ln y\\) to see that the spread check gets worse, not better. Part 7",
+          "excerpt": "The delta method gives the variance of a transformed variable \\(g(Y)\\) with mean \\(\\mu\\): \\[ \\operatorname{Var}\\!\\left[g(Y)\\right] \\approx \\left[g'(\\mu)\\right]^{2} \\operatorname{Var}(Y). \\] If the standard deviation grows as a power of the mean, \\(\\sigma_Y…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "box-cox-h",
+          "heading": "Let the data choose y: the Box–Cox method",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Let the data choose y: the Box–Cox method"
+          ],
+          "text": "Box and Cox (1964) proposed estimating the power for y by maximum likelihood. To compare SSE across powers, the transformed response must be on a common scale, so it is divided by a power of the geometric mean \\(\\dot{y}\\): \\[ z^{(\\lambda)} = \\begin{cases} \\dfrac{y^{\\lambda} - 1}{\\lambda\\,\\dot{y}^{\\,\\lambda - 1}}, & \\lambda \\ne 0 \\\\[6pt] \\dot{y}\\,\\ln y, & \\lambda = 0 \\end{cases} \\qquad \\dot{y} = \\exp\\!\\left(\\frac{1}{n}\\sum_{i=1}^{n} \\ln y_i\\right) \\] where \\(y_i > 0\\). For each \\(\\lambda\\), regress \\(z^{(\\lambda)}\\) on the predictors and record the error sum of squares \\(\\text{SSE}(\\lambda)\\). The profile log-likelihood is \\[ \\ell(\\lambda) = -\\frac{n}{2}\\ln\\!\\left(\\frac{\\text{SSE}(\\lambda)}{n}\\right), \\qquad \\text{95\\% CI: } \\left\\{\\lambda : \\ell(\\lambda) \\ge \\ell(\\hat{\\lambda}) - \\tfrac{1}{2}\\chi^{2}_{1,\\,0.95}\\right\\} \\] where \\(\\hat{\\lambda}\\) maximises \\(\\ell\\) and \\(\\tfrac{1}{2}\\chi^{2}_{1,\\,0.95} = 1.92\\). In practice you then round to the simplest rung inside the interval (1, 0.5, 0, −0.5, −1). A rounded power is easier to explain, and the fit is almost as good. Uses the dataset and x transform currently set in the lab. Best \\(\\lambda\\), \\(\\hat{\\lambda}\\) – 95% interval – Simplest rung in interval – The Box–Cox menu trap. Minitab's Stat > Control Charts > Box-Cox Transformation , Python's scipy.stats.boxcox and most \"normalize this column\" tools look at y alone . They choose \\(\\lambda\\) to make the distribution of y look normal. That is the right question for a capability study, but the wrong one for regression. In regression the residuals must be normal and even, and y itself can have any shape because x moves it around. Use the Box–Cox option inside the regression dialog, which profiles the SSE of the model as above. Box–Cox has limits. It needs every y to be positive. It optimises normality and constant variance together with linearity, so when those goals conflict the estimate is a compromise. A single outlier can drag \\(\\hat{\\lambda}\\) a long way, so check the profile after removing any point with a large residual. Part 8",
+          "excerpt": "Box and Cox (1964) proposed estimating the power for y by maximum likelihood. To compare SSE across powers, the transformed response must be on a common scale, so it is divided by a power of the geometric mean \\(\\dot{y}\\): \\[ z^{(\\lambda)} = \\begin{cases}…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "box-tidwell-h",
+          "heading": "Let the data choose x: the Box–Tidwell method",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Let the data choose x: the Box–Tidwell method"
+          ],
+          "text": "When the spread is already even, you want to transform x, not y. Box and Tidwell (1962) estimate the power \\(\\alpha\\) in \\(E(y) = \\beta_0 + \\beta_1 x^{\\alpha}\\) with a short iteration based on a Taylor expansion around the current guess \\(\\alpha_0\\): \\[ \\begin{aligned} x^{\\alpha} &\\approx x^{\\alpha_0} + (\\alpha - \\alpha_0)\\,x^{\\alpha_0}\\ln x \\\\ &= z + \\frac{\\alpha - \\alpha_0}{\\alpha_0}\\, z \\ln z, \\qquad z = x^{\\alpha_0} \\end{aligned} \\] So the iteration is: Fit \\(y = \\beta_0 + \\beta_1 z\\) and keep \\(\\hat{\\beta}_1\\). Fit \\(y = \\beta_0 + \\beta_1 z + \\gamma\\, z \\ln z\\) and keep \\(\\hat{\\gamma}\\). Update \\(\\alpha_1 = \\alpha_0\\left(1 + \\hat{\\gamma}/\\hat{\\beta}_1\\right)\\) and repeat until it settles. where \\(z\\) is x raised to the current power and \\(\\gamma\\) is the coefficient on the correction term. Starting at \\(\\alpha_0 = 1\\), one step is often close enough. A t-test on \\(\\hat{\\gamma}\\) in the first step is also a test of whether any power transformation of x is needed. Uses the dataset, offset and y transform currently set in the lab. Iteration history Step \\(\\alpha\\) in \\(\\hat{\\beta}_1\\) \\(\\hat{\\gamma}\\) \\(\\alpha\\) out Load the lab to run the iteration. Estimated \\(\\alpha\\) – Nearest rung – Minitab has no Box–Tidwell command, but you can run the one-step version by hand: create \\(x\\ln x\\) with Calc > Calculator , add it to the regression, and compute \\(1 + \\hat{\\gamma}/\\hat{\\beta}_1\\). R users have car::boxTidwell() . Like Box–Cox, it needs positive x, and it can diverge when the curve is not a power of x at all. Divergence is information: it tells you to look for a different model, an offset, or a curve that changes direction. Part 9",
+          "excerpt": "When the spread is already even, you want to transform x, not y. Box and Tidwell (1962) estimate the power \\(\\alpha\\) in \\(E(y) = \\beta_0 + \\beta_1 x^{\\alpha}\\) with a short iteration based on a Taylor expansion around the current guess \\(\\alpha_0\\): \\[…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "special-cases-h",
+          "heading": "Zeros, negatives, proportions and offsets",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Zeros, negatives, proportions and offsets"
+          ],
+          "text": "",
+          "excerpt": "Zeros, negatives, proportions and offsets",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "zeros",
+          "heading": "Zeros",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Zeros, negatives, proportions and offsets",
+            "Zeros"
+          ],
+          "text": "\\(\\ln 0\\) and \\(1/0\\) do not exist. The usual patch is \\(\\ln(y + c)\\), but the answer depends on \\(c\\). Adding 1 to counts in the hundreds changes almost nothing; adding 1 to counts near 0 changes the shape completely. If you must shift, choose \\(c\\) for a reason (half the detection limit, or the smallest non-zero value divided by two), report it, and check that the conclusions survive a different \\(c\\). Often the better answer is \\(\\sqrt{y}\\), which handles zeros, or a Poisson or Tweedie model with a log link, which models \\(\\ln E(y)\\) without ever logging a zero.",
+          "excerpt": "\\(\\ln 0\\) and \\(1/0\\) do not exist. The usual patch is \\(\\ln(y + c)\\), but the answer depends on \\(c\\). Adding 1 to counts in the hundreds changes almost nothing; adding 1 to counts near 0 changes the shape completely. If you must shift, choose \\(c\\) for a…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "negatives",
+          "heading": "Negative values",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Zeros, negatives, proportions and offsets",
+            "Negative values"
+          ],
+          "text": "The power ladder needs positive data. For variables that cross zero (deviations, residuals, temperature in °C), use the Yeo–Johnson transformation, which applies Box–Cox to \\(y + 1\\) for \\(y \\ge 0\\) and a mirrored version for \\(y < 0\\): \\[ \\psi(\\lambda, y) = \\begin{cases} \\dfrac{(y + 1)^{\\lambda} - 1}{\\lambda}, & y \\ge 0,\\ \\lambda \\ne 0 \\\\[6pt] \\ln(y + 1), & y \\ge 0,\\ \\lambda = 0 \\\\[6pt] -\\dfrac{(1 - y)^{2 - \\lambda} - 1}{2 - \\lambda}, & y < 0,\\ \\lambda \\ne 2 \\\\[6pt] -\\ln(1 - y), & y < 0,\\ \\lambda = 2 \\end{cases} \\] Better still, ask whether the variable has a natural zero. Temperature converted to kelvin is positive, and Arrhenius needs kelvin anyway.",
+          "excerpt": "The power ladder needs positive data. For variables that cross zero (deviations, residuals, temperature in °C), use the Yeo–Johnson transformation, which applies Box–Cox to \\(y + 1\\) for \\(y \\ge 0\\) and a mirrored version for \\(y < 0\\): \\[ \\psi(\\lambda, y) =…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "proportions",
+          "heading": "Proportions and percentages",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Zeros, negatives, proportions and offsets",
+            "Proportions and percentages"
+          ],
+          "text": "A proportion is trapped between 0 and 1, so its relationship with x flattens at both ends into an S-curve. The logit \\(\\ln[p/(1-p)]\\) stretches both ends to infinity and usually straightens it. Exact 0% and 100% readings are undefined on the logit scale; with counts behind them, use logistic regression on the counts instead of transforming percentages.",
+          "excerpt": "A proportion is trapped between 0 and 1, so its relationship with x flattens at both ends into an S-curve. The logit \\(\\ln[p/(1-p)]\\) stretches both ends to infinity and usually straightens it. Exact 0% and 100% readings are undefined on the logit scale; with…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "offsets",
+          "heading": "Offsets and start values",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Zeros, negatives, proportions and offsets",
+            "Offsets and start values"
+          ],
+          "text": "Many curves are power laws in \\(x - x_0\\), not in \\(x\\): a threshold stress, an ambient temperature, a minimum detectable level. When the data span a narrow ratio, no rung bends them, but subtracting the right \\(x_0\\) restores a wide ratio and the ladder works again. Load Recovery time vs set-point in the lab, try \\(-1/x\\) with no offset, then set the offset to 95. Part 10",
+          "excerpt": "Many curves are power laws in \\(x - x_0\\), not in \\(x\\): a threshold stress, an ambient temperature, a minimum detectable level. When the data span a narrow ratio, no rung bends them, but subtracting the right \\(x_0\\) restores a wide ratio and the ladder…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "did-it-work-h",
+          "heading": "Check that the transformation worked",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Check that the transformation worked"
+          ],
+          "text": "A transformation is a hypothesis about the data. Test it the same way you test any regression model: Residuals vs fitted. A horizontal band with no curve and no funnel. This is the single most important plot. Residuals vs each predictor. Catches curvature in one x that the fitted-value plot hides in a multiple regression. Normal probability plot of residuals. Roughly straight. Heavy tails after transforming may mean outliers rather than the wrong power. Residuals in time order. Transformations do nothing for autocorrelation or drift. Lack-of-fit test. With replicate x values, Minitab's pure-error lack-of-fit test checks linearity formally.",
+          "excerpt": "A transformation is a hypothesis about the data. Test it the same way you test any regression model: Residuals vs fitted. A horizontal band with no curve and no funnel. This is the single most important plot. Residuals vs each predictor. Catches curvature in…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "fair-comparison",
+          "heading": "Comparing models fairly",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Check that the transformation worked",
+            "Comparing models fairly"
+          ],
+          "text": "\\(R^{2}\\) measures the share of variance explained in the response you fitted . If one model predicts \\(y\\) and another predicts \\(\\ln y\\), their \\(R^{2}\\) values describe different quantities and cannot be ranked. Three fair comparisons: Back-transform each model's predictions to the original scale and compute \\(R^{2}_{\\text{orig}} = 1 - \\sum(y_i - \\tilde{y}_i)^{2} / \\sum(y_i - \\bar{y})^{2}\\), where \\(\\tilde{y}_i\\) is the back-transformed prediction. The lab reports this. Compare the Box–Cox log-likelihood \\(\\ell(\\lambda)\\) at each candidate power. The geometric-mean scaling makes them comparable. Compare out-of-sample prediction error on the original scale with cross-validation. Comparing models with different x transforms but the same y is simpler: the \\(R^{2}\\) values and \\(S\\) are directly comparable. Part 11",
+          "excerpt": "\\(R^{2}\\) measures the share of variance explained in the response you fitted . If one model predicts \\(y\\) and another predicts \\(\\ln y\\), their \\(R^{2}\\) values describe different quantities and cannot be ranked. Three fair comparisons: Back-transform each…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "worked-example-h",
+          "heading": "Worked example: defect growth after a roll change",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Worked example: defect growth after a roll change"
+          ],
+          "text": "A finishing mill records surface defects per 100 pipes at six points after a roll change. Tonnage x is in thousands of tonnes. Defects per 100 pipes by tonnage since roll change (fictitious) \\(x\\) (kt) \\(y\\) (defects / 100 pipes) \\(\\ln y\\) Residual, linear fit on \\(y\\) 1 0.82 −0.1985 +0.364 2 1.15 0.1398 −0.029 3 1.60 0.4700 −0.302 4 2.31 0.8372 −0.315 5 3.18 1.1569 −0.168 6 4.52 1.5085 +0.450 Step 1: the raw fit looks good and is wrong. A straight line on raw y gives \\(R^{2} = 0.943\\). The residuals run plus, minus, minus, minus, minus, plus: a U-shape. The curve bulges down and right, and the jumps between points grow with y, which suggests a multiplicative process. Move y down. Step 2: fit \\(\\ln y\\) on x. \\[ \\begin{aligned} \\widehat{\\ln y} &= -0.5430 + 0.3415\\,x \\\\ R^{2} &= 0.9998 \\end{aligned} \\] The residuals on the log scale are all within \\(\\pm 0.015\\) with no pattern. Strictly, \\(0.9998\\) cannot be compared with \\(0.943\\) because the responses differ; the evidence is the residual pattern. Step 3: interpret the slope. Each extra thousand tonnes multiplies the defect rate by \\(e^{0.3415}\\): \\[ \\begin{aligned} e^{0.3415} &= 1.407 \\;\\Rightarrow\\; +40.7\\% \\text{ per kt} \\\\ \\text{Doubling distance} &= \\frac{\\ln 2}{0.3415} = 2.03\\ \\text{kt} \\end{aligned} \\] Step 4: back-transform a prediction. At 7 kt the model gives \\(\\widehat{\\ln y} = -0.5430 + 0.3415 \\times 7 = 1.8478\\), so the predicted median rate is \\(e^{1.8478} = 6.35\\) defects per 100 pipes. The smearing correction here is \\(\\tfrac{1}{n}\\sum e^{e_i} = 1.00003\\) because the residuals are tiny, so the mean and median agree. With noisier data they would not; Part 12 shows how far apart they can drift. Step 5: act. The rate doubles about every 2 kt. Seven kilotonnes is outside the observed range, so treat the 7 kt figure as a warning for planning the next roll change, not a forecast to bank on. Part 12",
+          "excerpt": "A finishing mill records surface defects per 100 pipes at six points after a roll change. Tonnage x is in thousands of tonnes. Defects per 100 pipes by tonnage since roll change (fictitious) \\(x\\) (kt) \\(y\\) (defects / 100 pipes) \\(\\ln y\\) Residual, linear…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "back-transform-h",
+          "heading": "Back-transforming predictions and coefficients",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Back-transforming predictions and coefficients"
+          ],
+          "text": "Fitting on a transformed scale is the easy half. Your audience wants answers in MPa, percent, and defects per 100 pipes.",
+          "excerpt": "Fitting on a transformed scale is the easy half. Your audience wants answers in MPa, percent, and defects per 100 pipes.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "interpreting-coefficients",
+          "heading": "Reading the coefficients",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Back-transforming predictions and coefficients",
+            "Reading the coefficients"
+          ],
+          "text": "Interpreting slope \\(b\\) Model Exact reading Quick reading (small \\(b\\)) \\(y\\) on \\(x\\) One unit of x adds \\(b\\) to y Same \\(\\ln y\\) on \\(x\\) One unit of x multiplies y by \\(e^{b}\\): a change of \\(100(e^{b} - 1)\\%\\) About \\(100b\\%\\) per unit of x \\(y\\) on \\(\\ln x\\) Multiplying x by \\(k\\) adds \\(b\\ln k\\) to y A 1% rise in x adds about \\(b/100\\) to y \\(\\ln y\\) on \\(\\ln x\\) Multiplying x by \\(k\\) multiplies y by \\(k^{b}\\) A 1% rise in x gives about a \\(b\\%\\) rise in y (elasticity)",
+          "excerpt": "Interpreting slope \\(b\\) Model Exact reading Quick reading (small \\(b\\)) \\(y\\) on \\(x\\) One unit of x adds \\(b\\) to y Same \\(\\ln y\\) on \\(x\\) One unit of x multiplies y by \\(e^{b}\\): a change of \\(100(e^{b} - 1)\\%\\) About \\(100b\\%\\) per unit of x \\(y\\) on…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "retransformation-bias",
+          "heading": "Retransformation bias",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Back-transforming predictions and coefficients",
+            "Retransformation bias"
+          ],
+          "text": "Transforming back with the inverse function gives the right answer for quantiles , because monotone functions preserve order. So \\(e^{\\widehat{\\ln y}}\\) is a good estimate of the median of y. It is not the mean. If the log-scale errors are normal with variance \\(\\sigma^{2}\\), the mean on the original scale is larger: \\[ E(y \\mid x) = \\exp\\!\\left(\\mu_x + \\tfrac{1}{2}\\sigma^{2}\\right) \\] where \\(\\mu_x\\) is the log-scale prediction. Duan's smearing estimator makes no normality assumption. It multiplies the naive back-transform by the average of the exponentiated residuals \\(e_i\\): \\[ \\hat{E}(y \\mid x) = e^{\\hat{\\mu}_x} \\cdot \\frac{1}{n}\\sum_{i=1}^{n} e^{e_i} \\] Use the median when you are describing a typical part. Use the mean when you are summing across parts, such as total scrap cost or total defects per shift. Interval endpoints back-transform directly: exponentiate the lower and upper limits of a prediction interval on the log scale and you get a valid, asymmetric interval on the original scale. Log-scale standard deviation \\(\\sigma\\): 0.60 200 simulated parts, true median 20.0 Estimates of the mean of y Estimate Value Error vs true mean Part 13",
+          "excerpt": "Transforming back with the inverse function gives the right answer for quantiles , because monotone functions preserve order. So \\(e^{\\widehat{\\ln y}}\\) is a good estimate of the median of y. It is not the mean. If the log-scale errors are normal with…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "what-fails-h",
+          "heading": "What does not work",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "What does not work"
+          ],
+          "text": "These are the mistakes that show up most in reports and exam questions. Open each one for the reason and the fix.",
+          "excerpt": "These are the mistakes that show up most in reports and exam questions. Open each one for the reason and the fix.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "fail-r2",
+          "heading": "Picking the transformation with the highest \\(R^{2}\\)",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "What does not work",
+            "Picking the transformation with the highest \\(R^{2}\\)"
+          ],
+          "text": "Each choice of y changes what \\(R^{2}\\) measures, and logs often inflate it by compressing the large, noisy values. Choose from residual plots, theory, and the original-scale or Box–Cox comparison in Part 10.",
+          "excerpt": "Each choice of y changes what \\(R^{2}\\) measures, and logs often inflate it by compressing the large, noisy values. Choose from residual plots, theory, and the original-scale or Box–Cox comparison in Part 10.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "fail-nonmonotone",
+          "heading": "Laddering a curve that changes direction",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "What does not work",
+            "Laddering a curve that changes direction"
+          ],
+          "text": "Every rung is monotone, so it can bend a curve but never unbend a U, a peak, or an S. Add a squared term, fit a spline, or use a model with the right shape (logistic, hyperbolic tangent).",
+          "excerpt": "Every rung is monotone, so it can bend a curve but never unbend a U, a peak, or an S. Add a squared term, fit a spline, or use a model with the right shape (logistic, hyperbolic tangent).",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "fail-univariate-bc",
+          "heading": "Running Box–Cox on y alone",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "What does not work",
+            "Running Box–Cox on y alone"
+          ],
+          "text": "Control-chart Box–Cox and column-normalizing tools ignore x. A response that depends strongly on x can look skewed while its residuals are perfect. Profile the regression SSE instead.",
+          "excerpt": "Control-chart Box–Cox and column-normalizing tools ignore x. A response that depends strongly on x can look skewed while its residuals are perfect. Profile the regression SSE instead.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "fail-wrong-axis",
+          "heading": "Logging y when only the trend is curved",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "What does not work",
+            "Logging y when only the trend is curved"
+          ],
+          "text": "If the residual spread is even, logging y creates a funnel in the other direction. Straighten with x and leave the good errors alone.",
+          "excerpt": "If the residual spread is even, logging y creates a funnel in the other direction. Straighten with x and leave the good errors alone.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "fail-arbitrary-c",
+          "heading": "Adding 1 to dodge the zeros",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "What does not work",
+            "Adding 1 to dodge the zeros"
+          ],
+          "text": "\\(\\ln(y+1)\\) is a different transformation for every scale of y. Results can flip with the choice of constant. Use \\(\\sqrt{y}\\), a stated and justified constant, or a model with a log link.",
+          "excerpt": "\\(\\ln(y+1)\\) is a different transformation for every scale of y. Results can flip with the choice of constant. Use \\(\\sqrt{y}\\), a stated and justified constant, or a model with a log link.",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "fail-narrow-range",
+          "heading": "Expecting a log to bend a narrow range",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "What does not work",
+            "Expecting a log to bend a narrow range"
+          ],
+          "text": "When \\(x_{\\max}/x_{\\min}\\) is close to 1, \\(\\ln x\\) is almost linear in x. The curvature is coming from somewhere else, often an offset. Subtract it or use a polynomial.",
+          "excerpt": "When \\(x_{\\max}/x_{\\min}\\) is close to 1, \\(\\ln x\\) is almost linear in x. The curvature is coming from somewhere else, often an offset. Subtract it or use a polynomial.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "fail-naive-mean",
+          "heading": "Reporting \\(e^{\\hat{\\mu}}\\) as the average",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "What does not work",
+            "Reporting \\(e^{\\hat{\\mu}}\\) as the average"
+          ],
+          "text": "It estimates the median. Totals and costs built from it will be low. Apply the smearing or lognormal correction.",
+          "excerpt": "It estimates the median. Totals and costs built from it will be low. Apply the smearing or lognormal correction.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "fail-outliers",
+          "heading": "Transforming to hide an outlier",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "What does not work",
+            "Transforming to hide an outlier"
+          ],
+          "text": "A log can pull a wild point into line, but if the point is a recording error or a different process, it still is. Investigate first, then decide whether it belongs in the model.",
+          "excerpt": "A log can pull a wild point into line, but if the point is a recording error or a different process, it still is. Investigate first, then decide whether it belongs in the model.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "fail-extrapolate",
+          "heading": "Extrapolating on the transformed scale",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "What does not work",
+            "Extrapolating on the transformed scale"
+          ],
+          "text": "A line on log axes becomes an exponential on raw axes, so small slope errors grow fast outside the data. Keep predictions inside the observed range, or say clearly that they are extrapolations.",
+          "excerpt": "A line on log axes becomes an exponential on raw axes, so small slope errors grow fast outside the data. Keep predictions inside the observed range, or say clearly that they are extrapolations.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "fail-autocorrelation",
+          "heading": "Transforming to fix drift or autocorrelation",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "What does not work",
+            "Transforming to fix drift or autocorrelation"
+          ],
+          "text": "Transformations change scale, not time structure. Residuals that wander in time order need time terms, blocking, or time-series methods.",
+          "excerpt": "Transformations change scale, not time structure. Residuals that wander in time order need time terms, blocking, or time-series methods.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "fail-group",
+          "heading": "Transforming one group but not another",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "What does not work",
+            "Transforming one group but not another"
+          ],
+          "text": "When you compare groups, or include several predictors, the same transformation must apply to every observation of a variable. Mixing scales makes the coefficients meaningless.",
+          "excerpt": "When you compare groups, or include several predictors, the same transformation must apply to every observation of a variable. Mixing scales makes the coefficients meaningless.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "fail-spec-limits",
+          "heading": "Forgetting the spec limits in capability work",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "What does not work",
+            "Forgetting the spec limits in capability work"
+          ],
+          "text": "If you transform data to compute \\(C_{pk}\\), transform the specification limits with the same power. Minitab does this automatically; a hand calculation often does not. Part 14",
+          "excerpt": "If you transform data to compute \\(C_{pk}\\), transform the specification limits with the same power. Minitab does this automatically; a hand calculation often does not. Part 14",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "alternatives-h",
+          "heading": "When to stop transforming",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "When to stop transforming"
+          ],
+          "text": "Transformations are a tool, not a goal. Stop and switch methods when any of these is true. Alternatives to transformation Situation Use instead Why it is better here Curve changes direction once Polynomial regression (quadratic) Models a minimum or maximum directly; the optimum is \\(-b_1/(2b_2)\\) Known nonlinear law with meaningful parameters Nonlinear least squares Estimates the parameters on the original scale with honest errors Charpy energy transition curve Hyperbolic tangent model: \\(E = A + B\\tanh\\!\\left[(T - T_0)/C\\right]\\) Captures upper and lower shelves and the transition temperature \\(T_0\\) Counts or rates Poisson or negative binomial regression Models \\(\\ln E(y)\\); handles zeros; no back-transform bias Pass/fail or proportions from counts Logistic regression Respects the 0–1 bounds and the binomial variance Positive, skewed continuous y with a log-linear mean Gamma GLM with a log link Predicts the mean directly while allowing spread to grow Linear trend, only the spread grows Weighted least squares Keeps y in its natural units; downweights noisy points Shape unknown, prediction is the goal Splines, GAMs, tree ensembles Flexible shapes without guessing a power; validate out of sample Part 15",
+          "excerpt": "Transformations are a tool, not a goal. Stop and switch methods when any of these is true. Alternatives to transformation Situation Use instead Why it is better here Curve changes direction once Polynomial regression (quadratic) Models a minimum or maximum…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "chooser-h",
+          "heading": "Guided chooser: which transformation for your data?",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Guided chooser: which transformation for your data?"
+          ],
+          "text": "Answer five questions about your scatter plot. The recommendation updates as you go and explains each step. 1. What shape is the trend? Always rising or always falling, with one bend S-shaped, flattening at both ends Falls then rises, or rises then falls 2. Does theory give a form? No known law Exponential growth or decay Power law Diminishing returns (logarithmic) Inverse proportion (time = distance / speed) Hall–Petch grain size Arrhenius temperature dependence 3. How do the residuals spread? Even across the range Grow with the level (funnel) y is a count y is a proportion or percentage 4. What values does the variable take? All positive Some zeros Some negative 5. Largest value divided by smallest More than 3 Between 2 and 3 Less than 2",
+          "excerpt": "Answer five questions about your scatter plot. The recommendation updates as you go and explains each step. 1. What shape is the trend? Always rising or always falling, with one bend S-shaped, flattening at both ends Falls then rises, or rises then falls 2.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lz-rec-title",
+          "heading": "Recommendation",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Guided chooser: which transformation for your data?",
+            "Recommendation"
+          ],
+          "text": "Avoid Ready for real data? Load your own x–y data into the Best-Fit Model Finder to rank every model from this lesson by AICc and cross-validation, check residuals, and predict with intervals. It is also a tab in the Engineering & Statistics Calculator. Open the Best-Fit Model Finder Part 16",
+          "excerpt": "Avoid Ready for real data? Load your own x–y data into the Best-Fit Model Finder to rank every model from this lesson by AICc and cross-validation, check residuals, and predict with intervals. It is also a tab in the Engineering & Statistics Calculator. Open…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "statistics-implementation-h",
+          "heading": "Statistics Implementation",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Statistics Implementation"
+          ],
+          "text": "",
+          "excerpt": "Statistics Implementation",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "excel-functions-h",
+          "heading": "Excel Functions",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Statistics Implementation",
+            "Excel Functions"
+          ],
+          "text": "Function Syntax Purpose When to use it LN LN(number) Natural log Log transforms for exponential and power models; positive values only LOG10 LOG10(number) Base-10 log When you want readable decades on a chart; slope interpretation changes by a factor of 2.303 LOG LOG(number, [base]) Log to any base Base 2 makes \"per doubling\" readings direct EXP EXP(number) \\(e\\) raised to a power Back-transforming log-scale predictions SQRT SQRT(number) Square root Counts; non-negative values POWER POWER(number, power) Any rung of the ladder Reciprocals and Box–Cox powers; same as ^ GEOMEAN GEOMEAN(number1, [number2], …) Geometric mean The scaling constant \\(\\dot{y}\\) in Box–Cox DEVSQ DEVSQ(number1, [number2], …) Sum of squared deviations Total sum of squares for \\(\\text{SSE}\\) and \\(R^{2}\\) by hand RSQ RSQ(known_y's, known_x's) \\(R^{2}\\) of a straight line Comparing x transforms with the same y SLOPE / INTERCEPT SLOPE(known_y's, known_x's) Line coefficients Exponents (log–log) and growth rates (semi-log) STEYX STEYX(known_y's, known_x's) Standard error of the regression, S Log-scale \\(\\sigma\\) for the lognormal mean correction LINEST LINEST(known_y's, [known_x's], [const], [stats]) Full regression with statistics Box–Tidwell step with two predictors; standard errors LOGEST LOGEST(known_y's, [known_x's], [const], [stats]) Fits \\(y = b\\,m^{x}\\) Exponential fit in one step; growth per unit is \\(m - 1\\) GROWTH GROWTH(known_y's, [known_x's], [new_x's], [const]) Predictions from the exponential fit Median predictions on the original scale TREND TREND(known_y's, [known_x's], [new_x's], [const]) Predictions from a linear fit Fitted values on the transformed scale SUMXMY2 SUMXMY2(array_x, array_y) Sum of squared differences Original-scale SSE from back-transformed predictions CHISQ.INV CHISQ.INV(probability, deg_freedom) Chi-square quantile The Box–Cox confidence cut-off, CHISQ.INV(0.95,1) = 3.841",
+          "excerpt": "Function Syntax Purpose When to use it LN LN(number) Natural log Log transforms for exponential and power models; positive values only LOG10 LOG10(number) Base-10 log When you want readable decades on a chart; slope interpretation changes by a factor of 2.303…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "excel-use-cases-h",
+          "heading": "Excel Use Cases",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Statistics Implementation",
+            "Excel Use Cases"
+          ],
+          "text": "Assume x in A2:A41 and y in B2:B41 . Power law (log–log). In C2 enter =LN(A2) , in D2 enter =LN(B2) , and fill down. The exponent is =SLOPE(D2:D41,C2:C41) and the coefficient is =EXP(INTERCEPT(D2:D41,C2:C41)) . Exponential in one step. =INDEX(LOGEST(B2:B41,A2:A41),1) returns \\(m\\); the growth per unit of x is =INDEX(LOGEST(B2:B41,A2:A41),1)-1 . =LN(INDEX(LOGEST(B2:B41,A2:A41),1)) equals the slope of \\(\\ln y\\) on x. Box–Cox profile. Put a trial \\(\\lambda\\) in H1 . In E2 enter =IF($H$1=0,GEOMEAN($B$2:$B$41)*LN(B2),(B2^$H$1-1)/($H$1*GEOMEAN($B$2:$B$41)^($H$1-1))) and fill down. Then SSE is =DEVSQ(E2:E41)*(1-RSQ(E2:E41,A2:A41)) . Use Data > What-If Analysis > Data Table over \\(\\lambda\\) from −2 to 2, pick the smallest SSE, and keep every \\(\\lambda\\) whose SSE is below =MIN(SSE range)*EXP(CHISQ.INV(0.95,1)/40) as the 95% interval. Fair \\(R^{2}\\) on the original scale. After fitting \\(\\ln y\\), put =EXP(TREND($D$2:$D$41,$A$2:$A$41,A2)) in F2 and fill down. Then =1-SUMXMY2(B2:B41,F2:F41)/DEVSQ(B2:B41) . Smearing correction. With log-scale residuals in G2:G41 , the factor is =AVERAGE(EXP(G2:G41)) in Excel 365 (enter as an array formula in older versions). Multiply each back-transformed prediction by it. Chart trendline caution. Excel's Exponential and Power trendlines fit on the log scale, and the \\(R^{2}\\) they display is the log-scale value. Do not set it beside a Linear trendline's \\(R^{2}\\) and pick the bigger number.",
+          "excerpt": "Assume x in A2:A41 and y in B2:B41 . Power law (log–log). In C2 enter =LN(A2) , in D2 enter =LN(B2) , and fill down. The exponent is =SLOPE(D2:D41,C2:C41) and the coefficient is =EXP(INTERCEPT(D2:D41,C2:C41)) . Exponential in one step.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "minitab-navigation-h",
+          "heading": "Minitab Navigation",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Statistics Implementation",
+            "Minitab Navigation"
+          ],
+          "text": "Menu paths are for Minitab Statistical Software 21 and 22. Graph > Scatterplot > With Regression for the first look at the bend. Stat > Regression > Fitted Line Plot . Choose Linear , Quadratic or Cubic . Under Options , tick Logten of Y and/or Logten of X (with the matching Display logscale boxes) to try semi-log and log–log fits quickly. Calc > Calculator to create transformed columns with LN( ) , LOGTEN( ) , SQRT( ) , EXPO( ) and ** for powers, for example C1**(-0.5) . Stat > Regression > Regression > Fit Regression Model , then Options > Box-Cox transformation : choose Optimal \\(\\lambda\\) , \\(\\lambda = 0\\) (natural log) , \\(\\lambda = 0.5\\) (square root) or enter a value. This is the regression-aware Box–Cox to use for linearizing. In the same dialog, Graphs > Four in one and Residuals versus the variables give the diagnostic plots from Part 10. Stat > Control Charts > Box-Cox Transformation is univariate. Use it for control charts and capability, not for choosing a regression transform. Stat > Quality Tools > Johnson Transformation normalises a single column for capability work. It does not linearize relationships. Stat > Regression > Nonlinear Regression , with Use Catalog for exponential, power and other standard forms, when you should fit the law directly. Stat > Regression > Poisson Regression > Fit Poisson Model for counts and Stat > Regression > Binary Logistic Regression > Fit Binary Logistic Model for pass/fail data. Which to choose: start with the Fitted Line Plot to see the shape, use the Fit Regression Model Box–Cox option to estimate a y power, create x transforms in the Calculator, and judge every candidate on the Four in one residual plots.",
+          "excerpt": "Menu paths are for Minitab Statistical Software 21 and 22. Graph > Scatterplot > With Regression for the first look at the bend. Stat > Regression > Fitted Line Plot . Choose Linear , Quadratic or Cubic . Under Options , tick Logten of Y and/or Logten of X…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "exam-tips-h",
+          "heading": "Exam Tips",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Statistics Implementation",
+            "Exam Tips"
+          ],
+          "text": "Memorise the Box–Cox map: \\(\\lambda = 2\\) square, 1 none, 0.5 square root, 0 natural log, −0.5 reciprocal square root, −1 reciprocal. Box–Cox needs strictly positive data. ASQ CSSBB and CQE questions often pair data types with transforms: counts → square root, proportions → arcsine square root, multiplicative or right-skewed data → log. For capability on transformed data, both the data and the specification limits are transformed with the same \\(\\lambda\\). Johnson transformation is the alternative when Box–Cox fails. On a log–log plot the slope is an exponent; on a semi-log plot (\\(\\log y\\)) the slope is a growth rate. Expect a question that asks which plot makes an exponential straight. Higher \\(R^{2}\\) after transforming y is not evidence that the model is better. Answer choices that rely on it are usually the distractor. In practice, record the transformation, the reason, and the back-transform method in the analysis report so the next engineer can reproduce it. Part 17",
+          "excerpt": "Memorise the Box–Cox map: \\(\\lambda = 2\\) square, 1 none, 0.5 square root, 0 natural log, −0.5 reciprocal square root, −1 reciprocal. Box–Cox needs strictly positive data. ASQ CSSBB and CQE questions often pair data types with transforms: counts → square…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "python-r-h",
+          "heading": "Python and R equivalents",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Python and R equivalents"
+          ],
+          "text": "The same workflow in code: profile Box–Cox on the regression, run one Box–Tidwell step, and back-transform with smearing. import numpy as np import statsmodels.api as sm from scipy import stats def boxcox_profile(x, y, lambdas=np.arange(-2, 3.01, 0.01)): \"\"\"Regression-aware Box-Cox: profile SSE of z(lambda) on x.\"\"\" gm = np.exp(np.mean(np.log(y))) X = sm.add_constant(x) ll = [] for lam in lambdas: z = gm * np.log(y) if abs(lam) < 1e-9 else (y**lam - 1) / (lam * gm**(lam - 1)) sse = sm.OLS(z, X).fit().ssr ll.append(-len(y) / 2 * np.log(sse / len(y))) ll = np.array(ll) best = lambdas[ll.argmax()] ci = lambdas[ll >= ll.max() - stats.chi2.ppf(0.95, 1) / 2] return best, (ci.min(), ci.max()) def box_tidwell_step(x, y, alpha=1.0): \"\"\"One Box-Tidwell update for the power on x (x > 0).\"\"\" z = x**alpha b1 = sm.OLS(y, sm.add_constant(z)).fit().params[1] gamma = sm.OLS(y, sm.add_constant(np.column_stack([z, z * np.log(z)]))).fit().params[2] return alpha * (1 + gamma / b1) # Fit ln(y) on x, then back-transform with Duan's smearing estimator fit = sm.OLS(np.log(y), sm.add_constant(x)).fit() smear = np.mean(np.exp(fit.resid)) mean_pred = np.exp(fit.fittedvalues) * smear # mean of y median_pred = np.exp(fit.fittedvalues) # median of y # Counts: model the mean directly instead of transforming poisson = sm.GLM(counts, sm.add_constant(length), family=sm.families.Poisson()).fit() library(MASS) # boxcox() library(car) # boxTidwell() fit <- lm(y ~ x) boxcox(fit, lambda = seq(-2, 2, 0.05)) # regression-aware profile with 95% CI boxTidwell(y ~ x) # estimated power on x with a score test scipy.stats.boxcox(y) and scipy.stats.yeojohnson(y) are univariate, like Minitab's control-chart Box–Cox. They are right for normalizing a single variable and wrong for picking a regression transform.",
+          "excerpt": "The same workflow in code: profile Box–Cox on the regression, run one Box–Tidwell step, and back-transform with smearing. import numpy as np import statsmodels.api as sm from scipy import stats def boxcox_profile(x, y, lambdas=np.arange(-2, 3.01, 0.01)):…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "references-h",
+          "heading": "References",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "References"
+          ],
+          "text": "Box, G. E. P., & Cox, D. R. (1964). An analysis of transformations. Journal of the Royal Statistical Society, Series B , 26(2), 211–252. Box, G. E. P., & Tidwell, P. W. (1962). Transformation of the independent variables. Technometrics , 4(4), 531–550. Duan, N. (1983). Smearing estimate: A nonparametric retransformation method. Journal of the American Statistical Association , 78(383), 605–610. Mosteller, F., & Tukey, J. W. (1977). Data Analysis and Regression . Addison-Wesley. Tukey, J. W. (1977). Exploratory Data Analysis . Addison-Wesley. Yeo, I.-K., & Johnson, R. A. (2000). A new family of power transformations to improve normality or symmetry. Biometrika , 87(4), 954–959. Montgomery, D. C., Peck, E. A., & Vining, G. G. (2021). Introduction to Linear Regression Analysis (6th ed.). Wiley.",
+          "excerpt": "Box, G. E. P., & Cox, D. R. (1964). An analysis of transformations. Journal of the Royal Statistical Society, Series B , 26(2), 211–252. Box, G. E. P., & Tidwell, P. W. (1962). Transformation of the independent variables. Technometrics , 4(4), 531–550. Duan,…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-related-lessons",
+          "heading": "Related lessons",
+          "breadcrumb": [
+            "Choosing a Transformation to Linearize Data",
+            "Related lessons"
+          ],
+          "text": "Statistical Transformations lesson — the beginner tour of log, square-root and scaling transforms that this lesson builds on. Choosing the Right Regression Analysis in Minitab — where fitted line plots, nonlinear regression and model choice fit together. Finding the Best Predictive Regression Model in Minitab — validate a transformed model out of sample. Dealing with Outliers lesson — investigate wild points before you transform them away. Pearson, Spearman and Kendall correlation lesson — why rank correlation is unchanged by any monotone transformation. ← Back to Statistics lessons",
+          "excerpt": "Statistical Transformations lesson — the beginner tour of log, square-root and scaling transforms that this lesson builds on. Choosing the Right Regression Analysis in Minitab — where fitted line plots, nonlinear regression and model choice fit together.…",
+          "kinds": [
+            "section"
           ]
         }
       ]
