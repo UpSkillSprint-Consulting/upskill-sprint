@@ -1,4 +1,4 @@
-/* ExamPreview: a public, untimed CSSBB preview that renders with the real exam
+/* ExamPreview: a public, untimed preview (CSSBB, PMP) that renders with the real exam
    simulator's markup and classes (test-bank.html quizHTML/resultsHTML and the
    test-bank-current-attempt-review.js answer review). It only ever loads the
    free pool named on <body data-question-pool>, never the paid bank, and it
@@ -8,34 +8,79 @@
   var body = document.body;
   if (!body || !body.dataset.examPreview || window.__ExamPreview) return;
 
-  // CSSBB Body of Knowledge, copied from the simulator's EXAMS.cssbb.bok so
-  // the topic tags, colours and breakdown match the real exam exactly.
-  var DM = {
-    enterprise: {name: 'Enterprise & Leadership', color: '#2c8fa6'},
-    define: {name: 'Define', color: '#3b6fb0'},
-    measure: {name: 'Measure', color: '#0e8f86'},
-    analyze: {name: 'Analyze', color: '#6b52b5'},
-    improve: {name: 'Improve', color: '#b8791b'},
-    control: {name: 'Control', color: '#c0453f'}
+  // One entry per ExamPreview. The domains, colours, topic names and study
+  // links are copied from the simulator's EXAMS[exam].bok and DM (test-bank.html)
+  // so the topic tags, colours and breakdown match the real exam exactly.
+  var CONFIGS = {
+    cssbb: {
+      dm: {
+        enterprise: {name: 'Enterprise & Leadership', color: '#2c8fa6'},
+        define: {name: 'Define', color: '#3b6fb0'},
+        measure: {name: 'Measure', color: '#0e8f86'},
+        analyze: {name: 'Analyze', color: '#6b52b5'},
+        improve: {name: 'Improve', color: '#b8791b'},
+        control: {name: 'Control', color: '#c0453f'}
+      },
+      bok: [
+        {domain: 'enterprise', subs: [
+          {id: 'p1', name: 'I. Org-Wide Planning & Deployment', lesson: '/lessons/what-is-lean-six-sigma', lessonName: 'What Is Lean Six Sigma'},
+          {id: 'p2', name: 'II. Process Management & Measures', lesson: '/lessons/complete-14-quality-tools-project', lessonName: 'The Complete Quality Toolbox'},
+          {id: 'tm', name: 'III. Team Management', lesson: '/lessons/7-management-planning-tools', lessonName: '7 Management & Planning Tools'}]},
+        {domain: 'define', subs: [{id: 'def', name: 'IV. Define', lesson: '/lessons/what-is-lean-six-sigma', lessonName: 'Define & VOC'}]},
+        {domain: 'measure', subs: [{id: 'mea', name: 'V. Measure', lesson: '/lessons/lean-six-sigma/process-capability-cp-and-cpk', lessonName: 'Process Capability (Cp & Cpk)'}]},
+        {domain: 'analyze', subs: [{id: 'ana', name: 'VI. Analyze', lesson: '/lessons/hypothesis-testing-for-beginners', lessonName: 'Hypothesis Testing'}]},
+        {domain: 'improve', subs: [
+          {id: 'imp', name: 'VII. Improve', lesson: '/lessons/introduction-to-design-of-experiment-doe', lessonName: 'Design of Experiments'},
+          {id: 'dfss', name: 'IX. Design for Six Sigma', lesson: '/lessons/complete-14-quality-tools-project', lessonName: 'The Complete Quality Toolbox'}]},
+        {domain: 'control', subs: [{id: 'con', name: 'VIII. Control', lesson: '/lessons/control-charts-explained', lessonName: 'Control Charts, Explained'}]}
+      ],
+      examName: 'ASQ Certified Six Sigma Black Belt',
+      short: 'CSSBB',
+      startTitle: 'Free CSSBB practice questions: ExamPreview',
+      ctaLabel: 'Get the complete Black Belt question bank',
+      ctaTitle: 'Practise with the complete Black Belt question bank',
+      ctaBody: 'Three full question sets, a mixed set, a placement diagnostic, a 165-question timed mock exam and focused quizzes by Body of Knowledge area, all in this same simulator.',
+      fullBank: 'The full bank tests the same depth across 165-question mock exams.'
+    },
+    pmp: {
+      dm: {
+        'pmp-people': {name: 'People', color: '#1a5276'},
+        'pmp-process': {name: 'Process', color: '#0e6b7a'},
+        'pmp-business': {name: 'Business Environment', color: '#8a5a12'}
+      },
+      bok: [
+        {domain: 'pmp-people', subs: [{id: 'pmp-people', name: 'People', lesson: '/lessons', lessonName: 'Browse lessons'}]},
+        {domain: 'pmp-process', subs: [{id: 'pmp-process', name: 'Process', lesson: '/lessons', lessonName: 'Browse lessons'}]},
+        {domain: 'pmp-business', subs: [{id: 'pmp-business', name: 'Business Environment', lesson: '/lessons', lessonName: 'Browse lessons'}]}
+      ],
+      examName: 'PMI Project Management Professional (PMP)',
+      short: 'PMP',
+      tables: false,
+      startTitle: 'Free PMP practice questions: ExamPreview',
+      ctaLabel: 'Get the complete PMP question bank',
+      ctaTitle: 'Practise with the complete PMP question bank',
+      ctaBody: 'A full 180-question, 240-minute timed mock exam, further question sets and focused quizzes by domain, all in this same simulator.',
+      fullBank: 'The full bank tests the same depth across a 180-question timed mock exam.'
+    }
   };
-  var BOK = [
-    {domain: 'enterprise', subs: [
-      {id: 'p1', name: 'I. Org-Wide Planning & Deployment', lesson: '/lessons/what-is-lean-six-sigma', lessonName: 'What Is Lean Six Sigma'},
-      {id: 'p2', name: 'II. Process Management & Measures', lesson: '/lessons/complete-14-quality-tools-project', lessonName: 'The Complete Quality Toolbox'},
-      {id: 'tm', name: 'III. Team Management', lesson: '/lessons/7-management-planning-tools', lessonName: '7 Management & Planning Tools'}]},
-    {domain: 'define', subs: [{id: 'def', name: 'IV. Define', lesson: '/lessons/what-is-lean-six-sigma', lessonName: 'Define & VOC'}]},
-    {domain: 'measure', subs: [{id: 'mea', name: 'V. Measure', lesson: '/lessons/lean-six-sigma/process-capability-cp-and-cpk', lessonName: 'Process Capability (Cp & Cpk)'}]},
-    {domain: 'analyze', subs: [{id: 'ana', name: 'VI. Analyze', lesson: '/lessons/hypothesis-testing-for-beginners', lessonName: 'Hypothesis Testing'}]},
-    {domain: 'improve', subs: [
-      {id: 'imp', name: 'VII. Improve', lesson: '/lessons/introduction-to-design-of-experiment-doe', lessonName: 'Design of Experiments'},
-      {id: 'dfss', name: 'IX. Design for Six Sigma', lesson: '/lessons/complete-14-quality-tools-project', lessonName: 'The Complete Quality Toolbox'}]},
-    {domain: 'control', subs: [{id: 'con', name: 'VIII. Control', lesson: '/lessons/control-charts-explained', lessonName: 'Control Charts, Explained'}]}
-  ];
+  var EXAM = body.dataset.examPreview, CFG = CONFIGS[EXAM];
+  if (!CFG) return;
+  var DM = CFG.dm, BOK = CFG.bok;
   var SUB = {};
   BOK.forEach(function (d) { d.subs.forEach(function (s) { SUB[s.id] = {domain: d.domain, name: s.name, lesson: s.lesson, lessonName: s.lessonName}; }); });
-  var POOL_ID = /^cssbb:exampreview:ep-cssbb-\d{2}$/;
-  var EXAM_NAME = 'ASQ Certified Six Sigma Black Belt';
-  var CTA_LABEL = 'Get the complete Black Belt question bank';
+  var POOL_ID = new RegExp('^' + EXAM + ':exampreview:ep-' + EXAM + '-\\d{2}$');
+  var EXAM_NAME = CFG.examName;
+  var CTA_LABEL = CFG.ctaLabel;
+  // The real PMP formula pane (test-bank-pmp-formulas.js) reads the current
+  // question through test-bank-formulas.js's getContext(). ExamPreview has no
+  // paid bank to search, so it supplies the same context from its own session.
+  if (!window.__TB_FORMULAS_TEST__) window.__TB_FORMULAS_TEST__ = {renderContextualPane: function (query) {
+    if (window.__TB_PMP_FORMULAS) window.__TB_PMP_FORMULAS.renderContextualPane(query);
+  }, getContext: function () {
+    var q = session && view === 'quiz' ? session.items[session.i] : null;
+    return {examId: EXAM, stem: q ? q.stem : String(), question: q ? {stem: q.stem, sub: q.sub, options: q.options} : null,
+      sectionId: q ? q.sub : null, sessionQuestion: q ? session.i + 1 : null, sessionTotal: session ? session.items.length : null, set: null};
+  }};
 
   var pool = null, session = null, view = 'start';
   var host = document.getElementById('tb-overview');
@@ -59,12 +104,12 @@
   function shuffle(a, rnd) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
 
   function validate(data) {
-    if (!data || data.examId !== 'cssbb' || data.pool !== 'exampreview-free' || !data.contents) throw new Error('Not an ExamPreview pool');
+    if (!data || data.examId !== EXAM || data.pool !== 'exampreview-free' || !data.contents) throw new Error('Not an ExamPreview pool');
     var items = Object.keys(data.contents).map(function (id) {
       if (!POOL_ID.test(id)) throw new Error('Unexpected question id');
       var c = data.contents[id].content;
       if (!c || !Array.isArray(c.options) || c.options.length !== 4 || !Number.isInteger(c.answer) || !SUB[c.sub]) throw new Error('Malformed question');
-      return {id: id, stem: c.stem, options: c.options, answer: c.answer, sub: c.sub, why: c.why};
+      return {id: id, stem: c.stem, options: c.options, answer: c.answer, sub: c.sub, ecoTask: typeof c.ecoTask === 'string' ? c.ecoTask : null, why: c.why};
     });
     if (items.length !== 20) throw new Error('ExamPreview expects 20 questions');
     return items;
@@ -81,9 +126,11 @@
     return load().then(function (items) {
       session = {i: 0, answers: {}, flags: {}, revealed: {}, completed: false, items: shuffle(items, rnd).map(function (q) {
         var order = shuffle([0, 1, 2, 3], rnd);
-        return {id: q.id, stem: q.stem, sub: q.sub, why: q.why, options: order.map(function (k) { return q.options[k]; }), answer: order.indexOf(q.answer)};
+        return {id: q.id, stem: q.stem, sub: q.sub, ecoTask: q.ecoTask, why: q.why, options: order.map(function (k) { return q.options[k]; }), answer: order.indexOf(q.answer)};
       })};
       if (window.__ExamPreviewTools) window.__ExamPreviewTools.build();
+      // Exams without reference tables (PMP) drop the Tables drawer.
+      if (CFG.tables === false) { var td = document.getElementById('tb-tables'); if (td) td.remove(); }
       view = 'quiz'; render(); announce('ExamPreview started. Question 1 of ' + session.items.length + '.');
       var first = host.querySelector('[data-opt]'); if (first) first.focus({preventScroll: true});
     }).catch(function () {
@@ -114,14 +161,14 @@
       '<button type="button" class="tb-tbtn' + (session.flags[session.i] ? ' on' : '') + '" data-flag aria-pressed="' + !!session.flags[session.i] + '">\u2691 ' + (session.flags[session.i] ? 'Flagged' : 'Flag') + '</button>' +
       '<button type="button" class="tb-tbtn" data-reveal aria-describedby="tb-reveal-hint" ' + (revealed ? 'aria-controls="tb-revealed-answer" ' : '') + 'aria-expanded="' + revealed + '"' + (revealed ? ' disabled' : '') + '>' + (revealed ? 'Answer Revealed' : 'Reveal Answer') + '</button>' +
       '<button type="button" class="tb-tbtn" data-formulas>\u2630 Formulas</button>' +
-      '<button type="button" class="tb-tbtn" data-tables>\u25a4 Tables</button>' +
+      (CFG.tables === false ? '' : '<button type="button" class="tb-tbtn" data-tables>\u25a4 Tables</button>') +
       '<button type="button" class="tb-tbtn" data-calc>\u00f7 Calc</button>' +
       '<button type="button" class="tb-ghost" data-quit>Exit</button></div>';
-    return '<div class="tb-quiz" data-question-id="' + esc(q.id) + '"><div class="tb-quiztop"><div><div class="tb-diag-kick">ExamPreview &middot; Free CSSBB questions &middot; untimed</div>' +
+    return '<div class="tb-quiz" data-question-id="' + esc(q.id) + '"><div class="tb-quiztop"><div><div class="tb-diag-kick">ExamPreview &middot; Free ' + CFG.short + ' questions &middot; untimed</div>' +
       '<div class="tb-quizprog">Question ' + (session.i + 1) + ' of ' + n + ' &middot; ' + answeredCount() + ' answered' + (rv ? ' &middot; ' + rv + ' revealed' : '') + (flagged ? ' &middot; ' + flagged + ' flagged' : '') + '</div></div>' + toolbar + '</div>' +
       '<p id="tb-reveal-hint" class="tb-reveal-hint">Revealing an answer counts that question as incorrect.</p>' +
       '<div class="tb-progress"><span style="width:' + (completedCount() / n * 100) + '%"></span></div>' +
-      '<div class="tb-qtag" style="background:' + col + '22;color:' + col + '"><i style="background:' + col + '"></i>' + esc(dm.name) + ' &middot; ' + esc(meta.name) + '</div>' +
+      '<div class="tb-qtag" style="background:' + col + '22;color:' + col + '"><i style="background:' + col + '"></i>' + esc(dm.name) + ' &middot; ' + esc(q.ecoTask && q.ecoTask !== meta.name ? q.ecoTask : meta.name) + '</div>' +
       '<fieldset class="tb-ep-question"><legend class="tb-stem" data-question-id="' + esc(q.id) + '">' + esc(q.stem) + '</legend>' + opts + '</fieldset>' + (revealed ? revealedHTML(q) : '') +
       '<div class="tb-quizfoot"><div class="tb-nav">' + nav + '</div>' +
       (session.i < n - 1 ? '<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>' : '<button type="button" class="btn btn-teal" data-submit>See my results</button>') + '</div>' +
@@ -194,16 +241,16 @@
     }).join('');
     var weakest = Object.keys(r.by).map(function (id) { return {id: id, m: r.by[id].c / r.by[id].t}; }).sort(function (a, b) { return a.m - b.m; })[0];
     var wk = SUB[weakest.id];
-    var verdict = good ? 'You are close to the 70% site practice target on this sample. The full bank tests the same depth across 165-question mock exams.' : 'This sample shows where to focus next. The full bank gives you hundreds more questions like these, with focused quizzes by area.';
+    var verdict = good ? 'You are close to the 70% site practice target on this sample. ' + CFG.fullBank : 'This sample shows where to focus next. The full bank gives you hundreds more questions like these, with focused quizzes by area.';
     return '<div class="tb-resbar"><button type="button" class="tb-ghost" data-retake>&larr; Retake ExamPreview</button><span class="tb-restag">ExamPreview result</span></div>' +
       '<div class="tb-reshead"><div class="tb-ring big" style="--p:' + ring + ';--rc:' + (good ? 'var(--good,#1f9d6b)' : '#c0453f') + '"><span>' + ring + '<small>%</small></span></div>' +
-      '<div class="tb-resverd"><div class="tb-diag-kick">Free CSSBB sample score</div><h2>Your ExamPreview result</h2><p>You answered ' + r.correct + ' of ' + r.total + ' correctly. ' + verdict + '</p></div></div>' +
+      '<div class="tb-resverd"><div class="tb-diag-kick">Free ' + CFG.short + ' sample score</div><h2>Your ExamPreview result</h2><p>You answered ' + r.correct + ' of ' + r.total + ' correctly. ' + verdict + '</p></div></div>' +
       '<div class="tb-score-result" data-score-result data-score-percent="' + r.pct + '"><strong>Session score: ' + r.pct + '% (' + r.correct + '/' + r.total + ')</strong><p class="tb-result-set">Test set: ExamPreview (20 free questions)</p><p>' + (good ? 'Site practice target met' : 'Below site practice target') + ' (70%). This is a site practice target, not an official certification pass/fail result.</p><p>' + r.incorrect + ' incorrect · ' + r.unanswered + ' unanswered' + (r.revealed ? ' · ' + r.revealed + ' revealed (counted as incorrect)' : '') + '. This result is available only in this tab until you leave or refresh.</p></div>' +
       '<div class="tb-sec">Score breakdown by phase &rarr; subtopic</div><div class="tb-breakdown">' + rows + '</div>' +
       '<div class="tb-plan"><div class="tb-planrow top"><div class="tb-planrank">1</div><div class="tb-planbody"><div class="tb-planname">' + esc(DM[wk.domain].name) + ' <span class="mut">\u203a</span> ' + esc(wk.name) + ' <span class="tb-planflag">Weakest area</span></div><div class="tb-planwhy">You scored <b>' + Math.round(weakest.m * 100) + '%</b> here on this sample.</div><a class="tb-planlink" href="' + esc(wk.lesson) + '">Study: ' + esc(wk.lessonName) + ' &rarr;</a></div></div></div>' +
       '<section id="tb-feedback-loop" class="tb-feedback-loop" aria-labelledby="tb-feedback-title"><div class="tb-feedback-head"><div><div class="tb-diag-kick">Worked explanations</div><h2 id="tb-feedback-title">Review every answer and understand why.</h2><p>Each question shows your answer, the correct answer and a worked explanation.</p></div><div class="tb-feedback-stats"><span><strong>' + r.correct + '</strong> correct</span><span><strong>' + r.incorrect + '</strong> incorrect</span><span><strong>' + r.unanswered + '</strong> unanswered</span></div></div>' +
       '<div id="tb-answer-review" class="tb-answer-review"><div id="tb-review-list" class="tb-review-list">' + session.items.map(reviewCard).join('') + '</div></div></section>' +
-      '<section class="tb-ep-cta" id="ep-cta" aria-labelledby="ep-cta-title"><div class="tb-diag-kick">Ready for the full exam?</div><h2 id="ep-cta-title">Practise with the complete Black Belt question bank</h2><p>Three full question sets, a mixed set, a placement diagnostic, a 165-question timed mock exam and focused quizzes by Body of Knowledge area, all in this same simulator.</p>' +
+      '<section class="tb-ep-cta" id="ep-cta" aria-labelledby="ep-cta-title"><div class="tb-diag-kick">Ready for the full exam?</div><h2 id="ep-cta-title">' + CFG.ctaTitle + '</h2><p>' + CFG.ctaBody + '</p>' +
       '<button type="button" class="btn btn-teal" data-ep-cta aria-expanded="false" aria-controls="ep-waitlist">' + CTA_LABEL + '</button></section>';
   }
   function wireResults() {
@@ -223,11 +270,16 @@
     var hero = document.getElementById('tb-hero'), ht = document.getElementById('tb-herotitle'), hp = hero && hero.querySelector('p');
     var exam = view !== 'start';
     if (hero) hero.classList.toggle('exam', exam);
-    if (ht) ht.textContent = exam ? EXAM_NAME + ' — ExamPreview' : 'Free CSSBB practice questions: ExamPreview';
+    if (ht) ht.textContent = exam ? EXAM_NAME + ' — ExamPreview' : CFG.startTitle;
     if (hp) hp.hidden = exam;
     var form = document.getElementById('ep-waitlist');
     if (form && view !== 'results') { form.hidden = true; document.querySelector('main').insertBefore(form, document.querySelector('.tb-ep-related')); }
-    if (view === 'quiz') { host.innerHTML = quizHTML(); wireQuiz(); }
+    if (view === 'quiz') {
+      host.innerHTML = quizHTML(); wireQuiz();
+      // Like the real exam, an open formula sheet follows the current question.
+      var fd = document.getElementById('tb-formulas'), tools = window.__ExamPreviewTools;
+      if (fd && !fd.hidden && tools && tools.refresh) { var sq = document.getElementById('tb-refsearch'); tools.refresh(sq ? sq.value : ''); }
+    }
     else if (view === 'results') { host.innerHTML = resultsHTML(); wireResults(); }
     else { host.innerHTML = startHTML; wireStart(); }
   }

@@ -64,6 +64,7 @@ jobs:
             tests/process-capability-guidance.test.js \
             tests/lesson-payload-seo.test.js \
             tests/interaction-effects-lesson.test.js \
+            tests/best-fit-model-finder.test.js \
             tests/linearize-transformation-lesson.test.js
       - name: Build the exact production site and generated lessons
         run: npm run build:site
