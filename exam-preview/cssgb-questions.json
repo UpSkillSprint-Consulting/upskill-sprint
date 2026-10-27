@@ -1,0 +1,434 @@
+{
+  "examId": "cssgb",
+  "schemaVersion": "1.0.0",
+  "bankVersion": "exampreview-pilot-draft-2026-10-27",
+  "pool": "exampreview-free",
+  "sets": {
+    "preview": [
+      "cssgb:exampreview:ep-cssgb-01",
+      "cssgb:exampreview:ep-cssgb-02",
+      "cssgb:exampreview:ep-cssgb-03",
+      "cssgb:exampreview:ep-cssgb-04",
+      "cssgb:exampreview:ep-cssgb-05",
+      "cssgb:exampreview:ep-cssgb-06",
+      "cssgb:exampreview:ep-cssgb-07",
+      "cssgb:exampreview:ep-cssgb-08",
+      "cssgb:exampreview:ep-cssgb-09",
+      "cssgb:exampreview:ep-cssgb-10",
+      "cssgb:exampreview:ep-cssgb-11",
+      "cssgb:exampreview:ep-cssgb-12",
+      "cssgb:exampreview:ep-cssgb-13",
+      "cssgb:exampreview:ep-cssgb-14",
+      "cssgb:exampreview:ep-cssgb-15",
+      "cssgb:exampreview:ep-cssgb-16",
+      "cssgb:exampreview:ep-cssgb-17",
+      "cssgb:exampreview:ep-cssgb-18",
+      "cssgb:exampreview:ep-cssgb-19",
+      "cssgb:exampreview:ep-cssgb-20"
+    ]
+  },
+  "contents": {
+    "cssgb:exampreview:ep-cssgb-01": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "The project Champion, who sponsors the project and has authority over the resources it needs",
+          "The Master Black Belt, because it coaches the Green Belt on methods",
+          "The process owner's peer in accounts receivable, so the matter stays at the same level",
+          "The quality department, because it audits compliance with procedures"
+        ],
+        "stem": "A Green Belt's project to reduce invoice errors has stalled because the accounts-payable manager will not release two clerks for data collection, even though the project was approved. Who is BEST placed to remove this barrier?",
+        "sub": "cssgb-org",
+        "why": "Removing organizational roadblocks, including getting the people a project needs, is the main job of the <b>Champion</b>. The Champion sponsors the project and has the authority to settle resource conflicts with functional managers. A Master Black Belt coaches people on methods but has no line authority. A peer manager cannot direct the accounts-payable manager. Quality auditors check compliance with procedures and do not assign people to projects."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-02": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Transportation",
+          "Motion",
+          "Waiting",
+          "Over-processing"
+        ],
+        "stem": "At a repair bench, technicians walk about 15 metres to a shared cabinet several times an hour to get torque drivers, and they reach awkwardly behind the bench for fasteners. Which waste does this BEST illustrate?",
+        "sub": "cssgb-org",
+        "why": "<b>Motion</b> is unnecessary movement by people, such as walking, reaching or searching, to do their work. Transportation is the movement of materials or product between steps, not of the worker. Waiting would mean idle time while someone is held up. Over-processing is doing more to the product than the customer needs. A point-of-use tool board and a better fastener layout would remove this waste."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-03": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "Prevention",
+          "Appraisal",
+          "Internal failure",
+          "External failure"
+        ],
+        "stem": "A small-appliance maker is classifying its quality costs. The cost of re-testing units that failed final inspection before they left the plant belongs in which cost-of-quality category?",
+        "sub": "cssgb-define",
+        "why": "Re-testing is caused by a failure found <b>before the product reached the customer</b>, so it is an <b>internal failure</b> cost, like scrap and rework. It is tempting to call it appraisal because it is testing. However, appraisal covers routine planned inspection, not extra work triggered by a defect. Prevention covers activities such as training and design reviews that stop defects in the first place. External failure covers costs incurred after delivery, such as warranty claims and returns."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-04": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "33.5 seconds per case",
+          "31.4 seconds per case",
+          "0.5 minutes per case, rounded up to 1 minute",
+          "30.0 seconds per case"
+        ],
+        "stem": "A packaging cell runs one 8-hour shift with a 30-minute unpaid lunch and two 10-minute paid breaks during which the line stops. Customer demand is 860 cases per shift. What is the takt time?",
+        "sub": "cssgb-define",
+        "why": "Takt time = available production time ÷ demand. The line is available for 480 − 30 − 20 = 430 minutes, or 25,800 seconds, so takt time = 25,800/860 = <b>30.0 s</b>. A takt of 33.5 s uses the full 480 minutes. A takt of 31.4 s removes the lunch but forgets that paid breaks also stop the line. Rounding 0.5 minutes up to a whole minute would halve output."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-05": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "83.8%",
+          "94.3%",
+          "90.0%",
+          "98.0%"
+        ],
+        "stem": "At a credit union, 95% of loan files clear intake without being sent back, 90% clear underwriting without a correction loop and 98% clear final review untouched. Final review reports a 98% pass rate to management. What share of files actually get through the whole process with no rework anywhere?",
+        "sub": "cssgb-define",
+        "why": "RTY is the probability that a unit passes <b>every step the first time</b>, so it is the product of the first-pass yields: 0.95 × 0.90 × 0.98 = <b>0.838</b>. 94.3% is the average of the three yields. 90.0% is the weakest step. 98.0% is the final-review pass rate that management sees, and it hides the rework at the earlier steps."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-06": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Customers are unhappy because the call centre is understaffed and needs four more agents",
+          "Since January, 18% of warranty calls have been abandoned before an agent answered, against a target of 5%, and this costs about $40,000 a month in repeat contacts",
+          "Reduce call abandonment by installing a call-back system by the end of the third quarter",
+          "Call-centre performance has been poor and needs to improve"
+        ],
+        "stem": "A Champion is choosing between four draft charters for a warranty call-centre project. Which draft wording should be approved as the problem statement?",
+        "sub": "cssgb-define",
+        "why": "A good problem statement describes <b>what is wrong, where and when, how big the problem is against a target, and its impact</b>, without assuming a cause or a solution. The first option assumes the cause (understaffing) and the fix (four agents). The third option is a goal tied to a solution. The fourth option is vague and gives no measure."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-07": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "48,000",
+          "600",
+          "6,000",
+          "4,800"
+        ],
+        "stem": "An audit checks 500 supplier invoices. Each invoice has 8 fields that can be wrong, and the auditors find 24 field errors in total. What is the defects per million opportunities (DPMO)?",
+        "sub": "cssgb-measure",
+        "why": "DPMO = defects ÷ (units × opportunities per unit) × 10⁶ = 24/(500 × 8) × 10⁶ = <b>6,000</b>. 48,000 is defects per unit (0.048) × 10⁶, which ignores the opportunities. 600 slips a decimal place. 4,800 uses 5,000 opportunities instead of 4,000."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-08": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Cp = 1.33; Cpk = 2.00",
+          "Cp = 4.00; Cpk = 2.67",
+          "Cp = 2.00; Cpk = 2.67",
+          "Cp = 2.00; Cpk = 1.33"
+        ],
+        "stem": "Cereal boxes must be filled to between 20 g and 26 g of a seasoning packet. The filler is in statistical control, its output is normal, it averages 24.0 g and it varies with a standard deviation of 0.5 g. Which pair of indices describes this filler?",
+        "sub": "cssgb-measure",
+        "why": "Cp = (USL − LSL)/6σ = 6/3 = <b>2.00</b>. Cpk uses the specification limit nearer the mean: (26 − 24)/(3 × 0.5) = <b>1.33</b>. The process is capable, but it is off-centre toward the upper limit. Cp = 1.33 with Cpk = 2.00 swaps the two indices; Cpk can never be greater than Cp. Cp = 4.00 divides by 3σ instead of 6σ. Cpk = 2.67 uses the farther limit."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-09": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "12%",
+          "2%",
+          "24%",
+          "6%"
+        ],
+        "stem": "A gauge study on a part with a tolerance of 1.00 mm (USL − LSL) estimates the measurement-system standard deviation as σ_GRR = 0.02 mm. Using the 6σ convention, what is the measurement system's % of tolerance (precision-to-tolerance ratio)?",
+        "sub": "cssgb-measure",
+        "why": "%Tolerance = 6σ_GRR ÷ tolerance = 0.12/1.00 = <b>12%</b>. This is in the 10–30% band, where a gauge may be acceptable depending on the application. 2% forgets the 6σ multiplier. 24% uses 12σ. 6% uses 3σ, which covers only half of the measurement spread. (Under the older 5.15σ convention, the figure would be about 10.3%.)"
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-10": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "It is continuous ratio data, so the mean and standard deviation are fully appropriate",
+          "It is ordinal data, so the median and the frequency of each rating are the safest summaries",
+          "It is nominal data, so only the mode can be reported",
+          "It is interval data, because the numbers are evenly spaced"
+        ],
+        "stem": "A hotel asks guests to rate cleanliness from 1 (very poor) to 5 (excellent). A Green Belt wants to summarize the results. Which statement about this data is MOST accurate?",
+        "sub": "cssgb-measure",
+        "why": "The ratings have a <b>meaningful order, but the gaps between them are not known to be equal</b>. That makes them <b>ordinal</b> data, best summarized with medians, percentages in each category or a top-box percentage. Rating data is not continuous, and there is no true zero, so it is not ratio data either. It is not nominal, because the categories are ordered. Writing the ratings as evenly spaced numbers does not make the experience between them evenly spaced, which is why calling it interval data is wrong."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-11": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "44.12 to 55.88 minutes",
+          "49.18 to 50.82 minutes",
+          "49.02 to 50.98 minutes",
+          "49.84 to 50.16 minutes"
+        ],
+        "stem": "Historical data shows that the process standard deviation of cycle time is a stable 3.0 minutes. A random sample of 36 cycles has a mean of 50.0 minutes. What is the 95% confidence interval for the true mean cycle time?",
+        "sub": "cssgb-measure",
+        "why": "With σ known, the interval is CI = x̄ ± z(σ/√n) = 50.0 ± 1.96(3.0/6) = 50.0 ± 0.98, which gives <b>49.02 to 50.98</b>. 44.12 to 55.88 omits √n, which gives the spread of individual cycle times rather than of the mean. 49.18 to 50.82 uses z = 1.645, which is a 90% interval. 49.84 to 50.16 divides by n instead of √n."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-12": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "t = 2.00; reject the claim, because 2.00 > 1.96",
+          "t = 8.00; reject the claim",
+          "t = 0.50; fail to reject the claim",
+          "t = 2.00; fail to reject the claim"
+        ],
+        "stem": "A supplier claims its resin cures in 12.0 minutes on average. A Green Belt times 16 batches and gets a mean of 12.6 minutes and a sample standard deviation of 1.2 minutes. Testing at α = 0.05 (two-sided), what are the test statistic and the conclusion? (t critical, 15 df = 2.131)",
+        "sub": "cssgb-analyze",
+        "why": "t = (x̄ − μ₀)/(s/√n) = 0.6/(1.2/4) = <b>2.00</b>. With σ unknown and n = 16, compare with t at 15 df (2.131), not z. Because 2.00 < 2.131, we <b>fail to reject</b>: the data does not show that the claim is wrong. Comparing with z = 1.96 is the trap that leads to rejecting. t = 8.00 forgets √n. t = 0.50 divides by s alone."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-13": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Ŷ = 19.5, but 20% is outside the studied range, so the prediction is extrapolation and may not hold",
+          "Ŷ = 19.5, which is a reliable prediction because the model is linear",
+          "Ŷ = 16.0, because the intercept only applies at zero humidity",
+          "Ŷ = 70.8, which shows humidity must be kept low"
+        ],
+        "stem": "A Green Belt fits a regression of paint-booth defects per 100 panels (Y) on booth humidity in % (X), using data with humidity from 35% to 70%. The model is Ŷ = 3.5 + 0.8X. What is the predicted defect rate at 20% humidity, and what should the Green Belt note?",
+        "sub": "cssgb-analyze",
+        "why": "Substitute X = 20: Ŷ = 3.5 + 0.8 × 20 = <b>19.5</b>. However, the data only covers 35% to 70% humidity, so 20% is <b>extrapolation</b>. The relationship may not be linear outside that range, so the prediction should not be presented as reliable. 16.0 leaves out the intercept. 70.8 multiplies the coefficients in the wrong places (3.5 × 20 + 0.8)."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-14": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Type II error (β): failing to detect a real difference",
+          "Type I error (α): rejecting a null hypothesis that was true",
+          "Type II error, because the sample was too small",
+          "No error, because a p-value below α justifies the decision"
+        ],
+        "stem": "A team tests H₀: \"the new supplier's defect rate is the same as the current supplier's\" against the alternative that it is lower. The team concludes that the new supplier is better and switches, but later data shows there was no real difference. Which error was made?",
+        "sub": "cssgb-analyze",
+        "why": "The team <b>rejected H₀ when H₀ was true</b>: there was no real difference. That is a Type I error, a false alarm, and its probability is α. A Type II error is the opposite, missing a difference that really exists. A small sample mainly raises the risk of a Type II error, not a Type I error. A p-value below α does not make the decision correct; it means the decision accepted a risk of α of being wrong, and this time it was."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-15": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "48",
+          "240",
+          "64",
+          "176"
+        ],
+        "stem": "In a process FMEA, a failure mode is rated severity 8, occurrence 6 and detection 5. After an error-proofing fixture is added, occurrence falls to 2 and detection improves to 4. Severity is unchanged. What is the revised risk priority number (RPN)?",
+        "sub": "cssgb-improve",
+        "why": "RPN = S × O × D = 8 × 2 × 4 = <b>64</b>, down from 240. Severity stays at 8 because a fixture changes how often the failure happens and how well it is detected, not how serious the effect is if it does happen. Only a design change can lower severity. 48 wrongly lowers severity to 6. 240 is the original RPN. 176 is the reduction (240 − 64), not the new RPN."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-16": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "8",
+          "16",
+          "64",
+          "32"
+        ],
+        "stem": "A team plans a full-factorial experiment with four factors at two levels each, and runs every treatment combination twice (two replicates). How many experimental runs are needed, not counting centre points?",
+        "sub": "cssgb-improve",
+        "why": "A two-level full factorial with k factors has 2^k combinations: 2⁴ = 16. Two replicates give 16 × 2 = <b>32</b> runs. 16 forgets the replicates. 8 is the run count of a 2⁴⁻¹ half fraction, which is not a full factorial. 64 squares the replicate count or treats it as an extra factor."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-17": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Add a locating pin to the fixture so the bracket physically cannot be seated backwards",
+          "Post a photo of the correct orientation at the workstation",
+          "Add a 100% visual inspection step immediately after installation",
+          "Retrain the operators and add orientation to the work instruction"
+        ],
+        "stem": "Operators sometimes install a symmetric-looking bracket backwards, and the error is only found at final test. Which improvement is the STRONGEST form of mistake-proofing?",
+        "sub": "cssgb-improve",
+        "why": "The strongest poka-yoke <b>prevents the error from being made</b> through a physical control, so it does not depend on people remembering. Photos and training rely on attention and memory. A 100% inspection step finds the error after it has happened and is itself fallible. Inspection detects; it does not prevent."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-18": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "22.42 to 27.58",
+          "23.85 to 26.15",
+          "0.00 to 4.23",
+          "24.23 to 25.77"
+        ],
+        "stem": "A Green Belt sets up an X̄–R chart for bore depth, taking five consecutive parts every hour. Across 25 hourly subgroups, the grand mean is 25.00 mm and the average range is 2.00 mm (A₂ = 0.577, D₄ = 2.114). Where should the limits on the averages chart be drawn?",
+        "sub": "cssgb-control",
+        "why": "X̄ chart limits = X̿ ± A₂R̄ = 25.00 ± 0.577 × 2.00 = 25.00 ± 1.154, which gives <b>23.85 to 26.15</b>. 22.42 to 27.58 uses 3σ limits for individual values (σ = R̄/d₂ = 0.86), not for subgroup means. 0.00 to 4.23 is the R chart (D₃R̄ to D₄R̄). 24.23 to 25.77 uses 2-sigma limits."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-19": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "UCL = 0.068; LCL = 0.012",
+          "UCL = 0.082; LCL = −0.002",
+          "UCL = 0.082; LCL = 0",
+          "UCL = 16.3; LCL = 0"
+        ],
+        "stem": "Daily samples of 200 forms are checked for errors. The average proportion defective is p̄ = 0.04. What are the 3-sigma control limits for the p-chart?",
+        "sub": "cssgb-control",
+        "why": "σ_p = √(p̄(1 − p̄)/n) = √(0.04 × 0.96/200) = 0.01386, so the limits are 0.04 ± 3(0.01386): UCL = <b>0.082</b>. The lower limit works out to −0.0016, but a proportion cannot be negative, so the <b>LCL is set to 0</b>. Reporting a negative LCL is the trap. 0.068 and 0.012 are 2-sigma limits. 16.3 is the np-chart UCL, which is a count of defectives, not a proportion."
+      }
+    },
+    "cssgb:exampreview:ep-cssgb-20": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Nothing, because no point is beyond a control limit",
+          "Adjust the process mean down by the average deviation of the eight points",
+          "Recalculate the control limits so they include the new data",
+          "Treat it as a signal of a special cause, investigate what changed and follow the reaction plan"
+        ],
+        "stem": "On a stable process's individuals chart, the last eight consecutive points fall above the centre line, but all of them are inside the control limits. What should the process owner do?",
+        "sub": "cssgb-control",
+        "why": "A long run on one side of the centre line is very unlikely if only common-cause variation is present. With 8 points in a row, the chance is about 0.5⁸ ≈ 0.4%, which is why <b>run rules</b> such as the Western Electric and Nelson rules flag it as a <b>special-cause signal</b> even though every point is inside the limits. Ignoring it misses a likely shift. Adjusting the mean without finding the cause is tampering. Recalculating the limits would absorb the shift into the chart before anyone understands it."
+      }
+    }
+  },
+  "meta": {
+    "cssgb:exampreview:ep-cssgb-01": {
+      "domain": "Six Sigma & Organizational Goals",
+      "subtopic": "Roles (Champion)",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "cssgb:exampreview:ep-cssgb-02": {
+      "domain": "Six Sigma & Organizational Goals",
+      "subtopic": "Lean wastes",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "cssgb:exampreview:ep-cssgb-03": {
+      "domain": "Define",
+      "subtopic": "Cost of quality categories",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "cssgb:exampreview:ep-cssgb-04": {
+      "domain": "Define",
+      "subtopic": "Takt time",
+      "difficulty": "medium",
+      "kind": "calculation"
+    },
+    "cssgb:exampreview:ep-cssgb-05": {
+      "domain": "Define",
+      "subtopic": "Rolled throughput yield",
+      "difficulty": "medium",
+      "kind": "calculation"
+    },
+    "cssgb:exampreview:ep-cssgb-06": {
+      "domain": "Define",
+      "subtopic": "Problem statement",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "cssgb:exampreview:ep-cssgb-07": {
+      "domain": "Measure",
+      "subtopic": "DPMO",
+      "difficulty": "medium",
+      "kind": "calculation"
+    },
+    "cssgb:exampreview:ep-cssgb-08": {
+      "domain": "Measure",
+      "subtopic": "Process capability (Cp, Cpk)",
+      "difficulty": "medium",
+      "kind": "calculation"
+    },
+    "cssgb:exampreview:ep-cssgb-09": {
+      "domain": "Measure",
+      "subtopic": "Gauge R&R (% tolerance)",
+      "difficulty": "medium-hard",
+      "kind": "calculation"
+    },
+    "cssgb:exampreview:ep-cssgb-10": {
+      "domain": "Measure",
+      "subtopic": "Data types / scales",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "cssgb:exampreview:ep-cssgb-11": {
+      "domain": "Measure",
+      "subtopic": "Confidence interval for the mean",
+      "difficulty": "medium",
+      "kind": "calculation"
+    },
+    "cssgb:exampreview:ep-cssgb-12": {
+      "domain": "Analyze",
+      "subtopic": "One-sample t-test",
+      "difficulty": "medium-hard",
+      "kind": "calculation"
+    },
+    "cssgb:exampreview:ep-cssgb-13": {
+      "domain": "Analyze",
+      "subtopic": "Simple linear regression (prediction)",
+      "difficulty": "medium",
+      "kind": "calculation"
+    },
+    "cssgb:exampreview:ep-cssgb-14": {
+      "domain": "Analyze",
+      "subtopic": "Type I / Type II errors",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "cssgb:exampreview:ep-cssgb-15": {
+      "domain": "Improve",
+      "subtopic": "FMEA / RPN",
+      "difficulty": "medium",
+      "kind": "calculation"
+    },
+    "cssgb:exampreview:ep-cssgb-16": {
+      "domain": "Improve",
+      "subtopic": "DOE run count",
+      "difficulty": "medium",
+      "kind": "calculation"
+    },
+    "cssgb:exampreview:ep-cssgb-17": {
+      "domain": "Improve",
+      "subtopic": "Mistake-proofing",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "cssgb:exampreview:ep-cssgb-18": {
+      "domain": "Control",
+      "subtopic": "X-bar chart limits",
+      "difficulty": "medium-hard",
+      "kind": "calculation"
+    },
+    "cssgb:exampreview:ep-cssgb-19": {
+      "domain": "Control",
+      "subtopic": "p-chart limits",
+      "difficulty": "medium-hard",
+      "kind": "calculation"
+    },
+    "cssgb:exampreview:ep-cssgb-20": {
+      "domain": "Control",
+      "subtopic": "Run rules / reaction plan",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    }
+  }
+}

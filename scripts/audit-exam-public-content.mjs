@@ -12,7 +12,7 @@ const answerLiteral = /["']?(?:answer|correctAnswer)["']?\s*:\s*(?:\d|["'`])/;
 // The only public question file: the free ExamPreview pool. It is allowed
 // solely when every question carries an ExamPreview id, so a paid bank copied
 // to this path still blocks the build.
-export const FREE_POOL_PATHS = new Set(['exam-preview/cssbb-questions.json', 'exam-preview/pmp-questions.json']);
+export const FREE_POOL_PATHS = new Set(['exam-preview/cssbb-questions.json', 'exam-preview/pmp-questions.json', 'exam-preview/cssgb-questions.json']);
 export function freePoolProblem(content, path = '') {
   let data;
   try { data = JSON.parse(content); } catch { return 'Free ExamPreview pool is not valid JSON'; }
