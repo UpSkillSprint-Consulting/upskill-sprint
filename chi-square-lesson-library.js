@@ -255,6 +255,18 @@
       description: 'Choose among fitted line plots, multiple regression, stepwise methods, Best Subsets, validation, interactions, polynomial models, and nonlinear regression.'
     },
     {
+      marker: 'data-choosing-a-transformation-to-linearize-data',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/choosing-a-transformation-to-linearize-data',
+      topic: 'statistics',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'choosing transformation linearize data curved scatter plot ladder of powers tukey bulge rule box-cox box-tidwell log transformation log-log semi-log square root reciprocal logit yeo-johnson residual plot curvature spread variance stabilizing back-transformation smearing retransformation bias nonlinear regression minitab excel python intermediate statistics',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>75 min</span><span>Excel + Minitab + Python</span>',
+      title: 'Choosing a Transformation to Linearize Data',
+      description: 'Straighten a curved scatter plot with the right transformation: bulge rule, Box-Cox, Box-Tidwell, residual checks, back-transforms and when to stop.'
+    },
+    {
       marker: 'data-minitab-symmetry-variability-multi-vari',
       sectionId: 'power-bi-excel-sql',
       path: '/lessons/power-bi-excel-sql/introduction-to-symmetry-variability-and-multi-vari-charts-in-minitab',

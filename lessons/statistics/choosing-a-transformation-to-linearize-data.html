@@ -1,0 +1,1908 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Choosing a Transformation to Linearize Data",
+  "slug": "choosing-a-transformation-to-linearize-data",
+  "category": "Statistics",
+  "category_slug": "statistics",
+  "level": "Intermediate",
+  "lesson_type": "General",
+  "estimated_minutes": 75,
+  "interactive": true,
+  "card_title": "Choosing a Transformation to Linearize Data",
+  "card_description": "Straighten a curved scatter plot with the right transformation: bulge rule, Box-Cox, Box-Tidwell, residual checks, back-transforms and when to stop.",
+  "search_keywords": ["transformation", "linearize", "ladder of powers", "bulge rule", "box-cox", "box-tidwell", "log transformation", "log-log plot", "residual plot", "nonlinear regression", "back-transformation", "smearing estimator", "minitab", "excel"],
+  "suggested_github_path": "lessons/statistics/choosing-a-transformation-to-linearize-data.html",
+  "access_level": "registered"
+}
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Choosing a Transformation to Linearize Data | UpSkill Sprint</title>
+  <meta name="description" content="Learn which transformation straightens a curved scatter plot: bulge rule, Box-Cox, Box-Tidwell, residual checks, back-transforms and when to stop.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/statistics/choosing-a-transformation-to-linearize-data">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Choosing a Transformation to Linearize Data | UpSkill Sprint">
+  <meta property="og:description" content="Learn which transformation straightens a curved scatter plot: bulge rule, Box-Cox, Box-Tidwell, residual checks, back-transforms and when to stop.">
+  <meta property="og:image" content="https://upskillsprint.com/assets/logo-og.png">
+  <meta property="og:url" content="https://upskillsprint.com/lessons/statistics/choosing-a-transformation-to-linearize-data">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+  <script defer src="/assets/js/math.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {"@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://upskillsprint.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Lessons", "item": "https://upskillsprint.com/lessons"},
+        {"@type": "ListItem", "position": 3, "name": "Choosing a Transformation to Linearize Data", "item": "https://upskillsprint.com/lessons/statistics/choosing-a-transformation-to-linearize-data"}
+      ]},
+      {"@type": "LearningResource", "name": "Choosing a Transformation to Linearize Data", "description": "Learn which transformation straightens a curved scatter plot: bulge rule, Box-Cox, Box-Tidwell, residual checks, back-transforms and when to stop.", "url": "https://upskillsprint.com/lessons/statistics/choosing-a-transformation-to-linearize-data", "learningResourceType": "Lesson", "educationalLevel": "Intermediate", "provider": {"@type": "Organization", "name": "UpSkill Sprint Consulting", "url": "https://upskillsprint.com/"}}
+    ]
+  }
+  </script>
+  <style id="lz-lesson-style">
+  /* Layout: a chart-room page. Prose runs in a 72ch column; labs widen to 1120px panels.
+     Light values here; dark values live in the final dark-overrides block. */
+  #lesson-content {
+    --lesson-lz-bg: #eef3f7;
+    --lesson-lz-panel: #ffffff;
+    --lesson-lz-panel2: #e3ecf2;
+    --lesson-lz-ink: #0b1b2e;
+    --lesson-lz-muted: #44586b;
+    --lesson-lz-line: #c3d2de;
+    --lesson-lz-grid: #dbe5ec;
+    --lesson-lz-accent: #0b6782;
+    --lesson-lz-accent-ink: #ffffff;
+    --lesson-lz-signal: #8a4f00;
+    --lesson-lz-good: #1c6a44;
+    --lesson-lz-bad: #a3352a;
+    --lesson-lz-point: #0b6782;
+    --lesson-lz-fit: #8a4f00;
+    --lesson-lz-code-bg: #0d1b30;
+    --lesson-lz-code-ink: #dce9f3;
+    --lesson-lz-display: 'Barlow Condensed', 'Arial Narrow', 'Roboto Condensed', sans-serif;
+    --lesson-lz-body: 'IBM Plex Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --lesson-lz-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+    color-scheme: light dark;
+    background: var(--lesson-lz-bg);
+    color: var(--lesson-lz-ink);
+    font-family: var(--lesson-lz-body);
+    font-size: 16.5px;
+    line-height: 1.65;
+    padding-bottom: 24px;
+  }
+  #lesson-content *, #lesson-content *::before, #lesson-content *::after { box-sizing: border-box; }
+  .lz-wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .lz-prose { max-width: 72ch; }
+  .lz-prose p, .lz-prose li { color: var(--lesson-lz-ink); }
+  #lesson-content h1, #lesson-content h2, #lesson-content h3 { font-family: var(--lesson-lz-display); color: var(--lesson-lz-ink); text-wrap: balance; line-height: 1.12; letter-spacing: .005em; }
+  #lesson-content h1 { font-size: clamp(2.3rem, 5.2vw, 3.6rem); font-weight: 700; margin: 0 0 14px; }
+  #lesson-content h2 { font-size: clamp(1.75rem, 3.4vw, 2.35rem); font-weight: 700; margin: 0 0 12px; }
+  #lesson-content h3 { font-size: 1.35rem; font-weight: 600; margin: 26px 0 8px; }
+  #lesson-content a { color: var(--lesson-lz-accent); }
+  #lesson-content code, .lz-mono { font-family: var(--lesson-lz-mono); font-size: .9em; }
+  #lesson-content :not(pre) > code { background: var(--lesson-lz-panel2); color: var(--lesson-lz-ink); padding: 1px 5px; border-radius: 4px; }
+  #lesson-content :focus-visible { outline: 3px solid var(--lesson-lz-accent); outline-offset: 2px; }
+
+  .lz-hero { padding-block: 44px 30px; border-bottom: 1px solid var(--lesson-lz-line); }
+  .lz-eyebrow { font-family: var(--lesson-lz-mono); font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--lesson-lz-accent); margin: 0 0 10px; }
+  .lz-hero-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+  .lz-lead { font-size: 1.12rem; color: var(--lesson-lz-ink); margin: 0 0 16px; }
+  .lz-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; padding: 0; list-style: none; }
+  .lz-chips li { font-family: var(--lesson-lz-mono); font-size: .78rem; padding: 4px 10px; border: 1px solid var(--lesson-lz-line); border-radius: 999px; color: var(--lesson-lz-muted); background: var(--lesson-lz-panel); }
+  .lz-thesis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .lz-thesis figure { margin: 0; background: var(--lesson-lz-panel); border: 1px solid var(--lesson-lz-line); border-radius: 8px; padding: 8px; color: var(--lesson-lz-ink); }
+  .lz-thesis figcaption { font-family: var(--lesson-lz-mono); font-size: .75rem; color: var(--lesson-lz-muted); padding: 2px 4px 0; }
+  #lesson-content h2.lz-objhead { font-family: var(--lesson-lz-mono); font-size: .8rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--lesson-lz-muted); margin: 6px 0 6px; }
+  .lz-objectives { margin: 0; padding-left: 1.2em; }
+  .lz-objectives li { margin: 4px 0; }
+
+  .lz-section { padding-block: 40px 8px; }
+  .lz-section + .lz-section { border-top: 1px solid var(--lesson-lz-line); }
+  .lz-step { font-family: var(--lesson-lz-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--lesson-lz-muted); margin: 0 0 6px; }
+
+  .lz-panel { background: var(--lesson-lz-panel); color: var(--lesson-lz-ink); border: 1px solid var(--lesson-lz-line); border-radius: 10px; padding: 18px; }
+  .lz-callout { border-left: 4px solid var(--lesson-lz-signal); background: var(--lesson-lz-panel); color: var(--lesson-lz-ink); padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 18px 0; max-width: 72ch; }
+  .lz-callout strong { color: var(--lesson-lz-ink); }
+  .lz-formula { background: var(--lesson-lz-panel); color: var(--lesson-lz-ink); border: 1px solid var(--lesson-lz-line); border-radius: 8px; padding: 10px 14px; margin: 14px 0; max-width: 72ch; overflow-x: auto; }
+
+  .table-scroll { overflow-x: auto; margin: 14px 0; border: 1px solid var(--lesson-lz-line); border-radius: 8px; background: var(--lesson-lz-panel); }
+  .lz-table { border-collapse: collapse; width: 100%; font-size: .94rem; color: var(--lesson-lz-ink); background: var(--lesson-lz-panel); }
+  .lz-table caption { text-align: left; padding: 10px 12px 4px; font-weight: 600; color: var(--lesson-lz-ink); }
+  .lz-table th, .lz-table td { padding: 8px 12px; border-bottom: 1px solid var(--lesson-lz-line); text-align: left; vertical-align: top; }
+  .lz-table th { font-family: var(--lesson-lz-mono); font-weight: 500; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; color: var(--lesson-lz-muted); background: var(--lesson-lz-panel2); }
+  .lz-table tbody tr:last-child td { border-bottom: 0; }
+  .lz-num { font-variant-numeric: tabular-nums; font-family: var(--lesson-lz-mono); }
+
+  /* Buttons and chips */
+  .lz-btn { font: 600 .92rem var(--lesson-lz-body); border-radius: 8px; padding: 9px 14px; min-height: 40px; cursor: pointer; border: 1px solid var(--lesson-lz-accent); background: var(--lesson-lz-accent); color: var(--lesson-lz-accent-ink); }
+  .lz-btn.lz-ghost { background: transparent; color: var(--lesson-lz-accent); }
+  .lz-btn:hover { filter: brightness(1.08); }
+  .lz-btn:disabled { opacity: .5; cursor: not-allowed; }
+  .lz-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .lz-rungs { border: 0; padding: 0; margin: 0 0 12px; min-width: 0; }
+  .lz-rungs legend { font-family: var(--lesson-lz-mono); font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--lesson-lz-muted); padding: 0; margin-bottom: 6px; }
+  .lz-rung-set { display: flex; flex-wrap: wrap; gap: 6px; }
+  .lz-rung { position: relative; }
+  .lz-rung input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .lz-rung span { display: inline-block; min-width: 54px; min-height: 36px; text-align: center; padding: 6px 10px; border: 1px solid var(--lesson-lz-line); border-radius: 6px; font-family: var(--lesson-lz-mono); font-size: .88rem; background: var(--lesson-lz-panel); color: var(--lesson-lz-ink); cursor: pointer; }
+  .lz-rung input:checked + span { background: var(--lesson-lz-accent); border-color: var(--lesson-lz-accent); color: var(--lesson-lz-accent-ink); font-weight: 500; box-shadow: inset 0 -3px 0 rgba(0,0,0,.25); }
+  .lz-rung input:focus-visible + span { outline: 3px solid var(--lesson-lz-accent); outline-offset: 2px; }
+  .lz-field { display: flex; flex-direction: column; gap: 4px; font-size: .88rem; color: var(--lesson-lz-muted); }
+  .lz-field input, .lz-field select { font: 500 .95rem var(--lesson-lz-body); padding: 7px 9px; border-radius: 6px; border: 1px solid var(--lesson-lz-line); background: var(--lesson-lz-panel); color: var(--lesson-lz-ink); min-height: 38px; }
+  .lz-field input[type=number] { width: 110px; font-family: var(--lesson-lz-mono); }
+
+  /* Lab */
+  .lz-lab { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 18px; }
+  .lz-controls { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr) minmax(0, 1fr); gap: 8px 24px; align-items: start; }
+  .lz-controls-main { display: flex; flex-direction: column; gap: 10px; }
+  .lz-plots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .lz-plot { margin: 0; background: var(--lesson-lz-panel); border: 1px solid var(--lesson-lz-line); border-radius: 8px; padding: 6px; color: var(--lesson-lz-ink); min-width: 0; }
+  .lz-plot figcaption { font-family: var(--lesson-lz-mono); font-size: .74rem; color: var(--lesson-lz-muted); padding: 4px 6px 0; }
+  .lz-plot svg, .lz-thesis svg { width: 100%; height: auto; display: block; }
+  .lz-readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 12px; }
+  .lz-stat { background: var(--lesson-lz-panel); border: 1px solid var(--lesson-lz-line); border-radius: 8px; padding: 10px 12px; color: var(--lesson-lz-ink); }
+  .lz-stat dt { font-family: var(--lesson-lz-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--lesson-lz-muted); }
+  #lesson-content .lz-mathlabel, #lesson-content th.lz-mathlabel { text-transform: none; letter-spacing: 0; }
+  .lz-stat dd { margin: 2px 0 0; font-family: var(--lesson-lz-mono); font-size: 1.05rem; font-variant-numeric: tabular-nums; color: var(--lesson-lz-ink); }
+  .lz-stat dd small { display: block; font-family: var(--lesson-lz-body); font-size: .82rem; color: var(--lesson-lz-muted); }
+  .lz-verdict { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 2px solid currentColor; background: var(--lesson-lz-panel); }
+  .lz-verdict.is-good { color: var(--lesson-lz-good); }
+  .lz-verdict.is-bad { color: var(--lesson-lz-bad); border-style: dashed; }
+  .lz-equation { margin-top: 10px; font-size: 1.05rem; overflow-x: auto; }
+  .lz-note { margin-top: 12px; }
+
+  /* SVG marks */
+  .lz-axis { stroke: var(--lesson-lz-muted); stroke-width: 1; }
+  .lz-gridline { stroke: var(--lesson-lz-grid); stroke-width: 1; }
+  .lz-tick { fill: var(--lesson-lz-muted); font-family: var(--lesson-lz-mono); font-size: 10px; }
+  .lz-axlabel { fill: var(--lesson-lz-ink); font-family: var(--lesson-lz-body); font-size: 11px; }
+  .lz-pt { fill: var(--lesson-lz-point); fill-opacity: .78; stroke: var(--lesson-lz-panel); stroke-width: .8; }
+  .lz-fitline { fill: none; stroke: var(--lesson-lz-fit); stroke-width: 2.4; }
+  .lz-zero { stroke: var(--lesson-lz-fit); stroke-width: 1.4; stroke-dasharray: 5 4; }
+  .lz-band { fill: var(--lesson-lz-accent); fill-opacity: .12; }
+  .lz-curve { fill: none; stroke: var(--lesson-lz-accent); stroke-width: 2.4; }
+  .lz-marker { fill: var(--lesson-lz-fit); }
+  .lz-bar { fill: var(--lesson-lz-accent); }
+  .lz-bar.is-true { fill: var(--lesson-lz-good); }
+  .lz-bar.is-naive { fill: var(--lesson-lz-bad); }
+  .lz-svg-text { fill: var(--lesson-lz-ink); font-family: var(--lesson-lz-mono); font-size: 11px; }
+
+  /* Bulge rule */
+  .lz-bulge { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 20px; align-items: start; margin-top: 16px; }
+  .lz-bulge-arc { fill: none; stroke: var(--lesson-lz-muted); stroke-width: 3; stroke-dasharray: 2 7; stroke-linecap: round; }
+  .lz-bulge-arc.is-active { stroke: var(--lesson-lz-accent); stroke-width: 6; stroke-dasharray: none; }
+  .lz-quad-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .lz-quad-btns button { font: 500 .9rem var(--lesson-lz-body); text-align: left; padding: 9px 10px; border-radius: 8px; border: 1px solid var(--lesson-lz-line); background: var(--lesson-lz-panel); color: var(--lesson-lz-ink); cursor: pointer; min-height: 44px; }
+  .lz-quad-btns button[aria-pressed="true"] { border: 2px solid var(--lesson-lz-accent); font-weight: 600; }
+  .lz-quad-btns button[aria-pressed="true"]::before { content: "▶ "; color: var(--lesson-lz-accent); }
+
+  /* Two-column tool panels (Box-Cox, Box-Tidwell, back-transform) */
+  .lz-tool { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 18px; margin-top: 16px; align-items: start; }
+  .lz-context { font-family: var(--lesson-lz-mono); font-size: .8rem; color: var(--lesson-lz-muted); margin: 0 0 8px; }
+
+  /* Failure gallery */
+  .lz-fails { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; margin-top: 14px; }
+  .lz-fails details { background: var(--lesson-lz-panel); color: var(--lesson-lz-ink); border: 1px solid var(--lesson-lz-line); border-radius: 8px; padding: 12px 14px; }
+  .lz-fails summary { cursor: pointer; font-weight: 600; }
+  .lz-fails details[open] summary { margin-bottom: 8px; }
+  .lz-fails h3 { display: inline; font-family: var(--lesson-lz-body); font-size: 1rem; font-weight: 600; margin: 0; }
+
+  /* Chooser */
+  .lz-chooser { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; margin-top: 16px; align-items: start; }
+  .lz-chooser fieldset { border: 1px solid var(--lesson-lz-line); border-radius: 8px; padding: 10px 14px; margin: 0 0 10px; background: var(--lesson-lz-panel); color: var(--lesson-lz-ink); }
+  .lz-chooser legend { font-weight: 600; padding: 0 4px; }
+  .lz-chooser label { display: flex; gap: 8px; align-items: flex-start; padding: 3px 0; cursor: pointer; }
+  .lz-chooser input { margin-top: 5px; accent-color: var(--lesson-lz-accent); }
+  .lz-rec { position: sticky; top: 96px; }
+  .lz-rec h3 { margin-top: 0; }
+  .lz-rec ul { padding-left: 1.2em; }
+  .lz-avoid { color: var(--lesson-lz-bad); font-weight: 600; margin-bottom: 0; }
+
+  pre.lz-code { background: var(--lesson-lz-code-bg); color: var(--lesson-lz-code-ink); padding: 14px 16px; border-radius: 8px; overflow-x: auto; font-family: var(--lesson-lz-mono); font-size: .85rem; line-height: 1.55; margin: 12px 0; max-width: 100%; }
+  pre.lz-code code { background: none; color: inherit; padding: 0; }
+  .lz-refs li { margin: 6px 0; }
+
+  @media (max-width: 960px) {
+    .lz-hero-grid, .lz-lab, .lz-bulge, .lz-tool, .lz-chooser, .lz-controls { grid-template-columns: minmax(0, 1fr); }
+    .lz-rec { position: static; }
+  }
+  @media (max-width: 640px) {
+    .lz-plots { grid-template-columns: minmax(0, 1fr); }
+    #lesson-content { font-size: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #lesson-content * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  }
+  </style>
+</head>
+<body data-lesson-page="true" data-category="statistics" data-level="intermediate" data-interactive="true" data-lesson-type="general" data-require-auth>
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img class="logo-wordmark" src="/assets/logo-wordmark.png" data-logo-light="/assets/logo-wordmark.png" data-logo-dark="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></a>
+  <nav data-nav-root="desktop" class="desktop-nav" aria-label="Main"><div class="nav-item" data-nav-item="start"><a class="nav-tab-link" data-nav-tab="start" href="/start-here">Start Here</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-start" aria-label="Show Start Here menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-start" hidden><div class="nav-panel-head"><span>Learning paths</span></div><div class="nav-rows"><a class="nav-row" href="/start-here#quality-improvement-basics"><span class="nav-name">Quality Improvement Basics</span></a><a class="nav-row" href="/start-here#data-analysis-basics"><span class="nav-name">Data Analysis Basics</span></a><a class="nav-row" href="/start-here#lean-six-sigma-tools"><span class="nav-name">Lean Six Sigma Tools</span></a><a class="nav-row" href="/start-here#excel-and-power-bi-skills"><span class="nav-name">Excel and Power BI Skills</span></a><a class="nav-row" href="/start-here#statistics-for-decision-making"><span class="nav-name">Statistics for Decision-Making</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/start-here">See all learning paths →</a></div></div></div><div class="nav-item" data-nav-item="lessons"><a class="nav-tab-link" data-nav-tab="lessons" href="/lessons" aria-current="page">Lessons</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-lessons" aria-label="Show Lessons menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-lessons" hidden><div class="nav-panel-head"><span>Lesson library</span><span data-nav-total hidden></span></div><div class="nav-rows"><a class="nav-row" href="/lessons#data-analytics"><span class="nav-name">Data Analytics</span><span class="nav-count" data-nav-count="data-analytics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#quality-engineering"><span class="nav-name">Quality Engineering</span><span class="nav-count" data-nav-count="quality-engineering" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#lean-six-sigma"><span class="nav-name">Lean Six Sigma</span><span class="nav-count" data-nav-count="lean-six-sigma" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#statistics"><span class="nav-name">Statistics</span><span class="nav-count" data-nav-count="statistics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#power-bi-excel-sql"><span class="nav-name">Power BI, Excel &amp; SQL</span><span class="nav-count" data-nav-count="power-bi-excel-sql" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#project-management"><span class="nav-name">Project Management</span><span class="nav-count" data-nav-count="project-management" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#business-decision-making"><span class="nav-name">Business Decision-Making</span><span class="nav-count" data-nav-count="business-decision-making" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#ai-for-work"><span class="nav-name">AI for Work</span><span class="nav-count" data-nav-count="ai-for-work" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/lessons" data-nav-total-link>View all lessons →</a><a class="nav-foot-secondary" href="/request-topic">Request a topic</a></div></div></div><div class="nav-item nav-item-wide" data-nav-item="exam"><a class="nav-tab-link" data-nav-tab="exam" href="/exam-practice">Exam Practice</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-exam" aria-label="Show Exam Practice menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-exam" hidden><div class="nav-panel-head"><span>Certifications</span></div><div class="nav-rows"><a class="nav-row nav-exam" href="/exam-practice#exam-cssbb"><span class="nav-acronym">CSSBB</span><span class="nav-name">Six Sigma Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqe"><span class="nav-acronym">CQE</span><span class="nav-name">Quality Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-mbb"><span class="nav-acronym">CMBB</span><span class="nav-name">Six Sigma Master Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cssgb"><span class="nav-acronym">CSSGB</span><span class="nav-name">Six Sigma Green Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cmq"><span class="nav-acronym">CMQ/OE</span><span class="nav-name">Manager of Quality / Org. Excellence</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cre"><span class="nav-acronym">CRE</span><span class="nav-name">Reliability Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-pmp"><span class="nav-acronym">PMP</span><span class="nav-name">Project Management Professional</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-nppe"><span class="nav-acronym">NPPE</span><span class="nav-name">National Professional Practice Exam</span></a><span class="nav-row nav-exam is-soon" aria-disabled="true"><span class="nav-acronym">CQA</span><span class="nav-name">Quality Auditor</span><span class="nav-soon">Coming soon</span></span></div><div class="nav-foot"><a class="nav-foot-primary" href="/exam-practice">All exams →</a><a class="nav-foot-secondary" href="/exam-practice#my-exams">My exams</a></div></div></div><div class="nav-item" data-nav-item="tools"><a class="nav-tab-link" data-nav-tab="tools" href="/engineering-tools">Engineering Tools</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-tools" aria-label="Show Engineering Tools menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-tools" hidden><div class="nav-panel-head"><span>Tools</span></div><div class="nav-rows"><a class="nav-row" href="/tools/engineering-statistics-calculator"><span class="nav-name">Engineering &amp; Statistics Calculator</span></a><a class="nav-row" href="/tools/unit-converter"><span class="nav-name">Unit Converter</span></a><a class="nav-row" href="/engineering-tools/grade-specification-lookup/"><span class="nav-name">Material Specification Lookup</span></a><a class="nav-row" href="/tools/material-specification-compliance-checker"><span class="nav-name">Material Specification Compliance Checker</span></a><a class="nav-row" href="/tools/steel-phase-explorer"><span class="nav-name">Steel Phase &amp; Transformation Explorer</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/engineering-tools">All tools →</a><a class="nav-foot-secondary" href="/engineering-tools#suggest-a-tool">Suggest a tool</a></div></div></div><div class="nav-item nav-item-wide" data-nav-item="services"><a class="nav-tab-link" data-nav-tab="services" href="/services">Services</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-services" aria-label="Show Services menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-services" hidden><div class="nav-panel-head"><span>Services</span></div><div class="nav-rows"><a class="nav-row nav-rich" href="/services#corporate-training"><span class="nav-name">Corporate Training</span><span class="nav-desc">Team workshops on Lean Six Sigma and quality tools</span></a><a class="nav-row nav-rich" href="/services#one-on-one-coaching"><span class="nav-name">One-on-One Coaching</span><span class="nav-desc">Excel, Power BI, Minitab, statistics</span></a><a class="nav-row nav-rich" href="/services#consulting-support"><span class="nav-name">Consulting Support</span><span class="nav-desc">Root cause analysis, KPIs, quality investigations</span></a><a class="nav-row nav-rich" href="/services#custom-lessons"><span class="nav-name">Custom Lessons</span><span class="nav-desc">Training built around your team's needs</span></a><a class="nav-row nav-rich" href="/services#data-dashboard-support"><span class="nav-name">Data &amp; Dashboard Support</span><span class="nav-desc">Excel, Power BI and SQL help</span></a></div><div class="nav-foot nav-foot-solo"><a class="nav-book" href="/contact">Book a consultation</a></div></div></div><div class="nav-item" data-nav-item="about"><a class="nav-tab-link" data-nav-tab="about" href="/about">About</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-about" aria-label="Show About menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-about" hidden><div class="nav-panel-head"><span>About</span></div><div class="nav-rows"><a class="nav-row nav-rich" href="/about"><span class="nav-name">About UpSkill Sprint</span><span class="nav-desc">Who builds the lessons and why</span></a><a class="nav-row nav-rich" href="/faq"><span class="nav-name">FAQ</span><span class="nav-desc">Free lessons, accounts, exams</span></a><a class="nav-row nav-rich" href="/request-topic"><span class="nav-name">Request a Topic</span><span class="nav-desc">Tell us the lesson you need</span></a><a class="nav-row nav-rich" href="/contact"><span class="nav-name">Contact</span><span class="nav-desc">Questions and partnerships</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a></div></div></div></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<main id="lesson-content">
+
+<header class="lz-hero">
+  <div class="lz-wrap lz-hero-grid">
+    <div>
+      <p class="lz-eyebrow">Statistics · Regression · Diagnostics</p>
+      <h1>Choosing a Transformation to Linearize Data</h1>
+      <p class="lz-lead">Your scatter plot curves, and a straight-line regression will not fit it honestly. This lesson shows you how to pick the transformation that makes the relationship linear: which variable to change, which power to use, how to let the data choose, how to prove it worked, and when no transformation will help.</p>
+      <ul class="lz-chips" aria-label="Lesson details">
+        <li>Intermediate</li><li>75 min</li><li>6 interactive tools</li><li>Excel · Minitab · Python</li>
+      </ul>
+      <h2 class="lz-objhead" id="objectives-heading">By the end you can</h2>
+      <ul class="lz-objectives" aria-labelledby="objectives-heading">
+        <li>Read the shape of a curve and pick a move on the ladder of powers.</li>
+        <li>Decide whether to transform x, y, or both, from the residual spread.</li>
+        <li>Estimate the power with Box–Cox for y and Box–Tidwell for x.</li>
+        <li>Prove the fix with residual checks and compare models fairly.</li>
+        <li>Back-transform predictions without bias and recognise when to stop transforming.</li>
+      </ul>
+    </div>
+    <div class="lz-thesis" role="group" aria-label="The same crack-growth data before and after a log-log transformation">
+      <figure><svg id="lz-thesis-raw" viewBox="0 0 220 180" role="img" aria-label="Raw crack growth rate against stress-intensity range: points curve sharply upward."></svg><figcaption>Raw axes: curved, fanning out</figcaption></figure>
+      <figure><svg id="lz-thesis-log" viewBox="0 0 220 180" role="img" aria-label="The same data on log-log axes: points fall on a straight line with even scatter."></svg><figcaption>Log–log axes: straight, even</figcaption></figure>
+    </div>
+  </div>
+</header>
+
+<section class="lz-section" id="why-linearize" aria-labelledby="why-linearize-h">
+  <div class="lz-wrap lz-prose">
+    <p class="lz-step">Part 1</p>
+    <h2 id="why-linearize-h">Why straighten a curved scatter plot?</h2>
+    <p>Ordinary least-squares regression assumes four things about the model \( y = \beta_0 + \beta_1 x + \varepsilon \): the mean of \(y\) is a straight-line function of \(x\), the errors \(\varepsilon\) have constant variance, they are independent, and for intervals and tests they are roughly normal. A curved scatter plot breaks the first assumption. A plot that fans out breaks the second. A transformation re-expresses one or both variables so that both assumptions hold on the new scale.</p>
+    <p>Straightening pays off in three ways. The model fits the data, so residuals carry no leftover pattern. The slope becomes a single, interpretable number such as a growth rate or an exponent. And confidence and prediction intervals have the right width everywhere, not too narrow at one end and too wide at the other.</p>
+    <div class="lz-callout"><strong>Two different problems, one family of fixes.</strong> Curvature is a problem with the <em>mean</em>. Uneven spread is a problem with the <em>variance</em>. Transforming y changes both. Transforming x changes only the mean. Keeping that distinction in mind is most of the skill.</div>
+    <p>You do not always need to linearize. If you only need predictions and have plenty of data, a nonlinear model or a flexible method may serve you better. If physics hands you a nonlinear law with parameters you care about, fit that law directly with nonlinear regression. Part 13 covers these exits.</p>
+  </div>
+</section>
+
+<section class="lz-section" id="ladder" aria-labelledby="ladder-h">
+  <div class="lz-wrap">
+    <div class="lz-prose">
+      <p class="lz-step">Part 2</p>
+      <h2 id="ladder-h">The ladder of powers</h2>
+      <p>John Tukey arranged the useful re-expressions in order of strength, as powers \(x^{p}\). Moving <strong>down</strong> the ladder (smaller \(p\)) pulls in large values and spreads out small ones. Moving <strong>up</strong> (larger \(p\)) does the opposite. The further you move from \(p = 1\), the stronger the bend you remove.</p>
+    </div>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Ladder of powers with each rung's effect and typical use">
+      <table class="lz-table">
+        <caption>Tukey's ladder of powers (applies to x or y)</caption>
+        <thead><tr><th scope="col" class="lz-mathlabel">Power \(p\)</th><th scope="col">Re-expression</th><th scope="col">Effect on large values</th><th scope="col">Typical use</th></tr></thead>
+        <tbody>
+          <tr><td class="lz-num">3</td><td>\(x^{3}\)</td><td>Stretches strongly</td><td>Rare; strong left-bulging curves</td></tr>
+          <tr><td class="lz-num">2</td><td>\(x^{2}\)</td><td>Stretches</td><td>Curves that steepen at the high end of x</td></tr>
+          <tr><td class="lz-num">1</td><td>\(x\)</td><td>No change</td><td>The starting point</td></tr>
+          <tr><td class="lz-num">0.5</td><td>\(\sqrt{x}\)</td><td>Compresses mildly</td><td>Counts; variance proportional to the mean</td></tr>
+          <tr><td class="lz-num">0</td><td>\(\ln x\)</td><td>Compresses</td><td>Multiplicative effects; growth; spread proportional to the mean</td></tr>
+          <tr><td class="lz-num">−0.5</td><td>\(-1/\sqrt{x}\)</td><td>Compresses strongly</td><td>Hall–Petch grain-size effect</td></tr>
+          <tr><td class="lz-num">−1</td><td>\(-1/x\)</td><td>Compresses very strongly</td><td>Rates and times; Arrhenius temperature terms</td></tr>
+          <tr><td class="lz-num">−2</td><td>\(-1/x^{2}\)</td><td>Most compression</td><td>Rare; extreme right skew</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="lz-prose">
+      <h3 id="why-log-is-zero">Why the log sits at power 0</h3>
+      <p>The raw power \(x^{0}\) is just 1, which is useless. The Box–Cox form fixes this by scaling each power so the ladder is continuous:</p>
+      <div class="lz-formula">\[ x^{(\lambda)} = \begin{cases} \dfrac{x^{\lambda} - 1}{\lambda}, & \lambda \ne 0 \\[6pt] \ln x, & \lambda = 0 \end{cases} \qquad\text{because}\qquad \lim_{\lambda \to 0} \frac{x^{\lambda} - 1}{\lambda} = \ln x . \]</div>
+      <p>where \(x > 0\) and \(\lambda\) is the power. The limit follows from \(x^{\lambda} = e^{\lambda \ln x} \approx 1 + \lambda \ln x\) for small \(\lambda\). Dividing by \(\lambda\) also keeps the order of the points for negative powers. That is why the lab and the table write \(-1/x\) rather than \(1/x\): the minus sign stops the plot from flipping left to right, so the direction of the trend stays easy to read.</p>
+      <div class="lz-callout"><strong>Range matters.</strong> Power transformations only bend data that span a wide ratio. If the largest value is less than about twice the smallest, every rung looks almost the same. Look for an offset to subtract first, or use a polynomial term. The <em>Recovery time</em> dataset in the lab shows this.</div>
+    </div>
+  </div>
+</section>
+
+<section class="lz-section" id="bulge-rule" aria-labelledby="bulge-rule-h">
+  <div class="lz-wrap">
+    <div class="lz-prose">
+      <p class="lz-step">Part 3</p>
+      <h2 id="bulge-rule-h">Read the bend with Tukey's bulge rule</h2>
+      <p>Look at which corner of the plot the curve bulges toward. Then move each variable in the direction of the bulge: if it bulges <strong>up</strong>, move y up the ladder; <strong>down</strong>, move y down. If it bulges <strong>right</strong>, move x up; <strong>left</strong>, move x down. You can move either variable, or both a little. Pick a quadrant to see what it means.</p>
+    </div>
+    <div class="lz-bulge">
+      <div class="lz-panel">
+        <svg id="lz-bulge-svg" viewBox="0 0 300 300" role="img" aria-label="Bulge rule diagram: four curves, one in each quadrant, each bulging toward its corner. The selected quadrant is highlighted.">
+          <line class="lz-axis" x1="150" y1="14" x2="150" y2="286"></line>
+          <line class="lz-axis" x1="14" y1="150" x2="286" y2="150"></line>
+          <path class="lz-bulge-arc" data-quad="up-left" d="M 40 136 Q 40 40 136 40"></path>
+          <path class="lz-bulge-arc" data-quad="up-right" d="M 164 40 Q 260 40 260 136"></path>
+          <path class="lz-bulge-arc" data-quad="down-left" d="M 40 164 Q 40 260 136 260"></path>
+          <path class="lz-bulge-arc" data-quad="down-right" d="M 164 260 Q 260 260 260 164"></path>
+          <text class="lz-svg-text" x="20" y="26">x↓ or y↑</text>
+          <text class="lz-svg-text" x="214" y="26">x↑ or y↑</text>
+          <text class="lz-svg-text" x="20" y="292">x↓ or y↓</text>
+          <text class="lz-svg-text" x="214" y="292">x↑ or y↓</text>
+        </svg>
+        <div class="lz-quad-btns" role="group" aria-label="Choose a bulge direction">
+          <button type="button" id="lz-quad-up-left" data-quad="up-left" aria-pressed="true">Up and left</button>
+          <button type="button" id="lz-quad-up-right" data-quad="up-right" aria-pressed="false">Up and right</button>
+          <button type="button" id="lz-quad-down-left" data-quad="down-left" aria-pressed="false">Down and left</button>
+          <button type="button" id="lz-quad-down-right" data-quad="down-right" aria-pressed="false">Down and right</button>
+        </div>
+      </div>
+      <div class="lz-panel" id="lz-bulge-out" aria-live="polite">
+        <h3 id="lz-bulge-title">Rises fast, then flattens</h3>
+        <p id="lz-bulge-text"></p>
+        <p id="lz-bulge-moves"></p>
+        <p id="lz-bulge-example"></p>
+        <button type="button" class="lz-btn" id="lz-bulge-load">Load this example in the lab</button>
+      </div>
+    </div>
+    <div class="lz-prose">
+      <p>The rule tells you the <em>direction</em>, not the distance. Start one rung away, check the plot, and keep going until the bend disappears or reverses. If it reverses, you went too far; step back half a rung. The lab below lets you do exactly that, and Parts 7 and 8 replace trial and error with estimates.</p>
+    </div>
+  </div>
+</section>
+
+<section class="lz-section" id="lab" aria-labelledby="lab-h">
+  <div class="lz-wrap">
+    <div class="lz-prose">
+      <p class="lz-step">Part 4</p>
+      <h2 id="lab-h">Transformation lab</h2>
+      <p>Pick a dataset, then climb the ladder for x and y. The left plot shows the original data with the fitted model drawn back on the original scale. The middle plot shows the transformed data with its straight line. The right plot shows residuals against fitted values, which is where the truth lives. All ten datasets are fictitious, generated for practice, and modelled on behaviour you see in steel and pipe plants.</p>
+    </div>
+    <div class="lz-lab">
+      <div class="lz-panel lz-controls">
+        <div class="lz-controls-main">
+        <label class="lz-field" for="lz-preset">Dataset
+          <select id="lz-preset"></select>
+        </label>
+        <div class="lz-row">
+          <label class="lz-field" for="lz-xc">Subtract from x (offset)
+            <input type="number" id="lz-xc" value="0" step="any">
+          </label>
+          <label class="lz-field" for="lz-yc">Add to y (start value)
+            <input type="number" id="lz-yc" value="0" step="any">
+          </label>
+        </div>
+        <div class="lz-row">
+          <button type="button" class="lz-btn" id="lz-expert">Show expert pick</button>
+          <button type="button" class="lz-btn lz-ghost" id="lz-reset">Back to raw data</button>
+        </div>
+        </div>
+        <fieldset class="lz-rungs" id="lz-x-rungs"><legend>Transform x</legend><div class="lz-rung-set"></div></fieldset>
+        <fieldset class="lz-rungs" id="lz-y-rungs"><legend>Transform y</legend><div class="lz-rung-set"></div></fieldset>
+      </div>
+      <div style="min-width:0">
+        <div class="lz-plots">
+          <figure class="lz-plot"><svg id="lz-plot-orig" viewBox="0 0 360 270" role="img" aria-label="Original data with fitted curve"></svg><figcaption>Original scale, fitted model</figcaption></figure>
+          <figure class="lz-plot"><svg id="lz-plot-trans" viewBox="0 0 360 270" role="img" aria-label="Transformed data with straight-line fit"></svg><figcaption>Transformed scale, straight line</figcaption></figure>
+          <figure class="lz-plot"><svg id="lz-plot-resid" viewBox="0 0 360 270" role="img" aria-label="Residuals against fitted values"></svg><figcaption>Residuals vs fitted</figcaption></figure>
+        </div>
+        <div id="lz-lab-status" role="status" aria-live="polite">
+          <p class="lz-row" style="margin:12px 0 0"><span id="lz-verdict" class="lz-verdict is-bad">Checking…</span> <span class="lz-mono" id="lz-r-n" style="color:var(--lesson-lz-muted)"></span></p>
+          <dl class="lz-readout">
+            <div class="lz-stat"><dt>Curvature check</dt><dd id="lz-r-curv">–</dd></div>
+            <div class="lz-stat"><dt>Spread check</dt><dd id="lz-r-spread">–</dd></div>
+            <div class="lz-stat"><dt>R² transformed scale</dt><dd id="lz-r-r2">–</dd></div>
+            <div class="lz-stat"><dt>R² original y scale</dt><dd id="lz-r-r2o">–</dd></div>
+          </dl>
+          <div class="lz-equation" id="lz-equation" tabindex="0" role="region" aria-label="Fitted equation"></div>
+          <div class="lz-callout lz-note" id="lz-expert-note" hidden></div>
+        </div>
+      </div>
+    </div>
+    <div class="lz-prose">
+      <h3 id="how-the-checks-work">How the two checks work</h3>
+      <p>The <strong>curvature check</strong> is a partial F-test. It refits the transformed data with squared and cubed terms added and asks whether they explain significantly more than the straight line:</p>
+      <div class="lz-formula">\[ F = \frac{(\text{SSE}_{1} - \text{SSE}_{3})/2}{\text{SSE}_{3}/(n-4)} \]</div>
+      <p>where \(\text{SSE}_{1}\) is the error sum of squares of the straight line, \(\text{SSE}_{3}\) that of the cubic, and \(n\) the number of points. A p-value below 0.05 means a curve remains. The cubic term matters: a symmetric S-curve has no quadratic signal, so a quadratic-only test would miss it.</p>
+      <p>The <strong>spread check</strong> correlates the absolute residuals \(|e_i|\) with the fitted values \(\hat{y}_i\) and tests that correlation with \(t = r\sqrt{n-2}/\sqrt{1-r^{2}}\). A p-value below 0.05 means the spread trends with the level: a funnel. Both checks are screening tools. With large samples they flag tiny departures, and with small ones they miss real ones, so always look at the residual plot too.</p>
+      <p>Watch the two R² values. The transformed-scale R² describes the line you fitted, but it is measured in different units for every choice of y. The original-scale R² back-transforms the predictions and scores them against the raw y, so it is comparable across choices.</p>
+    </div>
+  </div>
+</section>
+
+<section class="lz-section" id="known-forms" aria-labelledby="known-forms-h">
+  <div class="lz-wrap">
+    <div class="lz-prose">
+      <p class="lz-step">Part 5</p>
+      <h2 id="known-forms-h">Match the curve to a known model</h2>
+      <p>Before you reach for the ladder, ask whether the process already has a law. If it does, the law tells you the exact transformation and gives the slope a physical meaning. Many engineering relationships are one of a handful of forms.</p>
+    </div>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Common nonlinear models and the transformation that makes each linear">
+      <table class="lz-table">
+        <caption>Linearizable models</caption>
+        <thead><tr><th scope="col">Model</th><th scope="col">Equation</th><th scope="col">Plot this</th><th scope="col">Slope means</th><th scope="col">Engineering example</th></tr></thead>
+        <tbody>
+          <tr><td>Exponential</td><td>\(y = a\,e^{bx}\)</td><td>\(\ln y\) vs \(x\)</td><td>\(b\); each unit of x multiplies y by \(e^{b}\)</td><td>Defect growth with roll wear; bacterial growth</td></tr>
+          <tr><td>Power law</td><td>\(y = a\,x^{b}\)</td><td>\(\ln y\) vs \(\ln x\)</td><td>Exponent \(b\); elasticity</td><td>Paris crack growth \(da/dN = C\,\Delta K^{m}\); Hollomon \(\sigma = K\varepsilon^{n}\); Basquin S–N curve</td></tr>
+          <tr><td>Logarithmic</td><td>\(y = a + b\ln x\)</td><td>\(y\) vs \(\ln x\)</td><td>Change in y per doubling is \(b\ln 2\)</td><td>Learning curves; diminishing returns</td></tr>
+          <tr><td>Reciprocal</td><td>\(y = a + b/x\)</td><td>\(y\) vs \(1/x\)</td><td>\(b\) is the inverse-proportional part</td><td>Cycle time vs speed; time = distance / rate</td></tr>
+          <tr><td>Inverse-square-root</td><td>\(y = a + b\,x^{-1/2}\)</td><td>\(y\) vs \(x^{-1/2}\)</td><td>Strengthening coefficient</td><td>Hall–Petch: \(\sigma_y = \sigma_0 + k_y d^{-1/2}\)</td></tr>
+          <tr><td>Arrhenius</td><td>\(k = A\,e^{-E_a/(RT)}\)</td><td>\(\ln k\) vs \(1/T\) (kelvin)</td><td>\(-E_a/R\)</td><td>Diffusion, scale growth, reaction rates</td></tr>
+          <tr><td>Logistic</td><td>\(p = \dfrac{1}{1 + e^{-(a + bx)}}\)</td><td>\(\ln\!\left(\tfrac{p}{1-p}\right)\) vs \(x\)</td><td>Change in log-odds per unit x</td><td>Charpy percent shear area vs temperature; pass rate vs dose</td></tr>
+          <tr><td>Weibull CDF</td><td>\(F = 1 - e^{-(t/\eta)^{\beta}}\)</td><td>\(\ln[-\ln(1-F)]\) vs \(\ln t\)</td><td>Shape \(\beta\)</td><td>Weibull probability plot in reliability</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="lz-prose">
+      <p>where \(a\), \(b\), \(A\), \(C\), \(K\) and \(k_y\) are constants, \(E_a\) is an activation energy, \(R\) is the gas constant, \(T\) is absolute temperature, \(p\) and \(F\) are proportions between 0 and 1, \(\eta\) is the Weibull scale and \(\beta\) its shape.</p>
+      <div class="lz-callout"><strong>Exponential or power?</strong> They look alike on raw axes. Plot both: if \(\ln y\) vs \(x\) is straight, it is exponential; if \(\ln y\) vs \(\ln x\) is straight, it is a power law. An exponential curves upward on log–log paper, and a power law curves downward on semi-log paper.</div>
+    </div>
+  </div>
+</section>
+
+<section class="lz-section" id="curvature-vs-spread" aria-labelledby="curvature-vs-spread-h">
+  <div class="lz-wrap">
+    <div class="lz-prose">
+      <p class="lz-step">Part 6</p>
+      <h2 id="curvature-vs-spread-h">Which axis to transform: curvature or spread?</h2>
+      <p>The bulge rule says you may move x or y. The residual spread decides which. Look at the residuals from a straight-line fit on raw data:</p>
+      <ul>
+        <li><strong>Spread is even, only the trend curves.</strong> Transform <strong>x</strong>. It straightens the mean and leaves the well-behaved errors alone.</li>
+        <li><strong>Spread grows with the level (a funnel).</strong> Transform <strong>y</strong>. The error is multiplicative, and the right y transform usually removes the curve as well.</li>
+        <li><strong>Both problems, and fixing y over-corrects the curve.</strong> Fix the spread with y first, then straighten what is left with x.</li>
+      </ul>
+      <h3 id="variance-stabilizing">Choosing the y transform from the mean–variance relationship</h3>
+      <p>The delta method gives the variance of a transformed variable \(g(Y)\) with mean \(\mu\):</p>
+      <div class="lz-formula">\[ \operatorname{Var}\!\left[g(Y)\right] \approx \left[g'(\mu)\right]^{2} \operatorname{Var}(Y). \]</div>
+      <p>If the standard deviation grows as a power of the mean, \(\sigma_Y \propto \mu^{k}\), then choosing \(g(y) = y^{1-k}\) gives \(g'(\mu) \propto \mu^{-k}\), and the variance of \(g(Y)\) becomes constant. So the variance-stabilizing power is \(\lambda = 1 - k\).</p>
+      <div class="lz-formula">\[ \begin{aligned} \sigma_Y \propto \mu^{k} \quad&\Longrightarrow\quad \lambda = 1 - k \\ k = 0.5\ \text{(counts)} \quad&\Longrightarrow\quad \lambda = 0.5,\ \sqrt{y} \\ k = 1\ \text{(constant CV)} \quad&\Longrightarrow\quad \lambda = 0,\ \ln y \\ k = 2 \quad&\Longrightarrow\quad \lambda = -1,\ 1/y \end{aligned} \]</div>
+      <p>where \(k\) is estimated as the slope of \(\ln(\text{SD})\) against \(\ln(\text{mean})\) across groups or bins of x.</p>
+    </div>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Variance-stabilizing transformations by type of data">
+      <table class="lz-table">
+        <caption>Variance-stabilizing transformations</caption>
+        <thead><tr><th scope="col">Data behaviour</th><th scope="col">Variance pattern</th><th scope="col">Transform y</th><th scope="col">Better model, if available</th></tr></thead>
+        <tbody>
+          <tr><td>Counts (defects, inclusions)</td><td>\(\sigma^{2} \propto \mu\)</td><td>\(\sqrt{y}\) or \(\sqrt{y + 3/8}\) with small counts</td><td>Poisson regression</td></tr>
+          <tr><td>Percentage errors, growth, concentrations</td><td>\(\sigma \propto \mu\)</td><td>\(\ln y\)</td><td>Gamma or lognormal model with a log link</td></tr>
+          <tr><td>Times to complete, rates of very skewed processes</td><td>\(\sigma \propto \mu^{2}\)</td><td>\(1/y\)</td><td>Gamma model with an inverse link</td></tr>
+          <tr><td>Proportions from n trials</td><td>\(\sigma^{2} = p(1-p)/n\)</td><td>\(\arcsin\sqrt{p}\) or \(\operatorname{logit}(p)\)</td><td>Binary or binomial logistic regression</td></tr>
+          <tr><td>Correlation coefficients</td><td>depends on \(\rho\)</td><td>Fisher's \(z = \operatorname{artanh}(r)\)</td><td>–</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="lz-prose">
+      <div class="lz-callout"><strong>Transforming y moves the errors with it.</strong> If y has constant spread and you take its log, you create a reverse funnel: small y values spread out and large ones get squeezed. Load <em>Yield strength vs grain size</em> in the lab and set y to \(\ln y\) to see that the spread check gets worse, not better.</div>
+    </div>
+  </div>
+</section>
+
+<section class="lz-section" id="box-cox" aria-labelledby="box-cox-h">
+  <div class="lz-wrap">
+    <div class="lz-prose">
+      <p class="lz-step">Part 7</p>
+      <h2 id="box-cox-h">Let the data choose y: the Box–Cox method</h2>
+      <p>Box and Cox (1964) proposed estimating the power for y by maximum likelihood. To compare SSE across powers, the transformed response must be on a common scale, so it is divided by a power of the geometric mean \(\dot{y}\):</p>
+      <div class="lz-formula">\[ z^{(\lambda)} = \begin{cases} \dfrac{y^{\lambda} - 1}{\lambda\,\dot{y}^{\,\lambda - 1}}, & \lambda \ne 0 \\[6pt] \dot{y}\,\ln y, & \lambda = 0 \end{cases} \qquad \dot{y} = \exp\!\left(\frac{1}{n}\sum_{i=1}^{n} \ln y_i\right) \]</div>
+      <p>where \(y_i > 0\). For each \(\lambda\), regress \(z^{(\lambda)}\) on the predictors and record the error sum of squares \(\text{SSE}(\lambda)\). The profile log-likelihood is</p>
+      <div class="lz-formula">\[ \ell(\lambda) = -\frac{n}{2}\ln\!\left(\frac{\text{SSE}(\lambda)}{n}\right), \qquad \text{95\% CI: } \left\{\lambda : \ell(\lambda) \ge \ell(\hat{\lambda}) - \tfrac{1}{2}\chi^{2}_{1,\,0.95}\right\} \]</div>
+      <p>where \(\hat{\lambda}\) maximises \(\ell\) and \(\tfrac{1}{2}\chi^{2}_{1,\,0.95} = 1.92\). In practice you then <strong>round</strong> to the simplest rung inside the interval (1, 0.5, 0, −0.5, −1). A rounded power is easier to explain, and the fit is almost as good.</p>
+    </div>
+    <div class="lz-tool">
+      <div class="lz-panel">
+        <p class="lz-context" id="lz-bc-context">Uses the dataset and x transform currently set in the lab.</p>
+        <svg id="lz-bc-plot" viewBox="0 0 420 260" role="img" aria-label="Box-Cox profile log-likelihood against lambda"></svg>
+      </div>
+      <div class="lz-panel" role="status" aria-live="polite">
+        <dl class="lz-readout" style="margin-top:0">
+          <div class="lz-stat"><dt class="lz-mathlabel">Best \(\lambda\), \(\hat{\lambda}\)</dt><dd id="lz-bc-lambda">–</dd></div>
+          <div class="lz-stat"><dt>95% interval</dt><dd id="lz-bc-ci">–</dd></div>
+          <div class="lz-stat"><dt>Simplest rung in interval</dt><dd id="lz-bc-round">–</dd></div>
+        </dl>
+        <p id="lz-bc-text"></p>
+        <button type="button" class="lz-btn" id="lz-bc-apply">Apply this power to y in the lab</button>
+      </div>
+    </div>
+    <div class="lz-prose">
+      <div class="lz-callout"><strong>The Box–Cox menu trap.</strong> Minitab's <code>Stat &gt; Control Charts &gt; Box-Cox Transformation</code>, Python's <code>scipy.stats.boxcox</code> and most "normalize this column" tools look at y <em>alone</em>. They choose \(\lambda\) to make the distribution of y look normal. That is the right question for a capability study, but the wrong one for regression. In regression the residuals must be normal and even, and y itself can have any shape because x moves it around. Use the Box–Cox option inside the regression dialog, which profiles the SSE of the model as above.</div>
+      <p>Box–Cox has limits. It needs every y to be positive. It optimises normality and constant variance together with linearity, so when those goals conflict the estimate is a compromise. A single outlier can drag \(\hat{\lambda}\) a long way, so check the profile after removing any point with a large residual.</p>
+    </div>
+  </div>
+</section>
+
+<section class="lz-section" id="box-tidwell" aria-labelledby="box-tidwell-h">
+  <div class="lz-wrap">
+    <div class="lz-prose">
+      <p class="lz-step">Part 8</p>
+      <h2 id="box-tidwell-h">Let the data choose x: the Box–Tidwell method</h2>
+      <p>When the spread is already even, you want to transform x, not y. Box and Tidwell (1962) estimate the power \(\alpha\) in \(E(y) = \beta_0 + \beta_1 x^{\alpha}\) with a short iteration based on a Taylor expansion around the current guess \(\alpha_0\):</p>
+      <div class="lz-formula">\[ \begin{aligned} x^{\alpha} &\approx x^{\alpha_0} + (\alpha - \alpha_0)\,x^{\alpha_0}\ln x \\ &= z + \frac{\alpha - \alpha_0}{\alpha_0}\, z \ln z, \qquad z = x^{\alpha_0} \end{aligned} \]</div>
+      <p>So the iteration is:</p>
+      <ol>
+        <li>Fit \(y = \beta_0 + \beta_1 z\) and keep \(\hat{\beta}_1\).</li>
+        <li>Fit \(y = \beta_0 + \beta_1 z + \gamma\, z \ln z\) and keep \(\hat{\gamma}\).</li>
+        <li>Update \(\alpha_1 = \alpha_0\left(1 + \hat{\gamma}/\hat{\beta}_1\right)\) and repeat until it settles.</li>
+      </ol>
+      <p>where \(z\) is x raised to the current power and \(\gamma\) is the coefficient on the correction term. Starting at \(\alpha_0 = 1\), one step is often close enough. A t-test on \(\hat{\gamma}\) in the first step is also a test of whether any power transformation of x is needed.</p>
+    </div>
+    <div class="lz-tool">
+      <div class="lz-panel">
+        <p class="lz-context" id="lz-bt-context">Uses the dataset, offset and y transform currently set in the lab.</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Box-Tidwell iteration history">
+          <table class="lz-table">
+            <caption>Iteration history</caption>
+            <thead><tr><th scope="col">Step</th><th scope="col" class="lz-mathlabel">\(\alpha\) in</th><th scope="col" class="lz-mathlabel">\(\hat{\beta}_1\)</th><th scope="col" class="lz-mathlabel">\(\hat{\gamma}\)</th><th scope="col" class="lz-mathlabel">\(\alpha\) out</th></tr></thead>
+            <tbody id="lz-bt-rows"><tr><td colspan="5">Load the lab to run the iteration.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="lz-panel" role="status" aria-live="polite">
+        <dl class="lz-readout" style="margin-top:0">
+          <div class="lz-stat"><dt class="lz-mathlabel">Estimated \(\alpha\)</dt><dd id="lz-bt-alpha">–</dd></div>
+          <div class="lz-stat"><dt>Nearest rung</dt><dd id="lz-bt-round">–</dd></div>
+        </dl>
+        <p id="lz-bt-text"></p>
+        <button type="button" class="lz-btn" id="lz-bt-apply">Apply this power to x in the lab</button>
+      </div>
+    </div>
+    <div class="lz-prose">
+      <p>Minitab has no Box–Tidwell command, but you can run the one-step version by hand: create \(x\ln x\) with <code>Calc &gt; Calculator</code>, add it to the regression, and compute \(1 + \hat{\gamma}/\hat{\beta}_1\). R users have <code>car::boxTidwell()</code>. Like Box–Cox, it needs positive x, and it can diverge when the curve is not a power of x at all. Divergence is information: it tells you to look for a different model, an offset, or a curve that changes direction.</p>
+    </div>
+  </div>
+</section>
+
+<section class="lz-section" id="special-cases" aria-labelledby="special-cases-h">
+  <div class="lz-wrap lz-prose">
+    <p class="lz-step">Part 9</p>
+    <h2 id="special-cases-h">Zeros, negatives, proportions and offsets</h2>
+    <h3 id="zeros">Zeros</h3>
+    <p>\(\ln 0\) and \(1/0\) do not exist. The usual patch is \(\ln(y + c)\), but the answer depends on \(c\). Adding 1 to counts in the hundreds changes almost nothing; adding 1 to counts near 0 changes the shape completely. If you must shift, choose \(c\) for a reason (half the detection limit, or the smallest non-zero value divided by two), report it, and check that the conclusions survive a different \(c\). Often the better answer is \(\sqrt{y}\), which handles zeros, or a Poisson or Tweedie model with a log link, which models \(\ln E(y)\) without ever logging a zero.</p>
+    <h3 id="negatives">Negative values</h3>
+    <p>The power ladder needs positive data. For variables that cross zero (deviations, residuals, temperature in °C), use the Yeo–Johnson transformation, which applies Box–Cox to \(y + 1\) for \(y \ge 0\) and a mirrored version for \(y < 0\):</p>
+    <div class="lz-formula">\[ \psi(\lambda, y) = \begin{cases} \dfrac{(y + 1)^{\lambda} - 1}{\lambda}, & y \ge 0,\ \lambda \ne 0 \\[6pt] \ln(y + 1), & y \ge 0,\ \lambda = 0 \\[6pt] -\dfrac{(1 - y)^{2 - \lambda} - 1}{2 - \lambda}, & y < 0,\ \lambda \ne 2 \\[6pt] -\ln(1 - y), & y < 0,\ \lambda = 2 \end{cases} \]</div>
+    <p>Better still, ask whether the variable has a natural zero. Temperature converted to kelvin is positive, and Arrhenius needs kelvin anyway.</p>
+    <h3 id="proportions">Proportions and percentages</h3>
+    <p>A proportion is trapped between 0 and 1, so its relationship with x flattens at both ends into an S-curve. The logit \(\ln[p/(1-p)]\) stretches both ends to infinity and usually straightens it. Exact 0% and 100% readings are undefined on the logit scale; with counts behind them, use logistic regression on the counts instead of transforming percentages.</p>
+    <h3 id="offsets">Offsets and start values</h3>
+    <p>Many curves are power laws in \(x - x_0\), not in \(x\): a threshold stress, an ambient temperature, a minimum detectable level. When the data span a narrow ratio, no rung bends them, but subtracting the right \(x_0\) restores a wide ratio and the ladder works again. Load <em>Recovery time vs set-point</em> in the lab, try \(-1/x\) with no offset, then set the offset to 95.</p>
+  </div>
+</section>
+
+<section class="lz-section" id="did-it-work" aria-labelledby="did-it-work-h">
+  <div class="lz-wrap lz-prose">
+    <p class="lz-step">Part 10</p>
+    <h2 id="did-it-work-h">Check that the transformation worked</h2>
+    <p>A transformation is a hypothesis about the data. Test it the same way you test any regression model:</p>
+    <ol>
+      <li><strong>Residuals vs fitted.</strong> A horizontal band with no curve and no funnel. This is the single most important plot.</li>
+      <li><strong>Residuals vs each predictor.</strong> Catches curvature in one x that the fitted-value plot hides in a multiple regression.</li>
+      <li><strong>Normal probability plot of residuals.</strong> Roughly straight. Heavy tails after transforming may mean outliers rather than the wrong power.</li>
+      <li><strong>Residuals in time order.</strong> Transformations do nothing for autocorrelation or drift.</li>
+      <li><strong>Lack-of-fit test.</strong> With replicate x values, Minitab's pure-error lack-of-fit test checks linearity formally.</li>
+    </ol>
+    <h3 id="fair-comparison">Comparing models fairly</h3>
+    <p>R² measures the share of variance explained <em>in the response you fitted</em>. If one model predicts \(y\) and another predicts \(\ln y\), their R² values describe different quantities and cannot be ranked. Three fair comparisons:</p>
+    <ul>
+      <li>Back-transform each model's predictions to the original scale and compute \(R^{2}_{\text{orig}} = 1 - \sum(y_i - \tilde{y}_i)^{2} / \sum(y_i - \bar{y})^{2}\), where \(\tilde{y}_i\) is the back-transformed prediction. The lab reports this.</li>
+      <li>Compare the Box–Cox log-likelihood \(\ell(\lambda)\) at each candidate power. The geometric-mean scaling makes them comparable.</li>
+      <li>Compare out-of-sample prediction error on the original scale with cross-validation.</li>
+    </ul>
+    <p>Comparing models with different x transforms but the same y is simpler: the R² values and S are directly comparable.</p>
+  </div>
+</section>
+
+<section class="lz-section" id="worked-example" aria-labelledby="worked-example-h">
+  <div class="lz-wrap lz-prose">
+    <p class="lz-step">Part 11</p>
+    <h2 id="worked-example-h">Worked example: defect growth after a roll change</h2>
+    <p>A finishing mill records surface defects per 100 pipes at six points after a roll change. Tonnage x is in thousands of tonnes.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Worked example data: tonnage, defect rate and its natural log">
+      <table class="lz-table" id="lz-worked-table">
+        <caption>Defects per 100 pipes by tonnage since roll change (fictitious)</caption>
+        <thead><tr><th scope="col" class="lz-mathlabel">\(x\) (kt)</th><th scope="col" class="lz-mathlabel">\(y\) (defects / 100 pipes)</th><th scope="col" class="lz-mathlabel">\(\ln y\)</th><th scope="col" class="lz-mathlabel">Residual, linear fit on \(y\)</th></tr></thead>
+        <tbody>
+          <tr><td class="lz-num">1</td><td class="lz-num">0.82</td><td class="lz-num">−0.1985</td><td class="lz-num">+0.364</td></tr>
+          <tr><td class="lz-num">2</td><td class="lz-num">1.15</td><td class="lz-num">0.1398</td><td class="lz-num">−0.029</td></tr>
+          <tr><td class="lz-num">3</td><td class="lz-num">1.60</td><td class="lz-num">0.4700</td><td class="lz-num">−0.302</td></tr>
+          <tr><td class="lz-num">4</td><td class="lz-num">2.31</td><td class="lz-num">0.8372</td><td class="lz-num">−0.315</td></tr>
+          <tr><td class="lz-num">5</td><td class="lz-num">3.18</td><td class="lz-num">1.1569</td><td class="lz-num">−0.168</td></tr>
+          <tr><td class="lz-num">6</td><td class="lz-num">4.52</td><td class="lz-num">1.5085</td><td class="lz-num">+0.450</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Step 1: the raw fit looks good and is wrong.</strong> A straight line on raw y gives \(R^{2} = 0.943\). The residuals run plus, minus, minus, minus, minus, plus: a U-shape. The curve bulges down and right, and the jumps between points grow with y, which suggests a multiplicative process. Move y down.</p>
+    <p><strong>Step 2: fit \(\ln y\) on x.</strong></p>
+    <div class="lz-formula">\[ \begin{aligned} \widehat{\ln y} &= -0.5430 + 0.3415\,x \\ R^{2} &= 0.9998 \end{aligned} \]</div>
+    <p>The residuals on the log scale are all within \(\pm 0.015\) with no pattern. Strictly, \(0.9998\) cannot be compared with \(0.943\) because the responses differ; the evidence is the residual pattern.</p>
+    <p><strong>Step 3: interpret the slope.</strong> Each extra thousand tonnes multiplies the defect rate by \(e^{0.3415}\):</p>
+    <div class="lz-formula">\[ \begin{aligned} e^{0.3415} &= 1.407 \;\Rightarrow\; +40.7\% \text{ per kt} \\ \text{Doubling distance} &= \frac{\ln 2}{0.3415} = 2.03\ \text{kt} \end{aligned} \]</div>
+    <p><strong>Step 4: back-transform a prediction.</strong> At 7 kt the model gives \(\widehat{\ln y} = -0.5430 + 0.3415 \times 7 = 1.8478\), so the predicted median rate is \(e^{1.8478} = 6.35\) defects per 100 pipes. The smearing correction here is \(\tfrac{1}{n}\sum e^{e_i} = 1.00003\) because the residuals are tiny, so the mean and median agree. With noisier data they would not; Part 12 shows how far apart they can drift.</p>
+    <p><strong>Step 5: act.</strong> The rate doubles about every 2 kt. Seven kilotonnes is outside the observed range, so treat the 7 kt figure as a warning for planning the next roll change, not a forecast to bank on.</p>
+  </div>
+</section>
+
+<section class="lz-section" id="back-transform" aria-labelledby="back-transform-h">
+  <div class="lz-wrap">
+    <div class="lz-prose">
+      <p class="lz-step">Part 12</p>
+      <h2 id="back-transform-h">Back-transforming predictions and coefficients</h2>
+      <p>Fitting on a transformed scale is the easy half. Your audience wants answers in MPa, percent, and defects per 100 pipes.</p>
+      <h3 id="interpreting-coefficients">Reading the coefficients</h3>
+    </div>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="How to interpret the slope under each combination of log transforms">
+      <table class="lz-table">
+        <caption>Interpreting slope \(b\)</caption>
+        <thead><tr><th scope="col">Model</th><th scope="col">Exact reading</th><th scope="col">Quick reading (small \(b\))</th></tr></thead>
+        <tbody>
+          <tr><td>\(y\) on \(x\)</td><td>One unit of x adds \(b\) to y</td><td>Same</td></tr>
+          <tr><td>\(\ln y\) on \(x\)</td><td>One unit of x multiplies y by \(e^{b}\): a change of \(100(e^{b} - 1)\%\)</td><td>About \(100b\%\) per unit of x</td></tr>
+          <tr><td>\(y\) on \(\ln x\)</td><td>Multiplying x by \(k\) adds \(b\ln k\) to y</td><td>A 1% rise in x adds about \(b/100\) to y</td></tr>
+          <tr><td>\(\ln y\) on \(\ln x\)</td><td>Multiplying x by \(k\) multiplies y by \(k^{b}\)</td><td>A 1% rise in x gives about a \(b\%\) rise in y (elasticity)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="lz-prose">
+      <h3 id="retransformation-bias">Retransformation bias</h3>
+      <p>Transforming back with the inverse function gives the right answer for <strong>quantiles</strong>, because monotone functions preserve order. So \(e^{\widehat{\ln y}}\) is a good estimate of the <strong>median</strong> of y. It is not the mean. If the log-scale errors are normal with variance \(\sigma^{2}\), the mean on the original scale is larger:</p>
+      <div class="lz-formula">\[ E(y \mid x) = \exp\!\left(\mu_x + \tfrac{1}{2}\sigma^{2}\right) \]</div>
+      <p>where \(\mu_x\) is the log-scale prediction. Duan's smearing estimator makes no normality assumption. It multiplies the naive back-transform by the average of the exponentiated residuals \(e_i\):</p>
+      <div class="lz-formula">\[ \hat{E}(y \mid x) = e^{\hat{\mu}_x} \cdot \frac{1}{n}\sum_{i=1}^{n} e^{e_i} \]</div>
+      <p>Use the median when you are describing a typical part. Use the mean when you are summing across parts, such as total scrap cost or total defects per shift. Interval endpoints back-transform directly: exponentiate the lower and upper limits of a prediction interval on the log scale and you get a valid, asymmetric interval on the original scale.</p>
+    </div>
+    <div class="lz-tool">
+      <div class="lz-panel">
+        <label class="lz-field" for="lz-sigma">Log-scale standard deviation \(\sigma\): <output id="lz-sigma-out" for="lz-sigma">0.60</output>
+          <input type="range" id="lz-sigma" min="0.1" max="1.2" step="0.05" value="0.6">
+        </label>
+        <svg id="lz-bt-bars" viewBox="0 0 420 220" role="img" aria-label="Bar chart comparing the true mean with naive, lognormal and smearing back-transforms"></svg>
+      </div>
+      <div class="lz-panel" role="status" aria-live="polite">
+        <p class="lz-context">200 simulated parts, true median 20.0</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Back-transform estimates compared with the truth">
+          <table class="lz-table">
+            <caption>Estimates of the mean of y</caption>
+            <thead><tr><th scope="col">Estimate</th><th scope="col">Value</th><th scope="col">Error vs true mean</th></tr></thead>
+            <tbody id="lz-btd-rows"></tbody>
+          </table>
+        </div>
+        <p id="lz-btd-text"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lz-section" id="what-fails" aria-labelledby="what-fails-h">
+  <div class="lz-wrap">
+    <div class="lz-prose">
+      <p class="lz-step">Part 13</p>
+      <h2 id="what-fails-h">What does not work</h2>
+      <p>These are the mistakes that show up most in reports and exam questions. Open each one for the reason and the fix.</p>
+    </div>
+    <div class="lz-fails">
+      <details><summary><h3 id="fail-r2">Picking the transformation with the highest R²</h3></summary><p>Each choice of y changes what R² measures, and logs often inflate it by compressing the large, noisy values. Choose from residual plots, theory, and the original-scale or Box–Cox comparison in Part 10.</p></details>
+      <details><summary><h3 id="fail-nonmonotone">Laddering a curve that changes direction</h3></summary><p>Every rung is monotone, so it can bend a curve but never unbend a U, a peak, or an S. Add a squared term, fit a spline, or use a model with the right shape (logistic, hyperbolic tangent).</p></details>
+      <details><summary><h3 id="fail-univariate-bc">Running Box–Cox on y alone</h3></summary><p>Control-chart Box–Cox and column-normalizing tools ignore x. A response that depends strongly on x can look skewed while its residuals are perfect. Profile the regression SSE instead.</p></details>
+      <details><summary><h3 id="fail-wrong-axis">Logging y when only the trend is curved</h3></summary><p>If the residual spread is even, logging y creates a funnel in the other direction. Straighten with x and leave the good errors alone.</p></details>
+      <details><summary><h3 id="fail-arbitrary-c">Adding 1 to dodge the zeros</h3></summary><p>\(\ln(y+1)\) is a different transformation for every scale of y. Results can flip with the choice of constant. Use \(\sqrt{y}\), a stated and justified constant, or a model with a log link.</p></details>
+      <details><summary><h3 id="fail-narrow-range">Expecting a log to bend a narrow range</h3></summary><p>When max/min is close to 1, \(\ln x\) is almost linear in x. The curvature is coming from somewhere else, often an offset. Subtract it or use a polynomial.</p></details>
+      <details><summary><h3 id="fail-naive-mean">Reporting \(e^{\hat{\mu}}\) as the average</h3></summary><p>It estimates the median. Totals and costs built from it will be low. Apply the smearing or lognormal correction.</p></details>
+      <details><summary><h3 id="fail-outliers">Transforming to hide an outlier</h3></summary><p>A log can pull a wild point into line, but if the point is a recording error or a different process, it still is. Investigate first, then decide whether it belongs in the model.</p></details>
+      <details><summary><h3 id="fail-extrapolate">Extrapolating on the transformed scale</h3></summary><p>A line on log axes becomes an exponential on raw axes, so small slope errors grow fast outside the data. Keep predictions inside the observed range, or say clearly that they are extrapolations.</p></details>
+      <details><summary><h3 id="fail-autocorrelation">Transforming to fix drift or autocorrelation</h3></summary><p>Transformations change scale, not time structure. Residuals that wander in time order need time terms, blocking, or time-series methods.</p></details>
+      <details><summary><h3 id="fail-group">Transforming one group but not another</h3></summary><p>When you compare groups, or include several predictors, the same transformation must apply to every observation of a variable. Mixing scales makes the coefficients meaningless.</p></details>
+      <details><summary><h3 id="fail-spec-limits">Forgetting the spec limits in capability work</h3></summary><p>If you transform data to compute \(C_{pk}\), transform the specification limits with the same power. Minitab does this automatically; a hand calculation often does not.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="lz-section" id="alternatives" aria-labelledby="alternatives-h">
+  <div class="lz-wrap">
+    <div class="lz-prose">
+      <p class="lz-step">Part 14</p>
+      <h2 id="alternatives-h">When to stop transforming</h2>
+      <p>Transformations are a tool, not a goal. Stop and switch methods when any of these is true.</p>
+    </div>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Alternatives to transformation and when each applies">
+      <table class="lz-table">
+        <caption>Alternatives to transformation</caption>
+        <thead><tr><th scope="col">Situation</th><th scope="col">Use instead</th><th scope="col">Why it is better here</th></tr></thead>
+        <tbody>
+          <tr><td>Curve changes direction once</td><td>Polynomial regression (quadratic)</td><td>Models a minimum or maximum directly; the optimum is \(-b_1/(2b_2)\)</td></tr>
+          <tr><td>Known nonlinear law with meaningful parameters</td><td>Nonlinear least squares</td><td>Estimates the parameters on the original scale with honest errors</td></tr>
+          <tr><td>Charpy energy transition curve</td><td>Hyperbolic tangent model: \(E = A + B\tanh\!\left[(T - T_0)/C\right]\)</td><td>Captures upper and lower shelves and the transition temperature \(T_0\)</td></tr>
+          <tr><td>Counts or rates</td><td>Poisson or negative binomial regression</td><td>Models \(\ln E(y)\); handles zeros; no back-transform bias</td></tr>
+          <tr><td>Pass/fail or proportions from counts</td><td>Logistic regression</td><td>Respects the 0–1 bounds and the binomial variance</td></tr>
+          <tr><td>Positive, skewed continuous y with a log-linear mean</td><td>Gamma GLM with a log link</td><td>Predicts the mean directly while allowing spread to grow</td></tr>
+          <tr><td>Linear trend, only the spread grows</td><td>Weighted least squares</td><td>Keeps y in its natural units; downweights noisy points</td></tr>
+          <tr><td>Shape unknown, prediction is the goal</td><td>Splines, GAMs, tree ensembles</td><td>Flexible shapes without guessing a power; validate out of sample</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="lz-section" id="chooser" aria-labelledby="chooser-h">
+  <div class="lz-wrap">
+    <div class="lz-prose">
+      <p class="lz-step">Part 15</p>
+      <h2 id="chooser-h">Guided chooser: which transformation for your data?</h2>
+      <p>Answer five questions about your scatter plot. The recommendation updates as you go and explains each step.</p>
+    </div>
+    <div class="lz-chooser">
+      <form id="lz-chooser-form" onsubmit="return false">
+        <fieldset><legend>1. What shape is the trend?</legend>
+          <label><input type="radio" name="lz-q-shape" value="monotone" checked> Always rising or always falling, with one bend</label>
+          <label><input type="radio" name="lz-q-shape" value="sigmoid"> S-shaped, flattening at both ends</label>
+          <label><input type="radio" name="lz-q-shape" value="ushape"> Falls then rises, or rises then falls</label>
+        </fieldset>
+        <fieldset><legend>2. Does theory give a form?</legend>
+          <label><input type="radio" name="lz-q-theory" value="none" checked> No known law</label>
+          <label><input type="radio" name="lz-q-theory" value="exponential"> Exponential growth or decay</label>
+          <label><input type="radio" name="lz-q-theory" value="power"> Power law</label>
+          <label><input type="radio" name="lz-q-theory" value="logarithmic"> Diminishing returns (logarithmic)</label>
+          <label><input type="radio" name="lz-q-theory" value="reciprocal"> Inverse proportion (time = distance / speed)</label>
+          <label><input type="radio" name="lz-q-theory" value="hallpetch"> Hall–Petch grain size</label>
+          <label><input type="radio" name="lz-q-theory" value="arrhenius"> Arrhenius temperature dependence</label>
+        </fieldset>
+        <fieldset><legend>3. How do the residuals spread?</legend>
+          <label><input type="radio" name="lz-q-spread" value="even" checked> Even across the range</label>
+          <label><input type="radio" name="lz-q-spread" value="grows"> Grow with the level (funnel)</label>
+          <label><input type="radio" name="lz-q-spread" value="counts"> y is a count</label>
+          <label><input type="radio" name="lz-q-spread" value="proportion"> y is a proportion or percentage</label>
+        </fieldset>
+        <fieldset><legend>4. What values does the variable take?</legend>
+          <label><input type="radio" name="lz-q-values" value="positive" checked> All positive</label>
+          <label><input type="radio" name="lz-q-values" value="zeros"> Some zeros</label>
+          <label><input type="radio" name="lz-q-values" value="negative"> Some negative</label>
+        </fieldset>
+        <fieldset><legend>5. Largest value divided by smallest</legend>
+          <label><input type="radio" name="lz-q-range" value="wide" checked> More than 3</label>
+          <label><input type="radio" name="lz-q-range" value="moderate"> Between 2 and 3</label>
+          <label><input type="radio" name="lz-q-range" value="narrow"> Less than 2</label>
+        </fieldset>
+      </form>
+      <div class="lz-panel lz-rec" id="lz-rec" role="status" aria-live="polite">
+        <h3 id="lz-rec-title">Recommendation</h3>
+        <ul id="lz-rec-steps"></ul>
+        <p class="lz-avoid" id="lz-rec-avoid-h">Avoid</p>
+        <ul id="lz-rec-avoid"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lz-section" id="statistics-implementation" aria-labelledby="statistics-implementation-h">
+  <div class="lz-wrap">
+    <div class="lz-prose">
+      <p class="lz-step">Part 16</p>
+      <h2 id="statistics-implementation-h">Statistics Implementation</h2>
+    </div>
+    <section id="excel-functions" aria-labelledby="excel-functions-h">
+      <h3 id="excel-functions-h">Excel Functions</h3>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Excel functions for transformations and linear fits">
+        <table class="lz-table">
+          <thead><tr><th scope="col">Function</th><th scope="col">Syntax</th><th scope="col">Purpose</th><th scope="col">When to use it</th></tr></thead>
+          <tbody>
+            <tr><td><code>LN</code></td><td><code>LN(number)</code></td><td>Natural log</td><td>Log transforms for exponential and power models; positive values only</td></tr>
+            <tr><td><code>LOG10</code></td><td><code>LOG10(number)</code></td><td>Base-10 log</td><td>When you want readable decades on a chart; slope interpretation changes by a factor of 2.303</td></tr>
+            <tr><td><code>LOG</code></td><td><code>LOG(number, [base])</code></td><td>Log to any base</td><td>Base 2 makes "per doubling" readings direct</td></tr>
+            <tr><td><code>EXP</code></td><td><code>EXP(number)</code></td><td>\(e\) raised to a power</td><td>Back-transforming log-scale predictions</td></tr>
+            <tr><td><code>SQRT</code></td><td><code>SQRT(number)</code></td><td>Square root</td><td>Counts; non-negative values</td></tr>
+            <tr><td><code>POWER</code></td><td><code>POWER(number, power)</code></td><td>Any rung of the ladder</td><td>Reciprocals and Box–Cox powers; same as <code>^</code></td></tr>
+            <tr><td><code>GEOMEAN</code></td><td><code>GEOMEAN(number1, [number2], …)</code></td><td>Geometric mean</td><td>The scaling constant \(\dot{y}\) in Box–Cox</td></tr>
+            <tr><td><code>DEVSQ</code></td><td><code>DEVSQ(number1, [number2], …)</code></td><td>Sum of squared deviations</td><td>Total sum of squares for SSE and R² by hand</td></tr>
+            <tr><td><code>RSQ</code></td><td><code>RSQ(known_y's, known_x's)</code></td><td>R² of a straight line</td><td>Comparing x transforms with the same y</td></tr>
+            <tr><td><code>SLOPE</code> / <code>INTERCEPT</code></td><td><code>SLOPE(known_y's, known_x's)</code></td><td>Line coefficients</td><td>Exponents (log–log) and growth rates (semi-log)</td></tr>
+            <tr><td><code>STEYX</code></td><td><code>STEYX(known_y's, known_x's)</code></td><td>Standard error of the regression, S</td><td>Log-scale \(\sigma\) for the lognormal mean correction</td></tr>
+            <tr><td><code>LINEST</code></td><td><code>LINEST(known_y's, [known_x's], [const], [stats])</code></td><td>Full regression with statistics</td><td>Box–Tidwell step with two predictors; standard errors</td></tr>
+            <tr><td><code>LOGEST</code></td><td><code>LOGEST(known_y's, [known_x's], [const], [stats])</code></td><td>Fits \(y = b\,m^{x}\)</td><td>Exponential fit in one step; growth per unit is \(m - 1\)</td></tr>
+            <tr><td><code>GROWTH</code></td><td><code>GROWTH(known_y's, [known_x's], [new_x's], [const])</code></td><td>Predictions from the exponential fit</td><td>Median predictions on the original scale</td></tr>
+            <tr><td><code>TREND</code></td><td><code>TREND(known_y's, [known_x's], [new_x's], [const])</code></td><td>Predictions from a linear fit</td><td>Fitted values on the transformed scale</td></tr>
+            <tr><td><code>SUMXMY2</code></td><td><code>SUMXMY2(array_x, array_y)</code></td><td>Sum of squared differences</td><td>Original-scale SSE from back-transformed predictions</td></tr>
+            <tr><td><code>CHISQ.INV</code></td><td><code>CHISQ.INV(probability, deg_freedom)</code></td><td>Chi-square quantile</td><td>The Box–Cox confidence cut-off, <code>CHISQ.INV(0.95,1)</code> = 3.841</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section id="excel-use-cases" aria-labelledby="excel-use-cases-h" class="lz-prose">
+      <h3 id="excel-use-cases-h">Excel Use Cases</h3>
+      <p>Assume x in <code>A2:A41</code> and y in <code>B2:B41</code>.</p>
+      <p><strong>Power law (log–log).</strong> In <code>C2</code> enter <code>=LN(A2)</code>, in <code>D2</code> enter <code>=LN(B2)</code>, and fill down. The exponent is <code>=SLOPE(D2:D41,C2:C41)</code> and the coefficient is <code>=EXP(INTERCEPT(D2:D41,C2:C41))</code>.</p>
+      <p><strong>Exponential in one step.</strong> <code>=INDEX(LOGEST(B2:B41,A2:A41),1)</code> returns \(m\); the growth per unit of x is <code>=INDEX(LOGEST(B2:B41,A2:A41),1)-1</code>. <code>=LN(INDEX(LOGEST(B2:B41,A2:A41),1))</code> equals the slope of \(\ln y\) on x.</p>
+      <p><strong>Box–Cox profile.</strong> Put a trial \(\lambda\) in <code>H1</code>. In <code>E2</code> enter <code>=IF($H$1=0,GEOMEAN($B$2:$B$41)*LN(B2),(B2^$H$1-1)/($H$1*GEOMEAN($B$2:$B$41)^($H$1-1)))</code> and fill down. Then <code>SSE</code> is <code>=DEVSQ(E2:E41)*(1-RSQ(E2:E41,A2:A41))</code>. Use <code>Data &gt; What-If Analysis &gt; Data Table</code> over \(\lambda\) from −2 to 2, pick the smallest SSE, and keep every \(\lambda\) whose SSE is below <code>=MIN(SSE range)*EXP(CHISQ.INV(0.95,1)/40)</code> as the 95% interval.</p>
+      <p><strong>Fair R² on the original scale.</strong> After fitting \(\ln y\), put <code>=EXP(TREND($D$2:$D$41,$A$2:$A$41,A2))</code> in <code>F2</code> and fill down. Then <code>=1-SUMXMY2(B2:B41,F2:F41)/DEVSQ(B2:B41)</code>.</p>
+      <p><strong>Smearing correction.</strong> With log-scale residuals in <code>G2:G41</code>, the factor is <code>=AVERAGE(EXP(G2:G41))</code> in Excel 365 (enter as an array formula in older versions). Multiply each back-transformed prediction by it.</p>
+      <div class="lz-callout"><strong>Chart trendline caution.</strong> Excel's Exponential and Power trendlines fit on the log scale, and the R² they display is the log-scale value. Do not set it beside a Linear trendline's R² and pick the bigger number.</div>
+    </section>
+    <section id="minitab-navigation" aria-labelledby="minitab-navigation-h" class="lz-prose">
+      <h3 id="minitab-navigation-h">Minitab Navigation</h3>
+      <p>Menu paths are for Minitab Statistical Software 21 and 22.</p>
+      <ul>
+        <li><code>Graph &gt; Scatterplot &gt; With Regression</code> for the first look at the bend.</li>
+        <li><code>Stat &gt; Regression &gt; Fitted Line Plot</code>. Choose <em>Linear</em>, <em>Quadratic</em> or <em>Cubic</em>. Under <em>Options</em>, tick <em>Logten of Y</em> and/or <em>Logten of X</em> (with the matching <em>Display logscale</em> boxes) to try semi-log and log–log fits quickly.</li>
+        <li><code>Calc &gt; Calculator</code> to create transformed columns with <code>LN( )</code>, <code>LOGTEN( )</code>, <code>SQRT( )</code>, <code>EXPO( )</code> and <code>**</code> for powers, for example <code>C1**(-0.5)</code>.</li>
+        <li><code>Stat &gt; Regression &gt; Regression &gt; Fit Regression Model</code>, then <em>Options</em> &gt; <em>Box-Cox transformation</em>: choose <em>Optimal λ</em>, <em>λ = 0 (natural log)</em>, <em>λ = 0.5 (square root)</em> or enter a value. This is the regression-aware Box–Cox to use for linearizing.</li>
+        <li>In the same dialog, <em>Graphs</em> &gt; <em>Four in one</em> and <em>Residuals versus the variables</em> give the diagnostic plots from Part 10.</li>
+        <li><code>Stat &gt; Control Charts &gt; Box-Cox Transformation</code> is univariate. Use it for control charts and capability, not for choosing a regression transform.</li>
+        <li><code>Stat &gt; Quality Tools &gt; Johnson Transformation</code> normalises a single column for capability work. It does not linearize relationships.</li>
+        <li><code>Stat &gt; Regression &gt; Nonlinear Regression</code>, with <em>Use Catalog</em> for exponential, power and other standard forms, when you should fit the law directly.</li>
+        <li><code>Stat &gt; Regression &gt; Poisson Regression &gt; Fit Poisson Model</code> for counts and <code>Stat &gt; Regression &gt; Binary Logistic Regression &gt; Fit Binary Logistic Model</code> for pass/fail data.</li>
+      </ul>
+      <p>Which to choose: start with the Fitted Line Plot to see the shape, use the Fit Regression Model Box–Cox option to estimate a y power, create x transforms in the Calculator, and judge every candidate on the Four in one residual plots.</p>
+    </section>
+    <section id="exam-tips" aria-labelledby="exam-tips-h" class="lz-prose">
+      <h3 id="exam-tips-h">Exam Tips</h3>
+      <ul>
+        <li>Memorise the Box–Cox map: \(\lambda = 2\) square, 1 none, 0.5 square root, 0 natural log, −0.5 reciprocal square root, −1 reciprocal. Box–Cox needs strictly positive data.</li>
+        <li>ASQ CSSBB and CQE questions often pair data types with transforms: counts → square root, proportions → arcsine square root, multiplicative or right-skewed data → log.</li>
+        <li>For capability on transformed data, both the data and the specification limits are transformed with the same \(\lambda\). Johnson transformation is the alternative when Box–Cox fails.</li>
+        <li>On a log–log plot the slope is an exponent; on a semi-log plot (log y) the slope is a growth rate. Expect a question that asks which plot makes an exponential straight.</li>
+        <li>Higher R² after transforming y is not evidence that the model is better. Answer choices that rely on it are usually the distractor.</li>
+        <li>In practice, record the transformation, the reason, and the back-transform method in the analysis report so the next engineer can reproduce it.</li>
+      </ul>
+    </section>
+  </div>
+</section>
+
+<section class="lz-section" id="python-r" aria-labelledby="python-r-h">
+  <div class="lz-wrap lz-prose">
+    <p class="lz-step">Part 17</p>
+    <h2 id="python-r-h">Python and R equivalents</h2>
+    <p>The same workflow in code: profile Box–Cox on the regression, run one Box–Tidwell step, and back-transform with smearing.</p>
+<pre class="lz-code" tabindex="0" role="region" aria-label="Python code for regression Box-Cox, Box-Tidwell and smearing"><code>import numpy as np
+import statsmodels.api as sm
+from scipy import stats
+
+def boxcox_profile(x, y, lambdas=np.arange(-2, 3.01, 0.01)):
+    """Regression-aware Box-Cox: profile SSE of z(lambda) on x."""
+    gm = np.exp(np.mean(np.log(y)))
+    X = sm.add_constant(x)
+    ll = []
+    for lam in lambdas:
+        z = gm * np.log(y) if abs(lam) &lt; 1e-9 else (y**lam - 1) / (lam * gm**(lam - 1))
+        sse = sm.OLS(z, X).fit().ssr
+        ll.append(-len(y) / 2 * np.log(sse / len(y)))
+    ll = np.array(ll)
+    best = lambdas[ll.argmax()]
+    ci = lambdas[ll &gt;= ll.max() - stats.chi2.ppf(0.95, 1) / 2]
+    return best, (ci.min(), ci.max())
+
+def box_tidwell_step(x, y, alpha=1.0):
+    """One Box-Tidwell update for the power on x (x &gt; 0)."""
+    z = x**alpha
+    b1 = sm.OLS(y, sm.add_constant(z)).fit().params[1]
+    gamma = sm.OLS(y, sm.add_constant(np.column_stack([z, z * np.log(z)]))).fit().params[2]
+    return alpha * (1 + gamma / b1)
+
+# Fit ln(y) on x, then back-transform with Duan's smearing estimator
+fit = sm.OLS(np.log(y), sm.add_constant(x)).fit()
+smear = np.mean(np.exp(fit.resid))
+mean_pred = np.exp(fit.fittedvalues) * smear      # mean of y
+median_pred = np.exp(fit.fittedvalues)            # median of y
+
+# Counts: model the mean directly instead of transforming
+poisson = sm.GLM(counts, sm.add_constant(length), family=sm.families.Poisson()).fit()</code></pre>
+<pre class="lz-code" tabindex="0" role="region" aria-label="R code for Box-Cox and Box-Tidwell"><code>library(MASS)   # boxcox()
+library(car)    # boxTidwell()
+fit &lt;- lm(y ~ x)
+boxcox(fit, lambda = seq(-2, 2, 0.05))   # regression-aware profile with 95% CI
+boxTidwell(y ~ x)                        # estimated power on x with a score test</code></pre>
+    <p><code>scipy.stats.boxcox(y)</code> and <code>scipy.stats.yeojohnson(y)</code> are univariate, like Minitab's control-chart Box–Cox. They are right for normalizing a single variable and wrong for picking a regression transform.</p>
+  </div>
+</section>
+
+<section class="lz-section" id="references" aria-labelledby="references-h">
+  <div class="lz-wrap lz-prose">
+    <h2 id="references-h">References</h2>
+    <ul class="lz-refs">
+      <li>Box, G. E. P., &amp; Cox, D. R. (1964). An analysis of transformations. <em>Journal of the Royal Statistical Society, Series B</em>, 26(2), 211–252.</li>
+      <li>Box, G. E. P., &amp; Tidwell, P. W. (1962). Transformation of the independent variables. <em>Technometrics</em>, 4(4), 531–550.</li>
+      <li>Duan, N. (1983). Smearing estimate: A nonparametric retransformation method. <em>Journal of the American Statistical Association</em>, 78(383), 605–610.</li>
+      <li>Mosteller, F., &amp; Tukey, J. W. (1977). <em>Data Analysis and Regression</em>. Addison-Wesley.</li>
+      <li>Tukey, J. W. (1977). <em>Exploratory Data Analysis</em>. Addison-Wesley.</li>
+      <li>Yeo, I.-K., &amp; Johnson, R. A. (2000). A new family of power transformations to improve normality or symmetry. <em>Biometrika</em>, 87(4), 954–959.</li>
+      <li>Montgomery, D. C., Peck, E. A., &amp; Vining, G. G. (2021). <em>Introduction to Linear Regression Analysis</em> (6th ed.). Wiley.</li>
+    </ul>
+  </div>
+</section>
+
+<style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="A curve that rises fast then flattens bulges up and to the left, so x moves down the ladder. Because the spread is already even, transforming x keeps the good error structure; logging y would create a reverse funnel.">
+        <legend>1. Yield rises steeply with x, then flattens. Residual spread is even. What is the best first move?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> Take the log of y</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> Take the log of x and leave y alone</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> Square x</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="d"> No transformation can help this shape</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="When the spread grows in proportion to the level, the error is multiplicative. The log of y makes it additive and, for exponential growth, straightens the curve at the same time.">
+        <legend>2. A defect rate grows exponentially with tonnage, and the scatter fans out as the rate rises. Which transformation fixes both problems?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> Square root of x</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> Reciprocal of x</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> Natural log of y</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="d"> Square of y</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="Round to the simplest power inside the 95% interval. Zero, the natural log, is inside the interval and is easy to interpret, so it is the standard choice.">
+        <legend>3. A regression Box-Cox gives lambda-hat = 0.08 with a 95% interval from -0.15 to 0.30. What should you use?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> The natural log of y</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> y raised to exactly 0.08</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> The square root of y</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="d"> No transformation, because the interval includes 0.30</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="d" data-explanation="The two R-squared values measure explained variance in different responses, y and ln y, so they cannot be ranked. Compare residual plots, original-scale predictions, or Box-Cox likelihoods instead.">
+        <legend>4. Model A regresses y on x (R-squared 0.91). Model B regresses ln y on x (R-squared 0.96). What can you conclude?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> Model B is better because its R-squared is higher</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> Model A is better because it needs no back-transform</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> They are equivalent because both R-squared values exceed 0.9</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="d"> Nothing yet: the R-squared values are on different scales</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Every rung of the ladder is monotone, so it cannot remove a turn in the curve. A quadratic term models the minimum directly.">
+        <legend>5. Scrap rate falls as finishing temperature rises, reaches a minimum, then rises again. What should you do?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> Try the log, then the reciprocal, until one straightens it</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> Add a squared temperature term instead of transforming</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> Take the square root of the scrap rate</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="d"> Use Box-Tidwell to find the right power of temperature</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Exponentiating a log-scale prediction preserves order, so it estimates the median. The mean is higher, by about exp of half the log-scale variance, or by Duan's smearing factor.">
+        <legend>6. You fit ln y on x and report exp(predicted ln y). What does that number estimate?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> The mean of y at that x</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> The upper prediction limit of y</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> The median of y at that x</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="d"> The mode of x</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="In a log-log model the slope is an elasticity: a 1% rise in x gives about a b% rise in y. Here that is about 0.18%.">
+        <legend>7. A log-log fit of flow stress on strain has slope 0.18. What does it mean?</legend>
+        <label class="quiz-option"><input type="radio" name="q7" value="a"> A 1% rise in strain raises flow stress by about 0.18%</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="b"> Each unit of strain adds 0.18 MPa</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="c"> Flow stress grows 18% per unit of strain</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="d"> The model explains 18% of the variation</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="d" data-explanation="The control-chart Box-Cox looks only at the distribution of y and ignores x. For regression, the residuals need to be normal and even, so use the Box-Cox option inside Fit Regression Model.">
+        <legend>8. An engineer runs Stat &gt; Control Charts &gt; Box-Cox Transformation on y to choose a transform for a regression on x. What is wrong?</legend>
+        <label class="quiz-option"><input type="radio" name="q8" value="a"> Nothing; Box-Cox is the same everywhere in Minitab</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="b"> Box-Cox only works on x, not y</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="c"> It needs negative values to work</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="d"> It chooses lambda from y alone and ignores the predictor</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section class="related-lessons lz-wrap" style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);">
+  <h2>Related lessons</h2>
+  <ul>
+    <li><a href="/lessons/data-analytics/statistical-transformations">Statistical Transformations lesson</a> — the beginner tour of log, square-root and scaling transforms that this lesson builds on.</li>
+    <li><a href="/lessons/statistics/choosing-the-right-regression-analysis-in-minitab">Choosing the Right Regression Analysis in Minitab</a> — where fitted line plots, nonlinear regression and model choice fit together.</li>
+    <li><a href="/lessons/minitab-best-predictive-regression-model">Finding the Best Predictive Regression Model in Minitab</a> — validate a transformed model out of sample.</li>
+    <li><a href="/lessons/data-analytics/dealing-with-outliers">Dealing with Outliers lesson</a> — investigate wild points before you transform them away.</li>
+    <li><a href="/lessons/statistics/pearson-spearman-kendall-correlation-coefficients">Pearson, Spearman and Kendall correlation lesson</a> — why rank correlation is unchanged by any monotone transformation.</li>
+  </ul>
+</section>
+
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#statistics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Statistics lessons</a>
+</section>
+</main>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img class="logo-wordmark" src="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+<script>
+/* LinearizeLab core: pure math, no DOM. */
+var LinearizeLab = (function () {
+  'use strict';
+
+  function rng(seed) {
+    var a = seed >>> 0;
+    return function () {
+      a = (a + 0x6D2B79F5) >>> 0;
+      var t = a;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function normal(r) {
+    var u = 0, v = 0;
+    while (u === 0) u = r();
+    while (v === 0) v = r();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  }
+  function poisson(r, lam) {
+    var L = Math.exp(-lam), k = 0, p = 1;
+    do { k++; p *= r(); } while (p > L);
+    return k - 1;
+  }
+  function logUniform(r, lo, hi) { return Math.exp(Math.log(lo) + r() * (Math.log(hi) - Math.log(lo))); }
+  function uniform(r, lo, hi) { return lo + r() * (hi - lo); }
+  function round(v, d) { var m = Math.pow(10, d); return Math.round(v * m) / m; }
+
+  /* Ten fictitious practice datasets. Each has an expert pick. */
+  var PRESETS = {
+    hallpetch: {
+      label: 'Yield strength vs grain size', xName: 'Ferrite grain size', xUnit: 'µm', yName: 'Yield strength', yUnit: 'MPa',
+      seed: 11, n: 40, bulge: 'down-left',
+      gen: function (r) { var x = logUniform(r, 4, 60); return [x, 180 + 620 * Math.pow(x, -0.5) + normal(r) * 6]; },
+      expert: { xp: -0.5, yp: 1, xc: 0, yc: 0 },
+      note: 'Hall–Petch says yield strength is linear in \\(d^{-1/2}\\). Move x down to the \\(1/\\sqrt{x}\\) rung and leave y alone. The spread is already constant, so y does not need fixing.'
+    },
+    growth: {
+      label: 'Surface defects vs tonnes since roll change', xName: 'Tonnes since roll change', xUnit: 't', yName: 'Defects per 100 pipes', yUnit: '',
+      seed: 25, n: 40, bulge: 'down-right',
+      gen: function (r) { var x = uniform(r, 200, 9000); return [x, 0.6 * Math.exp(0.00032 * x) * Math.exp(normal(r) * 0.18)]; },
+      expert: { xp: 1, yp: 0, xc: 0, yc: 0 },
+      note: 'Exponential growth with multiplicative scatter. \\(\\ln y\\) fixes the curve and the funnel at once, because the error was a percentage, not a fixed amount.'
+    },
+    paris: {
+      label: 'Crack growth rate vs stress-intensity range', xName: 'ΔK', xUnit: 'MPa√m', yName: 'Crack growth rate', yUnit: 'nm/cycle',
+      seed: 38, n: 40, bulge: 'down-right',
+      gen: function (r) { var x = logUniform(r, 8, 60); return [x, 0.002 * Math.pow(x, 3) * Math.exp(normal(r) * 0.2)]; },
+      expert: { xp: 0, yp: 0, xc: 0, yc: 0 },
+      note: 'The Paris law \\(da/dN = C\\,\\Delta K^{m}\\) is a power law. Log both axes; the slope of the line estimates the exponent \\(m\\).'
+    },
+    strainhard: {
+      label: 'Flow stress vs true strain', xName: 'True strain', xUnit: '', yName: 'Flow stress', yUnit: 'MPa',
+      seed: 41, n: 40, bulge: 'up-left',
+      gen: function (r) { var x = uniform(r, 0.02, 0.30); return [x, 820 * Math.pow(x, 0.18) + normal(r) * 8]; },
+      expert: { xp: 0, yp: 0, xc: 0, yc: 0 },
+      note: 'Hollomon strain hardening \\(\\sigma = K\\varepsilon^{n}\\) rises fast, then flattens. Log both axes; the slope is the strain-hardening exponent \\(n\\). Logging x alone gets you most of the way.'
+    },
+    headroom: {
+      label: 'Motor torque margin vs rolling speed', xName: 'Rolling speed', xUnit: 'm/min', yName: 'Torque margin', yUnit: '%',
+      seed: 54, n: 40, bulge: 'up-right',
+      gen: function (r) { var x = uniform(r, 10, 120); return [x, 92 - 0.0042 * x * x + normal(r) * 1.6]; },
+      expert: { xp: 2, yp: 1, xc: 0, yc: 0 },
+      note: 'The margin falls slowly, then quickly, so the bulge points up and right. Move x up to \\(x^2\\). Logging y would bend it the wrong way.'
+    },
+    counts: {
+      label: 'Surface defects per coil vs coil length', xName: 'Coil length', xUnit: 'm', yName: 'Defect count', yUnit: '',
+      seed: 70, n: 80, bulge: 'none',
+      gen: function (r) { var x = uniform(r, 100, 3000); return [x, poisson(r, 0.0133 * x)]; },
+      expert: { xp: 0.5, yp: 0.5, xc: 0, yc: 0 },
+      note: 'Counts have variance equal to the mean, so the spread grows. \\(\\sqrt{y}\\) evens the spread but bends the line, so take \\(\\sqrt{x}\\) as well. A Poisson regression is the cleaner model.'
+    },
+    cycletime: {
+      label: 'Cycle time vs line speed', xName: 'Line speed', xUnit: 'm/min', yName: 'Cycle time per pipe', yUnit: 's',
+      seed: 79, n: 40, bulge: 'down-left',
+      gen: function (r) { var x = uniform(r, 8, 60); return [x, 720 / x + 5 + normal(r) * 1.2]; },
+      expert: { xp: -1, yp: 1, xc: 0, yc: 0 },
+      note: 'Time is distance divided by speed, so \\(y\\) is linear in \\(1/x\\). The fixed 5 s handling time is the intercept. Log–log looks close but the intercept breaks the power law.'
+    },
+    charpy: {
+      label: 'Charpy shear area vs test temperature', xName: 'Test temperature', xUnit: '°C', yName: 'Shear area', yUnit: '%',
+      seed: 83, n: 40, bulge: 'none', bounded: true,
+      gen: function (r) {
+        var x = uniform(r, -80, 20);
+        return [x, 100 / (1 + Math.exp(-((x + 30) / 8 + normal(r) * 0.35)))];
+      },
+      expert: { xp: 1, yp: 'logit', xc: 0, yc: 0 },
+      note: 'An S-curve between two limits. No power transform can straighten it because the bend changes direction. The logit of the proportion is linear in temperature.'
+    },
+    ushape: {
+      label: 'Scrap rate vs finishing temperature', xName: 'Finishing temperature', xUnit: '°C', yName: 'Scrap rate', yUnit: '%',
+      seed: 97, n: 40, bulge: 'none',
+      gen: function (r) { var x = uniform(r, 840, 960); return [x, 1.2 + 0.0009 * (x - 900) * (x - 900) + normal(r) * 0.25]; },
+      expert: { xp: 1, yp: 1, xc: 0, yc: 0, fails: true },
+      note: 'Scrap is lowest inside a temperature window. The curve falls, then rises. Every rung of the ladder is monotone, so none can straighten it. Fit a quadratic term instead.'
+    },
+    offset: {
+      label: 'Recovery time vs set-point', xName: 'Set-point', xUnit: 'units', yName: 'Recovery time', yUnit: 's',
+      seed: 102, n: 40, bulge: 'down-left',
+      gen: function (r) { var x = uniform(r, 100, 120); return [x, 400 / (x - 95) + normal(r) * 0.6]; },
+      expert: { xp: -1, yp: 1, xc: 95, yc: 0 },
+      note: 'The data span only 100 to 120, a ratio of 1.2, so ladder moves on raw x barely change the shape. The curve comes from an offset at 95. Subtract it first, then \\(1/(x-95)\\) is a straight line.'
+    }
+  };
+
+  function dataset(key) {
+    var p = PRESETS[key], r = rng(p.seed), xs = [], ys = [];
+    for (var i = 0; i < p.n; i++) { var pt = p.gen(r); xs.push(pt[0]); ys.push(pt[1]); }
+    return { x: xs, y: ys };
+  }
+
+  var RUNGS = [-2, -1, -0.5, 0, 0.5, 1, 2, 3];
+
+  /* Tukey ladder. Negative powers are negated so the order of points is kept. */
+  function fwd(v, p) {
+    if (p === 'logit') {
+      if (!(v > 0 && v < 100)) return NaN;
+      var q = v / 100; return Math.log(q / (1 - q));
+    }
+    if (p === 0) return v > 0 ? Math.log(v) : NaN;
+    if (p < 0) return v > 0 ? -Math.pow(v, p) : NaN;
+    if (p !== Math.round(p) && v < 0) return NaN;
+    return Math.pow(v, p);
+  }
+  function inv(u, p) {
+    if (p === 'logit') return 100 / (1 + Math.exp(-u));
+    if (p === 0) return Math.exp(u);
+    if (p < 0) return -u > 0 ? Math.pow(-u, 1 / p) : NaN;
+    if (p === 1) return u;
+    if (u < 0) return (p === 3) ? -Math.pow(-u, 1 / 3) : NaN;
+    return Math.pow(u, 1 / p);
+  }
+
+  function mean(a) { var s = 0; for (var i = 0; i < a.length; i++) s += a[i]; return s / a.length; }
+
+  function ols(u, v) {
+    var n = u.length, mu = mean(u), mv = mean(v), sxx = 0, sxy = 0, syy = 0;
+    for (var i = 0; i < n; i++) { var du = u[i] - mu, dv = v[i] - mv; sxx += du * du; sxy += du * dv; syy += dv * dv; }
+    var b = sxy / sxx, a = mv - b * mu, sse = 0, fit = [], res = [];
+    for (var j = 0; j < n; j++) { var f = a + b * u[j]; fit.push(f); res.push(v[j] - f); sse += (v[j] - f) * (v[j] - f); }
+    var r = sxy / Math.sqrt(sxx * syy);
+    return { a: a, b: b, r: r, r2: r * r, sse: sse, sst: syy, fit: fit, res: res, n: n, s: Math.sqrt(sse / (n - 2)) };
+  }
+
+  /* Solve a small linear system by Gaussian elimination with partial pivoting. */
+  function solve(A, bvec) {
+    var n = bvec.length, M = A.map(function (row, i) { return row.concat([bvec[i]]); });
+    for (var c = 0; c < n; c++) {
+      var piv = c;
+      for (var r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[piv][c])) piv = r;
+      var tmp = M[c]; M[c] = M[piv]; M[piv] = tmp;
+      if (Math.abs(M[c][c]) < 1e-14) return null;
+      for (var r2 = c + 1; r2 < n; r2++) {
+        var f = M[r2][c] / M[c][c];
+        for (var k = c; k <= n; k++) M[r2][k] -= f * M[c][k];
+      }
+    }
+    var x = new Array(n);
+    for (var i = n - 1; i >= 0; i--) {
+      var s = M[i][n];
+      for (var j = i + 1; j < n; j++) s -= M[i][j] * x[j];
+      x[i] = s / M[i][i];
+    }
+    return x;
+  }
+  /* Regularized incomplete beta I_x(a, b) by Lentz's continued fraction. */
+  function lgamma(z) {
+    var c = [76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+    var x = z, y = z, tmp = x + 5.5;
+    tmp -= (x + 0.5) * Math.log(tmp);
+    var ser = 1.000000000190015;
+    for (var j = 0; j < 6; j++) ser += c[j] / ++y;
+    return -tmp + Math.log(2.5066282746310005 * ser / x);
+  }
+  function betacf(a, b, x) {
+    var qab = a + b, qap = a + 1, qam = a - 1, c = 1, d = 1 - qab * x / qap;
+    if (Math.abs(d) < 1e-30) d = 1e-30;
+    d = 1 / d; var h = d;
+    for (var m = 1; m <= 300; m++) {
+      var m2 = 2 * m, aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+      d = 1 + aa * d; if (Math.abs(d) < 1e-30) d = 1e-30;
+      c = 1 + aa / c; if (Math.abs(c) < 1e-30) c = 1e-30;
+      d = 1 / d; h *= d * c;
+      aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+      d = 1 + aa * d; if (Math.abs(d) < 1e-30) d = 1e-30;
+      c = 1 + aa / c; if (Math.abs(c) < 1e-30) c = 1e-30;
+      d = 1 / d; var del = d * c; h *= del;
+      if (Math.abs(del - 1) < 3e-14) break;
+    }
+    return h;
+  }
+  function ibeta(x, a, b) {
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    var bt = Math.exp(lgamma(a + b) - lgamma(a) - lgamma(b) + a * Math.log(x) + b * Math.log(1 - x));
+    return x < (a + 1) / (a + b + 2) ? bt * betacf(a, b, x) / a : 1 - bt * betacf(b, a, 1 - x) / b;
+  }
+  /* Upper-tail p-values. */
+  function fUpper(F, d1, d2) { return F <= 0 ? 1 : ibeta(d2 / (d2 + d1 * F), d2 / 2, d1 / 2); }
+  function tTwoSided(t, df) { return ibeta(df / (df + t * t), df / 2, 0.5); }
+
+  /* Least squares on polynomial terms of a centred, scaled predictor. Returns SSE. */
+  function polySSE(u, v, degree) {
+    var n = u.length, mu = mean(u), su = 0;
+    for (var i = 0; i < n; i++) su += (u[i] - mu) * (u[i] - mu);
+    su = Math.sqrt(su / (n - 1)) || 1;
+    var p = degree + 1, XtX = [], Xtv = [];
+    for (var a = 0; a < p; a++) { XtX.push(new Array(p).fill(0)); Xtv.push(0); }
+    var rows = [];
+    for (var j = 0; j < n; j++) {
+      var z = (u[j] - mu) / su, row = [];
+      for (var k = 0; k < p; k++) row.push(Math.pow(z, k));
+      rows.push(row);
+      for (var r = 0; r < p; r++) { Xtv[r] += row[r] * v[j]; for (var c = 0; c < p; c++) XtX[r][c] += row[r] * row[c]; }
+    }
+    var beta = solve(XtX, Xtv);
+    if (!beta) return NaN;
+    var sse = 0;
+    for (var m = 0; m < n; m++) {
+      var f = 0;
+      for (var q = 0; q < p; q++) f += beta[q] * rows[m][q];
+      sse += (v[m] - f) * (v[m] - f);
+    }
+    return sse;
+  }
+
+  /* Curvature check: partial F test for adding squared and cubed terms to the straight line.
+     The cubic term catches S-shapes that a quadratic test misses. */
+  function curvature(u, v) {
+    var n = u.length, s1 = polySSE(u, v, 1), s3 = polySSE(u, v, 3);
+    var F = ((s1 - s3) / 2) / (s3 / (n - 4));
+    if (!isFinite(F)) F = 0;
+    return { F: F, p: fUpper(F, 2, n - 4) };
+  }
+
+  /* Spread check: does |residual| trend with the fitted value? */
+  function spread(fit, res) {
+    var absr = res.map(Math.abs), o = ols(fit, absr), n = fit.length;
+    if (!isFinite(o.r)) return { t: 0, p: 1 };
+    var t = o.r * Math.sqrt(n - 2) / Math.sqrt(Math.max(1e-12, 1 - o.r * o.r));
+    return { t: t, p: tTwoSided(t, n - 2) };
+  }
+
+  /* Full analysis of one transformation choice. */
+  function analyze(x, y, opt) {
+    var xc = +opt.xc || 0, yc = +opt.yc || 0, u = [], v = [], keep = [];
+    for (var i = 0; i < x.length; i++) {
+      var ui = fwd(x[i] - xc, opt.xp), vi = fwd(y[i] + yc, opt.yp);
+      if (isFinite(ui) && isFinite(vi)) { u.push(ui); v.push(vi); keep.push(i); }
+    }
+    var dropped = x.length - keep.length;
+    if (u.length < 6) return { ok: false, dropped: dropped, reason: 'Fewer than six points survive this transformation. Check for zeros, negatives or values outside the allowed range.' };
+    var o = ols(u, v);
+    var cv = curvature(u, v), sp = spread(o.fit, o.res);
+    /* R-squared on the original y scale, from back-transformed predictions. */
+    var yk = keep.map(function (k) { return y[k]; }), my = mean(yk), sseO = 0, sstO = 0, bad = 0;
+    for (var j = 0; j < keep.length; j++) {
+      var pred = inv(o.fit[j], opt.yp) - yc;
+      if (!isFinite(pred)) { bad++; continue; }
+      sseO += (yk[j] - pred) * (yk[j] - pred); sstO += (yk[j] - my) * (yk[j] - my);
+    }
+    return {
+      ok: true, u: u, v: v, keep: keep, fit: o.fit, res: o.res, a: o.a, b: o.b, r: o.r, r2: o.r2, s: o.s,
+      curvF: cv.F, curvP: cv.p, spreadT: sp.t, spreadP: sp.p, curved: cv.p < 0.05, funnel: sp.p < 0.05,
+      r2orig: bad ? NaN : 1 - sseO / sstO, dropped: dropped, n: u.length
+    };
+  }
+
+  function geomean(a) { var s = 0; for (var i = 0; i < a.length; i++) s += Math.log(a[i]); return Math.exp(s / a.length); }
+
+  /* Box-Cox profile log-likelihood for y, regressing the scaled transform on u. */
+  function boxCoxProfile(u, y, lo, hi, step) {
+    lo = lo == null ? -2 : lo; hi = hi == null ? 3 : hi; step = step || 0.01;
+    for (var i = 0; i < y.length; i++) if (!(y[i] > 0)) return null;
+    var g = geomean(y), n = y.length, out = [];
+    for (var lam = lo; lam <= hi + 1e-9; lam += step) {
+      var L = Math.round(lam * 1000) / 1000, z;
+      if (Math.abs(L) < 1e-9) z = y.map(function (t) { return g * Math.log(t); });
+      else z = y.map(function (t) { return (Math.pow(t, L) - 1) / (L * Math.pow(g, L - 1)); });
+      var o = ols(u, z);
+      out.push({ lambda: L, sse: o.sse, ll: -n / 2 * Math.log(o.sse / n) });
+    }
+    var best = out.reduce(function (m, p) { return p.ll > m.ll ? p : m; }, out[0]);
+    var cut = best.ll - 1.920729; /* chi-square(1, 0.95) / 2 */
+    var inside = out.filter(function (p) { return p.ll >= cut; });
+    var ciLo = inside[0].lambda, ciHi = inside[inside.length - 1].lambda;
+    var nice = [-2, -1, -0.5, 0, 0.5, 1, 2, 3];
+    var inCi = nice.filter(function (k) { return k >= ciLo - 1e-9 && k <= ciHi + 1e-9; });
+    var rounded = inCi.length
+      ? inCi.reduce(function (m, k) { return Math.abs(k - best.lambda) < Math.abs(m - best.lambda) ? k : m; }, inCi[0])
+      : null;
+    return { points: out, lambda: best.lambda, ciLo: ciLo, ciHi: ciHi, cut: cut, rounded: rounded, oneInCi: ciLo <= 1 && ciHi >= 1 };
+  }
+
+  /* Box-Tidwell iteration for the power on x. */
+  function boxTidwell(x, v, maxIter) {
+    maxIter = maxIter || 12;
+    for (var i = 0; i < x.length; i++) if (!(x[i] > 0)) return { ok: false, reason: 'Box–Tidwell needs every x value to be positive.' };
+    var alpha = 1, steps = [];
+    for (var it = 1; it <= maxIter; it++) {
+      var z = x.map(function (t) { return Math.abs(alpha) < 1e-6 ? Math.log(t) : Math.pow(t, alpha); });
+      var o = ols(z, v);
+      var w = z.map(function (t, k) { return Math.abs(alpha) < 1e-6 ? Math.log(x[k]) * Math.log(x[k]) : t * Math.log(t); });
+      /* Two-predictor fit v ~ z + w via the normal equations. */
+      var n = x.length, mz = mean(z), mw = mean(w), mv = mean(v), szz = 0, sww = 0, szw = 0, szv = 0, swv = 0;
+      for (var k = 0; k < n; k++) {
+        var dz = z[k] - mz, dw = w[k] - mw, dv = v[k] - mv;
+        szz += dz * dz; sww += dw * dw; szw += dz * dw; szv += dz * dv; swv += dw * dv;
+      }
+      var det = szz * sww - szw * szw;
+      if (Math.abs(det) < 1e-300) return { ok: false, reason: 'The augmented fit is singular.', steps: steps };
+      var gamma = (szz * swv - szw * szv) / det;
+      var next;
+      if (Math.abs(alpha) < 1e-6) next = alpha + gamma / o.b * 2; /* at alpha = 0 the term is ln(x)^2 / 2 */
+      else next = alpha * (1 + gamma / o.b);
+      steps.push({ iter: it, alpha: alpha, beta1: o.b, gamma: gamma, next: next });
+      if (!isFinite(next) || Math.abs(next) > 6) return { ok: false, reason: 'The iteration diverged. The curve may not be a power of x.', steps: steps };
+      if (Math.abs(next - alpha) < 1e-4) { alpha = next; break; }
+      alpha = next;
+    }
+    var nice = RUNGS.reduce(function (m, k) { return Math.abs(k - alpha) < Math.abs(m - alpha) ? k : m; }, RUNGS[0]);
+    return { ok: true, alpha: alpha, rounded: nice, steps: steps };
+  }
+
+  /* Back-transformation bias on the log scale: naive vs lognormal vs smearing. */
+  function backTransformDemo(sigma, n, seed) {
+    var r = rng(seed || 7), mu = Math.log(20), ly = [];
+    for (var i = 0; i < n; i++) ly.push(mu + normal(r) * sigma);
+    var m = mean(ly), s2 = 0;
+    for (var j = 0; j < n; j++) s2 += (ly[j] - m) * (ly[j] - m);
+    s2 /= (n - 1);
+    var smear = 0;
+    for (var k = 0; k < n; k++) smear += Math.exp(ly[k] - m);
+    smear /= n;
+    var ys = ly.map(Math.exp);
+    return {
+      trueMean: Math.exp(mu + sigma * sigma / 2), trueMedian: Math.exp(mu),
+      sampleMean: mean(ys), naive: Math.exp(m), lognormal: Math.exp(m + s2 / 2), smearing: Math.exp(m) * smear
+    };
+  }
+
+  /* Decision engine for the guided chooser. */
+  function recommend(a) {
+    var out = { title: '', steps: [], avoid: [] };
+    if (a.shape === 'ushape') {
+      out.title = 'Do not transform. Model the turn.';
+      out.steps.push('A curve that changes direction cannot be straightened by any monotone transformation.');
+      out.steps.push('Add a squared term (quadratic) or fit a spline. In Minitab, use Fitted Line Plot with the quadratic model.');
+      out.avoid.push('Trying rung after rung of the ladder.');
+      return out;
+    }
+    if (a.shape === 'sigmoid') {
+      out.title = a.spread === 'proportion' ? 'Use the logit of the proportion' : 'Fit an S-shaped model directly';
+      out.steps.push('An S-curve has two bends in opposite directions, so the power ladder cannot fix it.');
+      if (a.spread === 'proportion') out.steps.push('Proportions bounded by 0 and 1 straighten on the logit scale: \\(\\ln\\left(\\tfrac{p}{1-p}\\right)\\). Clip exact 0% and 100% values or use logistic regression.');
+      out.steps.push('For curves with upper and lower shelves, like Charpy energy, fit the hyperbolic tangent model by nonlinear regression.');
+      return out;
+    }
+    if (a.theory && a.theory !== 'none') {
+      var map = {
+        exponential: 'Take \\(\\ln y\\) and leave x alone. The slope is a growth rate per unit of x.',
+        power: 'Take logs of both axes. The slope is the exponent.',
+        reciprocal: 'Use \\(1/x\\) as the predictor and leave y alone.',
+        hallpetch: 'Use \\(x^{-1/2}\\) as the predictor.',
+        arrhenius: 'Plot \\(\\ln y\\) against \\(1/T\\) with T in kelvin. The slope is \\(-E_a/R\\).',
+        logarithmic: 'Take \\(\\ln x\\) and leave y alone.'
+      };
+      out.title = 'Use the form that the physics gives you';
+      out.steps.push(map[a.theory]);
+      out.steps.push('Then check the residuals. A theory-based transform still has to pass the curvature and spread checks.');
+    } else if (a.spread === 'grows') {
+      out.title = 'Transform y first, starting with the log';
+      out.steps.push('The spread grows with the level, so the error is multiplicative. Transforming y fixes curvature and spread together.');
+      out.steps.push('Run Box–Cox on the regression to confirm \\(\\lambda\\) near 0. If the curve remains, then adjust x.');
+    } else if (a.spread === 'counts') {
+      out.title = 'Use the square root of the counts, or Poisson regression';
+      out.steps.push('For counts the variance equals the mean, and \\(\\sqrt{y}\\) makes it roughly constant.');
+      out.steps.push('If \\(\\sqrt{y}\\) bends the trend, transform x as well, or model the mean directly with Poisson regression.');
+    } else if (a.spread === 'proportion') {
+      out.title = 'Use the logit or arcsine square root of the proportion';
+      out.steps.push('Binomial proportions have variance \\(p(1-p)/n\\), which is largest near 50%.');
+      out.steps.push('Use the logit for modelling or logistic regression on the raw counts.');
+    } else {
+      out.title = 'Transform x and leave y alone';
+      out.steps.push('The spread is already even, so changing y would create a new spread problem.');
+      out.steps.push('Use the bulge rule: move x down the ladder if the bulge points left, up if it points right. Box–Tidwell estimates the power.');
+    }
+    if (a.values === 'zeros') out.steps.push('Some values are zero: log and reciprocal fail. Use \\(\\sqrt{y}\\), \\(\\ln(y+c)\\) with a stated c, or a model with a log link.');
+    if (a.values === 'negative') out.steps.push('Negative values rule out the power ladder. Use Yeo–Johnson, or shift by a meaningful offset, not an arbitrary one.');
+    if (a.range === 'narrow') {
+      out.steps.push('Your largest value is less than about twice the smallest, so power transforms barely change the shape. Look for an offset (a start value) to subtract, or add a squared term.');
+      out.avoid.push('Expecting a log to straighten data with a max/min ratio near 1.');
+    }
+    out.avoid.push('Comparing R² between models with different y scales.');
+    return out;
+  }
+
+  return {
+    rng: rng, PRESETS: PRESETS, dataset: dataset, RUNGS: RUNGS, fwd: fwd, inv: inv, ols: ols,
+    curvature: curvature, spread: spread, fUpper: fUpper, tTwoSided: tTwoSided, analyze: analyze, boxCoxProfile: boxCoxProfile,
+    boxTidwell: boxTidwell, backTransformDemo: backTransformDemo, recommend: recommend, round: round
+  };
+})();
+window.LinearizeLab = LinearizeLab;
+</script>
+<script>
+(function () {
+  'use strict';
+  var L = window.LinearizeLab;
+  if (!L) return;
+  var doc = document;
+  var NS = 'http://www.w3.org/2000/svg';
+  function $(id) { return doc.getElementById(id); }
+  function typeset(el) { if (el && window.UpskillMath && typeof window.UpskillMath.typeset === 'function') window.UpskillMath.typeset([el]); }
+  function minus(s) { return String(s).replace(/-/g, '−'); }
+  function fmtNum(v) {
+    if (!isFinite(v)) return 'n/a';
+    if (v === 0) return '0';
+    var a = Math.abs(v);
+    if (a >= 1e5 || a < 1e-3) return minus(v.toExponential(1));
+    return minus(String(parseFloat(v.toPrecision(4))));
+  }
+  function fmtP(p) { return p < 0.001 ? 'p < 0.001' : 'p = ' + p.toFixed(3); }
+  function texNum(v) {
+    var a = Math.abs(v);
+    if (a !== 0 && (a >= 1e5 || a < 1e-3)) {
+      var parts = v.toExponential(2).split('e');
+      return parts[0] + ' \\times 10^{' + parseInt(parts[1], 10) + '}';
+    }
+    return String(parseFloat(v.toPrecision(4)));
+  }
+
+  /* ---------- SVG plotting ---------- */
+  function el(name, attrs, parent) {
+    var e = doc.createElementNS(NS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function niceTicks(min, max, count) {
+    if (!isFinite(min) || !isFinite(max)) { min = 0; max = 1; }
+    if (min === max) { var d = Math.abs(min) * 0.1 || 1; min -= d; max += d; }
+    var step0 = (max - min) / count, mag = Math.pow(10, Math.floor(Math.log10(step0))), err = step0 / mag;
+    var step = err >= 7.5 ? 10 * mag : err >= 3.5 ? 5 * mag : err >= 1.5 ? 2 * mag : mag;
+    var lo = Math.floor(min / step) * step, hi = Math.ceil(max / step) * step, t = [];
+    for (var v = lo; v <= hi + step * 1e-6; v += step) t.push(Math.abs(v) < step * 1e-9 ? 0 : parseFloat(v.toPrecision(12)));
+    return { lo: lo, hi: hi, ticks: t };
+  }
+  function extent(a) {
+    var lo = Infinity, hi = -Infinity;
+    for (var i = 0; i < a.length; i++) if (isFinite(a[i])) { if (a[i] < lo) lo = a[i]; if (a[i] > hi) hi = a[i]; }
+    return [lo, hi];
+  }
+  function lineCurve(x0, x1, a, b) {
+    var pts = [];
+    for (var i = 0; i <= 80; i++) { var x = x0 + (x1 - x0) * i / 80; pts.push([x, a + b * x]); }
+    return pts;
+  }
+  function clear(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+
+  function plot(svg, o) {
+    clear(svg);
+    var vb = (svg.getAttribute('viewBox') || '0 0 360 270').split(/[\s,]+/).map(Number), W = vb[2], H = vb[3];
+    var compact = !!o.compact;
+    var m = compact ? { l: 34, r: 8, t: 8, b: 30 } : { l: 52, r: 12, t: 12, b: 42 };
+    var ex = extent(o.xs), ey = extent(o.ys);
+    if (o.extraY) { var e2 = extent(o.extraY); ey = [Math.min(ey[0], e2[0]), Math.max(ey[1], e2[1])]; }
+    if (o.zero) { ey = [Math.min(ey[0], 0), Math.max(ey[1], 0)]; }
+    var tx = niceTicks(ex[0], ex[1], compact ? 3 : 4), ty = niceTicks(ey[0], ey[1], compact ? 3 : 4);
+    var sx = function (v) { return m.l + (v - tx.lo) / (tx.hi - tx.lo) * (W - m.l - m.r); };
+    var sy = function (v) { return H - m.b - (v - ty.lo) / (ty.hi - ty.lo) * (H - m.t - m.b); };
+    var g = el('g', {}, svg);
+    ty.ticks.forEach(function (t) {
+      el('line', { 'class': 'lz-gridline', x1: m.l, x2: W - m.r, y1: sy(t), y2: sy(t) }, g);
+      var lab = el('text', { 'class': 'lz-tick', x: m.l - 5, y: sy(t) + 3, 'text-anchor': 'end' }, g); lab.textContent = fmtNum(t);
+    });
+    tx.ticks.forEach(function (t) {
+      el('line', { 'class': 'lz-gridline', y1: m.t, y2: H - m.b, x1: sx(t), x2: sx(t) }, g);
+      var lab = el('text', { 'class': 'lz-tick', x: sx(t), y: H - m.b + 13, 'text-anchor': 'middle' }, g); lab.textContent = fmtNum(t);
+    });
+    el('line', { 'class': 'lz-axis', x1: m.l, x2: W - m.r, y1: H - m.b, y2: H - m.b }, g);
+    el('line', { 'class': 'lz-axis', x1: m.l, x2: m.l, y1: m.t, y2: H - m.b }, g);
+    if (o.zero) el('line', { 'class': 'lz-zero', x1: m.l, x2: W - m.r, y1: sy(0), y2: sy(0) }, g);
+    if (o.curve && o.curve.length > 1) {
+      var d = '', pen = false;
+      o.curve.forEach(function (p) {
+        if (!isFinite(p[1]) || p[1] < ty.lo || p[1] > ty.hi) { pen = false; return; }
+        var y = p[1];
+        d += (pen ? 'L' : 'M') + sx(p[0]).toFixed(1) + ' ' + sy(y).toFixed(1) + ' ';
+        pen = true;
+      });
+      if (d) el('path', { 'class': 'lz-fitline', d: d }, g);
+    }
+    for (var i = 0; o.points !== false && i < o.xs.length; i++) {
+      if (!isFinite(o.xs[i]) || !isFinite(o.ys[i])) continue;
+      el('circle', { 'class': 'lz-pt', cx: sx(o.xs[i]).toFixed(1), cy: sy(o.ys[i]).toFixed(1), r: compact ? 2.4 : 3 }, g);
+    }
+    if (o.xLabel) { var xl = el('text', { 'class': 'lz-axlabel', x: (m.l + W - m.r) / 2, y: H - 4, 'text-anchor': 'middle' }, g); xl.textContent = o.xLabel; }
+    if (o.yLabel) { var yl = el('text', { 'class': 'lz-axlabel', x: 0, y: 0, 'text-anchor': 'middle', transform: 'translate(' + (compact ? 9 : 11) + ',' + ((m.t + H - m.b) / 2) + ') rotate(-90)' }, g); yl.textContent = o.yLabel; }
+    return { sx: sx, sy: sy, tx: tx, ty: ty, m: m, W: W, H: H, g: g };
+  }
+
+  /* ---------- Labels ---------- */
+  var RUNG_TEXT = { '-2': '−1/v²', '-1': '−1/v', '-0.5': '−1/√v', '0': 'ln v', '0.5': '√v', '1': 'v', '2': 'v²', '3': 'v³', 'logit': 'logit v' };
+  function rungText(p, v) { return RUNG_TEXT[String(p)].replace('v', v); }
+  function rungTex(p, v, c, plusShift) {
+    var base = v, wrapped = v;
+    if (c) { base = v + (plusShift ? ' + ' : ' - ') + fmtNum(Math.abs(c)).replace('−', '-'); wrapped = '(' + base + ')'; }
+    switch (String(p)) {
+      case '1': return c ? wrapped : base;
+      case '0.5': return '\\sqrt{' + base + '}';
+      case '2': return wrapped + '^{2}';
+      case '3': return wrapped + '^{3}';
+      case '0': return '\\ln ' + (c ? wrapped : base);
+      case '-0.5': return '-\\tfrac{1}{\\sqrt{' + base + '}}';
+      case '-1': return '-\\tfrac{1}{' + base + '}';
+      case '-2': return '-\\tfrac{1}{' + wrapped + '^{2}}';
+      case 'logit': return '\\operatorname{logit}\\!\\left(\\tfrac{' + base + '}{100}\\right)';
+    }
+    return base;
+  }
+
+  /* ---------- Lab ---------- */
+  var cache = {};
+  function data(key) { if (!cache[key]) cache[key] = L.dataset(key); return cache[key]; }
+  var state = { key: 'hallpetch', xp: 1, yp: 1, xc: 0, yc: 0 };
+  var keys = Object.keys(L.PRESETS);
+  var sel = $('lz-preset');
+  keys.forEach(function (k) { var o = doc.createElement('option'); o.value = k; o.textContent = L.PRESETS[k].label; sel.appendChild(o); });
+
+  function buildRungs(fsId, name, letter, includeLogit) {
+    var wrap = $(fsId).querySelector('.lz-rung-set');
+    var list = L.RUNGS.slice();
+    if (includeLogit) list.push('logit');
+    list.forEach(function (p, i) {
+      var lab = doc.createElement('label'); lab.className = 'lz-rung';
+      var inp = doc.createElement('input'); inp.type = 'radio'; inp.name = name; inp.value = String(p); inp.id = name + '-' + i;
+      var span = doc.createElement('span'); span.textContent = rungText(p, letter);
+      lab.appendChild(inp); lab.appendChild(span); wrap.appendChild(lab);
+      inp.addEventListener('change', function () {
+        var v = inp.value === 'logit' ? 'logit' : parseFloat(inp.value);
+        if (letter === 'x') state.xp = v; else state.yp = v;
+        update();
+      });
+    });
+  }
+  buildRungs('lz-x-rungs', 'lz-xp', 'x', false);
+  buildRungs('lz-y-rungs', 'lz-yp', 'y', true);
+
+  function syncControls() {
+    sel.value = state.key;
+    doc.querySelectorAll('input[name="lz-xp"]').forEach(function (i) { i.checked = i.value === String(state.xp); });
+    doc.querySelectorAll('input[name="lz-yp"]').forEach(function (i) { i.checked = i.value === String(state.yp); });
+    $('lz-xc').value = state.xc;
+    $('lz-yc').value = state.yc;
+  }
+  function setVerdict(cls, text) { var v = $('lz-verdict'); v.className = 'lz-verdict ' + cls; v.textContent = text; }
+
+  function update() {
+    var p = L.PRESETS[state.key], d = data(state.key);
+    var res = L.analyze(d.x, d.y, state);
+    var xu = p.xUnit ? ' (' + p.xUnit + ')' : '', yu = p.yUnit ? ' (' + p.yUnit + ')' : '';
+    var xl = state.xc ? 'x − ' + fmtNum(state.xc) : 'x', yl = state.yc ? 'y + ' + fmtNum(state.yc) : 'y';
+    if (!res.ok) {
+      plot($('lz-plot-orig'), { xs: d.x, ys: d.y, xLabel: p.xName + xu, yLabel: p.yName + yu });
+      clear($('lz-plot-trans')); clear($('lz-plot-resid'));
+      setVerdict('is-bad', '✕ ' + res.reason);
+      ['lz-r-curv', 'lz-r-spread', 'lz-r-r2', 'lz-r-r2o'].forEach(function (id) { $(id).textContent = '–'; });
+      $('lz-r-n').textContent = (d.x.length - res.dropped) + ' of ' + d.x.length + ' points usable';
+      $('lz-equation').textContent = '';
+      updateBoxCox(); updateBoxTidwell();
+      return;
+    }
+    /* Original-scale curve */
+    var ex = extent(d.x), curve = [];
+    for (var i = 0; i <= 160; i++) {
+      var xv = ex[0] + (ex[1] - ex[0]) * i / 160, u = L.fwd(xv - state.xc, state.xp);
+      curve.push([xv, isFinite(u) ? L.inv(res.a + res.b * u, state.yp) - state.yc : NaN]);
+    }
+    plot($('lz-plot-orig'), { xs: d.x, ys: d.y, curve: curve, xLabel: p.xName + xu, yLabel: p.yName + yu });
+    var eu = extent(res.u);
+    plot($('lz-plot-trans'), { xs: res.u, ys: res.v, curve: lineCurve(eu[0], eu[1], res.a, res.b), xLabel: rungText(state.xp, xl), yLabel: rungText(state.yp, yl) });
+    plot($('lz-plot-resid'), { xs: res.fit, ys: res.res, zero: true, xLabel: 'Fitted value', yLabel: 'Residual' });
+
+    $('lz-r-curv').innerHTML = fmtP(res.curvP) + '<small>' + (res.curved ? 'Fails: a curve remains' : 'Passes: no detectable curve') + '</small>';
+    $('lz-r-spread').innerHTML = fmtP(res.spreadP) + '<small>' + (res.funnel ? 'Fails: spread trends with the fit' : 'Passes: even spread') + '</small>';
+    $('lz-r-r2').textContent = res.r2.toFixed(3);
+    $('lz-r-r2o').innerHTML = isFinite(res.r2orig) ? res.r2orig.toFixed(3) : 'n/a<small>Some predictions cannot be back-transformed</small>';
+    $('lz-r-n').textContent = res.n + ' of ' + d.x.length + ' points used' + (res.dropped ? ' (' + res.dropped + ' undefined on this rung)' : '');
+
+    var verdict;
+    if (!res.curved && !res.funnel) { setVerdict('is-good', '✓ Straight and even'); verdict = 'straight and even'; }
+    else if (res.curved && res.funnel) { setVerdict('is-bad', '✕ Still curved, and the spread fans out'); verdict = 'still curved with uneven spread'; }
+    else if (res.curved) { setVerdict('is-bad', '✕ Still curved'); verdict = 'still curved'; }
+    else { setVerdict('is-bad', '✕ Straight, but the spread fans out'); verdict = 'straight but with uneven spread'; }
+
+    $('lz-plot-orig').setAttribute('aria-label', p.label + ': ' + res.n + ' points on the original scale with the fitted model drawn as a curve.');
+    $('lz-plot-trans').setAttribute('aria-label', 'Transformed data, ' + rungText(state.yp, yl) + ' against ' + rungText(state.xp, xl) + ', with a straight line. R squared ' + res.r2.toFixed(3) + '.');
+    $('lz-plot-resid').setAttribute('aria-label', 'Residuals against fitted values: ' + verdict + '.');
+
+    /* Show negative rungs in their natural form: a - b(-1/x) is written a + b/x. */
+    var a = res.a, b = res.b;
+    var yNeg = typeof state.yp === 'number' && state.yp < 0, xNeg = typeof state.xp === 'number' && state.xp < 0;
+    if (yNeg) { a = -a; b = -b; }
+    if (xNeg) { b = -b; }
+    var vT = rungTex(state.yp, 'y', state.yc, true), uT = rungTex(state.xp, 'x', state.xc, false);
+    if (yNeg) vT = vT.replace(/^-/, '');
+    if (xNeg) uT = uT.replace(/^-/, '');
+    var sign = b < 0 ? ' - ' : ' + ';
+    var tex = '\\(\\widehat{' + vT + '} = ' + texNum(a) + sign + texNum(Math.abs(b)) + '\\,' + uT + '\\)';
+    $('lz-equation').textContent = tex;
+    typeset($('lz-equation'));
+    updateBoxCox(); updateBoxTidwell();
+  }
+
+  function showExpertNote(show) {
+    var n = $('lz-expert-note');
+    if (!show) { n.hidden = true; return; }
+    var p = L.PRESETS[state.key];
+    n.innerHTML = '<strong>Expert pick.</strong> ' + p.note;
+    n.hidden = false;
+    typeset(n);
+  }
+  sel.addEventListener('change', function () {
+    state = { key: sel.value, xp: 1, yp: 1, xc: 0, yc: 0 };
+    syncControls(); showExpertNote(false); update();
+  });
+  $('lz-xc').addEventListener('input', function () { var v = parseFloat(this.value); state.xc = isFinite(v) ? v : 0; update(); });
+  $('lz-yc').addEventListener('input', function () { var v = parseFloat(this.value); state.yc = isFinite(v) ? v : 0; update(); });
+  $('lz-expert').addEventListener('click', function () {
+    var e = L.PRESETS[state.key].expert;
+    state.xp = e.xp; state.yp = e.yp; state.xc = e.xc; state.yc = e.yc;
+    syncControls(); update(); showExpertNote(true);
+  });
+  $('lz-reset').addEventListener('click', function () {
+    state = { key: state.key, xp: 1, yp: 1, xc: 0, yc: 0 };
+    syncControls(); showExpertNote(false); update();
+  });
+
+  /* ---------- Box-Cox panel ---------- */
+  var bcRounded = null, btRounded = null;
+  function updateBoxCox() {
+    var p = L.PRESETS[state.key], d = data(state.key), u = [], y = [];
+    for (var i = 0; i < d.x.length; i++) {
+      var ui = L.fwd(d.x[i] - state.xc, state.xp);
+      if (isFinite(ui)) { u.push(ui); y.push(d.y[i] + state.yc); }
+    }
+    var xl = state.xc ? 'x − ' + fmtNum(state.xc) : 'x';
+    $('lz-bc-context').textContent = 'Dataset: ' + p.label + '. Predictor: ' + rungText(state.xp, xl) + '.';
+    var svg = $('lz-bc-plot'), prof = u.length > 5 ? L.boxCoxProfile(u, y, -2, 3, 0.01) : null;
+    var btn = $('lz-bc-apply');
+    if (!prof) {
+      clear(svg); bcRounded = null; btn.disabled = true;
+      $('lz-bc-lambda').textContent = 'n/a'; $('lz-bc-ci').textContent = 'n/a'; $('lz-bc-round').textContent = 'n/a';
+      $('lz-bc-text').textContent = 'Box–Cox needs every y value to be positive. This dataset has zeros or negatives. Add a start value in the lab, or use the square root.';
+      return;
+    }
+    var top = prof.points.reduce(function (m, q) { return Math.max(m, q.ll); }, -Infinity);
+    /* Show the useful part of the curve: 12 log-likelihood units below the peak. */
+    var floor = top - 12;
+    var shown = prof.points.filter(function (q) { return q.ll >= floor; });
+    var g = plot(svg, { xs: shown.map(function (q) { return q.lambda; }), ys: shown.map(function (q) { return q.ll; }), curve: shown.map(function (q) { return [q.lambda, q.ll]; }), points: false, xLabel: 'λ (power on y)', yLabel: 'Profile log-likelihood' });
+    el('rect', { 'class': 'lz-band', x: g.sx(prof.ciLo), y: g.m.t, width: Math.max(1, g.sx(prof.ciHi) - g.sx(prof.ciLo)), height: g.H - g.m.t - g.m.b }, g.g);
+    el('line', { 'class': 'lz-zero', x1: g.m.l, x2: g.W - g.m.r, y1: g.sy(prof.cut), y2: g.sy(prof.cut) }, g.g);
+    el('circle', { 'class': 'lz-marker', cx: g.sx(prof.lambda), cy: g.sy(top), r: 5 }, g.g);
+    svg.setAttribute('aria-label', 'Box-Cox profile log-likelihood. Peak at lambda ' + fmtNum(prof.lambda) + ', 95 percent interval ' + fmtNum(prof.ciLo) + ' to ' + fmtNum(prof.ciHi) + '.');
+    $('lz-bc-lambda').textContent = fmtNum(prof.lambda);
+    $('lz-bc-ci').textContent = fmtNum(prof.ciLo) + ' to ' + fmtNum(prof.ciHi);
+    bcRounded = prof.rounded;
+    $('lz-bc-round').textContent = prof.rounded === null ? 'none' : fmtNum(prof.rounded) + ' (' + rungText(prof.rounded, 'y') + ')';
+    var txt;
+    var atEdge = prof.lambda <= -2 + 1e-9 || prof.lambda >= 3 - 1e-9;
+    if (atEdge) txt = 'The best power sits at the edge of the search range (\u22122 to 3), so no power of y straightens this with the current predictor. Transform x first, then rerun.';
+    else if (prof.rounded === null) txt = 'No simple rung lies inside the interval. The data may need an offset, a different x transform, or a model that is not a power of y.';
+    else if (prof.oneInCi && prof.rounded === 1) txt = 'λ = 1 is inside the interval, so with this predictor y needs no transformation.';
+    else txt = 'Use ' + rungText(prof.rounded, 'y') + '. ' + (prof.oneInCi ? 'Note that 1 is also inside the interval, so leaving y alone is defensible.' : 'Leaving y untransformed (λ = 1) is outside the interval.');
+    if (p.bounded) txt += ' For percentages bounded by 0 and 100, the logit usually beats any power.';
+    $('lz-bc-text').textContent = txt;
+    btn.disabled = prof.rounded === null || atEdge;
+  }
+  $('lz-bc-apply').addEventListener('click', function () {
+    if (bcRounded === null) return;
+    state.yp = bcRounded; syncControls(); update();
+  });
+
+  /* ---------- Box-Tidwell panel ---------- */
+  function updateBoxTidwell() {
+    var d = data(state.key), xs = [], vs = [];
+    for (var i = 0; i < d.x.length; i++) {
+      var v = L.fwd(d.y[i] + state.yc, state.yp);
+      if (isFinite(v)) { xs.push(d.x[i] - state.xc); vs.push(v); }
+    }
+    var yl = state.yc ? 'y + ' + fmtNum(state.yc) : 'y';
+    $('lz-bt-context').textContent = 'Response: ' + rungText(state.yp, yl) + '. Power estimated on ' + (state.xc ? 'x − ' + fmtNum(state.xc) : 'x') + '.';
+    var bt = L.boxTidwell(xs, vs, 12), body = $('lz-bt-rows'), btn = $('lz-bt-apply');
+    body.innerHTML = '';
+    (bt.steps || []).forEach(function (s) {
+      var tr = doc.createElement('tr');
+      [s.iter, fmtNum(s.alpha), fmtNum(s.beta1), fmtNum(s.gamma), fmtNum(s.next)].forEach(function (c, j) {
+        var td = doc.createElement('td'); td.className = 'lz-num'; td.textContent = c; tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+    if (!bt.steps || !bt.steps.length) { var tr = doc.createElement('tr'), td = doc.createElement('td'); td.colSpan = 5; td.textContent = 'No iterations run.'; tr.appendChild(td); body.appendChild(tr); }
+    if (!bt.ok) {
+      btRounded = null; btn.disabled = true;
+      $('lz-bt-alpha').textContent = 'n/a'; $('lz-bt-round').textContent = 'n/a';
+      $('lz-bt-text').textContent = bt.reason + (xs.some(function (v) { return v <= 0; }) ? ' Shift x with the offset so every value is positive, or use a model for curves that are not powers.' : '');
+      return;
+    }
+    btRounded = bt.rounded; btn.disabled = false;
+    $('lz-bt-alpha').textContent = fmtNum(bt.alpha);
+    $('lz-bt-round').textContent = fmtNum(bt.rounded) + ' (' + rungText(bt.rounded, 'x') + ')';
+    $('lz-bt-text').textContent = Math.abs(bt.alpha - 1) < 0.15
+      ? 'The estimate is close to 1, so x needs little or no transformation with this response.'
+      : 'Converged in ' + bt.steps.length + ' step' + (bt.steps.length > 1 ? 's' : '') + '. Try ' + rungText(bt.rounded, 'x') + ', then confirm with the residual plot.';
+  }
+  $('lz-bt-apply').addEventListener('click', function () {
+    if (btRounded === null) return;
+    state.xp = btRounded; syncControls(); update();
+  });
+
+  /* ---------- Bulge rule ---------- */
+  var BULGE = {
+    'up-left': { title: 'Rises fast, then flattens', text: 'Concave and increasing: saturation, diminishing returns, strain hardening.', moves: 'Move x down the ladder (√x, ln x, −1/x) or y up (y²). Prefer x when the spread is even.', ex: 'Example: flow stress vs true strain.', preset: 'strainhard' },
+    'up-right': { title: 'Falls slowly, then fast', text: 'Concave and decreasing: a margin that collapses as it nears a limit.', moves: 'Move x up the ladder (x², x³) or y up (y²).', ex: 'Example: motor torque margin vs rolling speed.', preset: 'headroom' },
+    'down-left': { title: 'Falls fast, then levels off', text: 'Convex and decreasing: decay toward a floor, inverse relationships, grain-size strengthening.', moves: 'Move x down the ladder (−1/√x, −1/x) or y down (ln y).', ex: 'Example: yield strength vs grain size.', preset: 'hallpetch' },
+    'down-right': { title: 'Rises slowly, then fast', text: 'Convex and increasing: exponential growth, power laws with an exponent above 1.', moves: 'Move x up the ladder (x²) or y down (√y, ln y). Prefer y when the spread fans out.', ex: 'Example: surface defects vs tonnes since roll change.', preset: 'growth' }
+  };
+  var bulgeQuad = 'up-left';
+  function setBulge(q) {
+    bulgeQuad = q;
+    var b = BULGE[q];
+    doc.querySelectorAll('.lz-quad-btns button').forEach(function (btn) { btn.setAttribute('aria-pressed', btn.getAttribute('data-quad') === q ? 'true' : 'false'); });
+    doc.querySelectorAll('#lz-bulge-svg .lz-bulge-arc').forEach(function (a) { a.setAttribute('class', 'lz-bulge-arc' + (a.getAttribute('data-quad') === q ? ' is-active' : '')); });
+    $('lz-bulge-title').textContent = b.title;
+    $('lz-bulge-text').textContent = b.text;
+    $('lz-bulge-moves').textContent = b.moves;
+    $('lz-bulge-example').textContent = b.ex;
+  }
+  doc.querySelectorAll('.lz-quad-btns button').forEach(function (btn) {
+    btn.addEventListener('click', function () { setBulge(btn.getAttribute('data-quad')); });
+  });
+  $('lz-bulge-load').addEventListener('click', function () {
+    state = { key: BULGE[bulgeQuad].preset, xp: 1, yp: 1, xc: 0, yc: 0 };
+    syncControls(); showExpertNote(false); update();
+    var lab = $('lab');
+    if (lab && lab.scrollIntoView) lab.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    sel.focus({ preventScroll: true });
+  });
+
+  /* ---------- Back-transform demo ---------- */
+  function updateBackTransform() {
+    var s = parseFloat($('lz-sigma').value);
+    $('lz-sigma-out').textContent = s.toFixed(2);
+    var r = L.backTransformDemo(s, 200, 7);
+    var rows = [
+      ['True mean', r.trueMean, 'is-true'],
+      ['Sample mean of y', r.sampleMean, ''],
+      ['Naive: exp(mean of ln y)', r.naive, 'is-naive'],
+      ['Lognormal correction', r.lognormal, ''],
+      ['Smearing (Duan)', r.smearing, '']
+    ];
+    var body = $('lz-btd-rows'); body.innerHTML = '';
+    rows.forEach(function (row) {
+      var tr = doc.createElement('tr');
+      var th = doc.createElement('th'); th.scope = 'row'; th.textContent = row[0]; th.style.textTransform = 'none'; th.style.fontFamily = 'inherit'; th.style.fontSize = 'inherit'; th.style.letterSpacing = '0';
+      var td1 = doc.createElement('td'); td1.className = 'lz-num'; td1.textContent = row[1].toFixed(2);
+      var td2 = doc.createElement('td'); td2.className = 'lz-num';
+      td2.textContent = row[0] === 'True mean' ? '–' : minus(((row[1] / r.trueMean - 1) * 100).toFixed(1)) + '%';
+      tr.appendChild(th); tr.appendChild(td1); tr.appendChild(td2); body.appendChild(tr);
+    });
+    var svg = $('lz-bt-bars'); clear(svg);
+    var W = 420, H = 220, m = { l: 150, r: 44, t: 20, b: 26 };
+    var max = Math.max.apply(null, rows.map(function (q) { return q[1]; })) * 1.08;
+    var t = niceTicks(0, max, 4);
+    var sx = function (v) { return m.l + v / t.hi * (W - m.l - m.r); };
+    var bh = (H - m.t - m.b) / rows.length;
+    t.ticks.forEach(function (v) {
+      el('line', { 'class': 'lz-gridline', x1: sx(v), x2: sx(v), y1: m.t, y2: H - m.b }, svg);
+      var tl = el('text', { 'class': 'lz-tick', x: sx(v), y: H - m.b + 13, 'text-anchor': 'middle' }, svg); tl.textContent = fmtNum(v);
+    });
+    rows.forEach(function (row, i) {
+      var y = m.t + i * bh + bh * 0.18;
+      el('rect', { 'class': 'lz-bar ' + row[2], x: m.l, y: y, width: Math.max(1, sx(row[1]) - m.l), height: bh * 0.64, rx: 2 }, svg);
+      var lab = el('text', { 'class': 'lz-svg-text', x: m.l - 6, y: y + bh * 0.42, 'text-anchor': 'end' }, svg); lab.textContent = row[0].replace(': exp(mean of ln y)', '');
+      var val = el('text', { 'class': 'lz-svg-text', x: sx(row[1]) + (Math.abs(sx(row[1]) - sx(r.trueMedian)) < 26 && sx(row[1]) > sx(r.trueMedian) - 26 && sx(row[1]) < sx(r.trueMedian) ? 6 : 4), y: y + bh * 0.42 }, svg); val.textContent = row[1].toFixed(1);
+    });
+    el('line', { 'class': 'lz-zero', x1: sx(r.trueMedian), x2: sx(r.trueMedian), y1: m.t, y2: H - m.b }, svg);
+    var ml = el('text', { 'class': 'lz-tick', x: sx(r.trueMedian), y: m.t - 6, 'text-anchor': 'middle' }, svg); ml.textContent = 'median';
+    svg.setAttribute('aria-label', 'At sigma ' + s.toFixed(2) + ', the true mean is ' + r.trueMean.toFixed(1) + '; the naive back-transform gives ' + r.naive.toFixed(1) + ' and smearing gives ' + r.smearing.toFixed(1) + '.');
+    $('lz-btd-text').textContent = 'The naive back-transform is ' + Math.abs((r.naive / r.trueMean - 1) * 100).toFixed(0) + '% below the true mean at σ = ' + s.toFixed(2) + '. It tracks the median (20.0), not the mean. Both corrections recover most of the gap.';
+  }
+  $('lz-sigma').addEventListener('input', updateBackTransform);
+
+  /* ---------- Chooser ---------- */
+  function radioVal(name) { var c = doc.querySelector('input[name="' + name + '"]:checked'); return c ? c.value : null; }
+  function updateChooser() {
+    var rec = L.recommend({ shape: radioVal('lz-q-shape'), theory: radioVal('lz-q-theory'), spread: radioVal('lz-q-spread'), values: radioVal('lz-q-values'), range: radioVal('lz-q-range') });
+    $('lz-rec-title').textContent = rec.title;
+    var ul = $('lz-rec-steps'); ul.innerHTML = '';
+    rec.steps.forEach(function (s) { var li = doc.createElement('li'); li.textContent = s; ul.appendChild(li); });
+    var av = $('lz-rec-avoid'); av.innerHTML = '';
+    rec.avoid.forEach(function (s) { var li = doc.createElement('li'); li.textContent = s; av.appendChild(li); });
+    $('lz-rec-avoid-h').hidden = !rec.avoid.length;
+    typeset($('lz-rec'));
+  }
+  $('lz-chooser-form').addEventListener('change', updateChooser);
+
+  /* ---------- Hero thesis ---------- */
+  function drawThesis() {
+    var d = data('paris');
+    plot($('lz-thesis-raw'), { xs: d.x, ys: d.y, compact: true, xLabel: 'ΔK', yLabel: 'da/dN' });
+    var lx = d.x.map(Math.log), ly = d.y.map(Math.log), o = L.ols(lx, ly), e = extent(lx);
+    plot($('lz-thesis-log'), { xs: lx, ys: ly, compact: true, curve: lineCurve(e[0], e[1], o.a, o.b), xLabel: 'ln ΔK', yLabel: 'ln da/dN' });
+  }
+
+  drawThesis();
+  setBulge('up-left');
+  syncControls();
+  update();
+  updateBackTransform();
+  updateChooser();
+  window.LinearizeLabUI = { state: function () { return state; }, update: update };
+})();
+</script>
+<style id="choosing-a-transformation-to-linearize-data-dark-overrides">
+html[data-theme="dark"] #lesson-content {
+  --lesson-lz-bg: #071120;
+  --lesson-lz-panel: #0d1b30;
+  --lesson-lz-panel2: #132743;
+  --lesson-lz-ink: #e4eef6;
+  --lesson-lz-muted: #a3b8cb;
+  --lesson-lz-line: #26405f;
+  --lesson-lz-grid: #172b47;
+  --lesson-lz-accent: #3fb6d8;
+  --lesson-lz-accent-ink: #04121f;
+  --lesson-lz-signal: #f0b35a;
+  --lesson-lz-good: #63d39c;
+  --lesson-lz-bad: #f3907e;
+  --lesson-lz-point: #3fb6d8;
+  --lesson-lz-fit: #f0b35a;
+  --lesson-lz-code-bg: #040b16;
+  --lesson-lz-code-ink: #dce9f3;
+  color-scheme: dark;
+}
+html[data-theme="dark"] .quiz-section .lesson-kicker { color: #7dd3fc; }
+html[data-theme="dark"] [aria-label="Return to lesson category"] a { color: #7dd3fc !important; }
+</style>
+</body>
+</html>
