@@ -6,6 +6,7 @@
     badge:card.querySelector('.exam-acronym').textContent,publication_status:card.dataset.publication,
     can_practice:false,access_status:'locked',request_revision:0
   }));
+  const EXAM_PREVIEWS = ['cssbb','pmp'];
   const labels = {granted:'Access granted',locked:'Locked',pending:'Request pending',expired:'Access expired',revoked:'Access revoked',declined:'Request declined',coming_soon:'Coming soon',loading:'Checking access',unavailable:'Access unavailable'};
   let auth, user = null, phase = 'loading', rows = defaults, version = 0, active = null, reading = null, busy = false, initialized = false;
   const notice = text => { byId('exam-directory-status').textContent = text; };
@@ -63,8 +64,8 @@
       }
       controls.appendChild(request);
     }
-    // The free ExamPreview is public; offer it to anyone without CSSBB access.
-    if(row.exam_key==='cssbb'&&status!=='granted'){const preview=node('a','Try 20 free questions (ExamPreview) →','exam-card-preview');preview.href='/exam-preview/cssbb';controls.appendChild(preview);}
+    // The free ExamPreviews are public; offer them to anyone without access to that exam.
+    if(EXAM_PREVIEWS.includes(row.exam_key)&&status!=='granted'){const preview=node('a','Try 20 free questions (ExamPreview) →','exam-card-preview');preview.href='/exam-preview/'+row.exam_key;controls.appendChild(preview);}
     card.appendChild(controls);return card;
   }
   function filter() {

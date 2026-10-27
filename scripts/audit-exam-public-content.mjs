@@ -12,15 +12,22 @@ const answerLiteral = /["']?(?:answer|correctAnswer)["']?\s*:\s*(?:\d|["'`])/;
 // The only public question file: the free ExamPreview pool. It is allowed
 // solely when every question carries an ExamPreview id, so a paid bank copied
 // to this path still blocks the build.
-export const FREE_POOL_PATHS = new Set(['exam-preview/cssbb-questions.json']);
-export function freePoolProblem(content) {
+export const FREE_POOL_PATHS = new Set(['exam-preview/cssbb-questions.json', 'exam-preview/pmp-questions.json']);
+export function freePoolProblem(content, path = '') {
   let data;
   try { data = JSON.parse(content); } catch { return 'Free ExamPreview pool is not valid JSON'; }
   const ids = data && data.contents && typeof data.contents === 'object' ? Object.keys(data.contents) : [];
-  if (data?.pool !== 'exampreview-free' || !ids.length || ids.some(id => !/^cssbb:exampreview:ep-cssbb-\d{2}$/.test(id))) {
+  if (data?.pool !== 'exampreview-free' || !ids.length || ids.some(id => !idPattern(data, path).test(id))) {
     return 'Free ExamPreview pool contains non-ExamPreview questions';
   }
   return null;
+}
+
+// Each pool may only hold its own exam's ExamPreview ids (pmp:exampreview:ep-pmp-01).
+function idPattern(data, path) {
+  const exam = /exam-preview\/([a-z]+)-questions\.json$/.exec(path)?.[1] || data?.examId;
+  if (!/^[a-z]+$/.test(exam || '') || (data?.examId && data.examId !== exam)) return /^(?!)/;
+  return new RegExp(`^${exam}:exampreview:ep-${exam}-\\d{2}$`);
 }
 
 export async function auditExamPublicContent(directory) {
@@ -58,7 +65,7 @@ export async function auditExamPublicContent(directory) {
       if (textFile.test(name)) {
         const content = await readFile(path, 'utf8');
         if (FREE_POOL_PATHS.has(name)) {
-          const problem = freePoolProblem(content);
+          const problem = freePoolProblem(content, name);
           if (problem) findings.push({ path: name, reason: problem });
           continue;
         }

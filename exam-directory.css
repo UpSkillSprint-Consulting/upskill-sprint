@@ -74,6 +74,7 @@ html[data-theme="dark"] .exam-card h3 { color: #f1f5f9; }
 .exam-preview-promo p{margin:0;max-width:60ch;color:var(--ink-soft,var(--ink))}
 .exam-preview-promo .btn{min-height:44px;max-width:100%;white-space:normal;text-align:center}
 .exam-preview-promo>div{min-width:0}
+.exam-preview-promo-actions{display:flex;flex-wrap:wrap;gap:10px}
 @media(max-width:480px){.exam-preview-promo{padding:16px}.exam-preview-promo .btn{width:100%}}
 .exam-card-preview{display:inline-block;margin-top:10px;font-weight:600;color:var(--accent,#1f4e5f);text-decoration:underline;min-height:44px;line-height:44px}
 html[data-theme="dark"] .exam-card-preview{color:#9be3ea}
