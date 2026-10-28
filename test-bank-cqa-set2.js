@@ -1,11 +1,12 @@
 /*
  * ASQ CQA Exam Set 2 — original practice questions.
- * Batches 1–3: Q001–Q030. Planned bank: 150 questions.
+ * Batches 1–4: Q001–Q040. Planned bank: 150 questions.
  * Author in reviewed batches of 10; hold PR #368 until all 150 are ready.
  * 2026 BoK target counts: I 37 / II 45 / III 30 / IV 23 / V 15.
  * Batch 1 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Batch 2 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Batch 3 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
+ * Batch 4 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Questions and exhibits are original; handbook citations use printed pages.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
  */
@@ -1071,6 +1072,246 @@
         ]
       ]
     }
+  },
+  {
+    "qid": "cqa:set-2:q031",
+    "set": 2,
+    "batch": 4,
+    "sub": "cqa-audit-purpose",
+    "bok": "I.A.3",
+    "cognitive": "Analyze",
+    "stem": "An approved data-conversion supplier passed a routine audit two months ago. After three recent deliveries omitted customer records, the customer commissions an additional audit to investigate the relevant conversion and review controls and establish the extent of the problem. Corrective actions for these omissions have not yet been implemented. Which purpose best explains why this audit is being commissioned now?",
+    "options": [
+      "Routine surveillance, because the supplier is already approved and the customer needs periodic assurance that its established controls continue to operate.",
+      "For-cause investigation, because reported failures have prompted a focused examination of the activities and controls associated with those failures.",
+      "Corrective-action verification, because an audit following a reported problem determines whether the actions addressing that problem have prevented recurrence.",
+      "Initial supplier qualification, because the recent omissions require the customer to establish the supplier's capability before placing its first order."
+    ],
+    "answer": 1,
+    "why": "The immediate purpose is to investigate a reported problem and the controls associated with it. That is a for-cause audit. The supplier's existing approval and recent routine audit do not change the trigger for this additional engagement. A later audit could verify the implementation and effectiveness of corrective actions, but those actions have not yet been implemented for these omissions. This is also not an initial qualification before the first order. Audit relationship, method, and purpose are separate dimensions: this customer's supplier audit can be second-party while its specific purpose is for-cause investigation. The audit should obtain evidence about the problem without assuming that a particular cause has already been established. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 7, 16, 139.</span>",
+    "keyPoint": "Classify an audit by the purpose of the present engagement, distinguishing investigation of a reported problem from later verification of its corrective action.",
+    "trap": "Treating every audit after a problem as corrective-action verification, or allowing the supplier's approval status to obscure the immediate purpose.",
+    "distractors": {
+      "0": "Periodic surveillance is a legitimate activity for an approved supplier, but this additional audit was commissioned specifically because of the reported omissions, not simply because another routine interval elapsed.",
+      "2": "Verification requires an action or response whose implementation and effectiveness can be assessed. The stem says corrective actions for these omissions have not yet been implemented.",
+      "3": "The supplier is already approved and has delivered work. The stated purpose concerns failures in existing service, not capability assessment before the customer's first order."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q032",
+    "set": 2,
+    "batch": 4,
+    "sub": "cqa-common-elements",
+    "bok": "I.A.4",
+    "cognitive": "Apply",
+    "stem": "A quality auditor and a qualified environmental auditor prepare separate audits at the same plant. One audit will examine traceability from outsourced test results to production lots; the other will examine traceability from waste-transfer records to collections. Each has its own applicable criteria and technical responsibilities. Which approach appropriately applies the elements shared by these two audit disciplines?",
+    "options": [
+      "Develop one set of control requirements from the quality criteria, then use the same sample and conclusions for both audits to ensure consistency.",
+      "Use each audit's criteria, but treat completed records as sufficient evidence of traceability without checking their links to the activities they describe.",
+      "Use separate objectives and criteria, but restrict common methods to report formatting because evidence-collection techniques cannot transfer between the two disciplines.",
+      "Set appropriate objectives and criteria for each audit, then use interviews, observation, record review, and transaction tracing to obtain relevant verified evidence."
+    ],
+    "answer": 3,
+    "why": "Both audits use a planned, independent process to obtain relevant evidence and evaluate it against appropriate criteria. Interviews, observations, record review, and tracing can support that process in both disciplines, although their emphasis and technical interpretation may differ. Sharing those methods does not make the quality criteria applicable to the environmental audit or justify one undifferentiated conclusion. In this scenario, record existence alone does not establish the required links between results or transfers and the underlying activities. Each qualified auditor must apply the relevant criteria and technical judgment to the evidence. The common framework extends beyond a shared report format. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 9, 11.</span>",
+    "keyPoint": "Audit disciplines share a planned evidence-and-criteria framework while retaining appropriate subject expertise, criteria, and conclusions.",
+    "trap": "Assuming that common audit methods require identical criteria, or that different technical subjects prevent useful methods from being shared.",
+    "distractors": {
+      "0": "A shared site does not make the two sets of requirements interchangeable. Each audit needs evidence and conclusions relevant to its own purpose and criteria.",
+      "1": "Completed records may be useful evidence, but the stated objectives concern traceability. The relevant links must be checked rather than inferred from the mere existence of the records.",
+      "2": "The common elements include planning, data collection, objective evaluation, reporting, and follow-up. Interviews, observation, record review, and tracing are not confined to one audit discipline."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q033",
+    "set": 2,
+    "batch": 4,
+    "sub": "cqa-audit-credibility",
+    "bok": "I.E.3",
+    "cognitive": "Apply",
+    "stem": "An internal audit identifies a supported nonconformity in maintenance scheduling. The auditee agrees that the cited requirement and evidence are correct but asks the auditor to omit the finding from the executive report. Department bonuses are determined solely by the number of negative audit findings, so including it would reduce the department's bonus. The auditor is independent of the department and must use the established reporting route. Which response best protects audit credibility?",
+    "options": [
+      "Retain the evidence-supported finding through the established reporting route and ask audit program management to address the incentive that is creating pressure to suppress results.",
+      "Reclassify the finding as an improvement suggestion, keeping the evidence in the report while preventing it from affecting the department's negative-finding count.",
+      "Remove the finding from the executive report but retain it in the working papers, allowing the department to correct the issue without a bonus consequence.",
+      "Delay reporting the finding until the bonus period has closed, then issue it through the established route so the evidence remains available for future improvement."
+    ],
+    "answer": 0,
+    "why": "Credibility depends on impartial findings based on evidence and appropriate use of audit results. The auditee has offered no factual correction; the request is to change reporting because of a financial incentive. The auditor should preserve the supported finding and follow the authorized reporting route. Raising the incentive problem with audit program management also seeks the support needed to protect objective reporting. Reclassification, private retention, or delay solely to avoid the bonus effect would distort how the results reach management. Audit findings can inform improvement, but using their count as the sole basis for a bonus decision can encourage concealment and undermine the audit function. This does not prevent legitimate review that corrects factual errors. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 48, 50.</span>",
+    "keyPoint": "Protect evidence-based reporting and address incentives that encourage suppression or distortion of audit results.",
+    "trap": "Trying to preserve relationships by changing the classification, visibility, or timing of a supported finding for reasons unrelated to its evidence.",
+    "distractors": {
+      "1": "The finding meets the stated nonconformity basis. Changing its classification solely to protect a bonus would make the reported conclusion depend on the incentive rather than the evidence.",
+      "2": "Keeping evidence in private working papers does not provide the executive report with the supported finding. The proposal conceals relevant results from the established reporting route.",
+      "3": "The proposed delay is designed to avoid a financial consequence, not to resolve an evidence gap or meet an authorized reporting need. It lets the incentive distort timely reporting."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q034",
+    "set": 2,
+    "batch": 4,
+    "sub": "cqa-preaudit-documents",
+    "bok": "II.A.3",
+    "cognitive": "Analyze",
+    "stem": "Before auditing custom-fabrication orders, an auditor receives current approved Sales and Planning procedures and a matrix that lists a document for every applicable requirement. The Sales procedure ends when a customer change is accepted; the Planning procedure begins when a revised production package is issued. The supplied documents do not identify how approved changes pass between those activities or how receipt is confirmed. No operating records have yet been examined. What should the auditor conclude from this preparation review?",
+    "options": [
+      "The system design is adequate because every requirement has a document reference; fieldwork can concentrate on whether employees follow the listed procedures.",
+      "Customer changes were not communicated to Planning, because the missing handoff description establishes that the operational transfer did not occur.",
+      "The documented handoff needs clarification and focused evidence collection; a complete requirements matrix does not demonstrate coherent controls across process interfaces.",
+      "The handoff is an editorial issue because both procedures are current and approved; it need not influence the planned evidence collection."
+    ],
+    "answer": 2,
+    "why": "Pre-audit document review helps assess whether the system is appropriately designed and where subsequent evidence collection should concentrate. A matrix locating a document for each requirement is useful, but it does not by itself show that the documented activities form a coherent system. Here, the transition from an accepted change to a revised production package is not explained in the supplied information. The auditor should seek clarification or additional applicable documentation and plan to examine that interface. The missing description does not establish that actual customer changes were lost or that no other control exists. Operating evidence is still needed to assess implementation and functioning. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 71.</span>",
+    "keyPoint": "Use document review to examine the adequacy and interconnection of controls, then target operating evidence where the design is unclear.",
+    "trap": "Treating a complete requirement-to-document matrix as proof of an integrated system, or treating a documentation uncertainty as proof of an operational failure.",
+    "distractors": {
+      "0": "The matrix shows where requirements are said to be addressed, but the unexplained interface still requires review. A reference for every requirement does not establish coherent process controls.",
+      "1": "The documents reveal an uncertainty about the handoff, not direct evidence that an actual transfer failed. Operating records and other relevant evidence have not yet been examined.",
+      "3": "Approval and current revision status do not resolve the missing connection between the activities. That uncertainty is relevant to the audit plan rather than merely a formatting concern."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q035",
+    "set": 2,
+    "batch": 4,
+    "sub": "cqa-working-papers",
+    "bok": "II.A.5",
+    "cognitive": "Apply",
+    "stem": "An audit scope covers the intake, indexing, and retrieval of archived customer records through both automated and manual routes. A generic checklist follows the automated route. During preparation, the auditor confirms that the approved process also uses manual intake for scanned paper records, but the checklist has no prompts for that route. Resources allow both routes to be examined. How should the auditor use the working papers?",
+    "options": [
+      "Add criteria-linked prompts for the manual route and record the resulting evidence, while preserving coverage of the other applicable controls in the agreed scope.",
+      "Use the checklist unchanged and mark the manual route as not applicable, because the prepared checklist defines which activities the audit will examine.",
+      "Apply the automated-route prompts as mandatory controls for the manual route, so any missing automated feature can be recorded as a nonconformity.",
+      "Request a scope amendment before adding manual-route prompts, because examining an activity absent from the checklist necessarily expands the authorized audit scope."
+    ],
+    "answer": 0,
+    "why": "Working papers guide evidence collection and support coverage of the agreed audit scope. A generic checklist should be adapted to the actual circumstances and the applicable requirements. The manual route is explicitly within scope, so adding relevant prompts does not itself require expanding that scope. The auditor should gather and record evidence for its controls while retaining appropriate coverage elsewhere. The checklist is neither the audit standard nor a substitute for the stated scope. An automated feature should not be imposed on an approved manual route unless the applicable criteria require that feature. Flexibility in working papers remains bounded by the audit's purpose, scope, criteria, and available resources. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 77–78.</span>",
+    "keyPoint": "Adapt a checklist to relevant in-scope activities; use applicable criteria to decide what to test and record.",
+    "trap": "Treating a generic checklist as the audit boundary or as a source of requirements that the actual audit criteria do not impose.",
+    "distractors": {
+      "1": "The agreed scope expressly includes the manual route. An omission from a generic checklist does not make an applicable activity outside scope or not applicable.",
+      "2": "Checklist prompts are working aids, not requirements in their own right. The auditor must identify the controls required for the manual route instead of assuming it must reproduce automated features.",
+      "3": "The manual route is already authorized by the stated scope. Adding appropriate prompts changes the working paper, not the extent or boundaries of the audit."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q036",
+    "set": 2,
+    "batch": 4,
+    "sub": "cqa-opening-meeting",
+    "bok": "II.B.3",
+    "cognitive": "Apply",
+    "stem": "A supplier audit's client-approved plan specifies an on-site process audit and an agreed four-level classification of findings. The plan was supplied in advance. At the opening meeting, the supplier's coordinator says the visit is only a document review and that findings will use the supplier's internal pass/fail labels. The lead auditor may explain the plan but cannot change its scope or classification method without client approval. What should the lead auditor do?",
+    "options": [
+      "Use the supplier's labels in discussions to build rapport, then translate the findings into the client's classification when preparing the written report.",
+      "Reconfirm the approved scope and classification method, explain how evidence and results will be handled, and resolve questions before starting the planned activities.",
+      "Begin collecting evidence under the approved plan and defer discussion of the differing expectations until the closing meeting, when actual findings are available.",
+      "Let the coordinator choose the scope and classification for the visit, seeking client approval afterward if the resulting report contains adverse findings."
+    ],
+    "answer": 1,
+    "why": "The opening meeting confirms a common understanding of the audit plan and that the planned activities can be performed. Scope, purpose, criteria, methods, and the classification and reporting of results should be clear before evidence collection proceeds. Here, the coordinator's expectations conflict with an already approved plan, so the lead should explain that plan and address the questions. If a change is then proposed, the stated client-approval requirement still applies. The lead should not operate with different verbal and written classification systems, defer a known misunderstanding to the closing meeting, or let the auditee silently replace the approved arrangements. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 95–96.</span>",
+    "keyPoint": "Use the opening meeting to establish a shared understanding of the approved plan, methods, and reporting arrangements before collecting evidence.",
+    "distractors": {
+      "0": "Using one classification in discussions and another in the report preserves the misunderstanding and can create surprises. The agreed method should be explained at the opening meeting.",
+      "2": "The differing expectations are already known. Deferring them can obstruct access and cooperation and leave the auditee unclear about how the work and results will be handled.",
+      "3": "The coordinator has not been given authority to replace the approved scope or classification. Later approval tied only to adverse findings does not satisfy the stated control."
+    },
+    "trap": "Treating the opening meeting as introductions only and leaving different expectations about scope and grading unresolved."
+  },
+  {
+    "qid": "cqa:set-2:q037",
+    "set": 2,
+    "batch": 4,
+    "sub": "cqa-electronic-communication",
+    "bok": "III.D",
+    "cognitive": "Evaluate",
+    "stem": "During a remote audit review, the audit team and the client's engineer need to examine a restricted test file supporting a finding. They are authorized to view it, but vendor observers on the same call are authorized to receive only a summary. An approved portal can give named users view-only access during an agreed review period. Which communication arrangement best supports direct evidence review while respecting these access limits?",
+    "options": [
+      "Screen-share the complete file with everyone on the call, keeping downloads disabled so the evidence can be discussed without distributing a copy.",
+      "Give everyone a view-only portal link marked confidential, explaining that the observers must not quote or forward information beyond the permitted summary.",
+      "Keep the complete group together and have the auditee describe the file verbally, using that account in place of the authorized participants' direct review.",
+      "Arrange a restricted review with the authorized participants using named portal access, then communicate the permitted summary to the complete group."
+    ],
+    "answer": 3,
+    "why": "The communication method must allow the authorized participants to examine the supporting information while preserving the different access permissions. A planned restricted review through the approved portal provides that access without exposing the file to observers. The full group can then receive the permitted summary. Disabling downloads or marking a link confidential does not authorize disclosure of its contents to additional people. A verbal account may help explain a finding, but it does not provide the direct examination required here when suitable authorized access is available. Electronic communication and remote access require agreed arrangements addressing confidentiality, security, and document-viewing controls. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 164.</span>",
+    "keyPoint": "Select electronic communication arrangements that match both the evidence-review need and each participant's authorization.",
+    "distractors": {
+      "0": "Viewing is itself disclosure. Preventing a download does not give the vendor observers permission to see the restricted contents.",
+      "1": "View-only permissions limit editing, not who is authorized to receive the information. A confidentiality label or forwarding request cannot replace the stated access limits.",
+      "2": "The team and engineer need direct examination of the supporting file, and an approved method is available. Replacing that examination with the auditee's account does not meet the stated need."
+    },
+    "trap": "Assuming that view-only access or a confidentiality label authorizes every meeting participant to see restricted information."
+  },
+  {
+    "qid": "cqa:set-2:q038",
+    "set": 2,
+    "batch": 4,
+    "sub": "cqa-interview-translator",
+    "bok": "III.E",
+    "cognitive": "Apply",
+    "stem": "An audit team will interview operators in a language the auditors do not speak. A skilled independent translator familiar with the technical vocabulary is available and accepted by the auditee. The draft agenda uses the same interview durations as a comparable audit conducted without translation. The lead may adjust interview slots within the approved audit window. Which preparation best supports reliable interviews?",
+    "options": [
+      "Agree on additional interview time and use short, single-topic questions, allowing the translator to convey each complete question and response.",
+      "Keep the original interview slots and use longer questions covering several topics, allowing the translator to combine the answers into concise summaries.",
+      "Replace the independent translator with the process supervisor, so technical familiarity can reduce the need for clarification during each interview.",
+      "Give the translator the interview objectives and let the translator question operators independently, while the auditors review the resulting English notes."
+    ],
+    "answer": 0,
+    "why": "Translation adds work to asking questions, receiving answers, evaluating evidence, and summarizing results. The plan should allow suitable time instead of assuming the original interview durations remain adequate. Short, focused questions help the skilled translator convey the intended meaning without interrupting a long question into fragments or compressing several answers. The available independent translator already has the needed technical vocabulary, so replacing that person with the process supervisor introduces an avoidable credibility concern. The translator supports communication; the proposed arrangement does not assign that person an auditor's responsibility for conducting the investigation. No fixed time multiplier is prescribed: the lead should plan the time needed for this audit. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 168.</span>",
+    "keyPoint": "Plan enough time for translation and keep questions short and focused while retaining the auditor's responsibility for the interview.",
+    "distractors": {
+      "1": "Long combined questions and compressed summaries increase the chance that meaning or relevant detail will be lost. Keeping unchanged durations also ignores the translation workload.",
+      "2": "The skilled independent translator is already technically prepared. Replacing that person with the supervisor of the audited activity weakens independence without solving an identified competence problem.",
+      "3": "The proposed arrangement delegates the investigation to a language-support role and leaves the auditors with a later summary. The translator should facilitate the auditors' questions and the operators' responses."
+    },
+    "trap": "Trying to save translation time by combining questions, compressing answers, or transferring the interview to the translator."
+  },
+  {
+    "qid": "cqa:set-2:q039",
+    "set": 2,
+    "batch": 4,
+    "sub": "cqa-best-practices",
+    "bok": "IV.A.7",
+    "cognitive": "Evaluate",
+    "stem": "An audit program is authorized to identify and share positive practices. At Site A, auditors verify an approved setup-check method and six months of improved first-pass setup results using a consistent measure. The method depends on machine-readable tool IDs and trained setup staff. Site B wants to adopt it but has different tool-identification arrangements and less experienced staff. Local method changes require Site B's existing approval process. Which recommendation best supports a sound transfer?",
+    "options": [
+      "Adopt Site A's unchanged method at Site B and use Site A's six-month results as the initial effectiveness baseline for both locations.",
+      "Withhold the practice from the program's report until an external benchmark confirms it is the industry's best method for controlling setup errors.",
+      "Document the results and enabling conditions, then assign Site B's process owner to assess local fit, plan authorized changes, and establish measures and follow-up.",
+      "Share Site A's instructions as an improvement suggestion and let each Site B operator adapt them during normal work before deciding whether formal changes are needed."
+    ],
+    "answer": 2,
+    "why": "A useful positive practice is supported by performance evidence and an understanding of the conditions that enable it. The verified results make Site A's method a candidate for transfer, but different identification arrangements and staff experience can affect its use at Site B. Documenting the evidence and enablers allows Site B's process owner to assess fit, arrange authorized adaptations, and measure the local outcome with follow-up. The practice need not first be proven best in the industry to be worth sharing. Conversely, favorable results at one site do not establish equivalent results at another or authorize operators to bypass change controls. The audit objective explicitly includes identification and sharing of positive practices. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 201–203.</span>",
+    "keyPoint": "Transfer a positive practice with its performance evidence, enabling conditions, local ownership, and follow-up rather than copying its visible method alone.",
+    "distractors": {
+      "0": "Site A's results do not supply Site B's baseline or show that the same enablers exist there. Unchanged rollout ignores the stated differences in identification arrangements and staff experience.",
+      "1": "A valuable positive practice does not have to be an industry-leading benchmark. Verified internal performance and relevant enabling conditions can justify sharing it for assessment.",
+      "3": "An improvement suggestion does not authorize uncontrolled process changes. The proposal bypasses the stated local approval process and provides no clear owner, common measures, or follow-up."
+    },
+    "trap": "Assuming that a successful practice will transfer unchanged, or that sharing it authorizes local operators to bypass change controls."
+  },
+  {
+    "qid": "cqa:set-2:q040",
+    "set": 2,
+    "batch": 4,
+    "sub": "cqa-verification-validation",
+    "bok": "V.G",
+    "cognitive": "Analyze",
+    "stem": "A handheld inspection application passes engineering's bench tests against its specified data-entry checks and calculation requirements. Its intended use includes inspectors completing jobs while wearing gloves and moving through areas with intermittent network access. Those conditions were not represented in the bench tests, and no other evidence addressing them is available. The release manager says the passed tests establish both verification and validation. Which assessment is best supported?",
+    "options": [
+      "Classify the bench tests as validation because the application was actually operated; demonstrations by inspectors would verify the documented operating instructions.",
+      "Accept both verification and validation as complete because the specified functional tests passed; release approval covers the application's suitability for the intended work.",
+      "Classify the tests as verification and use engineering's approval of the intended-use statement as sufficient evidence that the application has also been validated.",
+      "Recognize verification of the specified functions, but obtain evidence against intended-use needs under representative real or simulated conditions before claiming validation."
+    ],
+    "answer": 3,
+    "why": "Verification asks whether specified requirements have been fulfilled; the bench results support that conclusion for the tested data-entry and calculation functions. Validation addresses the requirements for the particular intended use or application. The stated evidence does not yet show that inspectors can complete the intended work under the glove and connectivity conditions. Representative real or simulated use can provide the missing validation evidence; the chosen method must address those needs. Both verification and validation can involve tests, observations, and records, so the distinction is not simply physical testing versus document review. Approval of an intended-use statement or release decision does not replace objective evidence of suitability. The gap does not itself prove that the application will fail in use. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 301–302.</span>",
+    "keyPoint": "Distinguish conformity to specified requirements from fulfillment of needs for the intended use, regardless of whether the evidence comes from tests or records.",
+    "distractors": {
+      "0": "Operating the application does not automatically make a test validation. Its purpose and acceptance basis matter: these bench tests address specified functions, not the unrepresented use conditions.",
+      "1": "Passing the stated functional tests does not supply evidence for the separate intended-use needs. A release approval cannot fill that demonstrated evidence gap by itself.",
+      "2": "Approving the description of an intended use confirms an agreed statement, not that the application fulfills the needs of that use. Objective evidence addressing those needs is still required."
+    },
+    "trap": "Classifying verification and validation by the physical form of the activity rather than by the requirement or intended-use need being demonstrated."
   }
 ];
 })(typeof window !== 'undefined' ? window : globalThis);

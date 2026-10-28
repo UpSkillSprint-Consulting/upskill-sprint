@@ -109,29 +109,73 @@ All ten new items received an independent review of their final wording, answers
 - Q030's choices now name category pairs without giving their aggregate costs or the total denominator. The key and arithmetic are unchanged, and all three distractor explanations retain the calculations and reasoning.
 - These are refinements to new Batch 3 items. The successful re-audit required no change to Batch 2.
 
+### Batch 3 re-audit before adding Batch 4
+
+A new independent re-audit checked Q021-Q030 from the canonical integrated bank. All ten stems, forty choices, ten keys and answer explanations, thirty distractor rationales, learning points, exhibits, and BoK/cognitive mappings passed. **No answer, wording, calculation, or source-reference correction was required.**
+
+All 23 distinct cited printed pages were read again and their visible folios independently checked in the actual PDF. The references in the Batch 3 table above remain accurate, including glossary p370/PDF389 and chapter-opening p224/PDF243. Every cited page retains the printed-page-plus-19 PDF mapping.
+
+The re-audit recalculated Q022's 96% on-time result and 1.5-to-1.8 labor-hours per completed job; Q028's 24-hour auditor shortfall and separate 72 auditee-hours; and Q030's $8,400/$11,600 = 72.4% cost contribution. It also verified that Q023 and Q024 contain identical complete exhibits and remain answerable independently when shuffled. All thirty preceding question objects are retained unchanged in the Batch 4 update.
+
+## Batch 4: Q031-Q040
+
+The final ten new questions passed independent content and source review. The review checked all stems, choices, answer keys, explanations, thirty distractor rationales, learning points, and BoK/cognitive mappings. All 19 distinct cited printed-page folios were independently rendered and inspected in the actual PDF. The final integration is checked against the exact reviewed author arrays before the PR update.
+
+| Item | Topic / BoK | Item demand | Verified printed pages | One-based PDF pages | Supporting principle |
+|---|---|---|---|---|---|
+| Q031 | Audit purpose / I.A.3 | Analyze | 7, 16, 139 | 26, 35, 158 | Distinguish a problem-triggered investigation from later verification that corrective actions were implemented and effective. |
+| Q032 | Common audit elements / I.A.4 | Apply | 9, 11 | 28, 30 | Use the shared planned, objective evidence-and-criteria framework while retaining discipline-specific criteria and competence. |
+| Q033 | Audit credibility / I.E.3 | Apply | 48, 50 | 67, 69 | Preserve impartial reporting and obtain management support against incentives that encourage suppressing supported findings. |
+| Q034 | Pre-audit documentation / II.A.3 | Analyze | 71 | 90 | Examine document adequacy and interfaces; a requirement-to-document matrix does not itself establish an integrated or functioning system. |
+| Q035 | Working papers and checklists / II.A.5 | Apply | 77-78 | 96-97 | Adapt the working papers to relevant activities within the agreed scope; a checklist is neither the standard nor the scope boundary. |
+| Q036 | Opening meeting / II.B.3 | Apply | 95-96 | 114-115 | Confirm shared understanding of the approved plan, classification and reporting arrangements, and feasible activities before fieldwork. |
+| Q037 | Electronic communication / III.D | Evaluate | 164 | 183 | Select agreed remote-review arrangements that meet the evidence need and preserve each participant's access authorization. |
+| Q038 | Interviewing through a translator / III.E | Apply | 168 | 187 | Plan for a skilled, preferably independent translator, short clear questions, and sufficient additional time. |
+| Q039 | Best practices / IV.A.7 | Evaluate | 201-203 | 220-222 | Assess performance evidence, local fit and enabling conditions, with authorized implementation ownership and follow-up. |
+| Q040 | Verification and validation / V.G | Analyze | 301-302 | 320-321 | Distinguish fulfillment of specified requirements from fulfillment of intended-use needs under representative conditions. |
+
+### Batch 4 reasoning and ambiguity checks
+
+- **Q031:** recent omitted records trigger the additional supplier audit. Corrective actions for those omissions have not yet been implemented. The primary purpose is the present investigation, distinct from a later effectiveness check; the scenario is original and does not copy the handbook's contaminated-material example.
+- **Q032:** both disciplines have qualified participants and their own criteria. Common collection and tracing methods do not make requirements interchangeable or make record existence sufficient proof of traceability.
+- **Q033:** the auditee agrees that the requirement and evidence support the nonconformity. The requested omission is motivated solely by the bonus effect. The answer preserves the established reporting route and seeks program-management support; it does not prohibit legitimate correction of factual errors.
+- **Q034:** the supplied documents leave the handoff between accepted customer changes and revised production packages unexplained. The proper result is clarification and targeted evidence collection, not a claim that an actual transfer failed or that no other control exists.
+- **Q035:** both manual and automated routes are explicitly within scope, and resources allow both to be examined. Adding criteria-linked prompts adapts the checklist; it does not expand the audit scope or authorize importing automated features as requirements for the manual route.
+- **Q036:** the plan and classification scheme are already client-approved, and authority to change them is expressly limited. The opening meeting must resolve the known difference in expectations before work proceeds; no universal rating scheme is invented.
+- **Q037:** the team and client engineer are authorized to review the full file, while observers are authorized only for a summary. The approved portal offers an available restricted arrangement. View-only settings or confidentiality labels do not grant additional recipients permission to see the contents.
+- **Q038:** a technically prepared independent translator is already available and accepted, and the lead can adjust interview slots. The answer therefore addresses communication quality and time without inventing a fixed multiplier or transferring the auditor's investigation to a language-support role.
+- **Q039:** the audit program explicitly authorizes identifying and sharing positive practices. The successful local method is approved, but the receiving site has different enabling conditions and an established change-approval process. The answer supports evidence-based adaptation and follow-up rather than automatic copying or an unsupported claim of identical results.
+- **Q040:** bench tests support the specified data-entry and calculation functions. The separate intended-use conditions, including gloves and intermittent connectivity, remain unrepresented. The evidence gap calls for appropriate real or simulated intended-use evidence; it does not itself prove failure. Verification and validation are distinguished by the requirements being demonstrated, not by whether a test, observation or record is used.
+
+### Final authoring clarification
+
+Q040 uses **data-entry checks** instead of the software phrase **input-validation** in the stem and explanation. This prevents that separate software meaning of validation from obscuring the formal verification-versus-validation distinction. The answer key, scenario logic and source references are unchanged.
+
+This batch contains ten standalone scenarios and no new linked document case or numerical exhibit. All thirty prior question objects, including every answer key and source reference, are retained unchanged.
+
 ## Progress and remaining blueprint
 
-| Domain | Batch 1 | Batch 2 | Batch 3 | Current total | Final target | Remaining |
+| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Current total | Final target | Remaining |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| I. Auditing Fundamentals | 2 | 3 | 2 | 7 | 37 | 30 |
-| II. Audit Process | 3 | 3 | 3 | 9 | 45 | 36 |
-| III. Auditor Competencies | 2 | 2 | 2 | 6 | 30 | 24 |
-| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 5 | 23 | 18 |
-| V. Quality Tools and Techniques | 1 | 1 | 1 | 3 | 15 | 12 |
-| **Total** | **10** | **10** | **10** | **30** | **150** | **120** |
+| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 10 | 37 | 27 |
+| II. Audit Process | 3 | 3 | 3 | 3 | 12 | 45 | 33 |
+| III. Auditor Competencies | 2 | 2 | 2 | 2 | 8 | 30 | 22 |
+| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 6 | 23 | 17 |
+| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 4 | 15 | 11 |
+| **Total** | **10** | **10** | **10** | **10** | **40** | **150** | **110** |
 
-Continue alternating the domain allocations already used: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation, and independent review; the allocation alone is not content validation. The next requested batch will be Q031-Q040 with allocation 3/3/2/1/1.
+Continue alternating the domain allocations already used: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation, and independent review; the allocation alone is not content validation. The next requested batch will be Q041-Q050 with allocation 2/3/2/2/1.
 
-The first thirty questions include four document-case items (Q004-Q005 and Q023-Q024), or 13.3%, and ten rendered data tables in total. Answer positions are A:7, B:8, C:8, D:7; the existing engine randomizes question order. The practice timing remains the site's existing two minutes per question, so the available thirty-question set uses sixty minutes, displayed as one hour. This is a practice setting, not a claim that thirty questions constitute a full ASQ examination.
+The first forty questions retain four document-case items (Q004-Q005 and Q023-Q024), or 10%, and ten rendered data tables. Answer positions are balanced at ten each for A, B, C and D. The existing engine randomizes question order. Practice timing remains two minutes per question, so the available forty-question set uses eighty minutes, displayed as one hour and twenty minutes. This is a partial practice set.
 
 ## Integration verification
 
 - `node --test --test-isolation=none tests/test-bank-cqa-set1.test.js tests/test-bank-cqa-set2.test.js`: **13 passed, 0 failed**.
-- `npm run build:site`: **passed**, including the protected-content scans (619 public files, no known static findings; three clean protected-tool shells).
-- The integrated learner checks exercise all thirty questions, one-hour Full mode, correct grading, a capped thirty-question Quick Quiz, a ten-question diagnostic, all five focused domains, all ten tables, and all ninety distractor explanations.
-- An attempt with one deliberate wrong answer scores 29/30, displayed as 96.67%; an all-correct attempt scores 100%.
-- The initial test expectation used the text `60 min`; the existing UI correctly formats sixty minutes as `1 hr`. The expectation was corrected to the existing display convention, and the full targeted suite then passed. The runtime timer was independently checked at 3,600 seconds. No timer implementation change was needed.
-- Set 1 remains at 150 unchanged questions. Set 2 content is included in the protected CQA package and excluded from the other exam packages and public staging.
-- A comparison with the preceding PR bank confirms that all twenty existing question objects, including every key and source reference, are unchanged in this batch update.
+- `npm run build:site`: **passed**, including protected-content scans of 619 public files with no known static findings and three clean protected-tool shells.
+- The learner checks exercise all forty questions, an eighty-minute Full session, correct grading, a capped forty-question Quick Quiz, a ten-question diagnostic, all five focused domains, all ten tables, and all 120 distractor explanations.
+- An attempt with one deliberate wrong answer scores 39/40, displayed as 97.5%; an all-correct attempt scores 100%.
+- The runtime timer was checked at 4,800 seconds and the existing display convention at `1 hr 20 min`. No timer implementation change was needed.
+- Set 1 remains at 150 unchanged questions. Set 2 is delivered in the protected CQA package and excluded from other exam packages and public staging.
+- A comparison with the preceding PR bank confirms that all thirty prior question objects, including every key and source reference, are unchanged.
 
 PR #368 remains an accumulation branch; publication is deferred until all 150 questions are ready. No merge or production deployment is part of this batch update.
