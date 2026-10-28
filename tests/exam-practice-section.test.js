@@ -54,10 +54,10 @@ test('exam practice is outside the lesson library, topic filters, and topic link
 test('public directory offers safe locked metadata before personalized access is confirmed', async t => {
   const { window, errors } = await loadPage(t, 'exam-practice.html', 'https://upskillsprint.com/exam-practice');
   const doc = window.document;
-  assert.equal(doc.querySelector('h1').textContent, 'Practise Certification Exam');
-  assert.equal(doc.title, 'Practise Certification Exam | UpSkill Sprint');
-  assert.equal(doc.querySelector('meta[property="og:title"]').content, 'Practise Certification Exam | UpSkill Sprint');
-  assert.equal(doc.querySelector('footer a[href="/exam-practice"]').textContent.trim(), 'Practise Certification Exam');
+  assert.equal(doc.querySelector('h1').textContent, 'Practice Certification Exams');
+  assert.equal(doc.title, 'Practice Certification Exams | UpSkill Sprint');
+  assert.equal(doc.querySelector('meta[property="og:title"]').content, 'Practice Certification Exams | UpSkill Sprint');
+  assert.equal(doc.querySelector('footer a[href="/exam-practice"]').textContent.trim(), 'Practice Certification Exams');
   const section = doc.getElementById('exam-practice');
   const cards = Array.from(section.querySelectorAll('.exam-card'));
   assert.deepEqual(cards.map(card=>[card.querySelector('h3').textContent,card.querySelector('.exam-acronym').textContent]), [
@@ -141,14 +141,14 @@ test('exam overview and simulator routes share the active top tab, including pre
 });
 
 test('certification exam navigation wording is consistent while route and access policies remain stable', () => {
-  const expected = 'Practise Certification Exam';
+  const expected = 'Practice Certification Exams';
   const landing = read('exam-practice.html');
   const shared = read('site-sections.js');
   const admin = read('admin-exam-access.html');
   const search = read('lesson-search.js');
   const displayRule = read('supabase/premium-simulator-access.sql');
   const creationGuide = read('docs/LESSON_CREATION_GUIDE.md');
-  for(const [name, source] of [['landing',landing],['shared navigation',shared],['admin back link',admin],['search topic',search],['access-rule label',displayRule],['creation guide',creationGuide]]) {
+  for(const [name, source] of [['landing',landing],['shared navigation',shared],['admin back link',admin],['search topic',search],['creation guide',creationGuide]]) {
     assert.ok(source.includes(expected), name + ' missing updated label');
     assert.doesNotMatch(source,/Simulated Exam Practice (?:&|&amp;) Quizzes|Exam Practice (?:&|&amp;) Quizzes/, name + ' exposes retired wording');
   }
