@@ -6,22 +6,25 @@
   "slug": "hypothesis-testing-for-beginners",
   "category": "Statistics",
   "category_slug": "statistics",
-  "level": "Intermediate",
-  "estimated_minutes": 25,
+  "level": "Beginner",
+  "lesson_type": "General",
+  "estimated_minutes": 30,
   "interactive": true,
   "card_title": "Hypothesis Testing for Beginners",
-  "card_description": "Learn the logic of hypothesis testing — null vs alternative, p-values, and error types — with interactive examples and a decision walkthrough.",
+  "card_description": "A plain-language first look at hypothesis testing: null vs alternative, alpha, beta, power, and Type I and II errors, with a coin-flip game and visuals.",
   "search_keywords": [
     "hypothesis testing",
     "null hypothesis",
     "alternative hypothesis",
-    "p-value",
+    "significance level",
+    "alpha",
+    "beta",
+    "statistical power",
     "type i error",
     "type ii error",
-    "significance level",
-    "t-test",
-    "statistics",
-    "asq cssbb"
+    "p-value",
+    "asq cssbb",
+    "asq cqe"
   ],
   "suggested_github_path": "lessons/hypothesis-testing-for-beginners.html"
 }
@@ -30,17 +33,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hypothesis Testing for Beginners | UpSkill Sprint</title>
-<meta name="description" content="Learn how to turn a workplace question into a hypothesis test, interpret a p-value, and run a one-sample t-test in Minitab.">
+<meta name="description" content="Learn hypothesis testing in plain language: null vs alternative, alpha, beta, power, and Type I and II errors, with coin-flip games and interactive visuals.">
 <link rel="canonical" href="https://upskillsprint.com/lessons/hypothesis-testing-for-beginners">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hypothesis Testing for Beginners | UpSkill Sprint">
-<meta property="og:description" content="Learn how to turn a workplace question into a hypothesis test, interpret a p-value, and run a one-sample t-test in Minitab.">
+<meta property="og:description" content="Learn hypothesis testing in plain language: null vs alternative, alpha, beta, power, and Type I and II errors, with coin-flip games and interactive visuals.">
 <meta property="og:image" content="https://upskillsprint.com/assets/logo-og.png">
 <meta property="og:url" content="https://upskillsprint.com/lessons/hypothesis-testing-for-beginners">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:description" content="Learn how to turn a workplace question into a hypothesis test, interpret a p-value, and run a one-sample t-test in Minitab.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/lessons-theme.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/site-nav.css">
+<script src="/site-nav.js" defer></script>
+<script src="/site-sections.js"></script>
+<script defer src="/assets/js/math.js"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -50,18 +62,277 @@
       {"@type": "ListItem", "position": 2, "name": "Lessons", "item": "https://upskillsprint.com/lessons"},
       {"@type": "ListItem", "position": 3, "name": "Hypothesis Testing for Beginners", "item": "https://upskillsprint.com/lessons/hypothesis-testing-for-beginners"}
     ]},
-    {"@type": "LearningResource", "name": "Hypothesis Testing for Beginners", "description": "Learn how to turn a workplace question into a hypothesis test, interpret a p-value, and run a 1-sample t-test in Minitab.", "url": "https://upskillsprint.com/lessons/hypothesis-testing-for-beginners", "learningResourceType": "Lesson", "educationalLevel": "Intermediate", "provider": {"@type": "Organization", "name": "UpSkill Sprint Consulting", "url": "https://upskillsprint.com/"}}
+    {"@type": "LearningResource", "name": "Hypothesis Testing for Beginners", "description": "Learn hypothesis testing in plain language: null vs alternative, alpha, beta, power, and Type I and II errors, with coin-flip games and interactive visuals.", "url": "https://upskillsprint.com/lessons/hypothesis-testing-for-beginners", "learningResourceType": "Lesson", "educationalLevel": "Beginner", "provider": {"@type": "Organization", "name": "UpSkill Sprint Consulting", "url": "https://upskillsprint.com/"}}
   ]
 }
 </script>
-<link rel="stylesheet" href="hypothesis-testing-for-beginners.css">
-  <script src="/theme.js"></script>
-  <link rel="stylesheet" href="/site-nav.css">
-<script src="/site-nav.js" defer></script>
-<script src="/site-sections.js"></script>
-<link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/lessons-theme.css"></head>
-<body>
-<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<style id="htb-style">
+/* Hypothesis Testing for Beginners. Every lesson-owned token is prefixed --lesson-htb-
+   and every selector is scoped to #lesson-content so site chrome is untouched. */
+#lesson-content{
+  color-scheme: light dark;
+  --lesson-htb-page:#f6f8fb;
+  --lesson-htb-surface:#ffffff;
+  --lesson-htb-surface-2:#eef3f8;
+  --lesson-htb-text:#1c2430;
+  --lesson-htb-text-2:#3d4a5c;
+  --lesson-htb-border:#cbd5e1;
+  --lesson-htb-control:#5f7189;
+  --lesson-htb-teal:#0f6b78;
+  --lesson-htb-teal-bg:#e3f3f5;
+  --lesson-htb-on-teal:#ffffff;
+  --lesson-htb-navy:#1f3a5f;
+  --lesson-htb-red:#b42318;
+  --lesson-htb-red-bg:#fdecea;
+  --lesson-htb-amber:#8a5300;
+  --lesson-htb-amber-bg:#fff3d6;
+  --lesson-htb-green:#1e7a46;
+  --lesson-htb-green-bg:#e6f5ec;
+  --lesson-htb-bar:#4f7aa5;
+  --lesson-htb-bar-keep:#7f9cbc;
+  --lesson-htb-bar-h1:#a35d00;
+  --lesson-htb-focus:#0b63c5;
+  --lesson-htb-shadow:0 1px 2px rgba(15,23,42,.06),0 6px 18px rgba(15,23,42,.06);
+  color:var(--lesson-htb-text);
+  background:var(--lesson-htb-page);
+  font-family:'Work Sans',Arial,sans-serif;
+  padding-bottom:24px;
+}
+#lesson-content .htb-wrap{max-width:900px;margin:0 auto;padding:0 20px}
+#lesson-content .htb-hero{background:linear-gradient(135deg,var(--lesson-htb-teal-bg),var(--lesson-htb-surface-2));border-bottom:1px solid var(--lesson-htb-border);padding:40px 0 30px;color:var(--lesson-htb-text)}
+#lesson-content .htb-kicker{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:0;list-style:none}
+#lesson-content .htb-kicker li{font-size:13px;font-weight:600;letter-spacing:.02em;padding:4px 10px;border-radius:999px;background:var(--lesson-htb-surface);color:var(--lesson-htb-teal);border:1px solid var(--lesson-htb-border)}
+#lesson-content h1{font-size:clamp(30px,5vw,42px);line-height:1.12;margin:0 0 14px;color:var(--lesson-htb-text)}
+#lesson-content .htb-lede{font-size:18px;line-height:1.65;margin:0 0 18px;color:var(--lesson-htb-text-2);max-width:760px}
+#lesson-content h2{font-size:clamp(24px,3.4vw,30px);line-height:1.2;margin:0 0 14px;color:var(--lesson-htb-text)}
+#lesson-content h3{font-size:19px;line-height:1.3;margin:22px 0 10px;color:var(--lesson-htb-text)}
+#lesson-content p, #lesson-content li{font-size:16.5px;line-height:1.7;color:var(--lesson-htb-text)}
+#lesson-content .htb-muted{color:var(--lesson-htb-text-2)}
+#lesson-content .htb-section{padding:38px 0 6px;scroll-margin-top:84px}
+#lesson-content .htb-step{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lesson-htb-teal);margin:0 0 6px}
+#lesson-content a{color:var(--lesson-htb-teal)}
+#lesson-content a:focus-visible, #lesson-content button:focus-visible, #lesson-content input:focus-visible, #lesson-content select:focus-visible, #lesson-content summary:focus-visible, #lesson-content [tabindex="0"]:focus-visible{outline:3px solid var(--lesson-htb-focus);outline-offset:2px}
+
+/* cards, callouts */
+#lesson-content .htb-card{background:var(--lesson-htb-surface);color:var(--lesson-htb-text);border:1px solid var(--lesson-htb-border);border-radius:14px;padding:18px 20px;box-shadow:var(--lesson-htb-shadow)}
+#lesson-content .htb-goals{margin:6px 0 0;padding-left:22px}
+#lesson-content .htb-goals li{margin:4px 0}
+#lesson-content .htb-callout{border-radius:12px;padding:14px 16px;margin:18px 0;border-left:5px solid var(--lesson-htb-teal);background:var(--lesson-htb-teal-bg);color:var(--lesson-htb-text)}
+#lesson-content .htb-callout p{margin:0}
+#lesson-content .htb-callout p + p{margin-top:8px}
+#lesson-content .htb-callout.is-warn{border-left-color:var(--lesson-htb-amber);background:var(--lesson-htb-amber-bg)}
+#lesson-content .htb-callout.is-key{border-left-color:var(--lesson-htb-navy);background:var(--lesson-htb-surface-2)}
+#lesson-content .htb-callout strong{color:var(--lesson-htb-text)}
+#lesson-content .htb-toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+#lesson-content .htb-toc a{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid var(--lesson-htb-border);background:var(--lesson-htb-surface);color:var(--lesson-htb-text);text-decoration:none;font-size:14.5px;font-weight:600;min-height:24px}
+#lesson-content .htb-toc a:hover{border-color:var(--lesson-htb-teal);color:var(--lesson-htb-teal)}
+#lesson-content .htb-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:16px 0}
+#lesson-content .htb-grid.is-2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+#lesson-content .htb-emoji{font-size:30px;line-height:1;display:block;margin-bottom:8px}
+
+/* comic strip */
+#lesson-content .htb-comic{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:18px 0 6px;padding:0;list-style:none;counter-reset:panel}
+#lesson-content .htb-comic li{background:var(--lesson-htb-surface);color:var(--lesson-htb-text);border:2px solid var(--lesson-htb-text);border-radius:12px;padding:14px 14px 12px;position:relative;font-size:15.5px;line-height:1.55}
+#lesson-content .htb-comic li::before{counter-increment:panel;content:counter(panel);position:absolute;top:-12px;left:12px;background:var(--lesson-htb-teal);color:var(--lesson-htb-on-teal);font-weight:700;font-size:13px;border-radius:999px;width:24px;height:24px;display:grid;place-items:center}
+#lesson-content .htb-bubble{display:block;background:var(--lesson-htb-surface-2);border-radius:10px;padding:8px 10px;margin-top:8px;font-style:italic;color:var(--lesson-htb-text)}
+
+/* courtroom map */
+#lesson-content .htb-map{display:grid;gap:10px;margin:16px 0}
+#lesson-content .htb-map-row{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:stretch}
+#lesson-content .htb-map-cell{background:var(--lesson-htb-surface);color:var(--lesson-htb-text);border:1px solid var(--lesson-htb-border);border-radius:10px;padding:10px 12px;font-size:15.5px;line-height:1.5}
+#lesson-content .htb-map-cell.is-stats{background:var(--lesson-htb-teal-bg)}
+#lesson-content .htb-map-arrow{align-self:center;font-weight:700;color:var(--lesson-htb-teal);font-size:20px}
+#lesson-content .htb-map-head{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--lesson-htb-text-2)}
+
+/* hypothesis cards */
+#lesson-content .htb-hyp{border-radius:14px;padding:18px;border:2px solid var(--lesson-htb-border);background:var(--lesson-htb-surface);color:var(--lesson-htb-text)}
+#lesson-content .htb-hyp.is-null{border-color:var(--lesson-htb-bar)}
+#lesson-content .htb-hyp.is-alt{border-color:var(--lesson-htb-bar-h1);border-style:dashed}
+#lesson-content .htb-hyp h3{margin-top:0}
+#lesson-content .htb-formula{background:var(--lesson-htb-surface-2);color:var(--lesson-htb-text);border-radius:10px;padding:10px 14px;margin:12px 0;overflow-wrap:anywhere}
+
+/* widgets */
+#lesson-content .htb-lab{background:var(--lesson-htb-surface);color:var(--lesson-htb-text);border:1px solid var(--lesson-htb-border);border-radius:16px;padding:18px;margin:20px 0;box-shadow:var(--lesson-htb-shadow)}
+#lesson-content .htb-lab-title{display:flex;align-items:center;gap:10px;margin:0 0 6px;font-size:19px}
+#lesson-content .htb-lab-badge{font-family:'Work Sans',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--lesson-htb-teal);color:var(--lesson-htb-on-teal);border-radius:999px;padding:3px 9px}
+#lesson-content .htb-controls{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-end;margin:12px 0}
+#lesson-content .htb-field{display:flex;flex-direction:column;gap:4px;font-size:14.5px;font-weight:600;color:var(--lesson-htb-text)}
+#lesson-content .htb-field select, #lesson-content .htb-field input[type="range"]{min-height:36px}
+#lesson-content select{font:inherit;font-weight:500;padding:6px 10px;border-radius:8px;border:1px solid var(--lesson-htb-control);background:var(--lesson-htb-surface);color:var(--lesson-htb-text)}
+#lesson-content input[type="range"]{width:min(260px,70vw);accent-color:var(--lesson-htb-teal)}
+#lesson-content fieldset.htb-radios{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+#lesson-content fieldset.htb-radios legend{font-size:14.5px;font-weight:600;padding:0;margin-bottom:4px;width:100%;color:var(--lesson-htb-text)}
+#lesson-content .htb-pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--lesson-htb-control);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:14.5px;background:var(--lesson-htb-surface);color:var(--lesson-htb-text);min-height:36px}
+#lesson-content .htb-pill:has(input:checked){background:var(--lesson-htb-teal-bg);border-color:var(--lesson-htb-teal);font-weight:700}
+#lesson-content .htb-pill input{accent-color:var(--lesson-htb-teal);margin:0}
+#lesson-content .htb-btn{font:inherit;font-size:15px;font-weight:600;border-radius:10px;padding:10px 16px;min-height:44px;cursor:pointer;border:1px solid var(--lesson-htb-teal);background:var(--lesson-htb-teal);color:var(--lesson-htb-on-teal)}
+#lesson-content .htb-btn.is-ghost{background:var(--lesson-htb-surface);color:var(--lesson-htb-teal)}
+#lesson-content .htb-btn.is-red{background:var(--lesson-htb-red);border-color:var(--lesson-htb-red);color:#ffffff}
+#lesson-content .htb-btn:disabled{opacity:.55;cursor:not-allowed}
+#lesson-content .htb-btn-row{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+#lesson-content figure.htb-figure{margin:12px 0 0}
+#lesson-content figure.htb-figure svg{display:block;width:100%;height:auto;max-width:100%}
+#lesson-content figure.htb-figure figcaption{font-size:14px;color:var(--lesson-htb-text-2);margin-top:6px;line-height:1.5}
+#lesson-content .htb-legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin:8px 0 0;padding:0;list-style:none}
+#lesson-content .htb-legend li{display:flex;align-items:center;gap:6px;font-size:14px;line-height:1.4;color:var(--lesson-htb-text-2)}
+#lesson-content .htb-swatch{width:16px;height:16px;border-radius:3px;display:inline-block;flex:none;border:1px solid var(--lesson-htb-text-2)}
+#lesson-content .htb-swatch.is-h0{background:var(--lesson-htb-bar-keep)}
+#lesson-content .htb-swatch.is-reject{background:repeating-linear-gradient(45deg,var(--lesson-htb-red) 0 3px,var(--lesson-htb-red-bg) 3px 5px)}
+#lesson-content .htb-swatch.is-beta{background:var(--lesson-htb-amber)}
+#lesson-content .htb-swatch.is-power{background:repeating-linear-gradient(-45deg,var(--lesson-htb-green) 0 3px,var(--lesson-htb-green-bg) 3px 5px)}
+#lesson-content .htb-swatch.is-obs{background:var(--lesson-htb-text);border-radius:50%}
+#lesson-content .htb-readouts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin:14px 0 0}
+#lesson-content .htb-readout{border:1px solid var(--lesson-htb-border);border-radius:12px;padding:10px 12px;background:var(--lesson-htb-surface-2);color:var(--lesson-htb-text)}
+#lesson-content .htb-readout-label{display:block;font-size:13px;font-weight:600;color:var(--lesson-htb-text-2)}
+#lesson-content .htb-readout-value{display:block;font-size:22px;font-weight:700;color:var(--lesson-htb-text);font-variant-numeric:tabular-nums}
+#lesson-content .htb-verdict{margin:14px 0 0;border-radius:12px;padding:12px 14px;font-size:16px;line-height:1.55;border:2px solid var(--lesson-htb-border);background:var(--lesson-htb-surface-2);color:var(--lesson-htb-text)}
+#lesson-content .htb-verdict.is-reject{border-color:var(--lesson-htb-red);background:var(--lesson-htb-red-bg)}
+#lesson-content .htb-verdict.is-keep{border-color:var(--lesson-htb-bar);background:var(--lesson-htb-surface-2)}
+#lesson-content .htb-verdict.is-good{border-color:var(--lesson-htb-green);background:var(--lesson-htb-green-bg)}
+#lesson-content .htb-verdict.is-miss{border-color:var(--lesson-htb-amber);background:var(--lesson-htb-amber-bg)}
+
+/* coin */
+#lesson-content .htb-coin-stage{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:10px 0}
+#lesson-content .htb-coin{width:84px;height:84px;position:relative;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.3,1.4,.5,1);flex:none}
+#lesson-content .htb-coin.is-tails{transform:rotateY(180deg)}
+#lesson-content .htb-coin-face{position:absolute;inset:0;border-radius:50%;display:grid;place-items:center;font-family:'Source Serif 4',Georgia,serif;font-size:34px;font-weight:700;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:4px solid #8a6d1f;background:radial-gradient(circle at 35% 30%,#fff3c4,#e2b93b 60%,#b88a1c);color:#3b2a00;box-shadow:inset 0 0 0 4px rgba(255,255,255,.35)}
+#lesson-content .htb-coin-face.is-back{transform:rotateY(180deg)}
+#lesson-content .htb-coin.is-spinning{animation:htbSpin .6s ease-out}
+@keyframes htbSpin{from{transform:rotateY(0) translateY(0)}50%{transform:rotateY(900deg) translateY(-26px)}to{transform:rotateY(1800deg) translateY(0)}}
+#lesson-content .htb-flips{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0;padding:0;list-style:none;min-height:28px}
+#lesson-content .htb-flips li{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;line-height:1;border:1px solid var(--lesson-htb-control)}
+#lesson-content .htb-flips li.is-h{background:var(--lesson-htb-amber-bg);color:var(--lesson-htb-text)}
+#lesson-content .htb-flips li.is-t{background:var(--lesson-htb-surface-2);color:var(--lesson-htb-text-2)}
+
+/* SVG chart text */
+#lesson-content .htb-svg-axis{fill:var(--lesson-htb-text-2);font-size:12px;font-family:'Work Sans',Arial,sans-serif}
+#lesson-content .htb-svg-title{fill:var(--lesson-htb-text);font-size:13px;font-weight:700;font-family:'Work Sans',Arial,sans-serif}
+#lesson-content .htb-svg-line{stroke:var(--lesson-htb-text-2);stroke-width:1}
+#lesson-content .htb-svg-grid{stroke:var(--lesson-htb-border);stroke-width:1}
+#lesson-content .htb-svg-cut{stroke:var(--lesson-htb-red);stroke-width:2;stroke-dasharray:6 4}
+#lesson-content .htb-svg-cut-label{fill:var(--lesson-htb-red);font-size:12.5px;font-weight:700;font-family:'Work Sans',Arial,sans-serif}
+#lesson-content .htb-bar-h0{fill:var(--lesson-htb-bar-keep)}
+#lesson-content .htb-bar-reject{fill:url(#htb-hatch-red);stroke:var(--lesson-htb-red);stroke-width:1}
+#lesson-content .htb-bar-h1keep{fill:var(--lesson-htb-amber)}
+#lesson-content .htb-bar-power{fill:url(#htb-hatch-green);stroke:var(--lesson-htb-green);stroke-width:1}
+#lesson-content .htb-hatch-red-a{fill:var(--lesson-htb-red-bg)}
+#lesson-content .htb-hatch-red-b{stroke:var(--lesson-htb-red);stroke-width:3}
+#lesson-content .htb-hatch-green-a{fill:var(--lesson-htb-green-bg)}
+#lesson-content .htb-hatch-green-b{stroke:var(--lesson-htb-green);stroke-width:3}
+#lesson-content .htb-obs{fill:var(--lesson-htb-text)}
+#lesson-content .htb-obs-line{stroke:var(--lesson-htb-text);stroke-width:2}
+#lesson-content .htb-obs-label{fill:var(--lesson-htb-text);font-size:12.5px;font-weight:700;font-family:'Work Sans',Arial,sans-serif}
+#lesson-content .htb-dot{fill:var(--lesson-htb-teal)}
+#lesson-content .htb-dot.is-reject{fill:var(--lesson-htb-red)}
+#lesson-content .htb-seesaw-beam{fill:var(--lesson-htb-navy)}
+#lesson-content .htb-seesaw-base{fill:var(--lesson-htb-text-2)}
+#lesson-content .htb-seesaw-alpha{fill:var(--lesson-htb-red)}
+#lesson-content .htb-seesaw-beta{fill:var(--lesson-htb-amber)}
+#lesson-content .htb-seesaw-text{fill:var(--lesson-htb-text);font-size:13px;font-weight:700;font-family:'Work Sans',Arial,sans-serif}
+
+/* meters */
+#lesson-content .htb-meter{height:14px;border-radius:999px;background:var(--lesson-htb-surface);border:1px solid var(--lesson-htb-control);overflow:hidden;margin-top:6px}
+#lesson-content .htb-meter span{display:block;height:100%;background:var(--lesson-htb-green);transition:width .25s}
+#lesson-content .htb-meter.is-beta span{background:var(--lesson-htb-amber)}
+#lesson-content .htb-meter.is-alpha span{background:var(--lesson-htb-red)}
+
+/* sort game */
+#lesson-content .htb-sort{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+#lesson-content .htb-sort li{border:1px solid var(--lesson-htb-border);border-radius:12px;padding:12px;background:var(--lesson-htb-surface-2);color:var(--lesson-htb-text)}
+#lesson-content .htb-sort-text{margin:0 0 8px;font-weight:600}
+#lesson-content .htb-sort .htb-btn{padding:8px 12px;min-height:40px;font-size:14.5px}
+#lesson-content .htb-sort-fb{margin:8px 0 0;font-size:15px}
+#lesson-content .htb-sort-fb:empty{display:none}
+#lesson-content .htb-tag{display:inline-block;font-weight:700;font-size:13px;border-radius:6px;padding:1px 7px;margin-right:6px}
+#lesson-content .htb-tag.is-good{background:var(--lesson-htb-green-bg);color:var(--lesson-htb-green);border:1px solid var(--lesson-htb-green)}
+#lesson-content .htb-tag.is-bad{background:var(--lesson-htb-red-bg);color:var(--lesson-htb-red);border:1px solid var(--lesson-htb-red)}
+
+/* tables */
+#lesson-content .htb-table-scroll{overflow-x:auto;margin:14px 0;border-radius:12px;border:1px solid var(--lesson-htb-border)}
+#lesson-content table{border-collapse:collapse;width:100%;min-width:560px;background:var(--lesson-htb-surface);color:var(--lesson-htb-text);font-size:15px}
+#lesson-content caption{text-align:left;font-weight:700;padding:10px 12px;color:var(--lesson-htb-text);background:var(--lesson-htb-surface-2)}
+#lesson-content th, #lesson-content td{padding:10px 12px;border-bottom:1px solid var(--lesson-htb-border);text-align:left;vertical-align:top;line-height:1.55}
+#lesson-content thead th{background:var(--lesson-htb-surface-2);color:var(--lesson-htb-text);font-size:14px}
+#lesson-content tbody th{font-weight:700;color:var(--lesson-htb-text)}
+#lesson-content code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em;background:var(--lesson-htb-surface-2);color:var(--lesson-htb-text);border-radius:5px;padding:1px 5px;overflow-wrap:break-word}
+#lesson-content th code{white-space:nowrap}
+#lesson-content table.htb-wide{min-width:760px}
+
+/* truth table */
+#lesson-content .htb-truth{min-width:600px}
+#lesson-content .htb-truth td{width:42%}
+#lesson-content .htb-truth td.is-type1{background:var(--lesson-htb-red-bg)}
+#lesson-content .htb-truth td.is-type2{background:var(--lesson-htb-amber-bg)}
+#lesson-content .htb-truth td.is-ok{background:var(--lesson-htb-green-bg)}
+#lesson-content .htb-cell-label{display:block;font-weight:700;margin-bottom:4px}
+#lesson-content .htb-cell-label .htb-mark{margin-right:6px}
+#lesson-content .htb-cell-story{display:block;font-size:14.5px}
+#lesson-content .htb-cell-prob{display:block;font-size:13.5px;margin-top:6px;color:var(--lesson-htb-text-2)}
+
+/* scoreboard */
+#lesson-content .htb-score{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));margin:12px 0 0}
+#lesson-content .htb-score div{border-radius:10px;padding:8px 10px;border:1px solid var(--lesson-htb-border);background:var(--lesson-htb-surface-2);color:var(--lesson-htb-text);font-size:14px}
+#lesson-content .htb-score strong{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+
+/* checklist + scenarios */
+#lesson-content .htb-steps{list-style:none;counter-reset:step;margin:14px 0;padding:0;display:grid;gap:10px}
+#lesson-content .htb-steps > li{counter-increment:step;position:relative;padding:12px 14px 12px 58px;border:1px solid var(--lesson-htb-border);border-radius:12px;background:var(--lesson-htb-surface);color:var(--lesson-htb-text)}
+#lesson-content .htb-steps > li::before{content:counter(step);position:absolute;left:14px;top:12px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:700;background:var(--lesson-htb-teal);color:var(--lesson-htb-on-teal)}
+#lesson-content .htb-steps strong{display:block}
+#lesson-content details.htb-details{margin-top:10px;border-top:1px dashed var(--lesson-htb-border);padding-top:8px}
+#lesson-content details.htb-details summary{cursor:pointer;font-weight:700;color:var(--lesson-htb-teal);min-height:28px}
+#lesson-content details.htb-details p{margin:8px 0 0;font-size:15.5px}
+#lesson-content .htb-scenario h3{margin-top:0;font-size:18px}
+#lesson-content .htb-scenario dl{margin:8px 0 0;font-size:15px;line-height:1.55}
+#lesson-content .htb-scenario dt{font-weight:700;margin-top:6px}
+#lesson-content .htb-scenario dd{margin:0}
+#lesson-content .htb-summary{margin:10px 0 0;padding-left:22px}
+#lesson-content .related-lessons{max-width:900px;margin-left:auto !important;margin-right:auto !important;padding-left:20px;padding-right:20px}
+#lesson-content .related-lessons h2{font-size:24px}
+#lesson-content .quiz-section{scroll-margin-top:84px}
+
+@media (max-width:640px){
+  #lesson-content .htb-map-row{grid-template-columns:1fr}
+  #lesson-content .htb-map-arrow{transform:rotate(90deg);justify-self:center}
+  #lesson-content .htb-hero{padding:28px 0 22px}
+  #lesson-content p, #lesson-content li{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  #lesson-content .htb-coin, #lesson-content .htb-meter span{transition:none}
+  #lesson-content .htb-coin.is-spinning{animation:none}
+}
+</style>
+<style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+</head>
+<body data-lesson-page="true" data-category="statistics" data-level="beginner" data-interactive="true" data-lesson-type="general">
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
 <header class="site lesson-sitebar">
   <a class="brand" href="/"><img class="logo-wordmark" src="/assets/logo-wordmark.png" data-logo-light="/assets/logo-wordmark.png" data-logo-dark="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></a>
@@ -69,365 +340,1112 @@
   <div class="header-actions">
     <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
     <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
-    <a href="/lessons" class="btn btn-teal header-cta">Browse lessons</a>
   </div>
 </header>
-<nav class="mobile-nav" data-nav-root="mobile" aria-label="Main"><div class="nav-acc" data-nav-acc="start"><button type="button" class="nav-acc-btn" data-nav-tab="start" aria-expanded="false" aria-controls="nav-m-start"><span>Start Here</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-start" hidden><a class="nav-row" href="/start-here#quality-improvement-basics"><span class="nav-name">Quality Improvement Basics</span></a><a class="nav-row" href="/start-here#data-analysis-basics"><span class="nav-name">Data Analysis Basics</span></a><a class="nav-row" href="/start-here#lean-six-sigma-tools"><span class="nav-name">Lean Six Sigma Tools</span></a><a class="nav-row" href="/start-here#excel-and-power-bi-skills"><span class="nav-name">Excel and Power BI Skills</span></a><a class="nav-row" href="/start-here#statistics-for-decision-making"><span class="nav-name">Statistics for Decision-Making</span></a><a class="nav-foot-primary nav-acc-all" href="/start-here">See all learning paths →</a></div></div><div class="nav-acc" data-nav-acc="lessons"><button type="button" class="nav-acc-btn" data-nav-tab="lessons" aria-current="page" aria-expanded="false" aria-controls="nav-m-lessons"><span>Lessons</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-lessons" hidden><a class="nav-row" href="/lessons#data-analytics"><span class="nav-name">Data Analytics</span><span class="nav-count" data-nav-count="data-analytics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#quality-engineering"><span class="nav-name">Quality Engineering</span><span class="nav-count" data-nav-count="quality-engineering" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#lean-six-sigma"><span class="nav-name">Lean Six Sigma</span><span class="nav-count" data-nav-count="lean-six-sigma" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#statistics"><span class="nav-name">Statistics</span><span class="nav-count" data-nav-count="statistics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#power-bi-excel-sql"><span class="nav-name">Power BI, Excel &amp; SQL</span><span class="nav-count" data-nav-count="power-bi-excel-sql" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#project-management"><span class="nav-name">Project Management</span><span class="nav-count" data-nav-count="project-management" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#business-decision-making"><span class="nav-name">Business Decision-Making</span><span class="nav-count" data-nav-count="business-decision-making" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#ai-for-work"><span class="nav-name">AI for Work</span><span class="nav-count" data-nav-count="ai-for-work" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-foot-primary nav-acc-all" href="/lessons" data-nav-total-link>View all lessons →</a><a class="nav-foot-secondary" href="/request-topic">Request a topic</a></div></div><div class="nav-acc" data-nav-acc="exam"><button type="button" class="nav-acc-btn" data-nav-tab="exam" aria-expanded="false" aria-controls="nav-m-exam"><span>Exam Practice</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-exam" hidden><a class="nav-row nav-exam" href="/exam-practice#exam-cssbb"><span class="nav-acronym">CSSBB</span><span class="nav-name">Six Sigma Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqe"><span class="nav-acronym">CQE</span><span class="nav-name">Quality Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-mbb"><span class="nav-acronym">CMBB</span><span class="nav-name">Six Sigma Master Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cssgb"><span class="nav-acronym">CSSGB</span><span class="nav-name">Six Sigma Green Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cmq"><span class="nav-acronym">CMQ/OE</span><span class="nav-name">Manager of Quality / Org. Excellence</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cre"><span class="nav-acronym">CRE</span><span class="nav-name">Reliability Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-pmp"><span class="nav-acronym">PMP</span><span class="nav-name">Project Management Professional</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-nppe"><span class="nav-acronym">NPPE</span><span class="nav-name">National Professional Practice Exam</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqa"><span class="nav-acronym">CQA</span><span class="nav-name">Quality Auditor</span></a><a class="nav-foot-primary nav-acc-all" href="/exam-practice">All exams →</a><a class="nav-foot-secondary" href="/exam-practice#my-exams">My exams</a></div></div><div class="nav-acc" data-nav-acc="tools"><button type="button" class="nav-acc-btn" data-nav-tab="tools" aria-expanded="false" aria-controls="nav-m-tools"><span>Engineering Tools</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-tools" hidden><a class="nav-row" href="/tools/engineering-statistics-calculator"><span class="nav-name">Engineering &amp; Statistics Calculator</span></a><a class="nav-row" href="/tools/unit-converter"><span class="nav-name">Unit Converter</span></a><a class="nav-row" href="/engineering-tools/grade-specification-lookup/"><span class="nav-name">Material Specification Lookup</span></a><a class="nav-row" href="/tools/material-specification-compliance-checker"><span class="nav-name">Material Specification Compliance Checker</span></a><a class="nav-row" href="/tools/steel-phase-explorer"><span class="nav-name">Steel Phase &amp; Transformation Explorer</span></a><a class="nav-foot-primary nav-acc-all" href="/engineering-tools">All tools →</a><a class="nav-foot-secondary" href="/engineering-tools#suggest-a-tool">Suggest a tool</a></div></div><div class="nav-acc" data-nav-acc="services"><button type="button" class="nav-acc-btn" data-nav-tab="services" aria-expanded="false" aria-controls="nav-m-services"><span>Services</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-services" hidden><a class="nav-row nav-rich" href="/services#corporate-training"><span class="nav-name">Corporate Training</span><span class="nav-desc">Team workshops on Lean Six Sigma and quality tools</span></a><a class="nav-row nav-rich" href="/services#one-on-one-coaching"><span class="nav-name">One-on-One Coaching</span><span class="nav-desc">Excel, Power BI, Minitab, statistics</span></a><a class="nav-row nav-rich" href="/services#consulting-support"><span class="nav-name">Consulting Support</span><span class="nav-desc">Root cause analysis, KPIs, quality investigations</span></a><a class="nav-row nav-rich" href="/services#custom-lessons"><span class="nav-name">Custom Lessons</span><span class="nav-desc">Training built around your team's needs</span></a><a class="nav-row nav-rich" href="/services#data-dashboard-support"><span class="nav-name">Data &amp; Dashboard Support</span><span class="nav-desc">Excel, Power BI and SQL help</span></a><a class="nav-book nav-acc-all" href="/contact">Book a consultation</a></div></div><div class="nav-acc" data-nav-acc="about"><button type="button" class="nav-acc-btn" data-nav-tab="about" aria-expanded="false" aria-controls="nav-m-about"><span>About</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-about" hidden><a class="nav-row nav-rich" href="/about"><span class="nav-name">About UpSkill Sprint</span><span class="nav-desc">Who builds the lessons and why</span></a><a class="nav-row nav-rich" href="/faq"><span class="nav-name">FAQ</span><span class="nav-desc">Free lessons, accounts, exams</span></a><a class="nav-row nav-rich" href="/request-topic"><span class="nav-name">Request a Topic</span><span class="nav-desc">Tell us the lesson you need</span></a><a class="nav-row nav-rich" href="/contact"><span class="nav-name">Contact</span><span class="nav-desc">Questions and partnerships</span></a><a class="nav-foot-primary nav-acc-all" href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a></div></div><div class="nav-drawer-footer"><a class="nav-drawer-account" href="/sign-in">Account</a><a class="nav-drawer-browse" href="/lessons">Browse lessons</a></div></nav>
-
 <main id="lesson-content">
-<section class="section" style="padding-bottom:8px;">
-  <div class="wrap lesson-shell">
-    <p class="eyebrow">Intermediate &middot; 15 min read &middot; Minitab</p>
-    <h1 style="font-size:32px;margin:0 0 16px;">Hypothesis Testing for Beginners</h1>
-    <p style="font-size:16px;line-height:1.65;color:var(--ink-soft);margin:0;"><strong>What you will learn:</strong> how to decide whether a difference in sample data is strong enough to support a workplace conclusion.</p>
-    <div class="badge-row" aria-label="Lesson categories">
-      <span class="badge badge-stats">Statistics</span>
-      <span class="badge badge-quality">Quality Engineering</span>
-      <span class="badge badge-lss">Lean Six Sigma</span>
+
+<!-- SVG pattern defs shared by every chart (hatching means the zones never rely on colour alone) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="htb-hatch-red" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect class="htb-hatch-red-a" width="6" height="6"></rect><line class="htb-hatch-red-b" x1="0" y1="0" x2="0" y2="6"></line></pattern>
+    <pattern id="htb-hatch-green" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><rect class="htb-hatch-green-a" width="6" height="6"></rect><line class="htb-hatch-green-b" x1="0" y1="0" x2="0" y2="6"></line></pattern>
+  </defs>
+</svg>
+
+<section class="htb-hero" aria-labelledby="htb-title">
+  <div class="htb-wrap">
+    <ul class="htb-kicker" aria-label="Lesson details">
+      <li>Statistics</li><li>Beginner</li><li>30 min</li><li>Interactive</li>
+    </ul>
+    <h1 id="htb-title">Hypothesis Testing for Beginners</h1>
+    <p class="htb-lede"><strong>Hypothesis testing</strong> is a fair, step-by-step way to answer one question: <em>is what I'm seeing real, or could it just be luck?</em> No formulas to memorise yet. You will flip coins, play referee, and see why statisticians talk about the null hypothesis, alpha, beta, power, and Type I and Type II errors.</p>
+    <div class="htb-card">
+      <h2 style="font-size:20px;margin:0 0 4px">By the end, you will be able to</h2>
+      <ul class="htb-goals">
+        <li>Write a <strong>null hypothesis</strong> and an <strong>alternative hypothesis</strong> for an everyday question.</li>
+        <li>Explain what the <strong>significance level (alpha)</strong> means and why you pick it before looking at the data.</li>
+        <li>Tell a <strong>Type I error</strong> (false alarm) from a <strong>Type II error</strong> (missed it).</li>
+        <li>Explain <strong>beta</strong> and <strong>power</strong>, and the three things that make a test more powerful.</li>
+      </ul>
     </div>
-    <nav class="jump-nav" aria-label="Lesson sections">
-      <a href="#plain-english">Plain English</a>
-      <a href="#workflow">Six Steps</a>
-      <a href="#decision-lab">Decision Lab</a>
-      <a href="#test-selector">Test Selector</a>
-      <a href="#minitab">Minitab Example</a>
-      <a href="#quiz">Quiz</a>
+    <nav aria-label="Lesson sections">
+      <ul class="htb-toc">
+        <li><a href="#htb-story">The story</a></li>
+        <li><a href="#htb-courtroom">Courtroom idea</a></li>
+        <li><a href="#htb-hypotheses">Null &amp; alternative</a></li>
+        <li><a href="#htb-evidence">Coin lab</a></li>
+        <li><a href="#htb-alpha">Alpha</a></li>
+        <li><a href="#htb-errors">Type I &amp; II</a></li>
+        <li><a href="#htb-game">Referee game</a></li>
+        <li><a href="#htb-power">Beta &amp; power</a></li>
+        <li><a href="#htb-real-world">Real world</a></li>
+        <li><a href="#statistics-implementation">Excel &amp; Minitab</a></li>
+        <li><a href="#quiz">Quiz</a></li>
+      </ul>
     </nav>
   </div>
 </section>
 
-<section class="section" style="padding:24px 0 0;">
-  <div class="wrap lesson-shell">
-    <h2 style="font-size:20px;margin:0 0 14px;">By the end, you should be able to</h2>
-    <div class="card">
-      <ul class="lesson-objectives">
-        <li>Turn a workplace question into a null and alternative hypothesis.</li>
-        <li>Use the p-value and significance level to make the correct statistical decision.</li>
-        <li>Explain Type I and Type II errors in practical language.</li>
-        <li>Choose a basic hypothesis test for a common business or quality problem.</li>
-        <li>Run and interpret a 1-sample t-test in Minitab.</li>
-      </ul>
+<section class="htb-section" id="htb-story" aria-labelledby="htb-story-h">
+  <div class="htb-wrap">
+    <p class="htb-step">Part 1 · The story</p>
+    <h2 id="htb-story-h">Real, or just luck? The case of the lucky coin</h2>
+    <p>Meet Riley, captain of the school basketball team. Before every game the referee flips a coin and Riley calls "heads". Riley uses a shiny "lucky coin" from home, and it seems to land heads a <em>lot</em>.</p>
+    <ol class="htb-comic" aria-label="Comic strip: the lucky coin story">
+      <li><span class="htb-emoji" aria-hidden="true">🪙🏀</span>Riley calls heads before game 1... and wins the toss. Then game 2. Then game 3.<span class="htb-bubble">"Heads again! Told you it's lucky."</span></li>
+      <li><span class="htb-emoji" aria-hidden="true">🤔</span>Sam, the referee, starts to wonder. Is the coin <strong>rigged</strong>, or is Riley just having a good run?<span class="htb-bubble">"Hmm. Lucky streaks happen. But this many?"</span></li>
+      <li><span class="htb-emoji" aria-hidden="true">📋</span>Sam doesn't want to accuse Riley unfairly. So Sam decides to <strong>test</strong> the coin with a fair set of rules.<span class="htb-bubble">"I'll flip it 20 times and let the evidence decide."</span></li>
+    </ol>
+    <p>Sam's problem is the problem every scientist, doctor, engineer, and quality inspector faces: <strong>random chance can fool you</strong>. A fair coin can land heads 7 times in 10 just by luck. So how many heads is "too many to be luck"? Hypothesis testing is the rulebook Sam needs.</p>
+    <div class="htb-callout is-key"><p><strong>The one-sentence idea:</strong> start by assuming nothing special is happening, then ask whether your evidence would be really surprising if that were true. If it would be, you stop believing the "nothing special" story.</p></div>
+  </div>
+</section>
+
+<section class="htb-section" id="htb-courtroom" aria-labelledby="htb-courtroom-h">
+  <div class="htb-wrap">
+    <p class="htb-step">Part 2 · The big idea</p>
+    <h2 id="htb-courtroom-h">Think like a courtroom: innocent until proven guilty</h2>
+    <p>The easiest way to understand hypothesis testing is a trial. A court doesn't start by assuming the person did it. It starts with <strong>"innocent"</strong> and only changes its mind when the evidence is strong. A hypothesis test works exactly the same way.</p>
+    <div class="htb-map" role="list" aria-label="How a courtroom matches a hypothesis test">
+      <div class="htb-map-row" role="listitem"><div class="htb-map-cell"><span class="htb-map-head">In court</span><br>The accused is presumed <strong>innocent</strong>.</div><div class="htb-map-arrow" aria-hidden="true">→</div><div class="htb-map-cell is-stats"><span class="htb-map-head">In a hypothesis test</span><br>We assume the <strong>null hypothesis</strong>: nothing special is going on (the coin is fair).</div></div>
+      <div class="htb-map-row" role="listitem"><div class="htb-map-cell">The prosecutor claims the person is <strong>guilty</strong>.</div><div class="htb-map-arrow" aria-hidden="true">→</div><div class="htb-map-cell is-stats">The <strong>alternative hypothesis</strong> is the claim we want evidence for (the coin is rigged).</div></div>
+      <div class="htb-map-row" role="listitem"><div class="htb-map-cell">The jury looks at the <strong>evidence</strong>.</div><div class="htb-map-arrow" aria-hidden="true">→</div><div class="htb-map-cell is-stats">We look at the <strong>data</strong> (how many heads in 20 flips).</div></div>
+      <div class="htb-map-row" role="listitem"><div class="htb-map-cell">Guilty only if it's <strong>beyond reasonable doubt</strong>.</div><div class="htb-map-arrow" aria-hidden="true">→</div><div class="htb-map-cell is-stats">We reject the null only if the evidence passes a bar we set in advance: the <strong>significance level, alpha</strong>.</div></div>
+      <div class="htb-map-row" role="listitem"><div class="htb-map-cell">Verdict: <strong>guilty</strong> or <strong>not guilty</strong>.</div><div class="htb-map-arrow" aria-hidden="true">→</div><div class="htb-map-cell is-stats">Decision: <strong>reject the null</strong> or <strong>fail to reject the null</strong>.</div></div>
+    </div>
+    <div class="htb-callout is-warn"><p><strong>Notice the wording.</strong> A jury never says "innocent". It says "not guilty", which only means <em>there wasn't enough evidence</em>. Statisticians are just as careful: we say "fail to reject the null", never "the null is proven true".</p></div>
+  </div>
+</section>
+
+<section class="htb-section" id="htb-hypotheses" aria-labelledby="htb-hypotheses-h">
+  <div class="htb-wrap">
+    <p class="htb-step">Part 3 · Two competing stories</p>
+    <h2 id="htb-hypotheses-h">The null hypothesis and the alternative hypothesis</h2>
+    <p>Every hypothesis test starts with two statements that can't both be true. Think of them as two stories about the world. Your data will help you decide which story to believe.</p>
+    <div class="htb-grid">
+      <div class="htb-hyp is-null">
+        <h3>The null hypothesis: "nothing special"</h3>
+        <p>The boring, default story. Nothing has changed, there's no difference, no effect, no cheating. It gets the symbol \(H_0\) (say "H-nought" or "H-zero").</p>
+        <div class="htb-formula">\[ H_0:\ p = 0.5 \]</div>
+        <p class="htb-muted">where \(p\) is the coin's true chance of landing heads. In words: <em>Riley's coin is fair.</em></p>
+      </div>
+      <div class="htb-hyp is-alt">
+        <h3>The alternative hypothesis: "something's up"</h3>
+        <p>The claim you're looking for evidence of. Something changed, there is a difference, there is an effect. It gets the symbol \(H_1\) (some books write \(H_a\)).</p>
+        <div class="htb-formula">\[ H_1:\ p > 0.5 \]</div>
+        <p class="htb-muted">In words: <em>Riley's coin lands heads more than half the time.</em></p>
+      </div>
+    </div>
+    <h3>Four rules of thumb</h3>
+    <ul>
+      <li><strong>The null always contains the "equals" sign.</strong> It names one exact value (here, exactly half). The alternative is "bigger than", "smaller than", or "different from".</li>
+      <li><strong>You assume the null is true until the evidence says otherwise</strong>, just like "innocent until proven guilty".</li>
+      <li><strong>The alternative is usually the exciting claim</strong>: the new medicine works, the new machine is faster, the coin is rigged.</li>
+      <li><strong>Write both before you collect any data.</strong> Changing your hypotheses after peeking is like the prosecutor changing the charge after hearing the evidence.</li>
+    </ul>
+    <div class="htb-callout"><p><strong>Good to know:</strong> Sam suspects <em>too many</em> heads, so the alternative points one way (\(p > 0.5\)). That's a <strong>one-sided</strong> test. If Sam only suspected the coin was "unfair in some direction", the alternative would be \(p \ne 0.5\), a <strong>two-sided</strong> test. The reasoning in this lesson works the same for both.</p></div>
+
+    <div class="htb-lab" role="group" aria-labelledby="htb-sort-title">
+      <h3 class="htb-lab-title" id="htb-sort-title"><span class="htb-lab-badge">Try it</span> Null or alternative?</h3>
+      <p class="htb-muted">Read each statement. Is it the "nothing special" story (null) or the "something's up" claim (alternative)?</p>
+      <ul class="htb-sort" id="htb-sort-list"></ul>
+      <p id="htb-sort-score" role="status" aria-live="polite" class="htb-muted" style="margin:10px 0 0"></p>
     </div>
   </div>
 </section>
 
-<section class="section" style="padding:32px 0 0;">
-  <div class="wrap lesson-shell">
-    <h2 class="section-title">Why this matters at work</h2>
-    <p class="lesson-copy">A sample can look different even when the underlying process has not changed. Hypothesis testing helps you separate a <strong>real signal</strong> from normal sample-to-sample variation. It gives you a disciplined way to decide whether to adjust a process, challenge a supplier, approve a change, or collect more evidence.</p>
-    <div class="callout callout-warning">
-      <strong>Important:</strong> a hypothesis test does not make the business decision for you. It measures the strength of the statistical evidence. You must still judge cost, risk, specifications, and practical importance.
+<section class="htb-section" id="htb-evidence" aria-labelledby="htb-evidence-h">
+  <div class="htb-wrap">
+    <p class="htb-step">Part 4 · Collect evidence</p>
+    <h2 id="htb-evidence-h">How surprising is the result? Meet the p-value</h2>
+    <p>Here is the key move. We <strong>pretend the null is true</strong> (the coin is fair) and ask: <em>if the coin really were fair, how often would we see a result as extreme as ours?</em> If the answer is "almost never", the fair-coin story starts to look silly.</p>
+    <p>Try it yourself. Flip a coin and watch where your results land compared with what a fair coin usually does.</p>
+
+    <div class="htb-lab" role="group" aria-labelledby="htb-coin-title">
+      <h3 class="htb-lab-title" id="htb-coin-title"><span class="htb-lab-badge">Lab 1</span> The coin-flip lab</h3>
+      <div class="htb-controls">
+        <label class="htb-field" for="htb-coin-n">Flips per experiment
+          <select id="htb-coin-n"><option value="10">10 flips</option><option value="20" selected>20 flips</option><option value="50">50 flips</option></select>
+        </label>
+        <label class="htb-field" for="htb-coin-type">Which coin?
+          <select id="htb-coin-type"><option value="0.5" selected>A fair coin (heads half the time)</option><option value="0.75">Riley's coin (heads 75% of the time)</option></select>
+        </label>
+      </div>
+      <div class="htb-coin-stage">
+        <div class="htb-coin" id="htb-coin" aria-hidden="true"><div class="htb-coin-face">H</div><div class="htb-coin-face is-back">T</div></div>
+        <div>
+          <p style="margin:0" id="htb-coin-status" role="status" aria-live="polite">Press <strong>Flip once</strong> to start an experiment.</p>
+          <div class="htb-btn-row">
+            <button type="button" class="htb-btn" id="htb-flip-one">Flip once</button>
+            <button type="button" class="htb-btn is-ghost" id="htb-flip-rest">Finish this experiment</button>
+            <button type="button" class="htb-btn is-ghost" id="htb-flip-100">Run 100 quick experiments</button>
+            <button type="button" class="htb-btn is-ghost" id="htb-flip-clear">Clear</button>
+          </div>
+        </div>
+      </div>
+      <ol class="htb-flips" id="htb-flips" aria-label="Flips in this experiment"></ol>
+      <figure class="htb-figure">
+        <svg id="htb-coin-chart" viewBox="0 0 640 280" role="img" aria-label="Chart loading"></svg>
+        <figcaption>Bars: how often a <strong>fair</strong> coin gives each number of heads (the "nothing special" world). Black line and arrow: your latest experiment. Hatched red bars: results at least as extreme as yours.</figcaption>
+      </figure>
+      <figure class="htb-figure">
+        <svg id="htb-dot-chart" viewBox="0 0 640 150" role="img" aria-label="No experiments yet"></svg>
+        <figcaption>Dots: every experiment you have run. Each dot is one experiment, placed at its number of heads.</figcaption>
+      </figure>
+      <div class="htb-readouts">
+        <div class="htb-readout"><span class="htb-readout-label">Heads in latest experiment</span><span class="htb-readout-value" id="htb-coin-heads">–</span></div>
+        <div class="htb-readout"><span class="htb-readout-label">Surprise score (p-value)</span><span class="htb-readout-value" id="htb-coin-p">–</span></div>
+        <div class="htb-readout"><span class="htb-readout-label">Experiments run</span><span class="htb-readout-value" id="htb-coin-count">0</span></div>
+      </div>
     </div>
 
-    <h2 id="plain-english" class="section-title">Hypothesis testing in plain English</h2>
-    <p class="lesson-copy">Start with a default explanation: <strong>nothing meaningful has changed</strong>. Then ask whether the data are too unusual for that explanation to remain believable.</p>
-    <div class="rule-banner" aria-label="Hypothesis test logic">
-      <div class="rule-side"><strong>Start with H<sub>0</sub></strong><span>No difference or no effect</span></div>
-      <div class="rule-arrow" aria-hidden="true">&rarr;</div>
-      <div class="rule-side"><strong>Challenge it with data</strong><span>Is the result too unusual under H<sub>0</sub>?</span></div>
-    </div>
-    <div class="callout callout-formula">
-      <strong>Memory phrase:</strong><br>
-      Assume no real difference. Measure how surprising the sample would be. Reject that assumption only when the evidence is strong enough.
-    </div>
-
-    <h2 class="section-title">The two competing statements</h2>
-    <div class="concept-grid">
-      <div class="concept-card">
-        <h3>Null hypothesis, H<sub>0</sub></h3>
-        <p>The starting position. It usually says there is no difference, no effect, or the population value equals a target.</p>
-      </div>
-      <div class="concept-card">
-        <h3>Alternative hypothesis, H<sub>1</sub></h3>
-        <p>The claim supported when the evidence against H<sub>0</sub> is strong enough. It states the difference or direction you are testing.</p>
-      </div>
-    </div>
-    <div class="example-box">
-      <h3 style="font-size:17px;margin:0 0 10px;">Example: average wall thickness</h3>
-      <p class="lesson-copy" style="margin:0 0 14px;">The nominal average wall thickness is 8.00 mm. You want to know whether the process average has moved in either direction.</p>
-      <div class="callout callout-info" style="margin-bottom:0;">
-        <span class="formula-line">H<sub>0</sub>: &mu; = 8.00 mm</span><br>
-        <span class="formula-line">H<sub>1</sub>: &mu; &ne; 8.00 mm</span>
-      </div>
-    </div>
-
-    <h2 class="section-title">One-sided or two-sided?</h2>
-    <div class="table-wrap">
+    <h3>The surprise score has a name: the p-value</h3>
+    <p>The number in the lab is called the <strong>p-value</strong>. It answers one question:</p>
+    <div class="htb-formula">\[ \text{p-value} = P(\text{a result at least this extreme} \mid H_0 \text{ is true}) \]</div>
+    <p class="htb-muted">where \(P(\ldots)\) means "the probability of", and the bar \(\mid\) means "assuming". So: the chance of seeing data this extreme <em>if the coin really is fair</em>.</p>
+    <ul>
+      <li><strong>Small p-value</strong> (like 0.006): "Wow, a fair coin almost never does that." That's strong evidence against the null.</li>
+      <li><strong>Large p-value</strong> (like 0.25): "Meh, a fair coin does that all the time." Not much evidence against the null.</li>
+    </ul>
+    <p>Sam flipped Riley's coin 20 times and got <strong>16 heads</strong>. Here is how surprising each result would be for a fair coin:</p>
+    <div class="htb-table-scroll" tabindex="0" role="region" aria-label="P-values for different numbers of heads in 20 flips of a fair coin" style="overflow-x:auto">
       <table>
-        <thead><tr><th>Question</th><th>Alternative hypothesis</th><th>Test direction</th></tr></thead>
+        <caption>Chance a fair coin gives at least this many heads in 20 flips</caption>
+        <thead><tr><th scope="col">Heads in 20 flips</th><th scope="col">p-value</th><th scope="col">In plain words</th></tr></thead>
         <tbody>
-          <tr><td>Has the mean changed in either direction?</td><td>&mu; &ne; target</td><td>Two-sided</td></tr>
-          <tr><td>Has the mean fallen below the minimum?</td><td>&mu; &lt; target</td><td>Lower one-sided</td></tr>
-          <tr><td>Has the mean increased above the baseline?</td><td>&mu; &gt; target</td><td>Upper one-sided</td></tr>
+          <tr><th scope="row">12 or more</th><td>0.2517</td><td>About 1 in 4. Happens all the time.</td></tr>
+          <tr><th scope="row">13 or more</th><td>0.1316</td><td>About 1 in 8. Not unusual.</td></tr>
+          <tr><th scope="row">14 or more</th><td>0.0577</td><td>About 1 in 17. A bit unusual.</td></tr>
+          <tr><th scope="row">15 or more</th><td>0.0207</td><td>About 1 in 50. Pretty surprising.</td></tr>
+          <tr><th scope="row">16 or more (Sam's result)</th><td>0.0059</td><td>About 6 in 1,000. Very surprising.</td></tr>
+          <tr><th scope="row">17 or more</th><td>0.0013</td><td>About 1 in 770. Extremely rare.</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="callout callout-warning">
-      <strong>Choose the direction before looking at the result.</strong> Changing from a two-sided test to a one-sided test after seeing the data weakens the credibility of the analysis.
+    <div class="htb-callout is-warn"><p><strong>Careful:</strong> a p-value of 0.0059 does <em>not</em> mean "there's a 0.59% chance the coin is fair". It means "<em>if</em> the coin were fair, results like this would happen only 0.59% of the time." It's a statement about the data, assuming the null.</p></div>
+  </div>
+</section>
+
+<section class="htb-section" id="htb-alpha" aria-labelledby="htb-alpha-h">
+  <div class="htb-wrap">
+    <p class="htb-step">Part 5 · Set the bar</p>
+    <h2 id="htb-alpha-h">Draw the line first: the significance level (alpha)</h2>
+    <p>"Surprising" is fuzzy. Is 1 in 17 surprising enough? 1 in 50? To keep things fair, Sam picks a cut-off <strong>before</strong> flipping. That cut-off is the <strong>significance level</strong>, written \(\alpha\) (the Greek letter alpha).</p>
+    <div class="htb-formula">\[ \text{Reject } H_0 \text{ if p-value} \le \alpha \]</div>
+    <p class="htb-muted">where \(\alpha\) is the largest false-alarm risk you are willing to accept. The most common choice is \(\alpha = 0.05\), which means "I'm OK being fooled by luck about 1 time in 20 when nothing is really going on".</p>
+    <div class="htb-grid">
+      <div class="htb-card"><span class="htb-emoji" aria-hidden="true">🔬</span><strong>0.10</strong> · "Let's take a look." Used for quick, early checks where a false alarm is cheap.</div>
+      <div class="htb-card"><span class="htb-emoji" aria-hidden="true">📏</span><strong>0.05</strong> · The everyday standard in science, business, and quality work.</div>
+      <div class="htb-card"><span class="htb-emoji" aria-hidden="true">🛡️</span><strong>0.01</strong> · "I need to be really sure." Used when a false alarm is costly or dangerous.</div>
     </div>
 
-    <h2 id="workflow" class="section-title">The six-step workflow</h2>
-    <div class="example-box">
-      <ol class="step-list">
-        <li><div><strong>State the business question.</strong> Example: “Has the average wall thickness moved away from 8.00 mm?”</div></li>
-        <li><div><strong>Write H<sub>0</sub> and H<sub>1</sub>.</strong> Use population language, not just the values in your sample.</div></li>
-        <li><div><strong>Choose &alpha; before analyzing.</strong> A common choice is 0.05, but the risk of a false alarm should match the decision.</div></li>
-        <li><div><strong>Select the right test.</strong> Base the choice on the response type, number of groups, and whether observations are independent or paired.</div></li>
-        <li><div><strong>Check assumptions and run the test.</strong> Look for poor sampling, dependence, outliers, and strong skewness.</div></li>
-        <li><div><strong>Interpret both statistical and practical significance.</strong> Report the estimated difference, confidence interval, p-value, and business meaning.</div></li>
-      </ol>
-    </div>
-
-    <h2 class="section-title">The p-value and alpha</h2>
-    <p class="lesson-copy"><strong>Alpha (&alpha;)</strong> is the false-alarm risk you choose before the test. The <strong>p-value</strong> measures how incompatible the sample result is with H<sub>0</sub>, assuming H<sub>0</sub> and the test assumptions are correct.</p>
-    <div class="callout callout-formula">
-      <span class="formula-line">p-value &le; &alpha; &rarr; Reject H<sub>0</sub></span><br>
-      <span class="formula-line">p-value &gt; &alpha; &rarr; Fail to reject H<sub>0</sub></span>
-    </div>
-    <div class="callout callout-danger">
-      <strong>Do not say “the p-value is the probability that H<sub>0</sub> is true.”</strong> It is calculated under the assumption that H<sub>0</sub> is true. It tells you how unusual the observed evidence would be under that assumption.
-    </div>
-
-    <h2 id="decision-lab" class="section-title">Interactive decision lab</h2>
-    <div class="interactive">
-      <h3>Separate statistical significance from practical significance</h3>
-      <p>Change the values below. The tool will give you the formal test decision and a separate practical interpretation.</p>
-      <div class="control-grid">
-        <div>
-          <label class="field-label" for="pValue">P-value</label>
-          <input id="pValue" type="number" min="0" max="1" step="0.001" value="0.016">
-          <p class="helper">Must be between 0 and 1.</p>
-        </div>
-        <div>
-          <label class="field-label" for="alphaValue">Significance level, &alpha;</label>
-          <select id="alphaValue">
-            <option value="0.01">0.01</option>
-            <option value="0.05" selected>0.05</option>
-            <option value="0.10">0.10</option>
-          </select>
-          <p class="helper">Set this before analyzing the data.</p>
-        </div>
-        <div>
-          <label class="field-label" for="observedDifference">Observed difference</label>
-          <input id="observedDifference" type="number" step="0.001" value="-0.081">
-          <p class="helper">Example: sample mean minus target.</p>
-        </div>
-        <div>
-          <label class="field-label" for="practicalThreshold">Minimum practical difference</label>
-          <input id="practicalThreshold" type="number" min="0" step="0.001" value="0.100">
-          <p class="helper">Smallest change worth acting on.</p>
-        </div>
+    <div class="htb-lab" role="group" aria-labelledby="htb-alpha-title">
+      <h3 class="htb-lab-title" id="htb-alpha-title"><span class="htb-lab-badge">Lab 2</span> Set the bar and make the call</h3>
+      <p class="htb-muted">Sam flips 20 times. Choose alpha, then slide the number of heads. Watch the red "reject" zone and the verdict.</p>
+      <div class="htb-controls">
+        <fieldset class="htb-radios" id="htb-alpha-radios">
+          <legend>Significance level (alpha)</legend>
+          <label class="htb-pill"><input type="radio" name="htb-alpha" value="0.10"> 0.10</label>
+          <label class="htb-pill"><input type="radio" name="htb-alpha" value="0.05" checked> 0.05</label>
+          <label class="htb-pill"><input type="radio" name="htb-alpha" value="0.01"> 0.01</label>
+        </fieldset>
+        <label class="htb-field" for="htb-alpha-heads">Heads observed in 20 flips: <span id="htb-alpha-heads-out">16</span>
+          <input type="range" id="htb-alpha-heads" min="0" max="20" step="1" value="16">
+        </label>
       </div>
-      <button class="btn btn-teal" type="button" onclick="interpretTest()">Interpret the result</button>
-      <div id="decisionResult" class="result-panel neutral" aria-live="polite"></div>
-    </div>
-
-    <h2 class="section-title">Type I and Type II errors</h2>
-    <div class="concept-grid">
-      <div class="concept-card">
-        <h3>Type I error: false alarm</h3>
-        <p>You reject H<sub>0</sub> even though it is true. Example: you stop and adjust a stable process because the sample looked unusual by chance. Alpha controls this risk.</p>
+      <figure class="htb-figure">
+        <svg id="htb-alpha-chart" viewBox="0 0 640 280" role="img" aria-label="Chart loading"></svg>
+        <figcaption>Every bar shows how likely each number of heads is for a fair coin. Hatched red bars are the <strong>reject zone</strong>: results so rare that you'd stop believing the coin is fair.</figcaption>
+      </figure>
+      <ul class="htb-legend" aria-label="Chart key">
+        <li><span class="htb-swatch is-h0" aria-hidden="true"></span>Fair coin result: keep the null</li>
+        <li><span class="htb-swatch is-reject" aria-hidden="true"></span>Reject zone (hatched)</li>
+        <li><span class="htb-swatch is-obs" aria-hidden="true"></span>Sam's result</li>
+      </ul>
+      <div class="htb-readouts">
+        <div class="htb-readout"><span class="htb-readout-label">Reject the null at</span><span class="htb-readout-value" id="htb-alpha-cut">–</span></div>
+        <div class="htb-readout"><span class="htb-readout-label">Real false-alarm risk</span><span class="htb-readout-value" id="htb-alpha-actual">–</span></div>
+        <div class="htb-readout"><span class="htb-readout-label">p-value of Sam's result</span><span class="htb-readout-value" id="htb-alpha-p">–</span></div>
       </div>
-      <div class="concept-card">
-        <h3>Type II error: missed signal</h3>
-        <p>You fail to reject H<sub>0</sub> even though a real difference exists. Example: you miss a meaningful process shift because the sample is too small or too noisy.</p>
+      <p class="htb-verdict" id="htb-alpha-verdict" role="status" aria-live="polite"></p>
+    </div>
+    <p>Two ways to say the same decision, and both always agree:</p>
+    <ul>
+      <li><strong>The p-value way:</strong> 16 heads has a p-value of 0.0059. That's below 0.05, so reject the null.</li>
+      <li><strong>The cut-off way:</strong> with \(\alpha = 0.05\), the reject zone starts at 15 heads. 16 is inside the zone, so reject the null.</li>
+    </ul>
+    <div class="htb-callout"><p><strong>Why is the "real" risk not exactly 0.05?</strong> Coin flips come in whole numbers, so you can't land exactly on 0.05. Starting the zone at 15 heads gives a false-alarm risk of 0.0207, the closest you can get <em>without going over</em> 0.05. With smooth measurements (like heights or weights), alpha can be hit exactly.</p></div>
+    <div class="htb-callout is-warn"><p><strong>Pick alpha before you look.</strong> If Sam saw 14 heads (a p-value of 0.0577) and then said "let's switch to 0.10 instead", that's cheating, just like moving the goalposts after the kick.</p></div>
+  </div>
+</section>
+
+<section class="htb-section" id="htb-errors" aria-labelledby="htb-errors-h">
+  <div class="htb-wrap">
+    <p class="htb-step">Part 6 · Nobody's perfect</p>
+    <h2 id="htb-errors-h">Two ways to be wrong: Type I and Type II errors</h2>
+    <p>Sam never gets to peek inside the coin. Sam only sees the flips, and flips are random. So even with perfect rules, Sam can still be wrong in <strong>two different ways</strong>. Pick a story below and read the four boxes.</p>
+
+    <div class="htb-lab" role="group" aria-labelledby="htb-truth-title">
+      <h3 class="htb-lab-title" id="htb-truth-title"><span class="htb-lab-badge">Explore</span> The four possible outcomes</h3>
+      <fieldset class="htb-radios" id="htb-truth-radios">
+        <legend>Choose a story</legend>
+        <label class="htb-pill"><input type="radio" name="htb-truth-ctx" value="coin" checked> 🪙 The coin</label>
+        <label class="htb-pill"><input type="radio" name="htb-truth-ctx" value="court"> ⚖️ The courtroom</label>
+        <label class="htb-pill"><input type="radio" name="htb-truth-ctx" value="alarm"> 🔥 Smoke alarm</label>
+        <label class="htb-pill"><input type="radio" name="htb-truth-ctx" value="pipe"> 🏭 Steel pipe inspection</label>
+      </fieldset>
+      <p id="htb-truth-null" class="htb-muted" style="margin:10px 0 0" aria-live="polite"></p>
+      <div class="htb-table-scroll" tabindex="0" role="region" aria-label="Four outcomes of a hypothesis test" style="overflow-x:auto">
+        <table class="htb-truth">
+          <caption>Your decision compared with the truth</caption>
+          <thead>
+            <tr><th scope="col"><span class="sr-only">Your decision</span></th><th scope="col">The truth: the null is TRUE <span class="htb-cell-story" id="htb-truth-col1"></span></th><th scope="col">The truth: the null is FALSE <span class="htb-cell-story" id="htb-truth-col2"></span></th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">You <strong>reject</strong> the null</th>
+              <td class="is-type1"><span class="htb-cell-label"><span class="htb-mark" aria-hidden="true">✗</span>Type I error: false alarm</span><span class="htb-cell-story" id="htb-cell-11"></span><span class="htb-cell-prob">Chance of this: \(\alpha\)</span></td>
+              <td class="is-ok"><span class="htb-cell-label"><span class="htb-mark" aria-hidden="true">✓</span>Correct: caught it</span><span class="htb-cell-story" id="htb-cell-12"></span><span class="htb-cell-prob">Chance of this: \(1-\beta\), the power</span></td>
+            </tr>
+            <tr>
+              <th scope="row">You <strong>fail to reject</strong> the null</th>
+              <td class="is-ok"><span class="htb-cell-label"><span class="htb-mark" aria-hidden="true">✓</span>Correct: rightly left alone</span><span class="htb-cell-story" id="htb-cell-21"></span><span class="htb-cell-prob">Chance of this: \(1-\alpha\)</span></td>
+              <td class="is-type2"><span class="htb-cell-label"><span class="htb-mark" aria-hidden="true">✗</span>Type II error: missed it</span><span class="htb-cell-story" id="htb-cell-22"></span><span class="htb-cell-prob">Chance of this: \(\beta\)</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <div class="callout callout-info">
-      <strong>Power = 1 &minus; &beta;.</strong> Higher power means a better chance of detecting a real difference of practical importance. Larger samples, lower variation, and larger effects usually improve power.
-    </div>
 
-    <h2 id="test-selector" class="section-title">Interactive basic-test selector</h2>
-    <div class="interactive">
-      <h3>Which test fits the question?</h3>
-      <p>This is a beginner guide for common mean and proportion questions. Complex designs may require a more specialized method.</p>
-      <div class="control-grid">
-        <div>
-          <label class="field-label" for="responseType">What type of result are you measuring?</label>
-          <select id="responseType" onchange="recommendTest()">
-            <option value="numeric">A numeric measurement</option>
-            <option value="binary">A yes/no or pass/fail result</option>
-          </select>
-        </div>
-        <div>
-          <label class="field-label" for="comparisonType">What are you comparing?</label>
-          <select id="comparisonType" onchange="recommendTest()">
-            <option value="one">One sample against a target</option>
-            <option value="two-independent">Two independent groups</option>
-            <option value="two-paired">Before/after or matched pairs</option>
-            <option value="three-plus">Three or more groups</option>
-          </select>
-        </div>
+    <div class="htb-grid">
+      <div class="htb-card" style="border-top:5px solid var(--lesson-htb-red)">
+        <h3 style="margin-top:0">Type I error: the false alarm</h3>
+        <p>You reject a null that was actually true. You "see" an effect that isn't there.</p>
+        <div class="htb-formula">\[ \alpha = P(\text{reject } H_0 \mid H_0 \text{ is true}) \]</div>
+        <p class="htb-muted">Its probability is \(\alpha\). That's why you choose \(\alpha\) yourself: you're choosing how many false alarms you'll put up with.</p>
       </div>
-      <div id="testRecommendation" class="result-panel neutral" aria-live="polite"></div>
-    </div>
-
-    <h2 id="minitab" class="section-title">Worked example in Minitab</h2>
-    <div class="example-box">
-      <h3 style="font-size:17px;margin:0 0 10px;">Is average wall thickness different from 8.00 mm?</h3>
-      <p class="lesson-copy">A quality engineer randomly selects 12 pipe measurements. The question is whether the population mean differs from the 8.00 mm nominal value.</p>
-      <div class="callout callout-info">
-        <strong>Data:</strong> 7.76, 8.05, 7.89, 7.92, 8.09, 7.81, 7.96, 7.86, 8.00, 7.88, 7.97, 7.84
+      <div class="htb-card" style="border-top:5px solid var(--lesson-htb-amber)">
+        <h3 style="margin-top:0">Type II error: the miss</h3>
+        <p>You fail to reject a null that was actually false. A real effect slips past you.</p>
+        <div class="htb-formula">\[ \beta = P(\text{fail to reject } H_0 \mid H_0 \text{ is false}) \]</div>
+        <p class="htb-muted">Its probability is \(\beta\) (the Greek letter beta). You don't set \(\beta\) directly. It depends on your sample size and how big the real effect is.</p>
       </div>
-      <div class="kpi-row" aria-label="Sample summary">
-        <div class="kpi"><span>Sample size</span><strong>12</strong></div>
-        <div class="kpi"><span>Mean</span><strong>7.919 mm</strong></div>
-        <div class="kpi"><span>StDev</span><strong>0.098 mm</strong></div>
-      </div>
-      <p class="lesson-copy"><strong>Hypotheses:</strong> H<sub>0</sub>: &mu; = 8.00 mm; H<sub>1</sub>: &mu; &ne; 8.00 mm. Use &alpha; = 0.05.</p>
-
-      <h3 style="font-size:17px;margin:24px 0 10px;">Minitab steps</h3>
-      <div class="minitab-steps">
-        <div class="minitab-step"><span>1</span><p>Enter the 12 values in one worksheet column and name it <strong>Wall Thickness</strong>.</p></div>
-        <div class="minitab-step"><span>2</span><p>Choose <strong>Stat &gt; Basic Statistics &gt; 1-Sample t</strong>.</p></div>
-        <div class="minitab-step"><span>3</span><p>Select <strong>One or more samples, each in a column</strong>, then enter <strong>Wall Thickness</strong>.</p></div>
-        <div class="minitab-step"><span>4</span><p>Select <strong>Perform hypothesis test</strong> and enter <strong>8.00</strong> as the hypothesized mean.</p></div>
-        <div class="minitab-step"><span>5</span><p>Under <strong>Options</strong>, use a 95% confidence level and the alternative <strong>mean &ne; hypothesized mean</strong>. Click <strong>OK</strong>.</p></div>
-      </div>
-
-      <h3 style="font-size:17px;margin:24px 0 10px;">Simplified Minitab-style output</h3>
-      <div class="output-box" role="region" aria-label="Simplified Minitab output" tabindex="0">
-<strong>One-Sample T: Wall Thickness</strong>
-
-Test of &mu; = 8.000 vs &mu; &ne; 8.000
-
- N      Mean      StDev    SE Mean      95% CI
-12     7.919      0.098      0.028    (7.857, 7.982)
-
-T-Value = -2.85     P-Value = 0.016
-      </div>
-
-      <ol class="step-list">
-        <li><div><strong>Statistical decision:</strong> 0.016 &le; 0.05, so reject H<sub>0</sub>.</div></li>
-        <li><div><strong>Evidence statement:</strong> the sample provides statistically significant evidence that the population mean differs from 8.00 mm.</div></li>
-        <li><div><strong>Direction and size:</strong> the estimated mean is 0.081 mm below nominal. The 95% confidence interval for the mean is 7.857 to 7.982 mm.</div></li>
-        <li><div><strong>Business interpretation:</strong> determine whether a shift of 0.081 mm is large enough to matter. Compare it with engineering tolerances, risk, and the preselected practical threshold.</div></li>
-      </ol>
     </div>
-
-    <h2 class="section-title">Assumption check before trusting the result</h2>
-    <div class="concept-grid">
-      <div class="concept-card"><h3>Representative sample</h3><p>The measurements should represent the population and time period covered by your conclusion.</p></div>
-      <div class="concept-card"><h3>Independent observations</h3><p>One observation should not determine another. Repeated measurements on the same item may require a paired or repeated-measures method.</p></div>
-      <div class="concept-card"><h3>No unexplained extreme outliers</h3><p>Investigate data-entry errors, measurement problems, and unusual special causes before running the test.</p></div>
-      <div class="concept-card"><h3>Distribution is reasonable</h3><p>For a small sample, severe skewness can make a t-test less reliable. Use a histogram, boxplot, or probability plot.</p></div>
-    </div>
-
-    <h2 class="section-title">Common interpretation mistakes</h2>
-    <div class="callout callout-warning">
-      <strong>“Fail to reject” does not mean “prove equal.”</strong> It means the sample did not provide strong enough evidence of a difference at the chosen alpha level.
-    </div>
-    <div class="callout callout-warning">
-      <strong>Statistical significance does not guarantee practical importance.</strong> A large sample can detect a difference that is too small to justify action.
-    </div>
-    <div class="callout callout-warning">
-      <strong>A hypothesis test is not a specification test.</strong> Testing whether the process mean equals a target does not tell you whether every unit meets specification limits.
-    </div>
-    <div class="callout callout-warning">
-      <strong>Do not report the p-value alone.</strong> Include the estimated effect, confidence interval, sample size, assumptions, and business meaning.
-    </div>
-
-    <h2 class="section-title">A professional reporting sentence</h2>
-    <div class="callout callout-practice">
-      “A 1-sample t-test found that average wall thickness differed from the 8.00 mm nominal value (mean = 7.919 mm, 95% CI: 7.857 to 7.982 mm, p = 0.016). The estimated shift was 0.081 mm below nominal. Engineering review is required to determine whether this difference is practically important.”
+    <div class="htb-callout is-key">
+      <p><strong>Memory trick: The Boy Who Cried Wolf.</strong> The null is "there is no wolf".</p>
+      <p>First, the villagers believe the boy and run out, but there's no wolf. They rejected a true null: a <strong>Type I error</strong> (false alarm).</p>
+      <p>Later, a real wolf comes, but the villagers ignore the boy. They failed to reject a false null: a <strong>Type II error</strong> (missed it).</p>
     </div>
   </div>
 </section>
 
-<section id="quiz" class="section" style="padding:32px 0 0;">
-  <div class="wrap lesson-shell">
-    <h2 style="font-size:20px;margin:0 0 14px;">Check your understanding</h2>
-    <div class="quiz">
-      <form id="lessonQuiz">
-        <fieldset class="quiz-question">
-          <legend>1. What does the null hypothesis usually represent?</legend>
-          <label class="quiz-choice"><input type="radio" name="q1" value="a"> The result you hope to prove</label>
-          <label class="quiz-choice"><input type="radio" name="q1" value="b"> No difference, no effect, or equality to a target</label>
-          <label class="quiz-choice"><input type="radio" name="q1" value="c"> The sample average</label>
-          <div class="quiz-feedback" id="f1"></div>
-        </fieldset>
+<section class="htb-section" id="htb-game" aria-labelledby="htb-game-h">
+  <div class="htb-wrap">
+    <p class="htb-step">Part 7 · Your turn</p>
+    <h2 id="htb-game-h">Play referee: the mystery coin game</h2>
+    <p>Now you're the referee. Each round the computer secretly hands you either a <strong>fair coin</strong> or a <strong>rigged coin</strong> that lands heads 70% of the time (50/50 chance of each). Flip it, look at the evidence, and make the call. Then the truth is revealed.</p>
+    <div class="htb-lab" role="group" aria-labelledby="htb-game-title">
+      <h3 class="htb-lab-title" id="htb-game-title"><span class="htb-lab-badge">Game</span> Fair or rigged?</h3>
+      <div class="htb-controls">
+        <label class="htb-field" for="htb-game-n">Flips per round
+          <select id="htb-game-n"><option value="10">10 flips</option><option value="20" selected>20 flips</option><option value="50">50 flips</option></select>
+        </label>
+      </div>
+      <div class="htb-btn-row">
+        <button type="button" class="htb-btn" id="htb-game-flip">Get a mystery coin and flip it</button>
+      </div>
+      <p id="htb-game-evidence" class="htb-verdict" role="status" aria-live="polite">Press the button to get your first mystery coin.</p>
+      <div class="htb-btn-row">
+        <button type="button" class="htb-btn is-ghost" id="htb-game-fair" disabled>Call it fair (fail to reject the null)</button>
+        <button type="button" class="htb-btn is-red" id="htb-game-rigged" disabled>Call it rigged (reject the null)</button>
+      </div>
+      <p id="htb-game-result" class="htb-verdict" role="status" aria-live="polite" hidden></p>
+      <div class="htb-score" aria-label="Your scoreboard">
+        <div>Rounds<strong id="htb-score-rounds">0</strong></div>
+        <div>Correct calls<strong id="htb-score-correct">0</strong></div>
+        <div>False alarms (Type I)<strong id="htb-score-t1">0</strong></div>
+        <div>Misses (Type II)<strong id="htb-score-t2">0</strong></div>
+      </div>
+      <h4 style="margin:18px 0 6px;font-size:16px">Let a robot referee play 1,000 rounds</h4>
+      <p class="htb-muted" style="margin:0">The robot always uses the rule "reject the null if \(\text{p-value} \le 0.05\)". How often does it get fooled?</p>
+      <div class="htb-btn-row"><button type="button" class="htb-btn is-ghost" id="htb-game-auto">Run 1,000 robot rounds</button></div>
+      <p id="htb-game-auto-out" class="htb-verdict" role="status" aria-live="polite" hidden></p>
+    </div>
+    <p>Play a few rounds with 10 flips, then switch to 50. With more flips, the rigged coin gets much harder to hide. That's the next big idea: <strong>power</strong>.</p>
+  </div>
+</section>
 
-        <fieldset class="quiz-question">
-          <legend>2. If p = 0.032 and &alpha; = 0.05, what is the formal decision?</legend>
-          <label class="quiz-choice"><input type="radio" name="q2" value="a"> Reject H<sub>0</sub></label>
-          <label class="quiz-choice"><input type="radio" name="q2" value="b"> Accept H<sub>0</sub></label>
-          <label class="quiz-choice"><input type="radio" name="q2" value="c"> Increase alpha after seeing the result</label>
-          <div class="quiz-feedback" id="f2"></div>
-        </fieldset>
+<section class="htb-section" id="htb-power" aria-labelledby="htb-power-h">
+  <div class="htb-wrap">
+    <p class="htb-step">Part 8 · How good is your detector?</p>
+    <h2 id="htb-power-h">Beta and power: how good is your cheat detector?</h2>
+    <p>Think of a hypothesis test as a <strong>cheat detector</strong>. \(\alpha\) tells you how often it goes off when nothing is wrong. But you also want to know how often it <em>catches</em> a real cheat. That's called <strong>power</strong>.</p>
+    <div class="htb-formula">\[ \text{Power} = 1 - \beta = P(\text{reject } H_0 \mid H_0 \text{ is false}) \]</div>
+    <p class="htb-muted">where \(\beta\) is the chance of a miss (Type II error). If \(\beta = 0.20\), the test misses a real effect 20% of the time and catches it 80% of the time, so the power is 0.80. Many studies aim for a power of at least 0.80.</p>
 
-        <fieldset class="quiz-question">
-          <legend>3. What is a Type I error?</legend>
-          <label class="quiz-choice"><input type="radio" name="q3" value="a"> Missing a real difference</label>
-          <label class="quiz-choice"><input type="radio" name="q3" value="b"> Rejecting H<sub>0</sub> when H<sub>0</sub> is true</label>
-          <label class="quiz-choice"><input type="radio" name="q3" value="c"> Choosing the wrong chart type</label>
-          <div class="quiz-feedback" id="f3"></div>
+    <div class="htb-lab" role="group" aria-labelledby="htb-power-title">
+      <h3 class="htb-lab-title" id="htb-power-title"><span class="htb-lab-badge">Lab 3</span> The power explorer</h3>
+      <p class="htb-muted">Two worlds are drawn on one chart: what a <strong>fair</strong> coin does (left half of each bar slot) and what a <strong>rigged</strong> coin does (right half). The dashed red line is where the reject zone starts.</p>
+      <div class="htb-controls">
+        <label class="htb-field" for="htb-pow-n">Number of flips: <span id="htb-pow-n-out">20</span>
+          <input type="range" id="htb-pow-n" min="10" max="100" step="5" value="20">
+        </label>
+        <label class="htb-field" for="htb-pow-p1">How rigged? Heads chance: <span id="htb-pow-p1-out">75%</span>
+          <input type="range" id="htb-pow-p1" min="0.55" max="0.95" step="0.05" value="0.75">
+        </label>
+        <fieldset class="htb-radios">
+          <legend>Significance level (alpha)</legend>
+          <label class="htb-pill"><input type="radio" name="htb-pow-alpha" value="0.10"> 0.10</label>
+          <label class="htb-pill"><input type="radio" name="htb-pow-alpha" value="0.05" checked> 0.05</label>
+          <label class="htb-pill"><input type="radio" name="htb-pow-alpha" value="0.01"> 0.01</label>
         </fieldset>
+      </div>
+      <figure class="htb-figure">
+        <svg id="htb-power-chart" viewBox="0 0 640 300" role="img" aria-label="Chart loading"></svg>
+        <figcaption>Left half of each slot: fair coin. Right half: rigged coin. Bars right of the dashed line land in the reject zone.</figcaption>
+      </figure>
+      <ul class="htb-legend" aria-label="Chart key">
+        <li><span class="htb-swatch is-h0" aria-hidden="true"></span>Fair coin, correctly kept</li>
+        <li><span class="htb-swatch is-reject" aria-hidden="true"></span>Fair coin wrongly rejected (false alarm)</li>
+        <li><span class="htb-swatch is-beta" aria-hidden="true"></span>Rigged coin missed (Type II error)</li>
+        <li><span class="htb-swatch is-power" aria-hidden="true"></span>Rigged coin caught (power, hatched)</li>
+      </ul>
+      <div class="htb-readouts">
+        <div class="htb-readout"><span class="htb-readout-label">Reject the null at</span><span class="htb-readout-value" id="htb-pow-cut">–</span></div>
+        <div class="htb-readout"><span class="htb-readout-label">False-alarm risk, \(\alpha\)</span><span class="htb-readout-value" id="htb-pow-alpha-out">–</span><div class="htb-meter is-alpha" aria-hidden="true"><span id="htb-pow-alpha-bar"></span></div></div>
+        <div class="htb-readout"><span class="htb-readout-label">Miss risk, \(\beta\)</span><span class="htb-readout-value" id="htb-pow-beta">–</span><div class="htb-meter is-beta" aria-hidden="true"><span id="htb-pow-beta-bar"></span></div></div>
+        <div class="htb-readout"><span class="htb-readout-label">Power, \(1-\beta\)</span><span class="htb-readout-value" id="htb-pow-power">–</span><div class="htb-meter" aria-hidden="true"><span id="htb-pow-power-bar"></span></div></div>
+      </div>
+      <figure class="htb-figure" style="max-width:420px">
+        <svg id="htb-seesaw" viewBox="0 0 420 150" role="img" aria-label="Seesaw loading"></svg>
+        <figcaption>The alpha–beta seesaw: with the same number of flips, pushing one risk down pushes the other up.</figcaption>
+      </figure>
+      <p id="htb-pow-summary" class="htb-verdict" role="status" aria-live="polite"></p>
+    </div>
 
-        <fieldset class="quiz-question">
-          <legend>4. A result is statistically significant but smaller than the minimum change worth acting on. What should you conclude?</legend>
-          <label class="quiz-choice"><input type="radio" name="q4" value="a"> The result may be real but not practically important</label>
-          <label class="quiz-choice"><input type="radio" name="q4" value="b"> The result must be a data error</label>
-          <label class="quiz-choice"><input type="radio" name="q4" value="c"> The process is automatically out of specification</label>
-          <div class="quiz-feedback" id="f4"></div>
-        </fieldset>
+    <h3>Three levers that change power</h3>
+    <div class="htb-table-scroll" tabindex="0" role="region" aria-label="How sample size, effect size and alpha change power" style="overflow-x:auto">
+      <table>
+        <caption>Try each lever in Lab 3 and watch the power readout</caption>
+        <thead><tr><th scope="col">Lever</th><th scope="col">What happens to power</th><th scope="col">Why, in plain words</th><th scope="col">The catch</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">More flips (bigger sample)</th><td>Goes up</td><td>More evidence makes the two worlds overlap less, so the cheat can't hide.</td><td>Costs more time and money.</td></tr>
+          <tr><th scope="row">Bigger cheat (bigger effect)</th><td>Goes up</td><td>A coin that lands heads 90% of the time is easier to spot than one at 55%.</td><td>You don't control this. Nature does.</td></tr>
+          <tr><th scope="row">Larger alpha</th><td>Goes up</td><td>A lower bar for rejecting catches more real cheats.</td><td>More false alarms, too. That's the seesaw.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>With Riley's coin (75% heads), 20 flips, and \(\alpha = 0.05\), the power is about <strong>0.62</strong>: Sam would catch the trick only about 6 times in 10. With 50 flips, power jumps to about <strong>0.97</strong>. When the stakes are high, plan enough data <em>before</em> you start.</p>
+  </div>
+</section>
 
-        <fieldset class="quiz-question">
-          <legend>5. Which test fits one numeric sample compared with a target mean when population standard deviation is unknown?</legend>
-          <label class="quiz-choice"><input type="radio" name="q5" value="a"> 1-Sample t</label>
-          <label class="quiz-choice"><input type="radio" name="q5" value="b"> Chi-square test of independence</label>
-          <label class="quiz-choice"><input type="radio" name="q5" value="c"> Two-proportion test</label>
-          <div class="quiz-feedback" id="f5"></div>
-        </fieldset>
-
-        <button class="btn btn-teal" type="button" onclick="gradeQuiz()">Check my score</button>
-        <button class="btn btn-outline" type="reset" onclick="resetQuiz()" style="margin-left:8px;">Reset</button>
-        <div id="quizScore" class="score-box" aria-live="polite"></div>
-      </form>
+<section class="htb-section" id="htb-checklist" aria-labelledby="htb-checklist-h">
+  <div class="htb-wrap">
+    <p class="htb-step">Part 9 · Put it together</p>
+    <h2 id="htb-checklist-h">The five-step referee checklist</h2>
+    <p>Every hypothesis test, from coin flips to medicine trials to factory quality checks, follows the same five steps. Here's Sam's case from start to finish.</p>
+    <ol class="htb-steps">
+      <li><strong>Write the two stories.</strong> Null \(H_0\): the coin is fair, \(p = 0.5\). Alternative \(H_1\): the coin favours heads, \(p > 0.5\).</li>
+      <li><strong>Set the bar before looking.</strong> Sam chooses \(\alpha = 0.05\). Sam also notes that 20 flips gives only about 62% power against a 75%-heads coin, so a "not rigged" result won't prove much.</li>
+      <li><strong>Collect the evidence.</strong> 20 flips. Result: 16 heads.</li>
+      <li><strong>Measure the surprise.</strong> If the coin were fair, 16 or more heads happens with probability 0.0059 (the p-value).</li>
+      <li><strong>Decide and say it in plain words.</strong> 0.0059 is below 0.05, so Sam rejects the null: "The evidence suggests Riley's coin lands heads more than half the time." Sam swaps in the league's own coin.</li>
+    </ol>
+    <div class="htb-callout is-warn">
+      <p><strong>What if Sam had seen 13 heads?</strong> The p-value would be 0.1316, above 0.05, so Sam would <em>fail to reject</em> the null. The right sentence is "there isn't enough evidence that the coin is rigged", <strong>not</strong> "the coin is fair". Remember: not guilty is not the same as innocent.</p>
     </div>
   </div>
 </section>
 
-<section class="section tint" style="margin-top:48px;padding-top:56px;padding-bottom:56px;">
-  <div class="wrap lesson-shell">
-    <h2 style="font-size:20px;margin:0 0 12px;">Lesson summary</h2>
-    <div class="card">
-      <ul class="summary-list">
-        <li>H<sub>0</sub> is the default claim; H<sub>1</sub> is the difference or direction being tested.</li>
-        <li>Choose the test direction and alpha before looking at the result.</li>
-        <li>Reject H<sub>0</sub> when p &le; &alpha;; otherwise, fail to reject H<sub>0</sub>.</li>
-        <li>A p-value is not the probability that H<sub>0</sub> is true.</li>
-        <li>Always separate statistical significance from practical significance.</li>
-        <li>Report the effect estimate, confidence interval, p-value, assumptions, and workplace meaning.</li>
+<section class="htb-section" id="htb-real-world" aria-labelledby="htb-real-world-h">
+  <div class="htb-wrap">
+    <p class="htb-step">Part 10 · Beyond coins</p>
+    <h2 id="htb-real-world-h">Hypothesis testing in the real world</h2>
+    <p>The same logic runs things you use every day. In each case, ask: what's the "nothing special" story, and which mistake would hurt more? Open each card to check your thinking.</p>
+    <div class="htb-grid is-2">
+      <div class="htb-card htb-scenario">
+        <span class="htb-emoji" aria-hidden="true">🩺</span>
+        <h3>Medical screening test</h3>
+        <dl><dt>Null</dt><dd>The patient does not have the disease.</dd><dt>Type I error</dt><dd>Healthy person told they might be sick (more tests, worry).</dd><dt>Type II error</dt><dd>Sick person told they're fine (treatment delayed).</dd></dl>
+        <details class="htb-details"><summary>Which mistake is worse?</summary><p>Usually the Type II error, missing a real disease. Screening tests are designed to catch nearly every real case and accept some false alarms, which a second test then sorts out.</p></details>
+      </div>
+      <div class="htb-card htb-scenario">
+        <span class="htb-emoji" aria-hidden="true">🔥</span>
+        <h3>Smoke alarm</h3>
+        <dl><dt>Null</dt><dd>There is no fire.</dd><dt>Type I error</dt><dd>The alarm beeps at burnt toast.</dd><dt>Type II error</dt><dd>A real fire, and the alarm stays silent.</dd></dl>
+        <details class="htb-details"><summary>Which mistake is worse?</summary><p>The Type II error, by a mile. That's why smoke alarms are set to be touchy: they accept a high false-alarm rate to keep the miss rate tiny.</p></details>
+      </div>
+      <div class="htb-card htb-scenario">
+        <span class="htb-emoji" aria-hidden="true">🏭</span>
+        <h3>Steel pipe inspection</h3>
+        <dl><dt>Null</dt><dd>The pipe has no hidden crack.</dd><dt>Type I error</dt><dd>A good pipe is flagged and pulled for re-checking (wasted time and money).</dd><dt>Type II error</dt><dd>A cracked pipe passes inspection and is shipped to a customer.</dd></dl>
+        <details class="htb-details"><summary>Which mistake is worse?</summary><p>The Type II error. A cracked pipe in a pipeline can leak or burst. Mills tune inspection so a missed flaw is very unlikely and accept that some good pipes will be re-checked. In quality language, the false alarm is the <strong>producer's risk</strong> and the miss is the <strong>consumer's risk</strong>.</p></details>
+      </div>
+      <div class="htb-card htb-scenario">
+        <span class="htb-emoji" aria-hidden="true">📧</span>
+        <h3>Email spam filter</h3>
+        <dl><dt>Null</dt><dd>This email is a normal, wanted email.</dd><dt>Type I error</dt><dd>Your friend's party invite lands in the spam folder.</dd><dt>Type II error</dt><dd>A spam message lands in your inbox.</dd></dl>
+        <details class="htb-details"><summary>Which mistake is worse?</summary><p>Most people say the Type I error: losing an important email hurts more than deleting one junk message. So spam filters are tuned to be cautious about rejecting the null.</p></details>
+      </div>
+    </div>
+    <div class="htb-callout"><p><strong>The big lesson:</strong> there is no free lunch. For a fixed amount of data, making one mistake rarer makes the other more common. You choose alpha by asking which mistake costs more. If you want both to be rare, you need more data.</p></div>
+  </div>
+</section>
+
+<section class="htb-section" id="htb-vocabulary" aria-labelledby="htb-vocabulary-h">
+  <div class="htb-wrap">
+    <p class="htb-step">Part 11 · Cheat sheet</p>
+    <h2 id="htb-vocabulary-h">Hypothesis testing vocabulary cheat sheet</h2>
+    <div class="htb-table-scroll" tabindex="0" role="region" aria-label="Hypothesis testing vocabulary" style="overflow-x:auto">
+      <table>
+        <caption>Every key word, in plain language and in the coin story</caption>
+        <thead><tr><th scope="col">Term</th><th scope="col">Symbol</th><th scope="col">Plain meaning</th><th scope="col">In the coin story</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Null hypothesis</th><td>\(H_0\)</td><td>The default "nothing special" story. Contains the equals sign.</td><td>The coin is fair: \(p = 0.5\).</td></tr>
+          <tr><th scope="row">Alternative hypothesis</th><td>\(H_1\) or \(H_a\)</td><td>The claim you want evidence for.</td><td>The coin favours heads: \(p > 0.5\).</td></tr>
+          <tr><th scope="row">p-value</th><td>\(p\text{-value}\)</td><td>How surprising the data are if the null is true.</td><td>16 heads gives 0.0059.</td></tr>
+          <tr><th scope="row">Significance level</th><td>\(\alpha\)</td><td>The bar you set in advance; also the chance of a false alarm.</td><td>0.05</td></tr>
+          <tr><th scope="row">Type I error</th><td>(probability \(\alpha\))</td><td>False alarm: rejecting a true null.</td><td>Calling a fair coin rigged.</td></tr>
+          <tr><th scope="row">Type II error</th><td>(probability \(\beta\))</td><td>Miss: failing to reject a false null.</td><td>Letting a rigged coin pass.</td></tr>
+          <tr><th scope="row">Beta</th><td>\(\beta\)</td><td>The chance of a miss when a real effect exists.</td><td>About 0.38 for 20 flips of a 75%-heads coin.</td></tr>
+          <tr><th scope="row">Power</th><td>\(1-\beta\)</td><td>The chance of catching a real effect.</td><td>About 0.62 for 20 flips; about 0.97 for 50.</td></tr>
+          <tr><th scope="row">Reject the null</th><td>–</td><td>The evidence is strong enough to stop believing "nothing special".</td><td>Sam's verdict with 16 heads.</td></tr>
+          <tr><th scope="row">Fail to reject the null</th><td>–</td><td>Not enough evidence. <em>Not</em> proof that the null is true.</td><td>What 13 heads would give.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="htb-section" id="statistics-implementation" aria-labelledby="statistics-implementation-h">
+  <div class="htb-wrap">
+    <p class="htb-step">Part 12 · Do it with software</p>
+    <h2 id="statistics-implementation-h">Statistics Implementation</h2>
+    <p>You don't need software to understand the ideas, but at work you'll use Excel or Minitab to get the numbers. Everything below reproduces the coin story: 20 flips, a fair-coin null of \(p = 0.5\), \(\alpha = 0.05\), and Riley's 75%-heads coin as the "real cheat".</p>
+
+    <h3 id="htb-excel-functions">Excel Functions</h3>
+    <div class="htb-table-scroll" tabindex="0" role="region" aria-label="Excel functions for hypothesis testing basics" style="overflow-x:auto">
+      <table class="htb-wide">
+        <caption>Excel functions behind p-values, cut-offs, alpha, beta, and power</caption>
+        <thead><tr><th scope="col">Function</th><th scope="col">Syntax</th><th scope="col">Purpose</th><th scope="col">When to use it</th></tr></thead>
+        <tbody>
+          <tr><th scope="row"><code>BINOM.DIST</code> (exact)</th><td><code>=BINOM.DIST(number_s, trials, probability_s, FALSE)</code></td><td>Probability of <em>exactly</em> <code>number_s</code> successes.</td><td>Height of one bar in the "fair coin" chart, e.g. the chance of exactly 16 heads.</td></tr>
+          <tr><th scope="row"><code>BINOM.DIST</code> (cumulative)</th><td><code>=BINOM.DIST(number_s, trials, probability_s, TRUE)</code></td><td>Probability of <em>at most</em> <code>number_s</code> successes.</td><td>p-values (as <code>1 - …</code>), beta, and power for count data.</td></tr>
+          <tr><th scope="row"><code>BINOM.DIST.RANGE</code></th><td><code>=BINOM.DIST.RANGE(trials, probability_s, number_s, [number_s2])</code></td><td>Probability of between <code>number_s</code> and <code>number_s2</code> successes.</td><td>A one-step p-value such as "16 to 20 heads". Excel 2013 or later.</td></tr>
+          <tr><th scope="row"><code>BINOM.INV</code></th><td><code>=BINOM.INV(trials, probability_s, alpha)</code></td><td>Smallest count whose cumulative probability is at least <code>alpha</code>.</td><td>Finding where the reject zone starts. Its <code>alpha</code> argument is a cumulative probability, not your significance level.</td></tr>
+          <tr><th scope="row"><code>NORM.S.INV</code></th><td><code>=NORM.S.INV(probability)</code></td><td>The z-value with that much area to its left on the standard normal curve.</td><td>Critical values for measurement data: <code>=NORM.S.INV(0.95)</code> = 1.645 (one-sided, 0.05); <code>=NORM.S.INV(0.975)</code> = 1.960 (two-sided, 0.05).</td></tr>
+          <tr><th scope="row"><code>NORM.S.DIST</code></th><td><code>=NORM.S.DIST(z, TRUE)</code></td><td>Area to the left of a z-value.</td><td>Turning a z-value into a tail probability; approximating power for large samples.</td></tr>
+          <tr><th scope="row"><code>RAND</code></th><td><code>=RAND()</code></td><td>A random number between 0 and 1.</td><td>Simulating a coin: <code>=IF(RAND()&lt;0.5,"H","T")</code>.</td></tr>
+          <tr><th scope="row"><code>COUNTIF</code></th><td><code>=COUNTIF(range, criteria)</code></td><td>Counts cells that match.</td><td>Counting heads in a column of simulated flips.</td></tr>
+          <tr><th scope="row">Legacy names</th><td><code>BINOMDIST</code>, <code>CRITBINOM</code>, <code>NORMSINV</code>, <code>NORMSDIST</code></td><td>Older versions of the functions above, kept for compatibility.</td><td>Recognise them in older workbooks and textbooks; use the newer names in new work.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="htb-excel-use-cases">Excel Use Cases</h3>
+    <div class="htb-table-scroll" tabindex="0" role="region" aria-label="Excel worked examples for the coin story" style="overflow-x:auto">
+      <table class="htb-wide">
+        <caption>Type these into any cell to reproduce the lesson's numbers</caption>
+        <thead><tr><th scope="col">Question</th><th scope="col">Formula</th><th scope="col">Result</th><th scope="col">What it means</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Chance a fair coin gives exactly 16 heads in 20</th><td><code>=BINOM.DIST(16,20,0.5,FALSE)</code></td><td>0.0046</td><td>One bar of the fair-coin chart.</td></tr>
+          <tr><th scope="row">p-value for 16 or more heads</th><td><code>=1-BINOM.DIST(15,20,0.5,TRUE)</code></td><td>0.0059</td><td>"At least 16" is everything above 15.</td></tr>
+          <tr><th scope="row">Same p-value in one step</th><td><code>=BINOM.DIST.RANGE(20,0.5,16,20)</code></td><td>0.0059</td><td>Adds up the bars from 16 to 20.</td></tr>
+          <tr><th scope="row">Where does the reject zone start (alpha 0.05)?</th><td><code>=BINOM.INV(20,0.5,1-0.05)</code></td><td>14</td><td>Up to 14 heads is "normal", so reject at 15 or more.</td></tr>
+          <tr><th scope="row">Real false-alarm risk of that rule</th><td><code>=1-BINOM.DIST(14,20,0.5,TRUE)</code></td><td>0.0207</td><td>The actual alpha, just under 0.05.</td></tr>
+          <tr><th scope="row">Beta against Riley's 75% coin</th><td><code>=BINOM.DIST(14,20,0.75,TRUE)</code></td><td>0.3828</td><td>Chance a rigged coin still lands in the "keep" zone.</td></tr>
+          <tr><th scope="row">Power against Riley's 75% coin</th><td><code>=1-BINOM.DIST(14,20,0.75,TRUE)</code></td><td>0.6172</td><td>Chance Sam catches the rigged coin.</td></tr>
+          <tr><th scope="row">Simulate 20 flips</th><td><code>=IF(RAND()&lt;0.5,"H","T")</code> in A2:A21, then <code>=COUNTIF(A2:A21,"H")</code></td><td>Changes each time</td><td>Press F9 to re-flip, just like Lab 1.</td></tr>
+          <tr><th scope="row">Write the decision automatically</th><td><code>=IF(B1&lt;=0.05,"Reject H0","Fail to reject H0")</code></td><td>Reject H0</td><td>With the p-value (0.0059) in cell B1.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="htb-minitab-navigation">Minitab Navigation</h3>
+    <div class="htb-table-scroll" tabindex="0" role="region" aria-label="Minitab menu paths for hypothesis testing basics" style="overflow-x:auto">
+      <table class="htb-wide">
+        <caption>Where each idea lives in Minitab</caption>
+        <thead><tr><th scope="col">Task</th><th scope="col">Menu path</th><th scope="col">What to enter</th><th scope="col">Notes: which option and why</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">p-value for a count</th><td><code>Calc → Probability Distributions → Binomial</code></td><td>Cumulative probability; Number of trials 20; Event probability 0.5; Input constant 15.</td><td>Minitab returns the chance of 15 or fewer heads (0.9941). Subtract from 1 to get the p-value, 0.0059.</td></tr>
+          <tr><th scope="row">Where the reject zone starts</th><td><code>Calc → Probability Distributions → Binomial</code></td><td>Inverse cumulative probability; Input constant 0.95.</td><td>For counts, Minitab lists the two values either side of 0.95 (13 heads at 0.9423, 14 heads at 0.9793). Reject above 14.</td></tr>
+          <tr><th scope="row">Picture the reject zone</th><td><code>Graph → Probability Distribution Plot → View Probability</code></td><td>Distribution: Binomial (20, 0.5); Shaded Area: X Value, Right Tail, 15.</td><td>Draws the same picture as Lab 2 with the alpha tail shaded. Great for reports.</td></tr>
+          <tr><th scope="row">Compare the two worlds</th><td><code>Graph → Probability Distribution Plot → Two Distributions</code></td><td>Binomial (20, 0.5) and Binomial (20, 0.75).</td><td>Shows how much the fair and rigged shapes overlap, which is what drives beta.</td></tr>
+          <tr><th scope="row">Simulate coin flips</th><td><code>Calc → Random Data → Binomial</code></td><td>Number of rows 1000; Number of trials 20; Event probability 0.5.</td><td>Each row is one 20-flip experiment, like "Run 100 quick experiments" in Lab 1.</td></tr>
+          <tr><th scope="row">Power and beta</th><td><code>Stat → Power and Sample Size → 1 Proportion</code></td><td>Sample sizes 20; Comparison proportions 0.75; Hypothesized proportion 0.5; Options: Greater than, significance level 0.05.</td><td>Reports power (beta is 1 minus power). Leave Sample sizes blank and enter a Power value of 0.8 to ask "how many flips do I need?". Minitab's figure can differ slightly from the hand calculation depending on the method it uses for counts.</td></tr>
+          <tr><th scope="row">Alternative path for measurements</th><td><code>Stat → Power and Sample Size → 1-Sample Z</code> or <code>1-Sample t</code></td><td>Sample size, difference to detect, standard deviation.</td><td>Use these when your data are measurements (weights, thicknesses) instead of counts.</td></tr>
+          <tr><th scope="row">Next step: run a real test</th><td><code>Stat → Basic Statistics → 1 Proportion</code></td><td>Summarized data: 16 events in 20 trials; Perform hypothesis test, hypothesized proportion 0.5; Options: Greater than.</td><td>Preview only. It wraps all five referee steps into one dialog. You'll meet it in a later lesson.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 id="htb-exam-tips">Exam Tips</h3>
+    <ul>
+      <li><strong>Know the definitions cold.</strong> ASQ CSSBB and CQE questions test that \(\alpha = P(\text{Type I error})\), \(\beta = P(\text{Type II error})\), and \(\text{power} = 1-\beta\). Expect "which statement is true" questions built on swapping these.</li>
+      <li><strong>Producer's risk and consumer's risk.</strong> In acceptance sampling (a CQE favourite), \(\alpha\) is the <strong>producer's risk</strong> (a good lot is rejected) and \(\beta\) is the <strong>consumer's risk</strong> (a bad lot is accepted). Same idea as false alarm vs miss.</li>
+      <li><strong>The null holds the equality.</strong> \(H_0\) uses \(=\), \(\le\), or \(\ge\); \(H_1\) uses \(\ne\), \(<\), or \(>\). If an answer option puts \(\ne\) in the null, eliminate it.</li>
+      <li><strong>Wording traps.</strong> The correct conclusion is "reject" or "fail to reject" the null. Options that say "accept the null" or "prove the alternative" are usually wrong.</li>
+      <li><strong>Levers on power.</strong> Power rises with a larger sample, a larger true difference, a larger \(\alpha\), and less process variation. For a fixed sample, lowering \(\alpha\) raises \(\beta\).</li>
+      <li><strong>Decision rule.</strong> Reject when \(\text{p-value} \le \alpha\). A handy memory line: "If the p is low, the null must go."</li>
+      <li><strong>Link to OC curves.</strong> An operating characteristic curve plots the probability of accepting (not rejecting) against the true quality level. At a bad quality level its height is \(\beta\); the power curve is its mirror image (\(1-\beta\)).</li>
+      <li><strong>Excel argument names.</strong> In <code>BINOM.INV</code>, the argument called <code>alpha</code> is a cumulative probability. For a one-sided upper test at 0.05 you pass 0.95, not 0.05.</li>
+      <li><strong>Real-world practice.</strong> Statistically significant does not always mean important. In reports, state the decision, the p-value, alpha, and whether the size of the effect matters to the business. Plan sample size for at least 0.80 power before collecting data.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="htb-section" id="htb-summary" aria-labelledby="htb-summary-h">
+  <div class="htb-wrap">
+    <h2 id="htb-summary-h">Lesson summary</h2>
+    <div class="htb-card">
+      <ul class="htb-summary">
+        <li>Hypothesis testing asks: <strong>real, or just luck?</strong></li>
+        <li>The <strong>null hypothesis</strong> \(H_0\) is the "nothing special" story you assume first. The <strong>alternative</strong> \(H_1\) is the claim you want evidence for.</li>
+        <li>The <strong>p-value</strong> measures how surprising your data would be if the null were true.</li>
+        <li>The <strong>significance level</strong> \(\alpha\) is the bar you set in advance. Reject the null when the p-value is at or below it.</li>
+        <li>A <strong>Type I error</strong> is a false alarm (probability \(\alpha\)). A <strong>Type II error</strong> is a miss (probability \(\beta\)).</li>
+        <li><strong>Power</strong> \(1-\beta\) is the chance of catching a real effect. More data, a bigger effect, or a larger \(\alpha\) all raise it.</li>
+        <li>Never say "accept the null". Say "fail to reject": not guilty is not the same as innocent.</li>
       </ul>
     </div>
-    <h2 style="font-size:20px;margin:32px 0 12px;">Next lesson</h2>
-    <a href="https://upskillsprint.com/lessons/one-way-anova.html" style="font-family:'Source Serif 4',serif;font-size:19px;font-weight:600;">Compare three or more group means with one-way ANOVA &rarr;</a>
-
-    <details style="margin-top:36px;">
-      <summary style="cursor:pointer;font-weight:700;color:var(--navy);">Sources used for the Minitab workflow</summary>
-      <ul class="reference-list">
-        <li><a href="https://support.minitab.com/en-us/minitab/help-and-how-to/statistics/basic-statistics/how-to/1-sample-t/before-you-start/example/" target="_blank" rel="noopener">Minitab Support: Example of 1-Sample t</a></li>
-        <li><a href="https://support.minitab.com/en-us/minitab/help-and-how-to/statistics/basic-statistics/how-to/1-sample-t/interpret-the-results/key-results/" target="_blank" rel="noopener">Minitab Support: Interpret the key results for 1-Sample t</a></li>
-        <li><a href="https://support.minitab.com/en-us/minitab/help-and-how-to/statistics/basic-statistics/how-to/2-sample-t/before-you-start/example/" target="_blank" rel="noopener">Minitab Support: Example of 2-Sample t</a></li>
-      </ul>
-    </details>
   </div>
 </section>
+
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="The null is the default, nothing-special story with the equals sign: no difference. The other statements claim an effect, so they belong in the alternative.">
+        <legend>1. A school asks: “Does the new study app change average test scores?” Which statement is the null hypothesis?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> The app raises average test scores.</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> The app makes no difference to average test scores.</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> The app lowers average test scores.</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="d"> Students who use the app are happier.</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="A Type I error is a false alarm: rejecting a null that is actually true. The coin really was fair, but you said it was rigged.">
+        <legend>2. In the coin story, which of these is a Type I error?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> Calling a rigged coin rigged.</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> Calling a rigged coin fair.</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> Calling a fair coin rigged.</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="d"> Calling a fair coin fair.</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="The significance level is the false-alarm risk you are willing to accept when the null is true. It is not the chance the null is true, and it is not the power.">
+        <legend>3. Sam sets the significance level to 0.05 before flipping. What does that mean?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> If the coin is truly fair, Sam accepts about a 5% chance of wrongly calling it rigged.</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> There is a 5% chance the coin is rigged.</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Sam will flip the coin 5 times.</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="d"> Sam's test will catch a rigged coin 95% of the time.</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="0.13 is larger than 0.05, so the evidence is not strong enough to reject. We never say the null is proven, and changing the significance level after looking is cheating.">
+        <legend>4. A test gives a p-value of 0.13 and the significance level is 0.05. What is the correct conclusion?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> Reject the null: the effect is real.</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> Fail to reject the null: there is not enough evidence of an effect.</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> Accept the null: it is now proven true.</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="d"> Change the significance level to 0.15 and reject.</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="d" data-explanation="Power equals 1 minus beta: the probability of rejecting the null when it really is false. Many studies aim for a power of at least 0.80.">
+        <legend>5. What is the power of a test?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> The chance of a false alarm.</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> The p-value of the result.</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> The chance the null hypothesis is true.</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="d"> The chance of catching a real effect when one exists.</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="More data makes the fair and rigged worlds overlap less, so a real effect is easier to catch. A smaller effect makes the test less powerful, not more.">
+        <legend>6. For a fixed significance level, which change makes a test more powerful?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> Collecting more data, such as more coin flips.</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> Collecting less data.</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> Testing a coin that is only slightly rigged.</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="d"> Writing the hypotheses after seeing the data.</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="There really was a fire, so the null was false, but the alarm failed to reject it. Missing a real effect is a Type II error.">
+        <legend>7. A smoke alarm stays silent during a real fire. The null is “there is no fire”. Which error is this?</legend>
+        <label class="quiz-option"><input type="radio" name="q7" value="a"> Type I error</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="b"> No error</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="c"> Type II error</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="d"> A significance level error</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Like a not-guilty verdict, failing to reject only means the evidence was not strong enough. A small sample can easily miss a real effect.">
+        <legend>8. Why do statisticians say “fail to reject the null” instead of “accept the null”?</legend>
+        <label class="quiz-option"><input type="radio" name="q8" value="a"> Because the null hypothesis is always false.</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="b"> Because not finding strong evidence is not the same as proving there is no effect.</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="c"> Because the p-value proves the alternative.</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="d"> Because the significance level was too large.</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
 <section class="related-lessons" style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);">
   <h2>Related lessons</h2>
   <ul>
-    <li><a href="/lessons/one-way-anova">One-Way ANOVA: Comparing Group Means</a> — compare three or more group means with the F-test.</li>
-    <li><a href="/lessons/anova-plain-english">ANOVA in Plain English</a> — the same idea without the statistical jargon.</li>
-    <li><a href="/lessons/two-way-anova">Two-Way ANOVA: Main Effects &amp; Interaction</a> — add a second factor and look for interaction.</li>
+    <li><a href="/lessons/statistics/probability-basics-the-language-of-chance">Probability Basics: The Language of Chance</a> — the probability ideas behind every p-value.</li>
+    <li><a href="/lessons/statistics/beyond-the-bell-the-normal-distribution-and-its-relatives">Beyond the Bell: The Normal Distribution and Its Relatives</a> — the curves used when your data are measurements instead of counts.</li>
+    <li><a href="/lessons/statistics/chi-square-goodness-of-fit-test">Chi-Square Goodness-of-Fit Test</a> — a first real test that asks whether counts match what you expected.</li>
+    <li><a href="/lessons/one-way-anova">One-Way ANOVA: Comparing Group Means</a> — the same null-versus-alternative logic applied to several groups.</li>
+    <li><a href="/lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design">Signal or Noise: ARL, Nelson Rules and Control Limits</a> — false alarms and misses on control charts.</li>
   </ul>
 </section>
+
 </main>
 
-<script src="hypothesis-testing-for-beginners.js"></script>
-<script src="/contrast-fix.js"></script>
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#statistics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Statistics lessons</a>
+</section>
 
-
-<section class="lesson-backlink" aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left"><a href="/lessons#statistics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Statistics lessons</a></section>
 <footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img class="logo-wordmark" src="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+
+<script id="htb-logic">
+/* Pure statistics helpers for the interactives. No DOM access, so tests can run this file in isolation. */
+(function (root) {
+  'use strict';
+  var LNF = [0];
+  for (var i = 1; i <= 400; i++) LNF[i] = LNF[i - 1] + Math.log(i);
+  function pmf(k, n, p) {
+    if (k < 0 || k > n) return 0;
+    if (p <= 0) return k === 0 ? 1 : 0;
+    if (p >= 1) return k === n ? 1 : 0;
+    return Math.exp(LNF[n] - LNF[k] - LNF[n - k] + k * Math.log(p) + (n - k) * Math.log(1 - p));
+  }
+  function dist(n, p) { var out = []; for (var k = 0; k <= n; k++) out.push(pmf(k, n, p)); return out; }
+  function atLeast(k, n, p) { var s = 0; for (var j = Math.max(0, k); j <= n; j++) s += pmf(j, n, p); return Math.min(1, Math.max(0, s)); }
+  // Smallest count c whose upper tail under the null is at or below alpha (n + 1 means "never reject").
+  function criticalValue(n, p0, alpha) {
+    for (var c = 0; c <= n; c++) if (atLeast(c, n, p0) <= alpha + 1e-12) return c;
+    return n + 1;
+  }
+  function errorRates(n, p0, p1, alpha) {
+    var c = criticalValue(n, p0, alpha);
+    var a = atLeast(c, n, p0);
+    var power = atLeast(c, n, p1);
+    return { cut: c, alpha: a, beta: 1 - power, power: power };
+  }
+  function decide(pValue, alpha) { return pValue <= alpha + 1e-12 ? 'reject' : 'keep'; }
+  function classify(rejected, nullTrue) {
+    if (nullTrue) return rejected ? 'type1' : 'correct-keep';
+    return rejected ? 'correct-reject' : 'type2';
+  }
+  function flipCoins(n, p, rand) { rand = rand || Math.random; var out = []; for (var i = 0; i < n; i++) out.push(rand() < p ? 'H' : 'T'); return out; }
+  function fmt(x) {
+    if (x >= 0.99995) return '1.0000';
+    if (x < 0.0001) return '< 0.0001';
+    return x.toFixed(4);
+  }
+  root.HTBLogic = { pmf: pmf, dist: dist, atLeast: atLeast, criticalValue: criticalValue, errorRates: errorRates, decide: decide, classify: classify, flipCoins: flipCoins, fmt: fmt };
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script id="htb-ui">
+(function () {
+  'use strict';
+  var L = window.HTBLogic;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  /* ---------- shared bar chart ---------- */
+  function niceStep(range) { var steps = [1, 2, 5, 10, 20, 25]; for (var i = 0; i < steps.length; i++) if (range / steps[i] <= 10) return steps[i]; return 50; }
+  function domainFor(n, dists, extra) {
+    var lo = n, hi = 0;
+    dists.forEach(function (d) { d.forEach(function (v, k) { if (v > 0.0008) { lo = Math.min(lo, k); hi = Math.max(hi, k); } }); });
+    (extra || []).forEach(function (k) { if (k !== null && k !== undefined && k >= 0 && k <= n) { lo = Math.min(lo, k); hi = Math.max(hi, k); } });
+    lo = Math.max(0, lo - 1); hi = Math.min(n, hi + 1);
+    return [lo, hi];
+  }
+  // opts: n, h0 (array), h1 (array|null), cut (int|null), obs (int|null), shadeFrom (int|null), W, H, title
+  // Draw at the element's real width so labels stay readable on phones.
+  function chartWidth(svg) {
+    var w = svg && svg.getBoundingClientRect ? svg.getBoundingClientRect().width : 0;
+    return Math.round(Math.min(640, Math.max(340, w || 640)));
+  }
+  function drawBars(svg, o) {
+    var W = chartWidth(svg), H = (o.H || 280) - (W < 480 ? 20 : 0), ml = W < 480 ? 40 : 50, mr = 12, mt = 34, mb = 46;
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    var dists = [o.h0].concat(o.h1 ? [o.h1] : []);
+    var dom = domainFor(o.n, dists, [o.obs, o.cut]);
+    var lo = dom[0], hi = dom[1], slots = hi - lo + 1;
+    var pw = W - ml - mr, ph = H - mt - mb, bw = pw / slots;
+    var ymax = 0; dists.forEach(function (d) { for (var k = lo; k <= hi; k++) ymax = Math.max(ymax, d[k]); });
+    ymax = ymax * 1.12 || 1;
+    var y = function (v) { return mt + ph - (v / ymax) * ph; };
+    var s = '';
+    var yStep = ymax > 0.3 ? 0.1 : ymax > 0.12 ? 0.05 : ymax > 0.06 ? 0.02 : 0.01;
+    for (var t = 0; t <= ymax; t += yStep) {
+      s += '<line class="htb-svg-grid" x1="' + ml + '" x2="' + (W - mr) + '" y1="' + y(t).toFixed(1) + '" y2="' + y(t).toFixed(1) + '"></line>';
+      s += '<text class="htb-svg-axis" x="' + (ml - 6) + '" y="' + (y(t) + 4).toFixed(1) + '" text-anchor="end">' + Math.round(t * 100) + '%</text>';
+    }
+    for (var k = lo; k <= hi; k++) {
+      var x0 = ml + (k - lo) * bw, inner = Math.max(1, bw - Math.min(3, bw * 0.2));
+      var inReject = o.cut !== null && o.cut !== undefined && k >= o.cut;
+      var shaded = o.shadeFrom !== null && o.shadeFrom !== undefined && k >= o.shadeFrom;
+      if (o.h1) {
+        var half = inner / 2;
+        var c0 = inReject ? 'htb-bar-reject' : 'htb-bar-h0';
+        var c1 = inReject ? 'htb-bar-power' : 'htb-bar-h1keep';
+        s += '<rect class="' + c0 + '" x="' + x0.toFixed(2) + '" y="' + y(o.h0[k]).toFixed(2) + '" width="' + half.toFixed(2) + '" height="' + (mt + ph - y(o.h0[k])).toFixed(2) + '"></rect>';
+        s += '<rect class="' + c1 + '" x="' + (x0 + half).toFixed(2) + '" y="' + y(o.h1[k]).toFixed(2) + '" width="' + half.toFixed(2) + '" height="' + (mt + ph - y(o.h1[k])).toFixed(2) + '"></rect>';
+      } else {
+        var cls = (inReject || shaded) ? 'htb-bar-reject' : 'htb-bar-h0';
+        s += '<rect class="' + cls + '" x="' + x0.toFixed(2) + '" y="' + y(o.h0[k]).toFixed(2) + '" width="' + inner.toFixed(2) + '" height="' + (mt + ph - y(o.h0[k])).toFixed(2) + '"></rect>';
+      }
+    }
+    s += '<line class="htb-svg-line" x1="' + ml + '" x2="' + (W - mr) + '" y1="' + (mt + ph) + '" y2="' + (mt + ph) + '"></line>';
+    var step = niceStep(slots);
+    for (var tk = Math.ceil(lo / step) * step; tk <= hi; tk += step) {
+      s += '<text class="htb-svg-axis" x="' + (ml + (tk - lo + 0.5) * bw).toFixed(1) + '" y="' + (mt + ph + 16) + '" text-anchor="middle">' + tk + '</text>';
+    }
+    s += '<text class="htb-svg-axis" x="' + (ml + pw / 2) + '" y="' + (H - 8) + '" text-anchor="middle">Number of heads in ' + o.n + ' flips</text>';
+    s += '<text class="htb-svg-title" x="' + ml + '" y="16">' + esc(o.title || 'How often each result happens') + '</text>';
+    if (o.cut !== null && o.cut !== undefined && o.cut <= hi) {
+      var cx = ml + (Math.max(o.cut, lo) - lo) * bw - 1;
+      s += '<line class="htb-svg-cut" x1="' + cx.toFixed(1) + '" x2="' + cx.toFixed(1) + '" y1="' + (mt - 6) + '" y2="' + (mt + ph) + '"></line>';
+      var leftSide = cx > W - 170;
+      s += '<text class="htb-svg-cut-label" x="' + (leftSide ? cx - 6 : cx + 6).toFixed(1) + '" y="' + (mt + 6) + '" text-anchor="' + (leftSide ? 'end' : 'start') + '">' + (leftSide ? 'Reject zone →' : 'Reject zone →') + '</text>';
+    }
+    if (o.obs !== null && o.obs !== undefined) {
+      var ox = ml + (o.obs - lo + 0.5) * bw;
+      var peak = 0; for (var q = Math.max(lo, o.obs - 1); q <= Math.min(hi, o.obs + 1); q++) peak = Math.max(peak, o.h0[q]);
+      var ly = Math.max(mt + 4, y(peak) - 22), anchor = ox > W - 60 ? 'end' : ox < ml + 40 ? 'start' : 'middle';
+      s += '<line class="htb-obs-line" x1="' + ox.toFixed(1) + '" x2="' + ox.toFixed(1) + '" y1="' + (ly + 4) + '" y2="' + (mt + ph) + '"></line>';
+      s += '<path class="htb-obs" d="M' + (ox - 6).toFixed(1) + ' ' + (ly + 2) + ' h12 l-6 9 z"></path>';
+      s += '<text class="htb-obs-label" x="' + ox.toFixed(1) + '" y="' + (ly - 3).toFixed(1) + '" text-anchor="' + anchor + '">' + (o.obsLabel || ('You: ' + o.obs)) + '</text>';
+    }
+    svg.innerHTML = s;
+    return { lo: lo, hi: hi };
+  }
+
+  /* ---------- sort game ---------- */
+  var SORT = [
+    { t: 'The new study app makes no difference to average test scores.', a: 'null', why: 'It says "no difference". That\'s the default, nothing-special story.' },
+    { t: 'The new study app raises average test scores.', a: 'alt', why: 'It claims something changed. That\'s what you would need evidence for.' },
+    { t: 'This six-sided die is fair: each number comes up 1 time in 6.', a: 'null', why: 'It states one exact value with an equals sign. Fair is the default.' },
+    { t: 'The cafeteria\'s "large" fries weigh less than the advertised 150 g.', a: 'alt', why: 'It\'s the accusation. The null would be "they weigh 150 g, as advertised".' },
+    { t: 'The average bus ride is still 30 minutes after the new route.', a: 'null', why: '"Still the same" means nothing has changed. That\'s the null.' },
+    { t: 'Pipes made in the new furnace have a different average wall thickness.', a: 'alt', why: '"Different" is the claim of an effect. The null says the average is the same.' }
+  ];
+  function initSort() {
+    var list = $('htb-sort-list'); if (!list) return;
+    var answered = {}, right = 0;
+    SORT.forEach(function (item, i) {
+      var li = document.createElement('li');
+      li.innerHTML = '<p class="htb-sort-text">' + esc(item.t) + '</p>' +
+        '<div class="htb-btn-row" style="margin:0"><button type="button" class="htb-btn is-ghost" data-pick="null">Null (nothing special)</button>' +
+        '<button type="button" class="htb-btn is-ghost" data-pick="alt">Alternative (something\'s up)</button></div>' +
+        '<p class="htb-sort-fb" aria-live="polite"></p>';
+      li.querySelectorAll('button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var ok = b.getAttribute('data-pick') === item.a;
+          if (!(i in answered)) { answered[i] = ok; if (ok) right++; }
+          var fb = li.querySelector('.htb-sort-fb');
+          fb.innerHTML = (ok ? '<span class="htb-tag is-good">✓ Correct</span>' : '<span class="htb-tag is-bad">✗ Not quite</span>') + esc(item.why);
+          var n = Object.keys(answered).length;
+          $('htb-sort-score').textContent = 'First-try score: ' + right + ' of ' + n + ' answered (' + SORT.length + ' statements in total).';
+        });
+      });
+      list.appendChild(li);
+    });
+  }
+
+  /* ---------- Lab 1: coin flips ---------- */
+  var coin = { n: 20, p: 0.5, run: [], results: [] };
+  function coinDist() { return L.dist(coin.n, 0.5); }
+  function drawCoin() {
+    var last = coin.results.length ? coin.results[coin.results.length - 1] : null;
+    var pv = last === null ? null : L.atLeast(last, coin.n, 0.5);
+    drawBars($('htb-coin-chart'), { n: coin.n, h0: coinDist(), cut: null, obs: last, shadeFrom: last, title: 'What a FAIR coin does in ' + coin.n + ' flips' });
+    $('htb-coin-chart').setAttribute('aria-label', 'Bar chart of how often a fair coin gives each number of heads in ' + coin.n + ' flips. The most likely result is ' + Math.round(coin.n / 2) + ' heads.' + (last === null ? '' : ' Your latest experiment: ' + last + ' heads, p-value ' + L.fmt(pv) + '.'));
+    $('htb-coin-heads').textContent = last === null ? '–' : last + ' / ' + coin.n;
+    $('htb-coin-p').textContent = pv === null ? '–' : L.fmt(pv);
+    $('htb-coin-count').textContent = coin.results.length;
+    drawDots();
+  }
+  function drawDots() {
+    var svg = $('htb-dot-chart'), W = chartWidth(svg), H = 150, ml = W < 480 ? 40 : 50, mr = 12, mt = 10, mb = 30;
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    var dom = domainFor(coin.n, [coinDist()], coin.results);
+    var lo = dom[0], hi = dom[1], slots = hi - lo + 1, bw = (W - ml - mr) / slots;
+    var counts = {}; coin.results.forEach(function (r) { counts[r] = (counts[r] || 0) + 1; });
+    var maxc = 0; Object.keys(counts).forEach(function (k) { maxc = Math.max(maxc, counts[k]); });
+    var ph = H - mt - mb, r = Math.max(1.6, Math.min(bw * 0.38, 6, ph / Math.max(1, maxc) / 2.1));
+    var s = '<line class="htb-svg-line" x1="' + ml + '" x2="' + (W - mr) + '" y1="' + (mt + ph) + '" y2="' + (mt + ph) + '"></line>';
+    var step = niceStep(slots);
+    for (var tk = Math.ceil(lo / step) * step; tk <= hi; tk += step) s += '<text class="htb-svg-axis" x="' + (ml + (tk - lo + 0.5) * bw).toFixed(1) + '" y="' + (mt + ph + 16) + '" text-anchor="middle">' + tk + '</text>';
+    var unit = maxc * 2 * r > ph ? ph / maxc : 2 * r;
+    Object.keys(counts).forEach(function (k) {
+      var kk = +k; if (kk < lo || kk > hi) return;
+      for (var j = 0; j < counts[k]; j++) {
+        s += '<circle class="htb-dot" cx="' + (ml + (kk - lo + 0.5) * bw).toFixed(1) + '" cy="' + (mt + ph - unit * (j + 0.5)).toFixed(1) + '" r="' + Math.min(r, unit / 2).toFixed(2) + '"></circle>';
+      }
+    });
+    if (!coin.results.length) s += '<text class="htb-svg-axis" x="' + (W / 2) + '" y="' + (mt + ph / 2) + '" text-anchor="middle">Your experiments will stack up here</text>';
+    svg.innerHTML = s;
+    var mean = coin.results.length ? coin.results.reduce(function (a, b) { return a + b; }, 0) / coin.results.length : null;
+    svg.setAttribute('aria-label', coin.results.length ? 'Dot plot of ' + coin.results.length + ' experiments. Average heads per experiment: ' + mean.toFixed(1) + ' out of ' + coin.n + '.' : 'No experiments yet');
+  }
+  function showFlip(face) {
+    var c = $('htb-coin'); if (!c) return;
+    c.classList.toggle('is-tails', face === 'T');
+    if (!reduceMotion) { c.classList.remove('is-spinning'); void c.offsetWidth; c.classList.add('is-spinning'); }
+  }
+  function renderRun() {
+    var ol = $('htb-flips');
+    ol.innerHTML = coin.run.map(function (f, i) { return '<li class="' + (f === 'H' ? 'is-h' : 'is-t') + '" aria-label="Flip ' + (i + 1) + ': ' + (f === 'H' ? 'heads' : 'tails') + '">' + f + '</li>'; }).join('');
+  }
+  function finishRun() {
+    var h = coin.run.filter(function (f) { return f === 'H'; }).length;
+    coin.results.push(h);
+    var pv = L.atLeast(h, coin.n, 0.5);
+    $('htb-coin-status').innerHTML = 'Experiment done: <strong>' + h + ' heads</strong> in ' + coin.n + ' flips. If the coin were fair, a result this high or higher happens with probability <strong>' + L.fmt(pv) + '</strong>. ' + (pv <= 0.05 ? 'That\'s rare for a fair coin!' : 'That\'s pretty normal for a fair coin.');
+    drawCoin();
+  }
+  function flipOne() {
+    if (coin.run.length >= coin.n) coin.run = [];
+    var f = L.flipCoins(1, coin.p)[0];
+    coin.run.push(f); showFlip(f); renderRun();
+    if (coin.run.length === coin.n) finishRun();
+    else $('htb-coin-status').textContent = 'Flip ' + coin.run.length + ' of ' + coin.n + ': ' + (f === 'H' ? 'heads' : 'tails') + '. Heads so far: ' + coin.run.filter(function (x) { return x === 'H'; }).length + '.';
+  }
+  function flipRest() {
+    if (coin.run.length >= coin.n) coin.run = [];
+    coin.run = coin.run.concat(L.flipCoins(coin.n - coin.run.length, coin.p));
+    showFlip(coin.run[coin.run.length - 1]); renderRun(); finishRun();
+  }
+  function flip100() {
+    for (var i = 0; i < 100; i++) coin.results.push(L.flipCoins(coin.n, coin.p).filter(function (f) { return f === 'H'; }).length);
+    coin.run = [];
+    renderRun();
+    var rare = coin.results.filter(function (h) { return L.atLeast(h, coin.n, 0.5) <= 0.05; }).length;
+    $('htb-coin-status').textContent = 'Ran 100 more experiments (' + coin.results.length + ' in total). ' + rare + ' of them had a p-value of 0.05 or less.';
+    drawCoin();
+  }
+  function resetCoin() {
+    coin.n = +$('htb-coin-n').value; coin.p = +$('htb-coin-type').value; coin.run = []; coin.results = [];
+    renderRun(); $('htb-coin-status').innerHTML = 'Press <strong>Flip once</strong> to start an experiment.'; drawCoin();
+  }
+
+  /* ---------- Lab 2: alpha ---------- */
+  function drawAlpha() {
+    var alpha = +document.querySelector('input[name="htb-alpha"]:checked').value;
+    var x = +$('htb-alpha-heads').value, n = 20;
+    var c = L.criticalValue(n, 0.5, alpha), actual = L.atLeast(c, n, 0.5), pv = L.atLeast(x, n, 0.5);
+    $('htb-alpha-heads-out').textContent = x;
+    drawBars($('htb-alpha-chart'), { n: n, h0: L.dist(n, 0.5), cut: c, obs: x, obsLabel: 'Sam: ' + x, title: 'Fair coin, 20 flips, significance level ' + alpha.toFixed(2) });
+    $('htb-alpha-cut').textContent = c + '+ heads';
+    $('htb-alpha-actual').textContent = L.fmt(actual);
+    $('htb-alpha-p').textContent = L.fmt(pv);
+    var v = $('htb-alpha-verdict'), rej = L.decide(pv, alpha) === 'reject';
+    v.className = 'htb-verdict ' + (rej ? 'is-reject' : 'is-keep');
+    v.innerHTML = rej
+      ? '<strong>Verdict: reject the null.</strong> ' + x + ' heads has a p-value of ' + L.fmt(pv) + ', which is at or below the significance level of ' + alpha.toFixed(2) + '. A fair coin would rarely do this, so Sam has evidence the coin favours heads.'
+      : '<strong>Verdict: fail to reject the null.</strong> ' + x + ' heads has a p-value of ' + L.fmt(pv) + ', which is above the significance level of ' + alpha.toFixed(2) + '. A fair coin does this often enough, so there isn\'t enough evidence it\'s rigged.';
+    $('htb-alpha-chart').setAttribute('aria-label', 'Bar chart of a fair coin\'s results in 20 flips. Reject zone: ' + c + ' or more heads, real false-alarm risk ' + L.fmt(actual) + '. Sam\'s result: ' + x + ' heads, ' + (rej ? 'inside' : 'outside') + ' the reject zone.');
+  }
+
+  /* ---------- truth table ---------- */
+  var TRUTH = {
+    coin: { nul: 'Null: the coin is fair.', c1: '(the coin is fair)', c2: '(the coin is rigged)',
+      11: 'Sam calls a fair coin rigged and accuses Riley unfairly.', 12: 'Sam spots the rigged coin. Justice!',
+      21: 'Fair coin, and Sam lets it be. All good.', 22: 'The coin is rigged, but Sam lets it slide. Riley keeps winning tosses.' },
+    court: { nul: 'Null: the accused is innocent.', c1: '(really innocent)', c2: '(really guilty)',
+      11: 'An innocent person is convicted.', 12: 'A guilty person is convicted.',
+      21: 'An innocent person goes free.', 22: 'A guilty person goes free.' },
+    alarm: { nul: 'Null: there is no fire.', c1: '(no fire)', c2: '(real fire)',
+      11: 'The alarm screams at burnt toast.', 12: 'The alarm sounds for a real fire.',
+      21: 'No fire, no beep. Peace and quiet.', 22: 'A real fire, and the alarm stays silent.' },
+    pipe: { nul: 'Null: the steel pipe has no hidden crack.', c1: '(pipe is good)', c2: '(pipe is cracked)',
+      11: 'A good pipe is flagged and pulled for re-checking (producer\'s risk).', 12: 'The crack is found before the pipe ships.',
+      21: 'A good pipe passes and ships.', 22: 'A cracked pipe passes and ships to the customer (consumer\'s risk).' }
+  };
+  function drawTruth() {
+    var ctx = TRUTH[document.querySelector('input[name="htb-truth-ctx"]:checked').value];
+    $('htb-truth-null').textContent = ctx.nul;
+    $('htb-truth-col1').textContent = ctx.c1; $('htb-truth-col2').textContent = ctx.c2;
+    ['11', '12', '21', '22'].forEach(function (k) { $('htb-cell-' + k).textContent = ctx[k]; });
+  }
+
+  /* ---------- referee game ---------- */
+  var game = { n: 20, secret: null, heads: null, score: { rounds: 0, correct: 0, t1: 0, t2: 0 } };
+  var RIGGED = 0.7;
+  function gameFlip() {
+    game.n = +$('htb-game-n').value;
+    game.secret = Math.random() < 0.5 ? 'fair' : 'rigged';
+    game.heads = L.flipCoins(game.n, game.secret === 'fair' ? 0.5 : RIGGED).filter(function (f) { return f === 'H'; }).length;
+    var pv = L.atLeast(game.heads, game.n, 0.5);
+    var ev = $('htb-game-evidence');
+    ev.className = 'htb-verdict';
+    ev.innerHTML = '<strong>Evidence:</strong> ' + game.heads + ' heads in ' + game.n + ' flips. If this coin were fair, a result this high or higher has probability <strong>' + L.fmt(pv) + '</strong>. (Hint: the usual rule is to call it rigged if that\'s 0.05 or less.) Make your call.';
+    $('htb-game-fair').disabled = false; $('htb-game-rigged').disabled = false; $('htb-game-flip').disabled = true;
+    $('htb-game-result').hidden = true;
+  }
+  function gameCall(callRigged) {
+    if (!game.secret) return;
+    var outcome = L.classify(callRigged, game.secret === 'fair');
+    var s = game.score; s.rounds++;
+    var res = $('htb-game-result'), msg;
+    if (outcome === 'type1') { s.t1++; res.className = 'htb-verdict is-reject'; msg = '<strong>✗ Type I error (false alarm).</strong> The coin was actually fair. Luck fooled you into calling it rigged.'; }
+    else if (outcome === 'type2') { s.t2++; res.className = 'htb-verdict is-miss'; msg = '<strong>✗ Type II error (missed it).</strong> The coin was actually rigged (70% heads), but the evidence didn\'t look strong enough.'; }
+    else { s.correct++; res.className = 'htb-verdict is-good'; msg = '<strong>✓ Correct!</strong> The coin was ' + (game.secret === 'fair' ? 'fair, and you rightly left it alone.' : 'rigged (70% heads), and you caught it.'); }
+    res.innerHTML = msg; res.hidden = false;
+    $('htb-score-rounds').textContent = s.rounds; $('htb-score-correct').textContent = s.correct;
+    $('htb-score-t1').textContent = s.t1; $('htb-score-t2').textContent = s.t2;
+    game.secret = null;
+    $('htb-game-fair').disabled = true; $('htb-game-rigged').disabled = true; $('htb-game-flip').disabled = false;
+    $('htb-game-flip').focus();
+  }
+  function gameAuto() {
+    var n = +$('htb-game-n').value, fair = 0, rigged = 0, t1 = 0, t2 = 0;
+    for (var i = 0; i < 1000; i++) {
+      var isFair = Math.random() < 0.5;
+      var h = L.flipCoins(n, isFair ? 0.5 : RIGGED).filter(function (f) { return f === 'H'; }).length;
+      var rej = L.decide(L.atLeast(h, n, 0.5), 0.05) === 'reject';
+      var o = L.classify(rej, isFair);
+      if (isFair) fair++; else rigged++;
+      if (o === 'type1') t1++; if (o === 'type2') t2++;
+    }
+    var th = L.errorRates(n, 0.5, RIGGED, 0.05);
+    var out = $('htb-game-auto-out');
+    out.hidden = false; out.className = 'htb-verdict';
+    out.innerHTML = '<strong>Robot referee, ' + n + ' flips per round:</strong> of ' + fair + ' fair coins it falsely called ' + t1 + ' rigged (' + (100 * t1 / Math.max(1, fair)).toFixed(1) + '%; theory says ' + (100 * th.alpha).toFixed(1) + '%). Of ' + rigged + ' rigged coins it missed ' + t2 + ' (' + (100 * t2 / Math.max(1, rigged)).toFixed(1) + '%; theory says ' + (100 * th.beta).toFixed(1) + '%, so the power is about ' + Math.round(100 * th.power) + '%).';
+  }
+
+  /* ---------- Lab 3: power ---------- */
+  function drawPower() {
+    var n = +$('htb-pow-n').value, p1 = Math.round(+$('htb-pow-p1').value * 100) / 100;
+    var alpha = +document.querySelector('input[name="htb-pow-alpha"]:checked').value;
+    var r = L.errorRates(n, 0.5, p1, alpha);
+    $('htb-pow-n-out').textContent = n; $('htb-pow-p1-out').textContent = Math.round(p1 * 100) + '%';
+    drawBars($('htb-power-chart'), { n: n, h0: L.dist(n, 0.5), h1: L.dist(n, p1), cut: r.cut, obs: null, H: 300, title: 'Fair coin vs rigged coin (' + Math.round(p1 * 100) + '% heads), ' + n + ' flips' });
+    $('htb-pow-cut').textContent = (r.cut > n ? 'never' : r.cut + '+ heads');
+    $('htb-pow-alpha-out').textContent = L.fmt(r.alpha); $('htb-pow-beta').textContent = L.fmt(r.beta); $('htb-pow-power').textContent = L.fmt(r.power);
+    $('htb-pow-alpha-bar').style.width = (r.alpha * 100).toFixed(1) + '%';
+    $('htb-pow-beta-bar').style.width = (r.beta * 100).toFixed(1) + '%';
+    $('htb-pow-power-bar').style.width = (r.power * 100).toFixed(1) + '%';
+    var grade = r.power >= 0.8 ? 'That meets the usual 0.80 target.' : 'That\'s below the usual 0.80 target. Try more flips.';
+    $('htb-pow-summary').innerHTML = 'With <strong>' + n + ' flips</strong> and a significance level of ' + alpha.toFixed(2) + ', Sam rejects the null at ' + (r.cut > n ? 'no possible result' : r.cut + ' or more heads') + '. Against a coin that lands heads ' + Math.round(p1 * 100) + '% of the time, the test catches the cheat <strong>' + Math.round(r.power * 100) + '%</strong> of the time and misses it ' + Math.round(r.beta * 100) + '% of the time. ' + grade;
+    $('htb-power-chart').setAttribute('aria-label', 'Two overlapping distributions for ' + n + ' flips: fair coin and a coin with ' + Math.round(p1 * 100) + '% heads. Reject zone starts at ' + r.cut + ' heads. False-alarm risk ' + L.fmt(r.alpha) + ', miss risk ' + L.fmt(r.beta) + ', power ' + L.fmt(r.power) + '.');
+    drawSeesaw(r.alpha, r.beta);
+  }
+  function drawSeesaw(a, b) {
+    var svg = $('htb-seesaw'); if (!svg) return;
+    var ang = Math.max(-14, Math.min(14, (b - a) * 30));
+    var s = '<polygon class="htb-seesaw-base" points="210,140 190,108 230,108"></polygon>';
+    s += '<g transform="rotate(' + ang.toFixed(2) + ' 210 104)">';
+    s += '<rect class="htb-seesaw-beam" x="40" y="99" width="340" height="10" rx="5"></rect>';
+    var ra = 8 + 30 * Math.sqrt(a), rb = 8 + 30 * Math.sqrt(b);
+    s += '<circle class="htb-seesaw-alpha" cx="70" cy="' + (99 - ra).toFixed(1) + '" r="' + ra.toFixed(1) + '"></circle>';
+    s += '<circle class="htb-seesaw-beta" cx="350" cy="' + (99 - rb).toFixed(1) + '" r="' + rb.toFixed(1) + '"></circle>';
+    s += '</g>';
+    s += '<text class="htb-seesaw-text" x="20" y="18">False-alarm risk ' + L.fmt(a) + '</text>';
+    s += '<text class="htb-seesaw-text" x="400" y="18" text-anchor="end">Miss risk ' + L.fmt(b) + '</text>';
+    svg.innerHTML = s;
+    svg.setAttribute('aria-label', 'Seesaw: false-alarm risk ' + L.fmt(a) + ' on the left, miss risk ' + L.fmt(b) + ' on the right. The heavier side sits lower.');
+  }
+
+  function init() {
+    if (!L) return;
+    initSort();
+    if ($('htb-coin-chart')) {
+      $('htb-flip-one').addEventListener('click', flipOne);
+      $('htb-flip-rest').addEventListener('click', flipRest);
+      $('htb-flip-100').addEventListener('click', flip100);
+      $('htb-flip-clear').addEventListener('click', resetCoin);
+      $('htb-coin-n').addEventListener('change', resetCoin);
+      $('htb-coin-type').addEventListener('change', resetCoin);
+      resetCoin();
+    }
+    if ($('htb-alpha-chart')) {
+      document.querySelectorAll('input[name="htb-alpha"]').forEach(function (r) { r.addEventListener('change', drawAlpha); });
+      $('htb-alpha-heads').addEventListener('input', drawAlpha);
+      drawAlpha();
+    }
+    document.querySelectorAll('input[name="htb-truth-ctx"]').forEach(function (r) { r.addEventListener('change', drawTruth); });
+    drawTruth();
+    if ($('htb-game-flip')) {
+      $('htb-game-flip').addEventListener('click', gameFlip);
+      $('htb-game-fair').addEventListener('click', function () { gameCall(false); });
+      $('htb-game-rigged').addEventListener('click', function () { gameCall(true); });
+      $('htb-game-auto').addEventListener('click', gameAuto);
+    }
+    if ($('htb-power-chart')) {
+      $('htb-pow-n').addEventListener('input', drawPower);
+      $('htb-pow-p1').addEventListener('input', drawPower);
+      document.querySelectorAll('input[name="htb-pow-alpha"]').forEach(function (r) { r.addEventListener('change', drawPower); });
+      drawPower();
+    }
+    var lastW = window.innerWidth, timer = null;
+    window.addEventListener('resize', function () {
+      if (Math.abs(window.innerWidth - lastW) < 20) return;
+      lastW = window.innerWidth; clearTimeout(timer);
+      timer = setTimeout(function () { if ($('htb-coin-chart')) drawCoin(); if ($('htb-alpha-chart')) drawAlpha(); if ($('htb-power-chart')) drawPower(); }, 150);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+<style id="htb-dark-overrides">
+html[data-theme="dark"] #lesson-content{
+  --lesson-htb-page:#0d1726;
+  --lesson-htb-surface:#132134;
+  --lesson-htb-surface-2:#1a2b42;
+  --lesson-htb-text:#eef3f9;
+  --lesson-htb-text-2:#c3cfdd;
+  --lesson-htb-border:#34465e;
+  --lesson-htb-control:#8597ae;
+  --lesson-htb-teal:#5fd0dc;
+  --lesson-htb-teal-bg:#123241;
+  --lesson-htb-on-teal:#08141f;
+  --lesson-htb-navy:#9cc2ec;
+  --lesson-htb-red:#ff9b91;
+  --lesson-htb-red-bg:#3a1b1b;
+  --lesson-htb-amber:#f2b84b;
+  --lesson-htb-amber-bg:#332811;
+  --lesson-htb-green:#63d59a;
+  --lesson-htb-green-bg:#123224;
+  --lesson-htb-bar:#8db7e3;
+  --lesson-htb-bar-keep:#7d9cc0;
+  --lesson-htb-bar-h1:#f2b84b;
+  --lesson-htb-focus:#7dd3fc;
+  --lesson-htb-shadow:none;
+}
+html[data-theme="dark"] #lesson-content .htb-btn.is-red{color:#2a0b08}
+html[data-theme="dark"] .quiz-section .lesson-kicker { color: #7dd3fc; }
+html[data-theme="dark"] [aria-label="Return to lesson category"] a { color: #7dd3fc !important; }
+</style>
 </body>
 </html>

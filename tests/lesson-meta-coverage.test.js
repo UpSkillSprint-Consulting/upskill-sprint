@@ -31,7 +31,8 @@ const NEWLY_COVERED = {
   'two-way-anova': 'Advanced',
   'one-way-anova': 'Intermediate',
   'lean-six-sigma/dmaic-formula-encyclopedia': 'Advanced',
-  'hypothesis-testing-for-beginners': 'Intermediate'
+  // Rewritten in Oct 2026 as a true first-look lesson (no specific test), so it is now Beginner.
+  'hypothesis-testing-for-beginners': 'Beginner'
 };
 
 // In-library lessons whose level must agree with the library card.
