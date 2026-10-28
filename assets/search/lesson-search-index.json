@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 56,
   "contentLessonCount": 55,
-  "sectionCount": 2990,
+  "sectionCount": 2996,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -2062,129 +2062,535 @@
       "id": "hypothesis-testing-for-beginners",
       "path": "/lessons/hypothesis-testing-for-beginners",
       "title": "Hypothesis Testing for Beginners",
-      "description": "Decide whether a difference in your data is meaningful or could be random noise.",
+      "description": "Real or just luck? Learn null vs alternative, alpha, beta, power, and Type I and II errors with coin-flip games.",
       "topic": "statistics",
-      "level": "intermediate",
-      "minutes": 25,
+      "level": "beginner",
+      "minutes": 30,
       "interactive": true,
       "keywords": [
         "hypothesis testing",
         "null hypothesis",
         "alternative hypothesis",
-        "p-value",
+        "significance level",
+        "alpha",
+        "beta",
+        "statistical power",
         "type i error",
         "type ii error",
-        "significance level",
-        "t-test",
-        "statistics",
+        "p-value",
         "asq cssbb",
-        "hypothesis testing beginners minitab difference real noise p value statistics interactive"
+        "asq cqe",
+        "hypothesis testing beginners null alternative hypothesis significance level alpha beta power type i type ii error p value coin flip excel minitab statistics interactive"
       ],
       "placeholder": false,
       "contentAvailable": true,
       "sections": [
         {
-          "id": "lesson-section-hypothesis-testing-for-beginners",
+          "id": "htb-title",
           "heading": "Hypothesis Testing for Beginners",
           "breadcrumb": [
             "Hypothesis Testing for Beginners"
           ],
-          "text": "What you will learn: how to decide whether a difference in sample data is strong enough to support a workplace conclusion. Statistics Quality Engineering Lean Six Sigma",
-          "excerpt": "What you will learn: how to decide whether a difference in sample data is strong enough to support a workplace conclusion. Statistics Quality Engineering Lean Six Sigma",
+          "text": "Hypothesis testing is a fair, step-by-step way to answer one question: is what I'm seeing real, or could it just be luck? No formulas to memorise yet. You will flip coins, play referee, and see why statisticians talk about the null hypothesis, alpha, beta, power, and Type I and Type II errors.",
+          "excerpt": "Hypothesis testing is a fair, step-by-step way to answer one question: is what I'm seeing real, or could it just be luck? No formulas to memorise yet. You will flip coins, play referee, and see why statisticians talk about the null hypothesis, alpha, beta,…",
           "kinds": [
             "section"
           ]
         },
         {
-          "id": "lesson-section-by-the-end-you-should-be-able-to",
-          "heading": "By the end, you should be able to",
+          "id": "lesson-section-by-the-end-you-will-be-able-to",
+          "heading": "By the end, you will be able to",
           "breadcrumb": [
             "Hypothesis Testing for Beginners",
-            "By the end, you should be able to"
+            "By the end, you will be able to"
           ],
-          "text": "Turn a workplace question into a null and alternative hypothesis. Use the p-value and significance level to make the correct statistical decision. Explain Type I and Type II errors in practical language. Choose a basic hypothesis test for a common business or quality problem. Run and interpret a 1-sample t-test in Minitab.",
-          "excerpt": "Turn a workplace question into a null and alternative hypothesis. Use the p-value and significance level to make the correct statistical decision. Explain Type I and Type II errors in practical language. Choose a basic hypothesis test for a common business or…",
+          "text": "Write a null hypothesis and an alternative hypothesis for an everyday question. Explain what the significance level (alpha) means and why you pick it before looking at the data. Tell a Type I error (false alarm) from a Type II error (missed it). Explain beta and power , and the three things that make a test more powerful. Part 1 · The story",
+          "excerpt": "Write a null hypothesis and an alternative hypothesis for an everyday question. Explain what the significance level (alpha) means and why you pick it before looking at the data. Tell a Type I error (false alarm) from a Type II error (missed it). Explain beta…",
           "kinds": [
             "section"
           ]
         },
         {
-          "id": "lesson-section-why-this-matters-at-work",
-          "heading": "Why this matters at work",
+          "id": "htb-story-h",
+          "heading": "Real, or just luck? The case of the lucky coin",
           "breadcrumb": [
             "Hypothesis Testing for Beginners",
-            "Why this matters at work"
+            "Real, or just luck? The case of the lucky coin"
           ],
-          "text": "A sample can look different even when the underlying process has not changed. Hypothesis testing helps you separate a real signal from normal sample-to-sample variation. It gives you a disciplined way to decide whether to adjust a process, challenge a supplier, approve a change, or collect more evidence. Important: a hypothesis test does not make the business decision for you. It measures the strength of the statistical evidence. You must still judge cost, risk, specifications, and practical importance.",
-          "excerpt": "A sample can look different even when the underlying process has not changed. Hypothesis testing helps you separate a real signal from normal sample-to-sample variation. It gives you a disciplined way to decide whether to adjust a process, challenge a…",
+          "text": "Meet Riley, captain of the school basketball team. Before every game the referee flips a coin and Riley calls \"heads\". Riley uses a shiny \"lucky coin\" from home, and it seems to land heads a lot . Riley calls heads before game 1... and wins the toss. Then game 2. Then game 3. \"Heads again! Told you it's lucky.\" Sam, the referee, starts to wonder. Is the coin rigged , or is Riley just having a good run? \"Hmm. Lucky streaks happen. But this many?\" Sam doesn't want to accuse Riley unfairly. So Sam decides to test the coin with a fair set of rules. \"I'll flip it 20 times and let the evidence decide.\" Sam's problem is the problem every scientist, doctor, engineer, and quality inspector faces: random chance can fool you . A fair coin can land heads 7 times in 10 just by luck. So how many heads is \"too many to be luck\"? Hypothesis testing is the rulebook Sam needs. The one-sentence idea: start by assuming nothing special is happening, then ask whether your evidence would be really surprising if that were true. If it would be, you stop believing the \"nothing special\" story. Part 2 · The big idea",
+          "excerpt": "Meet Riley, captain of the school basketball team. Before every game the referee flips a coin and Riley calls \"heads\". Riley uses a shiny \"lucky coin\" from home, and it seems to land heads a lot . Riley calls heads before game 1... and wins the toss. Then…",
           "kinds": [
             "section"
           ]
         },
         {
-          "id": "plain-english",
-          "heading": "Hypothesis testing in plain English",
+          "id": "htb-courtroom-h",
+          "heading": "Think like a courtroom: innocent until proven guilty",
           "breadcrumb": [
             "Hypothesis Testing for Beginners",
-            "Hypothesis testing in plain English"
+            "Think like a courtroom: innocent until proven guilty"
           ],
-          "text": "Start with a default explanation: nothing meaningful has changed . Then ask whether the data are too unusual for that explanation to remain believable. Start with H 0 No difference or no effect Challenge it with data Is the result too unusual under H 0 ? Memory phrase: Assume no real difference. Measure how surprising the sample would be. Reject that assumption only when the evidence is strong enough.",
-          "excerpt": "Start with a default explanation: nothing meaningful has changed . Then ask whether the data are too unusual for that explanation to remain believable. Start with H 0 No difference or no effect Challenge it with data Is the result too unusual under H 0 ?…",
+          "text": "The easiest way to understand hypothesis testing is a trial. A court doesn't start by assuming the person did it. It starts with \"innocent\" and only changes its mind when the evidence is strong. A hypothesis test works exactly the same way. In court The accused is presumed innocent . In a hypothesis test We assume the null hypothesis : nothing special is going on (the coin is fair). The prosecutor claims the person is guilty . The alternative hypothesis is the claim we want evidence for (the coin is rigged). The jury looks at the evidence . We look at the data (how many heads in 20 flips). Guilty only if it's beyond reasonable doubt . We reject the null only if the evidence passes a bar we set in advance: the significance level, alpha . Verdict: guilty or not guilty . Decision: reject the null or fail to reject the null . Notice the wording. A jury never says \"innocent\". It says \"not guilty\", which only means there wasn't enough evidence . Statisticians are just as careful: we say \"fail to reject the null\", never \"the null is proven true\". Part 3 · Two competing stories",
+          "excerpt": "The easiest way to understand hypothesis testing is a trial. A court doesn't start by assuming the person did it. It starts with \"innocent\" and only changes its mind when the evidence is strong. A hypothesis test works exactly the same way. In court The…",
           "kinds": [
             "section"
           ]
         },
         {
-          "id": "lesson-section-the-two-competing-statements",
-          "heading": "The two competing statements",
+          "id": "htb-hypotheses-h",
+          "heading": "The null hypothesis and the alternative hypothesis",
           "breadcrumb": [
             "Hypothesis Testing for Beginners",
-            "The two competing statements"
+            "The null hypothesis and the alternative hypothesis"
           ],
-          "text": "",
-          "excerpt": "The two competing statements",
+          "text": "Every hypothesis test starts with two statements that can't both be true. Think of them as two stories about the world. Your data will help you decide which story to believe.",
+          "excerpt": "Every hypothesis test starts with two statements that can't both be true. Think of them as two stories about the world. Your data will help you decide which story to believe.",
           "kinds": [
             "section"
           ]
         },
         {
-          "id": "lesson-section-null-hypothesis-h0",
-          "heading": "Null hypothesis, H0",
+          "id": "lesson-section-the-null-hypothesis-nothing-special",
+          "heading": "The null hypothesis: \"nothing special\"",
           "breadcrumb": [
             "Hypothesis Testing for Beginners",
-            "The two competing statements",
-            "Null hypothesis, H0"
+            "The null hypothesis and the alternative hypothesis",
+            "The null hypothesis: \"nothing special\""
           ],
-          "text": "The starting position. It usually says there is no difference, no effect, or the population value equals a target.",
-          "excerpt": "The starting position. It usually says there is no difference, no effect, or the population value equals a target.",
+          "text": "The boring, default story. Nothing has changed, there's no difference, no effect, no cheating. It gets the symbol \\(H_0\\) (say \"H-nought\" or \"H-zero\"). \\[ H_0:\\ p = 0.5 \\] where \\(p\\) is the coin's true chance of landing heads. In words: Riley's coin is fair.",
+          "excerpt": "The boring, default story. Nothing has changed, there's no difference, no effect, no cheating. It gets the symbol \\(H_0\\) (say \"H-nought\" or \"H-zero\"). \\[ H_0:\\ p = 0.5 \\] where \\(p\\) is the coin's true chance of landing heads. In words: Riley's coin is fair.",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-the-alternative-hypothesis-something-s-up",
+          "heading": "The alternative hypothesis: \"something's up\"",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "The null hypothesis and the alternative hypothesis",
+            "The alternative hypothesis: \"something's up\""
+          ],
+          "text": "The claim you're looking for evidence of. Something changed, there is a difference, there is an effect. It gets the symbol \\(H_1\\) (some books write \\(H_a\\)). \\[ H_1:\\ p > 0.5 \\] In words: Riley's coin lands heads more than half the time.",
+          "excerpt": "The claim you're looking for evidence of. Something changed, there is a difference, there is an effect. It gets the symbol \\(H_1\\) (some books write \\(H_a\\)). \\[ H_1:\\ p > 0.5 \\] In words: Riley's coin lands heads more than half the time.",
           "kinds": [
             "section"
           ]
         },
         {
-          "id": "lesson-section-alternative-hypothesis-h1",
-          "heading": "Alternative hypothesis, H1",
+          "id": "lesson-section-four-rules-of-thumb",
+          "heading": "Four rules of thumb",
           "breadcrumb": [
             "Hypothesis Testing for Beginners",
-            "The two competing statements",
-            "Alternative hypothesis, H1"
+            "The null hypothesis and the alternative hypothesis",
+            "Four rules of thumb"
           ],
-          "text": "The claim supported when the evidence against H 0 is strong enough. It states the difference or direction you are testing.",
-          "excerpt": "The claim supported when the evidence against H 0 is strong enough. It states the difference or direction you are testing.",
+          "text": "The null always contains the \"equals\" sign. It names one exact value (here, exactly half). The alternative is \"bigger than\", \"smaller than\", or \"different from\". You assume the null is true until the evidence says otherwise , just like \"innocent until proven guilty\". The alternative is usually the exciting claim : the new medicine works, the new machine is faster, the coin is rigged. Write both before you collect any data. Changing your hypotheses after peeking is like the prosecutor changing the charge after hearing the evidence. Good to know: Sam suspects too many heads, so the alternative points one way (\\(p > 0.5\\)). That's a one-sided test. If Sam only suspected the coin was \"unfair in some direction\", the alternative would be \\(p \\ne 0.5\\), a two-sided test. The reasoning in this lesson works the same for both.",
+          "excerpt": "The null always contains the \"equals\" sign. It names one exact value (here, exactly half). The alternative is \"bigger than\", \"smaller than\", or \"different from\". You assume the null is true until the evidence says otherwise , just like \"innocent until proven…",
           "kinds": [
             "section"
           ]
         },
         {
-          "id": "lesson-section-example-average-wall-thickness",
-          "heading": "Example: average wall thickness",
+          "id": "htb-sort-title",
+          "heading": "Try it Null or alternative?",
           "breadcrumb": [
             "Hypothesis Testing for Beginners",
-            "The two competing statements",
-            "Example: average wall thickness"
+            "The null hypothesis and the alternative hypothesis",
+            "Try it Null or alternative?"
           ],
-          "text": "The nominal average wall thickness is 8.00 mm. You want to know whether the process average has moved in either direction. H 0 : μ = 8.00 mm H 1 : μ ≠ 8.00 mm",
-          "excerpt": "The nominal average wall thickness is 8.00 mm. You want to know whether the process average has moved in either direction. H 0 : μ = 8.00 mm H 1 : μ ≠ 8.00 mm",
+          "text": "Read each statement. Is it the \"nothing special\" story (null) or the \"something's up\" claim (alternative)? Part 4 · Collect evidence",
+          "excerpt": "Read each statement. Is it the \"nothing special\" story (null) or the \"something's up\" claim (alternative)? Part 4 · Collect evidence",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "htb-evidence-h",
+          "heading": "How surprising is the result? Meet the p-value",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "How surprising is the result? Meet the p-value"
+          ],
+          "text": "Here is the key move. We pretend the null is true (the coin is fair) and ask: if the coin really were fair, how often would we see a result as extreme as ours? If the answer is \"almost never\", the fair-coin story starts to look silly. Try it yourself. Flip a coin and watch where your results land compared with what a fair coin usually does.",
+          "excerpt": "Here is the key move. We pretend the null is true (the coin is fair) and ask: if the coin really were fair, how often would we see a result as extreme as ours? If the answer is \"almost never\", the fair-coin story starts to look silly. Try it yourself. Flip a…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "htb-coin-title",
+          "heading": "Lab 1 The coin-flip lab",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "How surprising is the result? Meet the p-value",
+            "Lab 1 The coin-flip lab"
+          ],
+          "text": "Flips per experiment Which coin? Press Flip once to start an experiment. Bars: how often a fair coin gives each number of heads (the \"nothing special\" world). Black line and arrow: your latest experiment. Hatched red bars: results at least as extreme as yours. Dots: every experiment you have run. Each dot is one experiment, placed at its number of heads. Heads in latest experiment – Surprise score (p-value) – Experiments run 0",
+          "excerpt": "Flips per experiment Which coin? Press Flip once to start an experiment. Bars: how often a fair coin gives each number of heads (the \"nothing special\" world). Black line and arrow: your latest experiment. Hatched red bars: results at least as extreme as…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-the-surprise-score-has-a-name-the-p-value",
+          "heading": "The surprise score has a name: the p-value",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "How surprising is the result? Meet the p-value",
+            "The surprise score has a name: the p-value"
+          ],
+          "text": "The number in the lab is called the p-value . It answers one question: \\[ \\text{p-value} = P(\\text{a result at least this extreme} \\mid H_0 \\text{ is true}) \\] where \\(P(\\ldots)\\) means \"the probability of\", and the bar \\(\\mid\\) means \"assuming\". So: the chance of seeing data this extreme if the coin really is fair . Small p-value (like 0.006): \"Wow, a fair coin almost never does that.\" That's strong evidence against the null. Large p-value (like 0.25): \"Meh, a fair coin does that all the time.\" Not much evidence against the null. Sam flipped Riley's coin 20 times and got 16 heads . Here is how surprising each result would be for a fair coin: Chance a fair coin gives at least this many heads in 20 flips Heads in 20 flips p-value In plain words 12 or more 0.2517 About 1 in 4. Happens all the time. 13 or more 0.1316 About 1 in 8. Not unusual. 14 or more 0.0577 About 1 in 17. A bit unusual. 15 or more 0.0207 About 1 in 50. Pretty surprising. 16 or more (Sam's result) 0.0059 About 6 in 1,000. Very surprising. 17 or more 0.0013 About 1 in 770. Extremely rare. Careful: a p-value of 0.0059 does not mean \"there's a 0.59% chance the coin is fair\". It means \" if the coin were fair, results like this would happen only 0.59% of the time.\" It's a statement about the data, assuming the null. Part 5 · Set the bar",
+          "excerpt": "The number in the lab is called the p-value . It answers one question: \\[ \\text{p-value} = P(\\text{a result at least this extreme} \\mid H_0 \\text{ is true}) \\] where \\(P(\\ldots)\\) means \"the probability of\", and the bar \\(\\mid\\) means \"assuming\". So: the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "htb-alpha-h",
+          "heading": "Draw the line first: the significance level (alpha)",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Draw the line first: the significance level (alpha)"
+          ],
+          "text": "\"Surprising\" is fuzzy. Is 1 in 17 surprising enough? 1 in 50? To keep things fair, Sam picks a cut-off before flipping. That cut-off is the significance level , written \\(\\alpha\\) (the Greek letter alpha). \\[ \\text{Reject } H_0 \\text{ if p-value} \\le \\alpha \\] where \\(\\alpha\\) is the largest false-alarm risk you are willing to accept. The most common choice is \\(\\alpha = 0.05\\), which means \"I'm OK being fooled by luck about 1 time in 20 when nothing is really going on\". 0.10 · \"Let's take a look.\" Used for quick, early checks where a false alarm is cheap. 0.05 · The everyday standard in science, business, and quality work. 0.01 · \"I need to be really sure.\" Used when a false alarm is costly or dangerous.",
+          "excerpt": "\"Surprising\" is fuzzy. Is 1 in 17 surprising enough? 1 in 50? To keep things fair, Sam picks a cut-off before flipping. That cut-off is the significance level , written \\(\\alpha\\) (the Greek letter alpha). \\[ \\text{Reject } H_0 \\text{ if p-value} \\le \\alpha…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "htb-alpha-title",
+          "heading": "Lab 2 Set the bar and make the call",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Draw the line first: the significance level (alpha)",
+            "Lab 2 Set the bar and make the call"
+          ],
+          "text": "Sam flips 20 times. Choose alpha, then slide the number of heads. Watch the red \"reject\" zone and the verdict. Significance level (alpha) 0.10 0.05 0.01 Heads observed in 20 flips: 16 Every bar shows how likely each number of heads is for a fair coin. Hatched red bars are the reject zone : results so rare that you'd stop believing the coin is fair. Fair coin result: keep the null Reject zone (hatched) Sam's result Reject the null at – Real false-alarm risk – p-value of Sam's result – Two ways to say the same decision, and both always agree: The p-value way: 16 heads has a p-value of 0.0059. That's below 0.05, so reject the null. The cut-off way: with \\(\\alpha = 0.05\\), the reject zone starts at 15 heads. 16 is inside the zone, so reject the null. Why is the \"real\" risk not exactly 0.05? Coin flips come in whole numbers, so you can't land exactly on 0.05. Starting the zone at 15 heads gives a false-alarm risk of 0.0207, the closest you can get without going over 0.05. With smooth measurements (like heights or weights), alpha can be hit exactly. Pick alpha before you look. If Sam saw 14 heads (a p-value of 0.0577) and then said \"let's switch to 0.10 instead\", that's cheating, just like moving the goalposts after the kick. Part 6 · Nobody's perfect",
+          "excerpt": "Sam flips 20 times. Choose alpha, then slide the number of heads. Watch the red \"reject\" zone and the verdict. Significance level (alpha) 0.10 0.05 0.01 Heads observed in 20 flips: 16 Every bar shows how likely each number of heads is for a fair coin. Hatched…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "htb-errors-h",
+          "heading": "Two ways to be wrong: Type I and Type II errors",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Two ways to be wrong: Type I and Type II errors"
+          ],
+          "text": "Sam never gets to peek inside the coin. Sam only sees the flips, and flips are random. So even with perfect rules, Sam can still be wrong in two different ways . Pick a story below and read the four boxes.",
+          "excerpt": "Sam never gets to peek inside the coin. Sam only sees the flips, and flips are random. So even with perfect rules, Sam can still be wrong in two different ways . Pick a story below and read the four boxes.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "htb-truth-title",
+          "heading": "Explore The four possible outcomes",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Two ways to be wrong: Type I and Type II errors",
+            "Explore The four possible outcomes"
+          ],
+          "text": "Choose a story 🪙 The coin ⚖️ The courtroom 🔥 Smoke alarm 🏭 Steel pipe inspection Your decision compared with the truth Your decision The truth: the null is TRUE The truth: the null is FALSE You reject the null Type I error: false alarm Chance of this: \\(\\alpha\\) Correct: caught it Chance of this: \\(1-\\beta\\), the power You fail to reject the null Correct: rightly left alone Chance of this: \\(1-\\alpha\\) Type II error: missed it Chance of this: \\(\\beta\\)",
+          "excerpt": "Choose a story 🪙 The coin ⚖️ The courtroom 🔥 Smoke alarm 🏭 Steel pipe inspection Your decision compared with the truth Your decision The truth: the null is TRUE The truth: the null is FALSE You reject the null Type I error: false alarm Chance of this:…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-type-i-error-the-false-alarm",
+          "heading": "Type I error: the false alarm",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Two ways to be wrong: Type I and Type II errors",
+            "Type I error: the false alarm"
+          ],
+          "text": "You reject a null that was actually true. You \"see\" an effect that isn't there. \\[ \\alpha = P(\\text{reject } H_0 \\mid H_0 \\text{ is true}) \\] Its probability is \\(\\alpha\\). That's why you choose \\(\\alpha\\) yourself: you're choosing how many false alarms you'll put up with.",
+          "excerpt": "You reject a null that was actually true. You \"see\" an effect that isn't there. \\[ \\alpha = P(\\text{reject } H_0 \\mid H_0 \\text{ is true}) \\] Its probability is \\(\\alpha\\). That's why you choose \\(\\alpha\\) yourself: you're choosing how many false alarms…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-type-ii-error-the-miss",
+          "heading": "Type II error: the miss",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Two ways to be wrong: Type I and Type II errors",
+            "Type II error: the miss"
+          ],
+          "text": "You fail to reject a null that was actually false. A real effect slips past you. \\[ \\beta = P(\\text{fail to reject } H_0 \\mid H_0 \\text{ is false}) \\] Its probability is \\(\\beta\\) (the Greek letter beta). You don't set \\(\\beta\\) directly. It depends on your sample size and how big the real effect is. Memory trick: The Boy Who Cried Wolf. The null is \"there is no wolf\". First, the villagers believe the boy and run out, but there's no wolf. They rejected a true null: a Type I error (false alarm). Later, a real wolf comes, but the villagers ignore the boy. They failed to reject a false null: a Type II error (missed it). Part 7 · Your turn",
+          "excerpt": "You fail to reject a null that was actually false. A real effect slips past you. \\[ \\beta = P(\\text{fail to reject } H_0 \\mid H_0 \\text{ is false}) \\] Its probability is \\(\\beta\\) (the Greek letter beta). You don't set \\(\\beta\\) directly. It depends on your…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "htb-game-h",
+          "heading": "Play referee: the mystery coin game",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Play referee: the mystery coin game"
+          ],
+          "text": "Now you're the referee. Each round the computer secretly hands you either a fair coin or a rigged coin that lands heads 70% of the time (50/50 chance of each). Flip it, look at the evidence, and make the call. Then the truth is revealed.",
+          "excerpt": "Now you're the referee. Each round the computer secretly hands you either a fair coin or a rigged coin that lands heads 70% of the time (50/50 chance of each). Flip it, look at the evidence, and make the call. Then the truth is revealed.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "htb-game-title",
+          "heading": "Game Fair or rigged?",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Play referee: the mystery coin game",
+            "Game Fair or rigged?"
+          ],
+          "text": "Flips per round Press the button to get your first mystery coin. Rounds 0 Correct calls 0 False alarms (Type I) 0 Misses (Type II) 0",
+          "excerpt": "Flips per round Press the button to get your first mystery coin. Rounds 0 Correct calls 0 False alarms (Type I) 0 Misses (Type II) 0",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-let-a-robot-referee-play-1-000-rounds",
+          "heading": "Let a robot referee play 1,000 rounds",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Play referee: the mystery coin game",
+            "Game Fair or rigged?",
+            "Let a robot referee play 1,000 rounds"
+          ],
+          "text": "The robot always uses the rule \"reject the null if \\(\\text{p-value} \\le 0.05\\)\". How often does it get fooled? Play a few rounds with 10 flips, then switch to 50. With more flips, the rigged coin gets much harder to hide. That's the next big idea: power . Part 8 · How good is your detector?",
+          "excerpt": "The robot always uses the rule \"reject the null if \\(\\text{p-value} \\le 0.05\\)\". How often does it get fooled? Play a few rounds with 10 flips, then switch to 50. With more flips, the rigged coin gets much harder to hide. That's the next big idea: power .…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "htb-power-h",
+          "heading": "Beta and power: how good is your cheat detector?",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Beta and power: how good is your cheat detector?"
+          ],
+          "text": "Think of a hypothesis test as a cheat detector . \\(\\alpha\\) tells you how often it goes off when nothing is wrong. But you also want to know how often it catches a real cheat. That's called power . \\[ \\text{Power} = 1 - \\beta = P(\\text{reject } H_0 \\mid H_0 \\text{ is false}) \\] where \\(\\beta\\) is the chance of a miss (Type II error). If \\(\\beta = 0.20\\), the test misses a real effect 20% of the time and catches it 80% of the time, so the power is 0.80. Many studies aim for a power of at least 0.80.",
+          "excerpt": "Think of a hypothesis test as a cheat detector . \\(\\alpha\\) tells you how often it goes off when nothing is wrong. But you also want to know how often it catches a real cheat. That's called power . \\[ \\text{Power} = 1 - \\beta = P(\\text{reject } H_0 \\mid H_0…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "htb-power-title",
+          "heading": "Lab 3 The power explorer",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Beta and power: how good is your cheat detector?",
+            "Lab 3 The power explorer"
+          ],
+          "text": "Two worlds are drawn on one chart: what a fair coin does (left half of each bar slot) and what a rigged coin does (right half). The dashed red line is where the reject zone starts. Number of flips: 20 How rigged? Heads chance: 75% Significance level (alpha) 0.10 0.05 0.01 Left half of each slot: fair coin. Right half: rigged coin. Bars right of the dashed line land in the reject zone. Fair coin, correctly kept Fair coin wrongly rejected (false alarm) Rigged coin missed (Type II error) Rigged coin caught (power, hatched) Reject the null at – False-alarm risk, \\(\\alpha\\) – Miss risk, \\(\\beta\\) – Power, \\(1-\\beta\\) – The alpha–beta seesaw: with the same number of flips, pushing one risk down pushes the other up.",
+          "excerpt": "Two worlds are drawn on one chart: what a fair coin does (left half of each bar slot) and what a rigged coin does (right half). The dashed red line is where the reject zone starts. Number of flips: 20 How rigged? Heads chance: 75% Significance level (alpha)…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-three-levers-that-change-power",
+          "heading": "Three levers that change power",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Beta and power: how good is your cheat detector?",
+            "Three levers that change power"
+          ],
+          "text": "Try each lever in Lab 3 and watch the power readout Lever What happens to power Why, in plain words The catch More flips (bigger sample) Goes up More evidence makes the two worlds overlap less, so the cheat can't hide. Costs more time and money. Bigger cheat (bigger effect) Goes up A coin that lands heads 90% of the time is easier to spot than one at 55%. You don't control this. Nature does. Larger alpha Goes up A lower bar for rejecting catches more real cheats. More false alarms, too. That's the seesaw. With Riley's coin (75% heads), 20 flips, and \\(\\alpha = 0.05\\), the power is about 0.62 : Sam would catch the trick only about 6 times in 10. With 50 flips, power jumps to about 0.97 . When the stakes are high, plan enough data before you start. Part 9 · Put it together",
+          "excerpt": "Try each lever in Lab 3 and watch the power readout Lever What happens to power Why, in plain words The catch More flips (bigger sample) Goes up More evidence makes the two worlds overlap less, so the cheat can't hide. Costs more time and money. Bigger cheat…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "htb-checklist-h",
+          "heading": "The five-step referee checklist",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "The five-step referee checklist"
+          ],
+          "text": "Every hypothesis test, from coin flips to medicine trials to factory quality checks, follows the same five steps. Here's Sam's case from start to finish. Write the two stories. Null \\(H_0\\): the coin is fair, \\(p = 0.5\\). Alternative \\(H_1\\): the coin favours heads, \\(p > 0.5\\). Set the bar before looking. Sam chooses \\(\\alpha = 0.05\\). Sam also notes that 20 flips gives only about 62% power against a 75%-heads coin, so a \"not rigged\" result won't prove much. Collect the evidence. 20 flips. Result: 16 heads. Measure the surprise. If the coin were fair, 16 or more heads happens with probability 0.0059 (the p-value). Decide and say it in plain words. 0.0059 is below 0.05, so Sam rejects the null: \"The evidence suggests Riley's coin lands heads more than half the time.\" Sam swaps in the league's own coin. What if Sam had seen 13 heads? The p-value would be 0.1316, above 0.05, so Sam would fail to reject the null. The right sentence is \"there isn't enough evidence that the coin is rigged\", not \"the coin is fair\". Remember: not guilty is not the same as innocent. Part 10 · Beyond coins",
+          "excerpt": "Every hypothesis test, from coin flips to medicine trials to factory quality checks, follows the same five steps. Here's Sam's case from start to finish. Write the two stories. Null \\(H_0\\): the coin is fair, \\(p = 0.5\\). Alternative \\(H_1\\): the coin favours…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "htb-real-world-h",
+          "heading": "Hypothesis testing in the real world",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Hypothesis testing in the real world"
+          ],
+          "text": "The same logic runs things you use every day. In each case, ask: what's the \"nothing special\" story, and which mistake would hurt more? Open each card to check your thinking.",
+          "excerpt": "The same logic runs things you use every day. In each case, ask: what's the \"nothing special\" story, and which mistake would hurt more? Open each card to check your thinking.",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-medical-screening-test",
+          "heading": "Medical screening test",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Hypothesis testing in the real world",
+            "Medical screening test"
+          ],
+          "text": "Null The patient does not have the disease. Type I error Healthy person told they might be sick (more tests, worry). Type II error Sick person told they're fine (treatment delayed). Which mistake is worse? Usually the Type II error, missing a real disease. Screening tests are designed to catch nearly every real case and accept some false alarms, which a second test then sorts out.",
+          "excerpt": "Null The patient does not have the disease. Type I error Healthy person told they might be sick (more tests, worry). Type II error Sick person told they're fine (treatment delayed). Which mistake is worse? Usually the Type II error, missing a real disease.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-smoke-alarm",
+          "heading": "Smoke alarm",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Hypothesis testing in the real world",
+            "Smoke alarm"
+          ],
+          "text": "Null There is no fire. Type I error The alarm beeps at burnt toast. Type II error A real fire, and the alarm stays silent. Which mistake is worse? The Type II error, by a mile. That's why smoke alarms are set to be touchy: they accept a high false-alarm rate to keep the miss rate tiny.",
+          "excerpt": "Null There is no fire. Type I error The alarm beeps at burnt toast. Type II error A real fire, and the alarm stays silent. Which mistake is worse? The Type II error, by a mile. That's why smoke alarms are set to be touchy: they accept a high false-alarm rate…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-steel-pipe-inspection",
+          "heading": "Steel pipe inspection",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Hypothesis testing in the real world",
+            "Steel pipe inspection"
+          ],
+          "text": "Null The pipe has no hidden crack. Type I error A good pipe is flagged and pulled for re-checking (wasted time and money). Type II error A cracked pipe passes inspection and is shipped to a customer. Which mistake is worse? The Type II error. A cracked pipe in a pipeline can leak or burst. Mills tune inspection so a missed flaw is very unlikely and accept that some good pipes will be re-checked. In quality language, the false alarm is the producer's risk and the miss is the consumer's risk .",
+          "excerpt": "Null The pipe has no hidden crack. Type I error A good pipe is flagged and pulled for re-checking (wasted time and money). Type II error A cracked pipe passes inspection and is shipped to a customer. Which mistake is worse? The Type II error. A cracked pipe…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-email-spam-filter",
+          "heading": "Email spam filter",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Hypothesis testing in the real world",
+            "Email spam filter"
+          ],
+          "text": "Null This email is a normal, wanted email. Type I error Your friend's party invite lands in the spam folder. Type II error A spam message lands in your inbox. Which mistake is worse? Most people say the Type I error: losing an important email hurts more than deleting one junk message. So spam filters are tuned to be cautious about rejecting the null. The big lesson: there is no free lunch. For a fixed amount of data, making one mistake rarer makes the other more common. You choose alpha by asking which mistake costs more. If you want both to be rare, you need more data. Part 11 · Cheat sheet",
+          "excerpt": "Null This email is a normal, wanted email. Type I error Your friend's party invite lands in the spam folder. Type II error A spam message lands in your inbox. Which mistake is worse? Most people say the Type I error: losing an important email hurts more than…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "htb-vocabulary-h",
+          "heading": "Hypothesis testing vocabulary cheat sheet",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Hypothesis testing vocabulary cheat sheet"
+          ],
+          "text": "Every key word, in plain language and in the coin story Term Symbol Plain meaning In the coin story Null hypothesis \\(H_0\\) The default \"nothing special\" story. Contains the equals sign. The coin is fair: \\(p = 0.5\\). Alternative hypothesis \\(H_1\\) or \\(H_a\\) The claim you want evidence for. The coin favours heads: \\(p > 0.5\\). p-value \\(p\\text{-value}\\) How surprising the data are if the null is true. 16 heads gives 0.0059. Significance level \\(\\alpha\\) The bar you set in advance; also the chance of a false alarm. 0.05 Type I error (probability \\(\\alpha\\)) False alarm: rejecting a true null. Calling a fair coin rigged. Type II error (probability \\(\\beta\\)) Miss: failing to reject a false null. Letting a rigged coin pass. Beta \\(\\beta\\) The chance of a miss when a real effect exists. About 0.38 for 20 flips of a 75%-heads coin. Power \\(1-\\beta\\) The chance of catching a real effect. About 0.62 for 20 flips; about 0.97 for 50. Reject the null – The evidence is strong enough to stop believing \"nothing special\". Sam's verdict with 16 heads. Fail to reject the null – Not enough evidence. Not proof that the null is true. What 13 heads would give. Part 12 · Do it with software",
+          "excerpt": "Every key word, in plain language and in the coin story Term Symbol Plain meaning In the coin story Null hypothesis \\(H_0\\) The default \"nothing special\" story. Contains the equals sign. The coin is fair: \\(p = 0.5\\). Alternative hypothesis \\(H_1\\) or \\(H_a\\)…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "statistics-implementation-h",
+          "heading": "Statistics Implementation",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Statistics Implementation"
+          ],
+          "text": "You don't need software to understand the ideas, but at work you'll use Excel or Minitab to get the numbers. Everything below reproduces the coin story: 20 flips, a fair-coin null of \\(p = 0.5\\), \\(\\alpha = 0.05\\), and Riley's 75%-heads coin as the \"real cheat\".",
+          "excerpt": "You don't need software to understand the ideas, but at work you'll use Excel or Minitab to get the numbers. Everything below reproduces the coin story: 20 flips, a fair-coin null of \\(p = 0.5\\), \\(\\alpha = 0.05\\), and Riley's 75%-heads coin as the \"real…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "htb-excel-functions",
+          "heading": "Excel Functions",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Statistics Implementation",
+            "Excel Functions"
+          ],
+          "text": "Excel functions behind p-values, cut-offs, alpha, beta, and power Function Syntax Purpose When to use it BINOM.DIST (exact) =BINOM.DIST(number_s, trials, probability_s, FALSE) Probability of exactly number_s successes. Height of one bar in the \"fair coin\" chart, e.g. the chance of exactly 16 heads. BINOM.DIST (cumulative) =BINOM.DIST(number_s, trials, probability_s, TRUE) Probability of at most number_s successes. p-values (as 1 - … ), beta, and power for count data. BINOM.DIST.RANGE =BINOM.DIST.RANGE(trials, probability_s, number_s, [number_s2]) Probability of between number_s and number_s2 successes. A one-step p-value such as \"16 to 20 heads\". Excel 2013 or later. BINOM.INV =BINOM.INV(trials, probability_s, alpha) Smallest count whose cumulative probability is at least alpha . Finding where the reject zone starts. Its alpha argument is a cumulative probability, not your significance level. NORM.S.INV =NORM.S.INV(probability) The z-value with that much area to its left on the standard normal curve. Critical values for measurement data: =NORM.S.INV(0.95) = 1.645 (one-sided, 0.05); =NORM.S.INV(0.975) = 1.960 (two-sided, 0.05). NORM.S.DIST =NORM.S.DIST(z, TRUE) Area to the left of a z-value. Turning a z-value into a tail probability; approximating power for large samples. RAND =RAND() A random number between 0 and 1. Simulating a coin: =IF(RAND()<0.5,\"H\",\"T\") . COUNTIF =COUNTIF(range, criteria) Counts cells that match. Counting heads in a column of simulated flips. Legacy names BINOMDIST , CRITBINOM , NORMSINV , NORMSDIST Older versions of the functions above, kept for compatibility. Recognise them in older workbooks and textbooks; use the newer names in new work.",
+          "excerpt": "Excel functions behind p-values, cut-offs, alpha, beta, and power Function Syntax Purpose When to use it BINOM.DIST (exact) =BINOM.DIST(number_s, trials, probability_s, FALSE) Probability of exactly number_s successes. Height of one bar in the \"fair coin\"…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "htb-excel-use-cases",
+          "heading": "Excel Use Cases",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Statistics Implementation",
+            "Excel Use Cases"
+          ],
+          "text": "Type these into any cell to reproduce the lesson's numbers Question Formula Result What it means Chance a fair coin gives exactly 16 heads in 20 =BINOM.DIST(16,20,0.5,FALSE) 0.0046 One bar of the fair-coin chart. p-value for 16 or more heads =1-BINOM.DIST(15,20,0.5,TRUE) 0.0059 \"At least 16\" is everything above 15. Same p-value in one step =BINOM.DIST.RANGE(20,0.5,16,20) 0.0059 Adds up the bars from 16 to 20. Where does the reject zone start (alpha 0.05)? =BINOM.INV(20,0.5,1-0.05) 14 Up to 14 heads is \"normal\", so reject at 15 or more. Real false-alarm risk of that rule =1-BINOM.DIST(14,20,0.5,TRUE) 0.0207 The actual alpha, just under 0.05. Beta against Riley's 75% coin =BINOM.DIST(14,20,0.75,TRUE) 0.3828 Chance a rigged coin still lands in the \"keep\" zone. Power against Riley's 75% coin =1-BINOM.DIST(14,20,0.75,TRUE) 0.6172 Chance Sam catches the rigged coin. Simulate 20 flips =IF(RAND()<0.5,\"H\",\"T\") in A2:A21, then =COUNTIF(A2:A21,\"H\") Changes each time Press F9 to re-flip, just like Lab 1. Write the decision automatically =IF(B1<=0.05,\"Reject H0\",\"Fail to reject H0\") Reject H0 With the p-value (0.0059) in cell B1.",
+          "excerpt": "Type these into any cell to reproduce the lesson's numbers Question Formula Result What it means Chance a fair coin gives exactly 16 heads in 20 =BINOM.DIST(16,20,0.5,FALSE) 0.0046 One bar of the fair-coin chart. p-value for 16 or more heads…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "htb-minitab-navigation",
+          "heading": "Minitab Navigation",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Statistics Implementation",
+            "Minitab Navigation"
+          ],
+          "text": "Where each idea lives in Minitab Task Menu path What to enter Notes: which option and why p-value for a count Calc → Probability Distributions → Binomial Cumulative probability; Number of trials 20; Event probability 0.5; Input constant 15. Minitab returns the chance of 15 or fewer heads (0.9941). Subtract from 1 to get the p-value, 0.0059. Where the reject zone starts Calc → Probability Distributions → Binomial Inverse cumulative probability; Input constant 0.95. For counts, Minitab lists the two values either side of 0.95 (13 heads at 0.9423, 14 heads at 0.9793). Reject above 14. Picture the reject zone Graph → Probability Distribution Plot → View Probability Distribution: Binomial (20, 0.5); Shaded Area: X Value, Right Tail, 15. Draws the same picture as Lab 2 with the alpha tail shaded. Great for reports. Compare the two worlds Graph → Probability Distribution Plot → Two Distributions Binomial (20, 0.5) and Binomial (20, 0.75). Shows how much the fair and rigged shapes overlap, which is what drives beta. Simulate coin flips Calc → Random Data → Binomial Number of rows 1000; Number of trials 20; Event probability 0.5. Each row is one 20-flip experiment, like \"Run 100 quick experiments\" in Lab 1. Power and beta Stat → Power and Sample Size → 1 Proportion Sample sizes 20; Comparison proportions 0.75; Hypothesized proportion 0.5; Options: Greater than, significance level 0.05. Reports power (beta is 1 minus power). Leave Sample sizes blank and enter a Power value of 0.8 to ask \"how many flips do I need?\". Minitab's figure can differ slightly from the hand calculation depending on the method it uses for counts. Alternative path for measurements Stat → Power and Sample Size → 1-Sample Z or 1-Sample t Sample size, difference to detect, standard deviation. Use these when your data are measurements (weights, thicknesses) instead of counts. Next step: run a real test Stat → Basic Statistics → 1 Proportion Summarized data: 16 events in 20 trials; Perform hypothesis test, hypothesized proportion 0.5; Options: Greater than. Preview only. It wraps all five referee steps into one dialog. You'll meet it in a later lesson.",
+          "excerpt": "Where each idea lives in Minitab Task Menu path What to enter Notes: which option and why p-value for a count Calc → Probability Distributions → Binomial Cumulative probability; Number of trials 20; Event probability 0.5; Input constant 15. Minitab returns…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "htb-exam-tips",
+          "heading": "Exam Tips",
+          "breadcrumb": [
+            "Hypothesis Testing for Beginners",
+            "Statistics Implementation",
+            "Exam Tips"
+          ],
+          "text": "Know the definitions cold. ASQ CSSBB and CQE questions test that \\(\\alpha = P(\\text{Type I error})\\), \\(\\beta = P(\\text{Type II error})\\), and \\(\\text{power} = 1-\\beta\\). Expect \"which statement is true\" questions built on swapping these. Producer's risk and consumer's risk. In acceptance sampling (a CQE favourite), \\(\\alpha\\) is the producer's risk (a good lot is rejected) and \\(\\beta\\) is the consumer's risk (a bad lot is accepted). Same idea as false alarm vs miss. The null holds the equality. \\(H_0\\) uses \\(=\\), \\(\\le\\), or \\(\\ge\\); \\(H_1\\) uses \\(\\ne\\), \\(<\\), or \\(>\\). If an answer option puts \\(\\ne\\) in the null, eliminate it. Wording traps. The correct conclusion is \"reject\" or \"fail to reject\" the null. Options that say \"accept the null\" or \"prove the alternative\" are usually wrong. Levers on power. Power rises with a larger sample, a larger true difference, a larger \\(\\alpha\\), and less process variation. For a fixed sample, lowering \\(\\alpha\\) raises \\(\\beta\\). Decision rule. Reject when \\(\\text{p-value} \\le \\alpha\\). A handy memory line: \"If the p is low, the null must go.\" Link to OC curves. An operating characteristic curve plots the probability of accepting (not rejecting) against the true quality level. At a bad quality level its height is \\(\\beta\\); the power curve is its mirror image (\\(1-\\beta\\)). Excel argument names. In BINOM.INV , the argument called alpha is a cumulative probability. For a one-sided upper test at 0.05 you pass 0.95, not 0.05. Real-world practice. Statistically significant does not always mean important. In reports, state the decision, the p-value, alpha, and whether the size of the effect matters to the business. Plan sample size for at least 0.80 power before collecting data.",
+          "excerpt": "Know the definitions cold. ASQ CSSBB and CQE questions test that \\(\\alpha = P(\\text{Type I error})\\), \\(\\beta = P(\\text{Type II error})\\), and \\(\\text{power} = 1-\\beta\\). Expect \"which statement is true\" questions built on swapping these. Producer's risk and…",
           "kinds": [
             "section",
             "example",
@@ -2192,327 +2598,16 @@
           ]
         },
         {
-          "id": "lesson-section-one-sided-or-two-sided",
-          "heading": "One-sided or two-sided?",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "One-sided or two-sided?"
-          ],
-          "text": "Question Alternative hypothesis Test direction Has the mean changed in either direction? μ ≠ target Two-sided Has the mean fallen below the minimum? μ < target Lower one-sided Has the mean increased above the baseline? μ > target Upper one-sided Choose the direction before looking at the result. Changing from a two-sided test to a one-sided test after seeing the data weakens the credibility of the analysis.",
-          "excerpt": "Question Alternative hypothesis Test direction Has the mean changed in either direction? μ ≠ target Two-sided Has the mean fallen below the minimum? μ < target Lower one-sided Has the mean increased above the baseline? μ > target Upper one-sided Choose the…",
-          "kinds": [
-            "section",
-            "formula"
-          ]
-        },
-        {
-          "id": "workflow",
-          "heading": "The six-step workflow",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "The six-step workflow"
-          ],
-          "text": "State the business question. Example: “Has the average wall thickness moved away from 8.00 mm?” Write H 0 and H 1 . Use population language, not just the values in your sample. Choose α before analyzing. A common choice is 0.05, but the risk of a false alarm should match the decision. Select the right test. Base the choice on the response type, number of groups, and whether observations are independent or paired. Check assumptions and run the test. Look for poor sampling, dependence, outliers, and strong skewness. Interpret both statistical and practical significance. Report the estimated difference, confidence interval, p-value, and business meaning.",
-          "excerpt": "State the business question. Example: “Has the average wall thickness moved away from 8.00 mm?” Write H 0 and H 1 . Use population language, not just the values in your sample. Choose α before analyzing. A common choice is 0.05, but the risk of a false alarm…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-the-p-value-and-alpha",
-          "heading": "The p-value and alpha",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "The p-value and alpha"
-          ],
-          "text": "Alpha (α) is the false-alarm risk you choose before the test. The p-value measures how incompatible the sample result is with H 0 , assuming H 0 and the test assumptions are correct. p-value ≤ α → Reject H 0 p-value > α → Fail to reject H 0 Do not say “the p-value is the probability that H 0 is true.” It is calculated under the assumption that H 0 is true. It tells you how unusual the observed evidence would be under that assumption.",
-          "excerpt": "Alpha (α) is the false-alarm risk you choose before the test. The p-value measures how incompatible the sample result is with H 0 , assuming H 0 and the test assumptions are correct. p-value ≤ α → Reject H 0 p-value > α → Fail to reject H 0 Do not say “the…",
-          "kinds": [
-            "section"
-          ]
-        },
-        {
-          "id": "decision-lab",
-          "heading": "Interactive decision lab",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Interactive decision lab"
-          ],
-          "text": "",
-          "excerpt": "Interactive decision lab",
-          "kinds": [
-            "section"
-          ]
-        },
-        {
-          "id": "lesson-section-separate-statistical-significance-from-practical-significance",
-          "heading": "Separate statistical significance from practical significance",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Interactive decision lab",
-            "Separate statistical significance from practical significance"
-          ],
-          "text": "Change the values below. The tool will give you the formal test decision and a separate practical interpretation. P-value Must be between 0 and 1. Significance level, α Set this before analyzing the data. Observed difference Example: sample mean minus target. Minimum practical difference Smallest change worth acting on.",
-          "excerpt": "Change the values below. The tool will give you the formal test decision and a separate practical interpretation. P-value Must be between 0 and 1. Significance level, α Set this before analyzing the data. Observed difference Example: sample mean minus target.…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-type-i-and-type-ii-errors",
-          "heading": "Type I and Type II errors",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Type I and Type II errors"
-          ],
-          "text": "",
-          "excerpt": "Type I and Type II errors",
-          "kinds": [
-            "section"
-          ]
-        },
-        {
-          "id": "lesson-section-type-i-error-false-alarm",
-          "heading": "Type I error: false alarm",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Type I and Type II errors",
-            "Type I error: false alarm"
-          ],
-          "text": "You reject H 0 even though it is true. Example: you stop and adjust a stable process because the sample looked unusual by chance. Alpha controls this risk.",
-          "excerpt": "You reject H 0 even though it is true. Example: you stop and adjust a stable process because the sample looked unusual by chance. Alpha controls this risk.",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-type-ii-error-missed-signal",
-          "heading": "Type II error: missed signal",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Type I and Type II errors",
-            "Type II error: missed signal"
-          ],
-          "text": "You fail to reject H 0 even though a real difference exists. Example: you miss a meaningful process shift because the sample is too small or too noisy. Power = 1 − β. Higher power means a better chance of detecting a real difference of practical importance. Larger samples, lower variation, and larger effects usually improve power.",
-          "excerpt": "You fail to reject H 0 even though a real difference exists. Example: you miss a meaningful process shift because the sample is too small or too noisy. Power = 1 − β. Higher power means a better chance of detecting a real difference of practical importance.…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "test-selector",
-          "heading": "Interactive basic-test selector",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Interactive basic-test selector"
-          ],
-          "text": "",
-          "excerpt": "Interactive basic-test selector",
-          "kinds": [
-            "section"
-          ]
-        },
-        {
-          "id": "lesson-section-which-test-fits-the-question",
-          "heading": "Which test fits the question?",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Interactive basic-test selector",
-            "Which test fits the question?"
-          ],
-          "text": "This is a beginner guide for common mean and proportion questions. Complex designs may require a more specialized method. What type of result are you measuring? What are you comparing?",
-          "excerpt": "This is a beginner guide for common mean and proportion questions. Complex designs may require a more specialized method. What type of result are you measuring? What are you comparing?",
-          "kinds": [
-            "section"
-          ]
-        },
-        {
-          "id": "minitab",
-          "heading": "Worked example in Minitab",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Worked example in Minitab"
-          ],
-          "text": "",
-          "excerpt": "Worked example in Minitab",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-is-average-wall-thickness-different-from-8-00-mm",
-          "heading": "Is average wall thickness different from 8.00 mm?",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Worked example in Minitab",
-            "Is average wall thickness different from 8.00 mm?"
-          ],
-          "text": "A quality engineer randomly selects 12 pipe measurements. The question is whether the population mean differs from the 8.00 mm nominal value. Data: 7.76, 8.05, 7.89, 7.92, 8.09, 7.81, 7.96, 7.86, 8.00, 7.88, 7.97, 7.84 Sample size 12 Mean 7.919 mm StDev 0.098 mm Hypotheses: H 0 : μ = 8.00 mm; H 1 : μ ≠ 8.00 mm. Use α = 0.05.",
-          "excerpt": "A quality engineer randomly selects 12 pipe measurements. The question is whether the population mean differs from the 8.00 mm nominal value. Data: 7.76, 8.05, 7.89, 7.92, 8.09, 7.81, 7.96, 7.86, 8.00, 7.88, 7.97, 7.84 Sample size 12 Mean 7.919 mm StDev 0.098…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-minitab-steps",
-          "heading": "Minitab steps",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Worked example in Minitab",
-            "Minitab steps"
-          ],
-          "text": "1 Enter the 12 values in one worksheet column and name it Wall Thickness . 2 Choose Stat > Basic Statistics > 1-Sample t . 3 Select One or more samples, each in a column , then enter Wall Thickness . 4 Select Perform hypothesis test and enter 8.00 as the hypothesized mean. 5 Under Options , use a 95% confidence level and the alternative mean ≠ hypothesized mean . Click OK .",
-          "excerpt": "1 Enter the 12 values in one worksheet column and name it Wall Thickness . 2 Choose Stat > Basic Statistics > 1-Sample t . 3 Select One or more samples, each in a column , then enter Wall Thickness . 4 Select Perform hypothesis test and enter 8.00 as the…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-simplified-minitab-style-output",
-          "heading": "Simplified Minitab-style output",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Worked example in Minitab",
-            "Simplified Minitab-style output"
-          ],
-          "text": "One-Sample T: Wall Thickness Test of μ = 8.000 vs μ ≠ 8.000 N Mean StDev SE Mean 95% CI 12 7.919 0.098 0.028 (7.857, 7.982) T-Value = -2.85 P-Value = 0.016 Statistical decision: 0.016 ≤ 0.05, so reject H 0 . Evidence statement: the sample provides statistically significant evidence that the population mean differs from 8.00 mm. Direction and size: the estimated mean is 0.081 mm below nominal. The 95% confidence interval for the mean is 7.857 to 7.982 mm. Business interpretation: determine whether a shift of 0.081 mm is large enough to matter. Compare it with engineering tolerances, risk, and the preselected practical threshold.",
-          "excerpt": "One-Sample T: Wall Thickness Test of μ = 8.000 vs μ ≠ 8.000 N Mean StDev SE Mean 95% CI 12 7.919 0.098 0.028 (7.857, 7.982) T-Value = -2.85 P-Value = 0.016 Statistical decision: 0.016 ≤ 0.05, so reject H 0 . Evidence statement: the sample provides…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-assumption-check-before-trusting-the-result",
-          "heading": "Assumption check before trusting the result",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Assumption check before trusting the result"
-          ],
-          "text": "",
-          "excerpt": "Assumption check before trusting the result",
-          "kinds": [
-            "section"
-          ]
-        },
-        {
-          "id": "lesson-section-representative-sample",
-          "heading": "Representative sample",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Assumption check before trusting the result",
-            "Representative sample"
-          ],
-          "text": "The measurements should represent the population and time period covered by your conclusion.",
-          "excerpt": "The measurements should represent the population and time period covered by your conclusion.",
-          "kinds": [
-            "section"
-          ]
-        },
-        {
-          "id": "lesson-section-independent-observations",
-          "heading": "Independent observations",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Assumption check before trusting the result",
-            "Independent observations"
-          ],
-          "text": "One observation should not determine another. Repeated measurements on the same item may require a paired or repeated-measures method.",
-          "excerpt": "One observation should not determine another. Repeated measurements on the same item may require a paired or repeated-measures method.",
-          "kinds": [
-            "section"
-          ]
-        },
-        {
-          "id": "lesson-section-no-unexplained-extreme-outliers",
-          "heading": "No unexplained extreme outliers",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Assumption check before trusting the result",
-            "No unexplained extreme outliers"
-          ],
-          "text": "Investigate data-entry errors, measurement problems, and unusual special causes before running the test.",
-          "excerpt": "Investigate data-entry errors, measurement problems, and unusual special causes before running the test.",
-          "kinds": [
-            "section"
-          ]
-        },
-        {
-          "id": "lesson-section-distribution-is-reasonable",
-          "heading": "Distribution is reasonable",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Assumption check before trusting the result",
-            "Distribution is reasonable"
-          ],
-          "text": "For a small sample, severe skewness can make a t-test less reliable. Use a histogram, boxplot, or probability plot.",
-          "excerpt": "For a small sample, severe skewness can make a t-test less reliable. Use a histogram, boxplot, or probability plot.",
-          "kinds": [
-            "section"
-          ]
-        },
-        {
-          "id": "lesson-section-common-interpretation-mistakes",
-          "heading": "Common interpretation mistakes",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Common interpretation mistakes"
-          ],
-          "text": "“Fail to reject” does not mean “prove equal.” It means the sample did not provide strong enough evidence of a difference at the chosen alpha level. Statistical significance does not guarantee practical importance. A large sample can detect a difference that is too small to justify action. A hypothesis test is not a specification test. Testing whether the process mean equals a target does not tell you whether every unit meets specification limits. Do not report the p-value alone. Include the estimated effect, confidence interval, sample size, assumptions, and business meaning.",
-          "excerpt": "“Fail to reject” does not mean “prove equal.” It means the sample did not provide strong enough evidence of a difference at the chosen alpha level. Statistical significance does not guarantee practical importance. A large sample can detect a difference that…",
-          "kinds": [
-            "section"
-          ]
-        },
-        {
-          "id": "lesson-section-a-professional-reporting-sentence",
-          "heading": "A professional reporting sentence",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "A professional reporting sentence"
-          ],
-          "text": "“A 1-sample t-test found that average wall thickness differed from the 8.00 mm nominal value (mean = 7.919 mm, 95% CI: 7.857 to 7.982 mm, p = 0.016). The estimated shift was 0.081 mm below nominal. Engineering review is required to determine whether this difference is practically important.”",
-          "excerpt": "“A 1-sample t-test found that average wall thickness differed from the 8.00 mm nominal value (mean = 7.919 mm, 95% CI: 7.857 to 7.982 mm, p = 0.016). The estimated shift was 0.081 mm below nominal. Engineering review is required to determine whether this…",
-          "kinds": [
-            "section",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-lesson-summary",
+          "id": "htb-summary-h",
           "heading": "Lesson summary",
           "breadcrumb": [
             "Hypothesis Testing for Beginners",
             "Lesson summary"
           ],
-          "text": "H 0 is the default claim; H 1 is the difference or direction being tested. Choose the test direction and alpha before looking at the result. Reject H 0 when p ≤ α; otherwise, fail to reject H 0 . A p-value is not the probability that H 0 is true. Always separate statistical significance from practical significance. Report the effect estimate, confidence interval, p-value, assumptions, and workplace meaning.",
-          "excerpt": "H 0 is the default claim; H 1 is the difference or direction being tested. Choose the test direction and alpha before looking at the result. Reject H 0 when p ≤ α; otherwise, fail to reject H 0 . A p-value is not the probability that H 0 is true. Always…",
+          "text": "Hypothesis testing asks: real, or just luck? The null hypothesis \\(H_0\\) is the \"nothing special\" story you assume first. The alternative \\(H_1\\) is the claim you want evidence for. The p-value measures how surprising your data would be if the null were true. The significance level \\(\\alpha\\) is the bar you set in advance. Reject the null when the p-value is at or below it. A Type I error is a false alarm (probability \\(\\alpha\\)). A Type II error is a miss (probability \\(\\beta\\)). Power \\(1-\\beta\\) is the chance of catching a real effect. More data, a bigger effect, or a larger \\(\\alpha\\) all raise it. Never say \"accept the null\". Say \"fail to reject\": not guilty is not the same as innocent.",
+          "excerpt": "Hypothesis testing asks: real, or just luck? The null hypothesis \\(H_0\\) is the \"nothing special\" story you assume first. The alternative \\(H_1\\) is the claim you want evidence for. The p-value measures how surprising your data would be if the null were true.…",
           "kinds": [
             "section"
-          ]
-        },
-        {
-          "id": "lesson-section-next-lesson",
-          "heading": "Next lesson",
-          "breadcrumb": [
-            "Hypothesis Testing for Beginners",
-            "Next lesson"
-          ],
-          "text": "Compare three or more group means with one-way ANOVA → Sources used for the Minitab workflow Minitab Support: Example of 1-Sample t Minitab Support: Interpret the key results for 1-Sample t Minitab Support: Example of 2-Sample t",
-          "excerpt": "Compare three or more group means with one-way ANOVA → Sources used for the Minitab workflow Minitab Support: Example of 1-Sample t Minitab Support: Interpret the key results for 1-Sample t Minitab Support: Example of 2-Sample t",
-          "kinds": [
-            "section",
-            "example"
           ]
         },
         {
@@ -2522,8 +2617,8 @@
             "Hypothesis Testing for Beginners",
             "Related lessons"
           ],
-          "text": "One-Way ANOVA: Comparing Group Means — compare three or more group means with the F-test. ANOVA in Plain English — the same idea without the statistical jargon. Two-Way ANOVA: Main Effects & Interaction — add a second factor and look for interaction.",
-          "excerpt": "One-Way ANOVA: Comparing Group Means — compare three or more group means with the F-test. ANOVA in Plain English — the same idea without the statistical jargon. Two-Way ANOVA: Main Effects & Interaction — add a second factor and look for interaction.",
+          "text": "Probability Basics: The Language of Chance — the probability ideas behind every p-value. Beyond the Bell: The Normal Distribution and Its Relatives — the curves used when your data are measurements instead of counts. Chi-Square Goodness-of-Fit Test — a first real test that asks whether counts match what you expected. One-Way ANOVA: Comparing Group Means — the same null-versus-alternative logic applied to several groups. Signal or Noise: ARL, Nelson Rules and Control Limits — false alarms and misses on control charts.",
+          "excerpt": "Probability Basics: The Language of Chance — the probability ideas behind every p-value. Beyond the Bell: The Normal Distribution and Its Relatives — the curves used when your data are measurements instead of counts. Chi-Square Goodness-of-Fit Test — a first…",
           "kinds": [
             "section"
           ]
