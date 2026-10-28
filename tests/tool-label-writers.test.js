@@ -42,3 +42,15 @@ test('both startup writers and repeated cleanup preserve all administrator label
   assert.equal(cards['engineering-calculators'].action.textContent,'Open calculator');
   assert.equal(cards.converters.action.textContent,'Open converter');
 });
+
+test('startup writers leave a live data-tool-route card exactly as the HTML wrote it', () => {
+  const { JSDOM } = require('jsdom');
+  const dom = new JSDOM(read('engineering-tools.html'), { url: 'https://upskillsprint.com/engineering-tools', runScripts: 'outside-only' });
+  const card = dom.window.document.getElementById('engineering-calculators');
+  const before = card.outerHTML;
+  dom.window.normalizedCurrentPath = () => '/engineering-tools';
+  dom.window.isEngineeringToolsPage = () => true;
+  dom.window.eval(activation + repair + ';activateToolCard({cardId:"engineering-calculators",path:"/tools/engineering-statistics-calculator",title:"x",description:"stale",actionText:"Open calculator",ariaLabel:"x"});repairEngineeringToolsCleanRoute();');
+  assert.equal(card.outerHTML, before);
+  assert.match(card.textContent, /Best-Fit Model Finder/);
+});

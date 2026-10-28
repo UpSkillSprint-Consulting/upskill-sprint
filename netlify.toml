@@ -112,6 +112,27 @@
   force = true
 
 # Main page .html aliases → clean URLs (prevent duplicate content)
+# The Best-Fit Model Finder now lives only as a tab in the Engineering &
+# Statistics Calculator. A server redirect can't add a #fragment reliably, so
+# the target uses ?tab=best-fit, which bestfit-tab.js reads to open the tab.
+[[redirects]]
+  from = "/tools/best-fit-model-finder"
+  to = "/tools/engineering-statistics-calculator?tab=best-fit"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/tools/best-fit-model-finder.html"
+  to = "/tools/engineering-statistics-calculator?tab=best-fit"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/tools/best-fit-model-finder/"
+  to = "/tools/engineering-statistics-calculator?tab=best-fit"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/index.html"
   to = "/"
