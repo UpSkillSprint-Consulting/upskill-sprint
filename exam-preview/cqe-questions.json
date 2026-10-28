@@ -1,0 +1,434 @@
+{
+  "examId": "cqe",
+  "schemaVersion": "1.0.0",
+  "bankVersion": "exampreview-pilot-draft-2026-10-27",
+  "pool": "exampreview-free",
+  "sets": {
+    "preview": [
+      "cqe:exampreview:ep-cqe-01",
+      "cqe:exampreview:ep-cqe-02",
+      "cqe:exampreview:ep-cqe-03",
+      "cqe:exampreview:ep-cqe-04",
+      "cqe:exampreview:ep-cqe-05",
+      "cqe:exampreview:ep-cqe-06",
+      "cqe:exampreview:ep-cqe-07",
+      "cqe:exampreview:ep-cqe-08",
+      "cqe:exampreview:ep-cqe-09",
+      "cqe:exampreview:ep-cqe-10",
+      "cqe:exampreview:ep-cqe-11",
+      "cqe:exampreview:ep-cqe-12",
+      "cqe:exampreview:ep-cqe-13",
+      "cqe:exampreview:ep-cqe-14",
+      "cqe:exampreview:ep-cqe-15",
+      "cqe:exampreview:ep-cqe-16",
+      "cqe:exampreview:ep-cqe-17",
+      "cqe:exampreview:ep-cqe-18",
+      "cqe:exampreview:ep-cqe-19",
+      "cqe:exampreview:ep-cqe-20"
+    ]
+  },
+  "contents": {
+    "cqe:exampreview:ep-cqe-01": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Disclose the relationship to her manager and step aside from the audit and the approval decision",
+          "Continue, because objective audit criteria remove any risk of bias",
+          "Continue, but have a colleague co-sign the final report",
+          "Disclose the relationship to the supplier and ask it to confirm in writing that it will not seek favours"
+        ],
+        "stem": "A quality engineer is asked to lead the qualification audit of a new casting supplier. Partway through planning, she learns that her brother-in-law is a part owner of the supplier. The audit criteria are objective and she is confident that she can be impartial. Under the ASQ Code of Ethics, what should she do?",
+        "sub": "mgmt",
+        "why": "The Code asks members to avoid <b>conflicts of interest</b> and the appearance of one, and to disclose them to the employer. The right move is to <b>disclose and step aside</b> from both the audit and the approval. Objective criteria do not remove the appearance of bias, and she still controls the scope, sampling and judgement calls. A co-signature leaves her in charge of the work it is meant to check. Telling the supplier is disclosure to the wrong party: her duty is to her employer, and the supplier's promise does nothing to protect the decision."
+      }
+    },
+    "cqe:exampreview:ep-cqe-02": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Ask the sponsor to replace the two members who challenged the plan",
+          "Recognize this as the storming stage: revisit roles, ground rules and how decisions will be made, and agree a shared data source with the team",
+          "Postpone the milestone and let the conflict resolve itself as the team matures",
+          "Have the team leader make the remaining decisions alone until the milestone is recovered"
+        ],
+        "stem": "Three weeks into a cross-functional project to cut warranty returns, meetings are tense: the design and manufacturing members argue over whose data to trust, two members have challenged the leader's plan, and the team has missed its first milestone. The charter and sponsor support are sound. As facilitator, what is the BEST intervention?",
+        "sub": "mgmt",
+        "why": "Conflict over roles, methods and authority soon after a team forms is the <b>storming</b> stage. The facilitator helps the team through it by making roles, ground rules and the decision process explicit, and by agreeing one trusted data set, which removes the cause of the argument. Removing members punishes a normal stage of development and loses expertise the project needs. Waiting for the conflict to resolve itself abandons the facilitator's role and risks the team stalling. Having the leader decide alone may recover the date, but it suppresses the conflict instead of resolving it and loses buy-in."
+      }
+    },
+    "cqe:exampreview:ep-cqe-03": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Retrain the operators on reading the revision block before each job",
+          "Replace the printed copies on the two cells with revision C and close the finding",
+          "Discipline the supervisor who failed to collect the old prints",
+          "Change the document control process so that uncontrolled printed copies cannot reach the floor (for example, point-of-use electronic access or stamped controlled copies that are recalled at each release), then check all cells"
+        ],
+        "stem": "An internal audit finds that operators on two cells are building to revision B of a drawing that was superseded by revision C six weeks ago. The revision C drawing is correctly approved and posted in the document system, but the cells still use printed copies. Which corrective action BEST addresses the root cause?",
+        "sub": "qsys",
+        "why": "The root cause is a <b>document control process</b> that lets obsolete copies stay in use. The fix must prevent recurrence everywhere, so change how copies are issued and withdrawn, then extend the check to all cells. Retraining the operators targets people rather than the system that handed them the wrong print. Swapping the two prints is a correction (containment), not corrective action, and other cells may have the same problem. Disciplining the supervisor blames a person for a process gap and discourages honest reporting."
+      }
+    },
+    "cqe:exampreview:ep-cqe-04": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "0.754",
+          "0.838",
+          "0.922",
+          "0.990"
+        ],
+        "stem": "A pump skid has a motor (reliability 0.95 over the mission), followed by two identical filters in active parallel (0.90 each), followed by a controller (0.98). Any one filter is enough for the system to work, and failures are independent. What is the system reliability for the mission?",
+        "sub": "design",
+        "why": "The parallel pair works unless both filters fail: 1 − (0.10)² = 0.99. The system is then in series: 0.95 × 0.99 × 0.98 = <b>0.922</b>. 0.754 treats all four parts as a series chain, ignoring the redundancy. 0.838 counts only one filter (0.95 × 0.90 × 0.98), as if the second added nothing. 0.990 is the reliability of the filter pair alone, leaving out the motor and controller."
+      }
+    },
+    "cqe:exampreview:ep-cqe-05": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "No; the positional deviation of Ø0.312 exceeds the stated Ø0.30",
+          "Yes; the positional deviation of Ø0.312 is within the allowed Ø0.42 (Ø0.30 plus Ø0.12 bonus)",
+          "No; the bonus is subtracted, so the allowed tolerance is Ø0.18",
+          "Yes; the allowed tolerance is always Ø0.50 once the MMC modifier is used"
+        ],
+        "stem": "A hole is specified as Ø10.00 to 10.20 mm with a position tolerance of Ø0.30 at MMC relative to datums A, B and C. A part's hole measures Ø10.12 mm, and its axis is 0.10 mm off true position in X and 0.12 mm off in Y. Is the hole's position acceptable?",
+        "sub": "design",
+        "why": "Position is a diameter zone, so the deviation is 2 × √(0.10² + 0.12²) = <b>Ø0.312</b>. At MMC the hole earns a bonus equal to its departure from MMC: 10.12 − 10.00 = 0.12, so the allowed zone is 0.30 + 0.12 = <b>Ø0.42</b>, and the hole is acceptable. Rejecting at Ø0.30 ignores the bonus that the MMC modifier grants. Subtracting the bonus reverses the rule: a larger hole has more room, not less. Ø0.50 is the bonus only at LMC (10.20 mm); this hole is at 10.12 mm, so it earns only 0.12."
+      }
+    },
+    "cqe:exampreview:ep-cqe-06": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Design verification passed but design validation failed; the design inputs did not capture a user need, so revise the inputs and the design and repeat validation",
+          "Design verification failed; tighten the latch force tolerance on the drawing",
+          "Both verification and validation passed; the issue is user error, so add a warning to the label and train the nurses",
+          "Validation cannot be judged until the pump is in production, so release it and monitor complaints"
+        ],
+        "stem": "A new infusion pump passes every bench test against its design specification, including latch force and flow accuracy. In a simulated-use study, several nurses close the cassette latch only partly, and the pump then under-delivers. What does this result show, and what should happen next?",
+        "sub": "design",
+        "why": "<b>Verification</b> asks whether the design output meets the design input (it did, on the bench). <b>Validation</b> asks whether the product meets user needs in its intended use (it did not). The gap is in the design inputs, so they must be revised, the design changed and validation repeated. Calling it a verification failure misreads the bench results, and a tighter tolerance does not address how nurses actually use the latch. Blaming user error and relying on labels is the weakest control for a foreseeable use error. Validation is done before release, under defined use conditions; releasing first and waiting for complaints moves the risk onto patients."
+      }
+    },
+    "cqe:exampreview:ep-cqe-07": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Pa ≈ 0.525; AOQ ≈ 1.01%",
+          "Pa ≈ 0.783; AOQ ≈ 1.57%",
+          "Pa ≈ 0.217; AOQ ≈ 0.42%",
+          "Pa ≈ 0.783; AOQ ≈ 1.50%"
+        ],
+        "stem": "Lots of 2,000 units are inspected with a single sampling plan of n = 80, c = 2. Rejected lots are 100% screened and defectives are replaced with good units. If incoming quality is 2.0% nonconforming, what are the probability of acceptance (Poisson approximation) and the average outgoing quality (AOQ)?",
+        "sub": "ppc",
+        "why": "np = 80 × 0.02 = 1.6, so Pa = P(X ≤ 2) = e^−1.6 × (1 + 1.6 + 1.6²/2) = <b>0.783</b>. With rectifying inspection, AOQ = Pa × p × (N − n)/N = 0.783 × 0.02 × 1,920/2,000 = <b>1.50%</b>. Pa = 0.525 is P(X ≤ 1), which uses c = 1 instead of 2. AOQ = 1.57% leaves out the (N − n)/N factor, forgetting that the sampled units are inspected and cleaned. Pa = 0.217 is the probability of rejecting the lot, not accepting it."
+      }
+    },
+    "cqe:exampreview:ep-cqe-08": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "TUR ≈ 7.6; meets 4:1",
+          "TUR ≈ 5.9; meets 4:1",
+          "TUR ≈ 3.8; does not meet 4:1, so improve the measurement or apply guard bands",
+          "TUR ≈ 2.4; does not meet 4:1"
+        ],
+        "stem": "A bore gauge checks a feature toleranced at ±0.010 mm. The uncertainty budget lists a reference standard of 0.0008 mm (standard uncertainty), a display resolution of 0.001 mm (treated as a rectangular distribution) and repeatability of 0.0010 mm (standard deviation). Using an expanded uncertainty with k = 2, what is the test uncertainty ratio (TUR), and does it meet a 4:1 requirement?",
+        "sub": "ppc",
+        "why": "Resolution as a rectangular distribution is 0.001/√12 = 0.000289 mm. Combine the standard uncertainties by root sum of squares: √(0.0008² + 0.000289² + 0.0010²) = 0.00131 mm. Expand with k = 2 to get U = 0.00263 mm, so TUR = 0.010/0.00263 ≈ <b>3.8</b>, which falls short of 4:1. A TUR of 7.6 uses the combined standard uncertainty without the k = 2 expansion. 5.9 leaves repeatability out of the budget. 2.4 adds the components linearly instead of by root sum of squares, which overstates the uncertainty."
+      }
+    },
+    "cqe:exampreview:ep-cqe-09": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Discontinue acceptance inspection and stop receiving from the supplier",
+          "Switch to tightened inspection, because two of five or fewer consecutive lots have been rejected",
+          "Stay on normal inspection until three lots in a row are rejected",
+          "Switch to reduced inspection, because three of the five lots were accepted"
+        ],
+        "stem": "A receiving department applies ANSI/ASQ Z1.4 under normal inspection. The last five consecutive lots from a supplier were, in order: accepted, rejected, accepted, accepted, rejected (all on original inspection). What does the standard require next?",
+        "sub": "ppc",
+        "why": "Z1.4 switches from normal to <b>tightened</b> when 2 out of 5 or fewer consecutive lots are rejected on original inspection, which has just happened. Discontinuation applies only after 5 cumulative lots stay on tightened inspection, not straight from normal. There is no three-in-a-row rule for this switch. Reduced inspection needs a long run of accepted lots with steady production and approval by the responsible authority, so it never follows recent rejections."
+      }
+    },
+    "cqe:exampreview:ep-cqe-10": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Takt 64 s; 5 operators",
+          "Takt 30 s; 9 operators",
+          "Takt 60 s; 4 operators",
+          "Takt 60 s; 5 operators"
+        ],
+        "stem": "A valve-assembly cell must ship 900 valves each day. It is staffed for two shifts of 480 minutes, and each shift loses 30 minutes to planned breaks. Time studies put the manual work at 270 seconds per valve. To pace the cell to customer demand, what takt time should be set and what is the smallest crew that can keep up?",
+        "sub": "ci",
+        "why": "Available time = 2 × (480 − 30) = 900 minutes = 54,000 s, so takt = 54,000 ÷ 900 = <b>60 s</b>. Operators = 270 ÷ 60 = 4.5, which must be rounded up to <b>5</b>. Takt 64 s leaves the breaks in the available time. Takt 30 s uses only one shift's time for a full day's demand. Four operators rounds 4.5 down, leaving the cell short of takt."
+      }
+    },
+    "cqe:exampreview:ep-cqe-11": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Porosity, because it accounts for about 55% of the monthly defect cost ($1,200 of $2,195)",
+          "Scratches, because they are the most frequent defect",
+          "Misalignment, because it is in the middle on both frequency and unit cost",
+          "Burrs, because they are the cheapest and quickest to fix"
+        ],
+        "stem": "A month of final-inspection data shows: scratches 120 occurrences at $2 each to rework, burrs 80 at $1, misalignment 45 at $15 and porosity 30 at $40 (scrap). The team can attack one defect first and wants the largest financial return. Which should it choose?",
+        "sub": "ci",
+        "why": "Weight the Pareto by cost: scratches $240, burrs $80, misalignment $675, porosity <b>$1,200</b>, for a total of $2,195. Porosity is about <b>55%</b> of the cost even though it is the least frequent defect. A count Pareto puts scratches first, but they account for only about 11% of the cost. Misalignment is second by cost, at about 31%. Burrs are the smallest cost item, so choosing them for ease ignores the stated goal of the largest return."
+      }
+    },
+    "cqe:exampreview:ep-cqe-12": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "Close the CAR, because eight weeks with no escapes shows the action is effective",
+          "Close the CAR and cut the inspection to sampling, because the problem is solved",
+          "Keep the CAR open: the inspection is containment, so find and verify the root cause, put a permanent corrective action in place, and then show by data that the cause has been removed before relaxing the inspection",
+          "Keep the CAR open only until the customer confirms in writing that it is satisfied"
+        ],
+        "stem": "After a customer complaint about cracked brackets, a team adds 100% dye-penetrant inspection at final test. No cracked parts have shipped in the eight weeks since, and the team asks to close the corrective action request (CAR). What should the quality engineer advise?",
+        "sub": "ci",
+        "why": "100% inspection detects cracks; it does not stop them being made. That makes it <b>containment</b>. A CAR is closed only after the <b>root cause</b> is found, a permanent action is taken, and its effectiveness is verified (for example, the crack rate at the source falls and stays down). No escapes over eight weeks shows that the screen works, not that the cause is gone. Cutting to sampling without fixing the cause would let cracked parts escape again. Customer satisfaction is welcome but is not the effectiveness criterion; the CAR must show the cause was removed."
+      }
+    },
+    "cqe:exampreview:ep-cqe-13": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Cp 1.67; Cpk 1.25; about 88 ppm",
+          "Cp 1.48; Cpk 1.11; about 450 ppm",
+          "Cp 1.67; Cpk 1.25; about 176 ppm",
+          "Cp 1.67; Cpk 2.08; about 0 ppm"
+        ],
+        "stem": "A stable X-bar and R chart uses subgroups of 5 and gives a grand mean of 25.015 mm and an average range of 0.0279 mm. The specification is 25.00 ± 0.06 mm, and the data are normal. What are Cp, Cpk and the expected fraction outside the specification?",
+        "sub": "quant",
+        "why": "σ = R̄/d₂ = 0.0279/2.326 = 0.0120 mm. Cp = 0.12/(6 × 0.0120) = <b>1.67</b>. Cpk = (25.06 − 25.015)/(3 × 0.0120) = <b>1.25</b>, set by the nearer upper limit. Above the USL, z = 3.75, so about <b>88 ppm</b>; below the LSL, z = 6.25, which is negligible. 1.48 and 1.11 use d₂ = 2.059 (for subgroups of 4). 176 ppm doubles the upper tail as if the process were centred. Cpk = 2.08 uses the farther (lower) limit, but Cpk takes the minimum of the two sides."
+      }
+    },
+    "cqe:exampreview:ep-cqe-14": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "43",
+          "85",
+          "63",
+          "69"
+        ],
+        "stem": "An engineer plans to compare two adhesive suppliers' mean bond strength. The standard deviation is about 1.0 MPa for both, and the smallest difference worth detecting is 0.5 MPa. Using a two-sided test at α = 0.05 with 90% power, about how many specimens are needed from EACH supplier?",
+        "sub": "quant",
+        "why": "n per group = 2(z₀.₀₂₅ + z₀.₁₀)² σ²/δ² = 2(1.960 + 1.282)²(1.0)²/(0.5)² = 84.1, rounded up to <b>85</b>. 43 uses the one-sample formula, which drops the factor of 2 for two independent groups. 63 is the answer for 80% power (z = 0.842). 69 uses a one-sided z of 1.645, which the two-sided question rules out."
+      }
+    },
+    "cqe:exampreview:ep-cqe-15": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "χ² ≈ 10.67, df = 5; fail to reject, because 10.67 is below the critical 11.07",
+          "χ² ≈ 9.60, df = 2; reject independence, using the defective row only",
+          "χ² ≈ 12.50, df = 2; reject independence, dividing by the observed counts",
+          "χ² ≈ 10.67, df = 2; reject independence, because it exceeds the critical 5.99 (p ≈ 0.005)"
+        ],
+        "stem": "Three shifts each produce 300 units. Defectives are 18 on shift 1, 30 on shift 2 and 42 on shift 3. At α = 0.05, is the defective rate independent of shift?",
+        "sub": "quant",
+        "why": "The expected count per shift is 30 defectives and 270 good. χ² = Σ(O − E)²/E = (144/30 + 0 + 144/30) + (144/270 + 0 + 144/270) = <b>10.67</b>, with df = (2 − 1)(3 − 1) = <b>2</b>. The critical value is 5.99 (p ≈ 0.005), so reject independence: shift matters. df = 5 counts cells minus 1 instead of (rows − 1)(columns − 1). 9.60 leaves out the good-unit row, which is part of the 2 × 3 table. 12.50 divides by the observed counts instead of the expected counts."
+      }
+    },
+    "cqe:exampreview:ep-cqe-16": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "UCL ≈ 0.070; out of control, because 0.072 is above it",
+          "UCL ≈ 0.053; out of control",
+          "UCL ≈ 0.078; in control, because u = 0.072 is below it",
+          "UCL ≈ 0.0405; out of control"
+        ],
+        "stem": "A u chart monitors paint defects per square metre, with a centre line of ū = 0.040. Most days 400 m² is inspected, but today only 250 m² was inspected and 18 defects were found. Using 3-sigma limits for today's sample, what is the UCL and is the point in control?",
+        "sub": "quant",
+        "why": "For a u chart, the limits depend on each day's sample size: UCL = ū + 3√(ū/n) = 0.040 + 3√(0.040/250) = <b>0.078</b>. Today u = 18/250 = 0.072, which is <b>in control</b>. 0.070 is the limit for the usual 400 m², and applying it to a smaller sample gives a false alarm. 0.053 uses only one sigma. 0.0405 omits the square root."
+      }
+    },
+    "cqe:exampreview:ep-cqe-17": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "F = 0.75; recipes do not differ",
+          "F = 4.00; significant at α = 0.05 but not at α = 0.01",
+          "F = 3.00; significant at α = 0.05",
+          "F = 4.00; not significant at α = 0.05"
+        ],
+        "stem": "A one-way ANOVA compares four heat-treatment recipes, with five parts each. The treatment sum of squares is 84.0 and the error sum of squares is 112.0. What are the F statistic and the conclusion?",
+        "sub": "quant",
+        "why": "df treatments = 3 and df error = 20 − 4 = 16, so MS treatments = 28.0, MS error = 7.0, and F = <b>4.00</b>. The critical values for F(3, 16) are 3.24 at 0.05 and 5.29 at 0.01 (p ≈ 0.026), so the result is significant at 0.05 but not at 0.01. F = 0.75 divides sum of squares by sum of squares without using the degrees of freedom. F = 3.00 divides the treatment sum of squares by 4 (the number of recipes) instead of 3 (recipes − 1). Saying F = 4.00 is not significant at 0.05 compares it with the 0.01 critical value."
+      }
+    },
+    "cqe:exampreview:ep-cqe-18": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "About 33%",
+          "About 95%",
+          "About 2%",
+          "About 67%"
+        ],
+        "stem": "A process makes 2% defective parts. An automated vision system rejects 95% of defective parts, but it also falsely rejects 4% of good parts. If a part is rejected, what is the probability that it is actually defective?",
+        "sub": "quant",
+        "why": "P(reject) = 0.02 × 0.95 + 0.98 × 0.04 = 0.019 + 0.0392 = 0.0582, so P(defective | reject) = 0.019/0.0582 ≈ <b>33%</b>. Because good parts vastly outnumber defectives, two in three rejects are false alarms. 95% confuses P(reject | defective) with P(defective | reject). 2% is just the base rate, ignoring the test. 67% is the probability that a rejected part is good."
+      }
+    },
+    "cqe:exampreview:ep-cqe-19": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Reject; the residual expected loss of $4,000 is below the $12,000 cost",
+          "Implement; it avoids the full $400,000 loss, a net benefit of $388,000",
+          "Reject; a 1% residual likelihood means the risk is still not eliminated",
+          "Implement; the expected loss falls by $16,000 a year for $12,000, a net benefit of about $4,000"
+        ],
+        "stem": "A supplier failure would cost about $400,000 and is estimated at 5% likely in a year. A dual-tooling plan costing $12,000 a year would cut the likelihood to 1% with the same consequence. On expected value, what should the team decide?",
+        "sub": "risk",
+        "why": "Expected loss falls from 0.05 × $400,000 = $20,000 to 0.01 × $400,000 = $4,000, a <b>$16,000</b> reduction for a $12,000 cost, so the net benefit is about <b>$4,000 a year</b>. Comparing the cost with the residual $4,000 ignores the reduction, which is what the money buys. The $388,000 figure treats an unlikely loss as certain. Demanding zero residual risk is not the decision rule; treatments reduce risk to an acceptable level."
+      }
+    },
+    "cqe:exampreview:ep-cqe-20": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "Buy business interruption insurance for the full value of lost sales",
+          "Add more incoming inspection of the valve seats",
+          "Qualify a second source at a different site and hold safety stock sized to the requalification lead time",
+          "Accept the risk, because the supplier's quality record is excellent"
+        ],
+        "stem": "A single supplier makes a safety-critical valve seat at one plant in a flood zone. Its quality record is excellent. Management wants to treat the risk of a long supply interruption. Which treatment BEST reduces that risk?",
+        "sub": "risk",
+        "why": "The risk is <b>supply continuity</b>, not part quality. A second qualified source at another site lowers the likelihood of an interruption, and safety stock lowers its consequence while the second source ramps up. Insurance <b>transfers</b> the financial loss but does nothing to keep parts flowing for a safety-critical product. Inspection addresses quality, which is not the issue. A good quality record says nothing about flood exposure, so accepting the risk ignores it."
+      }
+    }
+  },
+  "meta": {
+    "cqe:exampreview:ep-cqe-01": {
+      "domain": "Management & Leadership",
+      "subtopic": "ASQ Code of Ethics: conflict of interest",
+      "difficulty": "medium",
+      "kind": "conceptual"
+    },
+    "cqe:exampreview:ep-cqe-02": {
+      "domain": "Management & Leadership",
+      "subtopic": "Team development and facilitation",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "cqe:exampreview:ep-cqe-03": {
+      "domain": "The Quality System",
+      "subtopic": "Document control and systemic corrective action",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "cqe:exampreview:ep-cqe-04": {
+      "domain": "Product, Process & Service Design",
+      "subtopic": "Series-parallel system reliability",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "cqe:exampreview:ep-cqe-05": {
+      "domain": "Product, Process & Service Design",
+      "subtopic": "GD&T position at MMC with bonus tolerance",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "cqe:exampreview:ep-cqe-06": {
+      "domain": "Product, Process & Service Design",
+      "subtopic": "Design verification versus validation",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "cqe:exampreview:ep-cqe-07": {
+      "domain": "Product & Process Control",
+      "subtopic": "OC curve and average outgoing quality",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "cqe:exampreview:ep-cqe-08": {
+      "domain": "Product & Process Control",
+      "subtopic": "Measurement uncertainty and test uncertainty ratio",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "cqe:exampreview:ep-cqe-09": {
+      "domain": "Product & Process Control",
+      "subtopic": "ANSI/ASQ Z1.4 switching rules",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "cqe:exampreview:ep-cqe-10": {
+      "domain": "Continuous Improvement",
+      "subtopic": "Takt time and line staffing",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "cqe:exampreview:ep-cqe-11": {
+      "domain": "Continuous Improvement",
+      "subtopic": "Cost-weighted Pareto analysis",
+      "difficulty": "hard",
+      "kind": "interpretation"
+    },
+    "cqe:exampreview:ep-cqe-12": {
+      "domain": "Continuous Improvement",
+      "subtopic": "Corrective action versus containment",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    },
+    "cqe:exampreview:ep-cqe-13": {
+      "domain": "Quantitative Methods & Tools",
+      "subtopic": "Capability from control chart data",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "cqe:exampreview:ep-cqe-14": {
+      "domain": "Quantitative Methods & Tools",
+      "subtopic": "Sample size for a two-sample comparison",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "cqe:exampreview:ep-cqe-15": {
+      "domain": "Quantitative Methods & Tools",
+      "subtopic": "Chi-square test of independence",
+      "difficulty": "hard",
+      "kind": "interpretation"
+    },
+    "cqe:exampreview:ep-cqe-16": {
+      "domain": "Quantitative Methods & Tools",
+      "subtopic": "u chart with varying sample size",
+      "difficulty": "hard",
+      "kind": "interpretation"
+    },
+    "cqe:exampreview:ep-cqe-17": {
+      "domain": "Quantitative Methods & Tools",
+      "subtopic": "One-way ANOVA from a partial table",
+      "difficulty": "hard",
+      "kind": "interpretation"
+    },
+    "cqe:exampreview:ep-cqe-18": {
+      "domain": "Quantitative Methods & Tools",
+      "subtopic": "Conditional probability of inspection results (Bayes)",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "cqe:exampreview:ep-cqe-19": {
+      "domain": "Risk Management",
+      "subtopic": "Expected value of a risk treatment",
+      "difficulty": "hard",
+      "kind": "calculation"
+    },
+    "cqe:exampreview:ep-cqe-20": {
+      "domain": "Risk Management",
+      "subtopic": "Risk treatment for supply continuity",
+      "difficulty": "hard",
+      "kind": "conceptual"
+    }
+  }
+}

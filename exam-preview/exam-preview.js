@@ -1,4 +1,4 @@
-/* ExamPreview: a public, untimed preview (CSSBB, CSSGB, MBB, PMP) that renders with the real exam
+/* ExamPreview: a public, untimed preview (CSSBB, CSSGB, MBB, CQE, PMP) that renders with the real exam
    simulator's markup and classes (test-bank.html quizHTML/resultsHTML and the
    test-bank-current-attempt-review.js answer review). It only ever loads the
    free pool named on <body data-question-pool>, never the paid bank, and it
@@ -85,6 +85,33 @@
       ctaTitle: 'Practise with the complete Master Black Belt question bank',
       ctaBody: 'Three full exam sets and a mixed set, timed or untimed, plus focused quizzes by Body of Knowledge area, all in this same simulator.',
       fullBank: 'The full bank tests the same depth across 100- and 175-question exam sets.'
+    },
+    cqe: {
+      dm: {
+        mgmt: {name: 'Management & Leadership', color: '#2c8fa6'},
+        qsys: {name: 'The Quality System', color: '#0e8f86'},
+        design: {name: 'Product, Process & Service Design', color: '#6b52b5'},
+        ppc: {name: 'Product & Process Control', color: '#c0453f'},
+        ci: {name: 'Continuous Improvement', color: '#b8791b'},
+        quant: {name: 'Quantitative Methods & Tools', color: '#3b6fb0'},
+        risk: {name: 'Risk Management', color: '#a24b8c'}
+      },
+      bok: [
+        {domain: 'mgmt', subs: [{id: 'mgmt', name: 'I. Management & Leadership', lesson: '/lessons.html', lessonName: 'Browse lessons'}]},
+        {domain: 'qsys', subs: [{id: 'qsys', name: 'II. The Quality System', lesson: '/lessons/quality-engineering/cost-of-poor-quality', lessonName: 'Cost of Poor Quality'}]},
+        {domain: 'design', subs: [{id: 'design', name: 'III. Product, Process & Service Design', lesson: '/lessons/quality-engineering/introduction-to-reliability-and-maintainability', lessonName: 'Reliability and Maintainability'}]},
+        {domain: 'ppc', subs: [{id: 'ppc', name: 'IV. Product & Process Control', lesson: '/lessons/quality-engineering/gauge-rr-study', lessonName: 'Gauge R&R Study'}]},
+        {domain: 'ci', subs: [{id: 'ci', name: 'V. Continuous Improvement', lesson: '/lessons/understanding-pareto-chart', lessonName: 'Understanding the Pareto Chart'}]},
+        {domain: 'quant', subs: [{id: 'quant', name: 'VI. Quantitative Methods & Tools', lesson: '/lessons/control-charts-explained', lessonName: 'Control Charts Explained'}]},
+        {domain: 'risk', subs: [{id: 'risk', name: 'VII. Risk Management', lesson: '/lessons.html', lessonName: 'Browse lessons'}]}
+      ],
+      examName: 'ASQ Certified Quality Engineer',
+      short: 'CQE',
+      startTitle: 'Free CQE practice questions: ExamPreview',
+      ctaLabel: 'Get the complete Certified Quality Engineer question bank',
+      ctaTitle: 'Practise with the complete Certified Quality Engineer question bank',
+      ctaBody: 'Three full exam sets, timed or untimed, plus focused quizzes by Body of Knowledge area, all in this same simulator.',
+      fullBank: 'The full bank tests the same depth across 160-question exam sets.'
     },
     pmp: {
       dm: {
