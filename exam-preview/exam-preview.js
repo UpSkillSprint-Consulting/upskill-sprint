@@ -1,4 +1,4 @@
-/* ExamPreview: a public, untimed preview (CSSBB, CSSGB, MBB, CQE, PMP) that renders with the real exam
+/* ExamPreview: a public, untimed preview (CSSBB, CSSGB, MBB, CQE, CQA, PMP) that renders with the real exam
    simulator's markup and classes (test-bank.html quizHTML/resultsHTML and the
    test-bank-current-attempt-review.js answer review). It only ever loads the
    free pool named on <body data-question-pool>, never the paid bank, and it
@@ -113,6 +113,32 @@
       ctaBody: 'Three full exam sets, timed or untimed, plus focused quizzes by Body of Knowledge area, all in this same simulator.',
       fullBank: 'The full bank tests the same depth across 160-question exam sets.'
     },
+    cqa: {
+      dm: {
+        'cqa-fundamentals': {name: 'Auditing Fundamentals', color: '#2b5aa0'},
+        'cqa-process': {name: 'Audit Process', color: '#0e8f86'},
+        'cqa-competencies': {name: 'Auditor Competencies', color: '#6b52b5'},
+        'cqa-program': {name: 'Audit Program Management & Business Applications', color: '#b8791b'},
+        'cqa-tools': {name: 'Quality Tools & Techniques', color: '#c0453f'}
+      },
+      bok: [
+        {domain: 'cqa-fundamentals', subs: [{id: 'cqa-fundamentals', name: 'I. Auditing Fundamentals', lesson: '/lessons.html', lessonName: 'Browse lessons'}]},
+        {domain: 'cqa-process', subs: [{id: 'cqa-process', name: 'II. Audit Process', lesson: '/lessons/root-cause-analysis-5-whys-fishbone', lessonName: 'Root Cause Analysis: 5 Whys and Fishbone'}]},
+        {domain: 'cqa-competencies', subs: [{id: 'cqa-competencies', name: 'III. Auditor Competencies', lesson: '/lessons.html', lessonName: 'Browse lessons'}]},
+        {domain: 'cqa-program', subs: [{id: 'cqa-program', name: 'IV. Audit Program Management & Business Applications', lesson: '/lessons/quality-engineering/cost-of-poor-quality', lessonName: 'Cost of Poor Quality'}]},
+        {domain: 'cqa-tools', subs: [{id: 'cqa-tools', name: 'V. Quality Tools & Techniques', lesson: '/lessons/statistics/probability-basics-the-language-of-chance', lessonName: 'Probability Basics'}]}
+      ],
+      examName: 'ASQ Certified Quality Auditor',
+      short: 'CQA',
+      // The CQA exam supplies no formula sheet or statistical tables (open book, on-screen calculator only).
+      formulas: false,
+      tables: false,
+      startTitle: 'Free CQA practice questions: ExamPreview',
+      ctaLabel: 'Get the complete Certified Quality Auditor question bank',
+      ctaTitle: 'Practise with the complete Certified Quality Auditor question bank',
+      ctaBody: 'A full 150-question exam set, timed or untimed, plus focused quizzes by Body of Knowledge area, all in this same simulator.',
+      fullBank: 'The full bank tests the same depth across a 150-question exam set.'
+    },
     pmp: {
       dm: {
         'pmp-people': {name: 'People', color: '#1a5276'},
@@ -164,8 +190,11 @@
     (function walk(node) {
       Array.prototype.slice.call(node.childNodes).forEach(function (n) {
         if (n.nodeType === 1) {
-          if (!/^(B|STRONG|EM|I|SUB|SUP)$/.test(n.tagName)) { n.replaceWith(document.createTextNode(n.textContent)); return; }
+          // A printed-page source reference (<span class="tb-source-ref">) keeps its one class.
+          var ref = n.tagName === 'SPAN' && n.getAttribute('class') === 'tb-source-ref';
+          if (!ref && !/^(B|STRONG|EM|I|SUB|SUP)$/.test(n.tagName)) { n.replaceWith(document.createTextNode(n.textContent)); return; }
           Array.prototype.slice.call(n.attributes).forEach(function (a) { n.removeAttribute(a.name); });
+          if (ref) n.className = 'tb-source-ref';
           walk(n);
         }
       });
@@ -203,6 +232,8 @@
       if (window.__ExamPreviewTools) window.__ExamPreviewTools.build();
       // Exams without reference tables (PMP) drop the Tables drawer.
       if (CFG.tables === false) { var td = document.getElementById('tb-tables'); if (td) td.remove(); }
+      // Exams without a formula sheet (CQA) drop the Formulas drawer too, leaving Calc only.
+      if (CFG.formulas === false) { var fdr = document.getElementById('tb-formulas'); if (fdr) fdr.remove(); }
       view = 'quiz'; render(); announce('ExamPreview started. Question 1 of ' + session.items.length + '.');
       var first = host.querySelector('[data-opt]'); if (first) first.focus({preventScroll: true});
     }).catch(function () {
@@ -232,7 +263,7 @@
     var toolbar = '<div class="tb-toolbar"><span class="tb-timer untimed">Untimed</span>' +
       '<button type="button" class="tb-tbtn' + (session.flags[session.i] ? ' on' : '') + '" data-flag aria-pressed="' + !!session.flags[session.i] + '">\u2691 ' + (session.flags[session.i] ? 'Flagged' : 'Flag') + '</button>' +
       '<button type="button" class="tb-tbtn" data-reveal aria-describedby="tb-reveal-hint" ' + (revealed ? 'aria-controls="tb-revealed-answer" ' : '') + 'aria-expanded="' + revealed + '"' + (revealed ? ' disabled' : '') + '>' + (revealed ? 'Answer Revealed' : 'Reveal Answer') + '</button>' +
-      '<button type="button" class="tb-tbtn" data-formulas>\u2630 Formulas</button>' +
+      (CFG.formulas === false ? '' : '<button type="button" class="tb-tbtn" data-formulas>\u2630 Formulas</button>') +
       (CFG.tables === false ? '' : '<button type="button" class="tb-tbtn" data-tables>\u25a4 Tables</button>') +
       '<button type="button" class="tb-tbtn" data-calc>\u00f7 Calc</button>' +
       '<button type="button" class="tb-ghost" data-quit>Exit</button></div>';

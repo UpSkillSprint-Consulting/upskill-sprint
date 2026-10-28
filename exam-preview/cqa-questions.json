@@ -1,0 +1,474 @@
+{
+  "examId": "cqa",
+  "schemaVersion": "1.0.0",
+  "bankVersion": "exampreview-pilot-draft-2026-10-27",
+  "pool": "exampreview-free",
+  "sets": {
+    "preview": [
+      "cqa:exampreview:ep-cqa-01",
+      "cqa:exampreview:ep-cqa-02",
+      "cqa:exampreview:ep-cqa-03",
+      "cqa:exampreview:ep-cqa-04",
+      "cqa:exampreview:ep-cqa-05",
+      "cqa:exampreview:ep-cqa-06",
+      "cqa:exampreview:ep-cqa-07",
+      "cqa:exampreview:ep-cqa-08",
+      "cqa:exampreview:ep-cqa-09",
+      "cqa:exampreview:ep-cqa-10",
+      "cqa:exampreview:ep-cqa-11",
+      "cqa:exampreview:ep-cqa-12",
+      "cqa:exampreview:ep-cqa-13",
+      "cqa:exampreview:ep-cqa-14",
+      "cqa:exampreview:ep-cqa-15",
+      "cqa:exampreview:ep-cqa-16",
+      "cqa:exampreview:ep-cqa-17",
+      "cqa:exampreview:ep-cqa-18",
+      "cqa:exampreview:ep-cqa-19",
+      "cqa:exampreview:ep-cqa-20"
+    ]
+  },
+  "contents": {
+    "cqa:exampreview:ep-cqa-01": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Schedule a desk review of the plating line's documents against the audit criteria, and use its results to decide whether and how to run the on-site process audit",
+          "Send the two auditors next week as requested, because a process audit will examine the procedures anyway while it follows the work",
+          "Ask the certification body to include the line in its surveillance visit, because a third-party audit replaces the need for an internal one",
+          "Run a product audit of finished plated parts instead, because a new line is best judged by whether its output passes final inspection"
+        ],
+        "stem": "The internal audit program is adding a newly acquired plating line that has never been audited. Its owner sends over a folder of procedures and asks the program manager to schedule a full process audit next week, with two auditors on site for two days, so that the line can be included in this year's certification surveillance. What should the program manager do FIRST?",
+        "sub": "cqa-fundamentals",
+        "why": "For an area that has never been audited, a <b>desk audit (document review)</b> comes first: it confirms there is an adequately defined process before scarce on-site time is spent. If the documents do not meet the criteria, sending a team to audit implementation would waste program resources. Sending the team straight away skips that check. A certification body's surveillance visit does not replace the organization's own internal audit of the line. A product audit of finished parts looks only at output and says nothing about whether the process is defined and controlled. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 5.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-02": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Accept the wider scope, because a broader audit gives the client more assurance for the same travel cost",
+          "Limit the scope to the three earlier findings and the areas they touch; raise any wish to audit other areas with the client as a separate request",
+          "Convert the visit into a full system audit, because a follow-up that finds nothing new is wasted effort",
+          "Let the auditee choose which extra areas to add, because the auditee knows where the risks are"
+        ],
+        "stem": "A follow-up audit is scheduled to confirm the corrective actions for three nonconformities raised in receiving inspection four months ago. While planning, an auditor proposes adding purchasing, supplier evaluation and the warehouse, \"since we will be on site anyway\". The client has not asked for anything more. How should the lead auditor set the scope?",
+        "sub": "cqa-fundamentals",
+        "why": "The <b>purpose drives the scope</b>. A follow-up audit's boundaries are the earlier findings, so the lead auditor keeps to the three receiving nonconformities and the areas they involve. Adding purchasing, supplier evaluation and the warehouse would change the audit without the client's authority, and the client sets the purpose and overall scope. Turning it into a system audit does the same thing on a larger scale. The auditee does not decide the scope of an audit of itself; that would undermine its independence. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 17.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-03": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "Say nothing, because the maintenance bay is outside the scope and raising it could look like overstepping",
+          "Write it up as a major nonconformity against the supplier's quality manual",
+          "Tell the auditee right away and make a record of what was seen, even though the area is outside the scope",
+          "Stop the audit and move the team to a safe area until the supplier's safety officer signs off the bay"
+        ],
+        "stem": "During a second-party audit of a supplier's quality records, an auditor walking to the records room passes the maintenance bay and sees open containers of solvent beside a welder at work. Maintenance is outside the audit scope, and no one on the audit team is in danger. What should the auditor do?",
+        "sub": "cqa-fundamentals",
+        "why": "An auditor must <b>never ignore an unsafe condition</b>, whether it is inside or outside the scope. In a second- or third-party audit the auditor informs the auditee straight away and records the situation. Silence fails the auditor's duty of care. Writing it up as a quality-manual nonconformity misuses the criteria, because the area was not audited against them. Stopping the audit is what happens when someone on the audit team is endangered, which the stem rules out. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 35.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-04": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Note it as an opportunity for improvement and let the supplier decide how to handle the lots, because the audit's purpose is the quality system, not individual shipments",
+          "Keep the evidence to yourself until the final report, so that the supplier cannot destroy records before the closing meeting",
+          "Phone the supplier's other customers to warn them, because the public interest outweighs confidentiality",
+          "Confirm the evidence and tell the lead auditor, who informs the auditee; report it to the client at once, who may hold shipments under the contract until the matter is resolved"
+        ],
+        "stem": "On day two of a customer audit of a component supplier, an auditor finds signed shipping records showing that the supplier knowingly released three lots that had failed its own burst test, and the quality manager says, \"The customer will never test them.\" The purchase contract gives the audit team's company the right to hold shipments. What is the MOST appropriate course?",
+        "sub": "cqa-fundamentals",
+        "why": "A supplier that <b>knowingly</b> ships failed product is unlikely to correct it on its own. The auditor verifies the evidence and tells the lead auditor, who informs the auditee. Because this is deliberate, the client is told immediately, and the auditing organization may <b>delay or stop shipments</b> if it has the authority. Calling it an improvement opportunity ignores a deliberate violation. Sitting on the evidence until the report lets the bad lots keep moving. Contacting other customers breaches confidentiality; it is not the auditor's channel, and the client decides what happens next. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 37.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-05": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Its credibility will erode: auditees will hide problems and contest findings, because audit results are being used to judge and pay individuals",
+          "It will improve, because supervisors will now take audit findings seriously",
+          "No effect, because the auditors' independence and training keep the audits credible whatever management does with the results",
+          "It will improve the evidence, because supervisors will make more records available to avoid nonconformities"
+        ],
+        "stem": "The plant manager announces that next year's supervisor bonuses will be cut by 5% for each nonconformity that internal audits raise in a supervisor's area. Audits are well run, and the auditors are trained and independent. What is the MOST likely effect on the internal audit program?",
+        "sub": "cqa-fundamentals",
+        "why": "Even skilled, independent auditors cannot keep a program credible if management <b>misuses the results</b>. Tying pay or bonuses to nonconformity counts, or using results as the only basis for judging people, gives auditees a reason to hide problems and fight findings, so the audits stop revealing the truth. Taking findings seriously would mean acting on them through corrective action, not penalizing people. Auditor competence does not protect the program from misuse. Pressure to avoid nonconformities tends to produce defensive or selective records, not better evidence. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 48.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-06": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "The line supervisor's statement that every operator checks torque at each start-up",
+          "The auditor's own torque check, with a calibrated wrench, on a random sample of assembled units",
+          "An e-mail from the shift lead saying that torque was checked and correct last week",
+          "The operator's explanation of how the torque gun is set and why it cannot drift"
+        ],
+        "stem": "An auditor is checking whether a torque requirement of 45 N·m is met on a final-assembly line. Four pieces of evidence are available. Which is generally the MOST reliable basis for a conclusion?",
+        "sub": "cqa-process",
+        "why": "Evidence the auditor obtains directly by <b>physical examination, observation or measurement</b> is more reliable than what people say, and records outrank oral evidence. Checking a random sample with a calibrated tool gives verifiable, first-hand evidence. The supervisor's statement and the operator's explanation are testimony and would still need corroboration. The e-mail is a second-hand internal claim about a past check and is weaker than a direct measurement. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 107.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-07": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "Both cells are systemic, because any overdue gauge shows the calibration system has failed",
+          "Both cells are isolated, because the plant-wide overdue rate is only 10 of 70, or about 14%",
+          "Machining (2.5% overdue) looks isolated, so correcting that gauge may be enough. Assembly (30% overdue) points to a systemic weakness; the auditor may draw a further sample and should report it as a system problem needing root-cause action",
+          "Assembly is isolated, because its overdue gauges are all in one cell; machining is systemic, because the gauge is used plant-wide"
+        ],
+        "stem": "In a system audit, an auditor checks calibration status on randomly chosen gauges. In the machining cell, 1 of 40 gauges is overdue, by one week, and every other gauge in the plant sample is current. In the assembly cell, 9 of 30 gauges are overdue, some by several months. How should the auditor interpret these results?",
+        "sub": "cqa-process",
+        "why": "One gauge out of 40 (<b>2.5%</b>) when everything else is current suggests a sound program with one <b>isolated</b> slip; correcting that gauge may be enough. Nine out of 30 (<b>30%</b>), some months late, is a pattern that points to a <b>systemic</b> problem. The auditor may draw another sample to confirm it, and the auditee will need to find out what in the system allowed it. Calling every overdue gauge systemic ignores how the evidence is spread. Pooling the cells into one 14% rate hides the difference between them. Being confined to one cell does not make 30% isolated. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 104–105.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-08": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Leave it out of the report, because isolated occurrences are not significant",
+          "Record it as an observation only and see whether it recurs at the next audit",
+          "Draw a second sample, and report it only if a second failure is found",
+          "Report it and rate it as critical or significant, because one occurrence of a critical step can harm users"
+        ],
+        "stem": "In a sample of 50 batch records for a sterile medical device, an auditor finds one batch that was released although its sterilization cycle printout showed the exposure time below the validated minimum. The other 49 records are complete and correct. The auditee argues that one record in 50 is an isolated case and should not appear in the report. What should the auditor do?",
+        "sub": "cqa-process",
+        "why": "Whether an occurrence is isolated is only half the question; its <b>risk</b> matters too. Under a risk-based view, a critical activity is reported after <b>one occurrence</b>, and an isolated failure that could harm the user is included in the report and rated critical. Low-risk isolated slips can be left out, but a sterilization failure is not low risk. Downgrading it to an observation, or waiting for a second failure, leaves a potentially unsafe product unaddressed. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 105 and 108.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-09": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "\"Shipping staff should be retrained on packing so that this does not happen again.\"",
+          "\"Joe Tran did not follow procedure SH-04 on 14 May.\"",
+          "\"Procedure SH-04, section 3, requires a moisture-barrier bag for export orders. Of 20 export cartons examined on 14 May, 4 were packed without the bag. This does not meet the stated requirement.\"",
+          "\"Packing in shipping is poor and represents a major risk to the business.\""
+        ],
+        "stem": "A team member's draft nonconformity reads: \"Joe Tran in shipping is careless and does not follow the rules for packing.\" Which rewrite BEST follows good practice for a nonconformity statement?",
+        "sub": "cqa-process",
+        "why": "A good statement says <b>what the requirement is, what was observed, and why that is a nonconformity</b>, and it leaves out names, which can appear elsewhere in the report if needed. The correct rewrite cites the clause, gives the sample and the evidence, and states the gap. The retraining version prescribes a corrective action, which is the auditee's job, and states neither the requirement nor the evidence. The version naming Joe Tran keeps a name in the finding and gives no evidence. The last version is opinion with no requirement or evidence behind it. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 110.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-10": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Explain that deciding the corrective action is the auditee's responsibility, make sure the nonconformity and requirement are understood, and agree the timing for the action plan and follow-up",
+          "Recommend the software package by name, because the auditor knows what has worked at other sites",
+          "Withdraw the nonconformity, because the auditee is willing to act and so no finding is needed",
+          "Give the director a step-by-step fix in the final report so that the follow-up audit has something to check"
+        ],
+        "stem": "At the closing meeting the lead auditor presents a nonconformity about uncontrolled spreadsheets used for release decisions. The operations director says, \"Just tell us what to do and we'll do it. Should we buy a validated software package?\" How should the lead auditor respond?",
+        "sub": "cqa-process",
+        "why": "At the closing meeting the lead auditor makes sure the findings are <b>clearly understood</b> and agrees follow-up timing with the auditee. Auditors <b>do not prescribe</b> the steps an organization should take to correct a finding. Improvement recommendations, when given, are not the same as directing corrective action. Recommending a product compromises objectivity and takes ownership away from the auditee. A willingness to act does not remove a nonconformity that is supported by evidence. Writing the fix into the report is the same mistake in writing. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 112.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-11": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Close the action as effective, because the procedure, training and scanner have all been verified",
+          "The action is implemented but not shown to be effective: the rate is still about 4.0 per 1,000, so it should stay open and go back to the auditee to re-examine the root cause",
+          "Close the action, because the complaint rate has fallen",
+          "Wait another year before reaching any conclusion, because three months of data can never show effectiveness"
+        ],
+        "stem": "A corrective action for labelling errors was due to be verified this month. The auditor confirms that the revised procedure is issued, all 14 packers have signed training records, and the new label scanner is in use. Before the action, complaints ran at 4.2 per 1,000 shipments. In the three months since, there were 24 complaints in 6,000 shipments. What should the auditor conclude?",
+        "sub": "cqa-process",
+        "why": "<b>Implementing</b> a corrective action is not the same as the action being <b>effective</b>. Effectiveness is shown by comparing the result with the original condition. The rate is 24 ÷ 6,000 × 1,000 = <b>4.0 per 1,000</b>, almost unchanged from 4.2, so the desired result has not been achieved and the root cause needs another look. Closing it because the steps were completed confuses change with effect. A fall from 4.2 to 4.0 is negligible and not evidence that the action worked. Refusing to judge for a year ignores the data already available. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 140.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-12": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Settle it on the spot in front of the auditee by choosing the clause the more senior auditor prefers",
+          "Drop the nonconformity, because the team cannot agree on which clause applies",
+          "Ask the auditee's quality manager which clause they would prefer to be cited against",
+          "Stop the discussion in front of the auditee and resolve it privately, for example by agreeing to cite both clauses in the nonconformity statement"
+        ],
+        "stem": "During an interview in the production office, two auditors on the same team begin arguing in front of the auditee about whether a missing first-article record breaks the contract's clause 7 or ISO 9001 clause 8.5.1. Both agree that a requirement was not met. What should the lead auditor do?",
+        "sub": "cqa-competencies",
+        "why": "Conflict within the audit team must <b>stay inside the team</b>; seeing the team divided weakens the auditee's confidence in all its findings. The lead auditor takes it offline. Because both auditors agree a requirement was broken, a sensible <b>compromise</b> is to cite both clauses. Forcing an answer in public on the basis of seniority makes the conflict worse and is not a reasoned decision. Removing a well-supported nonconformity because of a dispute over which clause to cite is the least desirable compromise. Asking the auditee to choose hands the audit's judgement to the party being audited. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 156–157.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-13": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "End the interview and record the operator as not competent, because she has not answered",
+          "Interview the supervisor instead, because he clearly knows the set-up process",
+          "Position yourself facing the operator with the escort slightly behind, direct each question and your eye contact to her, and if the supervisor keeps answering, say politely that you would prefer to hear from the operator",
+          "Ask the supervisor to leave the building, because escorts are not permitted during interviews"
+        ],
+        "stem": "An auditor asks a machine operator how she verifies the set-up before the first run. Each time, the area supervisor acting as escort answers instead, while the operator nods. What is the BEST technique?",
+        "sub": "cqa-competencies",
+        "why": "An escort is there to <b>observe</b>, not to answer, unless there is a communication problem. The auditor stands or sits facing the interviewee with the escort to one side, directs questions and eye contact to her, and if the interference continues, states politely that they would prefer the information from the staff member. Recording her as not competent draws a conclusion without evidence. Switching to the supervisor gives up first-hand evidence of how the work is actually done. Escorts are normally allowed to stay within listening distance; removing him is unnecessary and damages rapport. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 170.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-14": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Inform auditee management and the client that the delays are seriously compromising the schedule, and agree how the plan or scope will be handled",
+          "Quietly drop the remaining areas from the plan and report the audit as complete",
+          "Extend the audit by two days without telling anyone, so that the full plan is covered",
+          "Write a major nonconformity against the auditee for obstructing the audit"
+        ],
+        "stem": "On a three-day second-party audit, the opening meeting ran 90 minutes over, the plant tour took the rest of the morning, requested records arrived only after long waits, and two key interviewees were \"unavailable\". By midday on day two, only a third of the audit plan is complete. The lead auditor has already asked the escort twice to fix the problems. What should the lead auditor do NEXT?",
+        "sub": "cqa-competencies",
+        "why": "Small delays can be handled on the spot, but when <b>repeated delay tactics</b> threaten the schedule, the lead auditor is responsible for telling <b>auditee management and the client</b>, so that the plan, scope or duration can be addressed openly. Dropping areas without saying so misrepresents the audit's coverage. Extending the audit without the client's agreement oversteps the lead auditor's authority and cost limits. Delay is not a nonconformity against the audit criteria; it is a conduct issue to escalate. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 156 and 169.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-15": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Agree, because skipping forming and storming always causes conflict during the audit",
+          "Plan a short briefing on roles and the audit plan, but expect the team to work at the performing stage from the start, because trained auditors know how to work together and mostly work independently; watch for a slide back if the team's purpose or support changes",
+          "Assign one auditor only, because a new team cannot perform within two days",
+          "Postpone the audit until the three auditors have completed a project together"
+        ],
+        "stem": "A program manager is planning a two-day supplier audit with three trained, qualified auditors who have never worked together. A colleague suggests adding a half day of team-building first, \"because every new team must go through forming and storming before it can perform\". What is the BEST response?",
+        "sub": "cqa-competencies",
+        "why": "The forming–storming–norming–performing model was built for longer-lived project teams. <b>Most audit teams start at the performing stage</b>, because the members are trained and competent, much of their work is done independently, and the team exists only briefly. A short briefing on roles and the plan is good practice. A team can still <b>slide back</b> if its goals, purpose or support change. A half day of team-building, cutting to one auditor, or waiting for a shared project all rest on the wrong assumption that every new audit team must work through the early stages. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 175–176.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-16": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "About 61%, counting the retesting as appraisal; add inspection to catch more defects before they ship",
+          "About 74%, because calibration and product audits are failure costs; cut them first",
+          "About 39%, because only internal failure counts until a customer complains; increase appraisal",
+          "About 66% of the $112,000 total; increase prevention, which should bring down failure and, in time, appraisal costs"
+        ],
+        "stem": "A plant's monthly quality-related costs are: supplier quality surveys $6,000; quality training $9,000; incoming inspection $14,000; calibration of gauges $5,000; internal product audits $4,000; scrap and rework $38,000; retesting of reworked units $6,000; warranty claims $22,000; complaint handling $8,000. What share of the total cost of quality is failure cost, and where does cost-of-quality thinking say to invest?",
+        "sub": "cqa-program",
+        "why": "Prevention: $6,000 + $9,000 = $15,000. Appraisal (inspection, calibration, audits): $14,000 + $5,000 + $4,000 = $23,000. Internal failure (scrap, rework and <b>retesting after rework</b>): $38,000 + $6,000 = $44,000. External failure (warranty, complaints): $30,000. The total is <b>$112,000</b>, and failure is $74,000, or <b>about 66%</b>. The aim is to cut failure costs by spending on <b>prevention</b>, which in turn lowers appraisal costs. About 61% treats retesting of reworked units as appraisal, but it is a cost of failure. About 74% moves calibration and audits, which are appraisal costs, into failure. About 39% leaves out external failure entirely. Adding inspection is appraisal, which detects defects rather than preventing them. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 218.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-17": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "Audit the 12 processes whose owners volunteer, because willing auditees give better cooperation",
+          "Rotate alphabetically so that every process is audited once every two years regardless of history",
+          "Rank processes by criticality, past audit performance, recent changes to the process or its people, and the maturity of the system, and audit the higher-risk processes more often",
+          "Audit the 12 processes with the fewest previous findings, to show the system is working"
+        ],
+        "stem": "An audit program manager has time for 12 internal audits this year but 20 processes in the system. Which approach to scheduling BEST fits a risk-based audit program?",
+        "sub": "cqa-program",
+        "why": "A risk-based schedule gives priority to <b>matters of significance</b>. The factors to weigh include the <b>criticality</b> of the process, <b>past audit performance</b>, <b>changes</b> in the process or personnel, and <b>system maturity</b>; riskier operations are audited more often. Letting volunteers choose builds in bias. A fixed alphabetical rotation ignores risk entirely. Choosing processes with the fewest findings deliberately avoids the areas most in need of attention. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 208.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-18": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Management may decide not to change the system, provided it has given the audit results due consideration through a documented review and decision, with the risk and the reasons recorded",
+          "Management must always implement every audit recommendation, or the audit program loses all value",
+          "The audit manager should escalate to the certification body, because declining to act on audit results is a nonconformity",
+          "The audit team should stop reporting the issue, because management has already decided"
+        ],
+        "stem": "Audits over two years have repeatedly reported that the change-control process is weak. At management review, top management decides, for documented business reasons, to accept the risk and leave the process unchanged for now. The audit manager objects that ignoring audit results damages the program. Which view is BEST supported?",
+        "sub": "cqa-program",
+        "why": "Management's key role is to give audit results <b>due consideration</b> through review, deliberation and follow-through. After that review it may assign resources to act, or, for business or financial reasons, choose to <b>leave the system unchanged</b>; what matters is a deliberate, recorded decision. Requiring every recommendation to be adopted misstates management's authority. A considered decision to accept a risk is not, by itself, grounds for going to a certification body. Auditors should keep reporting the facts objectively; the decision does not remove the evidence. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 210.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-19": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "About 1.4%, the chance of finding zero deficient records, so acceptance gives almost 99% confidence",
+          "About 8%; acceptance supports a statement, with about 90% confidence, that the deficiency rate is better than 12.5%",
+          "About 22%; acceptance shows the population is free of deficiencies",
+          "About 92%; that is the chance a population at 12.5% deficient passes, so acceptance says little"
+        ],
+        "stem": "An auditor uses an attribute plan of n = 32 records with acceptance number c = 1 (accept on 0 or 1 deficient records) to judge a large population of purchase orders against a limiting quality of 12.5% deficient. Treating the count as binomial, what is the probability of accepting the population if its true deficiency rate is exactly 12.5%, and what can the auditor say if the sample is accepted?",
+        "sub": "cqa-tools",
+        "why": "Pa = P(X ≤ 1) with n = 32 and p = 0.125: 0.875³² + 32(0.125)(0.875)³¹ ≈ 0.014 + 0.064 = <b>0.078, about 8%</b>. A population as bad as the limiting quality is therefore accepted less than 10% of the time, so an accepted sample lets the auditor state, with about <b>90% confidence</b>, that the rate is better than 12.5%. About 1.4% is the zero-deficiency term alone and ignores the acceptance number of 1. About 22% is P(X ≤ 2), and no sample proves zero deficiencies. About 92% is the rejection probability, 1 − Pa, mistaken for Pa. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 289–290.</span>"
+      }
+    },
+    "cqa:exampreview:ep-cqa-20": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Sample 27, 27 and 26; accept the population because 2 of 80 is only 2.5%",
+          "Sample 56, 18 and 6; report that the emergency stratum's deficiency rate is 33%, with the same confidence as the whole plan",
+          "Sample 56, 18 and 6; accept the standard and normal strata and reject only the emergency stratum",
+          "Sample 56, 18 and 6; reject the population as a whole, and use the clustering to focus further investigation on emergency changes, without claiming a statistical rate for that stratum"
+        ],
+        "stem": "An auditor reviews last year's 2,000 engineering change records: 1,400 standard, 450 normal and 150 emergency. A statistical plan gives a sample size of 80 for the whole population, accept on 0 or 1 deficient record and reject on 2 or more, and the auditor allocates it by proportional stratified sampling. Two deficient records are found, both in the emergency stratum. Which is correct?",
+        "sub": "cqa-tools",
+        "why": "Proportional allocation: 80 × 1,400/2,000 = <b>56</b>, 80 × 450/2,000 = <b>18</b>, 80 × 150/2,000 = <b>6</b>. Two deficient records meets the reject number, so the conclusion applies to the <b>total population</b>. Stratified results cannot support statistical inferences about each stratum, but the clustering is a good reason to <b>focus further investigation</b> and the auditee's corrective action on emergency changes. Splitting the sample equally is not proportional, and two deficient records means rejecting, not accepting. Claiming 2 of 6, or 33%, as a confident stratum rate, or accepting and rejecting strata separately, draws stratum-level conclusions that this method does not support. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 290–291.</span>"
+      }
+    }
+  },
+  "meta": {
+    "cqa:exampreview:ep-cqa-01": {
+      "domain": "Auditing Fundamentals",
+      "subtopic": "Desk audit before a first process audit",
+      "bok": "I.A.1",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "p. 5"
+    },
+    "cqa:exampreview:ep-cqa-02": {
+      "domain": "Auditing Fundamentals",
+      "subtopic": "How the purpose of a follow-up audit limits its scope",
+      "bok": "I.B.1",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "p. 17"
+    },
+    "cqa:exampreview:ep-cqa-03": {
+      "domain": "Auditing Fundamentals",
+      "subtopic": "Unsafe condition outside the audit scope",
+      "bok": "I.E.1",
+      "difficulty": "medium",
+      "kind": "conceptual",
+      "ref": "p. 35"
+    },
+    "cqa:exampreview:ep-cqa-04": {
+      "domain": "Auditing Fundamentals",
+      "subtopic": "Deliberate shipment of nonconforming product found at a supplier",
+      "bok": "I.E.1",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "p. 37"
+    },
+    "cqa:exampreview:ep-cqa-05": {
+      "domain": "Auditing Fundamentals",
+      "subtopic": "Misuse of audit results and program credibility",
+      "bok": "I.E.3",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "p. 48"
+    },
+    "cqa:exampreview:ep-cqa-06": {
+      "domain": "Audit Process",
+      "subtopic": "Relative reliability of audit evidence",
+      "bok": "II.B.5",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "p. 107"
+    },
+    "cqa:exampreview:ep-cqa-07": {
+      "domain": "Audit Process",
+      "subtopic": "Isolated or systemic: reading the sample data",
+      "bok": "II.B.6",
+      "difficulty": "hard",
+      "kind": "interpretation",
+      "ref": "pp. 104–105"
+    },
+    "cqa:exampreview:ep-cqa-08": {
+      "domain": "Audit Process",
+      "subtopic": "Reporting a single high-risk occurrence",
+      "bok": "II.B.6",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "pp. 105 and 108"
+    },
+    "cqa:exampreview:ep-cqa-09": {
+      "domain": "Audit Process",
+      "subtopic": "Writing a nonconformity statement",
+      "bok": "II.C.1",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "p. 110"
+    },
+    "cqa:exampreview:ep-cqa-10": {
+      "domain": "Audit Process",
+      "subtopic": "Closing meeting: recommendations versus corrective action",
+      "bok": "II.B.7",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "p. 112"
+    },
+    "cqa:exampreview:ep-cqa-11": {
+      "domain": "Audit Process",
+      "subtopic": "Verifying the effectiveness of corrective action",
+      "bok": "II.D.3",
+      "difficulty": "hard",
+      "kind": "interpretation",
+      "ref": "p. 140"
+    },
+    "cqa:exampreview:ep-cqa-12": {
+      "domain": "Auditor Competencies",
+      "subtopic": "Conflict within the audit team",
+      "bok": "III.C",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "pp. 156–157"
+    },
+    "cqa:exampreview:ep-cqa-13": {
+      "domain": "Auditor Competencies",
+      "subtopic": "Interviewing: an escort who answers for the interviewee",
+      "bok": "III.E",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "p. 170"
+    },
+    "cqa:exampreview:ep-cqa-14": {
+      "domain": "Auditor Competencies",
+      "subtopic": "Repeated delay tactics that threaten the audit",
+      "bok": "III.C",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "pp. 156 and 169"
+    },
+    "cqa:exampreview:ep-cqa-15": {
+      "domain": "Auditor Competencies",
+      "subtopic": "Team development stages for an ad hoc audit team",
+      "bok": "III.F.3",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "pp. 175–176"
+    },
+    "cqa:exampreview:ep-cqa-16": {
+      "domain": "Audit Program Management & Business Applications",
+      "subtopic": "Classifying quality costs",
+      "bok": "IV.B.3",
+      "difficulty": "hard",
+      "kind": "calculation",
+      "ref": "p. 218"
+    },
+    "cqa:exampreview:ep-cqa-17": {
+      "domain": "Audit Program Management & Business Applications",
+      "subtopic": "Risk-based audit scheduling",
+      "bok": "IV.A.8",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "p. 208"
+    },
+    "cqa:exampreview:ep-cqa-18": {
+      "domain": "Audit Program Management & Business Applications",
+      "subtopic": "Management review of audit results",
+      "bok": "IV.A.9",
+      "difficulty": "hard",
+      "kind": "conceptual",
+      "ref": "p. 210"
+    },
+    "cqa:exampreview:ep-cqa-19": {
+      "domain": "Quality Tools & Techniques",
+      "subtopic": "Attribute sampling plan: what acceptance tells you",
+      "bok": "V.E.1",
+      "difficulty": "hard",
+      "kind": "calculation",
+      "ref": "pp. 289–290"
+    },
+    "cqa:exampreview:ep-cqa-20": {
+      "domain": "Quality Tools & Techniques",
+      "subtopic": "Proportional stratified sampling and what it supports",
+      "bok": "V.E.2",
+      "difficulty": "hard",
+      "kind": "calculation",
+      "ref": "pp. 290–291"
+    }
+  }
+}

@@ -28,3 +28,6 @@ html[data-theme="dark"] .exam-preview-page :focus-visible{outline-color:#9be3ea}
 
 /* Let the long CTA label wrap on narrow screens instead of overflowing. */
 #ep-cta [data-ep-cta]{white-space:normal;max-width:100%;height:auto;text-align:center;line-height:1.35}
+
+/* CQA cites the printed handbook page under each explanation, as the CRE exam does. */
+body[data-exam-preview="cqa"] .tb-source-ref{display:block;margin-top:6px}
