@@ -153,29 +153,87 @@ Q040 uses **data-entry checks** instead of the software phrase **input-validatio
 
 This batch contains ten standalone scenarios and no new linked document case or numerical exhibit. All thirty prior question objects, including every answer key and source reference, are retained unchanged.
 
+### Batch 4 re-audit before adding Batch 5
+
+A fresh re-audit of the canonical Q031-Q040 objects found **no correction required**. All ten stems, forty choices, ten keys and answer explanations, thirty distractor rationales, key points, traps, and current BoK/cognitive mappings were checked against the actual sources rather than relying on the preceding authoring reports.
+
+All 19 distinct cited printed pages were reread, freshly rendered, and visually checked against their visible folios: 7, 9, 11, 16, 48, 50, 71, 77-78, 95-96, 139, 164, 168, 201-203, and 301-302. Every reference in the Batch 4 table remains accurate, with the corresponding one-based PDF page equal to the printed page plus 19. Printed p301's bottom-centre folio was explicitly checked.
+
+The review confirmed that Q031 distinguishes the current for-cause investigation from later CAPA verification; Q033 preserves evidence-based reporting without preventing legitimate factual corrections; Q034 does not treat a documentation gap as proof of an operating failure; and Q035 adapts a working paper within the existing scope. Q036 preserves client approval authority, Q037 distinguishes information-access authorization from technical viewing controls, and Q038 does not impose an invented translation-time multiplier. Q039 retains local-fit, authorization, ownership and follow-up requirements. Q040 correctly distinguishes specified requirements from intended-use needs, without defining verification or validation by the physical form of the evidence.
+
+All ten items are independently answerable, have one defensible best answer under their stated conditions, and retain supported distractor rationales. No numerical recalculation was needed for this batch. All forty preceding question objects are retained unchanged in the Batch 5 update.
+
+## Batch 5: Q041-Q050
+
+The ten new questions passed separate author and independent content/source reviews. All stems, forty choices, ten keys and explanations, thirty distractor rationales, key points, traps, and BoK/cognitive mappings were checked. All 21 distinct cited printed pages were read and their visible folios independently verified in the source PDF, including bottom folios on pp20, 172 and 267. The integrated new objects match the exact final reviewed author arrays.
+
+| Item | Topic / BoK | Item demand | Verified printed pages | One-based PDF pages | Supporting principle |
+|---|---|---|---|---|---|
+| Q041 | Conflicts of interest / I.E.1 | Apply | 31 | 50 | Promptly disclose a newly recognized financial interest and let the responsible audit authority manage the assignment. |
+| Q042 | Audit criteria / I.C | Analyze | 20-21 | 39-40 | Distinguish unincorporated guidance from requirements adopted through applicable contracts, policies or other criteria. |
+| Q043 | Organization of objective evidence / II.B.6 | Apply | 108-109 | 127-128 | Classify observations by their significance and the agreed risk-based rubric rather than by occurrence count alone. |
+| Q044 | Closing meetings / II.B.7 | Apply | 114-116, 130 | 133-135, 149 | Preserve agreed facts and unresolved grading differences, explaining the authorized reporting, response and follow-up process. |
+| Q045 | Ineffective corrective action / II.D.4 | Evaluate | 140-141 | 159-160 | Reassess confirmed recurrence, preserve the failed action's history and use documented escalation after the required initial review. |
+| Q046 | Conflict resolution / III.C | Analyze | 155 | 174 | Allow a heated exchange to cool, then investigate the issue and the auditor's possible contribution with an open mind. |
+| Q047 | Team development / III.F | Apply | 172-173, 175 | 191-192, 194 | Re-establish shared objectives, assignments and deliverables when the team's purpose and membership change. |
+| Q048 | Electronic records / IV.A.10 | Apply | 73, 131-132 | 92, 150-151 | Test completeness, readability and retrieval of retained migrated records and attachments against the stated retention requirement. |
+| Q049 | Business-process interrelationships / IV.B.2 | Understand | 216 | 235 | Explain how a local target can reward incomplete handoffs and worsen performance across interdependent processes. |
+| Q050 | Central tendency / V.C.1 | Apply | 267-268 | 286-287 | Use the arithmetic mean when the per-item summary must reproduce the actual total across the complete defined data set. |
+
+### Reasoning, source and ambiguity checks
+
+- **Q041:** the paid engagement began after the original independence declaration, and the auditor shares its profit even though another partner negotiated it. Prompt disclosure to the program manager is required before relying on an assignment decision. The correct answer does not claim that a second review or the auditee's consent automatically resolves the conflict. The [current official ASQ Code of Ethics](https://asq.org/about-asq/conferences-events-policies/code-of-ethics) was also checked for consistency with the handbook's disclosure and conflict-avoidance principle.
+- **Q042:** the applicable contract and TM-6 permit condition-based replacement; the trade guide is explicitly background and has not been incorporated through another applicable requirement. The answer therefore rejects only the claimed annual-interval nonconformity. It does not imply that voluntary standards can never become binding criteria or that every part of the system has been proven effective.
+- **Q043:** the exhibit gives a required four-hour recovery demonstration and one verified seven-hour result. The supplied rubric expressly assigns Grade 1 to that failure even once. Six filing-code omissions meet the supplied Grade 2 condition because the related records remain identifiable and retrievable, those exercises met the recovery requirement, and no recovery impact was identified. The question does not invent universal ASQ grading definitions or estimate population failure rates from the two different samples.
+- **Q044:** the facts and requirements are agreed, the lead has explained the rubric, and no new evidence changes the classification. The audit procedure explicitly permits reporting to continue while unresolved grading differences are recorded and referred. Acknowledgment is distinguished from agreement; the auditee's disagreement is preserved without an unsupported downgrade or a veto over reporting.
+- **Q045:** recurrence is verified after implementation and after review of evidence, the follow-up method and resource availability. Discussion has not produced an acceptable revised response, and the stated procedure authorizes referral while the request stays open. The explanation does not invent a finding that resources were adequate, blame the auditee without review, sever the original finding's history, or prescribe the auditor's preferred technical solution.
+- **Q046:** both participants have stopped listening, the log copy is secured, no immediate safety issue or urgent decision intervenes, and a brief pause is feasible. The lead can restore communication without treating an unproven accusation as established misconduct or dropping the timestamp discrepancy.
+- **Q047:** technical competence and resources are adequate, but changed purpose and membership have left interface responsibilities unclear. The response addresses the observed coordination problem. The regression statement is on printed p175; pp172-173 support role, method and deliverable clarity. No fixed sequence of team stages is imposed.
+- **Q048:** the six-year retention period is supplied by the organization's procedure. Matching migration counts and successful backup jobs do not establish that historical contents and attachments remain complete and usable. Retrieval through the authorized route and comparison with the available source test the stated risk; sampled results are not presented as proof about every record. P73 supplies direct support for retained readability, supplementing the electronic-record safeguards on pp131-132.
+- **Q049:** the stem supplies both the incomplete handoffs and verified local/overall performance changes. The item asks the learner to explain this process relationship, within the topic's Understand ceiling. It does not require policy optimization or infer a financial impact from insufficient data.
+- **Q050:** the genuine 48-minute job belongs to the complete set. The summary's explicit purpose is reconciliation of observed labour, so the arithmetic mean is required. The explanation preserves the legitimate uses of other central measures without substituting them for the stated reporting objective or forecasting future capacity.
+
+### Case and numerical checks
+
+Q043 and Q044 use the same original data-recovery case, with identical complete shared context and data-table objects. Each has its own question and complete necessary information. Their shared `caseId` does not create a dependency: both remain answerable independently after shuffling. The exhibit includes the specific requirements and verified observations; neither question relies on a conclusion given only in the other.
+
+The Q043 comparison is 7 hours versus a 4-hour requirement. The assigned grade follows the explicit exercise-based rubric, without requiring an actual outage or permanent data loss.
+
+Q050 uses eight verified labour times: 8, 9, 11, 11, 12, 14, 15 and 48 minutes. Their total is **128 minutes** and their mean is **128 / 8 = 16.0 minutes per request**. The median is **(11 + 12) / 2 = 11.5**, and the mode is **11**. Removing the valid long job gives **80 / 7 = 11.4286**, or **11.4** to one decimal, but changes the required data set. The distractor checks also confirm **11.5 x 8 = 92** and **11 x 8 = 88**, neither equal to 128.
+
+### Final authoring refinements
+
+- Q043's correct choice says **failing the required four-hour recovery demonstration**, limiting the statement to what the exercise evidence shows.
+- Q045's distractor explanation no longer asserts an unstated negative result from the resource/evidence review.
+- Q043's actual cognitive label is **Apply**, because the complete supplied rubric is directly applied. The official II.B.6 **Evaluate** level is the ceiling, not a requirement to label every item Evaluate.
+- Q049's explanation omits an unnecessary meta sentence about the scope of the question; its substantive teaching content is retained.
+
+All keys and references were retained during these new-item refinements. The successful Batch 4 re-audit required no change to the preceding forty questions.
+
 ## Progress and remaining blueprint
 
-| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Current total | Final target | Remaining |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 10 | 37 | 27 |
-| II. Audit Process | 3 | 3 | 3 | 3 | 12 | 45 | 33 |
-| III. Auditor Competencies | 2 | 2 | 2 | 2 | 8 | 30 | 22 |
-| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 6 | 23 | 17 |
-| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 4 | 15 | 11 |
-| **Total** | **10** | **10** | **10** | **10** | **40** | **150** | **110** |
+| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Current total | Final target | Remaining |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 2 | 12 | 37 | 25 |
+| II. Audit Process | 3 | 3 | 3 | 3 | 3 | 15 | 45 | 30 |
+| III. Auditor Competencies | 2 | 2 | 2 | 2 | 2 | 10 | 30 | 20 |
+| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 2 | 8 | 23 | 15 |
+| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 1 | 5 | 15 | 10 |
+| **Total** | **10** | **10** | **10** | **10** | **10** | **50** | **150** | **100** |
 
-Continue alternating the domain allocations already used: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation, and independent review; the allocation alone is not content validation. The next requested batch will be Q041-Q050 with allocation 2/3/2/2/1.
+Continue alternating the domain allocations already used: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation, and independent review; the allocation alone is not content validation. The next requested batch will be Q051-Q060 with allocation 3/3/2/1/1.
 
-The first forty questions retain four document-case items (Q004-Q005 and Q023-Q024), or 10%, and ten rendered data tables. Answer positions are balanced at ten each for A, B, C and D. The existing engine randomizes question order. Practice timing remains two minutes per question, so the available forty-question set uses eighty minutes, displayed as one hour and twenty minutes. This is a partial practice set.
+The first fifty questions contain six document-case items (Q004-Q005, Q023-Q024 and Q043-Q044), or 12%, and thirteen rendered data tables. Answer positions are A12/B13/C13/D12. The existing engine randomizes question order. Practice timing remains two minutes per question, so the available fifty-question set uses one hundred minutes, displayed as one hour and forty minutes. This is a partial practice set.
 
 ## Integration verification
 
 - `node --test --test-isolation=none tests/test-bank-cqa-set1.test.js tests/test-bank-cqa-set2.test.js`: **13 passed, 0 failed**.
 - `npm run build:site`: **passed**, including protected-content scans of 619 public files with no known static findings and three clean protected-tool shells.
-- The learner checks exercise all forty questions, an eighty-minute Full session, correct grading, a capped forty-question Quick Quiz, a ten-question diagnostic, all five focused domains, all ten tables, and all 120 distractor explanations.
-- An attempt with one deliberate wrong answer scores 39/40, displayed as 97.5%; an all-correct attempt scores 100%.
-- The runtime timer was checked at 4,800 seconds and the existing display convention at `1 hr 20 min`. No timer implementation change was needed.
+- The learner checks exercise all fifty questions, a one-hundred-minute Full session, correct grading, a fifty-question Quick Quiz, a ten-question diagnostic, all five focused domains, all thirteen tables, and all 150 distractor explanations.
+- An attempt with one deliberate wrong answer scores 49/50, displayed as 98%; an all-correct attempt scores 100%.
+- The runtime timer was checked at 6,000 seconds and the existing display convention at `1 hr 40 min`. Quick Quiz now serves the full fifty-question request without the earlier availability-cap notice. No timing or quiz-engine implementation change was needed.
 - Set 1 remains at 150 unchanged questions. Set 2 is delivered in the protected CQA package and excluded from other exam packages and public staging.
-- A comparison with the preceding PR bank confirms that all thirty prior question objects, including every key and source reference, are unchanged.
+- The preceding forty question objects were compared with the prior PR bank and are unchanged. The ten new objects exactly match the frozen author arrays; both case exhibits and their complete shared context are identical.
+- JavaScript syntax checks passed. The HTML change since the preceding PR head is only the CQA completion label, from Batch 4 to Batch 5; unrelated files regenerated by the build are excluded from the content commit.
 
 PR #368 remains an accumulation branch; publication is deferred until all 150 questions are ready. No merge or production deployment is part of this batch update.

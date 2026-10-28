@@ -1,12 +1,13 @@
 /*
  * ASQ CQA Exam Set 2 — original practice questions.
- * Batches 1–4: Q001–Q040. Planned bank: 150 questions.
+ * Batches 1–5: Q001–Q050. Planned bank: 150 questions.
  * Author in reviewed batches of 10; hold PR #368 until all 150 are ready.
  * 2026 BoK target counts: I 37 / II 45 / III 30 / IV 23 / V 15.
  * Batch 1 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Batch 2 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Batch 3 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Batch 4 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
+ * Batch 5 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Questions and exhibits are original; handbook citations use printed pages.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
  */
@@ -1312,6 +1313,332 @@
       "2": "Approving the description of an intended use confirms an agreed statement, not that the application fulfills the needs of that use. Objective evidence addressing those needs is still required."
     },
     "trap": "Classifying verification and validation by the physical form of the activity rather than by the requirement or intended-use need being demonstrated."
+  },
+  {
+    "qid": "cqa:set-2:q041",
+    "set": 2,
+    "batch": 5,
+    "sub": "cqa-conduct",
+    "bok": "I.E.1",
+    "cognitive": "Apply",
+    "stem": "On the second day of a supplier audit, an auditor learns that their separate consulting partnership has accepted paid work from the supplier. Another partner negotiated the assignment, but the auditor will share its profit. No such engagement existed when the auditor completed the independence declaration. The audit program manager controls assignments, and a qualified replacement is available. What should the auditor do next?",
+    "options": [
+      "Continue the assigned work because another partner negotiated the engagement and the auditor has not personally discussed the commercial terms with the supplier.",
+      "Arrange an additional review of the final report by a colleague, keeping the commercial relationship private unless that review identifies a biased conclusion.",
+      "Promptly disclose the new financial relationship to audit program management and seek a decision on reassignment or other appropriate controls for the conflict.",
+      "Ask the supplier's representative to approve continued participation, treating that approval as sufficient because the supplier is the party directly affected by the audit."
+    ],
+    "answer": 2,
+    "why": "A new relationship can create an actual or potential conflict after an audit has started. The auditor's share of the consulting profit creates a relevant financial interest even though another partner negotiated the work. The earlier declaration does not remove the need to disclose changed circumstances promptly. Program management can assess the conflict and determine an appropriate assignment response, including replacement. Private arrangements for report review or an auditee's permission do not substitute for disclosure to the authority responsible for the audit. The auditor should not wait for evidence that the conflict has already influenced a finding. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 31.</span>",
+    "keyPoint": "Reassess independence when circumstances change and promptly disclose actual or potential conflicts to the authority managing the audit.",
+    "trap": "Treating an earlier independence declaration, indirect financial benefit, or an auditee's consent as a permanent clearance for a new conflict.",
+    "distractors": {
+      "0": "Negotiating the contract personally is not the deciding factor. The auditor now has a financial interest in work for the auditee, which can affect or appear to affect impartiality.",
+      "1": "A second review could be part of an authorized response, but privately arranging it does not disclose the conflict or allow program management to make the assignment decision.",
+      "3": "The supplier's consent does not resolve the audit program's independence responsibilities. The relationship must be reported to the authority responsible for managing the assignment."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q042",
+    "set": 2,
+    "batch": 5,
+    "sub": "cqa-criteria",
+    "bok": "I.C",
+    "cognitive": "Analyze",
+    "stem": "An audit's agreed criteria include the customer contract and procedure TM-6, which permits tool replacement based on verified condition. The sampled tools satisfy TM-6 and the contract's performance requirements. A trade-association guide in the reference package recommends annual replacement, and some tools are older than a year. The guide is identified as background information; no applicable contract, policy, or other requirement incorporates its annual interval. Which conclusion is supported?",
+    "options": [
+      "The older tools are nonconforming because including the guide in the reference package makes every recommendation in it part of the agreed audit criteria.",
+      "Age alone does not establish a nonconformity to the applicable criteria; the guide's recommendation must be distinguished from requirements actually adopted for this audit.",
+      "The older tools are nonconforming to TM-6 because an industry recommendation overrides an approved condition-based method whenever the recommendation sets a shorter interval.",
+      "The replacement controls are inadequate because the auditor may use the most conservative published interval as the governing requirement when several methods are available."
+    ],
+    "answer": 1,
+    "why": "Audit findings compare evidence with applicable criteria rather than an auditor's preferred practice. In this scenario, the guide is background information and its annual interval has not been incorporated into a binding requirement for the audit. The stated evidence meets the contract and TM-6, so age alone does not establish the proposed nonconformity. This does not mean that voluntary standards or guidance can never become criteria: an organization may adopt them through contracts or policies. It also does not establish that every aspect of the tool-control system is effective; it resolves only whether this unadopted recommendation supplies the claimed annual requirement. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 20–21.</span>",
+    "keyPoint": "Determine which requirements apply and how they were adopted before using external guidance as the basis of a nonconformity.",
+    "trap": "Converting a reference recommendation or a personal preference for stricter controls into a requirement that the auditee has not adopted.",
+    "distractors": {
+      "0": "Availability in a reference package is not the same as adoption as an audit criterion. The stem explicitly identifies this guide as background information.",
+      "2": "The guide does not automatically override the approved method. A different conclusion would require an applicable adopted requirement or evidence of failure against the actual criteria.",
+      "3": "An auditor's preference for a conservative interval does not authorize replacing the agreed criteria. Published guidance can inform questions without automatically becoming a binding requirement."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q043",
+    "set": 2,
+    "batch": 5,
+    "sub": "cqa-evidence-organization",
+    "bok": "II.B.6",
+    "cognitive": "Apply",
+    "stem": "Data-recovery case. The exhibit summarizes verified evidence from a service audit. The agreed rubric assigns Grade 1 to failure to demonstrate contracted recovery capability in a required exercise, even once, and Grade 2 to other record-control failures without identified recovery impact. The lead auditor assigns grades. Management accepts the facts and requirements but wants grades based only on occurrence counts. The audit procedure requires reporting to proceed and permits disputed grades to be recorded and referred to program management. Which classification best applies the agreed rubric to the two observations?",
+    "options": [
+      "Assign Grade 2 to both observations, because the evidence comes from planned exercises and does not demonstrate loss of customer records during a real outage.",
+      "Assign Grade 1 to R2 and Grade 2 to R1, because six missing filing codes provide more evidence of a significant problem than one delayed recovery.",
+      "Assign Grade 1 to both observations, because any verified failure to meet an applicable requirement demonstrates the same degree of recovery risk.",
+      "Assign Grade 1 to R1 for failing the required four-hour recovery demonstration and Grade 2 to R2 for the record-control failure without identified recovery impact."
+    ],
+    "answer": 3,
+    "why": "R1 did not demonstrate complete recovery within the contracted four hours: seven hours exceeds that requirement. The agreed rubric expressly assigns Grade 1 to such a failure even when observed once. R2 violates the filing-code requirement, but the records remain identifiable and retrievable and the related exercises met recovery requirements; the stated facts therefore support Grade 2. Frequency is relevant information, but counting observations cannot replace evaluation of their significance and the agreed classification rules. The exercise failure is sufficient under this rubric; an actual outage or proven permanent data loss is not an additional condition. These grades are specific to the supplied audit rules, not universal ASQ definitions. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 108–109.</span>",
+    "keyPoint": "Classify evidence using its significance, applicable grading rules, and risk; a greater count does not automatically mean a more severe finding.",
+    "trap": "Ranking unlike findings solely by frequency, or requiring actual harm before recognizing a failure that the agreed rubric already treats as significant.",
+    "distractors": {
+      "0": "The rubric explicitly covers required exercises. It does not require actual loss during a real outage before a missed recovery requirement can receive Grade 1.",
+      "1": "This substitutes occurrence counts for the agreed severity rules. R1 meets the specified Grade 1 condition, while R2 has no identified recovery impact under the verified facts.",
+      "2": "Both observations violate requirements, but the rubric distinguishes their impact. A missing filing code with traceable, successful recovery does not establish the Grade 1 condition."
+    },
+    "caseId": "cqa-set2-data-recovery-grading-01",
+    "chart": {
+      "type": "data-table",
+      "title": "Data-recovery audit evidence and applicable requirements",
+      "columns": [
+        "Observation",
+        "Applicable requirement",
+        "Verified evidence"
+      ],
+      "rows": [
+        [
+          "R1",
+          "The required exercise must demonstrate complete recovery of customer records within four hours.",
+          "One of eight exercises took seven hours to complete recovery; the other seven met the four-hour limit."
+        ],
+        [
+          "R2",
+          "Each completed exercise record must include its filing code.",
+          "Six of forty records lacked the code. Each was identifiable and retrievable; the six exercises met recovery requirements. No recovery impact was identified."
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q044",
+    "set": 2,
+    "batch": 5,
+    "sub": "cqa-closing-meeting",
+    "bok": "II.B.7",
+    "cognitive": "Apply",
+    "stem": "Data-recovery case. The exhibit summarizes verified evidence from a service audit. The agreed rubric assigns Grade 1 to failure to demonstrate contracted recovery capability in a required exercise, even once, and Grade 2 to other record-control failures without identified recovery impact. The lead auditor assigns grades. Management accepts the facts and requirements but wants grades based only on occurrence counts. The audit procedure requires reporting to proceed and permits disputed grades to be recorded and referred to program management. After the lead auditor explains the rubric, the disagreement remains and no new evidence is offered. How should the meeting conclude?",
+    "options": [
+      "Record the agreed facts and unresolved grading disagreement, retain the rubric-based classifications, and explain the response, referral, and follow-up steps under the audit procedure.",
+      "Obtain management's signed agreement to the grades before issuing the results, keeping the report on hold until all participants accept the same conclusions.",
+      "Lower the disputed grades provisionally to obtain agreement, then ask program management to reinstate the original grades if a later review supports them.",
+      "Issue the classifications without documenting management's disagreement, because the lead auditor's assigned grading authority makes the opposing view irrelevant to the audit record."
+    ],
+    "answer": 0,
+    "why": "The lead auditor should explain the basis of the results, allow factual clarification, and record important discussions and unresolved differences. Here, the facts and requirements are accepted, no new evidence changes the assessment, and the documented procedure provides a route for disputing grades while reporting proceeds. The record and report should preserve the disagreement and its basis; the lead should clarify the required response and follow-up. Acknowledging receipt or discussion of results is not the same as agreeing with every grade. The auditor should neither manufacture agreement by changing supported classifications nor omit the auditee's unresolved view merely because grading authority is assigned to the lead. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 114–116, 130.</span>",
+    "keyPoint": "At closing, distinguish agreement on evidence from agreement on classification and handle remaining differences through the documented reporting and response process.",
+    "trap": "Treating unanimous acceptance of a grade as a condition for reporting, or treating classification authority as permission to erase a documented disagreement.",
+    "distractors": {
+      "1": "The procedure requires reporting to continue and supplies a route for disagreement. Requiring signed acceptance of the grades would impose an additional condition and confuse acknowledgment with agreement.",
+      "2": "The proposed downgrade has no evidential basis. Obtaining agreement does not justify changing a classification that still follows the agreed rubric.",
+      "3": "The authority to assign grades does not make an unresolved opposing view disappear. Recording the difference preserves an accurate account and supports the authorized review process."
+    },
+    "caseId": "cqa-set2-data-recovery-grading-01",
+    "chart": {
+      "type": "data-table",
+      "title": "Data-recovery audit evidence and applicable requirements",
+      "columns": [
+        "Observation",
+        "Applicable requirement",
+        "Verified evidence"
+      ],
+      "rows": [
+        [
+          "R1",
+          "The required exercise must demonstrate complete recovery of customer records within four hours.",
+          "One of eight exercises took seven hours to complete recovery; the other seven met the four-hour limit."
+        ],
+        [
+          "R2",
+          "Each completed exercise record must include its filing code.",
+          "Six of forty records lacked the code. Each was identifiable and retrievable; the six exercises met recovery requirements. No recovery impact was identified."
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q045",
+    "set": 2,
+    "batch": 5,
+    "sub": "cqa-ineffective-capa",
+    "bok": "II.D.4",
+    "cognitive": "Evaluate",
+    "stem": "A supplier's corrective action was intended to prevent work orders from using obsolete customer limits. Installation and training were verified, but three later jobs repeated the same requirement failure. The auditor and process owner have checked the evidence, the follow-up method, and resource availability; the recurrence is confirmed. Discussion has produced no acceptable revised response. The audit procedure requires the request to remain open and authorizes referral to program management at this stage. Which follow-up strategy is best?",
+    "options": [
+      "Close the original request because the approved installation and training were completed, and record the three later jobs as a separate issue with no link to it.",
+      "Keep the request open, document the recurrence and prior review, seek renewed cause analysis and a revised plan, and use the authorized management referral route.",
+      "Allow the owner to repeat the same training plan until the next annual audit, because verified implementation shows that the selected corrective action remains appropriate.",
+      "Prescribe the auditor's preferred technical replacement as the required corrective action, and use its installation as the sole condition for closing the outstanding request."
+    ],
+    "answer": 1,
+    "why": "The verified recurrence shows that implementation did not produce the intended result. The initial reassessment has already checked for mistaken evidence, an inadequate verification method, and resource obstacles, and discussion has not produced an acceptable response. Keeping the request open and documenting the history preserves the connection to the failed action. Renewed analysis and a revised plan are needed, with formal escalation through the route authorized for this stage. The auditor should not close solely on installation or training, repeat an unsupported solution indefinitely, or take over management's responsibility for selecting the technical correction. Subsequent closure should depend on the applicable implementation and effectiveness requirements. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 140–141.</span>",
+    "keyPoint": "After verified corrective-action failure, preserve the finding's history, reassess the response, and use documented escalation when the evaluated circumstances justify it.",
+    "trap": "Equating completed action steps with effectiveness, or moving from a confirmed recurrence directly to an auditor-prescribed technical solution.",
+    "distractors": {
+      "0": "Implementation does not establish effectiveness. Closing and severing the link would hide the failed corrective-action history and contradict the stated procedure.",
+      "2": "The same failure recurred despite implementation, and prior review and discussion produced no acceptable revised response. Repeating the training plan without renewed analysis does not address the demonstrated ineffectiveness.",
+      "3": "The auditor can challenge the response and use the escalation process but should not substitute a preferred technical design for the auditee's corrective-action responsibilities. Installation alone would again fail to establish effectiveness."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q046",
+    "set": 2,
+    "batch": 5,
+    "sub": "cqa-conflict-deescalation",
+    "bok": "III.C",
+    "cognitive": "Analyze",
+    "stem": "During a discussion of unexplained timestamp differences in a maintenance log, an auditor tells the supervisor, 'You changed these records.' The supervisor raises her voice, and the auditor responds loudly; neither is listening to clarification. A copy of the log is secured, no immediate safety issue or urgent decision is involved, and the lead can allow a brief pause. What should the lead auditor do next?",
+    "options": [
+      "Ask the supervisor's manager to require an immediate explanation while the interview continues, using management authority to bring the discussion back under control.",
+      "Reclassify the timestamp issue as an improvement suggestion and move to the next topic, allowing both participants to leave the disagreement behind them.",
+      "Pause the exchange, then hear both accounts calmly and examine the evidence, including whether the auditor's wording contributed to the misunderstanding.",
+      "Continue with short yes-or-no questions about each timestamp, limiting both participants to factual answers until the original discrepancy has been fully resolved."
+    ],
+    "answer": 2,
+    "why": "The heated exchange is preventing useful communication. A brief cooling-off period is appropriate under the stated conditions, followed by calm listening and examination of the unresolved issue. The lead should remain open to the auditor's contribution: the accusation went beyond the unexplained timestamp differences. Cooling down does not settle whether records were changed improperly, remove the need for evidence, or justify a weaker classification. Using rank to force an immediate answer or continuing the same tense exchange can escalate the conflict. Short factual questions may help later, once the conditions for reliable discussion have been restored. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 155.</span>",
+    "keyPoint": "Defuse a heated exchange, then investigate the substantive issue with an open mind, including the auditor's possible contribution to the conflict.",
+    "trap": "Confusing a pause to restore communication with dropping the issue, or trying to resolve an escalating argument through authority or tighter questioning.",
+    "distractors": {
+      "0": "Invoking management authority while the heated exchange continues can intensify the conflict. No urgent decision requires an immediate compelled explanation here.",
+      "1": "An unresolved discrepancy should not be downgraded merely to restore harmony. Its significance must be determined from the applicable criteria and evidence.",
+      "3": "Closed questions can be useful, but changing their form does not resolve the stated loss of listening and self-control. Calm discussion should be restored first."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q047",
+    "set": 2,
+    "batch": 5,
+    "sub": "cqa-team-development",
+    "bok": "III.F",
+    "cognitive": "Apply",
+    "stem": "Halfway through a multi-site audit, the client approves a revised purpose that adds investigation of failures between site processes. Two qualified auditors join the previously cohesive team. Members now duplicate evidence requests and dispute who owns the new interface reviews. Their technical competence and available resources are adequate. Which action by the lead best supports effective teamwork under the revised plan?",
+    "options": [
+      "Review the revised objectives and responsibilities with the whole team, clarify interface handoffs and deliverables, and monitor how the agreed arrangements work during the remaining audit.",
+      "Keep the original role split and ask each auditor to finish independently, reserving conflicting interface evidence for the report-writing meeting after fieldwork is complete.",
+      "Have the longest-serving members decide interface assignments informally, allowing incoming members to learn the team's former methods by observing until familiar working relationships return.",
+      "Replace the two incoming auditors with members of the previous team, preserving its former working relationships and assignments throughout the audit's newly approved interface reviews."
+    ],
+    "answer": 0,
+    "why": "Changes to a team's goals or purpose can return it to issues associated with forming or storming, even when it previously worked cohesively. Here, the revised purpose and changed membership make responsibilities and interfaces unclear; no technical competence or resource deficit has been established. The lead should rebuild a shared understanding of objectives, assignments, methods, and deliverables and check that the revised arrangements support the work. Preserving old assignments, relying on seniority, or restoring old membership does not by itself address the new interfaces. The response applies team-development principles without requiring the team to pass through a fixed sequence of stages before it can continue. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 172–173, 175.</span>",
+    "keyPoint": "When the audit's purpose changes, re-establish shared objectives and responsibilities instead of assuming earlier team cohesion will carry over automatically.",
+    "trap": "Treating a previously effective team as permanently settled, or blaming new members before clarifying the changed work and interfaces.",
+    "distractors": {
+      "1": "The original role split did not resolve responsibility for the new interfaces. Delaying coordination until reporting allows duplicated work and gaps to continue during evidence collection.",
+      "2": "Seniority and familiarity do not establish assignments for the revised purpose. All members need an explicit, shared understanding of their responsibilities and deliverables.",
+      "3": "The incoming auditors are qualified, and the work itself has changed. Restoring the old membership and assignments does not establish how the new interfaces will be reviewed."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q048",
+    "set": 2,
+    "batch": 5,
+    "sub": "cqa-electronic-record-retention",
+    "bok": "IV.A.10",
+    "cognitive": "Apply",
+    "stem": "An internal audit reviews migration of an electronic audit-record archive. The approved retention procedure requires reports and their supporting attachments to remain complete and readable for six years. Migration totals match the source file counts, and backup logs show successful jobs. Demonstrations have opened only recent reports, without attachments. The legacy archive remains available but is scheduled for retirement. Which additional check most directly addresses the remaining retention risk?",
+    "options": [
+      "Compare the last month's backup-job logs with the archive schedule and accept repeated successful results as evidence that all migrated records can be read.",
+      "Review the migration vendor's completion certificate and reconcile the aggregate file counts again, treating agreement as evidence that the required record contents remain usable.",
+      "Open several newly created reports and their attachments in the new system, using their readability to confirm that records retained from earlier years are accessible.",
+      "Retrieve sampled migrated reports and attachments across retained years, compare their complete readable contents with the legacy source, and check access through the authorized retrieval route."
+    ],
+    "answer": 3,
+    "why": "The requirement concerns the completeness and readability of retained reports and supporting attachments. Aggregate counts and successful backup jobs do not demonstrate that migrated contents can be retrieved and read with the required attachments. Checking sampled retained records across relevant years against the still-available legacy source directly tests that risk through the authorized retrieval route. New records alone do not exercise the migration of older content. The checks provide evidence for the sampled records and can identify a need for further investigation; they do not guarantee every record is intact. The six-year period comes from this organization's stated procedure, not a universal audit-record retention rule. Electronic records require controls against loss or modification and continued means of reading them throughout the required retention period. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 73, 131–132.</span>",
+    "keyPoint": "Check that retained electronic records remain complete, readable, and retrievable; successful file transfers or backup jobs alone do not establish that result.",
+    "trap": "Treating matching file counts or a successful backup status as proof that historical records and their attachments remain usable.",
+    "distractors": {
+      "0": "Backup success shows the reported operation completed, not that the migrated reports and attachments can be correctly retrieved and read. The stated evidence gap remains.",
+      "1": "A completion certificate and aggregate counts do not establish content completeness or readability. Files can exist while required attachments or meaningful content are inaccessible.",
+      "2": "New records test current creation and viewing functions. They do not test whether retained historical records survived migration with their supporting attachments."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q049",
+    "set": 2,
+    "batch": 5,
+    "sub": "cqa-business-process-interdependence",
+    "bok": "IV.B.2",
+    "cognitive": "Understand",
+    "stem": "A service centre measures its intake unit by the percentage of applications forwarded to assessment on the day received. To improve that result, intake forwards files before collecting all required attachments. Assessment returns incomplete files, creating repeated handoffs. Verified records show that same-day forwarding increased while the time from initial receipt to final decision also increased. Which statement best explains how these results can occur together?",
+    "options": [
+      "The forwarding measure and decision time use different units, so their opposite movements indicate a measurement error rather than an interaction between the two processes.",
+      "The intake measure rewards an early handoff even when the file is incomplete, allowing a local improvement to create rework and delay in the connected process.",
+      "Meeting the intake target establishes that its contribution has improved, so the longer decision time is attributable to assessment's workload independently of the handoff condition.",
+      "Once a file is forwarded, the units operate as separate processes; returning incomplete files therefore shows a response by assessment rather than an effect of intake's goal."
+    ],
+    "answer": 1,
+    "why": "The units are interdependent: the condition of the file leaving intake affects what assessment can do next. A measure that rewards forwarding before completeness can improve intake's reported result while adding returns, rework, and delay to the overall service. This is local suboptimization, in which one activity's target is met at the expense of the connected process. The opposing measures do not by themselves indicate an arithmetic error, and the observed handoffs prevent treating assessment as independent of intake. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 216.</span>",
+    "keyPoint": "Interpret local performance measures in the context of the handoffs and outcomes of the connected business process.",
+    "trap": "Assuming that meeting a departmental target necessarily improves the service delivered by the system as a whole.",
+    "distractors": {
+      "0": "Different measures can legitimately move in opposite directions. The documented incomplete-file handoffs explain why the local result can improve while overall completion slows.",
+      "2": "The input supplied to assessment affects its work. Treating the delay as independent of the incomplete handoff ignores the relationship established in the stem.",
+      "3": "A handoff connects the units; it does not make them independent. Returning incomplete files is part of the downstream effect of forwarding them before they are ready."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q050",
+    "set": 2,
+    "batch": 5,
+    "sub": "cqa-central-tendency-workload",
+    "bok": "V.C.1",
+    "cognitive": "Apply",
+    "stem": "An auditor checks a report of labour used for all eight service requests completed during one shift. The exhibit gives each request's verified total labour time; no work is omitted or counted twice. The 48-minute request is a genuine completed job. The report needs one minutes-per-request summary that, when multiplied by eight, reconciles to the total recorded labour for these requests. Which value should be reported?",
+    "options": [
+      "11.5 minutes, using the midpoint of the two central values after ordering all eight recorded request times.",
+      "11.4 minutes, using the average of the seven shorter requests after excluding the unusually long completed job.",
+      "16.0 minutes, using the arithmetic mean of the recorded labour times for all eight completed service requests.",
+      "11.0 minutes, using the most frequently recorded request time as the representative value for the completed work."
+    ],
+    "answer": 2,
+    "why": "The required summary must preserve the actual total labour for these eight requests. Their times sum to 128 minutes, so the arithmetic mean is 128 ÷ 8 = 16.0 minutes per request; 16.0 × 8 reproduces 128. The ordered middle values are 11 and 12, giving a median of 11.5. The mode is 11 because it occurs twice. Excluding the valid 48-minute job gives 80 ÷ 7 = 11.4286, or 11.4 minutes to one decimal, but that changes the set being summarized. The median can be useful for describing a central request when an extreme value affects the mean, but it does not reconcile this observed total. The calculation describes these completed requests and makes no forecast about future workload or sustainable capacity. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 267–268.</span>",
+    "keyPoint": "Use the arithmetic mean when a per-item summary must reconcile to the actual total across all items in a defined data set.",
+    "trap": "Automatically replacing the mean with the median, or discarding a valid long case, without considering the stated purpose of the summary.",
+    "distractors": {
+      "0": "The median is correctly calculated as (11 + 12) ÷ 2 = 11.5, but 11.5 × 8 = 92 minutes, not the observed total of 128 minutes.",
+      "1": "The rounded calculation follows from removing the 48-minute request. The stem requires all eight completed requests, so excluding a valid job fails the stated reporting purpose.",
+      "3": "The mode is correctly identified as 11, but 11 × 8 = 88 minutes. The most frequent time does not preserve the actual total labour for this set."
+    },
+    "chart": {
+      "type": "data-table",
+      "title": "Verified labour for all eight completed requests",
+      "columns": [
+        "Request",
+        "Total labour (minutes)"
+      ],
+      "rows": [
+        [
+          "R1",
+          "8"
+        ],
+        [
+          "R2",
+          "9"
+        ],
+        [
+          "R3",
+          "11"
+        ],
+        [
+          "R4",
+          "11"
+        ],
+        [
+          "R5",
+          "12"
+        ],
+        [
+          "R6",
+          "14"
+        ],
+        [
+          "R7",
+          "15"
+        ],
+        [
+          "R8",
+          "48"
+        ]
+      ]
+    }
   }
 ];
 })(typeof window !== 'undefined' ? window : globalThis);
