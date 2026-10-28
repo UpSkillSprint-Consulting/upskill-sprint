@@ -67,28 +67,71 @@ All ten new items received an independent review of the final drafts against the
 - **Q019:** 8/40 = 20% and 12/80 = 15%, a decrease of five percentage points. The raw recurrence count rises by 50%, but the follow-up population doubles. Dividing by audits gives 8/24 = 12/36 = 33.3%, which uses the wrong denominator for the defined objective. The item reports progress on the stated measure, without asserting that the audit program caused it.
 - **Q020:** 720 + 200 + 80 = 1,000 tickets. A proportional sample of 75 gives 54, 15, and 6 tickets, totaling 75. All allocations are integers, so no unstated rounding rule is needed. Random selection of distinct IDs within each category satisfies the stated design. The handbook's worked example on p291 prints an erroneous denominator of 100 in one expression where 1,000 is required; this original example uses the correct population denominator and different values.
 
+### Batch 2 re-audit before adding Batch 3
+
+A second independent audit checked Q011-Q020 from the integrated bank before authoring Q021-Q030. All ten stems, forty answer choices, ten answer explanations, thirty distractor rationales, cognitive labels, and current BoK mappings passed. **No question, answer key, or printed page reference required correction.** The existing Batch 2 content is retained without changes.
+
+All 28 distinct cited printed pages were read again and their visible page labels independently inspected in the source PDF. Every reference in the Batch 2 table above is accurate; the corresponding one-based PDF page remains the printed page plus 19. This check included the beginning and end of each cited range, not only the chapter title or a search-result match.
+
+The numerical work was recalculated: Q019 remains 20% versus 15%, a decrease of five percentage points; Q020 remains 54, 15, and 6 selections, totaling 75. The p291 denominator printing error is not reproduced. The audit also reconfirmed that Q015 distinguishes absent relevant effectiveness evidence from demonstrated recurrence, and Q017's neutral questioning and corroboration are supported by its cited passages. The current BoK explicitly includes paraphrasing as an interviewing technique.
+
+## Batch 3: Q021-Q030
+
+All ten new items received an independent review of their final wording, answers, distractor rationales, source passages, and 2026 BoK/cognitive mappings. All 23 distinct cited printed-page labels were also independently checked in the actual PDF, including glossary p370. No answer-key, arithmetic, or source-location error remains. Two authoring refinements were incorporated before integration: Q022 explicitly identifies completed jobs, and Q030 requires the learner to calculate the Pareto contributions from the exhibit rather than supplying those totals in the choices.
+
+| Item | Topic / BoK | Item demand | Verified printed pages | One-based PDF pages | Supporting principle |
+|---|---|---|---|---|---|
+| Q021 | Audit types / I.A.1 | Analyze | 3-5 | 22-24 | Distinguish a focused process audit from product, system, and document-only audits by the primary subject and scope, not a single evidence source. |
+| Q022 | Benefits: effectiveness and efficiency / I.B.2 | Analyze | 14, 18, 370 | 33, 37, 389 | Objective attainment and resource use are separate dimensions; audits can inform management about both. The glossary explicitly defines the distinction. |
+| Q023 | Backward tracing / II.A.6 | Apply | 81-82 | 100-101 | Follow the selected transaction upstream from its output through its linked activities and inputs. |
+| Q024 | Objective evidence / II.B.5 | Analyze | 104, 107 | 123, 126 | Address contradictory evidence and distinguish a verified documentary inconsistency from an unverified claim about the physical event. |
+| Q025 | Final report steps / II.C.3 | Apply | 126, 131 | 145, 150 | Apply the stated approval, client-authorized distribution, and supporting-record retention controls. |
+| Q026 | Auditor characteristics / III.A | Apply | 151 | 170 | Use cultural sensitivity, impartiality, diplomacy, and adaptability without weakening evidence standards or treating unfamiliar behavior as proof. |
+| Q027 | Team dynamics / III.F | Apply | 173-174 | 192-193 | Facilitate balanced participation and evidence-based assessment while retaining the lead's responsibility for the team's deliverables. |
+| Q028 | Staffing and resource management / IV.A.2 | Analyze | 180, 190-191 | 199, 209-210 | Budget the complete audit-program workload and distinguish auditor capacity from separate auditee participation. |
+| Q029 | Organizational risk and scheduling / IV.A.8 | Analyze | 196, 207-208 | 215, 226-227 | Reconsider audit priorities using criticality, current changes, history, and applicable obligations together. |
+| Q030 | Pareto interpretation / V.A | Analyze | 224-225 | 243-244 | Rank contributions using the measure that matches the objective; prioritization does not prove a cause or guarantee recoverable savings. |
+
+### Batch 3 reasoning and numerical checks
+
+- **Q021:** observing a specific bonding operation's inputs, settings, qualifications, methods, and results supports the process-audit classification. The stated scope distinguishes it from a broader system audit, and actual observation distinguishes it from a desk review.
+- **Q022:** both periods have 100 comparable completed jobs and 96 on-time completions. Both therefore achieve 96%, above the 95% target. Labor per completed job rises from 150/100 = 1.5 hours to 180/100 = 1.8 hours. The work mix and other results are held constant. The explanation distinguishes lower labor efficiency from failure of the stated effectiveness objective and makes no unsupported causal claim.
+- **Q023-Q024:** the original pump-service case supplies the complete context and the same four-row exhibit in each item, so both remain answerable when shuffled. The backward trail is SR-604 to TS-604 to WO-604 to CR-218. The conflicting P-37/P-73 identifiers establish a record inconsistency, not which pump was physically tested or why the inconsistency arose. The case tests different decisions from the earlier release-control case.
+- **Q025:** the scenario explicitly defines both required approvals, the distribution list, and retention of completed working papers. It does not invent a universal approval chain or fixed retention period.
+- **Q026-Q027:** adapting communication does not excuse unsupported adverse judgments or a lower evidence standard. Balanced participation does not require accepting a premature vote, seniority, or unreconciled interpretations as a sound team conclusion.
+- **Q028:** each audit requires 4 + 12 + 6 = 22 auditor-person-hours; eight audits require 176. A once-annual program review adds 24, for total auditor demand of 200. Available capacity is 176, so the shortfall is 24. Separately, auditee participation requires 8 x 9 = 72 person-hours. All figures are already summed person-hours, and the resource pools and frequencies are explicit. This differs from Q003's elapsed audit-day scheduling problem.
+- **Q029:** the additional audit is discretionary and all mandatory coverage is already resourced. The prior clean audit predates the critical process changes, so it cannot establish the effectiveness of the changed arrangements. Priority does not itself imply that the process is nonconforming.
+- **Q030:** invoice errors cost 60 x $20 = $1,200; packaging damage 40 x $50 = $2,000; late dispatch 20 x $180 = $3,600; wrong configuration 8 x $600 = $4,800. Total recorded cost is $11,600. The two largest cost contributions sum to $8,400, or 72.4%, meeting the stated 70% threshold. The two most frequent categories instead account for $3,200, or 27.6% of cost. Choices name only category pairs, so the exhibit must supply the analysis. The categories are mutually exclusive and use complete, consistent accounting rules; no 80/20 rule or causal certainty is assumed.
+
+### Final authoring refinements
+
+- Q022 now says **completed jobs**, explicitly supporting the labor-per-completed-job denominator. The four jobs not completed on time are late completed jobs, not potentially unfinished work.
+- Q030's choices now name category pairs without giving their aggregate costs or the total denominator. The key and arithmetic are unchanged, and all three distractor explanations retain the calculations and reasoning.
+- These are refinements to new Batch 3 items. The successful re-audit required no change to Batch 2.
+
 ## Progress and remaining blueprint
 
-| Domain | Batch 1 | Batch 2 | Current total | Final target | Remaining |
-|---|---:|---:|---:|---:|---:|
-| I. Auditing Fundamentals | 2 | 3 | 5 | 37 | 32 |
-| II. Audit Process | 3 | 3 | 6 | 45 | 39 |
-| III. Auditor Competencies | 2 | 2 | 4 | 30 | 26 |
-| IV. Audit Program Management and Business Applications | 2 | 1 | 3 | 23 | 20 |
-| V. Quality Tools and Techniques | 1 | 1 | 2 | 15 | 13 |
-| **Total** | **10** | **10** | **20** | **150** | **130** |
+| Domain | Batch 1 | Batch 2 | Batch 3 | Current total | Final target | Remaining |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| I. Auditing Fundamentals | 2 | 3 | 2 | 7 | 37 | 30 |
+| II. Audit Process | 3 | 3 | 3 | 9 | 45 | 36 |
+| III. Auditor Competencies | 2 | 2 | 2 | 6 | 30 | 24 |
+| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 5 | 23 | 18 |
+| V. Quality Tools and Techniques | 1 | 1 | 1 | 3 | 15 | 12 |
+| **Total** | **10** | **10** | **10** | **30** | **150** | **120** |
 
-Continue alternating the domain allocations already used: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation, and independent review; the allocation alone is not content validation.
+Continue alternating the domain allocations already used: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation, and independent review; the allocation alone is not content validation. The next requested batch will be Q031-Q040 with allocation 3/3/2/1/1.
 
-The first twenty questions include two document-case items (Q004-Q005) and six rendered data tables in total. Answer positions are balanced at five each for A, B, C, and D; the existing engine randomizes question order. The practice timing remains the site's existing two minutes per question, so the available twenty-question set uses forty minutes. This is a practice setting, not a claim that twenty questions constitute a full ASQ examination.
+The first thirty questions include four document-case items (Q004-Q005 and Q023-Q024), or 13.3%, and ten rendered data tables in total. Answer positions are A:7, B:8, C:8, D:7; the existing engine randomizes question order. The practice timing remains the site's existing two minutes per question, so the available thirty-question set uses sixty minutes, displayed as one hour. This is a practice setting, not a claim that thirty questions constitute a full ASQ examination.
 
 ## Integration verification
 
 - `node --test --test-isolation=none tests/test-bank-cqa-set1.test.js tests/test-bank-cqa-set2.test.js`: **13 passed, 0 failed**.
-- `npm run build:site`: **passed**.
-- The integrated learner checks exercise all twenty questions, forty-minute Full mode, correct grading, a capped twenty-question Quick Quiz, a ten-question diagnostic, all five focused domains, all six tables, and all sixty distractor explanations.
-- An attempt with one deliberate wrong answer scores 95%; an all-correct attempt scores 100%.
+- `npm run build:site`: **passed**, including the protected-content scans (619 public files, no known static findings; three clean protected-tool shells).
+- The integrated learner checks exercise all thirty questions, one-hour Full mode, correct grading, a capped thirty-question Quick Quiz, a ten-question diagnostic, all five focused domains, all ten tables, and all ninety distractor explanations.
+- An attempt with one deliberate wrong answer scores 29/30, displayed as 96.67%; an all-correct attempt scores 100%.
+- The initial test expectation used the text `60 min`; the existing UI correctly formats sixty minutes as `1 hr`. The expectation was corrected to the existing display convention, and the full targeted suite then passed. The runtime timer was independently checked at 3,600 seconds. No timer implementation change was needed.
 - Set 1 remains at 150 unchanged questions. Set 2 content is included in the protected CQA package and excluded from the other exam packages and public staging.
-- A comparison with the original Batch1 source confirms that only the three described questions changed and that all ten original answer keys were preserved.
+- A comparison with the preceding PR bank confirms that all twenty existing question objects, including every key and source reference, are unchanged in this batch update.
 
 PR #368 remains an accumulation branch; publication is deferred until all 150 questions are ready. No merge or production deployment is part of this batch update.

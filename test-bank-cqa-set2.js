@@ -1,10 +1,11 @@
 /*
  * ASQ CQA Exam Set 2 — original practice questions.
- * Batches 1–2: Q001–Q020. Planned bank: 150 questions.
+ * Batches 1–3: Q001–Q030. Planned bank: 150 questions.
  * Author in reviewed batches of 10; hold PR #368 until all 150 are ready.
  * 2026 BoK target counts: I 37 / II 45 / III 30 / IV 23 / V 15.
  * Batch 1 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Batch 2 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
+ * Batch 3 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Questions and exhibits are original; handbook citations use printed pages.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
  */
@@ -686,6 +687,387 @@
         [
           "Exception",
           "80"
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q021",
+    "set": 2,
+    "batch": 3,
+    "sub": "cqa-types",
+    "bok": "I.A.1",
+    "cognitive": "Analyze",
+    "stem": "After several bonded covers separate in use, an audit team observes the bonding operation and checks adhesive condition, mixing ratios, dispensing settings, cure cycles, operator qualifications, and selected finished-joint results against the approved instructions. The audit is confined to this operation and its controls; it does not assess the organization's wider management system. Which audit type best describes its primary focus?",
+    "options": [
+      "Product audit, because testing selected finished joints makes the conformity of those completed items the primary subject of the investigation.",
+      "System audit, because reviewing qualifications, equipment settings, and instructions necessarily evaluates the organization's management system rather than an individual operation.",
+      "Desk audit, because approved bonding instructions are used as the criteria against which qualifications, settings, and recorded test results are compared.",
+      "Process audit, because it examines how inputs, operating conditions, resources, and controls produce the required results within the defined bonding operation."
+    ],
+    "answer": 3,
+    "why": "The investigation concerns the bonding operation and the controls that transform its inputs into outputs. Checking adhesive condition, settings, people, methods, and resulting joint performance is characteristic of a process audit. A sample of finished joints can provide evidence within that audit without changing its primary focus to a product audit. Reviewing supporting training and equipment controls does not, by itself, expand the scope to the wider management system. Using documented criteria also does not make an audit a desk audit when the investigation examines the operation and its controls. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 3–5.</span>",
+    "keyPoint": "Classify the audit by its primary subject and scope, not by one type of evidence used during the investigation.",
+    "trap": "Calling an audit a product audit merely because it includes finished-item tests, or a system audit merely because it includes supporting records.",
+    "distractors": {
+      "0": "Finished-joint results are one source of evidence. The stated investigation centers on the operation's inputs, methods, resources, and controls rather than a complete examination of finished-product characteristics.",
+      "1": "Personnel and equipment controls can be examined within a focused process audit. Their inclusion does not establish the broader management-system scope that the stem explicitly excludes.",
+      "2": "A desk audit evaluates documents. The use of approved instructions as criteria does not make the broader investigation of an operation and its controls a document-only audit."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q022",
+    "set": 2,
+    "batch": 3,
+    "sub": "cqa-benefits",
+    "bok": "I.B.2",
+    "cognitive": "Analyze",
+    "stem": "An internal audit evaluates procedure conformance, achievement of a 95% on-time service target, and labor efficiency. Complete verified records show 100 comparable completed jobs in each of two periods, with 96 completed on time in each period. Total labor rises from 150 to 180 hours, with unchanged work mix and other service results. Required procedures were followed. Which conclusion best demonstrates the additional management value of this audit?",
+    "options": [
+      "Effectiveness and labor efficiency were maintained because the same number of jobs was completed on time and the required procedures were followed.",
+      "The on-time objective was achieved in both periods, while labor efficiency declined; the audit supplies a performance concern for management to investigate.",
+      "The process became ineffective because it used more labor; the higher resource requirement overrides the evidence that the stated on-time objective was achieved.",
+      "The evidence establishes procedure conformance only; an audit cannot provide management with conclusions about the relationship between service results and resources used."
+    ],
+    "answer": 1,
+    "why": "Both periods meet the stated on-time objective: 96 of 100 jobs were on time, exceeding the 95% target. That supports effectiveness for this objective. Labor use per comparable completed job increases from 1.5 to 1.8 hours, so labor efficiency declines when the work mix and other results are unchanged. Following a procedure does not by itself establish good resource use. By distinguishing these dimensions, the audit gives management evidence for investigating a performance concern. The data do not establish why labor increased, and the auditor should not invent a cause or treat the increase alone as a procedural nonconformity. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 14, 18, 370.</span>",
+    "keyPoint": "Audit results can separately show whether an objective was achieved and how many resources were used to achieve the results.",
+    "trap": "Equating conformance or attainment of an output target with unchanged efficiency, or assuming that lower efficiency proves failure of every objective.",
+    "distractors": {
+      "0": "Meeting the deadline target supports effectiveness, but it does not negate the increase in labor used for the same comparable volume and results.",
+      "2": "The stated on-time objective was met. More labor for the same results indicates poorer labor efficiency, not failure of that particular effectiveness objective.",
+      "3": "The authorized audit purpose includes effectiveness and labor efficiency. Audits can provide independent performance information beyond confirmation that procedures were followed."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q023",
+    "set": 2,
+    "batch": 3,
+    "sub": "cqa-strategies",
+    "bok": "II.A.6",
+    "cognitive": "Apply",
+    "caseId": "cqa-set2-pump-service-trace-01",
+    "chart": {
+      "type": "data-table",
+      "title": "Pump-service job records",
+      "columns": [
+        "Record",
+        "Linked record",
+        "Pump ID",
+        "Recorded activity or result"
+      ],
+      "rows": [
+        [
+          "Customer request CR-218",
+          "None",
+          "P-73",
+          "Clean and pressure-test the pump"
+        ],
+        [
+          "Work order WO-604",
+          "CR-218",
+          "P-73",
+          "Cleaning and pressure test assigned"
+        ],
+        [
+          "Test sheet TS-604",
+          "WO-604",
+          "P-37",
+          "Pressure test: 6.0 bar; result recorded as pass"
+        ],
+        [
+          "Service report SR-604",
+          "WO-604 and TS-604",
+          "P-73",
+          "Pressure test: 6.0 bar; result recorded as pass"
+        ]
+      ]
+    },
+    "stem": "Pump-service case. The exhibit contains authentic records linked to one service job. The auditor has verified each entry against its source, but has not observed the original work, interviewed the technician, or found other evidence establishing which pump was tested. Starting with the issued service report, which sequence best applies backward tracing to investigate the reported test result and its relationship to the customer's request?",
+    "options": [
+      "Follow SR-604 to its supporting TS-604, then to WO-604 and CR-218, checking the recorded links and resolving the pump-identification discrepancy along that job's path.",
+      "Start at CR-218, follow WO-604 through TS-604 to SR-604, and check how the assigned requirements passed into the recorded test result and final report.",
+      "Review test sheets from several recent jobs, compare their pressure results, and then choose a service report with a similar result for a detailed comparison.",
+      "Review all service-report controls first, then all test-sheet controls, and finally all work-order controls, selecting a new representative job in each record category."
+    ],
+    "answer": 0,
+    "why": "Backward tracing starts from a result or a later point and follows the same transaction upstream. Here, the issued report points to its supporting test sheet and work order, and the work order points to the customer request. Following those links allows the auditor to investigate how the reported result arose and whether the job can be traced consistently to the requested pump. Starting at the request and moving toward the report is forward tracing. Comparing similar results or changing jobs within document categories may have other audit uses, but neither follows this selected job backward through its linked activities. The trace still requires investigation of the conflicting pump identifiers; it does not resolve them by assumption. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 81–82.</span>",
+    "keyPoint": "Backward tracing follows a selected output or transaction upstream through its linked activities and inputs.",
+    "trap": "Confusing any review of earlier documents with backward tracing, even when the selected transaction is abandoned or the review actually proceeds downstream.",
+    "distractors": {
+      "1": "This follows the same job in the forward direction, from customer input to reported output. It can be useful, but it is not the requested backward trace from the issued report.",
+      "2": "A similar numerical result does not establish a transactional link. Switching to other jobs would not trace the selected report back to its supporting work and customer request.",
+      "3": "This groups the investigation by record category and changes the sampled job. It does not preserve the linked path of the selected transaction."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q024",
+    "set": 2,
+    "batch": 3,
+    "sub": "cqa-evidence",
+    "bok": "II.B.5",
+    "cognitive": "Analyze",
+    "caseId": "cqa-set2-pump-service-trace-01",
+    "chart": {
+      "type": "data-table",
+      "title": "Pump-service job records",
+      "columns": [
+        "Record",
+        "Linked record",
+        "Pump ID",
+        "Recorded activity or result"
+      ],
+      "rows": [
+        [
+          "Customer request CR-218",
+          "None",
+          "P-73",
+          "Clean and pressure-test the pump"
+        ],
+        [
+          "Work order WO-604",
+          "CR-218",
+          "P-73",
+          "Cleaning and pressure test assigned"
+        ],
+        [
+          "Test sheet TS-604",
+          "WO-604",
+          "P-37",
+          "Pressure test: 6.0 bar; result recorded as pass"
+        ],
+        [
+          "Service report SR-604",
+          "WO-604 and TS-604",
+          "P-73",
+          "Pressure test: 6.0 bar; result recorded as pass"
+        ]
+      ]
+    },
+    "stem": "Pump-service case. The exhibit contains authentic records linked to one service job. The auditor has verified each entry against its source, but has not observed the original work, interviewed the technician, or found other evidence establishing which pump was tested. Which statement is supported by the objective evidence currently available?",
+    "options": [
+      "Pump P-73 was pressure-tested successfully because the final service report identifies it and repeats the passing result recorded on the linked test sheet.",
+      "Pump P-37 was pressure-tested instead of P-73 because the test sheet was created closer to the activity than the final service report.",
+      "The test sheet and service report contain conflicting pump identifiers; the available evidence does not establish which pump was physically tested.",
+      "The test-sheet identifier is a transcription error because the matching work-order number and pressure value establish that both records concern a test of P-73."
+    ],
+    "answer": 2,
+    "why": "The auditor has verified a documentary fact: TS-604 records P-37, while the linked service report records P-73. Authenticity of the documents does not establish which conflicting identifier describes the equipment actually tested. The final report cannot simply override the supporting sheet, and the sheet's position in the workflow does not prove that its identifier is correct. A shared job number and pressure value likewise do not establish the cause of the discrepancy. The auditor should record the inconsistency and seek relevant corroboration before concluding which pump was tested or whether the discrepancy was a transcription error. Objective evidence must support the particular conclusion being drawn. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 104, 107.</span>",
+    "keyPoint": "Separate a verified inconsistency in records from an unverified conclusion about the physical event or the cause of the inconsistency.",
+    "trap": "Treating an authentic record as automatically accurate in every detail, or choosing a preferred record to eliminate contradictory evidence.",
+    "distractors": {
+      "0": "Repeating a result in the final report does not independently corroborate the equipment identity. The conflicting identifier on the linked test sheet remains unresolved.",
+      "1": "The test sheet is relevant evidence, but its earlier position does not establish that its identifier is correct. The available documents support a discrepancy, not a definitive reconstruction of the physical work.",
+      "3": "Matching links and pressure values connect the records, but they do not show which identifier is correct or how the discrepancy arose. Calling it a transcription error assumes an unverified cause."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q025",
+    "set": 2,
+    "batch": 3,
+    "sub": "cqa-report-final",
+    "bok": "II.C.3",
+    "cognitive": "Apply",
+    "stem": "An audit procedure requires lead-auditor and program-manager approval before a report is distributed, use of the client's authorized recipient list, and transfer of completed working papers to the controlled audit file under its retention schedule. The lead auditor has approved the report; the program manager has not. The auditee requests a copy for today's management meeting and asks that working papers be deleted because the findings are already summarized. What should the lead auditor do?",
+    "options": [
+      "Send a copy marked preliminary to the authorized recipients for the meeting, obtain the program manager's approval afterward, and retain the completed working papers in the controlled audit file.",
+      "Obtain the program manager's approval, issue the report to the client-authorized recipients, and transfer the completed working papers into the controlled audit file for scheduled retention.",
+      "Obtain the program manager's approval, distribute the report to everyone who attended the closing meeting, and retain the completed working papers in the controlled audit file.",
+      "Obtain the program manager's approval, issue the report to the client-authorized recipients, and delete the completed working papers once their observations have been summarized in the approved report."
+    ],
+    "answer": 1,
+    "why": "The applicable procedure establishes three separate controls: approval before distribution, authorized recipients, and retention of the supporting audit records. The lead auditor should complete each one. A preliminary label does not create an exception to a rule that requires approval before distribution. Attendance at a closing meeting does not automatically place someone on the client's authorized distribution list. Completed working papers remain subject to the stated audit-file and retention requirements even when the report summarizes their observations. Approval roles and retention periods depend on the applicable arrangements; this scenario does not establish a universal list of approvers or a fixed retention period for all audits. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 126, 131.</span>",
+    "keyPoint": "Apply the established approval, distribution, and record-retention controls separately when finalizing an audit report.",
+    "trap": "Treating urgency, meeting attendance, or a report summary as permission to bypass a different control in the audit procedure.",
+    "distractors": {
+      "0": "The stated rule requires the program manager's approval before distribution, including a copy labeled preliminary. An approaching meeting does not supply that missing authorization.",
+      "2": "The client's authorized list governs distribution. Closing-meeting attendance alone does not establish authorization to receive the report.",
+      "3": "The procedure expressly requires completed working papers to enter the controlled audit file under its retention schedule. A summary in the report does not cancel that obligation."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q026",
+    "set": 2,
+    "batch": 3,
+    "sub": "cqa-auditor-characteristics",
+    "bok": "III.A",
+    "cognitive": "Apply",
+    "stem": "During a first audit at an overseas assembly site, an auditor notices that several operators pause and look down before answering. The site coordinator explains that this can be a customary sign of respect when speaking to a visitor. The operators understand the questions, and requested records are readily available. Which approach best combines cultural sensitivity with objective auditing?",
+    "options": [
+      "Use the reduced eye contact as a reason to expand sampling of these operators' work, even if their answers and records are consistent.",
+      "Ask the coordinator to confirm the operators' answers on their behalf, so the auditor can use a more familiar communication style.",
+      "Allow time for responses, respect the communication style, and assess the operators' accounts against the applicable criteria and supporting evidence.",
+      "Accept the operators' explanations without the usual corroboration, since asking for further evidence could be interpreted as a lack of respect."
+    ],
+    "answer": 2,
+    "why": "Cultural sensitivity includes observing and respecting local practices while remaining impartial, perceptive, and adaptable. The coordinator has supplied relevant context, and the stem provides no independent indication of inconsistent evidence or poor understanding. The auditor can adjust the pace and manner of the interaction while applying the same criteria and evidence standards. Reduced eye contact alone does not justify treating these operators' work as less trustworthy. Having the coordinator answer for them loses their firsthand accounts, while dropping corroboration weakens the audit. Additional sampling could be appropriate if substantive evidence later warrants it, but cultural difference alone is not that evidence. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 151.</span>",
+    "keyPoint": "Adapt the interaction to the auditee's context while maintaining objective criteria and evidence standards.",
+    "trap": "Treating an unfamiliar communication style as evidence of unreliability, or lowering the evidence standard in the name of cultural sensitivity.",
+    "distractors": {
+      "0": "The proposed expansion is based solely on a culturally explained behavior, not a contradiction, risk signal, or evidence gap. It imports an unsupported judgment about these operators' reliability.",
+      "1": "The operators understand the questions and can provide their own accounts. Replacing their answers with the coordinator's confirmation sacrifices firsthand information merely to suit the auditor's preferred style.",
+      "3": "Respectful communication does not remove the need for appropriate corroboration. The auditor should adapt how evidence is obtained, not exempt the interviewees from the usual evidence standard."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q027",
+    "set": 2,
+    "batch": 3,
+    "sub": "cqa-team-dynamics",
+    "bok": "III.F",
+    "cognitive": "Apply",
+    "stem": "At a new audit team's daily review, a senior member repeatedly interrupts two newer members and urges the team to accept one interpretation of the collected evidence. The newer members say they have relevant observations that have not yet been considered. Fifteen minutes remain, and no immediate safety or other urgent decision is involved. What should the lead auditor do to facilitate a sound team conclusion?",
+    "options": [
+      "Ask members to vote immediately on the senior auditor's interpretation, then record the majority view as the team's agreed conclusion.",
+      "Give each member a brief uninterrupted turn, compare the observations with the criteria, and assign follow-up for any material uncertainty that remains.",
+      "Ask the senior member to resolve the issue after the meeting, with the newer members sending their notes for inclusion in that person's assessment.",
+      "Give all members equal space in the report for their interpretations, leaving the client to decide which interpretation the team should adopt."
+    ],
+    "answer": 1,
+    "why": "Effective facilitation gives every member a voice and uses differing observations to strengthen the team's work. Brief uninterrupted turns address the dominance problem without abandoning the schedule. Comparing the observations with the criteria keeps the discussion focused on evidence, and assigning any necessary follow-up avoids manufacturing agreement where a material gap remains. A vote before hearing the observations cannot substitute for their evaluation. Transferring the decision to the dominating member preserves the participation problem, while sending unreconciled interpretations to the client avoids the team's responsibility to assess its evidence. The lead retains responsibility for guiding the team and its deliverables. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 173–174.</span>",
+    "keyPoint": "Facilitate balanced participation and evidence-based conclusions rather than treating seniority, voting, or apparent agreement as sufficient.",
+    "trap": "Confusing a fast decision or equal reporting space with a properly evaluated team conclusion.",
+    "distractors": {
+      "0": "A majority vote taken before relevant observations are heard can conceal an evidence gap. Consensus should follow consideration of the evidence, not replace it.",
+      "2": "The suggested arrangement leaves the dominating member in control of how the other observations are considered. It does not establish the balanced, objective discussion the team needs.",
+      "3": "Equal space for competing interpretations does not evaluate or reconcile them. The lead must guide the team's assessment and identify necessary follow-up rather than transfer that task to the client."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q028",
+    "set": 2,
+    "batch": 3,
+    "sub": "cqa-program-resources",
+    "bok": "IV.A.2",
+    "cognitive": "Analyze",
+    "stem": "An annual program contains eight required audits. The exhibit gives total person-hours for each activity, summed across all people performing it; they are not elapsed hours. The qualified auditor pool also performs the annual program review and has 176 person-hours available for all listed auditor work. Auditee participants are a separate resource pool. The estimates include all required work, and no travel or additional overhead effort is needed. Which resource request completes the plan?",
+    "options": [
+      "Obtain 24 additional qualified auditor-hours and reserve 96 auditee participant-hours for the annual program.",
+      "Obtain 96 additional qualified auditor-hours and reserve 72 auditee participant-hours for the annual program.",
+      "Use the existing qualified auditor capacity without adding hours and reserve 72 auditee participant-hours for the annual program.",
+      "Obtain 24 additional qualified auditor-hours and reserve 72 auditee participant-hours for the annual program."
+    ],
+    "answer": 3,
+    "why": "Each audit requires 4 + 12 + 6 = 22 auditor-hours. Eight audits therefore require 176 auditor-hours, and the separate annual program review adds 24, giving a total demand of 200. Against the pool's available 176 hours, the shortfall is 24 qualified auditor-hours. Auditee participation requires 8 × 9 = 72 person-hours and must be reserved separately; it neither supplies auditor capacity nor adds to the auditor shortfall. The annual program review belongs to the auditor pool and occurs once, so it must not also be charged to the auditee pool. A resource plan must include preparation, performance, reporting and follow-up, participation by the auditee, and program-management work. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 180, 190–191.</span>",
+    "keyPoint": "Budget all program activities and keep auditor effort, auditee participation, and elapsed time distinct.",
+    "trap": "Funding only the individual audits, or treating auditee participation as extra auditor capacity demand.",
+    "distractors": {
+      "0": "The auditor shortfall is correctly calculated, but 96 auditee hours incorrectly adds the 24-hour program review to the 72 hours of auditee participation. The stem assigns that review to the auditor pool.",
+      "1": "The 96-hour auditor request combines the actual 24-hour auditor shortfall with the separate 72-hour auditee requirement. Auditee participation is not work assigned to the qualified auditor pool.",
+      "2": "The existing 176 hours cover the eight individual audits exactly but leave no capacity for the required 24-hour annual program review. The auditor resource plan is therefore incomplete."
+    },
+    "chart": {
+      "type": "data-table",
+      "title": "Annual audit program effort estimates",
+      "columns": [
+        "Activity",
+        "Person-hours",
+        "Frequency / resource pool"
+      ],
+      "rows": [
+        [
+          "Audit preparation",
+          "4",
+          "Per audit / auditors"
+        ],
+        [
+          "Audit conduct",
+          "12",
+          "Per audit / auditors"
+        ],
+        [
+          "Reporting and follow-up",
+          "6",
+          "Per audit / auditors"
+        ],
+        [
+          "Auditee participation",
+          "9",
+          "Per audit / auditees"
+        ],
+        [
+          "Program review and improvement",
+          "24",
+          "Once annually / auditors"
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q029",
+    "set": 2,
+    "batch": 3,
+    "sub": "cqa-program-risk",
+    "bok": "IV.A.8",
+    "cognitive": "Analyze",
+    "stem": "A manufacturer can add one process audit this quarter. All mandatory audits are separately resourced and will proceed, and none of the candidate areas has a required maximum audit interval. A safety-critical heat-treatment process changed its control software and key personnel after a clean audit ten months ago. A stable supplies store was audited fifteen months ago, with one minor issue whose correction was verified. A stable expense-processing function had seven clerical findings eight months ago, all verified closed. Which scheduling decision is best supported?",
+    "options": [
+      "Prioritize heat treatment, considering the critical process changes and the limited relevance of audit evidence collected before those changes.",
+      "Prioritize the supplies store, using the longest time since the last audit as the deciding factor among these optional audits.",
+      "Prioritize expense processing, using its larger number of previous findings as the deciding factor among these optional audits.",
+      "Keep heat treatment at its existing interval until a nonconformity occurs, using the previous clean result to support its current priority."
+    ],
+    "answer": 0,
+    "why": "Risk-based scheduling considers process criticality, changes in controls or personnel, audit history, and the current evidence of effective operation together. The heat-treatment changes occurred after the clean audit, so that audit provides limited assurance about the changed arrangements. Its safety-critical function makes timely evaluation of those arrangements particularly relevant. The supplies store's longer elapsed interval and the expense function's larger historical finding count are useful inputs, but neither alone outweighs the critical changes described. Waiting for a nonconformity would make the schedule reactive. Mandatory coverage remains protected in the stem; this decision allocates an additional audit, not permission to omit required audits. The changed process is not thereby presumed nonconforming, and an audit does not replace its operational controls. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 196, 207–208.</span>",
+    "keyPoint": "Reassess audit priority when critical processes change; a clean audit of the previous arrangement does not establish the effectiveness of the new one.",
+    "trap": "Ranking audits solely by elapsed time or historical finding counts while overlooking changes that alter current risk.",
+    "distractors": {
+      "1": "Time since the last audit is relevant, but there is no overdue mandatory interval here. Using age alone ignores the more consequential changes in the safety-critical process.",
+      "2": "Seven historical clerical findings do not automatically indicate greater current risk than a changed critical process. Their verified closure and the function's stability also matter.",
+      "3": "The prior clean audit assessed the earlier arrangements. Waiting for a failure before reconsidering priority ignores both the changes and the potential consequence of ineffective controls."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q030",
+    "set": 2,
+    "batch": 3,
+    "sub": "cqa-basic-tools",
+    "bok": "V.A",
+    "cognitive": "Analyze",
+    "stem": "A service operation wants its first two improvement investigations to address at least 70% of last quarter's recorded incident cost. Each incident belongs to exactly one category in the exhibit, and the average costs use the same complete loss-accounting rules. Investigation effort is comparable, and no safety or regulatory priority overrides the cost objective. Which pair should head a Pareto analysis for this purpose?",
+    "options": [
+      "Invoice errors and packaging damage.",
+      "Wrong configuration and packaging damage.",
+      "Wrong configuration and late dispatch.",
+      "Late dispatch and packaging damage."
+    ],
+    "answer": 2,
+    "why": "The objective is based on recorded cost, so each category's contribution is its incident count multiplied by its average cost. The totals are $1,200 for invoice errors, $2,000 for packaging damage, $3,600 for late dispatch, and $4,800 for wrong configuration. Ranking those totals puts wrong configuration first and late dispatch second. Together they contribute $8,400/$11,600, or about 72.4%, meeting the stated 70% threshold. The most frequent pair represents 100/128 incidents but only $3,200, about 27.6% of recorded cost. A Pareto ranking identifies investigation priorities on the selected measure; it does not establish the root causes or guarantee that the entire associated cost can be eliminated. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 224–225.</span>",
+    "keyPoint": "Choose the Pareto measure that matches the objective; frequency and total cost can produce different priorities.",
+    "trap": "Using the most frequent categories to answer a cost question, or treating a Pareto ranking as proof of cause or achievable savings.",
+    "distractors": {
+      "0": "These two categories account for 100 of 128 incidents but contribute only $1,200 + $2,000 = $3,200, about 27.6% of total cost. They address a frequency objective rather than the stated cost objective.",
+      "1": "These categories contribute $4,800 + $2,000 = $6,800, only about 58.6% of total cost. Packaging damage contributes less cost than late dispatch, which this pair omits.",
+      "3": "These categories contribute $3,600 + $2,000 = $5,600, only about 48.3% of total cost. This pair omits wrong configuration, the largest cost category."
+    },
+    "chart": {
+      "type": "data-table",
+      "title": "Quarterly incident counts and average recorded cost",
+      "columns": [
+        "Incident category",
+        "Number of incidents",
+        "Average cost per incident"
+      ],
+      "rows": [
+        [
+          "Invoice errors",
+          "60",
+          "$20"
+        ],
+        [
+          "Packaging damage",
+          "40",
+          "$50"
+        ],
+        [
+          "Late dispatch",
+          "20",
+          "$180"
+        ],
+        [
+          "Wrong configuration",
+          "8",
+          "$600"
         ]
       ]
     }
