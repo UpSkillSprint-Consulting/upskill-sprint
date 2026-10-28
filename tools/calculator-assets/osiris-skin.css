@@ -60,12 +60,13 @@
     letter-spacing: 0.2em;
   }
   #calculator-shell h1 { color: var(--osx-text-heading); letter-spacing: -0.015em; }
-  #calculator-shell .tagline a,
   #calculator-shell .calc-breadcrumb a,
   #calculator-shell .calc-start a,
   #calculator-shell .guide-intro a,
   #calculator-shell .analysis-reference a,
   #calculator-shell a.method-link { color: var(--osx-gold-text); }
+  /* The tagline's User Manual link gets an inline color:var(--calc-teal) at runtime */
+  #calculator-shell .tagline a { color: var(--osx-gold-text) !important; }
   #calculator-shell .guide-eyebrow {
     color: var(--osx-gold-text);
     font-family: var(--osx-font-hud);
@@ -115,11 +116,35 @@
 
   /* Light mode: the calculator display reads as a white screen on paper */
   html[data-theme="light"] #calculator-shell .screen { background: var(--osx-panel); }
+
+  /* ---- Best-Fit Model Finder tab (its own --bfm-* tokens) ----
+     Scoped to the copy embedded in this calculator; (2,0,0) beats the
+     tool's html[data-theme="dark"] #bfm-tool token block. */
+  #calculator-shell #bfm-tool {
+    --bfm-bg:      var(--osx-bg);
+    --bfm-panel:   var(--osx-panel);
+    --bfm-panel2:  var(--osx-panel-raised);
+    --bfm-ink:     var(--osx-text);
+    --bfm-muted:   var(--osx-text-2);
+    --bfm-line:    var(--osx-line-strong);
+    --bfm-grid:    var(--osx-line);
+    --bfm-accent:  var(--osx-gold-text);   /* links, eyebrows, focus, selected pills */
+    --bfm-accent-ink: #FFFFFF;             /* on #7A6420: 5.7:1 */
+    --bfm-signal:  var(--osx-gold-text);
+    --bfm-good:    var(--osx-green);
+    --bfm-bad:     var(--osx-red);
+    --bfm-point:   var(--osx-data);        /* observed data */
+    --bfm-fit:     var(--osx-gold-ui);     /* fitted model curve */
+    --bfm-body:    var(--osx-font-body);
+    --bfm-mono:    var(--osx-font-hud);
+    --bfm-display: var(--osx-font-body);
+  }
+  html[data-theme="dark"] #calculator-shell #bfm-tool { --bfm-accent-ink: #06060C; } /* on #F0D060: 13.4:1 */
 }
 
 /* /theme.js paints body, inputs and tables site-navy with !important in dark
    mode. Keep the OSIRIS surfaces inside the calculator. */
-html[data-theme="dark"] #calculator-shell :is(input.f, select.f, textarea.f) {
+html[data-theme="dark"] #calculator-shell :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea) {
   background: var(--osx-panel-raised) !important;
   color: var(--osx-text) !important;
 }
