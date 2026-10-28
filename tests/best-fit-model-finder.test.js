@@ -91,7 +91,9 @@ test('engineering tools directory lists the calculator once, live, with the find
   assert.doesNotMatch(card.textContent, /Planned|Suggest features/);
   assert.equal(card.querySelector('a.tool-action.primary').getAttribute('href'), CALC);
   assert.match(card.querySelector('a.tool-action.primary').textContent, /Open tool/);
-  assert.equal(card.querySelector(`a.tool-action[href="${DEEP_LINK}"]`).textContent, 'Open the Best-Fit Model Finder');
+  assert.equal(card.querySelectorAll('a.tool-action').length, 1, 'the calculator card has one way in: Open tool');
+  assert.equal(card.querySelector(`a[href="${DEEP_LINK}"]`), null, 'no direct finder link on the directory card; open the calculator first');
+  assert.equal(dir.querySelector('a[href*="tab=best-fit"], a[href*="#best-fit"], a[href*="#pg-fit"]'), null);
   assert.match(card.querySelector('.tool-content p').textContent, /Best-Fit Model Finder/);
   assert.ok([...card.querySelectorAll('.tool-tags span')].some(t => t.textContent === 'Best-Fit Model Finder'));
   for (const a of card.querySelectorAll('a[href^="/"]')) assert.ok(fs.existsSync(path.join(ROOT, a.getAttribute('href').split('?')[0] + '.html')), a.href);
