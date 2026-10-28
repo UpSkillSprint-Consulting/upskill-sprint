@@ -1,0 +1,430 @@
+/* =====================================================================
+   UpSkill Sprint — OSIRIS engineering-tool theme
+   Default design system for every NEW engineering tool (tools/**).
+   Spec and rules: docs/LESSON_CREATION_GUIDE.md §9.8.
+
+   - Follows the site theme set by /theme.js:
+       html[data-theme="light"]  -> OSIRIS light (warm paper + deep brass)
+       html[data-theme="dark"]   -> OSIRIS dark  (black + gold HUD)
+   - Every token is namespaced --osx-* and scoped to .osx-tool, so it can
+     never change the site header, footer, nav or progress card.
+   - All text tokens meet WCAG AA (>= 4.5:1) on every --osx surface in
+     their theme; --osx-gold-ui and --osx-control-border meet 3:1.
+   - Usage:
+       <head>  ...required site tags (§5)...
+         <link rel="stylesheet" href="/assets/osiris-tool-theme.css">
+       <body class="osx-page" ...>
+         ...canonical header...
+         <main id="<slug>-tool" class="osx-tool"> ... </main>
+   ===================================================================== */
+
+/* ---------- LIGHT (site light mode) ---------- */
+.osx-tool {
+  color-scheme: light;
+
+  /* Surfaces */
+  --osx-bg:             #F7F5EF;  /* page */
+  --osx-bg-sunken:      #EFECE3;  /* wells, plot backdrops */
+  --osx-panel:          #FFFFFF;  /* cards, solid panels */
+  --osx-panel-raised:   #FBFAF6;  /* inputs, hover rows, nested cards */
+  --osx-panel-glass:    rgba(255, 255, 255, 0.90);
+
+  /* Text */
+  --osx-text-heading:   #0C0E1A;  /* 17.6:1 on bg */
+  --osx-text:           #1E2130;  /* 14.6:1 */
+  --osx-text-2:         #5C5A54;  /*  6.3:1 */
+  --osx-text-muted:     #6B675E;  /*  4.8:1 on sunken, 5.2:1 on bg */
+
+  /* Brand gold. #D4AF37 is 1.9:1 on white: fills and decoration only, never text. */
+  --osx-gold:           #D4AF37;
+  --osx-gold-text:      #7A6420;  /* gold headings, links, brand text: 4.8–5.7:1 */
+  --osx-gold-ui:        #8B7325;  /* focus rings, active borders: >= 3.9:1 */
+  --osx-gold-fill:      #D4AF37;  /* primary button background */
+  --osx-on-gold:        #0C0E1A;  /* text on gold fills: 9.1:1 */
+  --osx-gold-glow:      rgba(139, 115, 37, 0.18);
+
+  /* Lines */
+  --osx-line-subtle:    rgba(12, 14, 26, 0.06);
+  --osx-line:           rgba(139, 115, 37, 0.25);  /* decorative hairlines */
+  --osx-line-strong:    rgba(139, 115, 37, 0.60);
+  --osx-control-border: #8B7325;                   /* inputs/selects: >= 3.9:1 */
+
+  /* Data accent: reserved for live values, results and plotted series */
+  --osx-data:           #006B7A;  /* 5.3–6.2:1 */
+  --osx-data-fill:      #4FA8B5;  /* areas, bars (decorative) */
+  --osx-on-data:        #FFFFFF;  /* text on --osx-data (count badges): 6.2:1 */
+
+  /* Status (always pair with a text label or icon, §9.1 rule 5) */
+  --osx-red:            #C62828;
+  --osx-orange:         #9A5200;
+  --osx-green:          #00753A;
+  --osx-blue:           #1E5BD8;
+
+  /* Type */
+  --osx-font-hud:  "JetBrains Mono", "IBM Plex Mono", "Courier New", monospace;
+  --osx-font-body: "Inter", "Work Sans", -apple-system, "Segoe UI", sans-serif;
+
+  /* Shape */
+  --osx-radius:    10px;
+  --osx-shadow:    0 6px 24px rgba(12, 14, 26, 0.08);
+}
+
+/* ---------- DARK (site dark mode) ---------- */
+html[data-theme="dark"] .osx-tool {
+  color-scheme: dark;
+
+  --osx-bg:             #06060C;
+  --osx-bg-sunken:      #04040A;
+  --osx-panel:          #0C0E1A;
+  --osx-panel-raised:   #121628;
+  --osx-panel-glass:    rgba(8, 10, 20, 0.88);
+
+  --osx-text-heading:   #F5F0E0;
+  --osx-text:           #E8E6E0;
+  --osx-text-2:         #9B978E;
+  --osx-text-muted:     #8A877F;  /* OSIRIS's own #5C5A54 fails AA (2.6–3.0:1) */
+
+  --osx-gold:           #D4AF37;
+  --osx-gold-text:      #F0D060;
+  --osx-gold-ui:        #D4AF37;
+  --osx-gold-fill:      #D4AF37;
+  --osx-on-gold:        #06060C;
+  --osx-gold-glow:      rgba(212, 175, 55, 0.30);
+
+  --osx-line-subtle:    rgba(212, 175, 55, 0.08);
+  --osx-line:           rgba(212, 175, 55, 0.15);
+  --osx-line-strong:    rgba(212, 175, 55, 0.40);
+  --osx-control-border: #8B7325;                   /* >= 3.9:1 on dark surfaces */
+
+  --osx-data:           #00E5FF;
+  --osx-data-fill:      #006B7A;
+  --osx-on-data:        #06060C;
+
+  --osx-red:            #FF3D3D;
+  --osx-orange:         #FF9500;
+  --osx-green:          #00E676;
+  --osx-blue:           #448AFF;
+
+  --osx-shadow:    0 8px 32px rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- Page background between header and footer ----------
+   /theme.js forces `body` to the site navy (!important) in dark mode, so a
+   tool page opts in with <body class="osx-page">. Chrome is untouched. */
+body.osx-page { background: #F7F5EF; }
+html[data-theme="dark"] body.osx-page { background: #06060C !important; }
+
+/* ---------- Base ---------- */
+.osx-tool {
+  box-sizing: border-box;
+  background: var(--osx-bg);
+  color: var(--osx-text);
+  font-family: var(--osx-font-body);
+  line-height: 1.5;
+}
+.osx-tool *,
+.osx-tool *::before,
+.osx-tool *::after { box-sizing: inherit; }
+
+.osx-tool :where(h1, h2, h3, h4) { color: var(--osx-text-heading); }
+.osx-tool :where(a) { color: var(--osx-gold-text); text-decoration: underline; text-underline-offset: 2px; }
+.osx-tool :where(p, li) { color: var(--osx-text); }
+.osx-tool :where(small, .osx-muted) { color: var(--osx-text-muted); }
+
+.osx-tool :focus-visible {
+  outline: 2px solid var(--osx-gold-ui);
+  outline-offset: 2px;
+}
+
+/* ---------- Components ---------- */
+.osx-tool .osx-brand {
+  color: var(--osx-gold-text);
+  font-family: var(--osx-font-hud);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.osx-tool .osx-label {
+  color: var(--osx-text-2);
+  font-family: var(--osx-font-hud);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.osx-tool .osx-value {
+  color: var(--osx-data);
+  font-family: var(--osx-font-hud);
+  font-variant-numeric: tabular-nums;
+}
+.osx-tool .osx-panel {
+  background: var(--osx-panel);
+  color: var(--osx-text);
+  border: 1px solid var(--osx-line);
+  border-radius: var(--osx-radius);
+  box-shadow: var(--osx-shadow);
+}
+.osx-tool .osx-panel-glass {
+  background: var(--osx-panel-glass);
+  color: var(--osx-text);
+  border: 1px solid var(--osx-line);
+  border-radius: var(--osx-radius);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.osx-tool .osx-well {
+  background: var(--osx-bg-sunken);
+  color: var(--osx-text);
+  border-radius: var(--osx-radius);
+}
+.osx-tool .osx-statusbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+  padding: 8px 12px;
+  background: var(--osx-panel);
+  color: var(--osx-text-2);
+  border: 1px solid var(--osx-line);
+  border-radius: var(--osx-radius);
+  font-family: var(--osx-font-hud);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.osx-tool .osx-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--osx-panel-raised);
+  color: var(--osx-text-2);
+  border: 1px solid var(--osx-line);
+  border-radius: 999px;
+  font-family: var(--osx-font-hud);
+  font-size: 0.78rem;
+}
+.osx-tool .osx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 16px;
+  background: var(--osx-gold-fill);
+  color: var(--osx-on-gold);
+  border: 1px solid var(--osx-gold-fill);
+  border-radius: 8px;
+  font: 600 0.85rem/1 var(--osx-font-hud);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.osx-tool .osx-btn:hover { box-shadow: 0 0 0 4px var(--osx-gold-glow); }
+.osx-tool .osx-btn-ghost {
+  background: transparent;
+  color: var(--osx-gold-text);
+  border-color: var(--osx-control-border);
+}
+.osx-tool .osx-btn:disabled,
+.osx-tool .osx-btn[aria-disabled="true"] {
+  background: var(--osx-panel-raised);
+  color: var(--osx-text-muted);
+  border-color: var(--osx-line-strong);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.osx-tool .osx-tabs [aria-selected="true"] {
+  color: var(--osx-gold-text);
+  border-bottom: 2px solid var(--osx-gold-ui);
+}
+
+/* ---------- Dock: icon rail + flyout of switches ----------
+   Pattern from the OSIRIS layer panel. Markup and rules: guide §9.8 item 4. */
+.osx-tool .osx-dock {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.osx-tool .osx-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 6px;
+  background: var(--osx-panel);
+  border: 1px solid var(--osx-line);
+  border-radius: var(--osx-radius);
+  list-style: none;
+}
+.osx-tool .osx-rail-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  color: var(--osx-text-2);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.osx-tool .osx-rail-btn svg { width: 20px; height: 20px; }
+.osx-tool .osx-rail-btn:hover { color: var(--osx-text-heading); background: var(--osx-panel-raised); }
+.osx-tool .osx-rail-btn[aria-expanded="true"],
+.osx-tool .osx-rail-btn[aria-pressed="true"] {
+  color: var(--osx-gold-text);
+  background: var(--osx-panel-raised);
+  border-color: var(--osx-gold-ui);
+}
+.osx-tool .osx-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  background: var(--osx-data);
+  color: var(--osx-on-data);
+  border-radius: 999px;
+  font: 600 0.68rem/18px var(--osx-font-hud);
+  text-align: center;
+}
+.osx-tool .osx-badge:empty,
+.osx-tool .osx-badge[data-count="0"] { display: none; }
+
+.osx-tool .osx-flyout {
+  flex: 1 1 260px;
+  min-width: 0;
+  max-width: 360px;
+  padding: 12px 14px;
+}
+.osx-tool .osx-flyout[hidden] { display: none; }
+.osx-tool .osx-flyout-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 6px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--osx-line);
+}
+.osx-tool .osx-flyout-head :where(h2, h3) { margin: 0; }
+.osx-tool .osx-toggle-list { margin: 0; padding: 0; list-style: none; }
+.osx-tool .osx-toggle {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 4px 0;
+  color: var(--osx-text-2);              /* off: dimmed but still AA */
+  font: 500 0.78rem/1.3 var(--osx-font-hud);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.osx-tool .osx-toggle:has(input:checked) { color: var(--osx-text-heading); }
+.osx-tool .osx-toggle-count {
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+/* The switch: a native checkbox with role="switch", restyled. */
+.osx-tool .osx-toggle input {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  width: 34px;
+  height: 20px;
+  margin: 0;
+  background: var(--osx-panel-raised);
+  border: 1px solid var(--osx-control-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.osx-tool .osx-toggle input::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 12px;
+  height: 12px;
+  background: var(--osx-text-2);
+  border-radius: 50%;
+  transition: transform 0.15s ease;
+}
+.osx-tool .osx-toggle input:checked {
+  background: var(--osx-gold-fill);
+  border-color: var(--osx-gold-ui);
+}
+.osx-tool .osx-toggle input:checked::after {
+  background: var(--osx-on-gold);
+  transform: translateX(14px);
+}
+.osx-tool .osx-toggle input:disabled { opacity: 0.5; cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) {
+  .osx-tool .osx-toggle input,
+  .osx-tool .osx-toggle input::after { transition: none; }
+}
+/* Narrow screens: the rail lies along the top and the flyout goes full width. */
+@media (max-width: 640px) {
+  .osx-tool .osx-dock { flex-direction: column; }
+  .osx-tool .osx-rail { flex-direction: row; max-width: 100%; overflow-x: auto; }
+  .osx-tool .osx-flyout { max-width: none; width: 100%; }
+}
+
+/* ---------- Form controls and tables ----------
+   /theme.js forces input/select/textarea/table/th/td to the site navy with
+   !important in dark mode. These rules out-rank it (higher specificity,
+   also !important) inside .osx-tool only. */
+.osx-tool :where(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea) {
+  min-height: 44px;
+  padding: 8px 10px;
+  background: var(--osx-panel-raised);
+  color: var(--osx-text);
+  border: 1px solid var(--osx-control-border);
+  border-radius: 8px;
+  font: 400 0.95rem/1.3 var(--osx-font-hud);
+}
+.osx-tool :where(input, select, textarea)::placeholder { color: var(--osx-text-muted); }
+.osx-tool :where(input[type="checkbox"], input[type="radio"], input[type="range"]) { accent-color: var(--osx-gold-ui); }
+.osx-tool :where(table) { width: 100%; border-collapse: collapse; background: var(--osx-panel); }
+.osx-tool :where(th) {
+  background: var(--osx-panel-raised);
+  color: var(--osx-text-heading);
+  font: 600 0.75rem/1.3 var(--osx-font-hud);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: left;
+}
+.osx-tool :where(th, td) { padding: 8px 10px; border-bottom: 1px solid var(--osx-line); color: var(--osx-text); }
+
+html[data-theme="dark"] .osx-tool input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+html[data-theme="dark"] .osx-tool select,
+html[data-theme="dark"] .osx-tool textarea {
+  background: var(--osx-panel-raised) !important;
+  color: var(--osx-text) !important;
+  border-color: var(--osx-control-border) !important;
+}
+html[data-theme="dark"] .osx-tool input::placeholder,
+html[data-theme="dark"] .osx-tool textarea::placeholder { color: var(--osx-text-muted) !important; }
+html[data-theme="dark"] .osx-tool table { background: var(--osx-panel) !important; }
+html[data-theme="dark"] .osx-tool th { background: var(--osx-panel-raised) !important; color: var(--osx-text-heading) !important; }
+html[data-theme="dark"] .osx-tool td { color: var(--osx-text) !important; border-color: var(--osx-line) !important; }
+html[data-theme="dark"] .osx-tool td.osx-value { color: var(--osx-data) !important; }
+html[data-theme="dark"] .osx-tool .osx-toggle input { background: var(--osx-panel-raised) !important; border-color: var(--osx-control-border) !important; }
+html[data-theme="dark"] .osx-tool .osx-toggle input:checked { background: var(--osx-gold-fill) !important; border-color: var(--osx-gold-ui) !important; }
+
+/* ---------- Print: always the light palette ---------- */
+@media print {
+  body.osx-page,
+  html[data-theme="dark"] body.osx-page { background: #FFFFFF !important; }
+  .osx-tool,
+  html[data-theme="dark"] .osx-tool {
+    --osx-bg: #FFFFFF; --osx-bg-sunken: #FFFFFF; --osx-panel: #FFFFFF; --osx-panel-raised: #FFFFFF;
+    --osx-text-heading: #0C0E1A; --osx-text: #1E2130; --osx-text-2: #5C5A54; --osx-text-muted: #6B675E;
+    --osx-gold-text: #7A6420; --osx-data: #006B7A; --osx-line: #CFC8B4; --osx-shadow: none;
+  }
+}

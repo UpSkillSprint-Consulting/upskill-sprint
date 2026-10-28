@@ -12,6 +12,7 @@ requirement. Where it says **MUST NOT**, doing it is a defect. Do not "improve",
 reinterpret, or substitute equivalents unless this guide explicitly allows a choice.
 
 **Quick map:** governance rules §20 · page skeleton §2 · head/SEO §2.1 · chrome §4 ·
+engineering-tool theme §9.8 ·
 catalog §12 · access rules (Supabase) §12.4 · sitemap §12.5 · images §13.2 ·
 accessibility §21 · math notation §22 · commands §16 · PR workflow §17 ·
 PR checklist §18 · known site-wide defects §23.
@@ -738,6 +739,142 @@ Run the axe scan in §16 step 5 (both themes, desktop and mobile). The lesson MU
 The §18 checklist contains the theme/contrast items. Report the axe result per theme and
 width in the PR body, e.g. `axe: light 1280 0 · light 390 0 (+ §23 mobile-menu) · dark 1280 0 · dark 390 0`.
 
+### 9.8 Engineering tools: the OSIRIS tool theme (default for new tools)
+
+Every **new** engineering tool (`tools/**`, listed on `/engineering-tools`) MUST use the
+OSIRIS tool theme: a black-and-gold HUD in dark mode and a warm-paper-and-brass companion in
+light mode. Existing tools keep their current design unless Ernest asks for a migration.
+Lessons keep the §9.1 token pattern; this section applies to tools only.
+
+The theme is one shared stylesheet, `/assets/osiris-tool-theme.css`. Do not copy its tokens
+into the tool's own CSS, and do not fork it per tool. A change to the palette is a change to
+that file, in its own PR.
+
+**1. Wiring (required).**
+
+```html
+<!-- in <head>, AFTER the required site tags in §5 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/osiris-tool-theme.css">
+<!-- tool-specific stylesheet(s) after it -->
+
+<body class="osx-page" …>
+  <!-- canonical header (§4.1) -->
+  <main id="<slug>-tool" class="osx-tool"> … </main>
+  <!-- back-link + canonical footer (§4.2) -->
+</body>
+```
+
+- Inter and JetBrains Mono are part of this theme, so this section is the §5 approval for
+  loading them on tool pages (tools only; lessons keep the site fonts). Both fall back to the
+  site's Work Sans / IBM Plex Mono and system fonts if Google Fonts fails.
+- The theme **follows the site toggle**. `/theme.js` always sets `html[data-theme]` to `light`
+  or `dark` (saved choice, else the system preference). OSIRIS dark renders when the visitor is
+  in dark mode; OSIRIS light renders otherwise. A tool MUST NOT force dark mode or ignore the
+  toggle: the header would be light while the tool is dark, and §9 requires both modes.
+- `body.osx-page` is needed because `/theme.js` paints `body` site-navy with `!important` in
+  dark mode. The class only changes the page background between header and footer.
+
+**2. Palette.** Use the `--osx-*` tokens, never raw hex values, in tool CSS and in SVG/canvas
+drawing code (read them with `getComputedStyle(toolRoot).getPropertyValue('--osx-data')` and
+redraw on the `upskill:themechange` event).
+
+| Token | Role | Dark | Light |
+|---|---|---|---|
+| `--osx-bg` | Page | `#06060C` | `#F7F5EF` |
+| `--osx-bg-sunken` | Wells, plot backdrops | `#04040A` | `#EFECE3` |
+| `--osx-panel` | Cards, solid panels | `#0C0E1A` | `#FFFFFF` |
+| `--osx-panel-raised` | Inputs, hover rows, nested cards | `#121628` | `#FBFAF6` |
+| `--osx-panel-glass` | Floating HUD panels | `rgba(8,10,20,.88)` | `rgba(255,255,255,.90)` |
+| `--osx-text-heading` | Headings | `#F5F0E0` | `#0C0E1A` |
+| `--osx-text` | Body text | `#E8E6E0` | `#1E2130` |
+| `--osx-text-2` | Secondary text, labels | `#9B978E` | `#5C5A54` |
+| `--osx-text-muted` | Muted text (no essential instructions) | `#8A877F` | `#6B675E` |
+| `--osx-gold` | Brand fills, bars, decoration | `#D4AF37` | `#D4AF37` |
+| `--osx-gold-text` | Gold text and links | `#F0D060` | `#7A6420` |
+| `--osx-gold-ui` | Focus rings, active borders | `#D4AF37` | `#8B7325` |
+| `--osx-gold-fill` / `--osx-on-gold` | Primary button / its text | `#D4AF37` / `#06060C` | `#D4AF37` / `#0C0E1A` |
+| `--osx-line` / `--osx-line-strong` | Decorative hairlines | gold 15% / 40% | brass 25% / 60% |
+| `--osx-control-border` | Input, select, textarea borders | `#8B7325` | `#8B7325` |
+| `--osx-data` | Live values, results, plotted series | `#00E5FF` | `#006B7A` |
+| `--osx-data-fill` | Areas and bars under data | `#006B7A` | `#4FA8B5` |
+| `--osx-on-data` | Text on `--osx-data` (count badges) | `#06060C` | `#FFFFFF` |
+| `--osx-red` / `--osx-orange` | Fail / warning | `#FF3D3D` / `#FF9500` | `#C62828` / `#9A5200` |
+| `--osx-green` / `--osx-blue` | Pass / info | `#00E676` / `#448AFF` | `#00753A` / `#1E5BD8` |
+| `--osx-font-hud` / `--osx-font-body` | Labels, numbers, buttons / prose | JetBrains Mono / Inter | same |
+
+Every text token is ≥4.5:1 on every `--osx` surface in its theme; `--osx-gold-ui` and
+`--osx-control-border` are ≥3:1 (§9.3).
+
+**3. Colour rules.**
+
+- **Gold is the brand; cyan is the data.** Gold marks chrome, titles, active states and the
+  primary action. `--osx-data` is reserved for computed values, results and plotted series, so
+  live output stands out. Do not use `--osx-data` for decoration or headings.
+- **Never use `--osx-gold` (`#D4AF37`) as text or as a meaningful line in light mode.** It is
+  1.9:1 on white. Use `--osx-gold-text` for gold text and `--osx-gold-ui` for focus/borders.
+- Status colours always come with a word or icon ("PASS", "Out of spec", ▲), never colour alone.
+- Numbers use `--osx-font-hud` with `font-variant-numeric: tabular-nums` (`.osx-value`).
+
+**4. Components.** Use the shared classes before writing new ones: `.osx-panel`,
+`.osx-panel-glass`, `.osx-well`, `.osx-statusbar`, `.osx-label`, `.osx-value`, `.osx-brand`,
+`.osx-pill`, `.osx-btn`, `.osx-btn-ghost`, `.osx-tabs`. Form controls and tables inside
+`.osx-tool` are themed automatically. Tool-specific classes use a `<slug>-` prefix.
+
+**The dock (icon rail + flyout of switches).** Use it whenever a tool has groups of layers,
+series or options the user turns on and off (e.g. phases on a diagram, standards in a checker,
+overlays on a chart). The rail holds one 44×44 button per group with a count badge of how many
+items in that group are on; the flyout lists that group's switches with a count per row. Below
+640px the rail lies along the top and the flyout goes full width.
+
+```html
+<div class="osx-dock">
+  <div class="osx-rail" role="toolbar" aria-label="Layer groups" aria-orientation="vertical">
+    <button type="button" class="osx-rail-btn" aria-expanded="true" aria-controls="<slug>-grp-phases"
+            aria-label="Phases, 1 on">
+      <svg aria-hidden="true" viewBox="0 0 24 24">…</svg>
+      <span class="osx-badge" aria-hidden="true">1</span>
+    </button>
+    <!-- one button per group -->
+  </div>
+  <section id="<slug>-grp-phases" class="osx-flyout osx-panel-glass" aria-labelledby="<slug>-grp-phases-h">
+    <div class="osx-flyout-head">
+      <h2 id="<slug>-grp-phases-h" class="osx-label">Phases</h2>
+      <span class="osx-label">1 on</span>
+    </div>
+    <ul class="osx-toggle-list">
+      <li><label class="osx-toggle">
+        <input type="checkbox" role="switch" checked>
+        <span>Ferrite</span><span class="osx-toggle-count">18,726</span>
+      </label></li>
+      <!-- one <li> per switch -->
+    </ul>
+  </section>
+</div>
+```
+
+- Switches are native checkboxes with `role="switch"`, inside their `<label>`. Never a `<div>`
+  with a click handler. Off rows dim to `--osx-text-2` (still AA); on rows use
+  `--osx-text-heading`. Do not fade off rows further. OSIRIS does, at about 2:1, which fails §9.3.
+- When a switch changes, update the group's badge text, the flyout's "N on" label and the rail
+  button's `aria-label` ("Phases, 2 on"). A badge of 0 is hidden automatically (`data-count="0"`
+  or empty).
+- Rail buttons toggle `aria-expanded` and the flyout's `hidden` attribute. Only one flyout is
+  open at a time; `Esc` closes it and returns focus to its rail button.
+- The rail uses `.osx-rail-btn` + inline SVG icons from the Vector Library (§13.1), never
+  emoji or icon fonts.
+
+**5. Class names to avoid inside a tool.** `/theme.js` restyles these with `!important` in dark
+mode and would repaint them site-navy: `.card`, `.chip`, `.calculator`, `.result-panel`,
+`.interactive`, `.canvas-wrap`, `.example-box`, `.concept-card`, `.callout*`, `.quiz*`,
+`.lesson-wrapper`. Use the `.osx-*` or `<slug>-` equivalents.
+
+**6. Validation.** §9.2–§9.6 apply unchanged. In addition, confirm in both themes that the
+canonical header, footer and nav look exactly as on `/engineering-tools` (the theme must not
+leak into chrome), and that charts redraw in the right colours after toggling the theme.
+
 ---
 
 ## 10. Mobile requirements (all lessons)
@@ -1365,6 +1502,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] Every form control has a label; links in running text underlined; scroll regions have tabindex="0" + role="region" + aria-label.
 - [ ] No role="img" on containers with focusable content; tabs follow the ARIA tabs pattern; no empty <th>; images have alt, width/height, sensible format and size.
 - [ ] Lesson CSS uses --lesson-/slug-prefixed properties only; no site token redefined; no broad chrome selectors; dark override block last.
+- [ ] New engineering tool? Loads /assets/osiris-tool-theme.css after the §5 tags; body.osx-page + main.osx-tool; colours only via --osx-* tokens; follows the site toggle in both themes; no §9.8 rule-5 class names.
 - [ ] Statistics lesson? "Statistics Implementation" section present with all 4 parts.
 - [ ] Every formula is LaTeX typeset per §22 (no plain-text math, no `$` delimiters); math loads only via `/assets/js/math.js` (or the §22.1 fallback until PR #259 merges); variables defined; renders in both themes.
 - [ ] Every referenced dataset/asset exists under assets/lessons/<slug>/ and downloads; no broken links or images.
