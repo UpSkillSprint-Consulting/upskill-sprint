@@ -65,8 +65,6 @@
   #calculator-shell .guide-intro a,
   #calculator-shell .analysis-reference a,
   #calculator-shell a.method-link { color: var(--osx-gold-text); }
-  /* The tagline's User Manual link gets an inline color:var(--calc-teal) at runtime */
-  #calculator-shell .tagline a { color: var(--osx-gold-text) !important; }
   #calculator-shell .guide-eyebrow {
     color: var(--osx-gold-text);
     font-family: var(--osx-font-hud);
@@ -117,6 +115,31 @@
   /* Light mode: the calculator display reads as a white screen on paper */
   html[data-theme="light"] #calculator-shell .screen { background: var(--osx-panel); }
 
+  /* ---- Gold is the brand, cyan is the data (§9.8 rule 3) ----
+     --calc-teal stays mapped to the data colour because script-drawn SVG
+     (box plots, SPC points) and data bars use it. Everything below used
+     the same token as a decorative accent, so it moves to gold. */
+  #calculator-shell :focus-visible { outline-color: var(--osx-gold-ui) !important; }
+  #calculator-shell .guide-steps span {
+    color: var(--osx-gold-text);
+    border-color: var(--osx-gold-ui);
+  }
+  #calculator-shell .guide-check input { accent-color: var(--osx-gold-ui); }
+  #calculator-shell .guide-recommendation { border-left-color: var(--osx-gold-ui); }
+  #calculator-shell .guide-recommendation strong {
+    color: var(--osx-gold-text);
+    font-family: var(--osx-font-hud);
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  #calculator-shell .guide-table input[data-column] { color: var(--osx-gold-text); }
+  #calculator-shell :is(input[type="checkbox"], input[type="radio"], input[type="range"]) { accent-color: var(--osx-gold-ui); }
+  /* Expression syntax in the calculator display (input, not results) */
+  #calculator-shell .fname,
+  #calculator-shell .sch { color: var(--osx-gold-text); }
+  #calculator-shell math mi { color: var(--osx-text-heading); }
+
   /* ---- Best-Fit Model Finder tab (its own --bfm-* tokens) ----
      Scoped to the copy embedded in this calculator; (2,0,0) beats the
      tool's html[data-theme="dark"] #bfm-tool token block. */
@@ -145,6 +168,15 @@
 /* /theme.js paints body, inputs and tables site-navy with !important in dark
    mode. Keep the OSIRIS surfaces inside the calculator. */
 html[data-theme="dark"] #calculator-shell :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea) {
+  background: var(--osx-panel-raised) !important;
+  color: var(--osx-text) !important;
+  border-color: var(--osx-text-muted) !important;   /* was theme.js #2b3b50 (1.5:1) */
+}
+html[data-theme="dark"] #calculator-shell :is(input[type="checkbox"], input[type="radio"], input[type="range"]) {
+  background: transparent !important;
+  border-color: var(--osx-control-border) !important;
+}
+html[data-theme="dark"] #calculator-shell select option {
   background: var(--osx-panel-raised) !important;
   color: var(--osx-text) !important;
 }

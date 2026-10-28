@@ -139,3 +139,17 @@ test('Engineering & Statistics Calculator uses the OSIRIS theme (§9.8 item 7)',
   assert.match(plot[0], /shadeEdge:"#00E5FF"/, 'dark plot shading should use the dark data colour');
   assert.doesNotMatch(page, /rgba\(232,238,244,\.(16|45)\)/, 'unshaded bars still hard-code the old palette');
 });
+
+test('calculator: cyan is reserved for data; decorative accents and graph series follow §9.8 rule 3', () => {
+  const skin = fs.readFileSync(path.join(root, 'tools/calculator-assets/osiris-skin.css'), 'utf8');
+  for (const selector of ['.guide-steps span', '.guide-recommendation', '.guide-recommendation strong', '.guide-table input[data-column]', '.fname', ':focus-visible']) {
+    const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    assert.match(skin, new RegExp(`#calculator-shell ${escaped}[^{]*\\{[^}]*var\\(--osx-gold-(text|ui)\\)`), `${selector} must use gold, not the data colour`);
+  }
+  const page = fs.readFileSync(path.join(root, 'tools/engineering-statistics-calculator.html'), 'utf8');
+  assert.doesNotMatch(page, /href="\/tools\/calculator-manual" style="color:var\(--calc-teal\)/, 'User Manual link must use the accent, not the data colour');
+  const graph = fs.readFileSync(path.join(root, 'tools/calculator-assets/advanced-ui.js'), 'utf8');
+  assert.match(graph, /const darkColors=\['#00E5FF','#D4AF37'/, 'dark graph series 1/2 should be data cyan then gold');
+  assert.match(graph, /const lightColors=\['#006B7A','#7A6420'/, 'light graph series 1/2 should be data teal then gold text');
+  assert.match(skin, /html\[data-theme="dark"\] #calculator-shell :is\(input:not\(\[type="checkbox"\]\)[^{]*\{[^}]*border-color: var\(--osx-text-muted\) !important/, 'dark input borders must not fall back to the site navy line');
+});
