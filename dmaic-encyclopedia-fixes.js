@@ -46,9 +46,13 @@
     row.querySelectorAll('button').forEach(button => {
       if (button.id === 'downloadBtn' || button.hasAttribute('onclick')) button.remove();
     });
-    const request = element('a', 'upskill-format-request', 'Ask for HTML/PDF format');
-    request.href = '/request-topic?topic=DMAIC%20Formula%20Encyclopedia&format=HTML%2FPDF';
-    row.append(request);
+    // Printable quick-reference edition of every formula, colour-coded by phase.
+    const pdf = element('a', 'upskill-format-request upskill-pdf-download');
+    pdf.href = '/assets/lessons/dmaic-formula-encyclopedia/dmaic-formula-encyclopedia-quick-reference.pdf';
+    pdf.setAttribute('download', 'DMAIC-Formula-Encyclopedia-Quick-Reference.pdf');
+    pdf.setAttribute('aria-label', 'Download PDF: DMAIC Formula Encyclopedia quick reference (PDF, 4.6 MB)');
+    pdf.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12M6 10l6 6 6-6M4 20h16"/></svg><span>Download PDF</span>';
+    row.append(pdf);
     controls.resultCount.setAttribute('role', 'status');
     controls.resultCount.setAttribute('aria-live', 'polite');
     controls.highYieldBtn.setAttribute('aria-pressed', 'false');
