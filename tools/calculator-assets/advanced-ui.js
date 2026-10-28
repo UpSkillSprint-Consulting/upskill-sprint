@@ -9,8 +9,8 @@
  function status(id,text,error=false){$(id).textContent=text;$(id).dataset.error=String(error);}
  function num(id){const value=strictNumber($(id).value);if(!Number.isFinite(value))throw Error('Enter a finite number for '+($(id).labels?.[0]?.textContent||id));return value;}
  function expressions(){return $('graph-expressions').value.split('\n').map(s=>s.trim()).filter(Boolean);}
- const lightColors=['#217fba','#9b4c09','#146954','#9b2872','#5a51b7','#a62222','#3c6804','#006979','#775123','#663b88'];
- const darkColors=['#79bfff','#ffbd75','#6ed6be','#ee9ace','#b2abff','#ffaaaa','#a9d876','#81d8e1','#d6b78f','#d8a7fb'];
+ const lightColors=['#006B7A','#7A6420','#146954','#9b2872','#5a51b7','#a62222','#3c6804','#217fba','#9b4c09','#663b88']; /* OSIRIS: series 1 = data, series 2 = gold */
+ const darkColors=['#00E5FF','#D4AF37','#6ed6be','#ee9ace','#b2abff','#ffaaaa','#a9d876','#79bfff','#ffbd75','#d8a7fb'];
  const color=i=>(document.documentElement.dataset.theme==='light'?lightColors:darkColors)[i];
  let graph=null,graphVersion=0,tableVersion=0,tape='',catalog=[];
  function invalidateGraph(){graphVersion++;tableVersion++;analysisRequest++;graph=null;$('graph-view').replaceChildren();$('graph-table').replaceChildren();$('graph-answer').textContent='';$('graph-trace-value').textContent='';$('graph-save').disabled=true;status('graph-status','Inputs changed. Draw graph to update.');}

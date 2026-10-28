@@ -1,0 +1,185 @@
+/* =====================================================================
+   Engineering & Statistics Calculator: OSIRIS skin
+   (docs/LESSON_CREATION_GUIDE.md §9.8, migration of an existing tool)
+
+   The calculator already routes almost every colour through --calc-*
+   tokens. This file points those tokens at the shared --osx-* tokens
+   (defined on #calculator-shell via class="osx-tokens" by
+   /assets/osiris-tool-theme.css), then replaces the handful of hard-coded
+   colours that bypass them. Layout, content and behaviour are unchanged.
+
+   Load order: LAST, after every other calculator stylesheet.
+   Screen only: print keeps the black-on-white rules in presentation.css.
+   This file is loaded by tools/engineering-statistics-calculator.html
+   only; the calculator manual shares presentation.css and is unaffected.
+   ===================================================================== */
+
+@media screen {
+  #calculator-shell {
+    /* Surfaces */
+    --calc-bg:        var(--osx-bg);
+    --calc-panel:     var(--osx-panel);
+    --calc-panel-2:   var(--osx-panel-raised);
+    --calc-panel-3:   var(--osx-panel-raised);
+    --calc-line:      var(--osx-line-strong);
+    --calc-line-soft: var(--osx-line);
+
+    /* Text */
+    --calc-text:      var(--osx-text);
+    --calc-muted:     var(--osx-text-2);
+    --calc-faint:     var(--osx-text-muted);
+
+    /* Brand gold: accents, operators, active states */
+    --calc-accent:     var(--osx-gold-text);
+    --calc-accent-dim: var(--osx-gold-glow);
+    --calc-action:     var(--osx-gold-fill);   /* primary buttons, active tab, "=" key */
+    --calc-on-action:  var(--osx-on-gold);
+
+    /* Data: series, points, function names, focus rings */
+    --calc-teal:  var(--osx-data);
+
+    /* Status */
+    --calc-red:   var(--osx-red);
+    --calc-green: var(--osx-green);
+    --calc-blue:  var(--osx-blue);
+
+    /* Type */
+    --calc-sans:  var(--osx-font-body);
+    --calc-mono:  var(--osx-font-hud);
+    --calc-disp:  var(--osx-font-body);
+
+    background: var(--osx-bg);
+    color: var(--osx-text);
+  }
+
+  /* ---- Heading: HUD kicker, gold links ---- */
+  #calculator-shell .calculator-heading { background: var(--osx-panel); border-bottom-color: var(--osx-line); }
+  #calculator-shell .calc-kicker {
+    color: var(--osx-gold-text);
+    font-family: var(--osx-font-hud);
+    letter-spacing: 0.2em;
+  }
+  #calculator-shell h1 { color: var(--osx-text-heading); letter-spacing: -0.015em; }
+  #calculator-shell .calc-breadcrumb a,
+  #calculator-shell .calc-start a,
+  #calculator-shell .guide-intro a,
+  #calculator-shell .analysis-reference a,
+  #calculator-shell a.method-link { color: var(--osx-gold-text); }
+  #calculator-shell .guide-eyebrow {
+    color: var(--osx-gold-text);
+    font-family: var(--osx-font-hud);
+  }
+
+  /* ---- Workspace tabs: HUD labels ---- */
+  #calculator-shell .tab {
+    font-family: var(--osx-font-hud);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ---- Results read out in the data colour ---- */
+  #calculator-shell #result,
+  #calculator-shell .res.hero .v { color: var(--osx-data); }
+  /* 10% gold tint keeps the hero label >= 5:1 (a 30% glow dropped it below AA in dark mode) */
+  #calculator-shell .res.hero { border-color: var(--osx-gold-ui); background: color-mix(in srgb, var(--osx-gold) 10%, var(--osx-panel)); }
+  #calculator-shell .res .k,
+  #calculator-shell .sechd {
+    font-family: var(--osx-font-hud);
+    color: var(--osx-text-2);
+  }
+  #calculator-shell .decision { font-family: var(--osx-font-hud); }
+
+  /* ---- Hard-coded colours that bypassed the tokens ---- */
+  #calculator-shell ::selection { background: var(--osx-gold-fill); color: var(--osx-on-gold); }
+  #calculator-shell .screen {
+    background: var(--osx-bg-sunken);
+    border-color: var(--osx-line-strong);
+  }
+  #calculator-shell :is(input.f, select.f, textarea.f) {
+    background: var(--osx-panel-raised);
+    color: var(--osx-text);
+  }
+  #calculator-shell .klbl .ka { color: var(--osx-red); }
+  #calculator-shell .key.alphak.onk { outline-color: var(--osx-red); }
+  #calculator-shell .key.modk { background: color-mix(in srgb, var(--osx-gold) 12%, var(--osx-panel-raised)); }
+  #calculator-shell .dpad {
+    background: radial-gradient(circle, color-mix(in srgb, var(--osx-gold) 14%, var(--osx-panel-raised)) 0%, var(--osx-panel-raised) 75%);
+  }
+  /* 8% keeps the gold shift labels (INS, OFF) >= 4.5:1 on DEL/AC in light mode */
+  #calculator-shell .key.grn { background: color-mix(in srgb, var(--osx-green) 8%, var(--osx-panel-raised)); }
+  #calculator-shell .key.grn .kmain { color: var(--osx-green); }
+  #calculator-shell .key.eqk { background: var(--osx-gold-fill); }
+  #calculator-shell .key.eqk .kmain { color: var(--osx-on-gold); }
+
+  /* Light mode: the calculator display reads as a white screen on paper */
+  html[data-theme="light"] #calculator-shell .screen { background: var(--osx-panel); }
+
+  /* ---- Gold is the brand, cyan is the data (§9.8 rule 3) ----
+     --calc-teal stays mapped to the data colour because script-drawn SVG
+     (box plots, SPC points) and data bars use it. Everything below used
+     the same token as a decorative accent, so it moves to gold. */
+  #calculator-shell :focus-visible { outline-color: var(--osx-gold-ui) !important; }
+  #calculator-shell .guide-steps span {
+    color: var(--osx-gold-text);
+    border-color: var(--osx-gold-ui);
+  }
+  #calculator-shell .guide-check input { accent-color: var(--osx-gold-ui); }
+  #calculator-shell .guide-recommendation { border-left-color: var(--osx-gold-ui); }
+  #calculator-shell .guide-recommendation strong {
+    color: var(--osx-gold-text);
+    font-family: var(--osx-font-hud);
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  #calculator-shell .guide-table input[data-column] { color: var(--osx-gold-text); }
+  #calculator-shell :is(input[type="checkbox"], input[type="radio"], input[type="range"]) { accent-color: var(--osx-gold-ui); }
+  /* Expression syntax in the calculator display (input, not results) */
+  #calculator-shell .fname,
+  #calculator-shell .sch { color: var(--osx-gold-text); }
+  #calculator-shell math mi { color: var(--osx-text-heading); }
+
+  /* ---- Best-Fit Model Finder tab (its own --bfm-* tokens) ----
+     Scoped to the copy embedded in this calculator; (2,0,0) beats the
+     tool's html[data-theme="dark"] #bfm-tool token block. */
+  #calculator-shell #bfm-tool {
+    --bfm-bg:      var(--osx-bg);
+    --bfm-panel:   var(--osx-panel);
+    --bfm-panel2:  var(--osx-panel-raised);
+    --bfm-ink:     var(--osx-text);
+    --bfm-muted:   var(--osx-text-2);
+    --bfm-line:    var(--osx-line-strong);
+    --bfm-grid:    var(--osx-line);
+    --bfm-accent:  var(--osx-gold-text);   /* links, eyebrows, focus, selected pills */
+    --bfm-accent-ink: #FFFFFF;             /* on #7A6420: 5.7:1 */
+    --bfm-signal:  var(--osx-gold-text);
+    --bfm-good:    var(--osx-green);
+    --bfm-bad:     var(--osx-red);
+    --bfm-point:   var(--osx-data);        /* observed data */
+    --bfm-fit:     var(--osx-gold-ui);     /* fitted model curve */
+    --bfm-body:    var(--osx-font-body);
+    --bfm-mono:    var(--osx-font-hud);
+    --bfm-display: var(--osx-font-body);
+  }
+  html[data-theme="dark"] #calculator-shell #bfm-tool { --bfm-accent-ink: #06060C; } /* on #F0D060: 13.4:1 */
+}
+
+/* /theme.js paints body, inputs and tables site-navy with !important in dark
+   mode. Keep the OSIRIS surfaces inside the calculator. */
+html[data-theme="dark"] #calculator-shell :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, textarea) {
+  background: var(--osx-panel-raised) !important;
+  color: var(--osx-text) !important;
+  border-color: var(--osx-text-muted) !important;   /* was theme.js #2b3b50 (1.5:1) */
+}
+html[data-theme="dark"] #calculator-shell :is(input[type="checkbox"], input[type="radio"], input[type="range"]) {
+  background: transparent !important;
+  border-color: var(--osx-control-border) !important;
+}
+html[data-theme="dark"] #calculator-shell select option {
+  background: var(--osx-panel-raised) !important;
+  color: var(--osx-text) !important;
+}
+html[data-theme="dark"] #calculator-shell table { background: var(--osx-panel) !important; }
+html[data-theme="dark"] #calculator-shell th { background: var(--osx-panel-raised) !important; color: var(--osx-text-heading) !important; }
+html[data-theme="dark"] #calculator-shell td { color: var(--osx-text) !important; border-color: var(--osx-line) !important; }
