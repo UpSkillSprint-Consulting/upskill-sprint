@@ -52,6 +52,8 @@ export async function extractExamToolsJs(root = ROOT) {
     + "  var current=(document.body&&document.body.dataset.examPreview)||'cssbb', calcExpr='';\n"
     + "  function esc(s){return String(s).replace(/[&<>\"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c];});}\n"
     + '  ' + refs + '\n  ' + calc + '\n  ' + tools + '\n'
+    + "  // test-bank-formulas.js (the real CQE formula pane) fills REFS.cqe through window.__TB.REFS, as in the real exam.\n"
+    + '  if(!window.__TB)window.__TB={REFS:REFS};\n'
     + '  window.__ExamPreviewTools={build:buildTools,toggle:toggleTool,stop:stopTools,refresh:renderRefs,calcEval:calcEval};\n})();\n';
 }
 
@@ -64,6 +66,12 @@ export async function buildExamPreview(root = ROOT, destination = join(root, 'pu
   const pmpFormulas = await readFile(join(root, 'test-bank-pmp-formulas.js'), 'utf8');
   if (/["']?stem["']?\s*:\s*["'`]/.test(pmpFormulas)) throw new Error('Unexpected question content in test-bank-pmp-formulas.js.');
   await writeFile(join(destination, 'exam-preview', 'test-bank-pmp-formulas.js'), pmpFormulas);
+  // The real CQE exam's formula pane, copied verbatim: its 94-formula sheet,
+  // installFallbackRefs() and the context-aware 'Recommended for the current
+  // question' view. It holds formulas only, no questions or answers.
+  const cqeFormulas = await readFile(join(root, 'test-bank-formulas.js'), 'utf8');
+  if (/["']?stem["']?\s*:\s*["'`]/.test(cqeFormulas)) throw new Error('Unexpected question content in test-bank-formulas.js.');
+  await writeFile(join(destination, 'exam-preview', 'test-bank-formulas.js'), cqeFormulas);
   const tools = await extractExamToolsJs(root);
   await writeFile(join(destination, 'exam-preview', 'exam-tools.js'), tools);
   console.log(`ExamPreview: wrote exam-preview/exam-tools.js (${tools.length} bytes) from the real exam tools.`);
