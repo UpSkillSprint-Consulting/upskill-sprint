@@ -37,7 +37,8 @@ test('one read shows only explicitly granted exams first; all others retain lock
   assert.deepEqual(JSON.parse(JSON.stringify(s.calls[0].args)),{});assert.equal(s.el('my-exams-count').textContent,'1');
   assert.equal(s.el('my-exams-grid').children[0].dataset.exam,'pmp');
   assert.equal(s.card('pmp').querySelector('a').getAttribute('href'),'/test-bank?exam=pmp');
-  assert.ok(s.card('cqe').querySelector('.exam-status svg'));assert.equal(s.card('cqe').querySelector('a'),null);
+  assert.ok(s.card('cqe').querySelector('.exam-status svg'));assert.equal(s.card('cqe').querySelector('a:not(.exam-card-preview)'),null);
+  assert.equal(s.card('cqe').querySelector('a.exam-card-preview').getAttribute('href'),'/exam-preview/cqe');
 });
 test('zero, multiple and administrator grants use the same authoritative rows',async t=>{
   const s=screen(t);await s.signIn({id:'learner',user_metadata:{role:'administrator'}});
