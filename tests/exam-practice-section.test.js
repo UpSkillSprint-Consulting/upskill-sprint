@@ -64,14 +64,16 @@ test('public directory offers safe locked metadata before personalized access is
     ['Certified Six Sigma Black Belt','CSSBB'],['Certified Six Sigma Master Black Belt','MBB'],
     ['Certified Quality Engineer','CQE'],['Certified Manager of Quality/Organizational Excellence','CMQ/OE'],
     ['Certified Six Sigma Green Belt','CSSGB'],['Certified Reliability Engineer','CRE'],
-    ['Project Management Professional','PMP'],['National Professional Practice Examination (NPPE)','NPPE'],
-    ['Certified Quality Auditor','CQA']
+    ['Project Management Professional','PMP'],['Certified Quality Auditor','CQA'],
+    ['National Professional Practice Examination (NPPE)','NPPE']
   ]);
-  assert.equal(section.querySelector('.category-count').textContent,'8 released · 1 coming soon');
+  assert.equal(section.querySelector('.category-count').textContent,'9 released · 0 coming soon');
   assert.match(section.textContent,/timed or untimed/);
   assert.doesNotMatch(section.textContent,/An administrator must grant access to each certification/, "access card removed by request in PR #345");
   assert.equal(section.querySelectorAll('a[href^="/test-bank"]').length,0,'no unverified start links');
-  assert.equal(section.querySelectorAll('.exam-coming-soon .exam-card').length,1);
+  assert.equal(section.querySelectorAll('.exam-coming-soon .exam-card').length,0);
+  assert.equal(section.querySelector('#upcoming-exams').hidden,true);
+  assert.equal(section.querySelector('#exam-cqa').dataset.publication,'published');
   assert.equal(section.querySelector('.exam-coming-soon a, .exam-coming-soon button'),null);
   for(const card of cards.slice(0,8)) {
     assert.equal(card.tagName,'ARTICLE');

@@ -29,7 +29,7 @@ test('signed-out catalog stays public, locked and request-free with zero databas
   assert.equal(s.calls.length,0);assert.equal(s.w.document.querySelectorAll('.exam-card').length,9);
   assert.equal(s.w.document.querySelectorAll('main a[href^="/test-bank"]').length,0);
   assert.equal(s.card('pmp').dataset.state,'locked');assert.match(s.card('pmp').querySelector('a').href,/sign-in/);
-  assert.equal(s.card('cqa').querySelector('button,a'),null);
+  assert.equal(s.card('cqa').dataset.state,'locked');assert.match(s.card('cqa').querySelector('a').href,/sign-in/);
 });
 test('one read shows only explicitly granted exams first; all others retain lock icons',async t=>{
   const s=screen(t);Object.assign(s.rows.find(r=>r.exam_key==='pmp'),{can_practice:true,access_status:'granted'});
@@ -46,7 +46,7 @@ test('zero, multiple and administrator grants use the same authoritative rows',a
   for(const row of s.rows) if(['pmp','cqe'].includes(row.exam_key))row.can_practice=true;
   await s.refresh();assert.equal(s.el('my-exams-count').textContent,'2');
   for(const row of s.rows)row.can_practice=row.publication_status==='published';
-  await s.refresh();assert.equal(s.el('my-exams-count').textContent,'8');assert.equal(s.el('explore-exams-empty').hidden,false);
+  await s.refresh();assert.equal(s.el('my-exams-count').textContent,'9');assert.equal(s.el('explore-exams-empty').hidden,false);
 });
 test('pending, expired, revoked and declined remain denied with appropriate actions',async t=>{
   const s=screen(t);
@@ -122,7 +122,7 @@ test('double request clicks are blocked and account switching during a write dis
   assert.match(s.el('exam-directory-status').textContent,/Sign in/);
 });
 test('coming-soon and retired exams never expose practice, even with an unexpected allow flag',async t=>{
-  const s=screen(t);s.rows[7].can_practice=true;s.rows[0].publication_status='retired';s.rows[0].can_practice=true;
+  const s=screen(t);const soon=s.rows.find(r=>r.exam_key==='cqa');soon.publication_status='coming_soon';soon.can_practice=true;s.rows[0].publication_status='retired';s.rows[0].can_practice=true;
   await s.signIn();assert.equal(s.card('cssbb'),null);assert.equal(s.card('cqa').querySelector('a,button'),null);
   assert.doesNotMatch(read('exam-directory.js'),/localStorage|sessionStorage|setInterval|\.channel\(|innerHTML/);
 });

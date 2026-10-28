@@ -5,14 +5,14 @@ import { fileURLToPath } from 'node:url';
 // Static release preflight only. It cannot certify runtime authorization, CDN
 // configuration, encoded content, or user transitions. Findings contain paths,
 // never question text, answers, tokens, or account data.
-const bankFile = /(?:^|\/)test-bank-(?:cssbb|cssgb|mbb|cqe|cmq|cre|pmp|nppe)-(?:set\d+|bank\d+|diagnostic(?:-batch\d+)?|learning(?:-batch\d+)?)\.js$/i;
+const bankFile = /(?:^|\/)test-bank-(?:cssbb|cssgb|mbb|cqe|cmq|cqa|cre|pmp|nppe)-(?:set\d+|bank\d+|diagnostic(?:-batch\d+)?|learning(?:-batch\d+)?)\.js$/i;
 const textFile = /\.(?:html?|[cm]?js|json|map)$/i;
 const questionLiteral = /["']?stem["']?\s*:\s*["'`]/;
 const answerLiteral = /["']?(?:answer|correctAnswer)["']?\s*:\s*(?:\d|["'`])/;
 // The only public question file: the free ExamPreview pool. It is allowed
 // solely when every question carries an ExamPreview id, so a paid bank copied
 // to this path still blocks the build.
-export const FREE_POOL_PATHS = new Set(['exam-preview/cssbb-questions.json', 'exam-preview/pmp-questions.json', 'exam-preview/cssgb-questions.json', 'exam-preview/mbb-questions.json', 'exam-preview/cqe-questions.json']);
+export const FREE_POOL_PATHS = new Set(['exam-preview/cssbb-questions.json', 'exam-preview/pmp-questions.json', 'exam-preview/cssgb-questions.json', 'exam-preview/mbb-questions.json', 'exam-preview/cqe-questions.json', 'exam-preview/cqa-questions.json']);
 export function freePoolProblem(content, path = '') {
   let data;
   try { data = JSON.parse(content); } catch { return 'Free ExamPreview pool is not valid JSON'; }

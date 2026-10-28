@@ -63,7 +63,7 @@ function assertPool(s, e, bank, domain) {
 }
 function submit(w) { const last=w.__TB.getFeedbackSnapshot().records.length-1;click(w,`[data-goto="${last}"]`);click(w,'[data-submit]'); }
 function card(w,kind){return w.document.querySelector(`[data-mode="${kind}"]`).closest('.tb-mode');}
-for(const exam of ['cssbb','cssgb','mbb','cqe','cmq']) {
+for(const exam of ['cssbb','cssgb','mbb','cqe','cmq','cqa']) {
   test(`${exam}: every Quick/Focused test-set choice draws only its own questions`,async()=>{
     const h=await harness(),{w}=h;
     try {
@@ -125,7 +125,7 @@ test('Full, Quick and Focused selections remain independent across other control
     assert.equal(chosen(w,'quick'),'1');assert.equal(chosen(w,'focus'),'1');
     assert.equal(w.document.querySelector('[data-quiz-set="1"]').textContent.trim(),'Set 1');
     assert.equal(w.document.querySelector('[data-quiz-set="3"]').textContent.trim(),'Set 3');
-    click(w,'.tb-tile[data-exam="cqa"]');assert.equal(w.document.querySelector('[data-quiz-set]'),null);
+    click(w,'.tb-tile[data-exam="cqa"]');assert.equal(chosen(w,'quick'),'1');assert.equal(chosen(w,'focus'),'1');
     assert.deepEqual(h.errors,[]);
   } finally {await h.close();}
 });

@@ -5,7 +5,7 @@ import { Script } from 'node:vm';
 import { integrateNPPEDiagnostic } from './nppe-diagnostic-runtime.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-export const EXAM_KEYS = ['cssbb', 'mbb', 'cssgb', 'cqe', 'cmq', 'cre', 'pmp', 'nppe'];
+export const EXAM_KEYS = ['cssbb', 'mbb', 'cssgb', 'cqe', 'cmq', 'cqa', 'cre', 'pmp', 'nppe'];
 const SHARED = new Set(['test-bank-memory-learning.js', 'test-bank-current-attempt-review.js', 'test-bank-formulas.js', 'test-bank-tables.js']);
 const SCRIPT = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
 const PRIVATE_DIRECTORY = 'content/exam-delivery-generated';
@@ -33,7 +33,7 @@ export function isolateRuntime(source, exam) {
 
 function belongsToExam(name, exam) {
   if (SHARED.has(name)) return true;
-  const match = /^test-bank-(cssbb|mbb|cssgb|cqe|cmq|cre|pmp|nppe)(?:-|\.)/.exec(name);
+  const match = /^test-bank-(cssbb|mbb|cssgb|cqe|cmq|cqa|cre|pmp|nppe)(?:-|\.)/.exec(name);
   if (!match) throw new Error(`Unclassified private simulator script: ${name}`);
   return match[1] === exam;
 }

@@ -29,6 +29,7 @@ assert.match(html, /Focused Quiz/i, 'Focused Quiz mode must remain present');
 
 for (const file of [
   'test-bank-cmq-set1.js',
+  'test-bank-cqa-set1.js',
   'test-bank-cssgb-set1.js',
   'test-bank-mbb-set1.js',
   'test-bank-formulas.js',
