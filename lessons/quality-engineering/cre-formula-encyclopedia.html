@@ -73,6 +73,9 @@
 [data-cre-encyclopedia] .button-row{display:flex;flex-wrap:wrap;gap:9px;margin-top:11px}
 [data-cre-encyclopedia] .btn{min-height:44px;padding:10px 14px;border:1px solid var(--lesson-cre-fe-border);border-radius:10px;background:var(--lesson-cre-fe-panel-2);color:var(--lesson-cre-fe-text);font:inherit;font-weight:700;cursor:pointer}
 [data-cre-encyclopedia] .btn.primary{color:#fff;background:#0369a1;border-color:#0369a1}
+[data-cre-encyclopedia] .btn.pdf-download{display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;text-decoration:none;background:var(--lesson-cre-fe-panel);color:var(--lesson-cre-fe-primary);border-color:var(--lesson-cre-fe-primary)}
+[data-cre-encyclopedia] .btn.pdf-download svg{flex:none}
+html[data-theme="dark"] [data-cre-encyclopedia] .button-row .btn.pdf-download{background:var(--lesson-cre-fe-panel);color:var(--lesson-cre-fe-primary);-webkit-text-fill-color:var(--lesson-cre-fe-primary);border-color:var(--lesson-cre-fe-primary)}
 [data-cre-encyclopedia] .btn:hover{transform:none}
 [data-cre-encyclopedia] .btn:focus-visible,[data-cre-encyclopedia] .phase-link:focus-visible{outline:3px solid var(--lesson-cre-fe-primary);outline-offset:2px}
 [data-cre-encyclopedia] .result-summary{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin:0 2px 18px}
@@ -203,6 +206,7 @@
       <button class="btn primary" id="resetBtn" type="button">Reset filters</button>
       <button class="btn" id="expandBtn" type="button">Expand sources</button>
       <button class="btn" id="collapseBtn" type="button">Collapse sources</button>
+      <a class="btn pdf-download" href="/assets/lessons/cre-formula-encyclopedia/cre-formula-encyclopedia-quick-reference.pdf" download="CRE-Formula-Encyclopedia-Quick-Reference.pdf" aria-label="Download PDF: CRE Formula Encyclopedia quick reference (PDF, 2.3 MB)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12M6 10l6 6 6-6M4 20h16"/></svg><span>Download PDF</span></a>
     </div>
   </section>
   <div class="result-summary">
