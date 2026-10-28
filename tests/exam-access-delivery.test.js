@@ -79,7 +79,7 @@ test('anonymous, malformed and token-in-query requests cannot read private conte
 
 test('unknown, coming-soon, duplicate, traversal and forged user selectors fail before database reads', async () => {
   const h = handler();
-  for (const query of ['exam=cqa','exam=unknown','exam=../cqe','exam=CSSGB','exam=cssgb&exam=cqe','exam=cssgb&user_id=admin','exam=cssgb&check=0']) {
+  for (const query of ['exam=cqm','exam=unknown','exam=../cqe','exam=CSSGB','exam=cssgb&exam=cqe','exam=cssgb&user_id=admin','exam=cssgb&check=0']) {
     assert.ok([400,404].includes((await h.run(req(query))).status));
   }
   assert.equal((await h.run(req('exam=cssgb',TOKEN,'POST'))).status,405);
@@ -179,7 +179,7 @@ async function openPackage(exam) {
 function closeDom(dom) { dom.window.__TBCurrentAttemptReview?.destroy(); dom.window.close(); }
 const click = (w,node) => { assert.ok(node,'expected quiz control'); node.dispatchEvent(new w.MouseEvent('click',{bubbles:true})); };
 
-for (const exam of ['cssbb','mbb','cssgb','cqe','cmq','cre','pmp']) {
+for (const exam of ['cssbb','mbb','cssgb','cqe','cmq','cqa','cre','pmp']) {
   test(`private ${exam} package retains only its own banks and renders all released sets`, async () => {
     const {dom,w,packet,errors} = await openPackage(exam);
     try {

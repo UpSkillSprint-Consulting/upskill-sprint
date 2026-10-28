@@ -354,10 +354,6 @@ def main():
                     link.focus()
                     page.keyboard.press('Enter')
                     expect(page).to_have_url(base + chip['href'])
-                    if exam_id == 'cqa':
-                        expect(page.locator('#exam-access-status')).to_contain_text('This exam is not available')
-                        assert page.evaluate('()=>!window.__TB')
-                        continue
                     if not premium:
                         expect(page.locator('#exam-access-status')).to_contain_text('Sign in to open this exam')
                         target = page.locator('#exam-access-status a').first.get_attribute('href')

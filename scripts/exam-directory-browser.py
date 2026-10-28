@@ -81,7 +81,8 @@ def main():
             expect(page.locator('#exam-cssbb')).to_have_attribute('data-state', 'pending')
             expect(page.locator('#exam-cqe')).to_have_attribute('data-state', 'expired')
             expect(page.locator('#exam-cre')).to_have_attribute('data-state', 'revoked')
-            expect(page.locator('#exam-cqa a,#exam-cqa button')).to_have_count(0)
+            expect(page.locator('#exam-cqa')).to_have_attribute('data-state', 'locked')
+            expect(page.locator('#exam-cqa [data-action=request]')).to_have_count(1)
             assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'), 'Horizontal overflow'
             page.screenshot(path=str(out / f'directory-{args.browser}-{width}-{theme}.png'), full_page=True)
             page.locator('#exam-directory-search').fill('master black')

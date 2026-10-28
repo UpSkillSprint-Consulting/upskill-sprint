@@ -2,7 +2,7 @@
   'use strict';
   var params = new URLSearchParams(window.location.search);
   var exam = params.get('exam');
-  var published = ['cssbb','mbb','cssgb','cqe','cmq','cre','pmp','nppe'];
+  var published = ['cssbb','mbb','cssgb','cqe','cmq','cqa','cre','pmp','nppe'];
   var auth, userId, revision = 0, loaded = false, started = false, stopped = false;
   var checking = null, starting = false, blobs = [], authTimeout, confirmedDenial = false;
 

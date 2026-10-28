@@ -55,7 +55,7 @@
         ['CRE', 'Reliability Engineer', '/exam-practice#exam-cre'],
         ['PMP', 'Project Management Professional', '/exam-practice#exam-pmp'],
         ['NPPE', 'National Professional Practice Exam', '/exam-practice#exam-nppe'],
-        ['CQA', 'Quality Auditor', null]
+        ['CQA', 'Quality Auditor', '/exam-practice#exam-cqa']
       ],
       foot: [['All exams →', '/exam-practice', 'primary'], ['My exams', '/exam-practice#my-exams', 'secondary']]
     },
