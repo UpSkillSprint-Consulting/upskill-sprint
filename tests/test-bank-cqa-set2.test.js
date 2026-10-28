@@ -1,0 +1,311 @@
+'use strict';
+
+/* CQA Set 2 Batch 1: exercise the protected package and real learner controls. */
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const vm = require('node:vm');
+const test = require('node:test');
+const {JSDOM, VirtualConsole} = require('jsdom');
+
+const ROOT = path.resolve(__dirname, '..');
+const read = file => fs.readFileSync(path.join(ROOT, file), 'utf8');
+const plain = value => JSON.parse(JSON.stringify(value));
+const AREAS = {
+  I: 'cqa-fundamentals', II: 'cqa-process', III: 'cqa-competencies',
+  IV: 'cqa-program', V: 'cqa-tools'
+};
+const COUNTS = {
+  'cqa-fundamentals': 2, 'cqa-process': 3, 'cqa-competencies': 2,
+  'cqa-program': 2, 'cqa-tools': 1
+};
+const IDS = Array.from({length: 10}, (_, i) => 'cqa:set-2:q' + String(i + 1).padStart(3, '0'));
+const tick = w => new Promise(resolve => w.setTimeout(resolve, 55));
+let workspace, build, packet;
+
+function loadBanks() {
+  const window = {};
+  const context = vm.createContext({window, globalThis: window, self: window});
+  vm.runInContext(read('test-bank-cqa-set1.js'), context);
+  const previous = plain(window.CQA_SET1);
+  vm.runInContext(read('test-bank-cqa-set2.js'), context);
+  return {previous, first: plain(window.CQA_SET1), second: plain(window.CQA_SET2)};
+}
+
+test.before(async () => {
+  // Build into an isolated directory: these tests never overwrite the release output.
+  workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'cqa-set2-integration-'));
+  for (const entry of fs.readdirSync(ROOT, {withFileTypes: true})) {
+    if (entry.name.startsWith('.') || ['content', 'public-site', 'node_modules'].includes(entry.name)) continue;
+    fs.symlinkSync(path.join(ROOT, entry.name), path.join(workspace, entry.name), entry.isDirectory() ? 'dir' : 'file');
+  }
+  // Use actual bank files with the public staging policy, without staging unrelated site pages.
+  const source = path.join(workspace, 'staging-fixture');
+  fs.mkdirSync(source);
+  fs.writeFileSync(path.join(source, 'index.html'), '<!doctype html><title>CQA delivery fixture</title>');
+  for (const name of ['test-bank.html', 'test-bank-cqa-set1.js', 'test-bank-cqa-set2.js', 'test-bank-tables.js']) {
+    fs.copyFileSync(path.join(ROOT, name), path.join(source, name));
+  }
+  await (await import('../scripts/stage-public-site.mjs')).stagePublicSite(source, path.join(workspace, 'public-site'));
+  build = await (await import('../scripts/build-exam-delivery.mjs')).buildExamDelivery(workspace);
+  packet = JSON.parse(fs.readFileSync(path.join(build.output, 'cqa.json'), 'utf8'));
+});
+
+test.after(() => {
+  if (workspace) fs.rmSync(workspace, {recursive: true, force: true});
+});
+
+async function harness() {
+  const errors = [];
+  const virtualConsole = new VirtualConsole();
+  virtualConsole.on('jsdomError', error => errors.push(error.message));
+  let closeFrames = () => {};
+  const dom = new JSDOM(build.shell, {
+    url: 'https://upskillsprint.com/test-bank?exam=cqa',
+    runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole,
+    beforeParse(w) {
+      w.HTMLElement.prototype.scrollIntoView = () => {};
+      w.scrollTo = w.alert = () => {};
+      w.confirm = () => true;
+      const request = w.requestAnimationFrame.bind(w), cancel = w.cancelAnimationFrame.bind(w);
+      const frames = new Set();
+      let closing = false;
+      w.requestAnimationFrame = callback => {
+        if (closing) return 0;
+        const id = request(time => {frames.delete(id); if (!closing) callback(time);});
+        frames.add(id);
+        return id;
+      };
+      w.cancelAnimationFrame = id => {frames.delete(id); cancel(id);};
+      closeFrames = () => {closing = true; frames.forEach(cancel); frames.clear();};
+    }
+  });
+  const w = dom.window;
+  if (w.document.readyState !== 'complete') await new Promise(resolve => w.addEventListener('load', resolve, {once: true}));
+  let accessChecks = 0;
+  w.__ExamAccess = {exam: 'cqa', isAssetUrl: () => false, start: action => {accessChecks++; return action();}};
+  for (const source of packet.scripts) w.eval(source);
+  await tick(w);
+  return {w, errors, checks: () => accessChecks, close() {
+    w.__TBCurrentAttemptReview?.destroy?.();
+    closeFrames();
+    w.close();
+  }};
+}
+
+function click(w, selector) {
+  const element = w.document.querySelector(selector);
+  assert.ok(element, 'Expected control: ' + selector);
+  assert.equal(element.disabled, false, 'Control is available: ' + selector);
+  element.click();
+  return element;
+}
+function selectSet(w, kind) {
+  click(w, kind === 'full' ? '.tb-setpick [data-set="2"]' : `[data-quiz-set-kind="${kind}"][data-quiz-set="2"]`);
+}
+function snapshot(w, expected) {
+  const result = w.__TB.getFeedbackSnapshot();
+  assert.ok(result, 'A learner session started');
+  assert.equal(result.examId, 'cqa');
+  assert.equal(result.setId, '2');
+  assert.equal(result.records.length, expected);
+  assert.equal(new Set(result.records.map(record => record.question.qid)).size, expected, 'No repeated questions');
+  assert.ok(result.records.every(record => IDS.includes(record.question.qid)), 'Every question belongs to released Set 2');
+  return result;
+}
+function text(w, value) {
+  const holder = w.document.createElement('div');
+  holder.innerHTML = value;
+  return holder.textContent.trim();
+}
+function rationale(q, option) {
+  return q.optionRationales?.[option] || q.distractors?.[option];
+}
+function assertTable(holder, chart) {
+  const table = holder.querySelector('.tb-q-data-table');
+  assert.ok(table, 'The case document is present');
+  assert.deepEqual(Array.from(table.querySelectorAll('thead th'), cell => cell.textContent), chart.columns.map(String));
+  assert.deepEqual(Array.from(table.querySelectorAll('tbody tr'), row => Array.from(row.children, cell => cell.textContent)), chart.rows.map(row => row.map(String)));
+}
+
+test('Batch 1 adds exactly Q001–Q010, preserves Set 1, and covers all five primary domains', () => {
+  const {previous, first, second} = loadBanks();
+  assert.deepEqual(first, previous, 'Loading Set 2 must not mutate any Set 1 question or answer');
+  assert.equal(first.length, 150);
+  assert.deepEqual(second.map(q => q.qid), IDS);
+  const all = first.concat(second);
+  assert.equal(new Set(all.map(q => q.qid)).size, 160);
+  const firstStems = new Set(first.map(q => q.stem.trim().toLowerCase()));
+  assert.equal(new Set(second.map(q => q.stem.trim().toLowerCase())).size, 10);
+  const totals = Object.fromEntries(Object.values(AREAS).map(area => [area, 0]));
+  for (const q of second) {
+    assert.equal(q.set, 2);
+    const area = AREAS[String(q.bok).split('.')[0]];
+    assert.ok(area, q.qid + ' has a recognized primary BoK domain');
+    totals[area]++;
+    assert.ok(q.stem.trim() && !firstStems.has(q.stem.trim().toLowerCase()), q.qid + ' has a new stem');
+    assert.equal(q.options.length, 4);
+    assert.equal(new Set(q.options.map(option => option.trim().toLowerCase())).size, 4);
+    assert.ok(q.options.every(option => option.trim()));
+    assert.ok(Number.isInteger(q.answer) && q.answer >= 0 && q.answer < 4);
+    assert.ok(q.why && q.keyPoint, q.qid + ' includes an explanation and learning point');
+    for (let option = 0; option < 4; option++) if (option !== q.answer) {
+      const explanation = rationale(q, option);
+      assert.ok(typeof explanation === 'string' && explanation.trim(), q.qid + ' explains distractor ' + option);
+    }
+    if (q.chart?.type === 'data-table') assert.ok(q.chart.rows.every(row => row.length === q.chart.columns.length));
+  }
+  assert.deepEqual(totals, COUNTS);
+});
+
+test('the protected CQA runtime retains both banks and identifies Set 2 as ten of 150 planned questions', async () => {
+  const h = await harness(), {w} = h;
+  try {
+    const exam = w.__TB.EXAMS.cqa;
+    assert.equal(exam.bank.length, 150);
+    assert.equal(exam.bank, exam.sets[1]);
+    assert.equal(exam.sets[2].length, 10);
+    assert.equal(exam.setPlans[2].target, 150);
+    const raw = loadBanks();
+    for (const [set, source] of [[1, raw.first], [2, raw.second]]) {
+      assert.deepEqual(Array.from(exam.sets[set], q => q.qid), source.map(q => q.qid));
+      for (let i = 0; i < source.length; i++) {
+        const q = exam.sets[set][i];
+        assert.equal(q.sub, AREAS[source[i].bok.split('.')[0]], q.qid + ' scores to its primary domain');
+        assert.equal(q.topic || q.sub, source[i].topic || source[i].sub, q.qid + ' retains its finer topic');
+        assert.equal(q.answer, source[i].answer, q.qid + ' retains its answer key');
+      }
+    }
+    selectSet(w, 'full');
+    assert.match(w.document.querySelector('.tb-setnote').textContent, /10 of 150 planned questions/);
+    assert.match(w.document.querySelector('.tb-setnote').textContent, /currently serves 10 questions/);
+    const fullCard = w.document.querySelector('[data-mode="full"]').closest('.tb-mode');
+    assert.match(fullCard.textContent, /10 randomized questions/);
+    assert.match(fullCard.textContent, /20 min/);
+    assert.equal(w.document.querySelector('[data-quiz-set-kind="quick"][data-quiz-set="1"]').getAttribute('aria-pressed'), 'true', 'Full Exam selection does not silently switch Quick Quiz');
+    assert.deepEqual(h.errors, []);
+  } finally {h.close();}
+});
+
+test('Full Exam serves all ten items, keeps case tables visible, and scores and reviews all ten answers', async () => {
+  const h = await harness(), {w} = h;
+  try {
+    selectSet(w, 'full');
+    click(w, '[data-mode="full"]');
+    const attempt = snapshot(w, 10);
+    assert.equal(h.checks(), 1, 'Starting the session goes through the access gate');
+    const remaining = w.document.querySelector('#tb-timer').textContent.split(':').map(Number).reduce((sum, value) => sum * 60 + value, 0);
+    assert.ok(remaining > 1190 && remaining <= 1200, 'Ten questions use the existing two-minute-per-question pace');
+    let tables = 0;
+    for (const record of attempt.records) {
+      click(w, `[data-goto="${record.index}"]`);
+      const quiz = w.document.querySelector('.tb-quiz');
+      assert.equal(quiz.querySelector('.tb-stem').textContent, record.question.stem);
+      assert.equal(quiz.querySelector('.tb-review-rationales'), null, 'Distractor feedback is not exposed during the timed attempt');
+      if (record.question.chart?.type === 'data-table') {assertTable(quiz, plain(record.question.chart)); tables++;}
+      click(w, `[data-opt="${record.question.answer}"]`);
+    }
+    assert.ok(tables >= 2, 'The audit-document questions include their source tables');
+    click(w, '[data-submit]');
+    await tick(w);
+    const result = snapshot(w, 10);
+    assert.equal(result.completed, true);
+    assert.equal(result.grading.correct, 10);
+    assert.equal(result.grading.total, 10);
+    assert.equal(w.document.querySelector('[data-score-result]').dataset.scorePercent, '100');
+    assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet, '2');
+    click(w, '[data-open-review="all"]');
+    assert.equal(w.document.querySelectorAll('.tb-review-card').length, 10);
+    for (const record of result.records) {
+      const q = record.question;
+      const card = w.document.querySelector(`.tb-review-card[data-question-id="${q.qid}"]`);
+      assert.equal(card.dataset.reviewStatus, 'correct');
+      assert.equal(card.querySelector('.tb-review-option.is-correct .tb-answer-copy').textContent, q.options[q.answer]);
+      assert.equal(card.querySelector('.tb-explanation-copy').textContent.trim(), text(w, q.why));
+      const rationales = card.querySelectorAll('.tb-review-rationales p');
+      assert.equal(rationales.length, 3, q.qid + ' explains all three distractors');
+      for (let option = 0; option < 4; option++) if (option !== q.answer) {
+        assert.ok(card.querySelector('.tb-review-rationales').textContent.includes(text(w, rationale(q, option))), q.qid + ' shows the authored rationale for option ' + option);
+      }
+      if (q.chart?.type === 'data-table') assertTable(card, plain(q.chart));
+    }
+    assert.deepEqual(h.errors, []);
+  } finally {h.close();}
+});
+
+test('Quick Quiz caps a fifty-question request at ten and grades one deliberate wrong answer as 90%', async () => {
+  const h = await harness(), {w} = h;
+  try {
+    selectSet(w, 'quick');
+    click(w, '[data-count="quick"][data-n="50"]');
+    const card = w.document.querySelector('[data-mode="quick"]').closest('.tb-mode');
+    assert.match(card.querySelector('.tb-mode-sum').textContent, /Only 10 questions are currently available in Set 2/);
+    click(w, '[data-mode="quick"]');
+    const attempt = snapshot(w, 10);
+    for (const record of attempt.records) {
+      click(w, `[data-goto="${record.index}"]`);
+      const selected = record.index === 0 ? (record.question.answer + 1) % 4 : record.question.answer;
+      click(w, `[data-opt="${selected}"]`);
+    }
+    click(w, '[data-submit]');
+    await tick(w);
+    const result = snapshot(w, 10);
+    assert.equal(result.grading.correct, 9);
+    assert.equal(result.grading.incorrect, 1);
+    assert.equal(result.grading.unanswered, 0);
+    assert.equal(w.document.querySelector('[data-score-result]').dataset.scorePercent, '90');
+    click(w, '[data-open-review="all"]');
+    assert.equal(w.document.querySelectorAll('.tb-review-card[data-review-status="incorrect"]').length, 1);
+    assert.equal(w.document.querySelector('.tb-review-card[data-review-status="incorrect"]').dataset.questionId, attempt.records[0].question.qid);
+    assert.deepEqual(h.errors, []);
+  } finally {h.close();}
+});
+
+test('Focused Quiz draws only the available Set 2 questions in each of the five domains', async () => {
+  const h = await harness(), {w} = h;
+  try {
+    selectSet(w, 'focus');
+    click(w, '[data-count="focus"][data-n="50"]');
+    for (const [area, count] of Object.entries(COUNTS)) {
+      const select = w.document.querySelector('[data-focusdom]');
+      select.value = area;
+      select.dispatchEvent(new w.Event('change', {bubbles: true}));
+      click(w, '[data-mode="focus"]');
+      const attempt = snapshot(w, count);
+      assert.ok(attempt.records.every(record => record.question.sub === area));
+      click(w, '[data-quit]');
+    }
+    assert.equal(h.checks(), 5);
+    assert.deepEqual(h.errors, []);
+  } finally {h.close();}
+});
+
+test('Set 2 diagnostic uses nine available items under the existing two-per-domain cap', async () => {
+  const h = await harness(), {w} = h;
+  try {
+    selectSet(w, 'full');
+    assert.match(w.document.querySelector('[data-diag]').textContent, /9-question diagnostic/);
+    click(w, '[data-diag]');
+    const attempt = snapshot(w, 9);
+    const counts = {};
+    for (const record of attempt.records) counts[record.question.sub] = (counts[record.question.sub] || 0) + 1;
+    assert.deepEqual(counts, {...COUNTS, 'cqa-process': 2});
+    assert.deepEqual(h.errors, []);
+  } finally {h.close();}
+});
+
+test('Set 2 questions are delivered only in CQA and remain absent from the public shell and staging', async () => {
+  assert.ok(packet.scripts.includes(read('test-bank-cqa-set2.js')), 'The authorized CQA package contains the current Set 2 source');
+  for (const id of IDS) assert.ok(!build.shell.includes(id), 'No Set 2 question is embedded in the public shell');
+  for (const exam of Object.keys(build.sizes).filter(exam => exam !== 'cqa')) {
+    const other = JSON.parse(fs.readFileSync(path.join(build.output, exam + '.json'), 'utf8'));
+    for (const id of IDS) assert.ok(other.scripts.every(source => !source.includes(id)), id + ' is not delivered to ' + exam);
+  }
+  const output = path.join(workspace, 'public-site');
+  assert.equal(fs.existsSync(path.join(output, 'test-bank-cqa-set2.js')), false);
+  assert.equal(fs.existsSync(path.join(output, 'test-bank-cqa-set1.js')), false);
+  assert.equal(fs.existsSync(path.join(output, 'test-bank-tables.js')), true, 'The non-question mathematical utility remains available');
+  const audit = await (await import('../scripts/audit-exam-public-content.mjs')).auditExamPublicContent(output);
+  assert.deepEqual(audit.findings, []);
+});
