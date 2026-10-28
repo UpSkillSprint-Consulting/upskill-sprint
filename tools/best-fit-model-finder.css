@@ -1,4 +1,4 @@
-/* Best-Fit Model Finder: shared by /tools/best-fit-model-finder and the calculator tab.
+/* Best-Fit Model Finder: the Best-Fit Model Finder tab in the Engineering & Statistics Calculator.
  Light tokens on #bfm-tool; dark tokens under html[data-theme="dark"]. */
 /* Layout: a workbench. Data in, leaderboard, then one selected model in detail.
    Light values here; dark values at the end of this file. */

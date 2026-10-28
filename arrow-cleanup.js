@@ -308,7 +308,8 @@
 
     tools.forEach(function (tool) {
       const card = document.getElementById(tool.id);
-      if (!card || card.hasAttribute('data-tool')) return;
+      // A card with data-tool-route is already a complete, live tool row in the HTML.
+      if (!card || card.hasAttribute('data-tool') || card.hasAttribute('data-tool-route')) return;
 
       card.setAttribute('href', tool.path);
       card.classList.remove('is-planned');
