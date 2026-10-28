@@ -14,7 +14,6 @@ const DEEP_LINK = `${CALC}?tab=best-fit`;
 const html = fs.readFileSync(path.join(ROOT, 'tools', 'engineering-statistics-calculator.html'), 'utf8');
 const netlify = fs.readFileSync(path.join(ROOT, 'netlify.toml'), 'utf8');
 const directory = fs.readFileSync(path.join(ROOT, 'engineering-tools.html'), 'utf8');
-const sql = fs.readFileSync(path.join(ROOT, 'supabase', 'public-best-fit-model-finder-access.sql'), 'utf8');
 const C = require('../tools/best-fit-model-finder-core.js');
 const doc = new JSDOM(html, { url: `https://upskillsprint.com${CALC}` }).window.document;
 
@@ -52,7 +51,7 @@ test('the standalone page is retired: a 301 sends every form of the old route to
   for (const gate of ['data-require-auth', 'data-required-access', 'data-access-resource', 'data-tool-shell']) {
     assert.equal(doc.body.hasAttribute(gate), false, `the public calculator must not carry ${gate}`);
   }
-  assert.doesNotMatch(sql, /\b(create|alter|drop|grant)\b/i);
+  assert.equal(fs.existsSync(path.join(ROOT, 'supabase', 'public-best-fit-model-finder-access.sql')), false, 'the never-applied access-rule SQL for the retired route is deleted');
 });
 
 test('internal links point at the calculator deep link, never the retired route', () => {
