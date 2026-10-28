@@ -6,7 +6,7 @@
     badge:card.querySelector('.exam-acronym').textContent,publication_status:card.dataset.publication,
     can_practice:false,access_status:'locked',request_revision:0
   }));
-  const EXAM_PREVIEWS = ['cssbb','cssgb','mbb','cqe','cqa','pmp'];
+  const EXAM_PREVIEWS = ['cssbb','cssgb','mbb','cqe','cqa','pmp','nppe'];
   const labels = {granted:'Access granted',locked:'Locked',pending:'Request pending',expired:'Access expired',revoked:'Access revoked',declined:'Request declined',coming_soon:'Coming soon',loading:'Checking access',unavailable:'Access unavailable'};
   let auth, user = null, phase = 'loading', rows = defaults, version = 0, active = null, reading = null, busy = false, initialized = false;
   const notice = text => { byId('exam-directory-status').textContent = text; };
