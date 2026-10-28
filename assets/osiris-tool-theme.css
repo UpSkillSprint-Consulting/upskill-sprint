@@ -16,10 +16,15 @@
        <body class="osx-page" ...>
          ...canonical header...
          <main id="<slug>-tool" class="osx-tool"> ... </main>
+   - Migrating an existing tool that already has its own token system:
+     put class="osx-tokens" on its root instead. That defines the --osx-*
+     tokens only (no base or component styles), so the tool can point its
+     own tokens at them without its layout changing.
    ===================================================================== */
 
 /* ---------- LIGHT (site light mode) ---------- */
-.osx-tool {
+.osx-tool,
+.osx-tokens {
   color-scheme: light;
 
   /* Surfaces */
@@ -70,7 +75,8 @@
 }
 
 /* ---------- DARK (site dark mode) ---------- */
-html[data-theme="dark"] .osx-tool {
+html[data-theme="dark"] .osx-tool,
+html[data-theme="dark"] .osx-tokens {
   color-scheme: dark;
 
   --osx-bg:             #06060C;
@@ -421,8 +427,8 @@ html[data-theme="dark"] .osx-tool .osx-toggle input:checked { background: var(--
 @media print {
   body.osx-page,
   html[data-theme="dark"] body.osx-page { background: #FFFFFF !important; }
-  .osx-tool,
-  html[data-theme="dark"] .osx-tool {
+  .osx-tool, .osx-tokens,
+  html[data-theme="dark"] .osx-tool, html[data-theme="dark"] .osx-tokens {
     --osx-bg: #FFFFFF; --osx-bg-sunken: #FFFFFF; --osx-panel: #FFFFFF; --osx-panel-raised: #FFFFFF;
     --osx-text-heading: #0C0E1A; --osx-text: #1E2130; --osx-text-2: #5C5A54; --osx-text-muted: #6B675E;
     --osx-gold-text: #7A6420; --osx-data: #006B7A; --osx-line: #CFC8B4; --osx-shadow: none;

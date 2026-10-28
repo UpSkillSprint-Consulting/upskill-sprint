@@ -875,6 +875,24 @@ mode and would repaint them site-navy: `.card`, `.chip`, `.calculator`, `.result
 canonical header, footer and nav look exactly as on `/engineering-tools` (the theme must not
 leak into chrome), and that charts redraw in the right colours after toggling the theme.
 
+**7. Migrating an existing tool** (only when Ernest asks, one tool per change). A tool that
+already has its own token system keeps its markup and CSS; only its colours move:
+
+1. Load `/assets/osiris-tool-theme.css` (and the two fonts) after the §5 tags, add
+   `class="osx-page"` to `<body>`, and add `osx-tokens` to the tool root's classes.
+   `.osx-tokens` defines the `--osx-*` tokens without any of the `.osx-tool` base or
+   component styles, so nothing in the layout shifts.
+2. Add one skin stylesheet, loaded last, that points the tool's own tokens at `--osx-*`
+   (e.g. `--calc-bg: var(--osx-bg)`), then fixes the hard-coded colours that bypass them.
+   Wrap the token mapping in `@media screen` so existing print styles still apply.
+3. Move canvas/SVG palettes in the tool's scripts to the OSIRIS values for each theme.
+4. Run the axe scan on **every** workspace or tab of the tool, both themes, both widths,
+   before and after; the after count must be zero. Tinted backgrounds (`color-mix` with gold
+   or green) are the usual source of new contrast misses, so keep tints at ≤10%.
+
+Worked example: the Engineering & Statistics Calculator,
+`tools/calculator-assets/osiris-skin.css` (PR #367).
+
 ---
 
 ## 10. Mobile requirements (all lessons)

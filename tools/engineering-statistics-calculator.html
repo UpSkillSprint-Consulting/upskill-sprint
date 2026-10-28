@@ -36,12 +36,13 @@
 <meta name="twitter:description" content="Use this free statistics calculator for Excel and CSV analysis, hypothesis tests, control charts, process capability and quality cost reviews.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
 <link rel="stylesheet" href="/lessons-theme.css">
 <link rel="stylesheet" href="/site-nav.css">
 <script src="/site-nav.js" defer></script>
 <script src="/site-sections.js"></script>
+<link rel="stylesheet" href="/assets/osiris-tool-theme.css">
 <style>
 /* ================= Design tokens ================= */
 :root{
@@ -278,8 +279,9 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
 <link rel="stylesheet" href="/tools/calculator-assets/lookup.css">
 <link rel="stylesheet" href="/tools/calculator-assets/lookup-math.css">
 <link rel="stylesheet" href="/tools/best-fit-model-finder.css">
+<link rel="stylesheet" href="/tools/calculator-assets/osiris-skin.css">
 </head>
-<body>
+<body class="osx-page">
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
 <header class="site lesson-sitebar">
   <a class="brand" href="/"><img class="logo-wordmark" src="/assets/logo-wordmark.png" data-logo-light="/assets/logo-wordmark.png" data-logo-dark="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></a>
@@ -290,7 +292,7 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
   </div>
 </header>
 <nav data-nav-root="mobile" class="mobile-nav" aria-label="Main"><div class="nav-acc" data-nav-acc="start"><button type="button" class="nav-acc-btn" data-nav-tab="start" aria-expanded="false" aria-controls="nav-m-start"><span>Start Here</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-start" hidden><a class="nav-row" href="/start-here#quality-improvement-basics"><span class="nav-name">Quality Improvement Basics</span></a><a class="nav-row" href="/start-here#data-analysis-basics"><span class="nav-name">Data Analysis Basics</span></a><a class="nav-row" href="/start-here#lean-six-sigma-tools"><span class="nav-name">Lean Six Sigma Tools</span></a><a class="nav-row" href="/start-here#excel-and-power-bi-skills"><span class="nav-name">Excel and Power BI Skills</span></a><a class="nav-row" href="/start-here#statistics-for-decision-making"><span class="nav-name">Statistics for Decision-Making</span></a><a class="nav-foot-primary nav-acc-all" href="/start-here">See all learning paths →</a></div></div><div class="nav-acc" data-nav-acc="lessons"><button type="button" class="nav-acc-btn" data-nav-tab="lessons" aria-expanded="false" aria-controls="nav-m-lessons"><span>Lessons</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-lessons" hidden><a class="nav-row" href="/lessons#data-analytics"><span class="nav-name">Data Analytics</span><span class="nav-count" data-nav-count="data-analytics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#quality-engineering"><span class="nav-name">Quality Engineering</span><span class="nav-count" data-nav-count="quality-engineering" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#lean-six-sigma"><span class="nav-name">Lean Six Sigma</span><span class="nav-count" data-nav-count="lean-six-sigma" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#statistics"><span class="nav-name">Statistics</span><span class="nav-count" data-nav-count="statistics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#power-bi-excel-sql"><span class="nav-name">Power BI, Excel &amp; SQL</span><span class="nav-count" data-nav-count="power-bi-excel-sql" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#project-management"><span class="nav-name">Project Management</span><span class="nav-count" data-nav-count="project-management" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#business-decision-making"><span class="nav-name">Business Decision-Making</span><span class="nav-count" data-nav-count="business-decision-making" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#ai-for-work"><span class="nav-name">AI for Work</span><span class="nav-count" data-nav-count="ai-for-work" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-foot-primary nav-acc-all" href="/lessons" data-nav-total-link>View all lessons →</a><a class="nav-foot-secondary" href="/request-topic">Request a topic</a></div></div><div class="nav-acc" data-nav-acc="exam"><button type="button" class="nav-acc-btn" data-nav-tab="exam" aria-expanded="false" aria-controls="nav-m-exam"><span>Exam Practice</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-exam" hidden><a class="nav-row nav-exam" href="/exam-practice#exam-cssbb"><span class="nav-acronym">CSSBB</span><span class="nav-name">Six Sigma Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqe"><span class="nav-acronym">CQE</span><span class="nav-name">Quality Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-mbb"><span class="nav-acronym">CMBB</span><span class="nav-name">Six Sigma Master Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cssgb"><span class="nav-acronym">CSSGB</span><span class="nav-name">Six Sigma Green Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cmq"><span class="nav-acronym">CMQ/OE</span><span class="nav-name">Manager of Quality / Org. Excellence</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cre"><span class="nav-acronym">CRE</span><span class="nav-name">Reliability Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-pmp"><span class="nav-acronym">PMP</span><span class="nav-name">Project Management Professional</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-nppe"><span class="nav-acronym">NPPE</span><span class="nav-name">National Professional Practice Exam</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqa"><span class="nav-acronym">CQA</span><span class="nav-name">Quality Auditor</span></a><a class="nav-foot-primary nav-acc-all" href="/exam-practice">All exams →</a><a class="nav-foot-secondary" href="/exam-practice#my-exams">My exams</a></div></div><div class="nav-acc" data-nav-acc="tools"><button type="button" class="nav-acc-btn" data-nav-tab="tools" aria-current="page" aria-expanded="false" aria-controls="nav-m-tools"><span>Engineering Tools</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-tools" hidden><a class="nav-row" href="/tools/engineering-statistics-calculator"><span class="nav-name">Engineering &amp; Statistics Calculator</span></a><a class="nav-row" href="/tools/unit-converter"><span class="nav-name">Unit Converter</span></a><a class="nav-row" href="/engineering-tools/grade-specification-lookup/"><span class="nav-name">Material Specification Lookup</span></a><a class="nav-row" href="/tools/material-specification-compliance-checker"><span class="nav-name">Material Specification Compliance Checker</span></a><a class="nav-row" href="/tools/steel-phase-explorer"><span class="nav-name">Steel Phase &amp; Transformation Explorer</span></a><a class="nav-foot-primary nav-acc-all" href="/engineering-tools">All tools →</a><a class="nav-foot-secondary" href="/engineering-tools#suggest-a-tool">Suggest a tool</a></div></div><div class="nav-acc" data-nav-acc="services"><button type="button" class="nav-acc-btn" data-nav-tab="services" aria-expanded="false" aria-controls="nav-m-services"><span>Services</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-services" hidden><a class="nav-row nav-rich" href="/services#corporate-training"><span class="nav-name">Corporate Training</span><span class="nav-desc">Team workshops on Lean Six Sigma and quality tools</span></a><a class="nav-row nav-rich" href="/services#one-on-one-coaching"><span class="nav-name">One-on-One Coaching</span><span class="nav-desc">Excel, Power BI, Minitab, statistics</span></a><a class="nav-row nav-rich" href="/services#consulting-support"><span class="nav-name">Consulting Support</span><span class="nav-desc">Root cause analysis, KPIs, quality investigations</span></a><a class="nav-row nav-rich" href="/services#custom-lessons"><span class="nav-name">Custom Lessons</span><span class="nav-desc">Training built around your team's needs</span></a><a class="nav-row nav-rich" href="/services#data-dashboard-support"><span class="nav-name">Data &amp; Dashboard Support</span><span class="nav-desc">Excel, Power BI and SQL help</span></a><a class="nav-book nav-acc-all" href="/contact">Book a consultation</a></div></div><div class="nav-acc" data-nav-acc="about"><button type="button" class="nav-acc-btn" data-nav-tab="about" aria-expanded="false" aria-controls="nav-m-about"><span>About</span><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-acc-panel" id="nav-m-about" hidden><a class="nav-row nav-rich" href="/about"><span class="nav-name">About UpSkill Sprint</span><span class="nav-desc">Who builds the lessons and why</span></a><a class="nav-row nav-rich" href="/faq"><span class="nav-name">FAQ</span><span class="nav-desc">Free lessons, accounts, exams</span></a><a class="nav-row nav-rich" href="/request-topic"><span class="nav-name">Request a Topic</span><span class="nav-desc">Tell us the lesson you need</span></a><a class="nav-row nav-rich" href="/contact"><span class="nav-name">Contact</span><span class="nav-desc">Questions and partnerships</span></a><a class="nav-foot-primary nav-acc-all" href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a></div></div><div class="nav-drawer-footer"><a class="nav-drawer-account" href="/sign-in">Account</a><a class="nav-drawer-browse" href="/lessons">Browse lessons</a></div></nav>
-<main id="calculator-shell" class="calculator-app">
+<main id="calculator-shell" class="calculator-app osx-tokens">
 <header class="calculator-heading"><div class="hd">
     <h1>Engineering <span class="amp">&amp;</span> Statistics Calculator</h1>
     <p class="tagline">Guided data analysis &middot; Excel/CSV import &middot; statistics, quality, graphing and scientific math &middot; <a href="/tools/calculator-manual" style="color:var(--calc-teal);text-decoration:underline" target="_blank" rel="noopener" title="Opens the user manual in a new tab">User Manual &rarr;</a></p>
@@ -853,29 +855,36 @@ Disp S</textarea><label class="f" for="program-angle">Angle unit</label><select 
 /* ============================================================
    PLOTTING — hand-rolled canvas renderer with region shading
    ============================================================ */
-const CLR = { curve:"#E8EEF4", axis:"#55697B", grid:"#182A3A", shade:"rgba(240,166,75,.38)",
-              shadeEdge:"#F0A64B", meanline:"#46C2AE", marker:"#E36060", text:"#7E93A6" };
+/* OSIRIS palette (docs/LESSON_CREATION_GUIDE.md §9.8): gold marks reference lines,
+   the data colour marks the computed probability region. */
+const CLR = { curve:"#E8E6E0", axis:"#8A877F", grid:"rgba(212,175,55,.12)", shade:"rgba(0,229,255,.24)",
+              shadeEdge:"#00E5FF", meanline:"#D4AF37", marker:"#FF3D3D", text:"#9B978E",
+              bar:"rgba(232,230,224,.14)", barEdge:"rgba(232,230,224,.45)" };
 
 function syncCanvasTheme(){
   const light = document.documentElement.dataset.theme === "light";
   Object.assign(CLR, light ? {
-    curve:"#132238",
-    axis:"#718398",
-    grid:"#DDE5ED",
-    shade:"rgba(217,144,40,.30)",
-    shadeEdge:"#B7791F",
-    meanline:"#0E7490",
-    marker:"#C2414B",
-    text:"#52657A"
+    curve:"#1E2130",
+    axis:"#6B675E",
+    grid:"rgba(139,115,37,.18)",
+    shade:"rgba(0,107,122,.20)",
+    shadeEdge:"#006B7A",
+    meanline:"#8B7325",
+    marker:"#C62828",
+    text:"#5C5A54",
+    bar:"rgba(30,33,48,.08)",
+    barEdge:"rgba(30,33,48,.45)"
   } : {
-    curve:"#E8EEF4",
-    axis:"#55697B",
-    grid:"#182A3A",
-    shade:"rgba(240,166,75,.38)",
-    shadeEdge:"#F0A64B",
-    meanline:"#46C2AE",
-    marker:"#E36060",
-    text:"#7E93A6"
+    curve:"#E8E6E0",
+    axis:"#8A877F",
+    grid:"rgba(212,175,55,.12)",
+    shade:"rgba(0,229,255,.24)",
+    shadeEdge:"#00E5FF",
+    meanline:"#D4AF37",
+    marker:"#FF3D3D",
+    text:"#9B978E",
+    bar:"rgba(232,230,224,.14)",
+    barEdge:"rgba(232,230,224,.45)"
   });
 }
 syncCanvasTheme();
@@ -960,8 +969,8 @@ function drawDist(canvas, D, p, region, marker){
     for(let k=Math.ceil(lo);k<=Math.floor(hi);k++){
       const y=D.pdf(k,p), x=X(k);
       const shaded=inRegion(k);
-      ctx.fillStyle= shaded ? CLR.shade : "rgba(232,238,244,.16)";
-      ctx.strokeStyle= shaded ? CLR.shadeEdge : "rgba(232,238,244,.45)";
+      ctx.fillStyle= shaded ? CLR.shade : CLR.bar;
+      ctx.strokeStyle= shaded ? CLR.shadeEdge : CLR.barEdge;
       ctx.lineWidth=1.4;
       ctx.beginPath(); ctx.rect(x-bw/2, Y(y), bw, padT+ph-Y(y));
       ctx.fill(); ctx.stroke();

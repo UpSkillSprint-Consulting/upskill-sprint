@@ -41,7 +41,10 @@ const NON_TEXT = ['--osx-gold-ui', '--osx-control-border'];
 
 function themes() {
   const css = readCss();
-  return { light: block(css, '.osx-tool'), dark: block(css, 'html[data-theme="dark"] .osx-tool') };
+  return {
+    light: block(css, '.osx-tool,\n.osx-tokens'),
+    dark: block(css, 'html[data-theme="dark"] .osx-tool,\nhtml[data-theme="dark"] .osx-tokens'),
+  };
 }
 
 test('tool theme declares only --osx- custom properties', () => {
@@ -85,7 +88,7 @@ test('tool theme never targets canonical site chrome', () => {
   const chrome = /(^|[\s,>+~])(header|footer|nav)\b|\.site\b|\.brand\b|\.footer-grid|\.desktop-nav|\.theme-toggle|#lesson-progress-widget/;
   for (const selector of selectors) {
     assert.doesNotMatch(selector, chrome, `chrome selector in tool theme: ${selector}`);
-    assert.ok(/\.osx-(tool|page)/.test(selector) || /^\s*\.osx-tool/.test(selector), `selector is not scoped to .osx-tool/.osx-page: ${selector}`);
+    assert.ok(/\.osx-(tool|page|tokens)/.test(selector), `selector is not scoped to .osx-tool/.osx-page/.osx-tokens: ${selector}`);
   }
 });
 
@@ -110,4 +113,29 @@ test('guide §9.8 documents the theme and matches the stylesheet values', () => 
     assert.equal(dark[name].toUpperCase(), darkHex.toUpperCase(), `guide dark ${name} out of sync`);
     assert.equal(light[name].toUpperCase(), lightHex.toUpperCase(), `guide light ${name} out of sync`);
   }
+});
+
+test('Engineering & Statistics Calculator uses the OSIRIS theme (§9.8 item 7)', () => {
+  const page = fs.readFileSync(path.join(root, 'tools/engineering-statistics-calculator.html'), 'utf8');
+  const skinPath = path.join(root, 'tools/calculator-assets/osiris-skin.css');
+  assert.ok(fs.existsSync(skinPath), 'calculator skin is missing');
+  const head = page.slice(0, page.indexOf('</head>'));
+  const links = [...head.matchAll(/<link rel="stylesheet" href="([^"]+)">/g)].map((m) => m[1]);
+  assert.ok(links.includes('/assets/osiris-tool-theme.css'), 'shared theme not loaded');
+  assert.equal(links.at(-1), '/tools/calculator-assets/osiris-skin.css', 'skin must be the last stylesheet');
+  assert.match(page, /<body class="osx-page">/);
+  assert.match(page, /<main id="calculator-shell" class="calculator-app osx-tokens">/);
+  assert.match(page, /family=Inter:[^"]*family=JetBrains\+Mono/);
+
+  const skin = fs.readFileSync(skinPath, 'utf8');
+  for (const token of ['bg', 'panel', 'panel-2', 'line', 'line-soft', 'text', 'muted', 'faint', 'accent', 'action', 'on-action', 'teal', 'red', 'green', 'sans', 'mono']) {
+    assert.match(skin, new RegExp(`--calc-${token}:\\s*var\\(--osx-`), `--calc-${token} is not mapped to an --osx token`);
+  }
+  assert.doesNotMatch(skin, /(^|[\s,])(header|footer)\.site|\.desktop-nav|\.theme-toggle/, 'skin must not touch site chrome');
+
+  const plot = page.match(/function syncCanvasTheme\(\)\{[\s\S]*?\n\}/);
+  assert.ok(plot, 'syncCanvasTheme() not found');
+  assert.match(plot[0], /shadeEdge:"#006B7A"/, 'light plot shading should use the light data colour');
+  assert.match(plot[0], /shadeEdge:"#00E5FF"/, 'dark plot shading should use the dark data colour');
+  assert.doesNotMatch(page, /rgba\(232,238,244,\.(16|45)\)/, 'unshaded bars still hard-code the old palette');
 });
