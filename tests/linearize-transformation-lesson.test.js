@@ -134,8 +134,8 @@ test('statistics implementation, structure and related links are present', () =>
     assert.ok(wrap.getAttribute('aria-label'));
   }
   assert.doesNotMatch(html, /\$\$|\$\\/, 'no dollar math delimiters');
-  const finder = [...doc.querySelectorAll('#lesson-content a[href="/tools/best-fit-model-finder"]')];
-  assert.ok(finder.length >= 2, 'links to the Best-Fit Model Finder from the lab and the chooser');
+  const finder = [...doc.querySelectorAll('#lesson-content a[href="/tools/engineering-statistics-calculator?tab=best-fit"]')];
+  assert.ok(finder.length >= 2, 'links to the Best-Fit Model Finder tab in the calculator from the lab and the chooser');
   assert.ok(finder.every(a => /Best-Fit Model Finder/.test(a.textContent)), 'descriptive anchor text');
   for (const f of doc.querySelectorAll('.lz-formula')) {
     assert.equal(f.getAttribute('tabindex'), '0'); assert.equal(f.getAttribute('role'), 'region'); assert.ok(f.getAttribute('aria-label'));

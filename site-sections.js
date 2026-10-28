@@ -854,7 +854,8 @@
   function activateToolCard(options, catalogDocument) {
     if (!catalogDocument && !isEngineeringToolsPage()) return;
     const card = (catalogDocument || document).getElementById(options.cardId);
-    if (!card || card.hasAttribute('data-tool')) return;
+    // A card with data-tool-route is already a complete, live tool row in the HTML.
+    if (!card || card.hasAttribute('data-tool') || card.hasAttribute('data-tool-route')) return;
 
     card.href = options.path;
     card.classList.remove('is-planned');

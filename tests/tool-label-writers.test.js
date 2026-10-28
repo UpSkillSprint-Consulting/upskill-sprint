@@ -42,3 +42,37 @@ test('both startup writers and repeated cleanup preserve all administrator label
   assert.equal(cards['engineering-calculators'].action.textContent,'Open calculator');
   assert.equal(cards.converters.action.textContent,'Open converter');
 });
+
+test('startup writers leave a live data-tool-route card exactly as the HTML wrote it', () => {
+  const { JSDOM } = require('jsdom');
+  const dom = new JSDOM(read('engineering-tools.html'), { url: 'https://upskillsprint.com/engineering-tools', runScripts: 'outside-only' });
+  const card = dom.window.document.getElementById('engineering-calculators');
+  const before = card.outerHTML;
+  dom.window.normalizedCurrentPath = () => '/engineering-tools';
+  dom.window.isEngineeringToolsPage = () => true;
+  dom.window.eval(activation + repair + ';activateToolCard({cardId:"engineering-calculators",path:"/tools/engineering-statistics-calculator",title:"x",description:"stale",actionText:"Open calculator",ariaLabel:"x"});repairEngineeringToolsCleanRoute();');
+  assert.equal(card.outerHTML, before);
+  assert.match(card.textContent, /Best-Fit Model Finder/);
+});
+
+test('the Unit Converter card is a live static tool row that the writers leave alone', () => {
+  const { JSDOM } = require('jsdom');
+  const dom = new JSDOM(read('engineering-tools.html'), { url: 'https://upskillsprint.com/engineering-tools', runScripts: 'outside-only' });
+  const card = dom.window.document.getElementById('converters');
+  assert.equal(card.tagName, 'ARTICLE');
+  assert.equal(card.getAttribute('data-tool-route'), '/tools/unit-converter');
+  assert.equal(card.classList.contains('is-planned'), false);
+  assert.equal(card.querySelector('.tool-status.available').textContent, 'Available');
+  const open = card.querySelector('a.tool-action.primary');
+  assert.equal(open.getAttribute('href'), '/tools/unit-converter');
+  assert.equal(open.textContent, 'Open tool →');
+  assert.equal(card.querySelector('a[href="/request-topic"]'), null);
+  assert.doesNotMatch(card.textContent, /Planned|Suggest units/);
+  assert.ok(card.querySelectorAll('.tool-tags span').length >= 3);
+  assert.ok(fs.existsSync(path.join(__dirname, '..', 'tools', 'unit-converter.html')));
+  const before = card.outerHTML;
+  dom.window.normalizedCurrentPath = () => '/engineering-tools';
+  dom.window.isEngineeringToolsPage = () => true;
+  dom.window.eval(activation + repair + ';activateToolCard({cardId:"converters",path:"/tools/unit-converter",actionText:"Open converter",ariaLabel:"x"});repairEngineeringToolsCleanRoute();');
+  assert.equal(card.outerHTML, before);
+});
