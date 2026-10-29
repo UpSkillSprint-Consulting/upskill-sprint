@@ -1,6 +1,6 @@
 /*
  * ASQ CQA Exam Set 2 — original practice questions.
- * Batches 1–6: Q001–Q060. Planned bank: 150 questions.
+ * Batches 1–7: Q001–Q070. Planned bank: 150 questions.
  * Author in reviewed batches of 10; hold PR #368 until all 150 are ready.
  * 2026 BoK target counts: I 37 / II 45 / III 30 / IV 23 / V 15.
  * Batch 1 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
@@ -9,6 +9,7 @@
  * Batch 4 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Batch 5 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Batch 6 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
+ * Batch 7 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Questions and exhibits are original; handbook citations use printed pages.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
  */
@@ -1907,6 +1908,375 @@
         [
           "Completed output in the previous comparable shift",
           "120 kits"
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q061",
+    "set": 2,
+    "batch": 7,
+    "sub": "cqa-desk-review-evidence-limit",
+    "bok": "I.A.1",
+    "cognitive": "Apply",
+    "stem": "A desk audit examines a service provider's revised quality manual and procedures against the agreed requirements. The documents adequately define the required controls. No operating records, interviews, or observations were included. The client proposes cancelling the planned system audit because the satisfactory desk review establishes that the revised controls are working. Which response best explains what has been established?",
+    "options": [
+      "The approved procedures satisfy the criteria, so their documented controls can be treated as implemented effectively and the system audit can be cancelled on that basis.",
+      "The reviewed documents adequately define the controls, but their implementation and effectiveness still need operational evidence through the planned system audit.",
+      "The desk audit has established nothing because documents cannot be audit evidence; repeat the same document examination at the provider's site before accepting any result.",
+      "The desk review can establish effective implementation once the process owner signs an assurance that all personnel follow the revised procedures, without examining operational evidence."
+    ],
+    "answer": 1,
+    "why": "A desk review of the manual and procedures can establish whether the process or system is adequately defined against the criteria. That is a useful result, but the particular evidence reviewed here does not show how the revised controls operate. A system audit also examines implementation and effectiveness through relevant objective evidence. The planned work should therefore obtain operational evidence rather than treat document adequacy as proof of performance. This limitation comes from the material actually examined, not from a rule that every document review is incapable of considering operating records or that useful auditing must occur on site. A general signed assurance does not fill the stated evidence gap by itself. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 4–5.</span>",
+    "keyPoint": "Distinguish an adequately documented system from evidence that its controls have been implemented and work effectively.",
+    "trap": "Turning a satisfactory review of manuals and procedures into assurance about operating effectiveness that was not examined.",
+    "distractors": {
+      "0": "Adequate procedures describe the intended controls. They do not, by themselves, establish how personnel implemented those controls or what results they achieved.",
+      "2": "The desk review has a legitimate result concerning documented adequacy. Moving the same examination to the site does not automatically add implementation evidence.",
+      "3": "A general assertion from the process owner does not demonstrate actual operation of the controls. The proposed cancellation still relies on unexamined implementation and effectiveness."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q062",
+    "set": 2,
+    "batch": 7,
+    "sub": "cqa-technical-expert-role",
+    "bok": "I.D",
+    "cognitive": "Apply",
+    "stem": "A service audit needs specialist knowledge to assess the signal-processing method used in vibration reports. A qualified vibration specialist, who is not qualified as an auditor, joins in a documented technical-support role. Under this assignment the specialist works with a qualified auditor and reports technical results to the lead. Which use of the specialist best supports the audit?",
+    "options": [
+      "Have the specialist conduct the technical audit independently and issue its final findings directly to the client, because specialist competence replaces the assigned auditor role.",
+      "Limit the specialist to locating records and observing interviews, leaving all technical interpretation to the qualified auditor so that the specialist cannot influence audit conclusions.",
+      "Have the specialist use their preferred signal-processing method as the acceptance criterion and require the provider to adopt it whenever its current method differs.",
+      "Have the specialist evaluate the actual method against applicable requirements and document the evidence; the qualified auditor uses that input in findings for the lead's report."
+    ],
+    "answer": 3,
+    "why": "The specialist adds technical knowledge that the audit needs, including a substantiated assessment of the adequacy and effectiveness of the method actually used. Their contribution should identify the relevant requirements, evidence reviewed, and reasons for the technical conclusions. Under the stated assignment, that work supports the qualified auditor's assessment and the lead auditor's reporting responsibilities. Technical support is more than passive observation, but technical expertise alone does not change the specialist's assigned role into that of an independent auditor. The specialist's personal preference also does not replace the applicable criteria. The handbook's example specialist guide supports this working arrangement; the scenario makes its local role boundaries explicit. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 25–26, 314–315.</span>",
+    "keyPoint": "Use a technical expert's documented evaluation within the assigned audit roles, while judging the actual method against applicable requirements.",
+    "trap": "Treating specialist knowledge as automatic auditor authority, or reducing the specialist to an observer who cannot contribute technical conclusions.",
+    "distractors": {
+      "0": "The specialist was assigned technical support, not independent audit and reporting authority. Expertise in the method does not by itself replace the qualified auditor or the lead's reporting role.",
+      "1": "The purpose of adding the specialist is to inform the technical assessment. Excluding their interpretation would discard the competence needed to evaluate the method.",
+      "2": "A different method is not automatically inadequate. The specialist must assess the approach used against the applicable requirements and evidence, rather than impose a personal preference."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q063",
+    "set": 2,
+    "batch": 7,
+    "sub": "cqa-purpose-aligned-audit-plan",
+    "bok": "II.A.7",
+    "cognitive": "Evaluate",
+    "stem": "A translation supplier's contract requires each approved terminology change to appear in the next applicable delivered manual. An audit will examine that requirement across Change Control, Translation, and Release for the last quarter. Two qualified auditors have one day; linked change and delivery records and the relevant personnel are available. Opening, closing, and team-review periods are already reserved. Which proposed plan best turns this purpose into coordinated audit work?",
+    "options": [
+      "Assign each auditor departmental procedure clauses, choose unrelated samples within each area, and combine the department pass rates as the assessment of the change-to-delivery requirement.",
+      "Assign one auditor the approved change procedures and the other the release procedures, using their document reviews as the complete test of whether changes reached delivered manuals.",
+      "Link the contract requirement to process steps, assign timed reviews of the same changes through translation and delivery, reconcile handoff evidence, and distribute the plan to the team and auditee.",
+      "Give both auditors the contract and department list, defer work allocation and sample coordination until arrival, and provide the auditee with the activity sequence as each interview begins."
+    ],
+    "answer": 2,
+    "why": "The purpose is to determine whether approved changes reach the applicable delivered manuals, so the plan must connect the contract requirement with the activities and evidence across that sequence. Assigning coordinated reviews of linked changes allows the two auditors to reconcile the handoffs rather than infer end-to-end conformity from separate department scores. The plan should identify responsibilities and timing, preserve the already reserved meetings and review periods, and be communicated to the team and auditee before performance. The stated availability supports arranging the linked reviews and reconciling evidence between the auditors. A plan limited to procedure adequacy, disconnected samples, or improvised assignments would not support this specific purpose as well. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 85, 88.</span>",
+    "keyPoint": "Translate the audit purpose and criteria into coordinated activities, evidence links, responsibilities, timing, and advance communication.",
+    "trap": "Assuming that coverage of each department, or a list of audit topics, automatically tests the requirement across process handoffs.",
+    "distractors": {
+      "0": "Department pass rates from unrelated samples do not demonstrate that particular approved changes reached the applicable delivered manuals. The plan lacks the evidence linkage central to this purpose.",
+      "1": "Procedure reviews can establish documented arrangements, but the stated audit purpose concerns what happened to actual changes and delivered manuals during the quarter.",
+      "3": "The criteria and department list are inputs to the plan, not a substitute for coordinated assignments and advance communication. Deferring those arrangements creates avoidable uncertainty despite the available preparation information."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q064",
+    "set": 2,
+    "batch": 7,
+    "sub": "cqa-executive-summary-evidence-limits",
+    "bok": "II.C.2",
+    "cognitive": "Evaluate",
+    "stem": "Storage-excursion case. An internal audit examines controls for protecting customer-owned coating material in Store C. The exhibit contains verified requirements and records for the reviewed event. The investigation has not established the cause of the excursion or whether the material was damaged. Both lots remain on hold. Which executive-summary statement most accurately communicates the result and its current significance?",
+    "options": [
+      "Store C exceeded its required temperature range for 90 minutes. Two exposed lots were held and relocated; material disposition and corrective-action work remain open, and damage has not been established.",
+      "The prompt relocation protected both lots and no affected material was dispatched. Storage controls therefore achieved their objective, with no product impact or remaining corrective-action concern from this event.",
+      "The excursion damaged two customer-owned lots because the recorded temperature exceeded the permitted limit. The summary should report both lots as confirmed losses requiring replacement despite their current hold status.",
+      "A cooling-equipment failure caused a 90-minute storage excursion affecting two lots. Holding and relocating the stock controlled the exposure, and the open corrective-action request should address that confirmed equipment cause."
+    ],
+    "answer": 0,
+    "why": "An effective summary connects the storage-control requirement to the verified excursion, the exposed stock, the immediate response, and the work still outstanding. The temperature record establishes a failure to maintain the required storage conditions for 90 minutes. The hold and relocation are relevant responses and should be reported, but they do not establish material fitness, the cause of the event, or completed corrective action. The summary therefore preserves the distinction between a confirmed control failure and its still-unresolved material consequences. No damage assessment or verified causal evidence supports reporting two confirmed losses or blaming cooling equipment. Likewise, the absence of dispatch does not erase the temperature-control failure or the open response obligations. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 128–130.</span>",
+    "keyPoint": "Summarize the requirement, supported result, immediate response, and unresolved consequences without converting exposure into proven damage or an assumed cause.",
+    "trap": "Overstating product loss or root cause, or using successful containment to make the original control failure disappear.",
+    "distractors": {
+      "1": "The hold and lack of dispatch limit immediate use or shipment, but do not prove that the stock is undamaged or that the required corrective-action work is complete.",
+      "2": "A storage-temperature violation is established; damage and the need to replace both lots are not. The proposed summary converts exposure into an unsupported confirmed loss.",
+      "3": "The records do not establish a cooling-equipment cause. Naming it as confirmed would direct the response toward an assumption rather than a supported causal conclusion."
+    },
+    "caseId": "cqa-set2-storage-excursion-01",
+    "chart": {
+      "type": "data-table",
+      "title": "Storage-excursion case: verified requirements and records",
+      "columns": [
+        "Document or record",
+        "Verified requirement or evidence"
+      ],
+      "rows": [
+        [
+          "Approved procedure TC-8, section 3",
+          "Store-room air temperature must remain 15–25°C. An excursion requires affected stock to be held for documented Quality disposition and a corrective-action request covering cause, recurrence-prevention actions, and effectiveness verification."
+        ],
+        [
+          "Logger LG-12 and stock-location records",
+          "A verified 90-minute excursion from 14:20 to 15:50 recorded 29–31°C in Store C. Lots C41 and C42 were present throughout. The logger's calibration and the time records were verified."
+        ],
+        [
+          "Hold and transfer records",
+          "Both lots were placed on hold at 15:55 and transferred at 16:20 to qualified Store D at 20°C. Store C was temporarily blocked from use. No material from either lot was used or dispatched during or after the excursion."
+        ],
+        [
+          "Quality review and CAR-27 status",
+          "Material disposition is pending. CAR-27 remains open; the cause has not been verified, recurrence-prevention actions have not been established, and effectiveness has not been verified."
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q065",
+    "set": 2,
+    "batch": 7,
+    "sub": "cqa-containment-corrective-action-elements",
+    "bok": "II.D.1",
+    "cognitive": "Analyze",
+    "stem": "Storage-excursion case. An internal audit examines controls for protecting customer-owned coating material in Store C. The exhibit contains verified requirements and records for the reviewed event. The investigation has not established the cause of the excursion or whether the material was damaged. Both lots remain on hold. Which assessment best distinguishes the completed response from the remaining corrective-action work?",
+    "options": [
+      "Relocation is the completed permanent corrective action because the lots are now at 20°C; CAR-27 can close when Quality authorizes their release, without further causal work.",
+      "The hold and relocation are preventive action only because damage is unconfirmed; no existing nonconformity requires cause analysis unless the material assessment finds a defect.",
+      "The hold and relocation are temporary containment, so the auditor should specify and implement the permanent remedy before the auditee measures its effectiveness.",
+      "The hold and relocation contain the affected stock and provide compliant storage; the auditee still needs causal investigation, assigned recurrence-prevention actions, and effectiveness verification for CAR-27."
+    ],
+    "answer": 3,
+    "why": "Holding the lots prevents their use or dispatch pending disposition, and relocation provides compliant storage in Store D. These immediate measures control the affected stock and its storage arrangements; they do not establish that the underlying cause has been removed or that the material itself is conforming. The stated procedure requires a causal response through CAR-27, so the auditee must investigate and verify the cause, establish actions and responsibilities with a schedule, and define and complete appropriate effectiveness checks. The auditee owns that response. The auditor assesses evidence and follow-up within the assigned role rather than assuming responsibility for specifying and implementing the remedy. Containment need not wait for cause analysis, and lack of proven material damage does not erase the established storage-condition nonconformity. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 133–135.</span>",
+    "keyPoint": "Separate immediate containment or correction from cause-based corrective action and verification of effectiveness.",
+    "trap": "Treating restored conditions or an eventual product-release decision as proof that the cause has been eliminated and corrective action is effective.",
+    "distractors": {
+      "0": "Moving stock to compliant conditions does not establish or remove the cause of the excursion. Quality's disposition of the lots is a different decision from verifying the effectiveness of the required corrective action.",
+      "1": "The temperature requirement was already violated. Response to that detected failure is not merely prevention of a hypothetical future nonconformity, and the procedure expressly requires the causal response.",
+      "2": "The auditee remains responsible for developing and implementing its corrective action. The temporary nature of containment does not transfer ownership of the permanent remedy to the auditor."
+    },
+    "caseId": "cqa-set2-storage-excursion-01",
+    "chart": {
+      "type": "data-table",
+      "title": "Storage-excursion case: verified requirements and records",
+      "columns": [
+        "Document or record",
+        "Verified requirement or evidence"
+      ],
+      "rows": [
+        [
+          "Approved procedure TC-8, section 3",
+          "Store-room air temperature must remain 15–25°C. An excursion requires affected stock to be held for documented Quality disposition and a corrective-action request covering cause, recurrence-prevention actions, and effectiveness verification."
+        ],
+        [
+          "Logger LG-12 and stock-location records",
+          "A verified 90-minute excursion from 14:20 to 15:50 recorded 29–31°C in Store C. Lots C41 and C42 were present throughout. The logger's calibration and the time records were verified."
+        ],
+        [
+          "Hold and transfer records",
+          "Both lots were placed on hold at 15:55 and transferred at 16:20 to qualified Store D at 20°C. Store C was temporarily blocked from use. No material from either lot was used or dispatched during or after the excursion."
+        ],
+        [
+          "Quality review and CAR-27 status",
+          "Material disposition is pending. CAR-27 remains open; the cause has not been verified, recurrence-prevention actions have not been established, and effectiveness has not been verified."
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q066",
+    "set": 2,
+    "batch": 7,
+    "sub": "cqa-evidence-based-decisiveness",
+    "bok": "III.A",
+    "cognitive": "Apply",
+    "stem": "A new lead has completed an audit's agreed sampling and resolved all material evidence questions. Records, observations, and interviews support the same scoped conclusion. The lead is authorized to finalize it, but postpones reporting to seek more examples without identifying a remaining evidence gap. Which action best demonstrates evidence-based decisiveness?",
+    "options": [
+      "Continue collecting evidence until every transaction in the audit period has been examined, so the conclusion can be issued without any residual uncertainty.",
+      "Reach the supported conclusion now, record its reasoning and scope, and proceed with reporting while remaining open to relevant new information.",
+      "State a broader assurance covering activities beyond the agreed objective, because consistent results from the completed work justify a more confident conclusion.",
+      "Refer the conclusion to the audited manager and use that manager's preferred interpretation, because confidence in the decision depends on the auditee's endorsement."
+    ],
+    "answer": 1,
+    "why": "Decisiveness means reaching a timely conclusion through logical reasoning and analysis. The agreed work is complete, the relevant evidence is consistent, material questions have been resolved, and the lead has authority to finalize the conclusion. Proceeding on that basis demonstrates decisiveness. It does not mean claiming certainty, extending the assurance beyond the work's scope, or replacing the auditor's judgment with the auditee's preference. Remaining open to relevant new information is compatible with making a justified decision now; it does not require indefinitely collecting examples when no material evidence gap has been identified. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 151.</span>",
+    "keyPoint": "Reach timely conclusions when the evidence supports them, retaining the reasoning and scope that make the decision defensible.",
+    "trap": "Confusing decisiveness with absolute certainty, overconfidence, or reliance on another party to make the audit judgment.",
+    "distractors": {
+      "0": "The stated evidence is sufficient for the agreed objective. Examining every transaction solely to eliminate all uncertainty adds an unsupported condition for making the conclusion.",
+      "2": "Decisiveness does not expand what the completed work supports. A broader assurance about unexamined activities would exceed the stated objective and evidence.",
+      "3": "The lead is authorized to reach the conclusion from the evidence. The auditee's preferred interpretation is not a substitute for that reasoned judgment."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q067",
+    "set": 2,
+    "batch": 7,
+    "sub": "cqa-chronological-trend-presentation",
+    "bok": "III.D",
+    "cognitive": "Evaluate",
+    "stem": "An auditor is preparing a brief slide for operations directors who want to see how the observed rework rate changed month by month, including any reversals. The exhibit gives verified monthly rates and review volumes; the same counting definition and review method were used throughout. Detailed record results remain available in the report repository. Which presentation best answers the directors' question?",
+    "options": [
+      "Use a Pareto chart with months sorted from the highest to the lowest rework percentage, placing each review volume beneath its corresponding bar.",
+      "Use a pie chart showing each month's percentage as a share of the sum of the six percentages, with values labelled around the slices.",
+      "Use a table of every reviewed record, its outcome and timestamp, so the directors can reconstruct the monthly pattern directly from the underlying evidence.",
+      "Use a line chart with calendar months horizontally and a labelled 0–15% rework scale vertically, retaining monthly review volumes in a small supporting table."
+    ],
+    "answer": 3,
+    "why": "The communication need is change over time, so the display should preserve the months' chronological order. A line chart with the percentage measure on a clearly labelled vertical scale shows the decline through April, the May increase, and the lower June value. Keeping review volumes available provides context without making directors reconstruct the sequence from individual records. Sorting the months by magnitude removes that sequence. A pie of summed monthly percentages does not represent the temporal pattern or a meaningful partition of a common whole. The display communicates the observed results; it does not by itself establish a cause or statistical significance. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 165, 272.</span>",
+    "keyPoint": "Choose a visual that preserves the relationship the audience needs to see, and label its measure, time order and scale clearly.",
+    "trap": "Selecting a familiar chart that ranks or aggregates the values when the audience needs their chronological pattern.",
+    "distractors": {
+      "0": "Ranking the months can show which rates are largest, but it removes the calendar sequence needed to identify month-to-month changes and reversals.",
+      "1": "The six monthly percentages are separate rates, not components of one whole. Converting their sum into pie slices obscures both their meaning and their time sequence.",
+      "2": "Record-level evidence remains useful for traceability, but making directors reconstruct the trend from it does not meet the stated need for a brief temporal summary."
+    },
+    "chart": {
+      "type": "data-table",
+      "title": "Monthly rework results prepared for the management presentation",
+      "columns": [
+        "Month",
+        "Records reviewed",
+        "Records requiring rework (%)"
+      ],
+      "rows": [
+        [
+          "January",
+          "80",
+          "12.5"
+        ],
+        [
+          "February",
+          "100",
+          "9.0"
+        ],
+        [
+          "March",
+          "125",
+          "8.0"
+        ],
+        [
+          "April",
+          "100",
+          "6.0"
+        ],
+        [
+          "May",
+          "120",
+          "7.5"
+        ],
+        [
+          "June",
+          "100",
+          "5.0"
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q068",
+    "set": 2,
+    "batch": 7,
+    "sub": "cqa-senior-management-support",
+    "bok": "IV.A.1",
+    "cognitive": "Understand",
+    "stem": "An organization delegates day-to-day audit administration to a competent program manager. Its executive orientation needs a concise description of senior management's continuing role in supporting a credible audit function. Which description accurately explains that role?",
+    "options": [
+      "Establish an appropriate reporting relationship, reinforce the audit function's value, and use its results to guide action on system performance, improvement and risk.",
+      "Choose each audit's sample, prescribe the interview questions, and personally determine whether each item of evidence should become a finding in the report.",
+      "Place the audit group under each audited function's manager, giving that manager control over which results reach executives because the manager understands the work.",
+      "Treat appointment of qualified auditors as completion of senior management's responsibility, leaving the use of results entirely to the functions that were audited."
+    ],
+    "answer": 0,
+    "why": "Senior management supports the audit function through its organizational position, visible commitment to the value of auditing, and appropriate use of results. The handbook links that support to program credibility and identifies auditing as an oversight tool for compliance, improvement, effectiveness, efficiency and risk. Delegating routine administration does not remove management's responsibility to respond constructively to audit information. Conducting individual evidence work is the auditors' role. Allowing the audited function to control the audit group's reporting and filter results would undermine the independent, credible information that management needs. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 178–179.</span>",
+    "keyPoint": "Senior management sustains a credible audit function through appropriate organizational support and constructive use of its results.",
+    "trap": "Confusing management support with either taking over the auditors' evidence work or withdrawing all involvement after appointing a program manager.",
+    "distractors": {
+      "1": "These are execution-level audit tasks. They do not describe senior management's continuing organizational support and oversight role.",
+      "2": "Putting the audit group under the function it audits and allowing that function to filter its reporting weakens the credible, unbiased information that the audit function is intended to provide.",
+      "3": "Qualified auditors are necessary, but management still influences credibility through its attitudes and its response to audit results. Appointment alone does not complete that continuing role."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q069",
+    "set": 2,
+    "batch": 7,
+    "sub": "cqa-pre-award-capability-capacity",
+    "bok": "IV.A.6",
+    "cognitive": "Evaluate",
+    "stem": "A customer plans to award a six-month contract for 800 assemblies per week. A prospective supplier's 20 pilot assemblies passed all specified product checks. Its quotation lists machine capacity above 800 per week, but the same machines serve existing customers; no evidence of available capacity at the proposed delivery rate has been reviewed. The supplier has agreed to a pre-award survey. Procurement retains award authority. Which audit-program recommendation best supports qualification?",
+    "options": [
+      "Treat the pilot approvals and quoted machine rating as sufficient evidence, and recommend qualification with routine incoming inspection after deliveries begin.",
+      "Reject the supplier as incapable of delivery, because successful pilot pieces cannot support qualification when the proposed machines already serve other customers.",
+      "Use the survey to verify production controls, available resources and workload commitments against the required delivery rate, then report supported conclusions and remaining gaps.",
+      "Expand product inspection of another pilot lot while relying on the quoted machine rating for capacity, since only physical product results need verification."
+    ],
+    "answer": 2,
+    "why": "Pre-award supplier evaluation can examine resources, technical capability, controls, systems and past performance; supplier selection also calls for assessment of capacity. The pilot results provide evidence about those 20 products, but they do not establish that the intended production arrangements can sustain the required deliveries alongside existing commitments. The quoted machine rating likewise does not show how much capacity will be available for this contract. A focused survey can verify the relevant controls and resource assumptions, then provide procurement with supported conclusions and any unresolved gaps. The current information establishes neither sustained capacity nor inability to deliver. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 6, 199.</span>",
+    "keyPoint": "Supplier qualification should examine both the ability to meet requirements and the available capacity to sustain the proposed delivery commitments.",
+    "trap": "Treating acceptable pilot products and nominal equipment capacity as proof of sustained delivery, or treating an unverified capacity gap as proven inability.",
+    "distractors": {
+      "0": "The pilot products and nominal rating do not establish available sustained capacity alongside existing work. Incoming inspection after award does not resolve that pre-award evidence gap.",
+      "1": "Existing customer commitments create a capacity question to verify, not proof that the supplier cannot deliver. The pilot results remain relevant evidence of product conformity.",
+      "3": "More pilot product inspection may add conformity evidence but leaves the resource, workload and capacity assumptions unverified. Those assumptions matter to the proposed delivery commitment."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q070",
+    "set": 2,
+    "batch": 7,
+    "sub": "cqa-sample-standard-deviation",
+    "bok": "V.C.2",
+    "cognitive": "Apply",
+    "stem": "An auditor selects six completed test setups from a larger set of jobs. The exhibit gives their verified elapsed setup times in minutes. All observations use the same start and end definitions and must be retained in the calculation. The report calls for the sample standard deviation, s, rounded to two decimal places. Which value should be reported?",
+    "options": [
+      "2.19 minutes",
+      "2.00 minutes",
+      "4.80 minutes",
+      "6.00 minutes"
+    ],
+    "answer": 0,
+    "why": "The sample mean is (4 + 5 + 7 + 8 + 8 + 10) / 6 = 7 minutes. The squared deviations from that mean sum to 9 + 4 + 0 + 1 + 1 + 9 = 24 square minutes. For the sample standard deviation, divide by n − 1 = 5 and take the square root: s = √(24 / 5) = √4.8, approximately 2.19 minutes. Dividing by six gives 2.00 minutes, reporting 4.80 without the square root gives the sample variance, and 10 − 4 = 6.00 minutes gives the range. The square root returns the dispersion measure to the original time units. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 268–269.</span>",
+    "keyPoint": "For sample standard deviation, sum the squared deviations from the sample mean, divide by n − 1, and take the square root; report the result in the original units.",
+    "trap": "Dividing by n, reporting variance without taking its square root, or substituting the range for standard deviation.",
+    "distractors": {
+      "1": "√(24 / 6) = 2.00 minutes uses n in the denominator. The requested sample standard deviation uses n − 1, so the denominator is five.",
+      "2": "24 / 5 = 4.80 is the sample variance in square minutes. The requested standard deviation requires its square root and is expressed in minutes.",
+      "3": "10 − 4 = 6.00 minutes is the range. It uses only the extreme values rather than the squared deviations of all six observations."
+    },
+    "chart": {
+      "type": "data-table",
+      "title": "Sample of six completed test setups",
+      "columns": [
+        "Setup",
+        "Elapsed time (minutes)"
+      ],
+      "rows": [
+        [
+          "S1",
+          "4"
+        ],
+        [
+          "S2",
+          "5"
+        ],
+        [
+          "S3",
+          "7"
+        ],
+        [
+          "S4",
+          "8"
+        ],
+        [
+          "S5",
+          "8"
+        ],
+        [
+          "S6",
+          "10"
         ]
       ]
     }

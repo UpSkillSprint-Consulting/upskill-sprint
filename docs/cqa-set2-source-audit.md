@@ -260,31 +260,89 @@ The ten items were checked against Set 1's 150 questions and Set 2's first fifty
 
 The final independent review approved the exact Q051-Q055 array with SHA-256 `ce040c70c8c6c44c297085e15f70b2d14393ba32cc60047c10174547f7755d5d` and Q056-Q060 array with SHA-256 `2d25da33ba8e2e1c148b785fb8b8aa4b342ae7f7c71dddf456f88979dd6e11ad`. Both were frozen before integration. Their final keys are **D/A/C/B/A/D/B/A/D/C**. Source review and cognitive alignment support the intended practice demand; they do not establish empirical equivalence to live ASQ item difficulty.
 
+### Batch 6 re-audit before adding Batch 7
+
+A fresh review of the canonical Q051-Q060 objects found **no correction required**. The two reviewers audited the opposite halves from their prior authoring assignments. Every stem, forty choices, ten keys and main explanations, thirty distractor rationales, teaching fields, current BoK/cognitive mappings and the takt exhibit were checked against the actual source passages. Prior review reports were not used as substitutes for verification.
+
+All fifteen distinct cited printed pages were reread and freshly rendered, and their visible folios were independently inspected. Every printed/PDF reference in the Batch 6 table remains accurate: pp2, 35, 41, 74-75, 94, 141-142, 152-153, 159, 169, 209-210 and 264. The one-based PDF positions are respectively 21, 54, 60, 93-94, 113, 160-161, 171-172, 178, 188, 228-229 and 283. These labels confirm the printed-plus-19 mapping individually.
+
+The review reconfirmed Q051's distinction between participating auditing organizations and multiple systems or observers; Q052's immediate safety response and authority limit; Q053's conditional reliance-related exposure rather than an automatic legal conclusion; Q054's separate access and workspace arrangements; and Q055's preservation of requested evidence during a feasible retrieval delay. Q056 expressly states its local overall-audit closure rule. Q057 confirms meaning before corroborating conformity. Q058 correctly includes p153 for closing preparation. Q059 treats unaudited providers as a coverage question rather than automatically nonconforming.
+
+Q060 and all numerical distractors were independently recalculated: 480 - 60 = 420 available minutes; 420 / 140 = **3.00 minutes per kit**; 420 / 120 = 3.50; 480 / 140 = 24/7, approximately 3.43; and (420 - 60) / 140 = 18/7, approximately 2.57. The explanation correctly identifies the wrong denominator, gross-time and repeated-deduction errors and does not treat takt as measured capacity.
+
+The reviewed canonical bank SHA-256 was `7f9104941f3ddc38e365490b06fe73b0da89dd4f5fc4571e8955d009306f6ba5`. All sixty preceding question objects are retained unchanged in the Batch 7 update.
+
+## Batch 7: Q061-Q070
+
+All ten original questions passed author review, a separate independent review and final integration review. The review covered every stem, all forty choices, ten keys and main explanations, thirty distractor rationales, teaching fields, the complete storage-excursion case and both standalone data tables. All **23 distinct cited printed pages** were read and freshly rendered, and their visible folios were independently verified. Printed p. 314's appendix footer and p. 269's complete square-root formula were explicitly checked. Citations identify the principles supporting the original scenarios rather than suggesting that the questions appear in the book.
+
+| Item | Topic / 2026 BoK | Actual cognitive level | Printed pages | One-based PDF pages | Verified principle |
+|---|---|---|---|---|---|
+| Q061 | Desk-review evidence limits / I.A.1 | Apply | 4-5 | 23-24 | Distinguish adequate manuals/procedures from evidence of actual implementation and effectiveness. |
+| Q062 | Technical expert's role / I.D | Apply | 25-26, 314-315 | 44-45, 333-334 | Use substantiated specialist input within the expressly assigned auditor, expert and lead responsibilities. |
+| Q063 | Individual audit plan / II.A.7 | Evaluate | 85, 88 | 104, 107 | Turn a purpose and contract requirement into coordinated evidence work, assignments, timing and communication. |
+| Q064 | Effective executive summary / II.C.2 | Evaluate | 128-130 | 147-149 | Report the verified control failure, response and open consequences without inventing damage or a cause. |
+| Q065 | Elements of corrective action / II.D.1 | Analyze | 133-135 | 152-154 | Separate immediate containment from the auditee's required causal response and effectiveness verification. |
+| Q066 | Auditor decisiveness / III.A | Apply | 151 | 170 | Reach timely, bounded conclusions when the required evidence work is sufficient and material questions are resolved. |
+| Q067 | Temporal presentation for management / III.D | Evaluate | 165, 272 | 184, 291 | Preserve chronological order and appropriate context when communicating month-to-month change. |
+| Q068 | Senior management support / IV.A.1 | Understand | 178-179 | 197-198 | Explain management's continuing structural support, commitment and constructive use of audit information. |
+| Q069 | External supplier qualification / IV.A.6 | Evaluate | 6, 199 | 25, 218 | Evaluate capability and available sustained capacity before awarding a proposed delivery commitment. |
+| Q070 | Sample standard deviation / V.C.2 | Apply | 268-269 | 287-288 | Sum squared deviations, divide by n-1 and take the square root to obtain sample dispersion in original units. |
+
+### Reasoning, source and ambiguity checks
+
+- **Q061:** only the revised manual and procedures were examined. Their adequacy is a valid result, but no operating records, interviews or observations support an implementation conclusion. The explanation does not claim that all document reviews exclude implementation evidence, that absent evidence proves ineffectiveness, or that the next audit must physically occur on site. The actual Apply label is below the topic's Analyze maximum.
+- **Q062:** the specialist's non-auditor status and technical-support assignment are explicit. The specialist evaluates the actual method against applicable criteria and documents a useful technical conclusion. The qualified auditor and lead retain their stated responsibilities. Appendix C is expressly an example guide; its arrangements are not presented as universal mandatory rules. Pages 25–26 support the auditor and lead roles, while pp. 314–315 support the expert's technical evaluation and documented contribution.
+- **Q063:** the contract requires approved terminology changes to reach applicable delivered manuals. Linked work across Change Control, Translation and Release addresses that end-to-end requirement more directly than disconnected department scores or document review alone. Assignments, timing and advance communication make this an individual-plan decision rather than a repetition of the earlier scope-selection item. The explanation does not claim that availability alone proves the entire workload fits into one day.
+- **Q064:** the local procedure and verified logger establish a storage-condition failure. The held lots' fitness, actual damage and cause remain unestablished. An accurate management summary includes the immediate response and open obligations without declaring losses, assigning a cooling-equipment cause, or treating containment as proof that the original objective was met.
+- **Q065:** the procedure explicitly requires a corrective-action request for this excursion, and CAR-27 is open. The item therefore does not impose formal CAPA on every isolated observation. The auditee owns cause investigation, recurrence-prevention actions, responsibilities, schedule and effectiveness verification. The later transfer provides compliant storage; it is not described as the event that ended the earlier recorded excursion. Effectiveness verification is not a guarantee of future nonrecurrence.
+- **Q066:** the agreed evidence work is complete, material questions are resolved and the lead has authority to conclude. Timely reporting remains bounded by the objective, scope and evidence. It neither demands a census to eliminate every uncertainty nor extends assurance to unexamined activities or transfers judgment to the auditee.
+- **Q067:** the audience asks for chronological changes and reversals in comparable observed rates. The line-chart proposal preserves that sequence, labels a scale covering all values and retains review-volume context. Sorting by magnitude or adding separate monthly percentages into pie slices does not meet that purpose. The explanation makes no causal, statistical-significance, capability or forecast claim.
+- **Q068:** the question explains management's role rather than asking for a complex governance redesign, respecting the current Understand ceiling. Delegating daily administration does not remove management's continuing support or responsibility to use results constructively. The item does not repeat the book's anecdotal employee-appraisal restriction as a universal rule.
+- **Q069:** twenty conforming pilot assemblies and quoted equipment capacity do not establish sustained available capacity for 800 assemblies per week alongside existing commitments. They also do not establish that the supplier is incapable. The pre-award survey supplies procurement with verified controls, resource/workload evidence and remaining gaps; procurement retains award authority.
+- **Q070:** the requested statistic is explicitly the sample standard deviation for six retained observations from a larger set, rounded to two decimals. The calculation and teaching point both include the sum of squared deviations, n-1 divisor and square root. The item does not infer normality, process capability or future performance, and does not reproduce the book's loose prose definition of variance.
+
+### Case and numerical checks
+
+Q064 and Q065 share case identifier `cqa-set2-storage-excursion-01`, an exactly identical complete common stem context, and an identical four-row document exhibit. The local temperature requirement is 15–25°C; the verified Store C readings of 29–31°C violate it. The recorded interval 14:20–15:50 is **90 minutes**. Both lots were present throughout; they were held at 15:55 and transferred at 16:20 to qualified Store D at 20°C. No material was used or dispatched, but material disposition remains pending. These facts distinguish a documented storage-control failure and containment from unverified product damage, cause or corrective-action effectiveness. The two questions ask different decisions and neither relies on the other's answer, preserving independent answerability when shuffled.
+
+Q067's supplied monthly review volumes and percentages reconcile to integer rework counts: January 80 × 12.5% = 10; February 100 × 9% = 9; March 125 × 8% = 10; April 100 × 6% = 6; May 120 × 7.5% = 9; June 100 × 5% = 5. The 625 reviewed records include 49 requiring rework, although no aggregate rate is needed for the question. The sequence falls through April, rises in May and falls in June. The proposed 0–15% scale includes every supplied rate. No time-trend inference is based on changing raw counts alone.
+
+Q070 uses **4, 5, 7, 8, 8 and 10 minutes**. Their sum is 42 and sample mean is 7. Squared deviations total **9 + 4 + 0 + 1 + 1 + 9 = 24 square minutes**. Sample variance is **24 / (6 - 1) = 4.8 square minutes**, and sample standard deviation is **sqrt(4.8) = 2.19089023 minutes**, rounded to **2.19 minutes**. The n-divisor alternative is **sqrt(24 / 6) = 2.00 minutes**; omitting the square root yields variance 4.80 in square minutes; the range is **10 - 4 = 6.00 minutes**. Exact-fraction calculations and independent statistical-library calculations agree.
+
+### Novelty and final review changes
+
+The original surveillance-purpose proposal was replaced because the suggested handbook pages did not directly define surveillance. Q061 now uses the precise desk-review evidence-limit passages on pp. 4–5 and differs from Set 1's remote-video-versus-desk classification item. The proposed critical subtier/access question was also replaced because Set 1 already contains a closely matching scenario; Q069 now examines pre-award capability and capacity evidence. All final topics were compared with relevant Set 1 questions and the preceding sixty Set 2 objects.
+
+Final refinements clarified that Q063's stated availability supports coordinated planning without proving a complete workload estimate; Q065's later relocation does not imply it ended the earlier excursion and its key point calls for effectiveness verification; and Q070's key point explicitly includes the sum before division and the square root. No answer-key change resulted from these refinements.
+
+The independent review approved and authors froze the Q061-Q065 array with SHA-256 `bc0687925fc470a82daa1c774bb2fa993b4c0ac6f12c3ad425ab0d1e0db9f326` and Q066-Q070 array with SHA-256 `8247b3a5703c9c19544dc0578aba4686d96c8cca2768ffad19ffd24fc6cb53bb`. The integrated ten objects match those exact arrays. Final keys are **B/D/C/A/D/B/D/A/C/A**. This is original practice content reviewed for soundness, source support and intended cognitive demand; it is not an empirically calibrated reproduction of live ASQ item difficulty.
+
 ## Progress and remaining blueprint
 
-| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Current total | Final target | Remaining |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 2 | 3 | 15 | 37 | 22 |
-| II. Audit Process | 3 | 3 | 3 | 3 | 3 | 3 | 18 | 45 | 27 |
-| III. Auditor Competencies | 2 | 2 | 2 | 2 | 2 | 2 | 12 | 30 | 18 |
-| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 2 | 1 | 9 | 23 | 14 |
-| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 1 | 1 | 6 | 15 | 9 |
-| **Total** | **10** | **10** | **10** | **10** | **10** | **10** | **60** | **150** | **90** |
+| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Current total | Final target | Remaining |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 17 | 37 | 20 |
+| II. Audit Process | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 21 | 45 | 24 |
+| III. Auditor Competencies | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 14 | 30 | 16 |
+| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 11 | 23 | 12 |
+| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 7 | 15 | 8 |
+| **Total** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **70** | **150** | **80** |
 
-Continue alternating the domain allocations already used: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation, and independent review; the allocation alone is not content validation. The next requested batch will be Q061-Q070 with allocation 2/3/2/2/1.
+Continue alternating the domain allocations already used: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation and independent review; the allocation alone is not content validation. The next requested batch will be **Q071-Q080**, allocation **3/3/2/1/1**, after a fresh audit of Q061-Q070.
 
-The first sixty questions contain six document-case items (Q004-Q005, Q023-Q024 and Q043-Q044), or 10%, and fourteen rendered data tables. Plan another independently answerable case pair in the next requested batch to maintain the intended case coverage. Answer positions are exactly A15/B15/C15/D15. Actual cognitive labels are Apply 28, Analyze 19, Evaluate 12 and Understand 1. The existing engine randomizes question order. Practice timing remains two minutes per question, so the available sixty-question Full session uses 120 minutes, displayed as two hours. Quick Quiz retains its fifty-question maximum and samples from the sixty available items. This is a partial practice set.
+The first seventy questions contain eight document-case items (Q004-Q005, Q023-Q024, Q043-Q044 and Q064-Q065), or **11.43%**, and eighteen rendered question tables. Retaining eight case items through the next batch would give 10% at 80 questions; plan another independently answerable case pair in Batch 9 to maintain the intended case coverage. Answer positions are **A18/B17/C17/D18**. Actual cognitive labels are **Apply 32, Analyze 20, Evaluate 16 and Understand 2**. The existing engine randomizes question order. Practice timing remains two minutes per question: the available seventy-question Full session uses **140 minutes**, displayed as **2 hr 20 min**. Quick Quiz retains its fifty-question maximum and samples from the seventy available items. This is a partial practice set.
 
 ## Integration verification
 
 - `node --test --test-isolation=none tests/test-bank-cqa-set1.test.js tests/test-bank-cqa-set2.test.js`: **13 passed, 0 failed**.
-- `npm run build:site`: **passed**, including protected-content scans of 619 public files with no known static findings and three clean protected-tool shells. These static checks do not claim verification of a production runtime or CDN.
-- The learner checks exercise all sixty questions, a two-hour Full session, correct grading, a fifty-question Quick Quiz sampled from the available sixty, a ten-question diagnostic, and all five focused domains with 15/18/12/9/6 questions.
-- An all-correct Full attempt scores 60/60 and 100%. The fifty-question Quick attempt with one deliberate wrong answer scores 49/50, displayed as 98%, and identifies the single incorrect item in review.
-- All fourteen data tables render during the attempt and review. All sixty review cards display the authored explanations and all 180 distractor rationales. Distractor feedback is not exposed during the timed attempt.
-- The runtime timer was checked at 7,200 seconds and the existing display convention at `2 hr`. Quick Quiz serves its fifty-question request without an availability-cap notice. No timing or quiz-engine implementation change was needed.
-- Set 1 remains at 150 unchanged questions. Set 2 is delivered in the protected CQA package and excluded from other exam packages and public staging.
-- The preceding fifty question objects were compared with the prior PR bank and are unchanged. The ten new objects exactly match the two frozen author arrays. All sixty question IDs are unique, each item has four distinct options and exactly three non-key distractor rationales, and each has a printed-page source reference.
-- JavaScript syntax checks passed. The HTML change since the preceding PR head is only the CQA completion label, from Batch 5 to Batch 6; unrelated files regenerated by the build are excluded from the content commit.
+- `npm run build:site`: **passed**, including scans of 619 public files with no known static findings and three clean protected-tool shells. These static checks do not claim verification of a production runtime or CDN.
+- The learner checks exercise all seventy questions, a 140-minute Full session, correct grading, a fifty-question Quick Quiz sampled from the available seventy, a ten-question diagnostic, and all five focused domains with 17/21/14/11/7 questions.
+- An all-correct Full attempt scores 70/70 and 100%. A fifty-question Quick attempt with one deliberate wrong answer scores 49/50, displayed as 98%, and identifies the single incorrect item in review.
+- All eighteen question tables render during the attempt and review. All seventy review cards display the authored explanations and all 210 distractor rationales. Distractor feedback is not exposed during the timed attempt.
+- The runtime timer was checked at 8,400 seconds and the existing display convention at `2 hr 20 min`. Quick Quiz serves its fifty-question request without an availability-cap notice. No timing or quiz-engine implementation change was needed.
+- Set 1 remains at 150 unchanged questions. Set 2 is included only in the protected CQA package and excluded from other exam packages and public staging.
+- All sixty preceding question objects were compared with the prior PR bank and are unchanged. The ten new objects exactly match the frozen author arrays. All 220 combined Set 1/Set 2 question IDs are unique; every Set 2 item has four distinct options, exactly three non-key distractor rationales and a printed-page source reference.
+- JavaScript syntax checks passed for the bank and test file. The HTML change since the preceding PR head is only the CQA completion label, from Batch 6 to Batch 7. The reviewed commit includes only the bank, its existing integration tests, the progress label and this cumulative audit; unrelated regenerated build files are excluded.
 
 PR #368 remains an accumulation branch; publication is deferred until all 150 questions are ready. No merge or production deployment is part of this batch update.
