@@ -12,6 +12,7 @@ const rawHtml = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
 const bankFiles = [
   'test-bank-cmq-set1.js',
   'test-bank-cmq-set2.js',
+  'test-bank-cmq-set3.js',
   'test-bank-mbb-set1.js',
   'test-bank-mbb-set2.js',
   'test-bank-mbb-set3.js',

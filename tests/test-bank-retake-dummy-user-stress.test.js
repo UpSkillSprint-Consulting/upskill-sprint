@@ -14,6 +14,7 @@ const OTHER_USER_ID = '7d1c1da5-59ce-4e35-9dc6-0de8fb967d34';
 const bankFiles = [
   'test-bank-cmq-set1.js',
   'test-bank-cmq-set2.js',
+  'test-bank-cmq-set3.js',
   'test-bank-mbb-set1.js',
   'test-bank-mbb-set2.js',
   'test-bank-mbb-set3.js',

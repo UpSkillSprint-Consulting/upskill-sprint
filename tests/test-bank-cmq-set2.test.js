@@ -20,7 +20,8 @@ const SET2 = context.window.CMQ_SET2;
 
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
   .replace('<script src="/test-bank-cmq-set1.js"></script>', `<script>${set1Script}</script>`)
-  .replace('<script src="/test-bank-cmq-set2.js"></script>', `<script>${set2Script}</script>`);
+  .replace('<script src="/test-bank-cmq-set2.js"></script>', `<script>${set2Script}</script>`)
+  .replace('<script src="/test-bank-cmq-set3.js"></script>', `<script>${fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set3.js'), 'utf8')}</script>`);
 
 let windows = [];
 afterEach(() => windows.splice(0).forEach(window => { try { window.close(); } catch (_) {} }));
@@ -100,7 +101,7 @@ test('CMQ/OE exposes a Set 2 selector and a quick quiz drawn only from Set 2', a
   const overview = openCmq(window);
   assert.deepEqual(errors, []);
   const selectors = Array.from(overview.querySelectorAll('.tb-setpick [data-set]'));
-  assert.deepEqual(selectors.map(button => button.dataset.set), ['1', '2', 'mix']);
+  assert.deepEqual(selectors.map(button => button.dataset.set), ['1', '2', '3', 'mix']);
   assert.equal(selectors[1].querySelector('.tb-sets').textContent, '165');
   click(window, overview.querySelector('[data-set="2"]'));
   const rerendered = window.document.getElementById('tb-overview');

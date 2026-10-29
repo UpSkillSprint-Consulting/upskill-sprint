@@ -12,7 +12,7 @@ const { JSDOM, VirtualConsole } = require('jsdom');
 const { makeSandbox } = require('./helpers/segment01-sandbox.cjs');
 const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
 const ROOT = path.join(__dirname, '..');
-const BANKS = ['test-bank-cmq-set1.js', 'test-bank-cmq-set2.js', 'test-bank-mbb-set1.js', 'test-bank-mbb-set2.js', 'test-bank-mbb-set3.js', 'test-bank-cssgb-set1.js', 'test-bank-cssgb-set2.js'];
+const BANKS = ['test-bank-cmq-set1.js', 'test-bank-cmq-set2.js', 'test-bank-cmq-set3.js', 'test-bank-mbb-set1.js', 'test-bank-mbb-set2.js', 'test-bank-mbb-set3.js', 'test-bank-cssgb-set1.js', 'test-bank-cssgb-set2.js'];
 const read = file => fs.readFileSync(path.join(ROOT, file), 'utf8');
 const plain = value => JSON.parse(JSON.stringify(value));
 const emit = (name, value) => console.log('SEG01_' + name + ' ' + JSON.stringify(value));
