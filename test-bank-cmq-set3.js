@@ -1,9 +1,10 @@
 /*
  * ASQ CMQ/OE Exam Set 3 — original practice questions.
- * Batches 1–2: Q001–Q040. Planned bank: 165 questions, added in reviewed batches of 20.
+ * Batches 1–3: Q001–Q060. Planned bank: 165 questions, added in reviewed batches of 20.
  * 2026 BoK target counts: I 28 / II 23 / III 26 / IV 31 / V 22 / VI 19 / VII 16.
  * Batch 1 counts: I 4 / II 3 / III 3 / IV 4 / V 2 / VI 2 / VII 2.
  * Batch 2 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
+ * Batch 3 counts: I 4 / II 3 / III 3 / IV 4 / V 2 / VI 2 / VII 2.
  * Handbook citations use printed page numbers (printed page = PDF sheet − 25).
  * Items on 2026 BoK topics the 5th-edition handbook does not cover cite the named outside source.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
@@ -610,6 +611,306 @@
       "set": 3,
       "sourceQuestion": 40,
       "qid": "cmq:set-3:source-40"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "A supervisor is planning assignments for three technicians. Ravi likes to control how his own work is done. Mei does her best work in close collaboration with her crew. Tom works hardest when he sets and beats his own personal targets. Using the motivation categories McClelland and others describe, how is Tom best described?",
+      "options": [
+        "Motivated by affiliation",
+        "Motivated by power",
+        "Motivated by achievement",
+        "Motivated by altruism"
+      ],
+      "answer": 2,
+      "why": "McClelland and others describe four motivations: affiliation (enjoys working closely with other people, like Mei), achievement (works to accomplish personal goals, like Tom), altruism (works to contribute to the well-being of others) and power (wants control over his or her own work, like Ravi). The motivations are not mutually exclusive, but Tom's pattern fits achievement (Chapter 2, p. 38). <b>C. Motivated by achievement</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 2, p. 38.</span>",
+      "set": 3,
+      "sourceQuestion": 41,
+      "qid": "cmq:set-3:source-41"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A shaft diameter has specification limits of 10.00 mm \\(\\pm\\) 0.30 mm. The process is in control, with a mean of 10.20 mm and a process sigma of 0.04 mm. What does a capability analysis show, and what should be considered first?",
+      "options": [
+        "\\(C_p = 2.5\\) but \\(C_{pk} \\approx 0.83\\); centre the process",
+        "\\(C_p = 2.5\\) and \\(C_{pk} = 2.5\\); the process is capable as it is",
+        "\\(C_p \\approx 0.83\\); start a project to reduce the variation",
+        "\\(C_{pk} \\approx 1.67\\); keep the process under tight control"
+      ],
+      "answer": 0,
+      "why": "\\(C_p = \\dfrac{\\text{USL} - \\text{LSL}}{6\\sigma} = \\dfrac{10.30 - 9.70}{6(0.04)} = 2.5\\), so the spread is small compared with the tolerance. \\(C_{pk}\\) uses the nearer limit: \\(\\dfrac{10.30 - 10.20}{3(0.04)} \\approx 0.83\\), below 1.00, so the process is not capable only because it is off centre. The handbook's first remedy for unsatisfactory capability is to ensure that the process is centred; a variation-reduction project is not the first need when \\(C_p\\) is already high (Chapter 15, p. 438). <b>A. \\(C_p = 2.5\\) but \\(C_{pk} \\approx 0.83\\); centre the process</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 15, p. 438.</span>",
+      "set": 3,
+      "sourceQuestion": 42,
+      "qid": "cmq:set-3:source-42"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "A planning team has four draft statements and must adopt one as its vision. Which draft best fits the handbook's description of a vision statement?",
+      "options": [
+        "We supply certified pressure valves to oil and gas customers in Western Canada.",
+        "We will cut warranty claims by 12% and overtime by 8% in the coming fiscal year.",
+        "We follow our ISO 9001 procedures and treat every customer fairly.",
+        "To be the valve maker that every operator in the world trusts first."
+      ],
+      "answer": 3,
+      "why": "A vision statement expresses what the organization would like to accomplish or where it would like to be in the future. It should be brief, inspire and challenge, describe an ideal condition, appeal to all interested parties and give direction. Describing the products and services delivered now is the job of a mission statement, and next year's warranty and overtime targets are short-term objectives (Chapter 5, p. 92). <b>D. To be the valve maker that every operator in the world trusts first.</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 5, p. 92.</span>",
+      "set": 3,
+      "sourceQuestion": 43,
+      "qid": "cmq:set-3:source-43"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "A company mailed one customer satisfaction survey to a random sample of 2,000 customers. The 380 returns cluster at the two extremes, very satisfied and very dissatisfied, and the survey was anonymous. What is the main weakness of the results, and what does the handbook suggest for next time?",
+      "options": [
+        "The sample was too small; mail the survey to every customer",
+        "Responses aren't random; follow up identified nonrespondents",
+        "Mail surveys can't measure satisfaction; switch to comment cards",
+        "Extreme answers mean the scale is too short; widen it to 0–10"
+      ],
+      "answer": 1,
+      "why": "Responses to a single-mailing written survey are not random, because the least and most satisfied customers are the most likely to respond. Prior notification, a well-written cover letter and a follow-up mailing to nonrespondents boost the response rate, but the follow-up works only if the organization can identify who did and did not respond, which an anonymous return cannot do. Some companies also add phone or in-person contact. Comment cards suffer from the same problem of extremes (Chapter 17, p. 486). <b>B. Responses aren't random; follow up identified nonrespondents</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 17, p. 486.</span>",
+      "set": 3,
+      "sourceQuestion": 44,
+      "qid": "cmq:set-3:source-44"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "In a dispute over a delayed shipment, a quality manager opens the meeting with the customer by explaining in detail why his plant followed its procedures correctly. The customer grows more frustrated. Which of Covey's seven habits would best have guided his opening?",
+      "options": [
+        "Be proactive",
+        "Think win-win",
+        "Seek first to understand, then to be understood",
+        "Begin with the end in mind"
+      ],
+      "answer": 2,
+      "why": "Covey's habits are being proactive, beginning with the end in mind, putting first things first, thinking win-win, seeking first to understand and then to be understood, synergizing and sharpening the saw. Opening with his own explanation reverses the fifth habit; listening first to the customer's view is what the situation called for. Thinking win-win matters for the solution, but it doesn't settle who should be heard first (Chapter 8, p. 149). <b>C. Seek first to understand, then to be understood</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 8, p. 149.</span>",
+      "set": 3,
+      "sourceQuestion": 45,
+      "qid": "cmq:set-3:source-45"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "Following the ASQ Customer-Supplier Division's steps for selecting suppliers, a buyer has identified all possible sources, evaluated their reputations, prepared a bidders list and requested bids. What is the next step?",
+      "options": [
+        "Select the supplier with the lowest bid",
+        "Update the approved supplier list",
+        "Prepare the contracts for signature",
+        "Evaluate the pre-award data"
+      ],
+      "answer": 3,
+      "why": "The nine steps are: identify all possible sources, evaluate reputations, prepare a bidders list, request bids, evaluate pre-award data, select the supplier, update the approved supplier list, prepare the contracts and accept the contracts. Selecting on the lowest bid skips the pre-award evaluation and ignores the total cost of dealing with the supplier (Chapter 18, p. 512). <b>D. Evaluate the pre-award data</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, p. 512.</span>",
+      "set": 3,
+      "sourceQuestion": 46,
+      "qid": "cmq:set-3:source-46"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A stamping plant suffers from minor stops, speed losses and breakdowns. Maintenance technicians do all upkeep, and operators call them for every problem. Management launches total productive maintenance (TPM). Which change is most characteristic of TPM?",
+      "options": [
+        "Operators take on routine cleaning, lubricating and inspection",
+        "Maintenance staff take sole ownership of all the preventive work",
+        "Machines run until they fail and are then replaced quickly",
+        "Engineering buys spare machines to cover any breakdowns"
+      ],
+      "answer": 0,
+      "why": "TPM is a set of techniques, first developed at Denso in the Toyota Group, to ensure that every machine can always perform its required tasks. Unlike traditional preventive maintenance by maintenance staff, it involves operators in routine maintenance (cleaning, lubricating, tightening and inspecting), improvement projects and simple repairs, and it targets losses such as downtime, minor stops, speed losses and scrap. Leaving all prevention to maintenance staff is the traditional model that TPM replaces. The 5th-edition handbook predates this 2026 BoK topic; the closest handbook coverage is Chapter 14, pp. 389, 398–399. <b>A. Operators take on routine cleaning, lubricating and inspection</b> <span class=\"tb-source-ref\">Source: Lean Enterprise Institute, “Total Productive Maintenance,” lean.org/lexicon-terms/total-productive-maintenance; ASQ CMQ/OE Body of Knowledge (2026), Part IV (lean tools, TPM new in 2026). Related handbook pages: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 14, pp. 389, 398–399.</span>",
+      "set": 3,
+      "sourceQuestion": 47,
+      "qid": "cmq:set-3:source-47"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "For 18 months an outside consultant has led a plant's lean transformation: she runs every kaizen event, sets the priorities and presents all results to leadership. Her contract ends next month. What risk does the handbook highlight in this situation?",
+      "options": [
+        "She was too close to company traditions to be objective",
+        "The change process may suffer because the plant depends on her",
+        "Staff will resent her blunt, honest feedback once she has finally gone",
+        "Little was learned, because external agents lack objectivity"
+      ],
+      "answer": 1,
+      "why": "An external change agent can give honest, objective feedback and has no vested interest in long-held traditions, but the danger is that an organization becomes so dependent on the agent that the change process is adversely affected when the agent leaves. Being too close to traditions is a weakness of internal change agents, not external ones (Chapter 2, p. 27). <b>B. The change process may suffer because the plant depends on her</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 2, p. 27.</span>",
+      "set": 3,
+      "sourceQuestion": 48,
+      "qid": "cmq:set-3:source-48"
+    },
+    {
+      "sub": "cmq-training",
+      "stem": "Technicians recalibrate a rarely used emergency gas detector about once a year, and a calibration error could leave a leak undetected. The procedure has 14 steps. Which approach does the handbook's guidance on job aids support?",
+      "options": [
+        "A one-time classroom course when the detector is first installed",
+        "An annual refresher lecture for all of the technicians",
+        "Discipline for any technician who calibrates it incorrectly",
+        "A step-by-step checklist used at the detector during calibration"
+      ],
+      "answer": 3,
+      "why": "Rossett and Gautier-Downes list situations in which job aids are appropriate, including when a task is done so rarely that people cannot be expected to remember it, when the consequences of error are high, and when performance relies on a large body of information. A checklist at the point of use supports the task directly. A one-time course would fade out long before the next calibration (Chapter 19, p. 564). <b>D. A step-by-step checklist used at the detector during calibration</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 19, p. 564.</span>",
+      "set": 3,
+      "sourceQuestion": 49,
+      "qid": "cmq:set-3:source-49"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "To gather customer and employee input for strategic planning, a team proposes to rely on customer complaint data and employee exit interviews, since both are already collected. What does the handbook advise?",
+      "options": [
+        "Add a purpose-built assessment; those sources show only problems",
+        "Use them as is; complaints and exits are the most candid sources",
+        "Use only the complaints, because exit interviews reflect former staff",
+        "Wait for next year's engagement survey before starting to plan"
+      ],
+      "answer": 0,
+      "why": "Complaint data and exit interviews are common sources, but they are limited to problem areas. A special data-gathering process should be developed as part of the environmental assessment to get more strategically focused information, such as how well needs are met, what new features would add value, and whether employees understand the strategy and would commit to the changes it needs (Chapter 6, p. 118). <b>A. Add a purpose-built assessment; those sources show only problems</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 6, p. 118.</span>",
+      "set": 3,
+      "sourceQuestion": 50,
+      "qid": "cmq:set-3:source-50"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "A company opens a plant whose workforce speaks several languages and dialects. In the first month, two near misses occur because new hires misunderstood spoken safety warnings. Which remedy from the handbook's list of global communication obstacles fits best?",
+      "options": [
+        "Publish the business hours for contacting headquarters",
+        "Assess the political and financial risks of the region",
+        "Give new hires orientation on critical safety expressions and warnings",
+        "Convene a diagonal slice of staff once a year to review communications"
+      ],
+      "answer": 2,
+      "why": "For language differences, the handbook's remedies include cross-training key personnel in common business languages, glossaries of common business terms and idioms, and orientation training for new hires that stresses critical oral and written expressions and warnings that could affect their safety and security. Publishing business hours addresses time differences, and a diagonal-slice review addresses cultural differences, not an immediate safety risk (Chapter 9, p. 218). <b>C. Give new hires orientation on critical safety expressions and warnings</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 9, p. 218.</span>",
+      "set": 3,
+      "sourceQuestion": 51,
+      "qid": "cmq:set-3:source-51"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "During a 5S event, the day shift decides where every tool will live and paints outlines on the shadow boards. Within a week, night-shift operators have moved half the tools back to where they used them before. Which 5S step was done poorly?",
+      "options": [
+        "Sort; unneeded tools were never red-tagged",
+        "Set in order; not all users helped decide placement",
+        "Shine; the area was not cleaned floor to ceiling",
+        "Sustain; no follow-up audits were scheduled for the area"
+      ],
+      "answer": 1,
+      "why": "In set in order (seiton) the team identifies where things should go, but all users of the area should have the chance to evaluate placement, including personnel from other shifts and other departments, and visual signals then show where items belong. The night shift was left out, so the arrangement did not hold. Sort removes unneeded items, which is not the problem here (Chapter 14, p. 386). <b>B. Set in order; not all users helped decide placement</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 14, p. 386.</span>",
+      "set": 3,
+      "sourceQuestion": 52,
+      "qid": "cmq:set-3:source-52"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "A certified quality engineer is irritated that a colleague in purchasing keeps scheduling supplier visits without consulting her. She is considering reporting the colleague under the ASQ Code of Ethics. What does the code say she should do first?",
+      "options": [
+        "Address the difference in work style directly with the colleague",
+        "Report the colleague to the ASQ Professional Ethics and Qualifications Committee",
+        "Ask her manager to file the ethics report on her behalf",
+        "Keep a record of each incident before raising it with anyone"
+      ],
+      "answer": 0,
+      "why": "The code's introduction says that violations should be reported, but that differences in work style or personalities should first be addressed directly with others before escalating to an ethics issue. Scheduling visits without consultation is a work-style conflict, not a breach of honesty, safety, confidentiality or conflict-of-interest rules (Chapter 4, p. 84). <b>A. Address the difference in work style directly with the colleague</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 4, p. 84.</span>",
+      "set": 3,
+      "sourceQuestion": 53,
+      "qid": "cmq:set-3:source-53"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "A supplier on a just-in-time contract learns that its own resin supplier will deliver four days late, which will delay the next two shipments. What does the handbook say the supplier should do?",
+      "options": [
+        "Wait until the shipment date in case the resin arrives early",
+        "Ship partial quantities without comment and make up the balance",
+        "Inform the purchaser of the change in order status right away",
+        "Substitute a similar resin from another source to keep the date"
+      ],
+      "answer": 2,
+      "why": "Suppliers must keep the purchaser informed of any change in the status of an order. Process delays, late material from the supplier's own suppliers, rework and recalls are all potential disasters for the purchaser and its customer, especially when just-in-time deliveries are expected. Substituting a different resin without approval would breach the agreed requirements (Chapter 18, p. 520). <b>C. Inform the purchaser of the change in order status right away</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, p. 520.</span>",
+      "set": 3,
+      "sourceQuestion": 54,
+      "qid": "cmq:set-3:source-54"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "A buyer tells a sales rep, 'Your product is fine, but honestly, any supplier that meets the spec will do.' On the handbook's five-level customer satisfaction scale, where is this customer?",
+      "options": [
+        "Level 1, dissatisfied",
+        "Level 4, delighted (a return customer)",
+        "Level 3, basically satisfied",
+        "Level 2, marginally satisfied"
+      ],
+      "answer": 3,
+      "why": "Level 2 customers are marginally satisfied and casual: any supplier will do. Level 3 customers are basically satisfied but borderline and uncommitted, level 4 customers are delighted and return, and level 5 customers are committed advocates who tell others (Chapter 17, p. 494). <b>D. Level 2, marginally satisfied</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 17, p. 494.</span>",
+      "set": 3,
+      "sourceQuestion": 55,
+      "qid": "cmq:set-3:source-55"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A supervisor wants to present a problem to her plant manager on a single sheet: the current condition and its root cause on the left, and on the right the countermeasures considered, the one chosen, who will do what by when, and how success will be checked. Which lean practice is she using?",
+      "options": [
+        "A value stream map",
+        "An A3 report",
+        "A control plan",
+        "A process FMEA"
+      ],
+      "answer": 1,
+      "why": "An A3 report, pioneered at Toyota, puts the problem, the analysis and the corrective actions on one sheet of paper. The left side covers the problem or current condition; the right side covers the countermeasures considered, tested and chosen, who will do what and when, and the evidence that the issue has been addressed. It follows the plan-do-check-act logic of improvement. A value stream map shows material and information flow, not a problem-solving story. The 5th-edition handbook predates this 2026 BoK topic; the closest handbook coverage is Chapter 13, pp. 345–346. <b>B. An A3 report</b> <span class=\"tb-source-ref\">Source: Lean Enterprise Institute, “A3 Report,” lean.org/lexicon-terms/a3-report; ASQ CMQ/OE Body of Knowledge (2026), Part IV (problem-solving tools, A3 new in 2026). Related handbook pages: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 13, pp. 345–346.</span>",
+      "set": 3,
+      "sourceQuestion": 56,
+      "qid": "cmq:set-3:source-56"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "A new CEO wants to transform the company's command-and-control culture into an empowered one within a single quarter, by mandate. What does the handbook suggest about this plan?",
+      "options": [
+        "Mandated speed works best, because people adapt quickly to clear deadlines",
+        "The pace is fine if the change is announced with strong urgency",
+        "Shortcutting may look fast but will not produce the desired results",
+        "Culture can't be changed, so the CEO should change only structure"
+      ],
+      "answer": 2,
+      "why": "Using Senge's boiling-frog parable, the handbook advises a slow and gradual change process that pays attention to employees' subtle reactions. Individual change is progressive and usually takes a considerable length of time, and so does major culture change at the organizational level; trying to shortcut the process may create an illusion of speed but will not produce the desired results. Urgency is a first step, not a substitute for time (Chapter 2, p. 28). <b>C. Shortcutting may look fast but will not produce the desired results</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 2, p. 28.</span>",
+      "set": 3,
+      "sourceQuestion": 57,
+      "qid": "cmq:set-3:source-57"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "A fabricator's strategy calls for doubling output within three years, which will require about 40 more certified welders. The local labour pool is shrinking, and the nearest welding program is 500 km away. Among the handbook's internal capability factors, which question matters most before committing to this strategy?",
+      "options": [
+        "Can the available labour pool acquire the required competencies?",
+        "Do current customers rate the fabricator above all of its competitors?",
+        "Is the threat of substitute products rising in the market?",
+        "Does the mission statement mention welding quality?"
+      ],
+      "answer": 0,
+      "why": "Availability of human resources is one of the internal capability factors to weigh in strategy: whether the labour pool is stable, expanding or contracting, whether it can acquire the competencies future strategies require, and whether educational opportunities exist to develop them. A shrinking pool with no nearby training puts the growth strategy at risk. The threat of substitutes is an external market force (Chapter 6, p. 117). <b>A. Can the available labour pool acquire the required competencies?</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 6, p. 117.</span>",
+      "set": 3,
+      "sourceQuestion": 58,
+      "qid": "cmq:set-3:source-58"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "A bank traces most loan-processing errors to staff who are distracted or rushed while keying applications. The risk team wants a technique that starts by describing the tasks people perform and then has experienced staff assess what can go wrong and how serious each error would be. Which technique fits?",
+      "options": [
+        "Bow tie analysis",
+        "Fault tree analysis of the error events",
+        "Cause-and-effect analysis",
+        "Human reliability assessment"
+      ],
+      "answer": 3,
+      "why": "Human reliability assessment addresses the impact of people on processes and systems and is especially useful in service industries. It begins with descriptions of the tasks people will perform, followed by an assessment by experienced experts of what can go wrong and how serious the error would be; designers then build ways to detect and recover from errors and to reduce their likelihood. A bow tie maps the causes and consequences of a single failure event rather than analyzing human tasks (Chapter 8, p. 192). <b>D. Human reliability assessment</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 8, p. 192.</span>",
+      "set": 3,
+      "sourceQuestion": 59,
+      "qid": "cmq:set-3:source-59"
+    },
+    {
+      "sub": "cmq-training",
+      "stem": "A trainer designing a customer-complaint course wants short, realistic examples drawn from the company's own recent situations to illustrate specific learning points. Which practice does the handbook describe for this, and what caution applies?",
+      "options": [
+        "War stories told on the spot, kept light and humorous for engagement",
+        "Critical incidents; gather the data early and keep them anonymous",
+        "Full case studies, bought from outside sources to save design time",
+        "Role plays, with participants inventing their own scenarios"
+      ],
+      "answer": 1,
+      "why": "A critical incident is a mini case study derived from real situations in the organization: a few sentences describing a specific event, without names or locations, inserted to illustrate specific learning points. The data must be collected before course design, and the incidents must appear anonymous so they don't target any person or work unit. They should not be confused with anecdotal 'war stories' told on the spot to make a point or add humour (Chapter 19, p. 562). <b>B. Critical incidents; gather the data early and keep them anonymous</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 19, p. 562.</span>",
+      "set": 3,
+      "sourceQuestion": 60,
+      "qid": "cmq:set-3:source-60"
     }
   ];
 })(window);

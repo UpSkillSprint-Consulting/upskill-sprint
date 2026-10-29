@@ -4,7 +4,7 @@ Original practice questions for the CMQ/OE test bank, Set 3. Planned size 165 (2
 
 Handbook = *The ASQ CMQ/OE Handbook*, 5th ed. (Furterer & Wood, 2021). Every page reference is the printed folio on the book page (top left on even pages, top right on odd pages; chapter-opening pages carry it at the foot), never the PDF sheet position. Printed page = PDF sheet − 25 throughout the body. Each cited page was checked by script for the quoted key terms, and the chapter running head was checked against the cited chapter.
 
-Items on 2026 BoK topics that the 5th edition does not cover (8D, PESTLE) cite ASQ or CIPD and also give the closest handbook pages.
+Items on 2026 BoK topics that the 5th edition does not cover (8D, PESTLE, TPM, A3) cite ASQ, CIPD or the Lean Enterprise Institute and also give the closest handbook pages.
 
 ## Batch 1 (Q001–Q020)
 
@@ -59,3 +59,30 @@ Batch 1 checks: keys A5/B5/C5/D5, longest run 2, no two adjacent items from the 
 | 40 | cmq-training | VII.B | Evaluate | B | Handbook Ch. 19, p. 552 | p. 552: “not a needs assessment”; p. 552: “Employees often do not know what they need” |
 
 Batch 2 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no two adjacent items from the same domain (including across the batch 1/2 boundary). Highest stem similarity to Sets 1–2 is 0.33. Each item was checked by concept against Sets 1–2 and batch 1. Draft topics already covered there were dropped: too many KPIs, and management review inputs. Is/is-not and SIPOC are 2026 BoK additions that the handbook does cover.
+
+## Batch 3 (Q041–Q060)
+
+| Q | Domain | BoK | Level | Key | Source | Terms verified on page |
+|---|---|---|---|---|---|---|
+| 41 | cmq-lead | I.B.4 | Apply | C | Handbook Ch. 2, p. 38 | p. 38: “McClelland”; p. 38: “motivated by achievement”; p. 38: “motivated by power” |
+| 42 | cmq-tools | IV.C.7 | Analyze | A | Handbook Ch. 15, p. 438 | p. 438: “whichever is smaller”; p. 438: “Cpk < 1.00 (not capable)”; p. 438: “Ensure that the process is centered” |
+| 43 | cmq-strategy | II.A | Evaluate | D | Handbook Ch. 5, p. 92 | p. 92: “vision statement”; p. 92: “inspire and challenge”; p. 92: “mission statement” |
+| 44 | cmq-customer | V.B.2 | Analyze | B | Handbook Ch. 17, p. 486 | p. 486: “least and most satisfied customers are most likely to respond”; p. 486: “follow-up survey mailing to nonrespon” |
+| 45 | cmq-management | III.A.2 | Apply | C | Handbook Ch. 8, p. 149 | p. 149: “Seeking first to understand, then to be understood”; p. 149: “Thinking win-win” |
+| 46 | cmq-supply | VI.A | Apply | D | Handbook Ch. 18, p. 512 | p. 512: “Evaluate pre-award data”; p. 512: “Prepare bidders list”; p. 512: “Update the approved supplier list” |
+| 47 | cmq-tools | IV.B.3 (2026: TPM) | Apply | A | Lean Enterprise Institute, “Total Productive Maintenance,” lean.org/lexicon-terms/total-productive-maintenance; ASQ CMQ/OE Body of Knowledge (2026), Part IV (lean tools, TPM new in 2026). Related: Handbook Ch. 14, pp. 389, 398–399 | p. 389: “total productive maintenance”; p. 398: “Overall equipment effectiveness” |
+| 48 | cmq-lead | I.B.3 | Analyze | B | Handbook Ch. 2, p. 27 | p. 27: “external change agent”; p. 27: “so dependent on an external change agent”; p. 27: “vested interest” |
+| 49 | cmq-training | VII.C | Apply | D | Handbook Ch. 19, p. 564 | p. 564: “Rossett and Gautier-Downes”; p. 564: “rarely required to do it”; p. 564: “consequences of error are high” |
+| 50 | cmq-strategy | II.B.5 | Evaluate | A | Handbook Ch. 6, p. 118 | p. 118: “exit interviews”; p. 118: “limited to problem areas”; p. 118: “special data-gathering process” |
+| 51 | cmq-management | III.B.3 | Apply | C | Handbook Ch. 9, p. 218 | p. 218: “Language differences”; p. 218: “warnings that could affect their safety”; p. 218: “diagonal slice” |
+| 52 | cmq-tools | IV.B.3 | Analyze | B | Handbook Ch. 14, p. 386 | p. 386: “Seiton (set in order)”; p. 386: “personnel from other shifts” |
+| 53 | cmq-lead | I.D | Apply | A | Handbook Ch. 4, p. 84 | p. 84: “Differences in work style or personalities should be first addressed directly” |
+| 54 | cmq-supply | VI.C | Apply | C | Handbook Ch. 18, p. 520 | p. 520: “informed of any change in the status of the order”; p. 520: “just-in- time” |
+| 55 | cmq-customer | V.B.2 | Apply | D | Handbook Ch. 17, p. 494 | p. 494: “Marginally satisfied”; p. 494: “any supplier will do”; p. 494: “Basically satisfied” |
+| 56 | cmq-tools | IV.A.3 (2026: A3) | Apply | B | Lean Enterprise Institute, “A3 Report,” lean.org/lexicon-terms/a3-report; ASQ CMQ/OE Body of Knowledge (2026), Part IV (problem-solving tools, A3 new in 2026). Related: Handbook Ch. 13, pp. 345–346 | p. 345: “PDCA/PDSA Cycle”; p. 346: “PDCA/PDSA cycle” |
+| 57 | cmq-lead | I.B.3 | Evaluate | C | Handbook Ch. 2, p. 28 | p. 28: “boiling frog”; p. 28: “slow and gradual”; p. 28: “illusion of speed” |
+| 58 | cmq-strategy | II.B.5 | Analyze | A | Handbook Ch. 6, p. 117 | p. 117: “Availability of h”; p. 117: “contracting”; p. 117: “educational opportunities” |
+| 59 | cmq-management | III.A.6 | Apply | D | Handbook Ch. 8, p. 192 | p. 192: “uman Reliability Assessment”; p. 192: “distracted”; p. 192: “descriptions of the tasks” |
+| 60 | cmq-training | VII.C | Apply | B | Handbook Ch. 19, p. 562 | p. 562: “critical incident”; p. 562: “war stories”; p. 562: “anonymous” |
+
+Batch 3 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent same-domain items (including across batch boundaries). Highest stem similarity to Sets 1–2 is 0.37 (a different conflict-of-interest item). TPM and A3 are 2026 BoK additions the handbook only mentions in passing; they cite the Lean Enterprise Institute lexicon plus the nearest handbook pages (TPM in the JIT tactics list and OEE, Ch. 14; PDCA, Ch. 13). Q42 (capability) is a calculation, written in LaTeX.
