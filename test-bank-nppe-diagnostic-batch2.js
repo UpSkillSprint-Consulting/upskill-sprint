@@ -175,7 +175,7 @@ var questions=[
     "stem": "A senior engineer delegates inspection data collection to a qualified technologist. Before issuing a compliance report, the engineer notices that several critical measurements were omitted. The technologist says the remaining measurements are sufficient. What should the engineer do?",
     "options": [
       "Issue a compliance conclusion but list omitted critical measurements as a footnote limitation.",
-      "Accept the technologist's judgement that the remaining measurements represent the missing critical locations.",
+      "Accept the technologist's judgment that the remaining measurements represent the missing critical locations.",
       "Obtain the client's acceptance of the omitted measurements, then issue an unqualified compliance statement.",
       "Obtain missing evidence or qualify or withhold any unsupported compliance conclusion."
     ],
