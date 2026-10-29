@@ -156,7 +156,7 @@ test('certification exam navigation wording is consistent while route and access
   assert.match(landing,/href="\/exam-practice"/);
   assert.match(admin,/href="\/exam-practice"/);
   assert.match(displayRule,/resource_key, required_access_key, display_name/);
-  assert.match(displayRule,/'exam:\/test-bank', 'premium', 'Practise Certification Exam'/);
+  assert.match(displayRule,/'exam:\/test-bank', 'premium', 'Practice Certification Exams'/);
 });
 
 test('old lesson bookmarks forward to the moved page and keep access notices', () => {
