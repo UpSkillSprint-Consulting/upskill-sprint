@@ -86,3 +86,30 @@ Batch 2 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no two adjac
 | 60 | cmq-training | VII.C | Apply | B | Handbook Ch. 19, p. 562 | p. 562: “critical incident”; p. 562: “war stories”; p. 562: “anonymous” |
 
 Batch 3 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent same-domain items (including across batch boundaries). Highest stem similarity to Sets 1–2 is 0.37 (a different conflict-of-interest item). TPM and A3 are 2026 BoK additions the handbook only mentions in passing; they cite the Lean Enterprise Institute lexicon plus the nearest handbook pages (TPM in the JIT tactics list and OEE, Ch. 14; PDCA, Ch. 13). Q42 (capability) is a calculation, written in LaTeX.
+
+## Batch 4 (Q061–Q080)
+
+| Q | Domain | BoK | Level | Key | Source | Terms verified on page |
+|---|---|---|---|---|---|---|
+| 61 | cmq-lead | I.C.3 | Apply | D | Handbook Ch. 3, p. 68 | p. 68: “Consensus means that the decision is acceptable enough that all team members will support it”; p. 68: “major project issues” |
+| 62 | cmq-tools | IV.C.3 | Apply | A | Handbook Ch. 15, p. 426 | p. 426: “u-chart”; p. 426: “number of defects where sample size is changing”; p. 426: “c-chart” |
+| 63 | cmq-strategy | II.B.3 | Apply | C | Handbook Ch. 6, p. 112 | p. 112: “communicate advance information”; p. 112: “inaccurate conjecture”; p. 112: “incongruent” |
+| 64 | cmq-customer | V.B.2 | Apply | B | Handbook Ch. 17, p. 496 | p. 496: “customer journey map”; p. 496: “personas”; p. 496: “touch- points” |
+| 65 | cmq-management | III.C.1 | Apply | A | Handbook Ch. 10, p. 235 | p. 235: “Customer collaboration over contract negotiation”; p. 235: “Responding to change over following a plan” |
+| 66 | cmq-supply | VI.A | Evaluate | D | Handbook Ch. 18, pp. 515–516 | p. 515: “top layer of costs”; p. 516: “fairest”; p. 516: “most expensive and cumbersome” |
+| 67 | cmq-tools | IV.B.4 | Analyze | C | Handbook Ch. 14, p. 401 | p. 401: “policy constraint”; p. 401: “squeeze more capability from the con straint”; p. 401: “major changes” |
+| 68 | cmq-lead | I.B.4 | Analyze | B | Handbook Ch. 2, p. 40 | p. 40: “vertical hierarchy”; p. 40: “higher why”; p. 40: “multiple ways the same overall objective can be achieved” |
+| 69 | cmq-training | VII.C | Apply | A | Handbook Ch. 19, p. 555 | p. 555: “ADDIE”; p. 555: “development phase, training materials are created, purchased, and/or modified” |
+| 70 | cmq-strategy | II.C.3 | Evaluate | C | Handbook Ch. 7, p. 130 | p. 130: “verify that the action item is underway”; p. 130: “Usually, both types of measure ments are required” |
+| 71 | cmq-customer | V.B.2 | Analyze | D | Handbook Ch. 17, p. 489 | p. 489: “Satisfaction surveys conducted only with purchasing customers can be too limited”; p. 489: “cross-section of stakeholders” |
+| 72 | cmq-management | III.C.4 | Evaluate | B | Handbook Ch. 10, pp. 264–265 | p. 264: “Lessons learned”; p. 265: “Postproject Outcome Assessment”; p. 265: “cycle time reduced” |
+| 73 | cmq-tools | IV.C.5 | Analyze | A | Handbook Ch. 15, p. 426 | p. 426: “two-thirds of the points should be close to the centerline”; p. 426: “Some points should be close to the outer limit” |
+| 74 | cmq-supply | VI.F | Apply | C | Handbook Ch. 18, p. 530 | p. 530: “Be aware of any legal implications”; p. 530: “Communicate and negotiate” |
+| 75 | cmq-lead | I.C.3 | Apply | D | Handbook Ch. 3, p. 68 | p. 68: “icebreakers”; p. 68: “personalities and values” |
+| 76 | cmq-customer | V.B.2 | Analyze | B | Handbook Ch. 17, p. 485 | p. 485: “Lost-customer analysis”; p. 485: “own this information”; p. 485: “integrate, process, and trend data” |
+| 77 | cmq-tools | IV.B.3 | Apply | C | Handbook Ch. 14, p. 390 | p. 390: “Demand during lead time + Safety stock)/Container quantity” |
+| 78 | cmq-management | III.A.7 | Analyze | A | Handbook Ch. 8, pp. 201–202 | p. 201: “Lack of top management”; p. 202: “Individual barriers”; p. 202: “lost their power” |
+| 79 | cmq-strategy | II.C.4 | Understand | D | Handbook Ch. 7, p. 127 | p. 127: “cascading concept (from QFD)”; p. 127: “Individual action plans” |
+| 80 | cmq-training | VII.C | Apply | B | Handbook Ch. 19, pp. 558–559 | p. 558: “Competency-based training”; p. 559: “Mastery”; p. 559: “terminal performance objectives” |
+
+Batch 4 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent same-domain items across batch boundaries. Highest stem similarity to Sets 1–2 is 0.34. All 20 items cite handbook pages only. Two calculations (kanban minimum quantity, and an x-bar randomness check) use LaTeX.

@@ -1,10 +1,11 @@
 /*
  * ASQ CMQ/OE Exam Set 3 — original practice questions.
- * Batches 1–3: Q001–Q060. Planned bank: 165 questions, added in reviewed batches of 20.
+ * Batches 1–4: Q001–Q080. Planned bank: 165 questions, added in reviewed batches of 20.
  * 2026 BoK target counts: I 28 / II 23 / III 26 / IV 31 / V 22 / VI 19 / VII 16.
  * Batch 1 counts: I 4 / II 3 / III 3 / IV 4 / V 2 / VI 2 / VII 2.
  * Batch 2 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
  * Batch 3 counts: I 4 / II 3 / III 3 / IV 4 / V 2 / VI 2 / VII 2.
+ * Batch 4 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
  * Handbook citations use printed page numbers (printed page = PDF sheet − 25).
  * Items on 2026 BoK topics the 5th-edition handbook does not cover cite the named outside source.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
@@ -911,6 +912,306 @@
       "set": 3,
       "sourceQuestion": 60,
       "qid": "cmq:set-3:source-60"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "A process improvement team must decide which of two pilot lines to use for a major trial. After a long discussion, two members still prefer line A, but they say they can live with line B and will fully support it. The other five prefer line B. Using the handbook's definition, has the team reached consensus?",
+      "options": [
+        "No; consensus requires every member's first choice to match",
+        "No; a decision this major needs a formal majority vote instead",
+        "No; the sponsor must approve before consensus can exist",
+        "Yes; all members will support a decision they find acceptable"
+      ],
+      "answer": 3,
+      "why": "Consensus, the method the handbook recommends for major project issues, means the decision is acceptable enough that all team members will support it. It does not require everyone's first choice to match; it requires that all members have expressed their views and listened objectively to others. A majority vote is quicker but can leave part of the team unconvinced (Chapter 3, p. 68). <b>D. Yes; all members will support a decision they find acceptable</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 3, p. 68.</span>",
+      "set": 3,
+      "sourceQuestion": 61,
+      "qid": "cmq:set-3:source-61"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "An inspector counts paint blemishes on finished cabinets. Each day's sample contains a different number of cabinets, and a single cabinet can have several blemishes. Which control chart fits?",
+      "options": [
+        "u-chart",
+        "c-chart",
+        "p-chart",
+        "np-chart"
+      ],
+      "answer": 0,
+      "why": "Blemishes are defects, and one unit can have several, so a chart for defects is needed; because the sample size changes from day to day, the u-chart applies. The c-chart counts defects in a constant sample size, while the p- and np-charts track defective units (as a fraction or a number), not defect counts (Chapter 15, p. 426). <b>A. u-chart</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 15, p. 426.</span>",
+      "set": 3,
+      "sourceQuestion": 62,
+      "qid": "cmq:set-3:source-62"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "A company's strategic plan includes closing one of its two plants, located in a small town. The town council and the plant's employees are not involved in the planning. What does the handbook advise regarding these interested parties?",
+      "options": [
+        "Say nothing until the closure is final, to avoid early unrest",
+        "Treat their interests as opposed to the company's and plan defensively",
+        "Communicate advance information to limit inaccurate conjecture",
+        "Involve them only if the closure is challenged in court"
+      ],
+      "answer": 2,
+      "why": "Interested parties' needs can be gathered by involving them directly in planning or by collecting their input. When they will not be directly involved, it is often advisable to communicate advance information about the plans so that inaccurate conjecture is not the only information available to them. The handbook also calls it a common mistake to treat stakeholder interests as incongruent with the organization's; with a systems view, a balanced interface can be managed (Chapter 6, p. 112). <b>C. Communicate advance information to limit inaccurate conjecture</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 6, p. 112.</span>",
+      "set": 3,
+      "sourceQuestion": 63,
+      "qid": "cmq:set-3:source-63"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "A utility wants to see its service through customers' eyes, from signing up to billing to reporting an outage, and to find where pain points and moments of delight occur for different types of customers. Which tool fits best?",
+      "options": [
+        "A SIPOC diagram of the billing process",
+        "A customer journey map built around personas",
+        "A Pareto chart of complaint categories",
+        "A house of quality for the outage-reporting service"
+      ],
+      "answer": 1,
+      "why": "A customer journey map visually represents the journey a customer has with the brand, products, services and people. It identifies outcomes at different touchpoints, key moments, positive and negative impacts and the resulting attitudes and emotions, and maps can be created for different types of customers (personas). A Pareto chart ranks complaints but says nothing about touchpoints that customers did not complain about (Chapter 17, p. 496). <b>B. A customer journey map built around personas</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 17, p. 496.</span>",
+      "set": 3,
+      "sourceQuestion": 64,
+      "qid": "cmq:set-3:source-64"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "A software team's sponsor insists that every change after requirements sign-off go through a formal contract amendment. The team argues that this conflicts with the Agile Manifesto. Which of the manifesto's values supports the team's view?",
+      "options": [
+        "Customer collaboration over contract negotiation",
+        "Working software over comprehensive documentation",
+        "Individuals and interactions over processes and tools",
+        "Comprehensive planning over responding to change"
+      ],
+      "answer": 0,
+      "why": "The Agile Manifesto values individuals and interactions over processes and tools, working software over comprehensive documentation, customer collaboration over contract negotiation, and responding to change over following a plan. Requiring a contract amendment for every change puts contract negotiation ahead of collaboration. The last option reverses one of the manifesto's values (Chapter 10, p. 235). <b>A. Customer collaboration over contract negotiation</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 10, p. 235.</span>",
+      "set": 3,
+      "sourceQuestion": 65,
+      "qid": "cmq:set-3:source-65"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "A purchaser is designing a supplier rating system. One option scores only the percent of lots accepted and the percent of on-time deliveries. Another weights quality, delivery, price, service and the effect of nonconformances on the purchaser's and its customer's operations. What trade-off does the handbook describe for the weighted, comprehensive option?",
+      "options": [
+        "It is the least fair, because weighting adds subjectivity",
+        "It is the cheapest to run, because the data already exist",
+        "It is useful only for suppliers that are on probation",
+        "It is the fairest, but the most expensive and cumbersome"
+      ],
+      "answer": 3,
+      "why": "Simple measures such as lots accepted and on-time deliveries, converted into a few rating levels, tend to relate only to the top layer of the costs of poor quality. A comprehensive approach covering quality, delivery, price, service and the effect of nonconformances, with weighted contributing factors, is the fairest but also the most expensive and cumbersome to maintain. Whatever the design, the metrics must be meaningful, fair, objective and easy to understand (Chapter 18, pp. 515–516). <b>D. It is the fairest, but the most expensive and cumbersome</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, pp. 515–516.</span>",
+      "set": 3,
+      "sourceQuestion": 66,
+      "qid": "cmq:set-3:source-66"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A plant's bottleneck oven sits idle every lunch break because a company rule requires all operators in the area to take breaks at the same time. Using the theory of constraints, how is this constraint classified, and what is the next step?",
+      "options": [
+        "Physical; buy a second oven to add capacity",
+        "Physical; add a weekend shift at the oven",
+        "Policy; get more from the oven by staggering breaks",
+        "Policy; first cut output at all of the upstream stations"
+      ],
+      "answer": 2,
+      "why": "The first step is to locate the weakest link and identify whether it is physical or a matter of policy. Here the oven's capacity is lost to a rule, so the constraint is a policy constraint. The next step is to squeeze more capability from the constraint without expensive changes, such as staggering breaks so the oven keeps running. Buying another oven is a major change, considered only if the cheaper steps are not enough (Chapter 14, p. 401). <b>C. Policy; get more from the oven by staggering breaks</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 14, p. 401.</span>",
+      "set": 3,
+      "sourceQuestion": 67,
+      "qid": "cmq:set-3:source-67"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "A city council and its school board have argued for months over which school programs to cut, while public meetings debate only tax increases. A facilitator asks both groups what the cuts and tax increases are ultimately meant to achieve, then shows other ways to reach that goal. Which negotiation technique is the facilitator using?",
+      "options": [
+        "Keeping the most difficult issues for last",
+        "Moving up the decision hierarchy to the higher 'why'",
+        "Bringing in a third-party mediator to set ground rules",
+        "Splitting the difference between the two positions"
+      ],
+      "answer": 1,
+      "why": "The handbook recommends being flexible with one's position and stepping back to look at it critically, because the same overall objective can often be achieved in several ways. That means moving up the vertical hierarchy of the situation rather than only across the options in view. When negotiators focus only on the hows, the higher why, and options outside the debate, are often missed, as in the handbook's city deficit example (Chapter 2, p. 40). <b>B. Moving up the decision hierarchy to the higher 'why'</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 2, p. 40.</span>",
+      "set": 3,
+      "sourceQuestion": 68,
+      "qid": "cmq:set-3:source-68"
+    },
+    {
+      "sub": "cmq-training",
+      "stem": "A training designer has decided the course content, the delivery methods, how learning will be measured and how the course will be rolled out. Nothing has been written or bought yet. In the ADDIE model, which phase comes next?",
+      "options": [
+        "Development",
+        "Implementation",
+        "Analysis",
+        "Evaluation"
+      ],
+      "answer": 0,
+      "why": "ADDIE runs analysis, design, development, implementation and evaluation. Decisions on content, delivery methods, measurement and evaluation, and implementation strategies are made in the design phase; in the development phase, training materials are created, purchased or modified. Implementation is the delivery of the training to the target audience (Chapter 19, p. 555). <b>A. Development</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 19, p. 555.</span>",
+      "set": 3,
+      "sourceQuestion": 69,
+      "qid": "cmq:set-3:source-69"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "A strategic action plan to cut changeover time is tracked only by the number of SMED workshops held. What does the handbook say the plan's measurement should also include?",
+      "options": [
+        "More activity measures, such as the hours of SMED training delivered",
+        "Fewer measures, because too many metrics dilute focus",
+        "A measure that shows the objective is reached, such as changeover time",
+        "A customer satisfaction index to replace the workshop count"
+      ],
+      "answer": 2,
+      "why": "Some measurements verify that the action item is under way, and others verify that the objective is reached; usually both are required. A workshop count shows activity, not whether changeover time actually fell. The handbook does warn against too many metrics, but here a needed outcome measure is missing (Chapter 7, p. 130). <b>C. A measure that shows the objective is reached, such as changeover time</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 7, p. 130.</span>",
+      "set": 3,
+      "sourceQuestion": 70,
+      "qid": "cmq:set-3:source-70"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "A component supplier now works with a key customer through cross-functional teams from engineering, quality, logistics and production. Its satisfaction survey still goes only to the customer's purchasing manager. What does the handbook suggest?",
+      "options": [
+        "Keep surveying purchasing, since it signs the contracts",
+        "Replace the survey with notes from sales representatives' visits",
+        "Survey only the customer's executive sponsor once a year",
+        "Survey a cross-section of the customer's stakeholders"
+      ],
+      "answer": 3,
+      "why": "As customer relationship management expands the interface from seller and purchaser to cross-functional teams from both organizations, satisfaction surveys conducted only with purchasing can be too limited. Surveys increasingly need to examine the needs of a cross-section of stakeholders in the customer's organization (Chapter 17, p. 489). <b>D. Survey a cross-section of the customer's stakeholders</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 17, p. 489.</span>",
+      "set": 3,
+      "sourceQuestion": 71,
+      "qid": "cmq:set-3:source-71"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "Six months after a project to cut order cycle time was closed out, the sponsor wants to know whether it was worth it. Which activity does the handbook call for at this point?",
+      "options": [
+        "Reopening the project charter to extend the original scope",
+        "A postproject outcome assessment of results and management",
+        "Disbanding the team before any results are reviewed",
+        "Rebaselining the original schedule for the record"
+      ],
+      "answer": 1,
+      "why": "At predetermined points after closeout, the project's ultimate outcomes should be assessed both quantitatively and qualitatively: whether the planned improvements (such as reduced cycle time) and organizational outcomes were realized. The assessment also probes how the project was planned, implemented and evaluated, so that lessons can guide future projects rather than being reinvented (Chapter 10, pp. 264–265). <b>B. A postproject outcome assessment of results and management</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 10, pp. 264–265.</span>",
+      "set": 3,
+      "sourceQuestion": 72,
+      "qid": "cmq:set-3:source-72"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "An \\(\\bar{x}\\) chart shows 25 consecutive subgroup means, all within \\(\\pm 1\\) sigma of the centreline and none near the control limits. A supervisor says this proves the process is in excellent control. Using the handbook's guidelines for randomness, what is the best response?",
+      "options": [
+        "Not random; investigate before calling it in control",
+        "Agree, since points near the centreline mean low variation",
+        "Agree, since only points beyond limits signal a problem",
+        "Tighten the limits to \\(\\pm 1\\) sigma to match the data"
+      ],
+      "answer": 0,
+      "why": "Four basic guidelines test for randomness: no visible pattern, about two-thirds of the points within \\(\\pm 1\\) standard deviation of the centreline, some points close to the control limits, and roughly equal numbers above and below the centreline. When every point hugs the centreline and none comes near the limits, the guidelines are not met, so the chart is not showing a random, in-control pattern and the cause should be investigated (Chapter 15, p. 426). <b>A. Not random; investigate before calling it in control</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 15, p. 426.</span>",
+      "set": 3,
+      "sourceQuestion": 73,
+      "qid": "cmq:set-3:source-73"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "A purchaser has just identified the materials for which a closer supplier relationship would pay off. In the handbook's steps for building a partnership or alliance, which step follows?",
+      "options": [
+        "Sign the agreement and begin joint planning",
+        "Negotiate the arrangement with the chosen supplier",
+        "Check for any legal implications of the relationship",
+        "Set up ongoing monitoring of the relationship's performance"
+      ],
+      "answer": 2,
+      "why": "The steps are: determine the materials or services where a closer relationship would help, be aware of any legal implications, identify the suppliers to pursue, define expectations and potential risks, communicate and negotiate, implement mutually agreed arrangements, and set up ongoing monitoring and communication. Negotiation comes only after suppliers are identified and expectations and risks are defined (Chapter 18, p. 530). <b>C. Check for any legal implications of the relationship</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, p. 530.</span>",
+      "set": 3,
+      "sourceQuestion": 74,
+      "qid": "cmq:set-3:source-74"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "At a new cross-functional team's first meeting, the facilitator has members say what they hope to gain personally from the project and share lessons from past teams, and the team picks a name for itself. What is the main purpose of these activities?",
+      "options": [
+        "To decide who will act as scribe and timekeeper for the team",
+        "To agree on ground rules so that no other norms are needed",
+        "To select the improvement methodology the team will follow",
+        "To help members feel at ease and get to know each other"
+      ],
+      "answer": 3,
+      "why": "Icebreakers and similar exercises at the first meeting help team members feel more comfortable in the new environment. Stating personal goals, naming the team and discussing past team experiences let individual personalities and values become visible and bring members closer together. Roles, ground rules and the improvement methodology are separate first-meeting agenda items (Chapter 3, p. 68). <b>D. To help members feel at ease and get to know each other</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 3, p. 68.</span>",
+      "set": 3,
+      "sourceQuestion": 75,
+      "qid": "cmq:set-3:source-75"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "Warranty data sit with engineering, complaint logs with customer service and lost-customer interviews with sales. Each department acts on its own data, and their actions sometimes conflict. What does the handbook recommend?",
+      "options": [
+        "Let each department keep ownership of the data it collects",
+        "Integrate, trend and disseminate the data streams together",
+        "Rely on the warranty data, since they are the most objective",
+        "Replace all three sources with an annual satisfaction survey"
+      ],
+      "answer": 1,
+      "why": "Customer data come from warranty registrations, logged complaints, surveys, transaction data, listening posts and lost-customer analysis. Departments may feel they own this information and not share it, yet data streams that suggest one course of action separately may suggest another when considered together. Organizations need to integrate, process and trend the data and then disseminate the resulting information (Chapter 17, p. 485). <b>B. Integrate, trend and disseminate the data streams together</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 17, p. 485.</span>",
+      "set": 3,
+      "sourceQuestion": 76,
+      "qid": "cmq:set-3:source-76"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A cell uses 300 parts per day. Replenishment lead time is 2 days, the team holds 120 parts of safety stock, and each kanban container holds 40 parts. Using the handbook's general formula, what is the minimum number of kanban containers?",
+      "options": [
+        "15",
+        "11",
+        "18",
+        "3"
+      ],
+      "answer": 2,
+      "why": "\\(\\text{Minimum quantity} = \\dfrac{\\text{Demand during lead time} + \\text{Safety stock}}{\\text{Container quantity}} = \\dfrac{300 \\times 2 + 120}{40} = \\dfrac{720}{40} = 18\\). Leaving out the safety stock gives 15, and using one day's demand instead of demand during the lead time gives about 11 (Chapter 14, p. 390). <b>C. 18</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 14, p. 390.</span>",
+      "set": 3,
+      "sourceQuestion": 77,
+      "qid": "cmq:set-3:source-77"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "A firm launches a knowledge management (KM) system, but its most experienced engineers rarely add anything to it. In interviews, they say their know-how is what makes them valuable and they fear exposing past mistakes. Which type of hurdle does the handbook say this is?",
+      "options": [
+        "Individual barriers, such as fear and a sense of lost power",
+        "Lack of top management interest, support and commitment",
+        "Failure to treat KM as a top-level business strategy",
+        "Weak links between the KM system and external customer data"
+      ],
+      "answer": 0,
+      "why": "The handbook groups KM hurdles into lack of top management interest, failure to consider KM a top-level strategy, inter- and intra-organizational barriers, and individual barriers. Individual barriers include reluctance to submit knowledge for fear of losing power, and fear of failure or of exposing errors and mistakes in judgment, which is what the engineers describe (Chapter 8, pp. 201–202). <b>A. Individual barriers, such as fear and a sense of lost power</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 8, pp. 201–202.</span>",
+      "set": 3,
+      "sourceQuestion": 78,
+      "qid": "cmq:set-3:source-78"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "A company deploys its plan by breaking enterprise objectives into divisional strategies, then departmental directives and finally individual action plans, with performance measures flowing back up. The handbook notes that this cascading concept is borrowed from which tool?",
+      "options": [
+        "Failure mode and effects analysis",
+        "Balanced scorecard",
+        "Theory of constraints",
+        "Quality function deployment"
+      ],
+      "answer": 3,
+      "why": "The handbook shows the cascading concept, taken from quality function deployment (QFD), used as a strategic plan deployment tool: enterprise objectives cascade to divisional strategies, departmental directives and individual action plans, with results and performance measurements fed back. This helps each employee understand his or her contribution to the overall plan (Chapter 7, p. 127). <b>D. Quality function deployment</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 7, p. 127.</span>",
+      "set": 3,
+      "sourceQuestion": 79,
+      "qid": "cmq:set-3:source-79"
+    },
+    {
+      "sub": "cmq-training",
+      "stem": "A welding school lets each trainee work at his or her own pace, breaks the job into tasks with terminal objectives, requires each task to be mastered before the next, and signs off only when trainees perform to a high standard in a job-like setting. What approach is this?",
+      "options": [
+        "Lecture-based classroom training",
+        "Competency-based training",
+        "Learner-led discussion format",
+        "Experiential role playing"
+      ],
+      "answer": 1,
+      "why": "Competency-based training, also called individualized instruction, mastery learning or programmed instruction, focuses on known outputs, a learner-centred pace, job breakdown into tasks with terminal performance objectives, mastery of one task before the next, and performance at a high proficiency level in a job-type environment before completion is acknowledged (Chapter 19, pp. 558–559). <b>B. Competency-based training</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 19, pp. 558–559.</span>",
+      "set": 3,
+      "sourceQuestion": 80,
+      "qid": "cmq:set-3:source-80"
     }
   ];
 })(window);
