@@ -1,6 +1,6 @@
 # CQA Set 2: source and question audit
 
-Audit date: 2026-10-28. This record accompanies PR #368, which is accumulating one reviewed batch of ten questions at a time toward 150. The PR is to remain unmerged until all 150 questions are ready.
+Audit record started: 2026-10-28. Latest batch review: 2026-10-29 (UTC). This record accompanies PR #368, which is accumulating one reviewed batch of ten questions at a time toward 150. The PR is to remain unmerged until all 150 questions are ready.
 
 ## Sources and method
 
@@ -210,30 +210,81 @@ Q050 uses eight verified labour times: 8, 9, 11, 11, 12, 14, 15 and 48 minutes. 
 
 All keys and references were retained during these new-item refinements. The successful Batch 4 re-audit required no change to the preceding forty questions.
 
+### Batch 5 re-audit before adding Batch 6
+
+A fresh review of the canonical Q041-Q050 objects found **no correction required**. All ten stems, forty options, ten keys and main explanations, thirty distractor rationales, learning points, traps, exhibits, and current BoK/cognitive mappings were checked against the actual source passages. Earlier authoring reports were not used as a substitute for source verification.
+
+All 21 distinct cited printed pages were reread and freshly rendered, and their visible folios were independently inspected. Every printed/PDF reference in the Batch 5 table remains accurate, with the one-based PDF position equal to the printed page plus 19. The bottom-centre folios on pp20, 172 and 267 were explicitly verified. The team-development regression statement is correctly cited to p175.
+
+Q043 and Q044 retain identical complete shared context, evidence tables and case identifiers. Both can be answered independently after shuffling. Their local grading and dispute procedures are explicit; neither a universal severity scheme nor a requirement for unanimous agreement is invented. Q045's explanation remains within the stated evidence and does not claim that the resource review established adequate resources. Q048 correctly treats six years as the scenario's organizational retention requirement and limits its conclusions to sampled evidence.
+
+Q050 was independently recalculated: total 128 minutes across eight requests; mean 16.0; median 11.5; mode 11; and 80/7 = 11.4286 after the expressly inappropriate exclusion of the valid 48-minute request. The median and mode checks remain 92 and 88 minutes respectively when multiplied by eight. All numerical distractors and rationales are accurate. Q043's seven-hour exercise exceeds its stated four-hour requirement.
+
+All fifty preceding question objects, including every key, explanation and source reference, are retained unchanged in the Batch 6 update.
+
+## Batch 6: Q051-Q060
+
+All ten original questions passed author review, a separate independent review, and final integration review. All forty options, ten keys and main explanations, thirty distractor rationales, learning points, traps, and the takt-time exhibit were examined. The fifteen distinct cited printed pages were read and freshly rendered; their visible folios were independently verified, including the chapter-opening footer on p2. Every source reference below uses printed handbook pages.
+
+| Item | Topic / 2026 BoK | Actual cognitive level | Printed pages | One-based PDF pages | Verified principle |
+|---|---|---|---|---|---|
+| Q051 | Joint and combined audits / I.A.1 | Analyze | 2 | 21 | Distinguish participation by multiple auditing organizations from multiple management systems, internal subgroups, or observers. |
+| Q052 | Professional responsibilities / I.E.1 | Apply | 35 | 54 | Withdraw an endangered audit team, promptly notify the auditee and record the observation when safe. |
+| Q053 | Legal consequences / I.E.2 | Analyze | 41 | 60 | Recognize potential exposure when a client relies on an unsupported audit assurance without declaring a legal outcome. |
+| Q054 | Audit logistics / II.A.4 | Apply | 74-75 | 93-94 | Confirm the separate access authorization and confidentiality arrangements needed for planned evidence review. |
+| Q055 | On-site management for the auditee / II.B.2 | Apply | 94 | 113 | Facilitate requested evidence and agree practical sequencing without unilaterally replacing the auditor's selection. |
+| Q056 | Audit closure / II.D.5 | Apply | 141-142 | 160-161 | Close verified individual findings with written notification while preserving accurate unresolved and overall status. |
+| Q057 | Interviewing techniques / III.E | Apply | 159, 169 | 178, 188 | Confirm the meaning of local terminology and then corroborate the relevant sequence with records. |
+| Q058 | On-site resource management / III.B | Apply | 152-153 | 171-172 | Coordinate a feasible activity exchange while preserving evidence collection, note review and closing preparation. |
+| Q059 | Management review input / IV.A.9 | Evaluate | 209-210 | 228-229 | Connect findings, action effectiveness and coverage limits to management's risk and resource decisions. |
+| Q060 | Lean tools / V.B.2 | Apply | 264 | 283 | Calculate takt using net available work time and customer demand for the same period. |
+
+### Reasoning, source and ambiguity checks
+
+- **Q051:** both customers share responsibility for conducting the audit of one quality management system. An observer, another recipient of a report, or two subgroups from one organization do not create that arrangement. The explanation does not turn the handbook's contextual suggestion of a third-party participant into a universal requirement for a joint audit.
+- **Q052:** the hazard endangers the team, the site requires immediate withdrawal, and a safe route is expressly available. Withdrawal does not depend on changing the audit scope. The item does not assume that the lead can direct supplier operations, close a warehouse or expand the assignment unilaterally.
+- **Q053:** permitted sampling is distinguished from the specifically false claim of directly verifying both shifts. The auditor did no work on night-shift controls. Potential exposure depends on the unsupported assurance and reliance; responsibility and damages remain subject to the facts and applicable legal assessment. Only p41 is cited. The categorical prioritization/liability example on p42 and the certification-specific care discussion on p43 are not used.
+- **Q054:** general visitor badges do not fulfill the stated separate record-access authorization or approved-workspace requirements. The explanation describes the actual proposed access bypass and does not invent credential sharing or an NDA requirement.
+- **Q055:** the selected prior-year records can be retrieved in 45 minutes, with two hours remaining and other planned work available. The coordinator facilitates retrieval and seeks agreement on sequencing. Neither favourable recent records nor a statement that the requested records exist replaces their examination.
+- **Q056:** the local procedure explicitly permits individual finding closure and keeps the overall audit open until all finding criteria are met. F1 and F2 have verified implementation and effectiveness. F3's future agreed check is neither overdue nor already satisfied. The explanation does not impose this overall-closure rule on every audit program.
+- **Q057:** the technician has already supplied the local meaning. Restating it and inviting correction checks understanding without treating that clarification as proof of conformity. Test and dispatch records are still needed to corroborate the sequence.
+- **Q058:** both activities are independent, all required participants and records are available in the exchanged periods, and the lead can resequence within scope. Each slot includes note confirmation. Printed p153 was added to p152 because it directly supports protecting closing-preparation time.
+- **Q059:** similar findings at established providers are not extended automatically to unaudited providers. The item distinguishes calendar completion from effective controls and asks for useful management input about current coverage, unverified actions and fully allocated resources.
+- **Q060:** the exhibit explicitly supplies net available time and says no other deductions apply. The resulting takt is a required pace, not measured cycle time, demonstrated process capacity or a forecast of output.
+
+### Numerical, novelty and review checks
+
+Q060 was independently recalculated for the key and every numerical distractor: **420 / 140 = 3.00 minutes per kit**; **420 / 120 = 3.50** incorrectly uses previous output; **480 / 140 = 3.4286**, or **3.43**, incorrectly uses gross time; and **(420 - 60) / 140 = 2.5714**, or **2.57**, deducts the same breaks twice. The exhibit reconciles **480 - 60 = 420 minutes**.
+
+The ten items were checked against Set 1's 150 questions and Set 2's first fifty for repeated stems and closely repeated decisions. The original unscheduled-tour idea for Q058 was replaced with an exchange of independent time slots because Set 1 already has a similar tour-related time-management item. Recurring competencies use different evidence and decisions. These ten items are standalone; no new formal shared case pair is claimed.
+
+The final independent review approved the exact Q051-Q055 array with SHA-256 `ce040c70c8c6c44c297085e15f70b2d14393ba32cc60047c10174547f7755d5d` and Q056-Q060 array with SHA-256 `2d25da33ba8e2e1c148b785fb8b8aa4b342ae7f7c71dddf456f88979dd6e11ad`. Both were frozen before integration. Their final keys are **D/A/C/B/A/D/B/A/D/C**. Source review and cognitive alignment support the intended practice demand; they do not establish empirical equivalence to live ASQ item difficulty.
+
 ## Progress and remaining blueprint
 
-| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Current total | Final target | Remaining |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 2 | 12 | 37 | 25 |
-| II. Audit Process | 3 | 3 | 3 | 3 | 3 | 15 | 45 | 30 |
-| III. Auditor Competencies | 2 | 2 | 2 | 2 | 2 | 10 | 30 | 20 |
-| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 2 | 8 | 23 | 15 |
-| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 1 | 5 | 15 | 10 |
-| **Total** | **10** | **10** | **10** | **10** | **10** | **50** | **150** | **100** |
+| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Current total | Final target | Remaining |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 2 | 3 | 15 | 37 | 22 |
+| II. Audit Process | 3 | 3 | 3 | 3 | 3 | 3 | 18 | 45 | 27 |
+| III. Auditor Competencies | 2 | 2 | 2 | 2 | 2 | 2 | 12 | 30 | 18 |
+| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 2 | 1 | 9 | 23 | 14 |
+| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 1 | 1 | 6 | 15 | 9 |
+| **Total** | **10** | **10** | **10** | **10** | **10** | **10** | **60** | **150** | **90** |
 
-Continue alternating the domain allocations already used: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation, and independent review; the allocation alone is not content validation. The next requested batch will be Q051-Q060 with allocation 3/3/2/1/1.
+Continue alternating the domain allocations already used: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation, and independent review; the allocation alone is not content validation. The next requested batch will be Q061-Q070 with allocation 2/3/2/2/1.
 
-The first fifty questions contain six document-case items (Q004-Q005, Q023-Q024 and Q043-Q044), or 12%, and thirteen rendered data tables. Answer positions are A12/B13/C13/D12. The existing engine randomizes question order. Practice timing remains two minutes per question, so the available fifty-question set uses one hundred minutes, displayed as one hour and forty minutes. This is a partial practice set.
+The first sixty questions contain six document-case items (Q004-Q005, Q023-Q024 and Q043-Q044), or 10%, and fourteen rendered data tables. Plan another independently answerable case pair in the next requested batch to maintain the intended case coverage. Answer positions are exactly A15/B15/C15/D15. Actual cognitive labels are Apply 28, Analyze 19, Evaluate 12 and Understand 1. The existing engine randomizes question order. Practice timing remains two minutes per question, so the available sixty-question Full session uses 120 minutes, displayed as two hours. Quick Quiz retains its fifty-question maximum and samples from the sixty available items. This is a partial practice set.
 
 ## Integration verification
 
 - `node --test --test-isolation=none tests/test-bank-cqa-set1.test.js tests/test-bank-cqa-set2.test.js`: **13 passed, 0 failed**.
-- `npm run build:site`: **passed**, including protected-content scans of 619 public files with no known static findings and three clean protected-tool shells.
-- The learner checks exercise all fifty questions, a one-hundred-minute Full session, correct grading, a fifty-question Quick Quiz, a ten-question diagnostic, all five focused domains, all thirteen tables, and all 150 distractor explanations.
-- An attempt with one deliberate wrong answer scores 49/50, displayed as 98%; an all-correct attempt scores 100%.
-- The runtime timer was checked at 6,000 seconds and the existing display convention at `1 hr 40 min`. Quick Quiz now serves the full fifty-question request without the earlier availability-cap notice. No timing or quiz-engine implementation change was needed.
+- `npm run build:site`: **passed**, including protected-content scans of 619 public files with no known static findings and three clean protected-tool shells. These static checks do not claim verification of a production runtime or CDN.
+- The learner checks exercise all sixty questions, a two-hour Full session, correct grading, a fifty-question Quick Quiz sampled from the available sixty, a ten-question diagnostic, and all five focused domains with 15/18/12/9/6 questions.
+- An all-correct Full attempt scores 60/60 and 100%. The fifty-question Quick attempt with one deliberate wrong answer scores 49/50, displayed as 98%, and identifies the single incorrect item in review.
+- All fourteen data tables render during the attempt and review. All sixty review cards display the authored explanations and all 180 distractor rationales. Distractor feedback is not exposed during the timed attempt.
+- The runtime timer was checked at 7,200 seconds and the existing display convention at `2 hr`. Quick Quiz serves its fifty-question request without an availability-cap notice. No timing or quiz-engine implementation change was needed.
 - Set 1 remains at 150 unchanged questions. Set 2 is delivered in the protected CQA package and excluded from other exam packages and public staging.
-- The preceding forty question objects were compared with the prior PR bank and are unchanged. The ten new objects exactly match the frozen author arrays; both case exhibits and their complete shared context are identical.
-- JavaScript syntax checks passed. The HTML change since the preceding PR head is only the CQA completion label, from Batch 4 to Batch 5; unrelated files regenerated by the build are excluded from the content commit.
+- The preceding fifty question objects were compared with the prior PR bank and are unchanged. The ten new objects exactly match the two frozen author arrays. All sixty question IDs are unique, each item has four distinct options and exactly three non-key distractor rationales, and each has a printed-page source reference.
+- JavaScript syntax checks passed. The HTML change since the preceding PR head is only the CQA completion label, from Batch 5 to Batch 6; unrelated files regenerated by the build are excluded from the content commit.
 
 PR #368 remains an accumulation branch; publication is deferred until all 150 questions are ready. No merge or production deployment is part of this batch update.

@@ -1,6 +1,6 @@
 /*
  * ASQ CQA Exam Set 2 — original practice questions.
- * Batches 1–5: Q001–Q050. Planned bank: 150 questions.
+ * Batches 1–6: Q001–Q060. Planned bank: 150 questions.
  * Author in reviewed batches of 10; hold PR #368 until all 150 are ready.
  * 2026 BoK target counts: I 37 / II 45 / III 30 / IV 23 / V 15.
  * Batch 1 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
@@ -8,6 +8,7 @@
  * Batch 3 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Batch 4 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Batch 5 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
+ * Batch 6 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Questions and exhibits are original; handbook citations use printed pages.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
  */
@@ -1636,6 +1637,276 @@
         [
           "R8",
           "48"
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q051",
+    "set": 2,
+    "batch": 6,
+    "sub": "cqa-joint-audit",
+    "bok": "I.A.1",
+    "cognitive": "Analyze",
+    "stem": "A manufacturer is planning a supplier audit of one quality management system. A second customer would like to avoid a separate visit but needs to participate as an auditing organization. The existing purpose and quality-system criteria will remain unchanged. Which proposed arrangement would make this a joint audit while retaining that scope?",
+    "options": [
+      "Have the first customer's team also review the supplier's environmental management system, with each discipline preparing its results for the lead auditor.",
+      "Divide the first customer's auditors into procurement and production groups, then combine their quality-system observations into one report for both customers.",
+      "Invite a representative of the second customer to observe the opening and closing meetings, while the first customer's team conducts all auditing work.",
+      "Have auditors from both customers share responsibility for auditing the same quality management system under an agreed plan and consolidated reporting arrangement."
+    ],
+    "answer": 3,
+    "why": "A joint audit involves two or more auditing organizations sharing the audit work. The final arrangement brings auditors from both customers into the examination of the same quality management system while preserving the stated purpose and criteria. Adding an environmental management system would create a multiple-system audit and broaden the specified scope; it would not, by itself, bring another auditing organization into the work. Splitting one organization's team into groups also does not create a joint audit. A second customer's presence as an observer or recipient of the report is different from sharing responsibility for conducting the audit. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 2.</span>",
+    "keyPoint": "Distinguish the number of participating auditing organizations from the number of management systems or internal audit subgroups.",
+    "trap": "Treating several auditors, several report recipients, or several management systems as sufficient evidence that an audit is joint.",
+    "distractors": {
+      "0": "This adds an environmental management system to the quality-system scope. Multiple systems characterize a combined approach, but this proposal still has only the first customer's auditing organization.",
+      "1": "Two work groups from the same auditing organization remain one organization's team. Sending the resulting report to another customer does not make that customer a co-auditor.",
+      "2": "The second customer's representative only observes meetings. The first customer still conducts all the audit work, so the proposed arrangement does not share auditing responsibility."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q052",
+    "set": 2,
+    "batch": 6,
+    "sub": "cqa-unsafe-condition",
+    "bok": "I.E.1",
+    "cognitive": "Apply",
+    "stem": "During a supplier's document-control audit, a damaged overhead rack begins leaning toward the interview area. Site rules require immediate withdrawal, and the team has a clear route to the designated safe area. Warehouse safety is outside the agreed scope, and the lead cannot direct supplier operations. The escort asks the team to finish the current record first. What should the lead do?",
+    "options": [
+      "Suspend the audit activity, move the team to safety, immediately alert the responsible auditee representative, and document the observation once it is safe.",
+      "Notify the client and wait for approval to change the audit plan before moving the team, since warehouse safety is outside the agreed scope.",
+      "Ask the escort to stabilize the rack while the auditors finish the selected record, so the evidence trail is not interrupted by the incident.",
+      "Move the team to safety and direct the supplier to close the entire warehouse until the lead auditor completes a newly expanded safety audit."
+    ],
+    "answer": 0,
+    "why": "The condition directly endangers the audit team, and the stated site rule requires immediate withdrawal. The lead should suspend the activity and take the team to the designated safe area, promptly inform the responsible auditee representative, and make a record when safe to do so. An unsafe condition cannot be ignored because it lies outside the quality-audit scope. Protecting people does not require waiting for a scope-change approval or completing the current evidence review. It also does not grant the lead authority to direct the supplier's operations or unilaterally expand the audit into a new safety assignment. Any subsequent audit-plan decision follows the applicable arrangements after the immediate danger is addressed. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 35.</span>",
+    "keyPoint": "Respond promptly to an observed unsafe condition and withdraw an endangered audit team, even when the hazard lies outside the agreed audit scope.",
+    "trap": "Allowing scope boundaries or evidence-preservation concerns to delay safety action, or treating that action as authority to control the auditee's operations.",
+    "distractors": {
+      "1": "The team is endangered and the site rule already requires withdrawal. Waiting for administrative approval would delay the immediate protective action.",
+      "2": "Continuing the review leaves people exposed and asks the escort to manage a hazardous rack instead of withdrawing. Preserving an uninterrupted evidence trail does not justify that risk.",
+      "3": "Moving to safety is appropriate, but the stated role does not authorize the lead to close supplier operations or create an expanded safety-audit assignment."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q053",
+    "set": 2,
+    "batch": 6,
+    "sub": "cqa-reliance-exposure",
+    "bok": "I.E.2",
+    "cognitive": "Analyze",
+    "stem": "An audit firm reviews a supplier's release controls before a customer commits to a large order. The agreed approach permits sampling. The auditor examines only day-shift records and performs no work on night-shift controls, but reports having directly verified release checks on both shifts. The customer relies on that assurance when placing the order. Night-shift release failures later cause losses. The firm points out that the supplier operated the process. Which assessment of potential exposure is most appropriate?",
+    "options": [
+      "Treat the loss solely as the supplier's responsibility, because operational ownership prevents a separate claim connected with the audit firm's assurance.",
+      "Treat sampling as the main liability issue, because reasonable care requires checking every release transaction before reporting any conclusion about the supplier's controls.",
+      "Consider potential exposure from reliance on the unsupported assurance, while recognizing that responsibility and damages depend on the facts and applicable legal assessment.",
+      "Limit any concern to replacing the audit report, because the customer's decision to place the order removes financial consequences from the auditor's statement."
+    ],
+    "answer": 2,
+    "why": "A key liability consideration is whether an organization relies on audit information when making a decision. Here, the claim of directly verifying both shifts contradicts the work actually performed, and the customer relies on it when committing to the order. That combination can create potential legal and financial exposure for the auditor or auditing firm, even though the supplier operates the process. The facts do not establish a particular legal outcome, allocation of responsibility, or amount of damages. Those questions require assessment under the relevant circumstances and applicable law. The issue is the unsupported assurance and its use in a decision, not merely the use of the sampling approach that the parties agreed. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 41.</span>",
+    "keyPoint": "Keep assurance within the evidence: reliance on unsupported audit statements can create legal and financial exposure beyond the auditee's operational responsibilities.",
+    "trap": "Assuming that the supplier's ownership of the process or the client's final decision automatically insulates the auditor from the consequences of an unsupported assurance.",
+    "distractors": {
+      "0": "Operational responsibility does not by itself eliminate the separate relevance of the audit firm's statement and the customer's reliance on it. The proposed blanket exclusion of exposure is unsupported.",
+      "1": "The stated approach permits sampling. Nothing in the scenario establishes a universal duty to inspect every transaction; the concern is the claim of direct verification that contradicts the work actually performed.",
+      "3": "A decision made in reliance on the assurance is the connection that needs examination. The facts provide no basis for limiting potential consequences to replacement of the report."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q054",
+    "set": 2,
+    "batch": 6,
+    "sub": "cqa-access-logistics",
+    "bok": "II.A.4",
+    "cognitive": "Apply",
+    "stem": "A supplier audit is scheduled in three weeks. Its client-approved scope includes restricted engineering records. The site requires separate security clearance for those records and permits copies only in an approved on-site workspace. Visitor badges are booked, but record-access clearance and the workspace have not been arranged. The lead is preparing the final logistics plan. Which action best makes the planned evidence review feasible?",
+    "options": [
+      "Proceed with the booked visit, treating the approved scope and visitor badges as sufficient authority to view and copy the restricted engineering records.",
+      "Confirm authorized record access and secure workspace arrangements before arrival, then resolve any remaining access limits with the client through the audit-planning process.",
+      "Ask an escort to retrieve the restricted records under the escort's own access and send copies to the auditors' personal accounts before the visit.",
+      "Keep the visit unchanged and replace the restricted-record review with publicly available procedures, recording the narrower evidence coverage only in the final report."
+    ],
+    "answer": 1,
+    "why": "Audit preparation must establish workable access to the facilities, information, and equipment needed for the planned review, including security conditions and safe handling of confidential information. The visitor badges do not supply the separately required record clearance or workspace. Confirming those arrangements in advance directly addresses the known gaps. If an access limitation cannot be resolved, it should be raised through the planning process so the client can make an informed decision about the audit. Using the escort to bypass the required clearance and sending copies outside the permitted workspace would not meet the stated controls. Silently replacing the planned evidence review would leave the approved audit purpose and coverage unresolved. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 74–75.</span>",
+    "keyPoint": "Confirm the specific access and confidentiality arrangements needed for the audit; a scheduled visit or general visitor admission does not establish them.",
+    "trap": "Treating an approved scope as automatic security clearance, or substituting accessible material without resolving the effect on the agreed audit.",
+    "distractors": {
+      "0": "The site expressly requires separate clearance and an approved workspace. General visitor admission and the client's scope approval do not fulfill those distinct arrangements.",
+      "2": "The proposal bypasses the auditors' required clearance and sends copies outside the only permitted workspace. An escort's access is not a substitute for the stated authorization process.",
+      "3": "Public procedures do not replace the planned examination of restricted records. Waiting until the final report to disclose a known access-related reduction prevents an informed planning decision."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q055",
+    "set": 2,
+    "batch": 6,
+    "sub": "cqa-auditee-evidence-access",
+    "bok": "II.B.2",
+    "cognitive": "Apply",
+    "stem": "During an audit, the auditor requests six identified maintenance records from the prior year. The archive owner confirms that all six are available but needs 45 minutes to retrieve them from controlled storage. Two hours remain in the visit. The auditee's coordinator can arrange retrieval immediately, and other planned audit activities are available. Six recent records are already at hand and appear complete. What should the coordinator do?",
+    "options": [
+      "Arrange retrieval of the selected records, explain the expected timing, and ask whether another planned activity can be reviewed meanwhile without changing the original request.",
+      "Provide the six recent complete records as the replacement sample, because their immediate availability keeps the audit moving and demonstrates how the current process operates.",
+      "Keep the audit team waiting without proposing other work, because changing the order of activities would necessarily change the approved scope and invalidate the audit plan.",
+      "Prepare a summary of the archive owner's confirmation and ask the auditor to accept it instead of the records so retrieval does not delay the schedule."
+    ],
+    "answer": 0,
+    "why": "The auditee's coordinator should facilitate access to requested evidence and communicate logistical constraints. Arranging retrieval, explaining the delay, and seeking the auditor's agreement to review other planned work preserves both progress and the original evidence request. The available recent records cannot be substituted unilaterally merely because they are convenient or appear complete. A change in the sequence of already planned activities does not necessarily change the scope. The archive owner's confirmation establishes that the requested records can be obtained; it does not supply their contents or demonstrate conformity with the requirements being examined. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 94.</span>",
+    "keyPoint": "Help the audit progress through timely access and agreed coordination while preserving the auditor's requested evidence.",
+    "trap": "Mistaking logistical assistance for permission to replace selected evidence with readily available or favourable records.",
+    "distractors": {
+      "1": "These are different records from a different period. The coordinator cannot replace the auditor's selected evidence simply to save time or present complete-looking examples.",
+      "2": "The coordinator can communicate the delay and propose a practical sequence change for the auditor to agree. Reordering planned work does not automatically expand or invalidate the scope.",
+      "3": "A statement that records exist does not replace the records needed for examination. Retrieval is available within the visit, so the coordinator should facilitate the original request."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q056",
+    "set": 2,
+    "batch": 6,
+    "sub": "cqa-partial-audit-closure",
+    "bok": "II.D.5",
+    "cognitive": "Apply",
+    "stem": "An internal audit has three separately tracked findings. Follow-up records establish that findings F1 and F2 meet every agreed implementation and effectiveness criterion. F3's action is installed, but its agreed effectiveness check is scheduled for next month and is not overdue. The local procedure permits individual finding closure but keeps the overall audit open until all findings meet their closure criteria. The lead may issue written status updates to the original report recipients. Which closeout action is appropriate now?",
+    "options": [
+      "Close all three findings and the audit, recording F3's later check as routine surveillance because its action is installed.",
+      "Leave all three findings open and issue one closure notice after F3's effectiveness check, so the audit has one completion date.",
+      "Close F1 and F2 in the tracker but defer written notification until F3 is resolved, avoiding multiple notices about one audit.",
+      "Close F1 and F2 with written notification of the verification results, and keep F3 and the overall audit open pending F3's remaining verification."
+    ],
+    "answer": 3,
+    "why": "Individual findings can be tracked and closed separately when their closure criteria have been met. F1 and F2 have verified implementation and effectiveness, so their accepted status should be recorded and communicated in writing to the original report recipients. F3 has not yet met its agreed effectiveness criterion; installation alone does not satisfy that remaining condition. The status update should therefore distinguish the two closed findings from the still-open F3 and overall audit. There is no need to delay acknowledgment of verified work until every finding is resolved, and an agreed future verification date does not by itself make F3 overdue or ineffective. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 141–142.</span>",
+    "keyPoint": "Close and communicate each verified finding accurately while keeping unresolved findings and the overall audit status visible.",
+    "trap": "Treating closure as an all-or-nothing choice between leaving every finding open and closing the entire audit.",
+    "distractors": {
+      "0": "F3 still lacks the agreed effectiveness verification. Relabeling that required check as routine surveillance does not satisfy its closure criterion.",
+      "1": "The procedure permits individual closure, and F1 and F2 already meet all their criteria. A single overall completion date does not require their verified resolution to remain unacknowledged.",
+      "2": "Updating an internal tracker alone does not provide the written notification of accepted corrective action to the original report recipients. Their status information would remain incomplete."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q057",
+    "set": 2,
+    "batch": 6,
+    "sub": "cqa-interview-meaning-confirmation",
+    "bok": "III.E",
+    "cognitive": "Apply",
+    "stem": "During an audit of a repair service, a technician says, 'We release the unit before the final test.' The auditor starts to summarize this as dispatch before testing. The technician corrects that interpretation: 'Here, release means move it into the test queue; dispatch is a separate step.' The applicable procedure requires a satisfactory final test before dispatch. No relevant records have yet been examined. Which response best checks the auditor's understanding and develops reliable evidence?",
+    "options": [
+      "Ask the technician to repeat 'released before the final test' for the notes, then classify the statement against the dispatch requirement.",
+      "Confirm, 'You mean entry to the test queue, rather than dispatch—is that accurate?' Invite correction, then examine a recent unit's test and dispatch records.",
+      "Accept the local definition, remove the preliminary concern from the notes, and proceed to the next process without reviewing a unit.",
+      "Ask whether the technician follows the dispatch procedure, and treat an affirmative answer as confirmation that the described sequence complies."
+    ],
+    "answer": 1,
+    "why": "The technician has identified a difference between local terminology and the auditor's interpretation. Restating the meaning and inviting correction checks that the auditor has understood the account accurately. The next step is to corroborate the relevant sequence through test and dispatch evidence for a recent unit. A confirmed paraphrase establishes shared meaning; it does not by itself establish conformity. Repeating the original wording without its clarification would preserve the misunderstanding, while a general assurance of compliance would not demonstrate when testing and dispatch occurred. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 159, 169.</span>",
+    "keyPoint": "Confirm what an interviewee means, then corroborate the account against the relevant evidence and criteria.",
+    "trap": "Equating an unfamiliar local label with a familiar process step, or treating clarified terminology as verified conformity.",
+    "distractors": {
+      "0": "The repeated phrase omits the technician's clarification and still treats entry to the test queue as dispatch. A quotation can be accurate yet misleading when its meaning is ignored.",
+      "2": "The explanation of terminology removes one possible misunderstanding, but it does not verify that the required test preceded dispatch for actual units.",
+      "3": "A broad yes/no assurance does not confirm the specific sequence or provide corroborating evidence. The auditor should check the clarified account using relevant records."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q058",
+    "set": 2,
+    "batch": 6,
+    "sub": "cqa-on-site-schedule-adjustment",
+    "bok": "III.B",
+    "cognitive": "Apply",
+    "stem": "At 09:00 on an on-site audit, the lead learns that the supervisor scheduled for 09:00–09:45 can attend only 10:00–10:45. A required independent record review is scheduled for 10:00–10:45; its records and supporting staff are available in either period. The two activities have no sequence dependency, and each slot includes time to confirm notes. Other appointments and the closing-preparation period are fixed. The lead may change the sequence within the agreed scope. Which adjustment is best?",
+    "options": [
+      "Exchange the two activity slots, confirm the changes with affected participants, and preserve their note-review time and the closing-preparation period.",
+      "Wait for the supervisor, complete the interview at 10:00, and move the record review into the reserved closing-preparation period.",
+      "Keep the record review at 10:00, obtain the supervisor's written assurances, and remove the interview so the published schedule remains unchanged.",
+      "Hold abbreviated versions of both activities from 10:00 to 10:45 and combine their note review with the closing meeting."
+    ],
+    "answer": 0,
+    "why": "The record review can move to 09:00–09:45 without a dependency or availability conflict. The interview can then use the supervisor's 10:00–10:45 window. Coordinating that exchange with affected participants preserves both required activities, their planned time for confirming notes, and the fixed closing preparation. An audit schedule can be adjusted with appropriate communication; preserving its original order is not the objective when a feasible change better supports evidence collection. Waiting, replacing the interview with assurances, or compressing both activities would sacrifice planned work or preparation unnecessarily. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 152–153.</span>",
+    "keyPoint": "Coordinate feasible schedule changes around participant availability while preserving required evidence work and review time.",
+    "trap": "Protecting the original order of appointments at the expense of evidence collection or closing preparation.",
+    "distractors": {
+      "1": "Waiting leaves a usable period idle and displaces the required record review into time already reserved for closing preparation. The available exchange avoids both effects.",
+      "2": "A written assurance is not an established substitute for the required interview in this scenario. Removing planned evidence work is unnecessary when both activities still fit.",
+      "3": "This halves the combined time allocated to the two activities and postpones note confirmation until the closing meeting. Neither compromise is needed under the stated availability and sequencing conditions."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q059",
+    "set": 2,
+    "batch": 6,
+    "sub": "cqa-management-review-risk-input",
+    "bok": "IV.A.9",
+    "cognitive": "Evaluate",
+    "stem": "An audit program is intended to assess whether customer requirements are controlled through outsourced service handoffs. Two successive audits of established providers found similar omissions in those handoffs; corrective actions are underway, but effectiveness has not been verified. The company has since added several providers that the program has not yet audited. All planned audits of established providers were completed, and the next quarter's auditor time is fully allocated. Which management-review input is most useful?",
+    "options": [
+      "Emphasize full schedule completion and planned action dates as evidence that the objective is met; review the added providers in next year's planning cycle.",
+      "Present the two reports and current action status as separate agenda items; let management infer their common risk and the effect of the added providers.",
+      "Extend the existing findings to the added providers and request immediate corrective actions from them before considering changes to audit resources.",
+      "Summarize the recurring handoff weakness, unverified actions and limits of coverage, and seek decisions on targeted follow-up and any needed reprioritization or resources."
+    ],
+    "answer": 3,
+    "why": "Management needs an integrated account of what the program's results mean for its objective. The similar handoff findings, unverified corrective-action effectiveness, and added providers beyond the completed audit coverage are relevant to the remaining risk and the next review priorities. Showing that auditor time is already allocated makes the possible need for reprioritization or additional resources visible for management's decision. Completed audits and scheduled actions are useful status measures, but they do not establish that the handoff controls are effective. The findings also do not prove that the newly added providers have the same omissions; those providers represent a coverage question to assess, not automatically additional nonconformities. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 209–210.</span>",
+    "keyPoint": "Connect audit patterns, action effectiveness and coverage limits to the risk and resource decisions management needs to make.",
+    "trap": "Using schedule completion as assurance of effective controls, or extending findings to activities that have not been examined.",
+    "distractors": {
+      "0": "Full completion of the earlier schedule does not resolve the handoff weaknesses, verify the actions, or address the added providers. Deferring consideration to the next annual cycle leaves relevant current decisions unsupported.",
+      "1": "The reports and action status are relevant, but leaving their relationship and changed coverage unexplained gives management less useful input than an integrated summary tied to risk and decisions.",
+      "2": "Findings from the established providers do not establish nonconformities at the added providers. Management needs to consider the coverage and resource implications before drawing conclusions about unaudited work."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q060",
+    "set": 2,
+    "batch": 6,
+    "sub": "cqa-lean-takt-demand",
+    "bok": "V.B.2",
+    "cognitive": "Apply",
+    "stem": "A kit-assembly team uses takt time to plan the pace needed for this shift's customer demand. The exhibit gives the approved schedule: net available time already excludes all planned breaks, and no other time deductions apply. What takt time should be used?",
+    "options": [
+      "3.50 minutes per kit, using net available time and the previous comparable shift's completed output.",
+      "3.43 minutes per kit, using the full scheduled shift and this shift's customer demand.",
+      "3.00 minutes per kit, using net available production time and this shift's customer demand.",
+      "2.57 minutes per kit, deducting the listed breaks again before using this shift's customer demand."
+    ],
+    "answer": 2,
+    "why": "Takt time is available work time divided by customer demand for the same period. The approved net time is 420 minutes, and this shift requires 140 kits, so takt is 420 / 140 = 3.00 minutes per kit. The required average pace is therefore one kit per three available production minutes. The 60 minutes of breaks have already been removed from the 480-minute shift and must not be subtracted again. The previous shift's 120 completed kits describe past output, not this shift's customer demand. This calculation defines the required pace; it does not measure actual cycle time or demonstrate that the process can achieve that pace. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 264.</span>",
+    "keyPoint": "Calculate takt from net available work time and customer demand for the same period, with each time deduction counted once.",
+    "trap": "Substituting achieved output for customer demand, using gross time, or deducting breaks twice.",
+    "distractors": {
+      "0": "420 / 120 = 3.50 uses completed output from the previous shift. It does not set the pace required for the current demand of 140 kits.",
+      "1": "480 / 140 is approximately 3.43, but the full scheduled shift includes 60 minutes when no production is available. Takt must use the approved 420 available minutes.",
+      "3": "(420 - 60) / 140 is approximately 2.57. This subtracts the same breaks twice because the supplied 420 minutes are already net of them."
+    },
+    "chart": {
+      "type": "data-table",
+      "title": "Shift time, customer demand and comparison output",
+      "columns": [
+        "Item",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Scheduled shift duration",
+          "480 minutes"
+        ],
+        [
+          "Total planned breaks with no production",
+          "60 minutes"
+        ],
+        [
+          "Net available production time",
+          "420 minutes"
+        ],
+        [
+          "Customer demand for this shift",
+          "140 kits"
+        ],
+        [
+          "Completed output in the previous comparable shift",
+          "120 kits"
         ]
       ]
     }
