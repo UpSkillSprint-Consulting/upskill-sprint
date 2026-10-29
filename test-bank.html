@@ -240,15 +240,21 @@
   .tb-quizfoot{display:flex;align-items:center;gap:14px;justify-content:space-between;margin-top:18px;flex-wrap:wrap}
   .tb-nav{display:flex;flex-wrap:wrap;gap:6px}
   .tb-nav-long{flex:1 1 240px;min-width:min(100%,240px);max-height:156px;overflow:auto;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
-  .tb-nav-long .tb-navcell{width:36px;height:36px;font-size:11px;padding:0}
-  .tb-nav-long .tb-navcell::before{content:'';font-size:0;line-height:0}
+  .tb-nav-long .tb-navcell{width:44px;height:48px;font-size:12px;padding:4px}
   .tb-navcell{position:relative;display:grid;place-items:center;flex-shrink:0;width:44px;height:48px;padding:4px;border-radius:8px;border:1px solid currentColor;background:color-mix(in srgb,var(--status-neutral) 7%,var(--card));color:var(--status-neutral);font:inherit;font-size:12px;font-weight:600;cursor:pointer}
   .tb-navcell::before{content:'○';font-size:16px;line-height:16px}
   .tb-navcell.done{background:#0e7490;color:#fff;border-color:var(--status-answered)}
   .tb-navcell.done::before{content:'●'}
   .tb-navcell.cur{outline:3px solid var(--status-current);outline-offset:2px}
-  .tb-status-key{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12px;line-height:1.6;color:var(--ink);margin:16px 0}
+  .tb-status-key{display:flex;flex:0 0 100%;flex-wrap:wrap;gap:8px 16px;box-sizing:border-box;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:12px;line-height:1.6;color:var(--ink);margin:0}
+  .tb-status-key strong{flex-basis:100%;font-size:13px}
   .tb-status-key span{display:inline-flex;align-items:center;gap:5px}
+  .tb-status-key .tb-status-swatch{display:inline-grid;place-items:center;flex:none;width:22px;height:22px;box-sizing:border-box;border:1px solid currentColor;border-radius:5px;font-style:normal;font-size:14px;line-height:1}
+  .tb-status-swatch.unanswered{background:color-mix(in srgb,var(--status-neutral) 7%,var(--card));color:var(--status-neutral)}
+  .tb-status-swatch.answered{background:#0e7490;color:#fff}
+  .tb-status-swatch.revealed{background:#1d4ed8;color:#fff}
+  .tb-status-swatch.flagged{background:#ff9500;color:#172b3a}
+  .tb-status-swatch.current{outline:2px solid var(--status-current);outline-offset:2px;margin:2px;color:var(--status-neutral)}
   /* results */
   .tb-resbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
   .tb-restag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
@@ -4732,9 +4738,9 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       '<div class="tb-progress"><span style="width:'+(completedQuestionCount()/n*100)+'%"></span></div>'+
       '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(topic)+'</div>'+
       renderQuestionContent(q,false)+opts+revealedAnswerHTML(q)+
-      '<div class="tb-quizfoot"><div class="tb-nav'+(n>40?' tb-nav-long':'')+'">'+nav+'</div>'+
+      '<div class="tb-quizfoot"><div class="tb-status-key" aria-label="Question status legend"><strong>Question status</strong><span><i class="tb-status-swatch unanswered" aria-hidden="true">○</i> Slate grey: unanswered</span><span><i class="tb-status-swatch answered" aria-hidden="true">●</i> Teal: answered, awaiting grading</span><span><i class="tb-status-swatch revealed" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></i> Blue: revealed (counts as incorrect)</span><span><i class="tb-status-swatch flagged" aria-hidden="true">⚑</i> Orange: flagged for review</span><span><i class="tb-status-swatch current" aria-hidden="true">1</i> Outline: current question</span></div>'+
+      '<div class="tb-nav'+(n>40?' tb-nav-long':'')+'">'+nav+'</div>'+
         (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
-      '<div class="tb-status-key" aria-label="Question status legend"><span>○ Slate grey: unanswered</span><span>● Teal: answered, awaiting grading</span><span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg> Blue: revealed (counts as incorrect)</span><span>⚑ Orange: flagged for review</span><span>Outline: current question</span></div>'+
       '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';
   }
   function updateQuizAnswerState(host){

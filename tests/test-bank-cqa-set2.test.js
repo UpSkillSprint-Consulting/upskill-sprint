@@ -351,6 +351,20 @@ test('both protected CQA sets retain all five question states and reveal scoring
         const third = attempt.records[2].question;
         const nav = index => d.querySelector(`[data-goto="${index}"]`);
         const legend = d.querySelector('.tb-status-key').textContent;
+        const key = d.querySelector('.tb-status-key');
+        assert.equal(d.querySelector('.tb-quizfoot').firstElementChild, key, 'The key appears above the grid');
+        assert.equal(key.nextElementSibling, d.querySelector('.tb-nav'), 'The key stays immediately beside the question navigation');
+        assert.equal(key.closest('.tb-nav-long'), null, 'Scrolling a long grid cannot hide the key');
+        for (const [state, colour] of [['answered', 'rgb(14, 116, 144)'], ['revealed', 'rgb(29, 78, 216)'], ['flagged', 'rgb(255, 149, 0)']]) {
+          assert.equal(w.getComputedStyle(key.querySelector(`.tb-status-swatch.${state}`)).backgroundColor, colour, `Visible ${state} colour sample`);
+        }
+        assert.ok(key.querySelector('.tb-status-swatch.unanswered'));
+        assert.ok(key.querySelector('.tb-status-swatch.current'));
+        if (mode === 'full') {
+          assert.equal(w.getComputedStyle(nav(0)).width, '44px');
+          assert.equal(w.getComputedStyle(nav(0)).height, '48px');
+          assert.doesNotMatch(build.shell, /\.tb-nav-long \.tb-navcell::before\s*\{[^}]*font-size:0/, 'Long grids retain status icons');
+        }
         for (const label of ['Slate grey: unanswered', 'Teal: answered, awaiting grading', 'Blue: revealed (counts as incorrect)', 'Orange: flagged for review', 'Outline: current question']) {
           assert.ok(legend.includes(label), label);
         }

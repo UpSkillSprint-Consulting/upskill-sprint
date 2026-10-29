@@ -121,7 +121,7 @@ The complete repository build and browser-style learner suite were **not run in 
 
 ### Question-state capabilities verified — 2026-10-29
 
-The existing protected CQA runtime supports the five requested question states in both sets. No question content, scoring implementation or UI change was needed. Regression coverage now explicitly exercises both sets in Full, Quick and Focused practice, with light and dark themes:
+The initial verification confirmed that the protected CQA runtime supports the five requested question states in both sets. That verification added regression coverage without changing question content, scoring or the UI. Coverage explicitly exercises both sets in Full, Quick and Focused practice, with light and dark themes:
 
 | State | Verified behaviour |
 |---|---|
@@ -134,5 +134,13 @@ The existing protected CQA runtime supports the five requested question states i
 The new tests cover revealing before and after selection, retained explanations on return, eye icons, accessible labels, keyboard focus, computed teal/blue/orange colours, final grading, and timed-mode rejection of reveal. The existing contrast tests are included in the CQA CI command.
 
 Validation: the CQA Set 1, Set 2, completion and status-contrast suites passed locally: **40 tests, zero failures**, including nested mode/theme cases. These tests build and exercise the protected exam package. The full repository suite and a manual authenticated browser walkthrough were not run for this test-only update.
+
+### Question-state visibility correction — 2026-10-29
+
+The learner's screenshot showed the full-exam grid without its key or state symbols. The shared layout placed the key below the grid and suppressed the symbols for exams with more than 40 questions. The key now appears above the grid in a labelled panel with coloured samples for all five states. It remains outside the grid's scrolling area. Full-exam buttons retain their state symbols and use a 44-by-48-pixel size. All unanswered questions still start slate grey; answering, revealing or flagging changes the appropriate indicators. The current-question outline remains independent.
+
+This change updates the shared navigation presentation only. Question content, answer locking, reveal penalties, timed-mode restrictions and grading are unchanged. The CQA mode/theme coverage now verifies the key's position, colour samples and full-grid button sizing, and guards against hidden long-grid status symbols.
+
+Validation for this visibility correction: **40 CQA tests and 9 shared-navigation/reveal checks passed, zero failures**. The shared checks include all six NPPE banks and timed-mode reveal restrictions. `npm run build:site`, JavaScript syntax checking and `git diff --check` passed. The full repository test suite was not run. The connected browser was unavailable and the cloud browser could not reach the local preview, so no manual authenticated visual walkthrough is claimed. Commit-specific CI and deploy-preview results remain separate from these local checks.
 
 **150/150 authored; no merge or production publication in this cycle.** Before release, perform the whole-form editorial and semantic-duplication audit, resolve any failing automated checks, verify the authenticated preview on desktop and mobile, and obtain the repository's required approval. A pass prediction or live-exam difficulty equivalence requires candidate-performance evidence that this source audit does not supply.
