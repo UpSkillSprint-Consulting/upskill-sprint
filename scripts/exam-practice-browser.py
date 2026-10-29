@@ -181,7 +181,7 @@ def main():
             def directory():
                 page.goto(base + '/exam-practice', wait_until='load')
                 expect(page.locator('#account-menu-btn')).to_be_visible()
-                expect(page.locator('h1')).to_have_text('Practise Certification Exam')
+                expect(page.locator('h1')).to_have_text('Practice Certification Exams')
                 assert urlparse(page.url).path == '/exam-practice', 'Public directory must not require sign-in'
                 expect(page.locator('#access-notice')).to_have_count(0)
                 expect(page.locator('body')).to_have_attribute('data-directory-phase', 'ready' if premium else 'signedout')
@@ -223,11 +223,11 @@ def main():
                     expect(card.locator('a,button')).to_have_count(0)
                 cre = page.locator('.exam-card[data-exam="cre"]')
                 expect(cre.locator('.exam-status')).to_have_text('Access granted' if premium else 'Locked')
-                expect(cre.locator('.exam-card-action')).to_contain_text('Start practicing' if premium else 'Sign in')
+                expect(cre.locator('.exam-card-action')).to_contain_text('Start practising' if premium else 'Sign in')
                 pmp = page.locator('.exam-card[data-exam="pmp"]')
                 expect(pmp.locator('h3')).to_have_text('Project Management Professional')
                 expect(pmp.locator('.exam-status')).to_have_text('Access granted' if premium else 'Locked')
-                expect(pmp.locator('.exam-card-action')).to_contain_text('Start practicing' if premium else 'Sign in')
+                expect(pmp.locator('.exam-card-action')).to_contain_text('Start practising' if premium else 'Sign in')
                 expect(page.locator('.exam-intro')).to_contain_text('untimed')
                 expect(page.locator('.exam-actions a[href="#my-exams"]')).to_be_visible()
                 expect(page.locator('footer a[href="/exam-practice"]')).to_be_visible()
@@ -805,13 +805,13 @@ def main():
                     page.goto(base + route + '?access=premium#exam-practice', wait_until='commit')
                     expect(page).to_have_url(base + '/exam-practice?access=premium')
                     expect(page.locator('#access-notice')).to_be_visible()
-                    expect(page.locator('h1')).to_have_text('Practise Certification Exam')
+                    expect(page.locator('h1')).to_have_text('Practice Certification Exams')
                     nav_state('Exam Practice')
                 page.goto(base + '/lessons/', wait_until='load')
                 expect(page.locator('nav.desktop-nav a[aria-current="page"]')).to_have_text('Lessons')
                 page.evaluate("()=>{location.hash='exam-practice'}")
                 expect(page).to_have_url(base + '/exam-practice')
-                expect(page.locator('h1')).to_have_text('Practise Certification Exam')
+                expect(page.locator('h1')).to_have_text('Practice Certification Exams')
 
             record('legacy-bookmarks-and-hashchange', legacy_bookmarks)
 

@@ -207,7 +207,7 @@
         ],
         "stem": "A Black Belt you mentor plans to delete three high readings from a capability study because \"they make Cpk look bad\" before presenting to the sponsor tomorrow. The readings are not yet explained. How should you respond as MBB?",
         "sub": "mbb-coaching",
-        "why": "Good coaching uses <b>questions</b> to build the Black Belt's judgement while holding the line on data integrity: points are only excluded once an assignable cause is confirmed and documented. Deleting them yourself models the very behaviour you need to correct and misleads the sponsor. Postponing indefinitely avoids the issue and delays decisions. Escalating straight to the Champion skips coaching and damages trust when no misconduct has yet happened."
+        "why": "Good coaching uses <b>questions</b> to build the Black Belt's judgment while holding the line on data integrity: points are only excluded once an assignable cause is confirmed and documented. Deleting them yourself models the very behaviour you need to correct and misleads the sponsor. Postponing indefinitely avoids the issue and delays decisions. Escalating straight to the Champion skips coaching and damages trust when no misconduct has yet happened."
       }
     },
     "mbb:exampreview:ep-mbb-14": {
@@ -384,7 +384,7 @@
     },
     "mbb:exampreview:ep-mbb-13": {
       "domain": "Coaching & Mentoring",
-      "subtopic": "Coaching a Black Belt through a judgement call",
+      "subtopic": "Coaching a Black Belt through a judgment call",
       "difficulty": "hard",
       "kind": "conceptual"
     },

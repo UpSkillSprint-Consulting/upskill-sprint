@@ -1,0 +1,434 @@
+{
+  "examId": "nppe",
+  "schemaVersion": "1.0.0",
+  "bankVersion": "exampreview-2026-10-28",
+  "pool": "exampreview-free",
+  "sets": {
+    "preview": [
+      "nppe:exampreview:ep-nppe-01",
+      "nppe:exampreview:ep-nppe-02",
+      "nppe:exampreview:ep-nppe-03",
+      "nppe:exampreview:ep-nppe-04",
+      "nppe:exampreview:ep-nppe-05",
+      "nppe:exampreview:ep-nppe-06",
+      "nppe:exampreview:ep-nppe-07",
+      "nppe:exampreview:ep-nppe-08",
+      "nppe:exampreview:ep-nppe-09",
+      "nppe:exampreview:ep-nppe-10",
+      "nppe:exampreview:ep-nppe-11",
+      "nppe:exampreview:ep-nppe-12",
+      "nppe:exampreview:ep-nppe-13",
+      "nppe:exampreview:ep-nppe-14",
+      "nppe:exampreview:ep-nppe-15",
+      "nppe:exampreview:ep-nppe-16",
+      "nppe:exampreview:ep-nppe-17",
+      "nppe:exampreview:ep-nppe-18",
+      "nppe:exampreview:ep-nppe-19",
+      "nppe:exampreview:ep-nppe-20"
+    ]
+  },
+  "contents": {
+    "nppe:exampreview:ep-nppe-01": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Government has delegated admission, practice standards and discipline to the members, bound by a code of ethics and committed to continued study",
+          "Engineers earn more than most technical workers and their work is protected by patents, so the public recognizes them as a profession for economic reasons",
+          "Engineers must belong to a union or technical society, and that membership gives the occupation professional status no matter how the work is regulated",
+          "Most engineers practise alone with clients in the same way as doctors, so the employee model the councillor describes is too rare to change their status"
+        ],
+        "stem": "A municipal councillor argues that engineering is \"just a well-paid technical job\" because most engineers are employees working in teams, unlike doctors and lawyers who mostly deal with clients one to one. Which response BEST explains why engineering is nonetheless a self-regulating profession?",
+        "sub": "nppe-professionalism",
+        "why": "A profession needs specialized knowledge, long preparation, a force of organization that keeps high standards of conduct, continued study, and work aimed mainly at public service. Engineering is <b>self-regulating</b> because government delegates <b>admission, standards of practice and discipline</b> to the members, under Acts that include a Code of Ethics. Working as an employee in teams is a real difference from medicine and law, but it does not remove that status. Pay and patents are not elements of a profession. Union or technical-society membership does not confer status; licensing under the Act does. The last option gets the facts backwards: most engineers and geoscientists are employees of companies. <b>Blueprint:</b> I.1. See p. 14. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), p. 14.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-02": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Mill's utilitarianism, because she weighs how many people are affected and how intense and long-lasting the harm would be for each",
+          "Kant's formalism, because she follows a rule she would accept for everyone and treats endangering life as wrong regardless of the outcome",
+          "Aristotle's virtue ethics, because she is looking for a golden mean between the extremes of closing the plant and ignoring the risk",
+          "Locke's rights ethics, because she accepts the jobs argument but adds that the plant's owners have a right to run their own property"
+        ],
+        "stem": "A process engineer is told that a small, steady discharge from her plant will slightly raise a downstream community's cancer risk. A colleague's cost study shows that the plant's jobs and taxes benefit far more people than could ever be harmed. She replies that harming people's health is wrong whatever the totals show, and that she could not accept the plant's practice as a rule for every plant. Which ethical theory is she applying?",
+        "sub": "nppe-ethics",
+        "why": "Her reasoning is <b>duty ethics</b>: an action is right only if it could serve as a universal rule (the categorical imperative), and it is the duty and intention that count, not the consequences. Kant's formalism condemns pollution or any activity that endangers life whatever its purpose. The colleague's cost study is the <b>utilitarian</b> argument; she rejects it rather than using it. She is not seeking a compromise between extremes, so virtue ethics is not what she is applying. Rights ethics would focus on the community's right to life, not on the owners' property right, and she does not accept the jobs argument. <b>Blueprint:</b> II.2. See pp. 207–208. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), pp. 207–208.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-03": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "Report the manager to the regulator for overruling a licensee's technical judgment, because an employer may never override a professional's technical advice",
+          "Refuse to work with the new system and ask to be moved off the project, because using equipment she advised against would breach her duty of competence",
+          "Put her advice and the consequences of ignoring it in writing, and get the manager's written reply, so the decision is the manager's",
+          "Accept the decision without comment, because management authority covers purchasing and a written record would only damage her working relationship"
+        ],
+        "stem": "A geoscientist advises her operations manager, who is not a technical professional, that a seismic recording system on special offer is outdated and will probably sit unused. The manager decides to buy it anyway because of a favourable exchange rate. Nothing about the purchase is unsafe, illegal or contrary to the Code of Ethics. What should she do?",
+        "sub": "nppe-ethics",
+        "why": "Management has authority over the company's resources; the professional has technical authority. When advice is overruled on a matter that is <b>not illegal, unethical or hazardous</b>, she should <b>put the advice and its consequences in writing and get a written response</b>, especially when the decision-maker is not technical. The manager then carries full responsibility. A regulator complaint is wrong because overruling advice is not misconduct. Refusing to work is out of proportion; nothing unsafe or unethical is being asked. Staying silent leaves no record, and senior management may later assume she asked for the purchase. <b>Blueprint:</b> II.4. See p. 233. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), p. 233.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-04": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "This is only a perceived conflict, so a short public statement that the two firms are unrelated is enough and she may stay on the selection committee",
+          "There is no conflict until the contract is awarded, so she can accept the holiday now and decide later whether she needs to tell her employer about it",
+          "This is an actual conflict that already amounts to theft, so she must resign from the utility before the bidding period opens to avoid discipline",
+          "This is a potential conflict: a probable event will trigger it, so she must disclose it, decline the gift and step back from the selection"
+        ],
+        "stem": "An engineer at a regional utility sits on the committee that will choose next year's vegetation-clearing contractor. Today she holds no contract decisions, but her brother has just bought one of the firms likely to bid. He has offered to quietly pay for her family's holiday. Which description is MOST accurate?",
+        "sub": "nppe-ethics",
+        "why": "A <b>potential (latent) conflict</b> exists when there is no conflict yet but a reasonable person would predict one, because a probable event (here, the bidding) would trigger it. Secrecy is the problem: the relationship must be <b>disclosed</b> and she should step away from the decision. A secret benefit from someone seeking business would also be a secret commission. It is not merely perceived, because the relationship is real. Waiting until the award ignores the prediction that defines a potential conflict. It is not yet an actual conflict compromising her service, and resignation is not the required remedy. <b>Blueprint:</b> II.4. See p. 240. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), p. 240.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-05": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "Carry out the review, because the request comes from management and an employee must follow any instruction that involves only technical work",
+          "Decline, explaining that the Code requires fair dealing with colleagues and that any review must be done with the colleague's knowledge",
+          "Carry out the review but keep it short, so that the colleague's reputation is protected while the department head still gets the written comments",
+          "Tell the colleague about the request and then write the review anyway, since informing the colleague after the fact removes any ethical problem"
+        ],
+        "stem": "After a merger, a department head gives a senior engineer copies of a colleague's design reports and asks for a confidential critique \"so I have something in writing.\" The colleague is competing with the department head for a promotion and does not know about the request. What should the senior engineer do?",
+        "sub": "nppe-ethics",
+        "why": "Codes of Ethics require professionals to treat colleagues with <b>courtesy, fairness and good faith</b>, and most forbid <b>secret reviews</b>; a secret review is like a trial in absentia, contrary to natural justice. An employer cannot direct a professional to breach the Code, so the engineer should decline and explain why. Management authority does not extend to directing a breach of the Code. A shorter secret review is still secret and still damages reputation. Telling the colleague only after agreeing to a review whose stated purpose is to build a case does not cure the problem; the review must be open from the start. <b>Blueprint:</b> II.4. See pp. 234 and 263. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), pp. 234 and 263.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-06": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Seal it only after a review thorough enough to accept full responsibility for it, first clarifying what \"checking\" is meant to cover",
+          "Seal it after a quick scan, because the seal is not a guarantee of accuracy and courts will not base negligence liability on the seal alone",
+          "Seal it with a note that the design was prepared by others, because a sealing note transfers responsibility back to the outside designer",
+          "Seal it, because as the professional named on the permit she is responsible for all of the firm's work and may seal anything it produces"
+        ],
+        "stem": "A licensed engineer is the professional named on her small firm's permit to practise. The owner, who is not licensed, brings her a retaining-wall design prepared by an outside designer and asks her to \"check it and seal it by Friday\" so that the permit application can be filed. She has had no part in the design. What is the BEST course of action?",
+        "sub": "nppe-practice",
+        "why": "A professional may seal only work prepared by them or under their <b>direct supervision and control</b>; to seal another's work she must review it <b>thoroughly enough to accept responsibility</b> for it. \"Checking\" is ambiguous, so its scope should be clarified first. Pressure on the professional named on the certificate of authorization is one of the classic traps. It is true that a seal is not a guarantee, but sealing unreviewed work is still professional misconduct. A note does not shift the responsibility that sealing accepts. Being named on the permit makes her responsible for supervising the firm's practice, not free to seal what she has not reviewed. <b>Blueprint:</b> III.8. See pp. 97–98. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), pp. 97–98.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-07": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Refuse to seal them, because a professional may never seal any drawing until the design is final and ready for construction",
+          "Seal them without any marking, because the agency's review will catch any errors before the drawings reach a contractor",
+          "Ask the firm's owner to apply the corporate seal to them instead, because a corporate seal is the correct mark for preliminary work",
+          "Seal them for the review but mark them \"Not for Construction\", then issue sealed final drawings once the design is complete"
+        ],
+        "stem": "A regulatory agency will review a preliminary pipeline-crossing design only if the drawings are sealed. The design is still incomplete and will change after the agency's comments. How should the responsible engineer issue the drawings?",
+        "sub": "nppe-practice",
+        "why": "Preliminary documents are normally marked \"Not for Construction\" and not sealed, but where a <b>regulator requires a seal</b> on a preliminary design, the professional may seal it while still marking it <b>\"Not for Construction\"</b>, then seal the final documents later. There is no absolute ban on sealing preliminary work. Leaving the marking off invites a contractor to build from incomplete drawings, and an agency review does not move responsibility. A corporate seal is used for legal contracts, not to authenticate technical documents. <b>Blueprint:</b> III.8. See p. 96. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), p. 96.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-08": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "She may rely on the results, because a widely used commercial package has already been validated by its vendor and by its many other users",
+          "She is responsible only for the input data, because the disclaimer limits the vendor's liability but places errors in the code on the vendor",
+          "She must verify the results, such as by independent validation checks, because the disclaimer leaves responsibility for the output with her",
+          "She must obtain and review the program's source code before use, because a professional cannot rely on software that she cannot inspect herself"
+        ],
+        "stem": "A structural engineer designs a long-span roof using a widely used commercial analysis package. Its licence states that the vendor accepts no liability for any damage arising from its use. Which statement BEST describes her professional responsibility for the results?",
+        "sub": "nppe-practice",
+        "why": "Commercial disclaimers limit the vendor's liability to about the price of the program and <b>shift responsibility to the user</b>; regulators' software guidelines say members are responsible for verifying that results are accurate and acceptable. Reasonable care in computer-aided design requires <b>validation</b>, typically by independent calculations. Popularity is not verification. The disclaimer does the opposite of placing code errors on the vendor. Source code is usually not available for commercial software, and validation tests, not source inspection, are the expected safeguard. <b>Blueprint:</b> III.7. See pp. 159–160. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), pp. 159–160.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-09": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Sign it with a clause that, if stated hazards are not dealt with in a set time, the consultant will make legally required reports after notifying the client",
+          "Refuse to sign any confidentiality agreement at all, because a professional's duty to the public means that no client information can ever be kept confidential",
+          "Sign it as written, because a signed confidentiality agreement always overrides any reporting duty that arises from the Code of Ethics or environmental law",
+          "Sign it as written and plan to report any findings to the regulator directly, without telling the client, as soon as the site work has been finished"
+        ],
+        "stem": "A client asks an environmental consultant to sign a confidentiality agreement before a site assessment of a former fuel depot. The consultant expects that contamination may be found and that the law may require it to be reported. What is the BEST way to handle the agreement?",
+        "sub": "nppe-practice",
+        "why": "Professionals keep clients' affairs confidential and normally sign such agreements, but where public danger is involved, the Code and environmental regulations may <b>require disclosure</b>. Whistle-blowing under an unqualified agreement could be a breach of contract, so the sound compromise is a <b>clause allowing legally required reporting after notifying the client</b> if hazards are not dealt with in a set time, with legal advice on the wording. Confidentiality is not impossible. A contract cannot override a legal reporting duty. Reporting without first giving the client a chance to act skips the steps that the duty to the client requires. <b>Blueprint:</b> III.2. See pp. 285–286. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), pp. 285–286.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-10": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "Alert the regulatory agency and the local media at once, because whistle-blowing is the first and most effective response to any illegal practice",
+          "Resign immediately in protest without consulting anyone, because remaining employed even briefly would make her a party to the illegal practice",
+          "Take it above her supervisor to senior management, and alert the regulatory agency only if senior management also fails to correct it",
+          "Accept the supervisor's decision and record her concern in the file, because the employer alone has the legal duty to remedy and report the hazard"
+        ],
+        "stem": "During an audit, an employee engineer finds that drums of solvent are leaking into the ground beside a creek. Her supervisor says the cleanup can wait until next year's budget. The hazard to the public is clear. What should she do NEXT?",
+        "sub": "nppe-practice",
+        "why": "When an employer ignores a hazard, the duty to the public takes precedence. The professional should <b>first try to correct the problem</b>, which means going <b>over the supervisor's head</b> to senior management when the supervisor refuses to act. Whistle-blowing to an external agency is the <b>last option</b>, after internal routes fail, and the matter is urgent because delay could look like condoning it. Going to the media first skips the internal steps. Resignation is a possible last resort, but she should consult a lawyer first. Simply recording a concern does not meet her duty once the supervisor has refused to act on a clear hazard. <b>Blueprint:</b> III.9. See p. 238. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), p. 238.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-11": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "The owner wants the review done quickly and believes the original engineer would object to it if told about it in advance",
+          "The owner's lawyer commissioned the review for possible litigation, and it stays confidential under solicitor–client privilege",
+          "The original engineer works for a competing firm, and telling him about the review might give that firm a commercial edge",
+          "The reviewer has already asked the original engineer for permission, and the original engineer has firmly refused to give it"
+        ],
+        "stem": "A property owner hires a consulting engineer to review a design prepared by another engineer. In which situation may the reviewer properly carry out the review WITHOUT first informing the engineer whose work is being reviewed?",
+        "sub": "nppe-practice",
+        "why": "As a courtesy, a professional <b>informs</b> another professional before reviewing their work; permission is not required. The recognized exceptions are a <b>public-safety</b> concern, a review requested by a <b>lawyer and kept under solicitor–client privilege</b>, and proprietary matters such as trade secrets. Speed and an expected objection are not exceptions. Being a competitor is not one either. A refusal does not block the review, but since permission is not needed the reviewer would still inform him; it is not a situation that removes the duty to inform. <b>Blueprint:</b> III.3. See p. 286. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), p. 286.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-12": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "A duty of care, because the error was found by another engineer before the owner relied on the faulty calculation",
+          "A breach of the standard, because an error that is corrected before construction can never fall below the standard",
+          "Proximity, because the owner and the engineer were not in a contract and so had no relationship the law recognizes",
+          "Loss or damage, because a negligent act on its own is not a basis for a claim unless the plaintiff has suffered damage"
+        ],
+        "stem": "An engineer's sealed calculation for a mezzanine contains an error that clearly falls below the standard of care. A second engineer catches it before fabrication, the design is corrected at no cost to the owner, and nothing is built from the faulty calculation. The owner wants to sue the first engineer in negligence. Which element of a negligence claim is MISSING?",
+        "sub": "nppe-law",
+        "why": "A negligence claim needs a <b>duty of care</b>, a <b>breach</b> of the standard, a <b>loss</b> and <b>proximate cause</b>. A negligent act by itself is not enough; the plaintiff must have suffered <b>damage</b>, and here the error was corrected at no cost. The engineer owed the owner a duty of care when she prepared the design for him. The error was a breach when it was made, whether or not it was caught later. Tort does not depend on a contract, and in any case the parties here had a direct working relationship. <b>Blueprint:</b> IV.3. See p. 127. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), p. 127.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-13": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "No duty can exist without a contract, so the second owner's only remedy is against the first owner who sold the house to him",
+          "The engineer owed a duty only to the municipality that issued the permit, so neither of the owners can recover from him in tort",
+          "A duty of care can extend to a later buyer whose loss was foreseeable, judged against a reasonable and prudent engineer",
+          "A duty exists, but the engineer is judged against the best engineer in the field, so any defect at all would establish his liability"
+        ],
+        "stem": "An engineer certified a house foundation for its first owner. Eleven years later, a second owner, who never dealt with the engineer, finds serious cracking caused by a design error that a reasonable and prudent engineer would have avoided. The engineer argues that he owed nothing to someone he never contracted with. How is a court MOST likely to view the claim?",
+        "sub": "nppe-law",
+        "why": "Tort liability does not depend on a contract. A duty of care arises where harm is <b>foreseeable</b> and there is <b>proximity</b>, and courts have extended it to harm that appears years later; in <i>Dutton v. Bognor Regis</i> a later purchaser recovered. The test of breach is the <b>reasonable and prudent practitioner</b>. Saying there is no duty without a contract confuses contract with tort. The duty is not owed only to the permitting authority. The standard is reasonable care, not perfection, so a defect alone does not prove breach. <b>Blueprint:</b> IV.3. See pp. 127–128. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), pp. 127–128.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-14": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "Res ipsa loquitur: the hoist was under the contractor's sole control, and a load does not normally fall without negligence",
+          "Strict liability: Canadian courts make any operator liable for any injury, without regard to negligence or to the evidence",
+          "Breach of warranty: the pedestrian can enforce the hoist's warranty even though she was not a party to any of its contracts",
+          "Breach of condition: the pedestrian may terminate the contractor's hoist contract and claim damages for her injuries instead"
+        ],
+        "stem": "A hoist that a contractor designed, installed and operated by itself drops a load onto a public sidewalk below, injuring a pedestrian. The pedestrian cannot show exactly what went wrong inside the hoist. On what basis might the court still find the contractor liable?",
+        "sub": "nppe-law",
+        "why": "<b>Res ipsa loquitur</b> (\"the thing speaks for itself\") lets a court infer negligence when the defendant had <b>sole control</b> of what caused the harm and the event would <b>not ordinarily happen without negligence</b>; the classic case is a barrel falling from a warehouse window. It makes Canadian tort law work much like strict liability, but Canada still requires negligence; it does not impose liability regardless of fault. Warranties and conditions are contract terms between the parties to the contract, and a passer-by has none to enforce or terminate. <b>Blueprint:</b> IV.3. See pp. 128–129. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), pp. 128–129.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-15": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "Each contractor only for its own workers, because without a designation no one is responsible for the shared areas of the site",
+          "The design engineer, because the professional who sealed the drawings is responsible for all safety on the construction site",
+          "The site's health and safety committee, because it inspects the workplace every month and so is in charge of the site's safety",
+          "The owner, because when no prime contractor is designated, responsibility for workplace health and safety falls back on the owner"
+        ],
+        "stem": "An owner hires three separate contractors to build a warehouse. None of the contracts names a prime contractor (or constructor) responsible for occupational health and safety on the site. A worker is seriously injured. Under typical Canadian OHS law, who bears the prime contractor's responsibility for site safety?",
+        "sub": "nppe-law",
+        "why": "OHS law places workplace safety on the employer, and on a multi-employer site the <b>prime contractor</b> must comply as if it were the employer. Contracts should designate one; if <b>none is designated, or more than one</b>, the responsibility <b>falls back on the owner</b>. Contractors remain employers of their own workers, but that does not leave the site with no one in charge. The designer's seal covers the design, not site safety management. The joint health and safety committee inspects and reports hazards; it does not take on the prime contractor's legal role. <b>Blueprint:</b> IV.12. See p. 145. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), p. 145.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-16": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "She owns the invention outright, because ownership always belongs to the person who files first, whatever the employment terms are",
+          "She is named as the inventor, but ownership of property created in the job she was hired to do normally goes to the employer",
+          "The employer owns it and she cannot even be named as the inventor, because an inventor must be the owner of the registered patent",
+          "Neither party can own it, because inventions made with company resources fall into the public domain as soon as they are created"
+        ],
+        "stem": "An employee engineer, hired to develop new pump designs, invents an improved impeller seal during work hours using company resources. Her employment contract says nothing about intellectual property. She proposes to file a patent in her own name and license it to her employer. Which statement BEST reflects the usual Canadian position?",
+        "sub": "nppe-law",
+        "why": "When an employer hires someone <b>to create intellectual property</b>, the employee is <b>named as the creator</b>, but ownership is <b>assigned to the employer</b> when the property is registered. Employment contracts should spell out ownership to avoid disputes, and the lack of a clause does not give her the invention. Filing first does not override the employment relationship. Inventorship and ownership are separate, so she can be named as inventor without owning it. Property enters the public domain only when protection ends, not because it was created at work. <b>Blueprint:</b> IV.7. See p. 173. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), p. 173.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-17": {
+      "content": {
+        "answer": 3,
+        "options": [
+          "The corporation needs no authorization, because only individuals can practise engineering and both owners already hold their own licences",
+          "The corporation needs a permit only if it hires unlicensed staff, because licensed owners are already accountable for all the work they do",
+          "The corporation needs a permit, which transfers responsibility for its services from the named engineers to the corporation and its insurers",
+          "The corporation needs its own permit or certificate, naming the licensed professionals who supervise and answer for its practice"
+        ],
+        "stem": "Two licensed engineers form a corporation to offer geotechnical services to the public. One says, \"We are both licensed, so the company doesn't need its own authorization.\" Which statement BEST reflects the common Canadian requirement?",
+        "sub": "nppe-professional-law",
+        "why": "A firm that offers engineering or geoscience services to the public needs its own <b>Permit to Practise / Certificate of Authorization</b>. The permit protects the public by <b>naming the licensed professionals who supervise the practice</b> and holding them <b>personally responsible</b> for the quality of the firm's services. Individual licences do not authorize the corporation. Having no unlicensed staff does not remove the requirement. Far from transferring responsibility away, the permit fixes it on the named professionals. <b>Blueprint:</b> V.2. See pp. 47 and 108. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), pp. 47 and 108.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-18": {
+      "content": {
+        "answer": 0,
+        "options": [
+          "The regulator enforces the Act against him in the courts, where unlicensed practice and misuse of title can lead to fines and orders",
+          "The regulator's discipline committee holds a hearing and may suspend or revoke his licence, in the same way as for any licensed member",
+          "Nothing can be done, because the Act governs only members, so the complaint must go to the police as a criminal fraud case instead",
+          "The regulator issues him a letter of advice through the investigation committee, because a first complaint cannot lead to any penalty"
+        ],
+        "stem": "A technician who has never been licensed advertises himself as a \"structural engineer\" and seals small deck designs with a stamp he had made. The regulator receives a complaint. How is this MOST likely to be dealt with?",
+        "sub": "nppe-professional-law",
+        "why": "Enforcement against <b>non-members</b> is separate from discipline of members. Unlicensed practice and <b>misuse of title</b> are offences under the Act that the regulator prosecutes in the <b>courts</b>, where fines and court orders are possible. Discipline committees deal with members; he has no licence to suspend or revoke. The Act does protect the title and scope of practice against non-members, so it is not only a police matter. Letters of advice are an option for complaints about members in the discipline process. <b>Blueprint:</b> V.3. See pp. 58–59. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), pp. 58–59.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-19": {
+      "content": {
+        "answer": 2,
+        "options": [
+          "The complaint must be dismissed, because the civil settlement and the insurer's payment have already resolved all of the professional issues",
+          "The complaint must be refused, because only the corporation can be disciplined when an incorporated firm was the contracting party",
+          "The complaint proceeds; the investigation committee may dismiss it, issue advice, agree a consent order, or refer it to a hearing",
+          "The complaint goes straight to a public hearing, where the client acts as prosecutor and the discipline panel decides on the penalty"
+        ],
+        "stem": "A consultant's incorporated firm, which carries errors and omissions insurance, settles a client's negligence claim over a failed design. The client also complains to the regulator. The consultant says the complaint is pointless because the claim is settled and the firm, not he, was the contracting party. Which statement is MOST accurate?",
+        "sub": "nppe-discipline",
+        "why": "Incorporation and liability insurance protect against <b>financial loss</b>, but they <b>do not protect the individual from discipline</b> for negligence, incompetence or misconduct; he must answer to the regulator himself. Commercial disputes belong in the civil courts, while discipline is a separate process. The investigation committee can <b>dismiss</b>, give a <b>letter of advice</b>, agree a <b>consent order</b>, ask for more information, or <b>refer</b> the matter to a hearing. A settlement does not end it. The individual practitioner remains accountable. Not every complaint goes to a hearing, and at a hearing the complainant is a witness, not the prosecutor. <b>Blueprint:</b> VI.1. See pp. 62–63 and 287. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), pp. 62–63 and 287.</span>"
+      }
+    },
+    "nppe:exampreview:ep-nppe-20": {
+      "content": {
+        "answer": 1,
+        "options": [
+          "It is the first stage of a discipline proceeding, so she should treat it as a formal complaint and get legal advice before taking part",
+          "It is a confidential check of a small, random sample of members, done with her knowledge, to confirm the competence program works",
+          "It is a secret review of her work by another member, so the regulator will not disclose the findings to her until it is complete",
+          "It is a penalty for failing to report her development activities, and it can result in a suspension of her licence by itself"
+        ],
+        "stem": "An engineer with a clean record is told that she has been selected for a practice review of her continuing professional development records. She assumes that someone has complained about her. Which statement BEST describes this kind of review?",
+        "sub": "nppe-discipline",
+        "why": "Practice reviews check that <b>continuing competence programs</b> are effective. Each year a <b>small, random sample</b> of members is selected, and records are verified for accuracy. Reviews are <b>confidential</b> and done with the member's <b>full knowledge and cooperation</b>, and the time spent can usually count toward next year's development hours. Selection does not mean a complaint was made, and the review is not a discipline stage. It is not a secret review. Being selected is not a penalty. <b>Blueprint:</b> VI.2. See pp. 286 and 425. <span class=\"tb-source-ref\">Source: Andrews, Shaw &amp; McPhee, <i>Canadian Professional Engineering and Geoscience: Practice and Ethics</i>, 6th ed. (2019), pp. 286 and 425.</span>"
+      }
+    }
+  },
+  "meta": {
+    "nppe:exampreview:ep-nppe-01": {
+      "domain": "Professionalism",
+      "subtopic": "What makes engineering and geoscience self-regulating professions",
+      "blueprint": "I.1",
+      "difficulty": "medium"
+    },
+    "nppe:exampreview:ep-nppe-02": {
+      "domain": "Ethics",
+      "subtopic": "Recognizing duty ethics in application",
+      "blueprint": "II.2",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-03": {
+      "domain": "Ethics",
+      "subtopic": "Management overrules technical advice (no illegality or hazard)",
+      "blueprint": "II.4",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-04": {
+      "domain": "Ethics",
+      "subtopic": "Potential (latent) conflict of interest",
+      "blueprint": "II.4",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-05": {
+      "domain": "Ethics",
+      "subtopic": "Request for a secret review of a colleague",
+      "blueprint": "II.4",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-06": {
+      "domain": "Professional Practice",
+      "subtopic": "Sealing work you did not prepare or supervise",
+      "blueprint": "III.8",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-07": {
+      "domain": "Professional Practice",
+      "subtopic": "Preliminary drawings sealed for a regulatory approval",
+      "blueprint": "III.8",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-08": {
+      "domain": "Professional Practice",
+      "subtopic": "Responsibility for output of commercial software",
+      "blueprint": "III.7",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-09": {
+      "domain": "Professional Practice",
+      "subtopic": "Confidentiality agreement versus an environmental hazard",
+      "blueprint": "III.2",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-10": {
+      "domain": "Professional Practice",
+      "subtopic": "Order of steps before whistle-blowing",
+      "blueprint": "III.9",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-11": {
+      "domain": "Professional Practice",
+      "subtopic": "Reviewing another professional's work: informing and its exceptions",
+      "blueprint": "III.3",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-12": {
+      "domain": "Law for Professional Practice",
+      "subtopic": "Negligence without damage",
+      "blueprint": "IV.3",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-13": {
+      "domain": "Law for Professional Practice",
+      "subtopic": "Duty of care to a later owner; standard of care",
+      "blueprint": "IV.3",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-14": {
+      "domain": "Law for Professional Practice",
+      "subtopic": "Res ipsa loquitur",
+      "blueprint": "IV.3",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-15": {
+      "domain": "Law for Professional Practice",
+      "subtopic": "Prime contractor not designated",
+      "blueprint": "IV.12",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-16": {
+      "domain": "Law for Professional Practice",
+      "subtopic": "Ownership of IP created by an employee",
+      "blueprint": "IV.7",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-17": {
+      "domain": "Professional Law",
+      "subtopic": "Permit to practise / certificate of authorization for firms",
+      "blueprint": "V.2",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-18": {
+      "domain": "Professional Law",
+      "subtopic": "Unlicensed practice and misuse of title",
+      "blueprint": "V.3",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-19": {
+      "domain": "Regulation of Members & Discipline Processes",
+      "subtopic": "Discipline is separate from civil liability and insurance",
+      "blueprint": "VI.1",
+      "difficulty": "hard"
+    },
+    "nppe:exampreview:ep-nppe-20": {
+      "domain": "Regulation of Members & Discipline Processes",
+      "subtopic": "Purpose and nature of practice review",
+      "blueprint": "VI.2",
+      "difficulty": "hard"
+    }
+  }
+}
