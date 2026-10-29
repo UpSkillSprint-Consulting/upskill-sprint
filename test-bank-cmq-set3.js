@@ -1,11 +1,12 @@
 /*
  * ASQ CMQ/OE Exam Set 3 — original practice questions.
- * Batches 1–4: Q001–Q080. Planned bank: 165 questions, added in reviewed batches of 20.
+ * Batches 1–5: Q001–Q100. Planned bank: 165 questions, added in reviewed batches of 20.
  * 2026 BoK target counts: I 28 / II 23 / III 26 / IV 31 / V 22 / VI 19 / VII 16.
  * Batch 1 counts: I 4 / II 3 / III 3 / IV 4 / V 2 / VI 2 / VII 2.
  * Batch 2 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
  * Batch 3 counts: I 4 / II 3 / III 3 / IV 4 / V 2 / VI 2 / VII 2.
  * Batch 4 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
+ * Batch 5 counts: I 3 / II 2 / III 4 / IV 3 / V 3 / VI 3 / VII 2.
  * Handbook citations use printed page numbers (printed page = PDF sheet − 25).
  * Items on 2026 BoK topics the 5th-edition handbook does not cover cite the named outside source.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
@@ -1212,6 +1213,306 @@
       "set": 3,
       "sourceQuestion": 80,
       "qid": "cmq:set-3:source-80"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "On an improvement team, the plant's operations director keeps announcing which solution 'we will be going with,' and the other members have stopped offering ideas. According to Scholtes, how should the facilitator handle this?",
+      "options": [
+        "Speak with the director off-line about consensus and role",
+        "Ask in the meeting whether the director is stating opinion or fact",
+        "Use gatekeeping to call on the quieter members by name",
+        "Redirect the whole team to its project plan and objectives"
+      ],
+      "answer": 0,
+      "why": "Scholtes's second problem is members who try to influence the team process based on their position of authority in the organization. The recommended solution is to talk to them off-line, clarify the impact of their organizational role and the need for consensus, and ask for cooperation and patience. Gatekeeping is the fix for members who rarely speak, and redirecting to the plan is the fix for floundering (Chapter 3, pp. 74–75). <b>A. Speak with the director off-line about consensus and role</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 3, pp. 74–75.</span>",
+      "set": 3,
+      "sourceQuestion": 81,
+      "qid": "cmq:set-3:source-81"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "An engineer sets up an \\(\\bar{x}\\) and R chart for a filling line with four filling heads. To make the chart as sensitive as possible to a shift in the process mean, how should each subgroup of four bottles be formed?",
+      "options": [
+        "One bottle from each of the four heads at random times",
+        "Four bottles spread out across the whole shift",
+        "Four consecutive bottles from one filling head",
+        "Four bottles chosen to span the full range of weights"
+      ],
+      "answer": 2,
+      "why": "A chart meant to detect a shift in the mean is more sensitive if variability within subgroups is minimized: the samples in a subgroup should be taken within a short time compared with the time between subgroups, and a subgroup should come from a single process stream. Mixing heads or spreading samples across the shift inflates the within-subgroup variation and widens the control limits (Chapter 15, p. 417). <b>C. Four consecutive bottles from one filling head</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 15, p. 417.</span>",
+      "set": 3,
+      "sourceQuestion": 82,
+      "qid": "cmq:set-3:source-82"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "A packaging firm must follow a code of practice set by its industry association; members that break it lose their membership and certification. A provincial environmental act, by contrast, carries fines for violations. How does the handbook classify the association's code?",
+      "options": [
+        "A legal factor, because it carries the force of law",
+        "A regulatory factor, enforced through self-regulation",
+        "A legal factor, because a governing body in the industry set it",
+        "A market force, because it shapes the competition"
+      ],
+      "answer": 1,
+      "why": "Legal factors relate to laws, which governments establish and enforce by the threat of punishment, like the provincial act. Regulations are established by government agencies and by outside organizations such as industry associations, self-regulating bodies and professional societies, and they are enforced through self-regulation under the threat of disenfranchisement, such as losing membership. In theory they are voluntary, but they often have the force of law (Chapter 6, p. 119). <b>B. A regulatory factor, enforced through self-regulation</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 6, p. 119.</span>",
+      "set": 3,
+      "sourceQuestion": 83,
+      "qid": "cmq:set-3:source-83"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "Survey data on two product attributes, quality and price, show customers spread widely across the whole map with no natural groupings. How does the handbook describe this preference pattern, and what does it imply for competitors?",
+      "options": [
+        "Homogeneous; competing brands will be similar and near the centre",
+        "Clustered; products will be similar within clusters and differ between them",
+        "Clustered; a single product can serve every segment well",
+        "Diffused; competitors will offer quite dissimilar products"
+      ],
+      "answer": 3,
+      "why": "With homogeneous preferences, customers have roughly the same preferences and competing brands sit near the centre. With diffused preferences, no natural segments exist but preferences vary greatly, so competitors offer dissimilar products. Clustered preferences form natural segments, with products similar within clusters and dissimilar between them. A wide spread with no groupings is the diffused pattern (Chapter 16, pp. 461–462). <b>D. Diffused; competitors will offer quite dissimilar products</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 16, pp. 461–462.</span>",
+      "set": 3,
+      "sourceQuestion": 84,
+      "qid": "cmq:set-3:source-84"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "Before approving a large capital project, the board asks whether the company's own cash will cover its debt payments and dividends, or whether outside financing will be needed. Which financial statement is designed to answer this question?",
+      "options": [
+        "The consolidated balance sheet",
+        "The income statement",
+        "The cash flow statement",
+        "The operating budget"
+      ],
+      "answer": 2,
+      "why": "The cash flow statement shows the incoming and outgoing flow of cash for the reporting period, and its purpose is to determine whether the organization requires external financing or whether cash flow is sufficient to meet debt obligations and dividend payments. The income statement shows sales, costs, expenses and profits for a period, and the balance sheet shows what the business owns and owes (Chapter 8, pp. 177–178). <b>C. The cash flow statement</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 8, pp. 177–178.</span>",
+      "set": 3,
+      "sourceQuestion": 85,
+      "qid": "cmq:set-3:source-85"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "A newly approved supplier ships its first lots with the wrong labels, sends quality data in its own format and contacts the wrong buyer when problems arise. Which step in the handbook's supplier process was most likely skipped?",
+      "options": [
+        "Onboarding the supplier to the purchaser's processes",
+        "Evaluating the supplier's pre-award financial and quality data",
+        "Updating the purchaser's approved supplier list",
+        "Rating the supplier on the internal scorecard"
+      ],
+      "answer": 0,
+      "why": "Onboarding assimilates an approved supplier into the purchaser's business processes so that it can interface efficiently and effectively. It should help the supplier understand the purchaser's processes and requirements, expectations, reporting requirements, communication practices and corrective action procedures. The supplier was already approved, so the gap comes after approval, not in the pre-award evaluation (Chapter 18, p. 514). <b>A. Onboarding the supplier to the purchaser's processes</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, p. 514.</span>",
+      "set": 3,
+      "sourceQuestion": 86,
+      "qid": "cmq:set-3:source-86"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A team runs a five whys session on late shipments. At each level, members vote for the most popular answer and move on, and they conclude that the root cause is 'operators are careless.' What does the handbook suggest would strengthen the analysis?",
+      "options": [
+        "Stop at three whys to avoid blaming people",
+        "Use data or trials to confirm the answer at each level",
+        "Replace the five whys with an open brainstorming session",
+        "Ask why exactly five times and no more"
+      ],
+      "answer": 1,
+      "why": "The five whys tool keeps asking why until the actual root cause is found, often five times or more, and the handbook notes that data or trials can help determine the answers at each level. Voting for popular answers turns root cause analysis into opinion, and the number five is a guide, not a rule (Chapter 13, p. 357). <b>B. Use data or trials to confirm the answer at each level</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 13, p. 357.</span>",
+      "set": 3,
+      "sourceQuestion": 87,
+      "qid": "cmq:set-3:source-87"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "A company wants to convert a 40-year-old unionized plant with a traditional supervisor structure to self-managed teams within a year. What does the handbook suggest?",
+      "options": [
+        "Convert all departments at once so no one feels singled out",
+        "Remove the supervisors first so teams must manage themselves",
+        "Expect a quick change as long as training is provided",
+        "Begin with improvement or work teams as a learning step"
+      ],
+      "answer": 3,
+      "why": "Self-managed teams are more likely to succeed when they are created as part of starting up a new facility (a greenfield site), because the cultural change needed in an existing (brownfield) facility is so dramatic. To smooth the transition, an existing organization may begin with cross-functional process improvement teams or work teams as a means for learning. Self-managed teams also need up-front planning, support structures, training for managers moving into support roles and realistic expectations of a long transition (Chapter 3, pp. 57–58). <b>D. Begin with improvement or work teams as a learning step</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 3, pp. 57–58.</span>",
+      "set": 3,
+      "sourceQuestion": 88,
+      "qid": "cmq:set-3:source-88"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "A project manager tracks a 60-task project only on a Gantt chart. When a supplier delivery slips, she cannot tell whether the project's completion date is at risk. Which limitation of the Gantt chart explains this?",
+      "options": [
+        "It hides task dependencies and the impact of slippage",
+        "It cannot display the current status of each individual task",
+        "It cannot show a time line for each piece of work",
+        "It cannot be used once the WBS has been prepared"
+      ],
+      "answer": 0,
+      "why": "The handbook lists the Gantt chart's disadvantages: it does not show interdependencies among activities as clearly as a network diagram, it cannot show the consequences of an early or late start, giving little or no clue to the impact of slippage on the completion date, and it cannot show uncertainty. It does show the time line and the current status of each significant piece of work (Chapter 10, p. 254). <b>A. It hides task dependencies and the impact of slippage</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 10, p. 254.</span>",
+      "set": 3,
+      "sourceQuestion": 89,
+      "qid": "cmq:set-3:source-89"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "A lender's segmentation strategy proposes charging higher late-payment fees to a segment made up mostly of low-income borrowers. What caution does the handbook raise?",
+      "options": [
+        "None; pricing by segment is always legitimate",
+        "The segment is far too small to justify separate pricing",
+        "It may be, or be seen as, a ruse that exploits a group",
+        "Late fees should simply match competitors' rates"
+      ],
+      "answer": 2,
+      "why": "The handbook cautions that a segmentation strategy must not actually be a ruse or be open to being misinterpreted as one, citing higher late-payment fees charged to delinquent buyers from low-income families. It also warns that segmenting internal customers, for example tailoring employee benefits by gender or age, may violate a management-labour contract (Chapter 16, p. 464). <b>C. It may be, or be seen as, a ruse that exploits a group</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 16, p. 464.</span>",
+      "set": 3,
+      "sourceQuestion": 90,
+      "qid": "cmq:set-3:source-90"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "After a contract award, three suppliers' bids have been turned down. How does the handbook say the purchaser should handle the news?",
+      "options": [
+        "Send a short notice with no reasons, to avoid disputes",
+        "Notify them only if they later ask about the result",
+        "Share the winning bid's price so that they can compete next time",
+        "Explain why, including their proposal's strengths and weaknesses"
+      ],
+      "answer": 3,
+      "why": "Suppliers not selected should be contacted appropriately and told why their bid was not accepted, including the strengths and weaknesses of their proposal. All suppliers should be treated with objectivity, respect, integrity and professionalism, because the purchaser may need them in the future. Sharing a competitor's price would breach confidentiality (Chapter 18, p. 514). <b>D. Explain why, including their proposal's strengths and weaknesses</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, p. 514.</span>",
+      "set": 3,
+      "sourceQuestion": 91,
+      "qid": "cmq:set-3:source-91"
+    },
+    {
+      "sub": "cmq-training",
+      "stem": "A company is rolling out a new problem-solving method to 600 employees and wants management to show visible support. Which approach does the handbook say many successful companies use?",
+      "options": [
+        "Hire outside trainers to teach all employees at once",
+        "Managers learn first, then teach their own direct reports",
+        "Train the frontline first and brief the managers afterward",
+        "Send a CEO video along with the e-learning course"
+      ],
+      "answer": 1,
+      "why": "Many successful companies cascade knowledge down through the organization by having management learn first and then instruct their direct reports. It is an excellent way for management to demonstrate support, become personally involved and better comprehend the subject matter. Training the frontline first leaves managers unable to reinforce the method (Chapter 19, p. 539). <b>B. Managers learn first, then teach their own direct reports</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 19, p. 539.</span>",
+      "set": 3,
+      "sourceQuestion": 92,
+      "qid": "cmq:set-3:source-92"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "A competitor is building its five-year strategy on the assumption that the number of young families in the region will grow. Census data show the number is falling. How does the handbook describe this situation?",
+      "options": [
+        "A strategic gap that the organization can exploit",
+        "A threat that the organization should quickly copy",
+        "A sign that the census data must be wrong",
+        "An internal weakness of the organization"
+      ],
+      "answer": 0,
+      "why": "Competitive analysis compares competitors' strategies and results with one's own assumptions. If a competitor bases its strategies on a market assumption, such as rising birth rates, while the opposite is occurring, there is a strategic gap that can be exploited. Conversely, if a competitor's strategy differs sharply from what management assumes, management should check whether its own strategy contains an error (Chapter 6, p. 107). <b>A. A strategic gap that the organization can exploit</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 6, p. 107.</span>",
+      "set": 3,
+      "sourceQuestion": 93,
+      "qid": "cmq:set-3:source-93"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "A plant's system collects thousands of raw temperature readings, summarizes them into daily averages and ranges, and then combines those summaries with the plant's procedures and operating rules to set a rule for when to stop a furnace. In the handbook's knowledge hierarchy, what does the stop rule represent?",
+      "options": [
+        "Data",
+        "Information",
+        "Wisdom",
+        "Knowledge"
+      ],
+      "answer": 3,
+      "why": "Raw readings are data; once sorted, summarized and analyzed they become information; information integrated with previously known information and with rules, policies and procedures builds knowledge. Wisdom goes further, drawing on experience, values and expert insight, for example sensing whether a conclusion is right when objective data are not available (Chapter 8, pp. 194–195). <b>D. Knowledge</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 8, pp. 194–195.</span>",
+      "set": 3,
+      "sourceQuestion": 94,
+      "qid": "cmq:set-3:source-94"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "Two executives are compared. One keeps every process running to standard, on budget and on schedule. The other questions whether the company is pursuing the right markets at all and builds support for a new direction. Using the Covey distinction quoted in the handbook, how are they best described?",
+      "options": [
+        "Both are leading, since both direct people",
+        "The first is leading; the second is managing",
+        "The first is managing; the second is leading",
+        "Both are managing, since both hold authority"
+      ],
+      "answer": 2,
+      "why": "Leadership focuses on doing the right things; management focuses on doing things right. Running processes to standard, budget and schedule is doing things right, while questioning direction and building support for a new one is doing the right things. One person can fill both roles; what matters is what the individual does and how (Chapter 2, p. 14). <b>C. The first is managing; the second is leading</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 2, p. 14.</span>",
+      "set": 3,
+      "sourceQuestion": 95,
+      "qid": "cmq:set-3:source-95"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A kaizen blitz team has trained, mapped the current state and designed the future state. On the last day it implements the new workflow and documents the changes. What does the handbook list as the post-blitz activity?",
+      "options": [
+        "Run a second blitz on the same process right away",
+        "Evaluate the change later and plan the next blitz",
+        "Disband and leave all sustainment to the operators",
+        "Redraw the current-state map to confirm the baseline"
+      ],
+      "answer": 1,
+      "why": "In the handbook's blitz schedule, the team implements the new workflow, documents the changes and prepares a follow-up plan on the final day. Post-blitz, it conducts a follow-up evaluation of the change at an appropriate interval and plans the next blitz. Walking away without follow-up risks losing the gains (Chapter 14, p. 398). <b>B. Evaluate the change later and plan the next blitz</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 14, p. 398.</span>",
+      "set": 3,
+      "sourceQuestion": 96,
+      "qid": "cmq:set-3:source-96"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "A satisfaction survey shows strong scores for product quality but poor scores for the billing department. The sales director wants to share only the product results with staff. What does the handbook advise?",
+      "options": [
+        "Share all of the findings, including the uncomfortable ones",
+        "Share only the positive results to protect morale",
+        "Share the billing results with the billing team and no one else",
+        "Wait to share until the billing scores improve"
+      ],
+      "answer": 0,
+      "why": "When communicating survey information to decision-makers, the handbook says not to be selective and not to hide findings where results were undesired or uncomfortable to deal with. Findings can also be shared openly with others who may learn from them, though not with competitors (Chapter 16, p. 466). <b>A. Share all of the findings, including the uncomfortable ones</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 16, p. 466.</span>",
+      "set": 3,
+      "sourceQuestion": 97,
+      "qid": "cmq:set-3:source-97"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "A purchaser is choosing who will audit a key supplier's quality system. Both candidates know the standard well. One is highly accurate but blunt, and suppliers often become defensive after his audits. What does the handbook say is perhaps the more important qualification?",
+      "options": [
+        "Hands-on experience in the supplier's specific product line",
+        "Seniority within the purchaser's own organization",
+        "Getting the supplier to listen rather than feel criticized",
+        "Formal certification as a lead auditor for the standard"
+      ],
+      "answer": 2,
+      "why": "People who assess a supplier's quality system must be qualified in the assessment process and in the standard being used. Perhaps more importantly, they must be able to communicate with supplier personnel in a way that produces a willingness to listen to the results rather than a feeling of being criticized (Chapter 18, p. 525). <b>C. Getting the supplier to listen rather than feel criticized</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, p. 525.</span>",
+      "set": 3,
+      "sourceQuestion": 98,
+      "qid": "cmq:set-3:source-98"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "Every December, a department rushes to spend its remaining budget on supplies it does not urgently need. Which managerial concern described in the handbook best explains this behaviour?",
+      "options": [
+        "Fear that overspending will lead to a poor rating at year-end review",
+        "Concern that nonfinancial measures will be overlooked",
+        "Concern that the budget will hurt customer satisfaction",
+        "Fear that underspending will lead to a lower budget next period"
+      ],
+      "answer": 3,
+      "why": "Managers' budget concerns include fear that not spending up to the allowed budget will result in a lower budget being approved for the next period, fear that overspending will bring a poor performance rating, and concern that budget pressures will hurt satisfaction, improvement initiatives or nonfinancial measures. Year-end spending of leftover funds reflects the underspending fear (Chapter 8, p. 184). <b>D. Fear that underspending will lead to a lower budget next period</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 8, p. 184.</span>",
+      "set": 3,
+      "sourceQuestion": 99,
+      "qid": "cmq:set-3:source-99"
+    },
+    {
+      "sub": "cmq-training",
+      "stem": "A training program costs $90,000 to develop. It will be delivered over three years, and its first-year benefits are expected to be only $40,000. How does the handbook say the development costs are usually handled in the return on training investment (ROTI) calculation here?",
+      "options": [
+        "Charged entirely to the first year, regardless of the benefits",
+        "Prorated over the period in which the training is delivered",
+        "Excluded from ROTI because they are sunk costs",
+        "Charged to whichever year has the highest benefits"
+      ],
+      "answer": 1,
+      "why": "Development costs are usually included in the first year when training extends over more than one year, unless they substantially exceed the first-year benefits; in that case they may be prorated over the period in which the training is delivered. Here $90,000 far exceeds the $40,000 first-year benefit, so proration applies (Chapter 19, p. 570). <b>B. Prorated over the period in which the training is delivered</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 19, p. 570.</span>",
+      "set": 3,
+      "sourceQuestion": 100,
+      "qid": "cmq:set-3:source-100"
     }
   ];
 })(window);

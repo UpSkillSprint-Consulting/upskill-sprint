@@ -113,3 +113,30 @@ Batch 3 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent 
 | 80 | cmq-training | VII.C | Apply | B | Handbook Ch. 19, pp. 558–559 | p. 558: “Competency-based training”; p. 559: “Mastery”; p. 559: “terminal performance objectives” |
 
 Batch 4 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent same-domain items across batch boundaries. Highest stem similarity to Sets 1–2 is 0.34. All 20 items cite handbook pages only. Two calculations (kanban minimum quantity, and an x-bar randomness check) use LaTeX.
+
+## Batch 5 (Q081–Q100)
+
+| Q | Domain | BoK | Level | Key | Source | Terms verified on page |
+|---|---|---|---|---|---|---|
+| 81 | cmq-lead | I.C.4 | Apply | A | Handbook Ch. 3, pp. 74–75 | p. 74: “position of authority”; p. 74: “Talk to the members off-line”; p. 75: “gatekeeping” |
+| 82 | cmq-tools | IV.C.2 | Apply | C | Handbook Ch. 15, p. 417 | p. 417: “rational subgrouping”; p. 417: “variability within subgroups is minimized”; p. 417: “single process stream” |
+| 83 | cmq-strategy | II.B.6 | Understand | B | Handbook Ch. 6, p. 119 | p. 119: “Legal Factors”; p. 119: “industry associations”; p. 119: “disenfranchisement” |
+| 84 | cmq-customer | V.A.3 | Analyze | D | Handbook Ch. 16, pp. 461–462 | p. 461: “Homogeneous preferences”; p. 462: “Diffused preferences”; p. 462: “dissimilar products” |
+| 85 | cmq-management | III.A.5 | Apply | C | Handbook Ch. 8, pp. 177–178 | p. 177: “income statement shows sales, costs, expenses, and profits”; p. 178: “Cash Flow Statement”; p. 178: “external financing” |
+| 86 | cmq-supply | VI.A | Apply | A | Handbook Ch. 18, p. 514 | p. 514: “Onboarding is the process of assimilating the supplier”; p. 514: “reporting requirements” |
+| 87 | cmq-tools | IV.A.4 | Apply | B | Handbook Ch. 13, p. 357 | p. 357: “Five Whys”; p. 357: “data or t rials can help determine answers at each level” |
+| 88 | cmq-lead | I.C.1 | Evaluate | D | Handbook Ch. 3, pp. 57–58 | p. 57: “Self-Managed Teams”; p. 58: “greenfield site”; p. 58: “means for learning” |
+| 89 | cmq-management | III.C.2 | Analyze | A | Handbook Ch. 10, p. 254 | p. 254: “Disadvantages of a Gantt chart”; p. 254: “impact of slippage on the project completion date” |
+| 90 | cmq-customer | V.A.3 | Evaluate | C | Handbook Ch. 16, p. 464 | p. 464: “ruse”; p. 464: “late-payment fee”; p. 464: “management-labor contract” |
+| 91 | cmq-supply | VI.A | Apply | D | Handbook Ch. 18, p. 514 | p. 514: “Suppliers not selected”; p. 514: “strengths and weaknesses”; p. 514: “might need that supplier in the future” |
+| 92 | cmq-training | VII.A | Apply | B | Handbook Ch. 19, p. 539 | p. 539: “cascade knowledge down”; p. 539: “management learn first” |
+| 93 | cmq-strategy | II.B.2 | Analyze | A | Handbook Ch. 6, p. 107 | p. 107: “strategic gap that can be exploited”; p. 107: “birth rates” |
+| 94 | cmq-management | III.A.7 | Analyze | D | Handbook Ch. 8, pp. 194–195 | p. 194: “synthesized into information”; p. 194: “rules, policies, procedures”; p. 195: “Wisdom” |
+| 95 | cmq-lead | I.B.1 | Analyze | C | Handbook Ch. 2, p. 14 | p. 14: “Leadership focuses on doing the right things”; p. 14: “same individual” |
+| 96 | cmq-tools | IV.B.3 | Apply | B | Handbook Ch. 14, p. 398 | p. 398: “Blitz week”; p. 398: “Conduct follow-up evaluation of change”; p. 398: “Plan the next blitz” |
+| 97 | cmq-customer | V.B.2 | Apply | A | Handbook Ch. 16, p. 466 | p. 466: “Do not be selective”; p. 466: “uncomfortable” |
+| 98 | cmq-supply | VI.E | Apply | C | Handbook Ch. 18, p. 525 | p. 525: “willingness to listen to the results”; p. 525: “Perhaps more importantly” |
+| 99 | cmq-management | III.A.5 | Analyze | D | Handbook Ch. 8, p. 184 | p. 184: “Not spending up to the allowed budget”; p. 184: “poor performance rating” |
+| 100 | cmq-training | VII.D | Apply | B | Handbook Ch. 19, p. 570 | p. 570: “first year”; p. 570: “prorated over the period in which the training is delivered” |
+
+Batch 5 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent same-domain items across batch boundaries. Allocation shifts one item from II and IV to III and VI to keep every domain on track for the 165-item blueprint. All 20 items cite handbook pages only. Highest stem similarity to Sets 1–2 is about 0.4 (shared supplier-question phrasing, different concept).

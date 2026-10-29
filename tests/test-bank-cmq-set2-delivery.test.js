@@ -32,18 +32,18 @@ test('private CMQ/OE package renders Set 1, Set 2, the partial Set 3 and Mixed',
     const doc = w.document;
     const full = [...doc.querySelectorAll('#tb-overview .tb-setpick [data-set]')];
     assert.deepEqual(full.map(b => [b.dataset.set, b.querySelector('.tb-sets').textContent, b.disabled]),
-      [['1', '166', false], ['2', '165', false], ['3', '80', false], ['mix', '411', false]]);
+      [['1', '166', false], ['2', '165', false], ['3', '100', false], ['mix', '431', false]]);
     for (const kind of ['quick', 'focus']) {
       const quiz = [...doc.querySelectorAll('[data-quiz-set-kind="' + kind + '"]')];
       assert.deepEqual(quiz.map(b => [b.dataset.quizSet, b.disabled]),
         [['1', false], ['2', false], ['3', false], ['mix', false]], kind + ' quiz set choices');
-      assert.equal(quiz[3].title, '411 available questions');
+      assert.equal(quiz[3].title, '431 available questions');
     }
     // Set 3 is a partial, batch-released set: it can be chosen and says how many of 165 are live.
     full[2].click();
     await new Promise(resolve => setTimeout(resolve, 50));
     const pressed = [...doc.querySelectorAll('#tb-overview .tb-setpick [data-set][aria-pressed="true"]')].map(b => b.dataset.set);
     assert.deepEqual(pressed, ['3'], 'Set 3 can be the Full Exam set');
-    assert.match(doc.querySelector('#tb-overview .tb-setnote').textContent, /80 of 165 planned questions/);
+    assert.match(doc.querySelector('#tb-overview .tb-setnote').textContent, /100 of 165 planned questions/);
   } finally { fs.rmSync(temp, { recursive: true, force: true }); }
 });

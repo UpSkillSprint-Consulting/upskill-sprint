@@ -26,7 +26,8 @@ const BATCH_COUNTS = [
   { 'cmq-lead': 4, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 2, 'cmq-supply': 2, 'cmq-training': 2 },
   { 'cmq-lead': 3, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 3, 'cmq-supply': 2, 'cmq-training': 2 },
   { 'cmq-lead': 4, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 2, 'cmq-supply': 2, 'cmq-training': 2 },
-  { 'cmq-lead': 3, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 3, 'cmq-supply': 2, 'cmq-training': 2 }
+  { 'cmq-lead': 3, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 3, 'cmq-supply': 2, 'cmq-training': 2 },
+  { 'cmq-lead': 3, 'cmq-strategy': 2, 'cmq-management': 4, 'cmq-tools': 3, 'cmq-customer': 3, 'cmq-supply': 3, 'cmq-training': 2 }
 ];
 const HANDBOOK = /The ASQ CMQ\/OE Handbook, 5th ed\. \(Furterer &amp; Wood\), Chapter \d+, pp?\. \d+/;
 const OUTSIDE = /ASQ CMQ\/OE Body of Knowledge \(2026\), Part [IVX]+/;
@@ -81,7 +82,8 @@ test('every Set 3 question meets the bank schema and cites its source', () => {
     assert.ok(HANDBOOK.test(q.why) || OUTSIDE.test(q.why), `question ${n} cites the handbook or the 2026 BoK plus a named source`);
     assert.ok(!earlier.has(q.stem.trim().toLowerCase()), `question ${n} does not repeat Sets 1 or 2`);
     assert.doesNotMatch(`${q.stem} ${q.options.join(' ')}`, /\b(?:all|none) of the above\b/i);
-    assert.doesNotMatch(`${q.stem} ${q.options.join(' ')} ${q.why}`, /(?:\bundefined\b|\bNaN\b|�|[Jj]udgement|\$)/);
+    // Dollar amounts are fine; TeX must use \( \) delimiters, never $ (LESSON_CREATION_GUIDE §22).
+    assert.doesNotMatch(`${q.stem} ${q.options.join(' ')} ${q.why}`, /(?:\bundefined\b|\bNaN\b|\ufffd|[Jj]udgement|\$\s*\\[A-Za-z]|\\[A-Za-z]+\s*\$)/);
     const visible = JSDOM.fragment(q.why).textContent.replace(/\s+/g, ' ');
     assert.ok(visible.includes(q.options[q.answer]), `question ${n} names its keyed answer`);
   });
