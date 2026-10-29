@@ -377,31 +377,109 @@ The ten complete drafts were screened against Set 1's 150 questions and Set 2's 
 The independent reviewer approved the exact Q071-Q075 array with SHA-256 `483c4439874427a6f03cdff94796ecb1e2788502375e6e3adc404ab8438f9457` and Q076-Q080 array with SHA-256 `40b4d3d7b0e9de2049887402c4ecd371636adc9e3e0034a561e44c08194b9613`. The integrated objects match those frozen arrays. Final keys are **B/D/A/C/B/D/C/A/B/C**. Review supports soundness, source accuracy and intended cognitive demand; it does not establish empirical equivalence to live ASQ question difficulty.
 
 
+### Batch 8 re-audit before adding Batch 9
+
+A fresh independent review of the exact canonical Q071-Q080 objects found **no correction required**. The two reviewers audited the opposite halves from their preceding authoring assignments. All ten stems, forty choices, ten keys and main explanations, thirty distractor rationales, teaching fields, current BoK mappings and actual cognitive levels were reread. Q080's full original-sample exhibit and every counting/disposition alternative were independently checked. Earlier authoring and review reports were not used as substitutes for source verification.
+
+All **21 distinct cited printed folios** were freshly rendered, visually inspected and read for support: 8, 16, 18, 32, 80-81, 93, 125, 135, 142, 166-167, 169, 172-173, 175-176, 194-195, 284 and 289. Every printed/PDF reference in the Batch 8 table remains accurate. The visible folios confirm the one-based PDF position of printed page +19 individually, including chapter-opening footer folios on pp. 166, 172 and 284.
+
+The review reconfirmed Q071's distinction between valid management-system certification and the separate evidence required for a delivered lot. Q072's revised distractor expressly treats confidentiality training as authorization to enter the proprietary process, so it does not describe an equally valid request for an approved alternative arrangement. The correct answer preserves designated review, approved access and adequate evidence collection without making a jurisdiction-specific legal judgment.
+
+Q073 correctly treats audit findings as additional management information rather than a substitute for continuing performance monitoring. Q074 explicitly establishes that available alternatives cannot answer the approved objective and reserves scope/objective changes and termination to the client. Q075 records the identified blank torque entry and the technician's limited statement without inferring actual applied torque or omission of the tightening operation. All first-half answers and rationales remain supported by their cited passages.
+
+Q076's extension is supported by documented progress, an external delay, effective interim controls, responsibilities and reviewable milestones; its approval does not close the corrective action. Q077 seeks the missing interview information and corroborating evidence without assuming that an unanswered question proves a violation. Q078 relies on demonstrated healthy team performance while retaining lead oversight, not a universal claim about newly formed teams. Q079 addresses the complete controlled appeals process rather than only an intake form and does not invent a universal deadline, reviewer or retention period.
+
+Q080 was independently reconstructed as **30 + 1 + 1 = 32 original sampled units**, comprising **30 conforming units and two nonconforming units**, with **2 + 3 = 5 individual defects**. The plan counts each failed unit once. The original nonconforming-unit count of two reaches **Re = 2**, so rejection is correct. Replacing the failed units cannot rewrite the original result; authorized later rectification and resubmission remain separate. Reporting five nonconforming units confuses defects with units, while drawing another sample adds an unapproved second chance. The question supplies a local plan and makes no unsupported population-quality or confidence claim.
+
+The audited canonical bank SHA-256 was `f49c6b6c6e25865a166b54ca28dcf911bfb2d2fe2b1ccbc150fef1122960aed6`; the supplied PDF SHA-256 was `dd47993300b2a1a5ab2d55a3edf79599f859b2b7f4d8076e0d9550d1505f789f`. No correction to the preceding eighty objects is needed for the Batch 9 update.
+
+## Batch 9: Q081-Q090
+
+All ten original questions passed author review, a separate independent review and final integration review. The review included every stem, forty options, ten keys and main explanations, thirty distractor rationales, teaching fields, current BoK mappings, actual cognitive labels and both complete copies of the complaint-record exhibit. All **20 distinct cited printed folios** were freshly rendered, read and visually verified. The chapter-opening footer folios on pp. 2, 119 and 212 and the complete Cp/Cpk formula on p. 281 were explicitly inspected. Citations identify the principles supporting these original scenarios, not a claim that the questions appear in the handbook.
+
+| Item | Topic / 2026 BoK | Actual cognitive level | Printed pages | One-based PDF pages | Verified principle |
+|---|---|---|---|---|---|
+| Q081 | Element coverage across departments / I.A.1 | Analyze | 2, 83 | 21, 102 | Distinguish one selected control element across units from a broad assessment of each department. |
+| Q082 | Gifts received after reporting / I.E.1 | Apply | 38-39 | 57-58 | Follow the stated gift policy and authorization limits without assuming an improper motive. |
+| Q083 | Physical-measurement evidence / II.B.4 | Evaluate | 103 | 122 | Combine the appropriate method, instrument, calibration, competent operator and work restrictions. |
+| Q084 | Grouping confirmed observations / II.C.1 | Evaluate | 104, 110, 122 | 123, 129, 141 | Group supporting examples by the unmet control and retain unresolved contradictions separately. |
+| Q085 | Supplemental report clarification / II.C.3 | Apply | 104, 119, 130-131 | 123, 138, 149-150 | Communicate later verified clarification through the authorized report process while preserving the audit history. |
+| Q086 | Communication after evidence-device theft / III.D | Apply | 164 | 183 | Promptly report known facts and uncertainties through agreed incident contacts. |
+| Q087 | Purposeful group interviewing / III.E | Apply | 167, 169 | 186, 188 | Use a group discussion when interaction is the evidence objective and corroborate the accounts obtained. |
+| Q088 | Auditing strategic deployment and outcomes / IV.B.1 | Analyze | 212, 215 | 231, 234 | Relate verified implementation milestones and performance to management's stated strategic objectives. |
+| Q089 | Electronic-approval attribution / IV.A.10 | Apply | 72-73, 102 | 91-92, 121 | Verify individual attribution and access/change controls rather than relying on a displayed name. |
+| Q090 | Interpreting Cp and Cpk / V.D.2 | Understand | 281 | 300 | Distinguish spread relative to specifications from the additional effect of process centering. |
+
+### Evidence, authority and answer-uniqueness checks
+
+- **Q081:** the assignment follows document-control requirements across Engineering, Purchasing and Service, including their relevant transfers, while excluding unrelated activities. The alternatives describe materially different coverage rather than offering synonymous function/element labels. The explanation does not claim that audit labels are universally mutually exclusive or that every system audit must examine every possible element.
+- **Q082:** the local policy explicitly applies before, during and after assignments. The lead receives one $120 gift, above the stated $20 limit. Dividing its contents or donating it does not provide the required advance authority for an alternative disposition. The response remains courteous and does not turn a thank-you note into proof of bribery. The dollar amounts and disposition procedure are original local facts, not universal ASQ gift rules.
+- **Q083:** the final stem establishes that the technician is both trained and authorized, the prescribed gage is suitable and in current calibration, and the auditor understands the method and can interpret its results but lacks authority to operate the instrument. The correct answer therefore does not use observation to compensate for an inability to assess the method. Calibration and repeated readings do not make a substitute tool compliant with the approved method; a prior result also does not fulfill the plan's explicitly required witnessed examination.
+- **Q084:** V1/V2 support the owner-recording control, while V3/V4 support the closure-message control. The procedure calls for control-level grouping with evidence IDs retained. U1 is expressly contradictory and cannot be added as a confirmed violation. The owner-recording gaps do not prove that nobody had actually been assigned, and grouping observations does not establish a common root cause or an unexamined organization-wide failure.
+- **Q085:** the original report accurately records U1 as unresolved. The later authenticated evidence concerns the same complaint, message and pre-closure timing and resolves that specific uncertainty. AP-7 explicitly supplies approval, original-recipient distribution and retention requirements. A supplement clarifies the report without deleting its accurate historical state or altering V1-V4. Neither this item nor its source claims a universal supplemental-report authorization or retention procedure.
+- **Q086:** the photography was authorized, the stolen tablet was encrypted and actual file access remains unknown. The initial notice identifies the known loss, contents and protections and the remaining uncertainties. Neither encryption nor an incomplete inventory justifies withholding notification, and theft does not itself prove disclosure. The item tests factual communication through stated contacts without prescribing unauthorized technical remediation.
+- **Q087:** understanding the launch team's interaction is an explicit audit objective, supplying a reason for a focused group interview. The observed discussion provides evidence of current interaction; records and individual follow-up corroborate accounts of the earlier decision. Agreement, silence or a rehearsed spokesperson's account is not treated as proof of historical behavior. No universal group size or mandatory interviewer count is imposed.
+- **Q088:** the target is no more than 3% rework at each site. North's 2% meets that target; South's 7% does not. Completed instructions and training are rollout milestones, not proof of consistent application or the intended outcomes. The question preserves the site-level objective and does not infer causation, replace it with a pooled percentage, or transfer strategic decision authority from management to the auditor.
+- **Q089:** a common screen session could coexist with separate valid individual signing controls. The auditor must examine the link to authorized persons and the protection of that link and record history. Typed names, timing, product conformity or general managerial assurance do not independently establish who approved the sampled events. The scenario does not presume forgery or conclude that every shared workstation violates the procedure.
+- **Q090:** stability, fixed two-sided limits, an appropriate normal-distribution model and the same justified within-process sigma are expressly supplied. The question asks for interpretation of the two reported indices, not calculation or selection of an improvement action, respecting the current Understand ceiling. Lower Cpk than Cp indicates off-centering under those assumptions; the unsigned pair does not identify the nearer side, demonstrate subsequent instability or supply an unstated acceptance threshold.
+
+### Shared-case integrity and chronology
+
+Q084 and Q085 share case identifier `cqa-set2-complaint-records-01`, an exactly identical **469-character common context**, and an identical complete seven-row table. Both contain the two requirements, all four verified observations and the complete unresolved point. Q085 independently supplies what the issued report said, the later authenticated evidence and AP-7; it never depends on the learner's selected answer to Q084. Both remain independently answerable after shuffling.
+
+The verified evidence reconciles as follows:
+
+| Observation | Chronology or evidence | Supported conclusion |
+|---|---|---|
+| V1 / C101 | Investigation at 09:00 on 4 June; assigned owner first recorded at 12:00 that day. | Owner recording occurs three hours after investigation begins, contrary to section 2. |
+| V2 / C109 | Investigation at 10:00 on 7 June; assigned owner first recorded at 16:00 that day. | Owner recording occurs six hours after investigation begins, contrary to section 2. |
+| V3 / C112 | Closed status on 10 June; closure message sent and recorded on 11 June. | The required message steps occur on a later date, contrary to section 5. Exact elapsed hours are not supplied. |
+| V4 / C118 | Closed status on 14 June; closure message sent and recorded on 16 June. | The required message steps occur on a later date, contrary to section 5. Exact elapsed hours are not supplied. |
+| U1 / C125 at the closing meeting | Case log says 17 June, but the retrieved message copy concerns C152; C125 closed on 18 June. | The conflicting information remains unresolved, rather than a confirmed section 5 failure. |
+| U1 / C125 on 24 June | The team authenticates the correct C125 message and record, confirming sending and recording on 17 June before closed status on 18 June. | Clarify U1 through AP-7 while retaining the separately verified V1-V4 observations. |
+
+The shared context deliberately says **closing meeting on 20 June**, not formal audit closure. This prevents an implication that open findings and an unresolved observation have already satisfied every program closure criterion. The common-context UTF-8 SHA-256 is `a827704e4712681c39a237e560a30f5438b25dba6f847e0e6b198ebc37f9296c`. The complete table serialized with sorted keys, Unicode retained and compact separators has SHA-256 `4031431361de905e715fde3c5e65f21d3c0b508eaccf1e746f1ac03cdb101780`.
+
+### Numerical and source interpretation checks
+
+Q082's received gift is $120, greater than $20; six later $20 shares do not become six originally received gifts. Q088 requires separate site assessments: 2% <= 3%, while 7% > 3%. The site volumes are unstated, and an unweighted average cannot be assumed to represent a combined rate; even a valid combined rate would not replace the expressly site-specific objective.
+
+Q090's reported **Cp = 1.50 / Cpk = 0.95** values are internally consistent with a stable, off-center process under the supplied assumptions. The displayed p. 281 formula confirms that Cp compares specification width with six sigma and Cpk uses the smaller distance from the mean to a limit divided by three sigma. The item does not reproduce the page's example capability cutoffs as universal acceptance rules. It also does not use the nearby outlier discussion or imply that unusual data may be discarded to improve an index.
+
+### Novelty, review refinements and frozen versions
+
+The ten complete items were screened against Set 1 and the preceding eighty Set 2 questions. Two early proposals were replaced: another count-versus-consequence priority question was too close to Q043, and an interview-interruption remedy overlapped Set 1. The final Q085 supplemental-report decision and Q086 factual incident notification provide different tasks. Q084 distinguishes two control groups plus unresolved evidence, rather than repeating Set 1's simple same-clause grouping example. Q087 selects a group method for a justified objective; Q088 examines strategy deployment/outcomes; Q089 addresses attribution rather than Q048's record retrieval/retention; Q090 interprets centering under a valid model rather than repeating Set 1's unstable-process capability warning.
+
+Final review made the Q083 technician's training and authorization and the auditor's method understanding explicit, consistently changed the case to closing-meeting terminology, matched Q082's recipient wording to the lead auditor, and corrected Q085's trap to target erasing report history rather than calling a recirculated replacement silent. No key or source-page change resulted.
+
+The independent reviewer approved the exact Q081-Q085 array with SHA-256 `270baacc6a634cb9eb65dca07571473495705f5ddb138a0a818d7842ac023d12` and Q086-Q090 array with SHA-256 `c9ca5e1395854358249d8ce9d6c0fa8925783a246baff1804149a4e6addea582`. The integrated objects match those frozen arrays. Final keys are **D/A/C/D/B/D/B/A/C/A**. Source and content review support the intended practice demand; empirical equivalence to operational ASQ difficulty has not been established.
+
+
 ## Progress and remaining blueprint
 
-| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 | Current total | Final target | Remaining |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 20 | 37 | 17 |
-| II. Audit Process | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 24 | 45 | 21 |
-| III. Auditor Competencies | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 16 | 30 | 14 |
-| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 12 | 23 | 11 |
-| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 8 | 15 | 7 |
-| **Total** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **80** | **150** | **70** |
+| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 | Batch 9 | Current total | Final target | Remaining |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 22 | 37 | 15 |
+| II. Audit Process | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 27 | 45 | 18 |
+| III. Auditor Competencies | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 18 | 30 | 12 |
+| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 14 | 23 | 9 |
+| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 9 | 15 | 6 |
+| **Total** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **90** | **150** | **60** |
 
-Continue alternating the domain allocations already used: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation and independent review; the allocation alone is not content validation. The next requested batch will be **Q081-Q090**, allocation **2/3/2/2/1**, after a fresh audit of Q071-Q080. It has not been started in this update.
+Continue alternating the domain allocations already used: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation and independent review; the allocation alone is not content validation. The next requested batch will be **Q091-Q100**, allocation **3/3/2/1/1**, after a fresh audit of Q081-Q090. It has not been started in this update.
 
-The first eighty questions contain eight document-case items (Q004-Q005, Q023-Q024, Q043-Q044 and Q064-Q065), or **10%**, and nineteen rendered question tables. Plan another independently answerable case pair in Batch 9 to maintain the intended case coverage. Answer positions are **A20/B20/C20/D20**. Actual cognitive labels are **Apply 37, Analyze 23, Evaluate 18 and Understand 2**. The existing engine randomizes question order. Practice timing remains two minutes per question: the available eighty-question Full session uses **160 minutes**, displayed as **2 hr 40 min**. Quick Quiz retains its fifty-question maximum and samples from the eighty available items. This is a partial practice set.
+The first ninety questions contain ten document-case items (Q004-Q005, Q023-Q024, Q043-Q044, Q064-Q065 and Q084-Q085), or **11.11%**, and twenty-one rendered question tables. Retaining ten case items through Batch 10 gives 10% at one hundred questions; plan another independently answerable pair in Batch 11. Answer positions are **A23/B22/C22/D23**. Actual cognitive labels are **Apply 42, Analyze 25, Evaluate 20 and Understand 3**. The existing engine randomizes question order. Practice timing remains two minutes per question: the available ninety-question Full session uses **180 minutes**, displayed as **3 hr**. Quick Quiz retains its fifty-question maximum and samples from the ninety available items. This is a partial practice set.
 
 ## Integration verification
 
 - `node --test --test-isolation=none tests/test-bank-cqa-set1.test.js tests/test-bank-cqa-set2.test.js`: **13 passed, 0 failed**.
 - `npm run build:site`: **passed**, including scans of 619 public files with no known static findings and three clean protected-tool shells. These static checks do not claim verification of a production runtime or CDN.
-- The learner checks exercise all eighty questions, a 160-minute Full session, correct grading, a fifty-question Quick Quiz sampled from the available eighty, a ten-question diagnostic, and all five focused domains with 20/24/16/12/8 questions.
-- An all-correct Full attempt scores 80/80 and 100%. A fifty-question Quick attempt with one deliberate wrong answer scores 49/50, displayed as 98%, and identifies the single incorrect item in review.
-- All nineteen question tables render during the attempt and review. All eighty review cards display the authored explanations and all 240 distractor rationales. Distractor feedback is not exposed during the timed attempt.
-- The runtime timer was checked at 9,600 seconds and the existing display convention at `2 hr 40 min`. Quick Quiz serves its fifty-question request without an availability-cap notice. No timing or quiz-engine implementation change was needed.
+- The learner checks exercise all ninety questions, a 180-minute Full session, correct grading, a fifty-question Quick Quiz sampled from the available ninety, a ten-question diagnostic, and all five focused domains with 22/27/18/14/9 questions.
+- An all-correct Full attempt scores 90/90 and 100%. A fifty-question Quick attempt with one deliberate wrong answer scores 49/50, displayed as 98%, and identifies the single incorrect item in review.
+- All twenty-one question tables render during the attempt and review. All ninety review cards display the authored explanations and all 270 distractor rationales. Distractor feedback is not exposed during the timed attempt.
+- The runtime timer was checked at 10,800 seconds and the existing display convention at `3 hr`. Quick Quiz serves its fifty-question request without an availability-cap notice. No timing or quiz-engine implementation change was needed.
 - Set 1 remains at 150 unchanged questions. Set 2 is included only in the protected CQA package and excluded from other exam packages and public staging.
-- All seventy preceding question objects were compared with the prior PR bank and are unchanged. The ten new objects exactly match the frozen author arrays. All 230 combined Set 1/Set 2 question IDs are unique; every Set 2 item has four distinct options, exactly three non-key distractor rationales and a printed-page source reference.
-- JavaScript syntax checks passed for the bank and test file. The HTML change since the preceding PR head is only the CQA completion label, from Batch 7 to Batch 8. The replacement is scoped to the CQA registration because another exam also has a Batch 7 label. The reviewed commit includes only the bank, its existing integration tests, the CQA progress label and this cumulative audit; unrelated regenerated build files are excluded.
+- All eighty preceding question objects were compared with the prior PR bank and are unchanged. The ten new objects exactly match the frozen author arrays. All 240 combined Set 1/Set 2 question IDs are unique; every Set 2 item has four distinct options, exactly three non-key distractor rationales and a printed-page source reference.
+- JavaScript syntax checks passed for the bank and test file. The HTML change since the preceding PR head is only the CQA completion label, from Batch 8 to Batch 9. The replacement remains scoped to the CQA registration to preserve every other exam's label. The reviewed commit includes only the bank, its existing integration tests, the CQA progress label and this cumulative audit; unrelated regenerated build files are excluded.
 
 PR #368 remains an accumulation branch; publication is deferred until all 150 questions are ready. No merge or production deployment is part of this batch update.

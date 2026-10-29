@@ -1,6 +1,6 @@
 /*
  * ASQ CQA Exam Set 2 — original practice questions.
- * Batches 1–8: Q001–Q080. Planned bank: 150 questions.
+ * Batches 1–9: Q001–Q090. Planned bank: 150 questions.
  * Author in reviewed batches of 10; hold PR #368 until all 150 are ready.
  * 2026 BoK target counts: I 37 / II 45 / III 30 / IV 23 / V 15.
  * Batch 1 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
@@ -11,6 +11,7 @@
  * Batch 6 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Batch 7 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Batch 8 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
+ * Batch 9 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Questions and exhibits are original; handbook citations use printed pages.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
  */
@@ -2542,6 +2543,324 @@
           "Nonconforming; three defects found"
         ]
       ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q081",
+    "set": 2,
+    "batch": 9,
+    "sub": "cqa-element-coverage-across-departments",
+    "bok": "I.A.1",
+    "cognitive": "Analyze",
+    "stem": "An audit will examine how externally supplied technical documents are identified, updated and made available in Engineering, Purchasing and Service. It will include transfers between those departments but exclude their unrelated controls and activities. Which description most directly matches this planned coverage?",
+    "options": [
+      "A department audit that evaluates Engineering's complete operation and uses those results to represent document control in Purchasing and Service without examining their activities.",
+      "A system audit that evaluates all management-system elements in the three departments, with document control serving as the initial entry point for the wider assessment.",
+      "A product audit that checks the content of selected technical documents against their specifications, with departmental control activities treated as background to the document examination.",
+      "An element-based audit that follows the selected document-control requirements across all three departments, including relevant transfers, without assessing each department's entire operation."
+    ],
+    "answer": 3,
+    "why": "The planned work follows one management-system element across several departments and includes the interfaces relevant to that element. This most directly fits an element-based approach. A department approach instead examines numerous applicable elements within a department, while a complete system assessment would extend beyond the stated coverage. Examining the technical content of selected documents alone would also miss how the specified controls operate across the departments. Audit labels can describe different aspects of the same assignment; the decisive distinction here is the coverage actually planned, not a rule that every audit must fit one mutually exclusive label. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 2, 83.</span>",
+    "keyPoint": "Distinguish examining one control element across departments from examining the range of controls within an entire department.",
+    "trap": "Choosing an audit label from the number of departments visited instead of the requirements and activities actually covered.",
+    "distractors": {
+      "0": "This replaces the stated cross-department examination with a full review of one department. Engineering's results do not establish how Purchasing and Service apply the controls.",
+      "1": "The assignment explicitly excludes unrelated elements and activities. A full assessment of all management-system elements would be broader than the planned work.",
+      "2": "Checking document content as an output does not cover the identification, updating, availability and transfer controls specified for all three departments."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q082",
+    "set": 2,
+    "batch": 9,
+    "sub": "cqa-post-audit-gift-policy",
+    "bok": "I.E.1",
+    "cognitive": "Apply",
+    "stem": "Three weeks after an audit report is issued, the auditee sends the lead auditor a gift basket valued at $120 with a thank-you note. The auditing organization's policy applies before, during and after assignments: gifts above $20 must be reported and returned; another disposition requires advance approval from the ethics officer. No approval has been obtained. Which response best meets the auditor's responsibilities?",
+    "options": [
+      "Report the gift through the required channel and return it with a courteous explanation of the policy, without treating the thank-you note as proof of bribery.",
+      "Keep the basket and record its value in the audit file, since the report has already been issued and the gift cannot change the completed findings.",
+      "Divide the basket among six team members and disclose that arrangement, treating each person's $20 share as a separate gift within the organization's permitted limit.",
+      "Donate the basket in the organization's name and document the donation afterward, treating the absence of personal benefit as sufficient authority for an alternative disposition."
+    ],
+    "answer": 0,
+    "why": "The stated policy covers gifts received after the audit and bases the required action on this gift's value. Reporting and courteously returning the $120 basket follows that policy without assuming an improper motive that the facts do not establish. Dividing the contents does not change the value of the gift received, and an alternative disposition such as donation requires approval that has not been obtained. The handbook supports following applicable gift rules and responding respectfully to differing customs; it does not establish one universal monetary limit for every auditing organization. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 38–39.</span>",
+    "keyPoint": "Apply the governing gift policy even after reporting, and handle the situation courteously without inventing an allegation of bribery.",
+    "trap": "Treating a completed report, shared benefit or charitable destination as an automatic exception to an explicit gift rule.",
+    "distractors": {
+      "1": "The policy expressly applies after assignments. Recording the gift does not satisfy the separate requirement to return an above-limit gift or obtain approval for another disposition.",
+      "2": "The lead auditor received one $120 gift. Dividing its contents afterward does not make the original gift six independently received gifts under the stated rule.",
+      "3": "Donation may be an available authorized disposition, but the policy requires advance ethics-officer approval. Lack of personal benefit does not supply that missing authority."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q083",
+    "set": 2,
+    "batch": 9,
+    "sub": "cqa-physical-measurement-evidence",
+    "bok": "II.B.4",
+    "cognitive": "Evaluate",
+    "stem": "A product audit plan calls for witnessing a bore measurement on an auditor-selected unit. The approved inspection method requires a calibrated bore gage and a trained operator; site work rules restrict gage operation to authorized personnel. The auditor understands the method and can interpret its results but is not authorized to operate this gage. A trained and authorized technician and a suitable gage with verified current calibration are available. Which approach provides the most defensible evidence for the planned examination?",
+    "options": [
+      "Use the auditor's calibrated caliper on the selected bore, repeat the measurement three times, and use the average instead of the prescribed bore-gage method.",
+      "Accept the technician's previously signed result for the selected unit, treating the gage's current calibration record as sufficient evidence that the measurement was correctly performed.",
+      "Observe the authorized technician measure the selected bore using the prescribed method and verified calibrated gage, then record the method, instrument identity and result.",
+      "Ask the technician to explain the gage briefly, then perform the measurement personally under observation so the auditor can claim direct physical evidence of conformity."
+    ],
+    "answer": 2,
+    "why": "Reliable physical evidence depends on an appropriate tool, valid calibration where required, competent use and compliance with applicable work restrictions. The trained, authorized technician can perform the prescribed measurement while the auditor observes and records the evidence. The auditor does not need to operate the instrument personally to obtain useful physical-examination evidence. A calibrated alternative tool is not automatically suitable for the specified method, repeated readings do not establish that suitability, and a brief explanation does not grant the auditor authorization to operate the gage. A prior signed result and calibration record also do not fulfill this plan's stated witnessed examination. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 103.</span>",
+    "keyPoint": "Evaluate the measurement method, tool, calibration, competent use and work restrictions together; observing qualified work can provide reliable physical evidence.",
+    "trap": "Assuming that calibration makes any tool suitable, or that an auditor must personally operate equipment to obtain direct evidence.",
+    "distractors": {
+      "0": "The approved method specifies a bore gage. Calibration and repeated caliper readings do not establish that this substitute meets the method's requirements or measures the characteristic adequately.",
+      "1": "The signed result may be relevant existing evidence, but it does not carry out the planned witnessed measurement. Current calibration alone does not demonstrate correct execution of that measurement.",
+      "3": "The auditor is expressly not authorized to operate the gage. Understanding the method and working under observation do not override the site's stated restriction on instrument operation."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q084",
+    "set": 2,
+    "batch": 9,
+    "sub": "cqa-grouping-controls-unresolved-evidence",
+    "bok": "II.C.1",
+    "cognitive": "Evaluate",
+    "stem": "Complaint-record case. The closing meeting for an internal audit is held on 20 June. The exhibit contains the complete evidence available at the closing meeting for the listed observations. V1–V4 are verified; U1 remains unresolved because the sources conflict and further evidence cannot yet be obtained. The reporting procedure groups verified observations by the specific unmet control, retains their evidence IDs and identifies unresolved contradictions separately. How should the lead organize these observations for reporting?",
+    "options": [
+      "Group V1–V4 into one general complaint-record finding without distinguishing the two control requirements, retain their evidence IDs, and list U1 separately as requiring clarification.",
+      "Issue four separate findings for V1–V4 because each complaint has a different identifier, retain the relevant evidence, and list U1 separately as an unresolved observation.",
+      "Group V1/V2 under section 2 and V3/V4/U1 under section 5, retain all evidence IDs, and treat the unresolved message discrepancy as another confirmed closure failure.",
+      "Group V1/V2 under section 2 and V3/V4 under section 5, retain their evidence IDs, and report U1 separately as an unresolved observation requiring clarification."
+    ],
+    "answer": 3,
+    "why": "V1 and V2 establish late recording of the assigned owner under CR-4 section 2. V3 and V4 establish customer closure messages sent and recorded after closed status under section 5. Grouping by those two unmet controls follows the stated reporting procedure while retaining the examples that support each finding. U1 does not yet establish whether section 5 was met, so it should remain an explicitly unresolved observation requiring clarification. Shared control failures do not by themselves establish a shared root cause, and the owner-record gaps do not prove that no person had actually been assigned. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 104, 110, 122.</span>",
+    "keyPoint": "Organize verified evidence around the specific unmet controls while preserving identifiers and separating unresolved contradictions from confirmed nonconformities.",
+    "trap": "Grouping only by record count or a broad process label, or allowing contradictory evidence to inflate the confirmed findings.",
+    "distractors": {
+      "0": "A broad complaint-record heading obscures the two distinct unmet controls. The stated procedure calls for grouping by the specific control while retaining the supporting observations.",
+      "1": "Different complaint identifiers identify separate evidence examples, not necessarily separate control findings. The procedure calls for linking the two observations supporting each unmet control.",
+      "2": "U1's sources conflict and the needed corroboration is unavailable. Including it as a confirmed section 5 failure overstates what the evidence available at the closing meeting establishes."
+    },
+    "caseId": "cqa-set2-complaint-records-01",
+    "chart": {
+      "type": "data-table",
+      "title": "Complaint-record case: requirements and evidence available at the closing meeting",
+      "columns": [
+        "Reference",
+        "Verified requirement or available evidence"
+      ],
+      "rows": [
+        [
+          "CR-4, section 2",
+          "Record the assigned complaint owner before investigation begins."
+        ],
+        [
+          "CR-4, section 5",
+          "Send the customer closure message and record it in the complaint file before setting the complaint status to closed."
+        ],
+        [
+          "V1 — complaint C101",
+          "Verified audit trail: investigation began 4 June at 09:00; the assigned owner was first recorded at 12:00 that day."
+        ],
+        [
+          "V2 — complaint C109",
+          "Verified audit trail: investigation began 7 June at 10:00; the assigned owner was first recorded at 16:00 that day."
+        ],
+        [
+          "V3 — complaint C112",
+          "Verified records: status changed to closed on 10 June; the customer closure message was sent and recorded on 11 June."
+        ],
+        [
+          "V4 — complaint C118",
+          "Verified records: status changed to closed on 14 June; the customer closure message was sent and recorded on 16 June."
+        ],
+        [
+          "U1 — complaint C125",
+          "Status changed to closed on 18 June. Its case log records a closure message on 17 June, but the retrieved message copy concerns C152. Whether the required C125 message was sent and recorded before closure remains unresolved."
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q085",
+    "set": 2,
+    "batch": 9,
+    "sub": "cqa-supplemental-report-clarification",
+    "bok": "II.C.3",
+    "cognitive": "Apply",
+    "stem": "Complaint-record case. The closing meeting for an internal audit is held on 20 June. The exhibit contains the complete evidence available at the closing meeting for the listed observations. V1–V4 are verified; U1 remains unresolved because the sources conflict and further evidence cannot yet be obtained. The reporting procedure groups verified observations by the specific unmet control, retains their evidence IDs and identifies unresolved contradictions separately. The issued report retains V1–V4 as confirmed observations and identifies U1 as unresolved. On 24 June, the team authenticates the original C125 message and server record, confirming that its customer closure message was sent and recorded on 17 June, before closed status on 18 June. Local procedure AP-7 requires audit-manager approval of supplemental reports, distribution to the original recipients and retention with the original report. What should happen next?",
+    "options": [
+      "Revise the original report in place to remove U1, recirculate it after manager approval, and replace the superseded record so recipients have one current version.",
+      "Obtain approval for a supplemental clarification of U1, send it to the original recipients, and retain both reports and supporting evidence; V1–V4 remain unchanged.",
+      "Retain U1 as unresolved until the next audit can reconfirm the message, file the new evidence, and leave the issued report as the sole communication.",
+      "Send a clarification directly to the complaint owner, close U1 in the working papers, and defer manager approval and recipient distribution to the next scheduled report."
+    ],
+    "answer": 1,
+    "why": "The original report accurately identified an unresolved contradiction. The later authenticated evidence resolves the same complaint, communication and timing question: C125's required message was sent and recorded before closure. A supplemental report can clarify that original observation. Following AP-7 means obtaining the specified approval, informing the original recipients, and preserving the original report, supplement and supporting evidence in the audit record. The clarification does not negate the separately verified owner-recording and closure-message failures in V1–V4. It also does not require describing the accurate original uncertainty as an erroneous confirmed finding. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 104, 119, 130–131.</span>",
+    "keyPoint": "Clarify resolved report uncertainties through the authorized supplemental-report process while preserving history and unaffected findings.",
+    "trap": "Erasing the original report history, leaving resolved uncertainty uncommunicated, or extending one clarification to unrelated confirmed observations.",
+    "distractors": {
+      "0": "Replacing the original record conflicts with the stated requirement to retain the supplemental report with the original. The report's accurate historical uncertainty should remain traceable to the later clarification.",
+      "2": "The team has already authenticated evidence resolving the stated question. No remaining uncertainty or procedure requires waiting for the next audit before communicating the clarification.",
+      "3": "A message to one complaint owner and a working-paper update do not meet the required approval and distribution process. The original report recipients need the authorized clarification."
+    },
+    "caseId": "cqa-set2-complaint-records-01",
+    "chart": {
+      "type": "data-table",
+      "title": "Complaint-record case: requirements and evidence available at the closing meeting",
+      "columns": [
+        "Reference",
+        "Verified requirement or available evidence"
+      ],
+      "rows": [
+        [
+          "CR-4, section 2",
+          "Record the assigned complaint owner before investigation begins."
+        ],
+        [
+          "CR-4, section 5",
+          "Send the customer closure message and record it in the complaint file before setting the complaint status to closed."
+        ],
+        [
+          "V1 — complaint C101",
+          "Verified audit trail: investigation began 4 June at 09:00; the assigned owner was first recorded at 12:00 that day."
+        ],
+        [
+          "V2 — complaint C109",
+          "Verified audit trail: investigation began 7 June at 10:00; the assigned owner was first recorded at 16:00 that day."
+        ],
+        [
+          "V3 — complaint C112",
+          "Verified records: status changed to closed on 10 June; the customer closure message was sent and recorded on 11 June."
+        ],
+        [
+          "V4 — complaint C118",
+          "Verified records: status changed to closed on 14 June; the customer closure message was sent and recorded on 16 June."
+        ],
+        [
+          "U1 — complaint C125",
+          "Status changed to closed on 18 June. Its case log records a closure message on 17 June, but the retrieved message copy concerns C152. Whether the required C125 message was sent and recorded before closure remains unresolved."
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q086",
+    "set": 2,
+    "batch": 9,
+    "sub": "cqa-digital-evidence-incident-communication",
+    "bok": "III.D",
+    "cognitive": "Apply",
+    "stem": "An auditor used an approved encrypted tablet to photograph confidential audit records with the auditee's permission. The tablet is stolen during the return journey. Available information does not show whether anyone has accessed the files. The agreed audit arrangements identify an auditee security contact and a client contact for such incidents. Which communication best addresses the loss?",
+    "options": [
+      "Inform the client that encryption makes disclosure unlikely, and defer contacting the auditee until the device is recovered or access is confirmed.",
+      "Complete an exact inventory of every stored photograph before notifying either contact, so the first notice contains a fully resolved exposure assessment.",
+      "Tell both contacts that the loss confirms disclosure of the stored records, and frame the initial report around the presumed recipients of that information.",
+      "Promptly notify the designated contacts of the loss, the known contents and protections, and what remains unknown; update the account as facts are established."
+    ],
+    "answer": 3,
+    "why": "Authorized recording still creates evidence that the auditor must safeguard. Loss of the device is a security incident that must be reported to the auditee through the agreed arrangements. The initial notice should distinguish the established theft, known contents and protections from the unresolved question of access. Encryption does not establish that notification is unnecessary, while theft does not establish that the records were actually disclosed. A complete investigation need not precede the initial factual notice; the responsible contacts can coordinate the response and receive updates as more is learned. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 164.</span>",
+    "keyPoint": "Report loss of authorized electronic audit evidence through the agreed contacts, separating verified facts from uncertainties about access or disclosure.",
+    "trap": "Treating encryption as a reason to withhold notification, or treating loss of a device as proof that its contents were disclosed.",
+    "distractors": {
+      "0": "The device contained the auditee's confidential evidence. Encryption is relevant information for the response, but it does not justify withholding notice from the designated auditee contact until recovery or proof of access.",
+      "1": "An exact inventory may improve later updates, but waiting for a fully resolved exposure assessment delays reporting the known loss. The initial notice can state what is known and identify information still being established.",
+      "2": "The theft is established; unauthorized access and disclosure are not. Presenting presumed recipients or disclosure as facts overstates the evidence and can misdirect the response."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q087",
+    "set": 2,
+    "batch": 9,
+    "sub": "cqa-group-interview-purpose",
+    "bok": "III.E",
+    "cognitive": "Apply",
+    "stem": "An audit objective is to understand how a launch team jointly resolves conflicting engineering, production, and service requirements before approving design changes. Members use live discussion to reconcile competing constraints. Completed change records show decisions but not how different contributions are raised and reconciled. Individual interviews and record review remain available. Which interview plan best supplies evidence about the team's interaction as well as its reported decisions?",
+    "options": [
+      "Interview each member separately and reconstruct the interaction from their accounts, treating observed group discussion as unnecessary once the answers broadly agree.",
+      "Conduct a focused group interview on a recent change, invite contributions from different functions, and corroborate statements through records and individual follow-up.",
+      "Ask the team leader to present the agreed decision while members listen, then use the absence of objections as evidence that competing requirements were considered.",
+      "Have the group produce one consensus account before the interview and question its spokesperson, using uniform answers as evidence of effective team interaction."
+    ],
+    "answer": 1,
+    "why": "Understanding team interaction provides a specific reason to use a group interview. A focused discussion of a recent change lets the auditor hear contributions from different functions and observe how the members interact, while records and individual follow-up corroborate what they say. The group setting does not make agreement, silence, or a spokesperson's account sufficient evidence of how competing requirements were handled. Individual interviews can add valuable information, but broad agreement among separate accounts does not replace the opportunity to examine interaction when that is an explicit audit objective. The method is selected for its evidentiary purpose, with follow-up suited to what the discussion reveals. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 167, 169.</span>",
+    "keyPoint": "Choose a group interview when the evidence objective justifies observing team interaction, and corroborate the participants' statements rather than treating consensus as verification.",
+    "trap": "Confusing a uniform group answer or an unchallenged leader's account with evidence that individual contributions and competing requirements were considered.",
+    "distractors": {
+      "0": "Separate interviews can supply useful accounts, but their broad agreement does not establish that observing the team's interaction is unnecessary. The stated objective gives a specific reason to include a focused group discussion.",
+      "2": "A leader's presentation and the others' silence do not establish how differing contributions were raised or reconciled. The auditor should obtain contributions and corroborating evidence instead of treating a lack of objections as confirmation.",
+      "3": "Preparing one account and routing it through a spokesperson filters out the interaction the audit seeks to understand. Uniform answers may reflect preparation or deference rather than effective handling of conflicting requirements."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q088",
+    "set": 2,
+    "batch": 9,
+    "sub": "cqa-strategic-initiative-audit-evidence",
+    "bok": "IV.B.1",
+    "cognitive": "Analyze",
+    "stem": "The strategic plan calls for customer rework to remain at or below 3% at each of two service sites after a revised handoff process is introduced. Both sites have issued the instructions and completed training. An audit independently verifies comparable quarterly rework rates of 2% at North and 7% at South, using the agreed definitions. Management asks what these results mean for its review of the initiative. Which audit message is best supported?",
+    "options": [
+      "Report the completed rollout milestones and different site outcomes, identify the unresolved performance gap, and provide evidence for management's review of deployment and effectiveness.",
+      "Report successful deployment because both sites completed training, and treat the rework results as operational details for owners to monitor outside the strategic review.",
+      "Combine the two sites' percentages into one unweighted average, and judge the initiative against that figure because the strategic plan concerns the whole organization.",
+      "Report that the revised handoff method caused South's higher rework, and recommend replacing the strategy before management evaluates other possible contributors."
+    ],
+    "answer": 0,
+    "why": "Audit information can give management an independent view of how a strategic initiative is deployed and whether its objectives are being achieved. Issued instructions and completed training are relevant rollout milestones, but they do not establish consistent application or the intended results. North's reported rate meets the stated site target; South's does not. The report should preserve that distinction and support management's examination of deployment and effectiveness. The supplied information does not establish why South's rate is higher or that the revised method caused it. Management retains the strategic decisions, informed by the audit evidence. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 212, 215.</span>",
+    "keyPoint": "Relate verified deployment evidence and performance results to the stated strategic objectives, preserving material differences for management's decisions.",
+    "trap": "Equating completed rollout activities with effectiveness, or turning different outcomes into an unsupported causal conclusion.",
+    "distractors": {
+      "1": "Training completion does not establish that the revised process is consistently applied or achieving its objective. Rework is an explicit strategic measure here, so excluding it from the strategic review would omit material information.",
+      "2": "The stated target applies to each site, so an overall figure cannot replace the site-level assessment. An unweighted average also need not represent the combined rework rate when the sites' work volumes differ.",
+      "3": "The rates establish a performance difference, not its cause. Attributing South's result to the revised method and proposing replacement before relevant contributors are examined overstates what the audit evidence supports."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q089",
+    "set": 2,
+    "batch": 9,
+    "sub": "cqa-electronic-approval-attribution",
+    "bok": "IV.A.10",
+    "cognitive": "Apply",
+    "stem": "A release-approval procedure requires each approval to be attributable to an authorized reviewer. At a shared inspection workstation, completed records display a typed reviewer name and time, while the screen session uses a common login. IT says that separate individual signing controls may operate behind the screen but has not demonstrated them. The auditor has not yet examined authentication or change records. Which next check best tests the approval requirement?",
+    "options": [
+      "Compare typed names with the authorized-reviewer roster and training records, then accept the matched entries as proof that those people performed the approvals.",
+      "Check that approval timestamps precede shipment and that the sampled products passed inspection, then use those results to establish the identity of each approver.",
+      "Trace sampled approval events to person-specific authentication or other attributable evidence, and examine who can enter or alter the approval and its history.",
+      "Ask the quality manager to confirm that reviewers follow the procedure, then rely on that confirmation instead of examining the system's approval controls."
+    ],
+    "answer": 2,
+    "why": "The auditor needs to establish how an approval event is linked to the authorized individual and how that link and the record are protected from uncontrolled change. A shared workstation or session could still support separate, valid individual signing controls; their existence and operation must be examined. Conversely, a displayed name and timestamp do not by themselves demonstrate who performed the approval. Tracing selected events and examining access and change controls addresses the stated requirement without assuming that the shared session proves forgery or that every typed name is invalid. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 72–73, 102.</span>",
+    "keyPoint": "Verify the link between an electronic approval, its authorized individual, and the controls protecting that attribution and record history.",
+    "trap": "Treating a displayed name as sufficient proof of identity, or treating a shared workstation as sufficient proof of fraud.",
+    "distractors": {
+      "0": "The roster and training records can show who was authorized and qualified, but matching a typed name to that list does not establish who actually executed the sampled approval.",
+      "1": "Approval timing and satisfactory inspection results address other release questions. Neither establishes the identity of the person who performed an electronic approval or protects its attribution from alteration.",
+      "3": "The manager's account may guide the investigation, but it does not demonstrate the individual signing mechanism or corroborate the sampled events. The relevant system controls and records still need examination."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q090",
+    "set": 2,
+    "batch": 9,
+    "sub": "cqa-capability-spread-and-centering",
+    "bok": "V.D.2",
+    "cognitive": "Understand",
+    "stem": "A stable process has fixed two-sided specification limits and an appropriate normal-distribution capability model. Its report uses the same justified within-process sigma estimate for both indices and gives Cp = 1.50 and Cpk = 0.95. No customer acceptance cutoff is stated. Which explanation correctly distinguishes what these indices describe?",
+    "options": [
+      "Cp compares specification width with process spread; the lower Cpk indicates that the mean is off-center, reducing the margin to the nearer limit.",
+      "Cp measures distance to the nearer limit, while Cpk compares total widths; the difference shows that spread, rather than location, is the limitation.",
+      "Cp considers both limits, while Cpk evaluates only the upper limit; the lower Cpk identifies the upper limit as the closer boundary.",
+      "Cp describes the stable condition, while Cpk adds changes over time; the difference demonstrates that the process has subsequently gone out of control."
+    ],
+    "answer": 0,
+    "why": "Cp compares the specification width with the process spread represented by six sigma. Cpk uses the smaller standardized distance from the process mean to either specification limit, so it also reflects centering. With the same justified sigma and a valid stable-process model, Cpk being below Cp indicates that the mean is away from the specification midpoint and has less margin on one side. The pair does not identify which limit is nearer, demonstrate a later loss of control, or supply an unstated customer acceptance threshold. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 281.</span>",
+    "keyPoint": "Cp describes spread relative to specification width; Cpk also reflects the mean's position through its distance to the nearer specification limit.",
+    "trap": "Reversing the roles of spread and centering, or using the Cp–Cpk difference to infer a particular limiting side or process instability.",
+    "distractors": {
+      "1": "This reverses the roles of the indices. Cp compares widths, while Cpk uses the nearer limit and therefore responds to the mean's location as well as process spread.",
+      "2": "Cpk takes the smaller of the upper-side and lower-side standardized distances. Its value alone does not identify which side supplied that minimum.",
+      "3": "Cpk does not become a time-change or loss-of-control measure merely because it is lower than Cp. The stem establishes stability; the difference here concerns centering under the stated model."
     }
   }
 ];
