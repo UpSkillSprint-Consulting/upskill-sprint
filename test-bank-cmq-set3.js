@@ -1663,7 +1663,7 @@
         "Customer base"
       ],
       "answer": 3,
-      "why": "The handbook's figure lists societal, competition, economic, regulatory and technology changes as external factors, and organization structure, customer base, supplier base and internal capability as internal factors. A common error is to file the customer base with the external changes (Chapter 6, p. 100). <b>D. Customer base</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 6, p. 100.</span>",
+      "why": "The handbook's figure lists societal, competition, economic, regulatory and technology changes as external factors, and organization structure, customer base, supplier base and internal capability as internal factors. The customer base sits on the internal side of the model, with the supplier base (Chapter 6, p. 100). <b>D. Customer base</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 6, p. 100.</span>",
       "set": 3,
       "sourceQuestion": 110,
       "qid": "cmq:set-3:source-110"
