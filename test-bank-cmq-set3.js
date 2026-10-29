@@ -1,6 +1,6 @@
 /*
  * ASQ CMQ/OE Exam Set 3 — original practice questions.
- * Batches 1–8: Q001–Q160. Planned bank: 165 questions, added in reviewed batches of 20.
+ * Complete: Q001–Q165, released in eight reviewed batches of 20 plus a final batch of 5.
  * 2026 BoK target counts: I 28 / II 23 / III 26 / IV 31 / V 22 / VI 19 / VII 16.
  * Batch 1 counts: I 4 / II 3 / III 3 / IV 4 / V 2 / VI 2 / VII 2.
  * Batch 2 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
@@ -10,6 +10,7 @@
  * Batch 6 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
  * Batch 7 counts: I 3 / II 3 / III 3 / IV 3 / V 3 / VI 3 / VII 2.
  * Batch 8 counts: I 4 / II 3 / III 3 / IV 4 / V 2 / VI 2 / VII 2.
+ * Final batch (Q161–Q165) counts: I 1 / III 1 / IV 1 / V 1 / VI 1. Totals match the blueprint.
  * Handbook citations use printed page numbers (printed page = PDF sheet − 25).
  * Items on 2026 BoK topics the 5th-edition handbook does not cover cite the named outside source.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
@@ -2416,6 +2417,81 @@
       "set": 3,
       "sourceQuestion": 160,
       "qid": "cmq:set-3:source-160"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "A certified quality manager with no software background is asked by a client to validate the code in a medical device's control software, a task outside her training and experience. Under the ASQ Code of Ethics, what should she do?",
+      "options": [
+        "Decline or bring in qualified help for the code work",
+        "Accept, since her certification covers all quality work",
+        "Accept, but note her lack of experience in the report",
+        "Accept only if the client agrees not to review her work"
+      ],
+      "answer": 0,
+      "why": "Under the ASQ Code of Ethics, quality professionals act with integrity and honesty, which includes offering services, providing advice and undertaking assignments only in their areas of competence, expertise and training, and accurately representing their professional qualifications. Taking the job and disclosing the gap afterward does not meet that standard (Chapter 4, p. 84). <b>A. Decline or bring in qualified help for the code work</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 4, p. 84.</span>",
+      "set": 3,
+      "sourceQuestion": 161,
+      "qid": "cmq:set-3:source-161"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A hotel wants a quick gauge of guest satisfaction, so desk staff record whether each guest stops to chat at checkout. A study of guests who were both observed and interviewed shows that those who stopped to chat were in fact more satisfied. What kind of validity has the hotel shown for its chat measure?",
+      "options": [
+        "Face validity",
+        "Content validity",
+        "Construct validity",
+        "Test-retest reliability"
+      ],
+      "answer": 2,
+      "why": "Construct-related validity uses one variable to predict another through a pseudovariable, a construct believed to be related. The handbook's example uses how much shoppers smile to predict satisfaction; if a sample who were both observed and interviewed confirms the link, the measure has construct validity. Content validity concerns how well a measure covers the full range of performance it might be used for, and reliability concerns consistency rather than accuracy (Chapter 15, p. 442). <b>C. Construct validity</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 15, p. 442.</span>",
+      "set": 3,
+      "sourceQuestion": 162,
+      "qid": "cmq:set-3:source-162"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "A contract manufacturer is offered a large order from a new customer that needs weekly engineering changes, special packaging and electronic data exchange the plant has never handled. Before pursuing it, which question does the handbook say to ask?",
+      "options": [
+        "Will this order raise our total revenue for the year?",
+        "Can we match the lowest competing quote the customer has?",
+        "Has the customer worked with any of our competitors?",
+        "Does this customer fit our processes and capabilities?"
+      ],
+      "answer": 3,
+      "why": "Organizations need to evaluate each potential sales opportunity to decide whether it is worth pursuing, asking specifically whether the potential customer fits well with existing service processes and capabilities. Once focus areas are decided, customers can be ranked so that research anticipates the needs of key customers, generally those that generate the most profit, have high profit potential or are highly visible. Revenue alone can hide the cost of serving a poor fit (Chapter 17, p. 503). <b>D. Does this customer fit our processes and capabilities?</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 17, p. 503.</span>",
+      "set": 3,
+      "sourceQuestion": 163,
+      "qid": "cmq:set-3:source-163"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "A quality director learns that the only person qualified to run the plant's metrology lab plans to retire in a year, and no one has been prepared to step in. Which of a function manager's human resource responsibilities, as listed in the handbook, was neglected?",
+      "options": [
+        "Treating all employees in the function fairly and justly",
+        "Maintaining a succession plan for key positions",
+        "Using a coaching style with timely performance feedback",
+        "Recognizing employees promptly for work done well"
+      ],
+      "answer": 1,
+      "why": "The handbook's list of a function manager's human resource responsibilities includes learning and applying a coaching style with feedback and recognition, supporting the continual development of the function's personnel, creating and maintaining a succession plan for key positions within the function, and treating all employees fairly and justly. A key position with no prepared successor shows that the succession plan was missing (Chapter 8, p. 164). <b>B. Maintaining a succession plan for key positions</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 8, p. 164.</span>",
+      "set": 3,
+      "sourceQuestion": 164,
+      "qid": "cmq:set-3:source-164"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "To deepen relationships and cut costs, a purchaser has reduced its suppliers for most commodities to one each. One of these is a specialty alloy whose interruption would halt production for weeks. What does the handbook suggest for this item?",
+      "options": [
+        "Keep the single source, since fewer suppliers is always better",
+        "Return to many suppliers for every commodity",
+        "Qualify an additional source for this critical item",
+        "Buy only on price, order by order, on the spot market"
+      ],
+      "answer": 2,
+      "why": "Purchasers strive to reduce the number of suppliers for a given product or service, because fewer suppliers with longer-term relationships let them invest more in working together to improve quality and reduce costs. However, for critical items it may be wise to identify and qualify additional sources to reduce supply chain risks (Chapter 18, p. 514). <b>C. Qualify an additional source for this critical item</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, p. 514.</span>",
+      "set": 3,
+      "sourceQuestion": 165,
+      "qid": "cmq:set-3:source-165"
     }
   ];
 })(window);

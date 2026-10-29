@@ -1,6 +1,6 @@
 # CMQ/OE Set 3 — source audit
 
-Original practice questions for the CMQ/OE test bank, Set 3. Planned size 165 (2026 BoK: I 28 / II 23 / III 26 / IV 31 / V 22 / VI 19 / VII 16), added in batches of 20.
+Original practice questions for the CMQ/OE test bank, Set 3: 165 questions, complete, matching the 2026 BoK blueprint (I 28 / II 23 / III 26 / IV 31 / V 22 / VI 19 / VII 16). Released in eight batches of 20 and a final batch of 5.
 
 Handbook = *The ASQ CMQ/OE Handbook*, 5th ed. (Furterer & Wood, 2021). Every page reference is the printed folio on the book page (top left on even pages, top right on odd pages; chapter-opening pages carry it at the foot), never the PDF sheet position. Printed page = PDF sheet − 25 throughout the body. Each cited page was checked by script for the quoted key terms, and the chapter running head was checked against the cited chapter.
 
@@ -221,3 +221,15 @@ Batch 7 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent 
 | 160 | cmq-training | VII.C | Apply | B | Handbook Ch. 19, p. 556 | p. 556: “task- centered”; p. 556: “need to know why” |
 
 Batch 8 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent same-domain items across batch boundaries. 2026 BoK additions: process reliability, as a series-system calculation (NIST/SEMATECH e-Handbook §8.1.8.2; nearest handbook p. 440, weakest element), and AI and cybersecurity (NIST CSF 2.0 Govern function; nearest handbook pp. 112–113 on technology). The ethics item ties the 2026 ESG and social-responsibility emphasis to the handbook's ISO 26000 note (p. 85).
+
+## Final batch (Q161–Q165)
+
+| Q | Domain | BoK | Level | Key | Source | Terms verified on page |
+|---|---|---|---|---|---|---|
+| 161 | cmq-lead | I.D | Apply | A | Handbook Ch. 4, p. 84 | p. 84: “only in your areas of competence, expertise, and training”; p. 84: “Accurately represent” |
+| 162 | cmq-tools | IV.C.1 | Analyze | C | Handbook Ch. 15, p. 442 | p. 442: “Construct-related validity”; p. 442: “pseudovariable”; p. 442: “Content-related validity” |
+| 163 | cmq-customer | V.B.4 | Evaluate | D | Handbook Ch. 17, p. 503 | p. 503: “Does this potential customer fit well with our existing service processes and capabilities?”; p. 503: “key customers” |
+| 164 | cmq-management | III.A.4 | Apply | B | Handbook Ch. 8, p. 164 | p. 164: “succession plan for key positions”; p. 164: “coaching style” |
+| 165 | cmq-supply | VI.B | Evaluate | C | Handbook Ch. 18, p. 514 | p. 514: “reduce the number of suppliers”; p. 514: “identify and qualify additional sources” |
+
+Final batch checks (Q161–Q165): one item each for I, III, IV, V and VI completes the blueprint exactly. Keys A, C, D, B, C, so Set 3 finishes A41 / B41 / C42 / D41 with no repeated key letters in a row. All five cite handbook pages only.

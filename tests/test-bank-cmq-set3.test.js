@@ -1,6 +1,6 @@
 'use strict';
-// CMQ/OE Set 3 is released in reviewed batches of 20 toward 165 questions.
-// These checks cover the data contract for every released batch and the learner-facing Set 3 flow.
+// CMQ/OE Set 3: 165 original questions, released in eight reviewed batches of 20 and a final batch of 5.
+// These checks cover the data contract for every batch, the completed blueprint and the learner-facing Set 3 flow.
 const assert = require('node:assert/strict');
 const test = require('node:test');
 const { afterEach } = require('node:test');
@@ -19,9 +19,9 @@ const SET1 = context.window.CMQ_SET1;
 const SET2 = context.window.CMQ_SET2;
 const SET3 = context.window.CMQ_SET3;
 
-const BATCH = 20;
 const PLANNED = 165;
-// Per-batch domain allocation; the seven domains must reach 28/23/26/31/22/19/16 by Q165.
+const BLUEPRINT = { 'cmq-lead': 28, 'cmq-strategy': 23, 'cmq-management': 26, 'cmq-tools': 31, 'cmq-customer': 22, 'cmq-supply': 19, 'cmq-training': 16 };
+// Per-batch domain allocation; the batches sum to the 2026 BoK blueprint above.
 const BATCH_COUNTS = [
   { 'cmq-lead': 4, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 2, 'cmq-supply': 2, 'cmq-training': 2 },
   { 'cmq-lead': 3, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 3, 'cmq-supply': 2, 'cmq-training': 2 },
@@ -30,8 +30,14 @@ const BATCH_COUNTS = [
   { 'cmq-lead': 3, 'cmq-strategy': 2, 'cmq-management': 4, 'cmq-tools': 3, 'cmq-customer': 3, 'cmq-supply': 3, 'cmq-training': 2 },
   { 'cmq-lead': 3, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 3, 'cmq-supply': 2, 'cmq-training': 2 },
   { 'cmq-lead': 3, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 3, 'cmq-customer': 3, 'cmq-supply': 3, 'cmq-training': 2 },
-  { 'cmq-lead': 4, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 2, 'cmq-supply': 2, 'cmq-training': 2 }
+  { 'cmq-lead': 4, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 2, 'cmq-supply': 2, 'cmq-training': 2 },
+  { 'cmq-lead': 1, 'cmq-management': 1, 'cmq-tools': 1, 'cmq-customer': 1, 'cmq-supply': 1 }
 ];
+const sizeOf = counts => Object.values(counts).reduce((a, b) => a + b, 0);
+const BATCHES = BATCH_COUNTS.reduce((list, counts) => {
+  const start = list.length ? list[list.length - 1].end : 0;
+  return list.concat({ counts, start, end: start + sizeOf(counts) });
+}, []);
 const HANDBOOK = /The ASQ CMQ\/OE Handbook, 5th ed\. \(Furterer &amp; Wood\), Chapter \d+, pp?\. \d+/;
 const OUTSIDE = /ASQ CMQ\/OE Body of Knowledge \(2026\), Part [IVX]+/;
 
@@ -58,15 +64,17 @@ function click(window, element) {
   element.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
 }
 
-test('CMQ/OE Set 3 holds whole reviewed batches with the planned domain counts', () => {
-  assert.ok(SET3.length > 0 && SET3.length <= PLANNED);
-  assert.equal(SET3.length % BATCH, 0, 'Set 3 is released in whole batches of 20');
-  assert.equal(SET3.length / BATCH, BATCH_COUNTS.length, 'every released batch has a declared domain allocation');
-  BATCH_COUNTS.forEach((expected, b) => {
+test('CMQ/OE Set 3 is complete: every batch has its declared domain counts and the total matches the blueprint', () => {
+  assert.equal(SET3.length, PLANNED);
+  assert.equal(BATCHES[BATCHES.length - 1].end, SET3.length, 'the declared batches account for every question');
+  BATCHES.forEach(({ counts: expected, start, end }, b) => {
     const counts = {};
-    SET3.slice(b * BATCH, (b + 1) * BATCH).forEach(q => { counts[q.sub] = (counts[q.sub] || 0) + 1; });
+    SET3.slice(start, end).forEach(q => { counts[q.sub] = (counts[q.sub] || 0) + 1; });
     assert.deepEqual(counts, expected, `batch ${b + 1} domain counts`);
   });
+  const totals = {};
+  SET3.forEach(q => { totals[q.sub] = (totals[q.sub] || 0) + 1; });
+  assert.deepEqual(totals, BLUEPRINT);
 });
 
 test('every Set 3 question meets the bank schema and cites its source', () => {
@@ -93,19 +101,21 @@ test('every Set 3 question meets the bank schema and cites its source', () => {
 });
 
 test('each Set 3 batch has a balanced key, short runs and interleaved domains', () => {
-  for (let b = 0; b * BATCH < SET3.length; b += 1) {
-    const batch = SET3.slice(b * BATCH, (b + 1) * BATCH);
+  BATCHES.filter(({ start, end }) => end - start === 20).forEach(({ start, end }, b) => {
     const counts = [0, 0, 0, 0];
-    batch.forEach(q => { counts[q.answer] += 1; });
+    SET3.slice(start, end).forEach(q => { counts[q.answer] += 1; });
     assert.deepEqual(counts, [5, 5, 5, 5], `batch ${b + 1} uses each letter five times`);
-  }
+  });
+  const totals = [0, 0, 0, 0];
+  SET3.forEach(q => { totals[q.answer] += 1; });
+  assert.ok(Math.max(...totals) - Math.min(...totals) <= 1, `whole-set key is balanced (${totals.join('/')})`);
   SET3.forEach((q, i) => {
     if (i >= 2) assert.ok(!(q.answer === SET3[i - 1].answer && q.answer === SET3[i - 2].answer), `no key run of 3 ending at ${i + 1}`);
     if (i >= 1) assert.notEqual(q.sub, SET3[i - 1].sub, `questions ${i} and ${i + 1} come from different domains`);
   });
 });
 
-test('CMQ/OE lists Set 3 as selectable with its batch progress for every mode', async () => {
+test('CMQ/OE lists the complete Set 3 as selectable for every mode', async () => {
   const { window, errors } = await loadPage();
   click(window, window.document.querySelector('.tb-tile[data-exam="cmq"]'));
   let overview = window.document.getElementById('tb-overview');
@@ -118,7 +128,7 @@ test('CMQ/OE lists Set 3 as selectable with its batch progress for every mode', 
   overview = window.document.getElementById('tb-overview');
   assert.equal(overview.querySelector('.tb-setpick [data-set="3"]').getAttribute('aria-pressed'), 'true');
   const note = overview.querySelector('.tb-setnote').textContent;
-  assert.match(note, new RegExp(`${SET3.length} of ${PLANNED} planned questions`));
+  assert.doesNotMatch(note, /planned questions/, 'a complete Set 3 no longer shows a batch-progress note');
   // A Full Exam never exceeds the exam's question count (150 for CMQ/OE), even once Set 3 holds more.
   const fullCount = Math.min(SET3.length, window.__TB.EXAMS.cmq.questions);
   assert.match(note, new RegExp(`A Full Exam currently serves ${fullCount} questions`));

@@ -1,6 +1,6 @@
 'use strict';
 // Regression guard for the protected delivery path learners actually receive:
-// the private CMQ package must carry Sets 2 and 3 and render Set 1, Set 2, the partial Set 3 and Mixed.
+// the private CMQ package must carry Sets 2 and 3 and render Set 1, Set 2, the complete Set 3 and Mixed.
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -10,7 +10,7 @@ const { JSDOM } = require('jsdom');
 
 const root = path.join(__dirname, '..');
 
-test('private CMQ/OE package renders Set 1, Set 2, the partial Set 3 and Mixed', async () => {
+test('private CMQ/OE package renders Set 1, Set 2, the complete Set 3 and Mixed', async () => {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'cmq-set2-delivery-'));
   try {
     for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
@@ -32,18 +32,18 @@ test('private CMQ/OE package renders Set 1, Set 2, the partial Set 3 and Mixed',
     const doc = w.document;
     const full = [...doc.querySelectorAll('#tb-overview .tb-setpick [data-set]')];
     assert.deepEqual(full.map(b => [b.dataset.set, b.querySelector('.tb-sets').textContent, b.disabled]),
-      [['1', '166', false], ['2', '165', false], ['3', '160', false], ['mix', '491', false]]);
+      [['1', '166', false], ['2', '165', false], ['3', '165', false], ['mix', '496', false]]);
     for (const kind of ['quick', 'focus']) {
       const quiz = [...doc.querySelectorAll('[data-quiz-set-kind="' + kind + '"]')];
       assert.deepEqual(quiz.map(b => [b.dataset.quizSet, b.disabled]),
         [['1', false], ['2', false], ['3', false], ['mix', false]], kind + ' quiz set choices');
-      assert.equal(quiz[3].title, '491 available questions');
+      assert.equal(quiz[3].title, '496 available questions');
     }
-    // Set 3 is a partial, batch-released set: it can be chosen and says how many of 165 are live.
+    // Set 3 is complete (165 questions): it can be chosen, and its Full Exam serves the 150-question CMQ/OE length.
     full[2].click();
     await new Promise(resolve => setTimeout(resolve, 50));
     const pressed = [...doc.querySelectorAll('#tb-overview .tb-setpick [data-set][aria-pressed="true"]')].map(b => b.dataset.set);
     assert.deepEqual(pressed, ['3'], 'Set 3 can be the Full Exam set');
-    assert.match(doc.querySelector('#tb-overview .tb-setnote').textContent, /160 of 165 planned questions/);
+    assert.match(doc.querySelector('#tb-overview .tb-setnote').textContent, /Full Exam draws only from Set 3 questions\. Empty sets stay on this list[\s\S]*A Full Exam currently serves 150 questions/);
   } finally { fs.rmSync(temp, { recursive: true, force: true }); }
 });
