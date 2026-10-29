@@ -71,7 +71,7 @@ def main():
             })""")
         def independence(exam):
             reset(exam)
-            choices=page.locator('[data-quiz-set-kind="quick"]').evaluate_all('(buttons)=>buttons.map(b=>b.dataset.quizSet)')
+            choices=page.locator('[data-quiz-set-kind="quick"]').evaluate_all('(buttons)=>buttons.filter(b=>!b.disabled).map(b=>b.dataset.quizSet)')
             quick=choices[1] if len(choices)>1 else choices[0]
             focus=choices[-2] if len(choices)>2 else choices[0]
             choose('quick',quick);choose('focus',focus)
