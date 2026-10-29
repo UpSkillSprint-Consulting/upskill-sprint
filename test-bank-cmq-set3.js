@@ -35,7 +35,7 @@
         "Change the procedures so that similar cracking problems cannot recur"
       ],
       "answer": 0,
-      "why": "After forming the team (D1) and describing the problem (D2), 8D calls for an interim containment plan (D3) that isolates the problem from the customer while the root cause is found. Root-cause analysis is D4; waiting for a verified cause before acting on stock leaves the customer exposed. Choosing a permanent correction is D5, and preventing recurrence is D7. <b>A. Contain it, such as by quarantining and sorting suspect stock</b> <span class=\"tb-source-ref\">Source: ASQ, “What Is 8D? Eight Disciplines Problem Solving,” asq.org/quality-resources/eight-disciplines-8d; ASQ CMQ/OE Body of Knowledge (2026), Part IV (problem-solving tools, new in 2026).</span>",
+      "why": "After forming the team (D1) and describing the problem (D2), 8D calls for an interim containment plan (D3) that isolates the problem from the customer while the root cause is found. Root-cause analysis is D4; waiting for a verified cause before acting on stock leaves the customer exposed. Choosing a permanent correction is D5, and preventing recurrence is D7. The 5th-edition handbook predates this 2026 BoK topic; the closest handbook coverage is Chapter 13, pp. 343–344. <b>A. Contain it, such as by quarantining and sorting suspect stock</b> <span class=\"tb-source-ref\">Source: ASQ, “What Is 8D? Eight Disciplines Problem Solving,” asq.org/quality-resources/eight-disciplines-8d; ASQ CMQ/OE Body of Knowledge (2026), Part IV (problem-solving tools, new in 2026). Related handbook pages: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 13, pp. 343–344.</span>",
       "set": 3,
       "sourceQuestion": 2,
       "qid": "cmq:set-3:source-2"
@@ -50,7 +50,7 @@
         "A PESTLE scan; feed it into the SWOT opportunities and threats"
       ],
       "answer": 3,
-      "why": "The list covers the six PESTLE categories (political, economic, social, technological, legal and environmental), a broad fact-finding scan of external factors. CIPD notes that PESTLE works best together with a SWOT analysis to identify opportunities and threats. A five forces analysis looks at industry competition (rivals, new entrants, substitutes, buyers and suppliers), not the wider external environment. <b>D. A PESTLE scan; feed it into the SWOT opportunities and threats</b> <span class=\"tb-source-ref\">Source: CIPD, “PESTLE Analysis” factsheet, cipd.org; ASQ CMQ/OE Body of Knowledge (2026), Part II (business environment analysis, new in 2026).</span>",
+      "why": "The list covers the six PESTLE categories (political, economic, social, technological, legal and environmental), a broad fact-finding scan of external factors. CIPD notes that PESTLE works best together with a SWOT analysis to identify opportunities and threats. A five forces analysis looks at industry competition (rivals, new entrants, substitutes, buyers and suppliers), not the wider external environment. The 5th-edition handbook predates this 2026 BoK topic; the closest handbook coverage is Chapter 6, pp. 100–101. <b>D. A PESTLE scan; feed it into the SWOT opportunities and threats</b> <span class=\"tb-source-ref\">Source: CIPD, “PESTLE Analysis” factsheet, cipd.org; ASQ CMQ/OE Body of Knowledge (2026), Part II (business environment analysis, new in 2026). Related handbook pages: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 6, pp. 100–101.</span>",
       "set": 3,
       "sourceQuestion": 3,
       "qid": "cmq:set-3:source-3"

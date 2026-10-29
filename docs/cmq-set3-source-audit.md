@@ -11,8 +11,8 @@ Two items cover 2026 BoK topics that the 5th edition does not include (8D, PESTL
 | Q | Domain | BoK | Level | Key | Source | Terms verified on page |
 |---|---|---|---|---|---|---|
 | 1 | cmq-lead | I.B.3 | Analyze | C | Handbook Ch. 2, pp. 27–28 | p. 27: “awareness of the need for change”; p. 28: “early and visible successes”; p. 28: “Institutionalize” |
-| 2 | cmq-tools | IV.A (2026: 8D) | Apply | A | ASQ, “What Is 8D? Eight Disciplines Problem Solving,” asq.org/quality-resources/eight-disciplines-8d; ASQ CMQ/OE Body of Knowledge (2026), Part IV (problem-solving tools, new in 2026). |  |
-| 3 | cmq-strategy | II.B (2026: PESTLE) | Apply | D | CIPD, “PESTLE Analysis” factsheet, cipd.org; ASQ CMQ/OE Body of Knowledge (2026), Part II (business environment analysis, new in 2026). |  |
+| 2 | cmq-tools | IV.A (2026: 8D) | Apply | A | ASQ, “What Is 8D? Eight Disciplines Problem Solving,” asq.org/quality-resources/eight-disciplines-8d; ASQ CMQ/OE Body of Knowledge (2026), Part IV (problem-solving tools, new in 2026). Related: Handbook Ch. 13, pp. 343–344 | p. 343: “Seven-Step Problem-Solving Model” |
+| 3 | cmq-strategy | II.B (2026: PESTLE) | Apply | D | CIPD, “PESTLE Analysis” factsheet, cipd.org; ASQ CMQ/OE Body of Knowledge (2026), Part II (business environment analysis, new in 2026). Related: Handbook Ch. 6, pp. 100–101 | p. 100: “External factors”; p. 100: “Economic changes”; p. 101: “opportunities and threats” |
 | 4 | cmq-customer | V.B.2 | Apply | B | Handbook Ch. 17, pp. 481–483 | p. 482: “casual remarks”; p. 482: “listening post person”; p. 483: “Watch trend” |
 | 5 | cmq-management | III.A.6 | Apply | B | Handbook Ch. 8, pp. 192–193 | p. 192: “Bow Tie Analysis”; p. 193: “Mitigation and recovery controls”; p. 193: “contingent capacity” |
 | 6 | cmq-supply | VI.D | Analyze | D | Handbook Ch. 18, p. 522 | p. 522: “probationary period”; p. 522: “only option”; p. 522: “Probation” |
