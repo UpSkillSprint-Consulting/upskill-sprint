@@ -124,7 +124,7 @@ test('Full, Quick and Focused selections remain independent across other control
     click(w,'[data-backsim]');click(w,'[data-mode="full"]');assertPool(w.__TB.getFeedbackSnapshot(),w.__TB.EXAMS.cssbb,'mix');
     click(w,'[data-backsim]');click(w,'.tb-tile[data-exam="cmq"]');
     assert.equal(chosen(w,'quick'),'1');assert.equal(chosen(w,'focus'),'1');
-    assert.equal(w.document.querySelector('[data-quiz-set="3"]').disabled,false,'CMQ Set 3 is selectable once its first batch is released');
+    assert.equal(w.document.querySelector('[data-quiz-set="3"]').disabled,false,'CMQ Set 3 is complete and selectable');
     click(w,'.tb-tile[data-exam="cre"]');
     // CRE Set 1 is released in batches and is now the default; Set 3 stays selectable.
     assert.equal(chosen(w,'quick'),'1');assert.equal(chosen(w,'focus'),'1');
