@@ -69,8 +69,13 @@ for(const exam of ['cssbb','cssgb','mbb','cqe','cmq','cqa']) {
     try {
       click(w,`.tb-tile[data-exam="${exam}"]`);
       const e=w.__TB.EXAMS[exam],ids=Object.keys(e.sets||{1:e.bank}).filter(id=>pool(e,id).length),choices=ids.length>1?ids.concat('mix'):ids;
+      // Planned-but-empty sets (e.g. CMQ Set 3) are listed as disabled placeholders only.
+      const planned=(e.plannedSets||[]).filter(id=>!ids.includes(id));
+      const listed=[...new Set([...ids,...planned])].sort((x,y)=>x-y).concat(ids.length>1?['mix']:[]);
       for(const kind of ['quick','focus']) {
-        assert.deepEqual([...w.document.querySelectorAll(`[data-quiz-set-kind="${kind}"]`)].map(b=>b.dataset.quizSet),choices);
+        const buttons=[...w.document.querySelectorAll(`[data-quiz-set-kind="${kind}"]`)];
+        assert.deepEqual(buttons.map(b=>b.dataset.quizSet),listed);
+        for(const b of buttons)assert.equal(b.disabled,planned.includes(b.dataset.quizSet),'only empty planned sets are disabled');
         for(const setId of choices) {
           choose(w,kind,setId);
           click(w,`[data-count="${kind}"][data-n="10"]`);
@@ -119,7 +124,7 @@ test('Full, Quick and Focused selections remain independent across other control
     click(w,'[data-backsim]');click(w,'[data-mode="full"]');assertPool(w.__TB.getFeedbackSnapshot(),w.__TB.EXAMS.cssbb,'mix');
     click(w,'[data-backsim]');click(w,'.tb-tile[data-exam="cmq"]');
     assert.equal(chosen(w,'quick'),'1');assert.equal(chosen(w,'focus'),'1');
-    assert.equal(w.document.querySelector('[data-quiz-set="3"]'),null);
+    assert.ok(w.document.querySelector('[data-quiz-set="3"]').disabled,'CMQ Set 3 is an empty, disabled placeholder');
     click(w,'.tb-tile[data-exam="cre"]');
     // CRE Set 1 is released in batches and is now the default; Set 3 stays selectable.
     assert.equal(chosen(w,'quick'),'1');assert.equal(chosen(w,'focus'),'1');

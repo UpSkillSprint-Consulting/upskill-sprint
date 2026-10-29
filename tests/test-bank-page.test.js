@@ -9,6 +9,7 @@ const { installDurableLearning } = require('./helpers/test-bank-durable-learning
 
 const ROOT = path.join(__dirname, '..');
 const cmqScript = fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set1.js'), 'utf8');
+const cmqSet2Script = fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set2.js'), 'utf8');
 const mbbScript = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set1.js'), 'utf8');
 const mbbSet2Script = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set2.js'), 'utf8');
 const mbbSet3Script = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set3.js'), 'utf8');
@@ -22,6 +23,7 @@ const pmpSet5Script = fs.readFileSync(path.join(ROOT, 'test-bank-pmp-set5.js'), 
 const pmpSet6Script = fs.readFileSync(path.join(ROOT, 'test-bank-pmp-set6.js'), 'utf8');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
   .replace('<script src="/test-bank-cmq-set1.js"></script>', `<script>${cmqScript}</script>`)
+  .replace('<script src="/test-bank-cmq-set2.js"></script>', `<script>${cmqSet2Script}</script>`)
   .replace('<script src="/test-bank-mbb-set1.js"></script>', `<script>${mbbScript}</script>`)
   .replace('<script src="/test-bank-mbb-set2.js"></script>', `<script>${mbbSet2Script}</script>`)
   .replace('<script src="/test-bank-mbb-set3.js"></script>', `<script>${mbbSet3Script}</script>`)

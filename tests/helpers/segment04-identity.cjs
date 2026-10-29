@@ -4,7 +4,7 @@ const path = require('node:path');
 const {JSDOM, VirtualConsole} = require('jsdom');
 const ROOT = path.join(__dirname, '../..');
 const read = file => fs.readFileSync(path.join(ROOT, file), 'utf8');
-const BANKS = ['test-bank-cmq-set1.js', 'test-bank-mbb-set1.js', 'test-bank-mbb-set2.js', 'test-bank-mbb-set3.js', 'test-bank-cssgb-set1.js', 'test-bank-cssgb-set2.js'];
+const BANKS = ['test-bank-cmq-set1.js', 'test-bank-cmq-set2.js', 'test-bank-mbb-set1.js', 'test-bank-mbb-set2.js', 'test-bank-mbb-set3.js', 'test-bank-cssgb-set1.js', 'test-bank-cssgb-set2.js'];
 const question = (id = 'cssbb:fixture:one', sub = 'p1') => ({qid:id,sub,stem:'Synthetic question.',options:['A','B','C','D'],answer:0,why:'Synthetic explanation.'});
 function fixture(t, options = {}) {
   const dom = new JSDOM('<!doctype html><body><h1 id="tb-hero">Synthetic bank</h1></body>', {url:'https://segment04.invalid/test-bank',runScripts:'outside-only'});
