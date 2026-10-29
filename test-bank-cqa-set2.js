@@ -1,6 +1,6 @@
 /*
  * ASQ CQA Exam Set 2 — original practice questions.
- * Batches 1–10: Q001–Q100. Planned bank: 150 questions.
+ * Batches 1–11: Q001–Q110. Planned bank: 150 questions.
  * Author in reviewed batches of 10; hold PR #368 until all 150 are ready.
  * 2026 BoK target counts: I 37 / II 45 / III 30 / IV 23 / V 15.
  * Batch 1 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
@@ -13,6 +13,7 @@
  * Batch 8 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Batch 9 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Batch 10 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
+ * Batch 11 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Questions and exhibits are original; handbook citations use printed pages.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
  */
@@ -3153,6 +3154,322 @@
       "0": "A baseline is not merely an obsolete historical list automatically superseded by separate item releases. The defined combination and changes to it remain subject to configuration control.",
       "2": "The stated baseline includes firmware and instructions as well as hardware. Treating these as unrelated to the device configuration would omit the relationships the baseline is intended to define and trace.",
       "3": "Separate item conformity does not establish that every possible combination is the same approved configuration. Complete item records still need to identify the combination applicable to the device."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q101",
+    "set": 2,
+    "batch": 11,
+    "sub": "cqa-combined-purpose-scope",
+    "bok": "I.B.1",
+    "cognitive": "Apply",
+    "stem": "A plant plans a combined quality and environmental audit. The quality program requires coverage of customer-order controls from receipt through shipment; the environmental program requires coverage of chemical receiving, use and waste handoff. Both program owners retain these approved boundaries, and qualified auditors and time are available. The draft plan covers only the production activities common to both programs. Which change best aligns the combined audit with its purposes?",
+    "options": [
+      "Use the common production boundary for both programs, describing receipt, shipment and waste handoff as exclusions so that the combined visit avoids duplicated work.",
+      "Adopt the quality program's boundary and checklist for the combined visit, treating its coverage of plant operations as sufficient to fulfill the environmental program's purpose.",
+      "Share suitable work where the objectives overlap, retain each program's additional required activities and criteria, and record the corresponding coverage in the combined audit plan.",
+      "Separate the visits because different required boundaries prevent a combined audit, even when the team can cover each program's activities and apply its respective criteria."
+    ],
+    "answer": 2,
+    "why": "Combining audits can coordinate overlapping work, but the resulting objectives, scope and criteria must remain compatible with both audit programs. The production-only draft omits required activities from each program. The stated resources allow the plan to retain those activities while sharing work where that is appropriate. Recording an exclusion does not authorize removal of a boundary that the program owner has retained, and one program's checklist does not automatically satisfy the other program's purpose. Conversely, the two programs do not need identical boundaries to be audited together when their respective requirements can be covered coherently. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 18.</span>",
+    "keyPoint": "A combined audit must preserve the objectives and required coverage of each participating audit program while coordinating suitable common work.",
+    "trap": "Treating the overlap between two programs as the complete scope, or assuming that combining them requires identical boundaries.",
+    "distractors": {
+      "0": "The program owners have retained the receipt, shipment and waste-handoff requirements. Listing those activities as exclusions would describe the missing coverage without making the plan compatible with the approved purposes.",
+      "1": "The quality boundary and checklist do not necessarily cover chemical handling and waste handoff against the environmental program's criteria. Substituting one program's framework leaves the other purpose unresolved.",
+      "3": "Different boundaries do not by themselves make a combined audit unsuitable. The scenario provides qualified resources and time to retain both programs' required activities and apply their respective criteria."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q102",
+    "set": 2,
+    "batch": 11,
+    "sub": "cqa-confidential-disclosure-exposure",
+    "bok": "I.E.2",
+    "cognitive": "Analyze",
+    "stem": "An audit agreement restricts confidential supplier findings to the commissioning client and named recipients unless the client and supplier authorize wider disclosure. Without that authorization, an auditor forwards an accurate negative finding to a prospective buyer outside the recipient list. The buyer ends negotiations, and the supplier alleges a lost contract. No compulsory disclosure requirement applies. Which assessment of potential exposure is most appropriate?",
+    "options": [
+      "Accuracy does not authorize the disclosure; the auditor or firm could face confidentiality-related claims, while liability and damages depend on the agreement, facts and applicable law.",
+      "Accuracy removes the auditor's exposure because the buyer received true information; a claim against the audit firm would require proof that the finding itself was false.",
+      "The buyer's independent purchasing decision removes the disclosure from consideration; any financial responsibility rests with the supplier whose negative finding influenced that decision.",
+      "The unauthorized disclosure establishes liability for the supplier's full alleged contract loss; the remaining task is to calculate the contract value and allocate payment."
+    ],
+    "answer": 0,
+    "why": "The relevant issue is unauthorized disclosure of information covered by an explicit confidentiality agreement. Accuracy of the finding does not provide permission to send it to an unapproved recipient. The recipient's use of that information in a purchasing decision can create potential legal and financial exposure for the auditor or auditing firm. However, the scenario does not establish that a claim will succeed or that the full alleged contract value is recoverable. Responsibility, causation and damages require assessment of the actual agreement, facts and applicable law. The supplier's original finding and the buyer's decision do not automatically eliminate the separate issue created by the disclosure. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 44.</span>",
+    "keyPoint": "An accurate audit finding can still create potential legal and financial exposure when confidential information is disclosed without the required authorization.",
+    "trap": "Treating truth as permission to disclose, or treating an unauthorized disclosure as automatic proof of a particular liability or damages award.",
+    "distractors": {
+      "1": "This substitutes a false-statement question for the stated confidentiality obligation. An accurate finding does not remove the need for the authorization required by the agreement.",
+      "2": "The buyer's decision is a possible consequence of the disclosure and must be examined with the other facts. It does not automatically exclude the auditor or firm from potential exposure.",
+      "3": "The facts identify potential exposure, not a decided legal claim or recoverable amount. Establishing responsibility, causation and damages requires further assessment under the applicable circumstances."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q103",
+    "set": 2,
+    "batch": 11,
+    "sub": "cqa-remote-capa-verification",
+    "bok": "II.D.3",
+    "cognitive": "Evaluate",
+    "stem": "A laboratory corrected a software fault that generated duplicate report IDs during simultaneous report creation. Agreed verification criteria require confirmed installation and unique, correctly linked IDs during actual concurrent work on all three shifts. At follow-up, the auditor has authorized remote access to deployment records, the complete six-week post-change job index and original audit trails. The agreed sample covers concurrent jobs on each shift, and the records can be authenticated remotely. No criterion requires physical inspection. Which follow-up approach best meets the verification need?",
+    "options": [
+      "Require a return visit before making any effectiveness assessment, because remote examination of authenticated operating records cannot establish that a software correction worked.",
+      "Review the deployment record and staff briefing acknowledgments remotely, accepting completion of those implementation steps as sufficient evidence that duplicate report IDs were prevented.",
+      "Obtain the laboratory's monthly totals for jobs and report IDs, accepting equal totals and a manager's assurance in place of tracing the selected concurrent jobs.",
+      "Conduct the remote follow-up using auditor-selected concurrent jobs from each shift, tracing original records against the installation, uniqueness and job-linkage criteria."
+    ],
+    "answer": 3,
+    "why": "The verification method should supply reliable evidence of both implementation and effectiveness against the agreed criteria. Here, authenticated deployment records and source audit trails can be examined remotely, and the sampling plan covers actual concurrent work on every shift where the control must operate. The auditor can therefore perform the planned remote verification and base the outcome on those results. Installation records and briefing acknowledgments alone do not demonstrate the required operational result, while matching aggregate totals can conceal duplicates or incorrect job links. A return visit is not universally required when the necessary evidence can be verified remotely. Equally, remote access alone does not establish successful corrective action; the criteria still have to be met in the evidence examined. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 139.</span>",
+    "keyPoint": "Select a follow-up method that can verify implementation and effectiveness against the actual criteria; adequate authenticated evidence may support remote verification.",
+    "trap": "Equating physical presence with valid verification, or accepting implementation paperwork and aggregate totals without examining relevant post-change performance.",
+    "distractors": {
+      "0": "The stem supplies authenticated original records and a representative operating-condition sample, with no physical-inspection requirement. It does not establish a need to make an on-site return a condition of all valid verification.",
+      "1": "Deployment and communication records support implementation steps. They do not, without the relevant operating evidence, show that concurrent report creation produces unique IDs correctly linked to jobs.",
+      "2": "Equal monthly totals do not show which IDs belong to which jobs or whether concurrent creation produced duplicates. The original job-level audit trails are available to test the stated criteria directly."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q104",
+    "set": 2,
+    "batch": 11,
+    "sub": "cqa-proprietary-interface-evidence",
+    "bok": "II.B.4",
+    "cognitive": "Evaluate",
+    "stem": "Conversion-service case. A supplier converts customer drawings into viewing packages. This second-party audit covers July job-identity and approval controls at the input-output interface under agreement CV-4. Validation of the conversion algorithm and its proprietary source code are outside the agreed scope. The code is unavailable, but the authorized evidence sources in the exhibit are accessible. Which evidence approach best evaluates conformity to CV-4?",
+    "options": [
+      "Reconcile monthly receipt and release counts, confirm that an approval procedure exists, and use management's assurance that no source identities changed during conversion.",
+      "For selected jobs, cross-check source and package identities, reviewer authorization and approval/release times, using staff interviews to clarify the record links and workflow.",
+      "Suspend the assessment until source code is disclosed, because validating the internal conversion algorithm is necessary for any conclusion about the stated interface controls.",
+      "Read CV-4 and the workflow description, then accept signed release pages as proof that the job identities and the reviewers' authorization were correct."
+    ],
+    "answer": 1,
+    "why": "The agreed criteria concern traceable job and source identity plus authorized approval before release. The available source files, released packages, original records, authorization history and interviews allow the auditor to test those relationships directly for selected jobs. The proprietary algorithm is outside this audit's agreed scope, so its unavailability does not by itself prevent assessment of these interface controls. That conclusion depends on the stated objectives and available evidence; proprietary status would not excuse a missing source essential to another audit objective. Aggregate counts, management assurance or signatures considered alone do not establish the required identity links, reviewer authority and timing. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 100.</span>",
+    "keyPoint": "Evaluate whether authorized evidence can test the actual input, output and approval criteria before treating a proprietary-access limit as an obstacle to the audit objective.",
+    "trap": "Demanding internal design access for a narrower interface-control objective, or replacing traceable evidence with totals and assurances.",
+    "distractors": {
+      "0": "Matching counts and management assurance do not establish the job/revision identity links or show authorized approval before each sampled release. Relevant original records are available for those checks.",
+      "2": "The approved scope expressly excludes algorithm validation. The available interface evidence can address the stated identity and approval criteria without treating source-code review as an additional requirement.",
+      "3": "A signed release page does not by itself verify its link to the correct source or the signer's authority at the relevant time. The evidence approach must test the relationships required by CV-4."
+    },
+    "caseId": "cqa-set2-conversion-interface-01",
+    "chart": {
+      "type": "data-table",
+      "title": "Conversion-service case: agreed criteria and authorized evidence",
+      "columns": [
+        "Document or source",
+        "Requirement or available evidence"
+      ],
+      "rows": [
+        [
+          "CV-4, sections 2 and 5",
+          "Each released package must link to the customer's job, source-file ID and revision. Approval by an authorized Technical Reviewer permits release and must be recorded before release."
+        ],
+        [
+          "Input and output records",
+          "Original customer receipts, source files, released packages and linked register entries are retrievable for auditor-selected July jobs."
+        ],
+        [
+          "Approval controls",
+          "Reviewer identity, approval/release timestamps, change history and the role-authorization register effective on those dates are available."
+        ],
+        [
+          "Audit arrangements",
+          "The approved sample covers 20 jobs from July. Intake and Technical Review staff can be interviewed; original records can be cross-checked through authorized read-only access."
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q105",
+    "set": 2,
+    "batch": 11,
+    "sub": "cqa-interface-conclusion-boundary",
+    "bok": "II.C.2",
+    "cognitive": "Evaluate",
+    "stem": "Conversion-service case. A supplier converts customer drawings into viewing packages. This second-party audit covers July job-identity and approval controls at the input-output interface under agreement CV-4. Validation of the conversion algorithm and its proprietary source code are outside the agreed scope. The code is unavailable, but the authorized evidence sources in the exhibit are accessible. The auditor completes the 20-job sample, cross-checks source/package identities and original approval/release records, confirms reviewer authorization and corroborates the workflow with staff. All 20 meet CV-4's stated criteria. Which report conclusion is best?",
+    "options": [
+      "The July conversion process was validated end to end; matching identity and approval records demonstrate that the proprietary conversion algorithm produced correct output.",
+      "The auditor could not assess conformity to CV-4 because the source code was unavailable; the 20 matched jobs offer only preliminary information about those controls.",
+      "The 20 sampled jobs from July met the agreed identity and approval criteria; the conclusion supports the examined interface controls and does not validate the conversion algorithm.",
+      "All July jobs met the identity and approval requirements; completion of the agreed sample with no exceptions establishes conformity for the entire month's transactions."
+    ],
+    "answer": 2,
+    "why": "An effective conclusion answers the audit's agreed purpose and remains within the evidence obtained. The completed cross-checks establish that the 20 sampled jobs met the identity and approval criteria. The report can communicate that positive result and its support for the examined interface controls, while retaining the sample and scope boundaries. It cannot convert the result into validation of the internal algorithm or certainty about every July transaction. Conversely, lack of access to source code outside the agreed scope does not erase the verified interface evidence or make the stated objective unattainable. The report should make these boundaries clear rather than implying a broader technical validation or an unresolved in-scope evidence gap. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 111, 120–121.</span>",
+    "keyPoint": "Report the supported result against the agreed criteria, identifying the sample and scope without extending assurance to an unexamined design or every transaction.",
+    "trap": "Turning a satisfactory interface-control sample into validation of the entire conversion system, or dismissing valid evidence because an out-of-scope design was not examined.",
+    "distractors": {
+      "0": "The checked evidence concerns identity and approval controls. It does not validate the proprietary conversion algorithm or establish the correctness of all converted content.",
+      "1": "The question states that the required interface checks were completed successfully. Source-code validation is outside the agreed scope, so that access limit does not prevent the supported CV-4 conclusion.",
+      "3": "The agreed sample supports a bounded audit conclusion, not certainty that every July transaction met the requirements. The report should retain the fact that 20 jobs were examined."
+    },
+    "caseId": "cqa-set2-conversion-interface-01",
+    "chart": {
+      "type": "data-table",
+      "title": "Conversion-service case: agreed criteria and authorized evidence",
+      "columns": [
+        "Document or source",
+        "Requirement or available evidence"
+      ],
+      "rows": [
+        [
+          "CV-4, sections 2 and 5",
+          "Each released package must link to the customer's job, source-file ID and revision. Approval by an authorized Technical Reviewer permits release and must be recorded before release."
+        ],
+        [
+          "Input and output records",
+          "Original customer receipts, source files, released packages and linked register entries are retrievable for auditor-selected July jobs."
+        ],
+        [
+          "Approval controls",
+          "Reviewer identity, approval/release timestamps, change history and the role-authorization register effective on those dates are available."
+        ],
+        [
+          "Audit arrangements",
+          "The approved sample covers 20 jobs from July. Intake and Technical Review staff can be interviewed; original records can be cross-checked through authorized read-only access."
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q106",
+    "set": 2,
+    "batch": 11,
+    "sub": "cqa-proportionate-evidence-collection",
+    "bok": "III.C",
+    "cognitive": "Analyze",
+    "stem": "An auditor requests that an active dispatch log be removed from the operating desk for an hour to review selected completed entries. The clerk explains that dispatchers need the log for current work and offers an authorized read-only scan of the selected pages. The auditor verifies its authenticity and completeness and confirms that it supplies the same evidence needed. The plan permits either format. Which response best addresses the clerk's concern?",
+    "options": [
+      "Agree to the scan review, preserve the planned sample and evidence trail, and acknowledge the operational concern without treating it as resistance to the audit.",
+      "Keep the original request because custody of the source record provides the strongest evidence, and ask management to tolerate the interruption until review is complete.",
+      "Accept a verbal summary from the clerk instead of inspecting the selected entries, so normal dispatch work can continue and the disagreement ends promptly.",
+      "Record the clerk's objection as an access restriction and escalate it to the client, then defer the record review until the client directs a response."
+    ],
+    "answer": 0,
+    "why": "The clerk has identified a legitimate effect on normal work and offered an arrangement whose adequacy the auditor has verified. Using that permitted arrangement preserves the selected evidence and audit coverage while avoiding an unnecessary disruption. The issue is the auditor's collection method, not a demonstrated refusal of access. Flexibility does not require accepting weaker evidence or abandoning the review, and authority to audit does not make every special demand reasonable. The source supports listening to operational concerns and avoiding unnecessary demands that create conflict. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 154.</span>",
+    "keyPoint": "Resolve a legitimate operational concern by using an equally adequate permitted evidence arrangement while preserving the audit's objective and coverage.",
+    "trap": "Mistaking a reasonable objection to the auditor's method for obstruction, or avoiding conflict by giving up needed evidence.",
+    "distractors": {
+      "1": "The auditor has already verified that the permitted scan provides the same needed evidence. Insisting on custody of the active log adds disruption without an identified evidentiary benefit in this scenario.",
+      "2": "A verbal summary is not the verified equivalent offered in the stem and would replace inspection of the selected entries. The conflict can be resolved without reducing the evidence collected.",
+      "3": "The clerk has offered access through an allowed, verified equivalent arrangement. Calling that an access restriction and escalating it would mischaracterize the concern instead of resolving the unnecessary disruption."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q107",
+    "set": 2,
+    "batch": 11,
+    "sub": "cqa-routing-loop-presentation",
+    "bok": "III.D",
+    "cognitive": "Apply",
+    "stem": "Managers reviewing an audit want to see who handles an application at each decision and where incomplete applications return. The verified process moves from Intake to Technical Review, with incomplete submissions returned through Customer Support to Intake before re-review; accepted applications go to Scheduling. The audit also has counts and timing data, but this presentation must make the routing and return path clear. Which visual best meets the managers' need?",
+    "options": [
+      "Use a monthly line graph of average processing time, with annotations naming the departments involved so managers can compare timing before and after returns.",
+      "Use a Pareto chart of return reasons, color-coded by department, so managers can rank the most frequent problems and identify where improvement effort belongs.",
+      "Use an organization chart linking the four departments and their managers, with captions describing each department's role and the authority for resolving escalated applications.",
+      "Use a flowchart labeled by responsible department, with decision diamonds, directional arrows and the return loop showing how an incomplete application re-enters the process."
+    ],
+    "answer": 3,
+    "why": "The audience needs to understand sequence, decision routing, responsibility and a return loop. A flowchart can show all of those relationships directly: department labels identify who performs each step, decisions show alternative paths, and arrows show movement and return. Counts and timing may support other management questions, but they do not replace the route explanation requested here. An organization chart can show reporting relationships without showing how an application moves. The visual should be selected for the question the audience needs answered, using the verified process information. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 165, 226–227.</span>",
+    "keyPoint": "Match the presentation to the audience's question: a flowchart can communicate process sequence, decision branches, responsible roles and return loops.",
+    "trap": "Selecting a familiar quantitative chart or organization chart when the audience needs to understand the path followed by work.",
+    "distractors": {
+      "0": "The proposed line graph addresses changes in processing time. Naming departments in annotations does not show the decision branches, handoffs and return route the managers need to follow.",
+      "1": "Ranking return reasons helps identify frequent problems, but it does not show which department receives an application after each decision or how it returns for re-review.",
+      "2": "Departmental reporting relationships and escalation authority do not establish the sequence of application processing. The decision paths and return loop remain missing from this presentation."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q108",
+    "set": 2,
+    "batch": 11,
+    "sub": "cqa-confidential-peer-debrief-learning",
+    "bok": "IV.A.3",
+    "cognitive": "Evaluate",
+    "stem": "An audit program finds experienced auditors reaching different interpretations in similar cases. Everyone has completed the required standards-update course, but no common explanation for the differences has been established. The program wants continuing development that uses lessons from recent audits to improve consistency of practice. Auditee-specific materials may be discussed only with authorized audit staff. Which approach best addresses this need?",
+    "options": [
+      "Keep each case in a private file and send only a list of policy clauses to the team, using acknowledgements to demonstrate consistent interpretation.",
+      "Hold confidential peer debriefs on selected cases, compare judgments with criteria and evidence, and record transferable lessons plus any development or clarification needs.",
+      "Ask each auditor to complete the same refresher course, and use its completion certificate as sufficient evidence that differences in case interpretation have been resolved.",
+      "Have the most senior auditor announce the preferred conclusion for every case, then use agreement with that conclusion as the basis for judging consistency."
+    ],
+    "answer": 1,
+    "why": "Post-audit discussion groups and debriefs allow auditors to learn from unusual situations, findings and problems and develop more consistent practices. Comparing the case evidence and applicable criteria can distinguish legitimate contextual differences from inconsistent interpretation and identify lessons or development needs. Auditee-specific discussion must remain confidential within the authorized group. Consistency is supported by a shared reasoning process, not merely acknowledgement of clauses, attendance at another course or agreement with the most senior person. The debrief supplements continuing development without assuming that every difference reflects incompetence. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 183–184.</span>",
+    "keyPoint": "Use confidential, criteria-based peer debriefs to transfer audit lessons and examine consistency of practice across the team.",
+    "trap": "Treating shared course completion or agreement with authority as proof of consistent evidence-based auditing.",
+    "distractors": {
+      "0": "A clause list and acknowledgement do not examine how the auditors interpreted actual evidence in the cases. Keeping those learning opportunities isolated leaves the identified consistency question unexplored.",
+      "2": "A refresher course can be useful, but its completion alone does not show why the case judgments differed or whether those differences have been resolved in practice.",
+      "3": "Seniority may provide useful experience, but agreement with a preferred conclusion does not demonstrate that the criteria and evidence support it. The cases need reasoned examination, including relevant contextual differences."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q109",
+    "set": 2,
+    "batch": 11,
+    "sub": "cqa-realized-program-net-contribution",
+    "bok": "IV.A.4",
+    "cognitive": "Analyze",
+    "stem": "An audit program's summary must report realized net financial contribution for the completed calendar year. Savings from an audit-related action began on 1 July. Finance verifies $9,000 per month for July through December and no earlier savings. These comparable-dollar amounts already account for all implementation and ongoing action costs. The exhibit lists the complete, nonoverlapping remaining audit costs for the same year. Which statement most appropriately reports the contribution?",
+    "options": [
+      "Report $14,000 as the year's realized net contribution, and present any annualized benefit estimate separately with the assumptions needed for the projected period.",
+      "Report $68,000 as the year's net contribution, using twelve months at the verified monthly rate and deducting the complete annual audit cost total.",
+      "Report $54,000 as the year's net contribution, because implementation and ongoing action costs are already included in savings and no further deduction is needed.",
+      "Report $30,000 as the year's net contribution, deducting auditor labor from realized savings while leaving auditee participation and program overhead outside this financial measure."
+    ],
+    "answer": 0,
+    "why": "The completed reporting year contains six months of verified savings: 6 × $9,000 = $54,000. The complete remaining audit costs are $24,000 + $9,000 + $7,000 = $40,000, giving $14,000 of realized net contribution under the stated boundary. Implementation and ongoing action costs are already reflected in the savings and must not be deducted again. Twelve months at the monthly rate would be an annualized estimate, not savings already realized in this year. The annual summary should distinguish actual past contribution from expected future benefit. Other program objectives still require their own evidence. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 187, 190–191.</span>",
+    "keyPoint": "Keep realized reporting-period contribution separate from annualized projections, and deduct every cost in the stated boundary exactly once.",
+    "trap": "Reporting a full-year projection as realized benefit, or omitting costs because they were incurred outside the auditor's own labor budget.",
+    "distractors": {
+      "1": "Twelve times $9,000 is $108,000, and subtracting $40,000 produces $68,000. That calculation annualizes six months of savings and counts an additional six months that were not realized in the completed year.",
+      "2": "The $54,000 is the year's verified savings after the action costs, but the separate $40,000 of remaining audit costs still belongs in the defined net-contribution measure.",
+      "3": "Subtracting only $24,000 from $54,000 yields $30,000, but omits the separately stated $9,000 of auditee participation and $7,000 of management and overhead costs. The boundary explicitly includes all three."
+    },
+    "chart": {
+      "type": "data-table",
+      "title": "Complete remaining audit costs for the reporting year",
+      "columns": [
+        "Nonoverlapping cost category",
+        "Amount"
+      ],
+      "rows": [
+        [
+          "Auditor preparation, fieldwork and follow-up",
+          "$24,000"
+        ],
+        [
+          "Auditee participation",
+          "$9,000"
+        ],
+        [
+          "Audit program management and overhead",
+          "$7,000"
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q110",
+    "set": 2,
+    "batch": 11,
+    "sub": "cqa-pfmea-detection-versus-prevention",
+    "bok": "V.H",
+    "cognitive": "Understand",
+    "stem": "A process FMEA defines a failure mode as omission of a sealing ring during assembly. A newly verified inspection detects more of these omissions after assembly and before dispatch. The assembly method and omission frequency are unchanged, as is the effect of an omitted ring that reaches the customer. Which explanation correctly describes what has improved?",
+    "options": [
+      "The occurrence assessment improves because fewer defective assemblies are dispatched; occurrence concerns failures reaching the customer rather than failures created during the assembly operation.",
+      "The severity assessment improves because the added inspection catches more failures; reducing the chance of escape reduces the seriousness of each failure that reaches the customer.",
+      "The change is a prevention control because inspection occurs before dispatch; detection controls apply only after the customer discovers and reports a defective assembly.",
+      "The detection control improved because more existing failures are caught; the evidence does not show prevention of their occurrence or a change in their effects."
+    ],
+    "answer": 3,
+    "why": "A detection control identifies a failure after it has occurred. The sealing-ring omission already exists when the new inspection finds it, so the verified improvement concerns detection. Prevention controls address the cause or likelihood of creating the failure, while severity concerns the potential effect. The stem explicitly leaves the omission frequency and the escaped failure's effect unchanged. Catching more omissions before dispatch is useful, but it does not by itself establish a lower occurrence of the assembly failure or a less serious consequence if one escapes. No numerical rating or risk-priority cutoff is needed for this distinction. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 305–306.</span>",
+    "keyPoint": "Distinguish preventing a failure, detecting it after it occurs, and reducing its effects when explaining FMEA controls.",
+    "trap": "Treating fewer escaped defects as proof that fewer failures were created or that the consequences of an escaped failure became less serious.",
+    "distractors": {
+      "0": "The defined failure mode occurs during assembly, and its frequency is explicitly unchanged. Reduced dispatch of defective units reflects improved detection and interception, not a demonstrated reduction in occurrence of that failure mode.",
+      "1": "The potential effect of an omitted ring reaching the customer is stated to be unchanged. Lower escape likelihood does not make that consequence less serious.",
+      "2": "A control can detect an already-created failure before dispatch. Its position before the customer does not make it prevention of the assembly omission, and detection is not limited to customer complaints."
     }
   }
 ];
