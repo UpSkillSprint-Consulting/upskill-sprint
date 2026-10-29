@@ -1,6 +1,6 @@
 /*
  * ASQ CQA Exam Set 2 — original practice questions.
- * Batches 1–11: Q001–Q110. Planned bank: 150 questions.
+ * Batches 1–12: Q001–Q120. Planned bank: 150 questions.
  * Author in reviewed batches of 10; hold PR #368 until all 150 are ready.
  * 2026 BoK target counts: I 37 / II 45 / III 30 / IV 23 / V 15.
  * Batch 1 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
@@ -14,6 +14,7 @@
  * Batch 9 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Batch 10 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Batch 11 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
+ * Batch 12 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Questions and exhibits are original; handbook citations use printed pages.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
  */
@@ -3470,6 +3471,264 @@
       "0": "The defined failure mode occurs during assembly, and its frequency is explicitly unchanged. Reduced dispatch of defective units reflects improved detection and interception, not a demonstrated reduction in occurrence of that failure mode.",
       "1": "The potential effect of an omitted ring reaching the customer is stated to be unchanged. Lower escape likelihood does not make that consequence less serious.",
       "2": "A control can detect an already-created failure before dispatch. Its position before the customer does not make it prevention of the assembly omission, and detection is not limited to customer complaints."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q111",
+    "set": 2,
+    "batch": 12,
+    "sub": "cqa-delivered-product-package",
+    "bok": "I.A.1",
+    "cognitive": "Apply",
+    "stem": "A product audit covers complete portable-tester kits ready for dispatch. The customer specification requires a functioning tester, two specified leads, printed start-up instructions and molded transit protection. The auditor has verified functional performance for the selected kits but has not examined their finished packages. Which additional examination best completes the stated product-audit coverage?",
+    "options": [
+      "Observe staff packing later units to the work instruction, then use that process observation and the selected testers' functional results to accept the complete kits.",
+      "Examine the selected finished packages for the specified leads, instructions and transit protection, linking those results to the functional evidence for the same kits.",
+      "Repeat the functional tests over a wider operating range, treating accessories, instructions and transit protection as shipping matters outside the completed product audit.",
+      "Check dispatch labels and carton counts, using the correct destination and number of boxes as evidence that the kit contents and shipment protection conform."
+    ],
+    "answer": 1,
+    "why": "A product audit can cover the complete item supplied to the customer, including accessories, user instructions, packaging and shipment protection as required by the applicable specification. The functional result addresses one part of this customer's requirements; it does not establish that the selected kits contain the specified leads, instructions and protection. Examining those finished packages completes the missing coverage and keeps the evidence linked to the selected kits. Observing later packing work or checking destinations and box counts does not establish the specified characteristics of those packages. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 2–3.</span>",
+    "keyPoint": "Product-audit coverage follows the requirements for the complete delivered item, including its accessories, instructions and protection where specified.",
+    "trap": "Treating satisfactory functional performance as proof that the complete customer package conforms, or excluding specified package elements as mere shipping details.",
+    "distractors": {
+      "0": "A later packing observation may provide process information, but it does not establish the contents and protection of the selected completed kits. Their functional results leave those requirements unexamined.",
+      "2": "Additional functional testing does not address the missing package requirements. The stated product audit includes the complete kit, and the specification expressly includes accessories, instructions and protection.",
+      "3": "Correct destination labels and carton counts do not demonstrate that the required leads and instructions are present or that the specified transit protection was used."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q112",
+    "set": 2,
+    "batch": 12,
+    "sub": "cqa-program-and-engagement-role-boundary",
+    "bok": "I.D",
+    "cognitive": "Apply",
+    "stem": "A company has a separate audit program manager and engagement leads. Planning reveals inconsistent qualification requirements for contract auditors and a calendar conflict assigning one specialist to two audits. The lead of one engagement is asked to rewrite the common qualification rule and reschedule the other audit. This lead has no program-wide delegation. Which allocation of work is appropriate?",
+    "options": [
+      "The engagement lead changes the common qualification rule and the other audit's date, because responsibility for one audit includes control of resources affecting any related engagement.",
+      "Each engagement lead sets separate qualification requirements and reserves the specialist independently, while the program manager collects the final reports and communicates their findings to management.",
+      "The auditee coordinators set the auditor qualification requirements and settle the shared calendar conflict, while the program manager approves conclusions from the separate audit teams.",
+      "The program manager coordinates qualification controls and cross-audit assignments and scheduling; the lead supplies the engagement's needs and plans its work within the approved arrangements."
+    ],
+    "answer": 3,
+    "why": "Program management establishes qualification and control arrangements and maintains the schedule across audits. The engagement lead plans and directs the assigned audit and communicates its resource needs. The proposed changes affect common qualification requirements and another engagement, so they need program-level coordination rather than unilateral action by this lead. The auditee's coordination role does not transfer authority over auditor qualifications or the program calendar. Organizations may combine roles or delegate particular tasks, but the stem explicitly states separate roles and no program-wide delegation to this lead. The allocation follows the scope of responsibility and delegation stated for this assignment. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 26–27.</span>",
+    "keyPoint": "Distinguish program-wide qualification, controls and scheduling from an engagement lead's responsibility to plan and direct the assigned audit.",
+    "trap": "Treating authority over one engagement as authority to change common program rules or another audit's resource commitments.",
+    "distractors": {
+      "0": "The requested changes reach beyond this lead's assigned engagement, and no broader delegation exists. A resource need should be raised for program coordination rather than used to assume cross-audit authority.",
+      "1": "Independent qualification rules and reservations leave the shared-control and calendar conflict unresolved. Program management has responsibilities for those arrangements beyond collecting finished reports.",
+      "2": "Auditee coordinators can help arrange availability and access, but they do not take over the audit program's qualification controls or allocation of auditors across engagements."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q113",
+    "set": 2,
+    "batch": 12,
+    "sub": "cqa-credit-for-substantive-audit-work",
+    "bok": "I.E.1",
+    "cognitive": "Apply",
+    "stem": "An audit-team member develops the transaction analysis and drafts two findings. The lead verifies the evidence, revises the wording and signs the final report. An authorized internal project summary permits contributors and their roles to be named. The lead proposes crediting the analysis and findings solely to themself because they approved the report. Which response best fulfills professional responsibility?",
+    "options": [
+      "Credit the member's analysis and drafting accurately, describe the lead's review and integration, and retain the lead's responsibility for the approved final report.",
+      "Credit the lead alone for the analysis and findings, because reviewing the work and accepting final responsibility transfer professional credit to the report's signatory.",
+      "Assign the member all credit and final report responsibility, because originating the analysis makes the lead's later verification, revisions and approval administrative contributions.",
+      "Omit the member's contribution unless the member requests recognition, because the lead's final signature provides an adequate account of the work when no objection is raised."
+    ],
+    "answer": 0,
+    "why": "Professional credit should accurately reflect substantive work. The member developed the analysis and drafted findings; the lead contributed verification, revision, integration and final approval. The lead's signature does not erase the member's contribution or make the underlying work solely the lead's. Accurate attribution can recognize both contributions while preserving the lead's responsibility for the approved report. Credit is not conditional on the contributor asking for it, and recognizing the member does not require transferring final report responsibility. The authorized internal summary permits this attribution without expanding disclosure of the audit information. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 26, 29.</span>",
+    "keyPoint": "Give appropriate credit for substantive contributions while accurately retaining review, approval and reporting responsibilities.",
+    "trap": "Confusing responsibility for signing the final report with sole authorship of the analysis and findings that support it.",
+    "distractors": {
+      "1": "Review and approval are real contributions, but they do not transfer credit for another person's substantive analysis and drafting. Claiming sole authorship would misrepresent how the work was produced.",
+      "2": "The member's contribution deserves credit, but it does not remove the lead's substantive review work or transfer the lead's final approval responsibility to the member.",
+      "3": "The obligation to give due credit does not depend on a complaint or request for recognition. The summary should accurately represent the known contributions when it is prepared."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q114",
+    "set": 2,
+    "batch": 12,
+    "sub": "cqa-preparation-emerging-trend-history",
+    "bok": "II.A.3",
+    "cognitive": "Analyze",
+    "stem": "The previous maintenance audit found no overdue work in its sample but noted a rising proportion of jobs completed on the last permitted day. It reported an emerging trend rather than a nonconformity, and no corrective-action request was issued. The next audit covers the same maintenance controls. During preparation, the auditor has the prior report but has not examined current performance data or any response to the trend. How should this history influence preparation?",
+    "options": [
+      "Exclude the trend from preparation because the previous audit issued no nonconformity, and concentrate the review of historical information on formally open corrective-action requests.",
+      "Prepare a nonconformity from the earlier trend because increasing last-day completion demonstrates that required maintenance intervals were missed, even without reviewing current completion records.",
+      "Obtain recent completion data and relevant responses, compare them with the earlier trend, and use the current evidence to focus the planned maintenance review.",
+      "Carry the earlier trend forward as the current condition, using the prior report to set the review emphasis without requesting newer data before fieldwork."
+    ],
+    "answer": 2,
+    "why": "Prior audit information can guide preparation even when it did not establish a violation or generate a corrective-action request. The earlier pattern may have continued, worsened or reversed. Current completion data and any response to the observation help the auditor decide where to concentrate the review within the existing scope. Completing maintenance on the last permitted day does not by itself violate the stated interval, and the old report does not establish the present condition. The history should therefore prompt relevant current-data review and focused planning, without presuming a nonconformity or dismissing the issue because the earlier result was conforming. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 71.</span>",
+    "keyPoint": "Use prior emerging trends to guide preparation, checking current performance and responses even when no earlier nonconformity was issued.",
+    "trap": "Treating a prior conforming result as a reason to ignore an emerging trend, or treating the old trend as proof of a current violation.",
+    "distractors": {
+      "0": "Performance history includes relevant observations as well as formal findings. The absence of a corrective-action request does not make the reported trend irrelevant to preparation.",
+      "1": "The prior sample contained no overdue work. Last-day completion does not itself prove a missed interval, and no current evidence supports converting the observation into a nonconformity.",
+      "3": "The prior report identifies a question to investigate, not the current answer. More recent data and any response are needed to determine whether that pattern persists and how it should influence preparation."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q115",
+    "set": 2,
+    "batch": 12,
+    "sub": "cqa-process-tracing-criteria-coverage",
+    "bok": "II.A.6",
+    "cognitive": "Apply",
+    "stem": "An audit uses process tracing to assess a testing service against a customer quality agreement included in the agreed criteria. Auditors follow selected jobs from receipt through report release and verify transaction-level controls. The agreement also requires quarterly reviews of approver authorizations, but the sampled paths do not exercise this periodic control and its records have not been examined. Which strategy best completes the coverage?",
+    "options": [
+      "Increase the number of jobs traced along the same path, using the larger transaction sample to compensate for the unexamined quarterly authorization review.",
+      "Retain tracing, map the agreement's requirements to the activities reviewed, and add targeted evidence checks for the quarterly reviews and other uncovered applicable controls.",
+      "Switch to a clause checklist and confirm that approved procedures address each requirement, treating documented coverage as sufficient evidence that the controls operated during the period.",
+      "Record a nonconformity for the quarterly authorization reviews, because their absence from the sampled transaction paths demonstrates that the required periodic control was not performed."
+    ],
+    "answer": 1,
+    "why": "Process tracing can provide useful evidence about sequential activities and their interactions, but it must also be linked to the applicable external requirements. Here, the customer agreement is expressly within the agreed criteria, and a periodic authorization-review requirement remains unexamined. Mapping the criteria to the work already reviewed identifies that gap and supports targeted examination of the relevant review records and other needed evidence. The useful transaction traces can remain part of the audit. More transactions on the same path do not automatically cover a different periodic control, and approved procedures alone do not establish its operation. An unexamined requirement is an evidence-coverage gap, not proof that the auditee failed to perform it. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 82.</span>",
+    "keyPoint": "Link process-tracing evidence to all applicable audit criteria and add targeted checks where the sampled paths do not exercise a required control.",
+    "trap": "Assuming that a complete transaction path covers every applicable requirement, or converting an unexamined periodic control into a presumed nonconformity.",
+    "distractors": {
+      "0": "Additional jobs on the same path may strengthen transaction-level evidence, but they do not by themselves examine whether the separate quarterly authorization review occurred and met its requirements.",
+      "2": "A criteria checklist can help organize coverage, but the presence of approved procedures does not demonstrate implementation. The strategy should retain useful tracing and obtain evidence for the unexamined controls.",
+      "3": "The stem says the periodic review has not been examined, not that it was missed. Evidence about the requirement's implementation is needed before a supported conformity or nonconformity conclusion can be made."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q116",
+    "set": 2,
+    "batch": 12,
+    "sub": "cqa-capa-mechanism-extent",
+    "bok": "II.D.1",
+    "cognitive": "Evaluate",
+    "stem": "Cell A printed a previous job's label after restart. Investigation confirmed that its controller's 'resume last job' setting bypassed job selection. Affected output was contained, and the assigned corrective action was implemented and shown effective in Cell A. Cells B–D perform similar work but use different controller versions and settings; no comparable incident has been recorded there. The plan assigns an owner and date for reviewing these cells. Which proposed extent review is most appropriate?",
+    "options": [
+      "Accept Cell A's verified action as sufficient, and monitor complaints from the other cells because no comparable failure has been recorded in them.",
+      "Require every cell to install Cell A's exact change, then verify completion dates; their similar work makes a separate configuration review unnecessary.",
+      "Determine which configurations can exhibit the confirmed mechanism, assess their exposure and controls, and implement and verify the actions needed at those cells.",
+      "Compare only the cells' written instructions, and consider matching wording sufficient evidence that the confirmed mechanism is controlled regardless of controller configuration differences."
+    ],
+    "answer": 2,
+    "why": "A corrective-action response should consider whether the same or similar condition can exist elsewhere. The local cause, action and effectiveness are established, but the differing configurations leave the extent question unresolved. The review should identify where the confirmed restart mechanism can occur, assess the relevant controls and determine the necessary action and verification for those configurations. An absence of recorded incidents does not rule out the condition, while similar work does not establish that an identical technical change is appropriate everywhere. Matching instructions alone do not demonstrate how the actual controllers behave. The auditee retains responsibility for developing and implementing the necessary actions. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 134, 136.</span>",
+    "keyPoint": "Extend corrective-action review by assessing where the confirmed failure mechanism can exist, then apply and verify actions appropriate to the affected conditions.",
+    "trap": "Treating an absence of recorded failures as absence of exposure, or prescribing the same change everywhere without checking applicability.",
+    "distractors": {
+      "0": "The success in Cell A resolves its demonstrated condition, but complaint history alone does not establish whether the other configurations can exhibit the same mechanism. The planned extent review still needs evidence.",
+      "1": "Similar output does not make controller versions, settings or existing controls identical. A common change may be appropriate in some cells, but its applicability and effectiveness must be assessed rather than assumed.",
+      "3": "Procedure similarity does not establish the relevant controller behavior or configuration. The review must address whether the confirmed mechanism is possible and controlled, not just whether document wording matches."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q117",
+    "set": 2,
+    "batch": 12,
+    "sub": "cqa-neutral-closed-followup",
+    "bok": "III.E",
+    "cognitive": "Apply",
+    "stem": "A receiving clerk has answered open questions about how deliveries move through inspection. For selected pallet P84, the auditor still needs to establish whether it was moved to Hold Area H. The account so far describes normal practice but does not answer that specific point. The pallet's movement record is available. Which follow-up best clarifies the fact without signaling an expected answer?",
+    "options": [
+      "Ask, 'Was pallet P84 moved to Hold Area H?' Then examine its movement record with the clerk to corroborate what happened to that pallet.",
+      "Ask, 'You moved pallet P84 to Hold Area H as you should, didn't you?' Then note agreement as confirmation that the proper route was used.",
+      "Ask, 'Was pallet P84 moved to Hold Area H?' Then record the answer as verified evidence because a specific yes-or-no response resolves the outstanding point.",
+      "Ask the clerk to repeat the normal receiving process, then infer P84's destination from that general account without examining the available pallet movement record."
+    ],
+    "answer": 0,
+    "why": "A neutral closed question can clarify a discrete fact after an open account has established the process context. The neutral wording permits either answer without indicating which the auditor expects. Checking the available record linked to P84 then corroborates the account of that historical movement. Closed questions are not inherently leading; the expectation built into the wording matters. Conversely, a specific yes-or-no answer is information to evaluate, not automatic verification. Repeating the normal process cannot establish what happened to the selected pallet. The handbook combines open exploration with focused follow-up and corroboration through relevant evidence. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 167, 169.</span>",
+    "keyPoint": "Use a neutral closed question to confirm a discrete point when appropriate, then corroborate the account with evidence relevant to that event.",
+    "trap": "Assuming every closed question is leading, or assuming a clear yes-or-no answer is already verified evidence of a particular event.",
+    "distractors": {
+      "1": "The wording supplies the expected answer and says what the clerk should have done. Agreement with that suggestion does not independently establish the pallet's actual movement.",
+      "2": "The question itself is neutral, but the proposed treatment of the answer skips corroboration even though the relevant record is available. Specificity of an answer does not automatically verify it.",
+      "3": "An account of normal practice can help explain the process, but it does not identify the actual destination of P84. The outstanding event-specific fact should be asked about and checked."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q118",
+    "set": 2,
+    "batch": 12,
+    "sub": "cqa-emergency-evidence-handover",
+    "bok": "III.F",
+    "cognitive": "Apply",
+    "stem": "During a supplier audit, a team member must leave immediately for a personal emergency. Shared, controlled working papers distinguish verified observations with traceable records from one item marked 'awaiting confirmation.' A qualified team member is available, has authorized access to the underlying records and can complete the remaining work within the plan. No conclusion has been made on the open item. What should the lead auditor do?",
+    "options": [
+      "Treat the open item as a finding based on the departing auditor's experience, and assign the available member only to prepare its final wording.",
+      "Close the assignment using the verified checks, omit the unfinished item from the audit record, and ask the team to finish its other responsibilities.",
+      "Require the receiving auditor to repeat every completed check before reviewing the open item, because evidence collected by another member cannot support their conclusions.",
+      "Support the departure, preserve the evidence and have the qualified recipient review its status, accept the unfinished assignment and complete verification before concluding on it."
+    ],
+    "answer": 3,
+    "why": "The lead should support the team member's emergency while maintaining responsibility for the audit's work and evidence. Controlled, traceable records allow the recipient to review completed work and understand what remains unresolved. Explicit acceptance of the unfinished assignment makes responsibility clear; the recipient must complete the needed verification before the team reaches a conclusion on that item. The departure does not invalidate adequately supported observations, nor does experience turn a pending lead into a confirmed finding. No blanket repetition of every completed check is required, but any gap found during the recipient's review still needs attention. Quietly dropping the open work would leave the assignment incomplete. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 172–173.</span>",
+    "keyPoint": "Preserve the distinction between completed evidence and unresolved work during a team handover, and make responsibility for the remaining verification explicit.",
+    "trap": "Losing unfinished work during a reassignment, promoting a pending lead into a finding, or discarding valid evidence solely because its collector has left.",
+    "distractors": {
+      "0": "The working papers explicitly mark the item as awaiting confirmation. The departing auditor's experience does not supply the missing verification, and drafting a finding would prematurely treat the lead as established.",
+      "1": "Completed checks do not resolve the separately identified open item. Removing it from the record would conceal unfinished work instead of assigning and completing it within the available plan.",
+      "2": "The recipient should review the traceable evidence and address any gaps, but another team member's supported observations are not automatically unusable. Repeating every check is an unsupported blanket requirement."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q119",
+    "set": 2,
+    "batch": 12,
+    "sub": "cqa-retesting-cost-origin",
+    "bok": "IV.B.3",
+    "cognitive": "Analyze",
+    "stem": "A manufacturer records both activities in the exhibit in one laboratory account. The same technicians and instruments perform the tests, and all valves remain at the plant before customer delivery. The two entries contain only testing labor and do not overlap; repair labor is recorded separately. The manager proposes classifying the entire account as appraisal because all the work checks conformity. Which classification best reflects why these costs arose?",
+    "options": [
+      "Appraisal $10,500; internal failure $0: both entries pay the same laboratory to verify conformity using the same pressure-testing method.",
+      "Appraisal $8,400; internal failure $2,100: routine verification is separate from additional retesting caused by a nonconformity discovered before delivery.",
+      "Prevention $8,400; appraisal $2,100: initial testing prevents customer defects, while the tests after repair appraise whether the repaired valves conform.",
+      "Appraisal $8,400; external failure $2,100: a failed test has already established a quality failure, regardless of whether delivery has occurred."
+    ],
+    "answer": 1,
+    "why": "Routine first-pass inspection or testing is an appraisal activity. The additional tests were required because valves had failed and needed repair; those retesting costs are internal failure costs because the nonconformity was found and addressed before customer delivery. The same laboratory, staff and equipment can therefore incur different cost-of-quality categories depending on why the work was required. The listed testing labor totals $8,400 + $2,100 = $10,500, but the correct split is $8,400 appraisal and $2,100 internal failure. No separate repair cost is supplied or added. Testing to detect nonconformity is not prevention merely because it occurs before shipment. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 218.</span>",
+    "keyPoint": "Classify quality costs by the reason the activity was needed: routine conformity testing is appraisal, while pre-delivery retesting caused by failure is internal failure.",
+    "trap": "Classifying every laboratory test as appraisal, or calling detection prevention simply because it occurs before the customer receives the product.",
+    "distractors": {
+      "0": "A shared department and method do not determine the category. The extra $2,100 arose from an existing failure and repair, so combining it with routine appraisal hides an internal failure cost.",
+      "2": "Routine first-pass testing evaluates conformity rather than preventing the cause of failure. The additional testing after repair is failure-caused retesting, not routine appraisal in this scenario.",
+      "3": "The stem explicitly places the failure and retesting before customer delivery. That makes the failure-related $2,100 internal, not external; the mere occurrence of a failure does not make it external."
+    },
+    "chart": {
+      "type": "data-table",
+      "title": "Testing labor for the same reporting period",
+      "columns": [
+        "Activity",
+        "Recorded labor cost"
+      ],
+      "rows": [
+        [
+          "Scheduled first-pass pressure tests on completed valves",
+          "$8,400"
+        ],
+        [
+          "Additional pressure tests required after valves failed and were repaired",
+          "$2,100"
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q120",
+    "set": 2,
+    "batch": 12,
+    "sub": "cqa-dmaic-measure-comparable-baseline",
+    "bok": "V.B.1",
+    "cognitive": "Apply",
+    "stem": "A DMAIC project has an approved charter to reduce elapsed time from receipt of a complete quotation request to sending the approved quotation. During Measure, one branch starts its timer at receipt of the complete request; another starts when an estimator begins work. Both stop when the approved quotation is sent and label the result 'turnaround time.' The team proposes combining these figures as its baseline before investigating branch differences. What should it do next?",
+    "options": [
+      "Combine the recorded times as the initial baseline, then use branch as a factor in Analyze to explain the differences in customer turnaround.",
+      "Collect more observations under each branch's existing method, then compare the larger samples to decide whether their turnaround differences warrant causal analysis.",
+      "Apply the charter's start and stop definitions, verify consistent recording on trial cases, and establish the baseline from data that meet those definitions.",
+      "Use estimator-start time at both branches so the measure focuses on work under local control, then establish a common baseline for the approved project."
+    ],
+    "answer": 2,
+    "why": "Measure includes establishing the measurement system and gathering data for baseline performance. The branches currently measure different intervals: starting at estimator work excludes the preceding wait after receipt of a complete request. A common label does not make those intervals comparable for the charter's stated purpose. The team should apply the intended definitions and verify consistent recording before establishing that baseline. Existing records may still be used if they allow the intended interval to be reconstructed; the question does not require discarding usable data. A larger sample or a branch label does not repair the definition mismatch, and consistently measuring only the later interval would change the project's measure. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 250–251.</span>",
+    "keyPoint": "During DMAIC Measure, establish a measurement method consistent with the project's purpose before treating the collected results as a comparable baseline.",
+    "trap": "Mistaking a common column label, a larger sample or consistent use of the wrong interval for a valid project baseline.",
+    "distractors": {
+      "0": "A branch factor does not make the two recorded intervals equivalent. An apparent difference may reflect the measurement definition, so pooling them does not establish the requested turnaround baseline.",
+      "1": "More observations collected under the same incompatible definitions retain the mismatch. The measurement method must first support the interval specified in the charter.",
+      "3": "Using one rule consistently would remove the between-branch definition difference, but estimator-start time still omits part of the elapsed interval required by the approved charter. It would establish a different measure."
     }
   }
 ];

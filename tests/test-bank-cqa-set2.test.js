@@ -1,6 +1,6 @@
 'use strict';
 
-/* CQA Set 2 Batches 1–11: exercise the protected package and real learner controls. */
+/* CQA Set 2 Batches 1–12: exercise the protected package and real learner controls. */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const os = require('node:os');
@@ -17,8 +17,8 @@ const AREAS = {
   IV: 'cqa-program', V: 'cqa-tools'
 };
 const COUNTS = {
-  'cqa-fundamentals': 27, 'cqa-process': 33, 'cqa-competencies': 22,
-  'cqa-program': 17, 'cqa-tools': 11
+  'cqa-fundamentals': 30, 'cqa-process': 36, 'cqa-competencies': 24,
+  'cqa-program': 18, 'cqa-tools': 12
 };
 const BATCH_COUNTS = {
   1: {'cqa-fundamentals': 2, 'cqa-process': 3, 'cqa-competencies': 2, 'cqa-program': 2, 'cqa-tools': 1},
@@ -31,9 +31,10 @@ const BATCH_COUNTS = {
   8: {'cqa-fundamentals': 3, 'cqa-process': 3, 'cqa-competencies': 2, 'cqa-program': 1, 'cqa-tools': 1},
   9: {'cqa-fundamentals': 2, 'cqa-process': 3, 'cqa-competencies': 2, 'cqa-program': 2, 'cqa-tools': 1},
   10: {'cqa-fundamentals': 3, 'cqa-process': 3, 'cqa-competencies': 2, 'cqa-program': 1, 'cqa-tools': 1},
-  11: {'cqa-fundamentals': 2, 'cqa-process': 3, 'cqa-competencies': 2, 'cqa-program': 2, 'cqa-tools': 1}
+  11: {'cqa-fundamentals': 2, 'cqa-process': 3, 'cqa-competencies': 2, 'cqa-program': 2, 'cqa-tools': 1},
+  12: {'cqa-fundamentals': 3, 'cqa-process': 3, 'cqa-competencies': 2, 'cqa-program': 1, 'cqa-tools': 1}
 };
-const IDS = Array.from({length: 110}, (_, i) => 'cqa:set-2:q' + String(i + 1).padStart(3, '0'));
+const IDS = Array.from({length: 120}, (_, i) => 'cqa:set-2:q' + String(i + 1).padStart(3, '0'));
 const ORIGINAL_TABLE_IDS = ['cqa:set-2:q004', 'cqa:set-2:q005', 'cqa:set-2:q009', 'cqa:set-2:q010'];
 const tick = w => new Promise(resolve => w.setTimeout(resolve, 55));
 let workspace, build, packet;
@@ -143,15 +144,15 @@ function assertTable(holder, chart) {
   assert.deepEqual(Array.from(table.querySelectorAll('tbody tr'), row => Array.from(row.children, cell => cell.textContent)), chart.rows.map(row => row.map(String)));
 }
 
-test('Batches 1–11 contain exactly Q001–Q110, preserve Set 1, and meet each batch domain allocation', () => {
+test('Batches 1–12 contain exactly Q001–Q120, preserve Set 1, and meet each batch domain allocation', () => {
   const {previous, first, second} = loadBanks();
   assert.deepEqual(first, previous, 'Loading Set 2 must not mutate any Set 1 question or answer');
   assert.equal(first.length, 150);
   assert.deepEqual(second.map(q => q.qid), IDS);
   const all = first.concat(second);
-  assert.equal(new Set(all.map(q => q.qid)).size, 260);
+  assert.equal(new Set(all.map(q => q.qid)).size, 270);
   const firstStems = new Set(first.map(q => q.stem.trim().toLowerCase()));
-  assert.equal(new Set(second.map(q => q.stem.trim().toLowerCase())).size, 110);
+  assert.equal(new Set(second.map(q => q.stem.trim().toLowerCase())).size, 120);
   const totals = Object.fromEntries(Object.values(AREAS).map(area => [area, 0]));
   const batches = Object.fromEntries(Object.keys(BATCH_COUNTS).map(batch => [batch,
     Object.fromEntries(Object.values(AREAS).map(area => [area, 0]))]));
@@ -178,15 +179,15 @@ test('Batches 1–11 contain exactly Q001–Q110, preserve Set 1, and meet each 
   assert.deepEqual(batches, BATCH_COUNTS);
 });
 
-test('the protected CQA runtime retains both banks and identifies Set 2 as one hundred ten of 150 planned questions', async () => {
+test('the protected CQA runtime retains both banks and identifies Set 2 as one hundred twenty of 150 planned questions', async () => {
   const h = await harness(), {w} = h;
   try {
     const exam = w.__TB.EXAMS.cqa;
     assert.equal(exam.bank.length, 150);
     assert.equal(exam.bank, exam.sets[1]);
-    assert.equal(exam.sets[2].length, 110);
+    assert.equal(exam.sets[2].length, 120);
     assert.equal(exam.setPlans[2].target, 150);
-    assert.equal(exam.setPlans[2].label, 'Batch 11 complete');
+    assert.equal(exam.setPlans[2].label, 'Batch 12 complete');
     const raw = loadBanks();
     for (const [set, source] of [[1, raw.first], [2, raw.second]]) {
       assert.deepEqual(Array.from(exam.sets[set], q => q.qid), source.map(q => q.qid));
@@ -198,25 +199,25 @@ test('the protected CQA runtime retains both banks and identifies Set 2 as one h
       }
     }
     selectSet(w, 'full');
-    assert.match(w.document.querySelector('.tb-setnote').textContent, /110 of 150 planned questions/);
-    assert.match(w.document.querySelector('.tb-setnote').textContent, /currently serves 110 questions/);
+    assert.match(w.document.querySelector('.tb-setnote').textContent, /120 of 150 planned questions/);
+    assert.match(w.document.querySelector('.tb-setnote').textContent, /currently serves 120 questions/);
     const fullCard = w.document.querySelector('[data-mode="full"]').closest('.tb-mode');
-    assert.match(fullCard.textContent, /110 randomized questions/);
-    assert.match(fullCard.textContent, /Strict 3 hr 40 min limit/);
+    assert.match(fullCard.textContent, /120 randomized questions/);
+    assert.match(fullCard.textContent, /Strict 4 hr limit/);
     assert.equal(w.document.querySelector('[data-quiz-set-kind="quick"][data-quiz-set="1"]').getAttribute('aria-pressed'), 'true', 'Full Exam selection does not silently switch Quick Quiz');
     assert.deepEqual(h.errors, []);
   } finally {h.close();}
 });
 
-test('Full Exam serves all one hundred ten items, renders every authored table, and reviews all three hundred thirty distractor explanations', async () => {
+test('Full Exam serves all one hundred twenty items, renders every authored table, and reviews all three hundred sixty distractor explanations', async () => {
   const h = await harness(), {w} = h;
   try {
     selectSet(w, 'full');
     click(w, '[data-mode="full"]');
-    const attempt = snapshot(w, 110);
+    const attempt = snapshot(w, 120);
     assert.equal(h.checks(), 1, 'Starting the session goes through the access gate');
     const remaining = w.document.querySelector('#tb-timer').textContent.split(':').map(Number).reduce((sum, value) => sum * 60 + value, 0);
-    assert.ok(remaining > 13190 && remaining <= 13200, 'One hundred ten questions use the existing two-minute-per-question pace');
+    assert.ok(remaining > 14390 && remaining <= 14400, 'One hundred twenty questions use the existing two-minute-per-question pace');
     const expectedTableIds = loadBanks().second.filter(q => q.chart?.type === 'data-table').map(q => q.qid);
     assert.ok(ORIGINAL_TABLE_IDS.every(id => expectedTableIds.includes(id)), 'Both release-case exhibits and the original numerical tables remain present');
     const tableIds = [];
@@ -234,15 +235,15 @@ test('Full Exam serves all one hundred ten items, renders every authored table, 
     assert.deepEqual(tableIds.sort(), expectedTableIds.sort(), 'Every authored data table renders during the attempt');
     click(w, '[data-submit]');
     await tick(w);
-    const result = snapshot(w, 110);
+    const result = snapshot(w, 120);
     assert.equal(result.completed, true);
-    assert.equal(result.grading.correct, 110);
-    assert.equal(result.grading.total, 110);
+    assert.equal(result.grading.correct, 120);
+    assert.equal(result.grading.total, 120);
     assert.equal(w.document.querySelector('[data-score-result]').dataset.scorePercent, '100');
     assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet, '2');
     click(w, '[data-open-review="all"]');
-    assert.equal(w.document.querySelectorAll('.tb-review-card').length, 110);
-    assert.equal(w.document.querySelectorAll('.tb-review-rationales p').length, 330);
+    assert.equal(w.document.querySelectorAll('.tb-review-card').length, 120);
+    assert.equal(w.document.querySelectorAll('.tb-review-rationales p').length, 360);
     for (const record of result.records) {
       const q = record.question;
       const card = w.document.querySelector(`.tb-review-card[data-question-id="${q.qid}"]`);
@@ -260,7 +261,7 @@ test('Full Exam serves all one hundred ten items, renders every authored table, 
   } finally {h.close();}
 });
 
-test('Quick Quiz samples fifty of one hundred ten questions and grades one deliberate wrong answer as 49/50', async () => {
+test('Quick Quiz samples fifty of one hundred twenty questions and grades one deliberate wrong answer as 49/50', async () => {
   const h = await harness(), {w} = h;
   try {
     selectSet(w, 'quick');

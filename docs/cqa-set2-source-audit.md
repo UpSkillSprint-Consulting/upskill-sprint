@@ -1,6 +1,6 @@
 # CQA Set 2: source and question audit
 
-Audit record started: 2026-10-28. Latest batch review: 2026-10-29 (UTC). This record accompanies PR #368, which is accumulating one reviewed batch of ten questions at a time toward 150. The PR is to remain unmerged until all 150 questions are ready.
+Audit record started: 2026-10-28. Latest batch review: 2026-10-28 (America/Regina). This record accompanies PR #368, which is accumulating one reviewed batch of ten questions at a time toward 150. The PR is to remain unmerged until all 150 questions are ready.
 
 ## Sources and method
 
@@ -688,33 +688,161 @@ Mechanical checks confirmed ten sequential unique IDs, four options and exactly 
 
 Source qualifications remain explicit: p. 44's dated FDA/discovery examples do not supply a current universal legal rule; p. 121's note-handling language does not establish a universal destruction policy; p. 192's erroneous financial illustration is not used; and pp. 305–306 do not supply universal FMEA timing, rating changes or acceptance cutoffs. Local agreements, audit boundaries and cost definitions in these scenarios are stated facts, not universal ASQ rules.
 
+### Batch 11 fresh re-audit before adding Batch 12
+
+**PASS — Q101–Q110 and all cited printed pages are retained without correction.** Opposite-author reviewers freshly reread the ten complete canonical objects, including forty choices, ten keys and main explanations, thirty distractor rationales, all teaching fields, three exhibits, current 2026 BoK mappings and actual cognitive labels. The audited 110-question input bank had SHA-256 `dcce898761e0b28f64d7f3710448e0853a1482384252c6eb3111827a6217ba7b`, verified unchanged before and after review. Prior author ledgers and review conclusions were not substituted for fresh passage reading or visual page inspection.
+
+All **18 distinct cited printed folios** were freshly rendered from the actual uploaded fifth-edition PDF and personally inspected. Seven supported Q101–Q105 and eleven supported Q106–Q110. Every visible folio and relevant passage was checked; p. 154 is a chapter-opening footer, while the other cited folios appear in headers. The one-based PDF position was confirmed individually as printed page +19 rather than inferred solely from the offset.
+
+| Item | Verified printed pages | One-based PDF pages | Fresh result |
+|---|---|---|---|
+| Q101 | 18 | 37 | Both retained audit-program purposes and boundaries remain covered; qualified resources and time are explicit. Retain. |
+| Q102 | 44 | 63 | Accuracy does not authorize wider disclosure; potential liability and damages remain conditional. Retain. |
+| Q103 | 139 | 158 | Authenticated, relevant operating evidence can support the proposed remote verification; access alone is not proof of effectiveness. Retain. |
+| Q104 | 100 | 119 | Linked authorized evidence can assess the expressly scoped interface controls without adding algorithm validation. Retain. |
+| Q105 | 111, 120–121 | 130, 139–140 | Independently supplied completed checks support a positive conclusion bounded by the sample and scope. Retain. |
+| Q106 | 154 | 173 | The permitted scan's authenticity, completeness and adequacy are verified; the alternative preserves required evidence. Retain. |
+| Q107 | 165, 226–227 | 184, 245–246 | The flowchart fits the audience's routing, responsibility and return-loop question; actual demand remains Apply. Retain. |
+| Q108 | 183–184 | 202–203 | Confidential peer debriefs examine criteria and evidence within the authorized audience without presuming every difference is incompetence. Retain. |
+| Q109 | 187, 190–191 | 206, 209–210 | The completed-year calculation includes six realized months and every cost within the stated boundary exactly once. Retain. |
+| Q110 | 305–306 | 324–325 | Improved detection does not establish lower occurrence or severity; the conceptual task remains Understand. Retain. |
+
+The Q104/Q105 case was rechecked directly from the canonical objects. Both copies have the same `cqa-set2-conversion-interface-01` identifier, identical **55-word / 401-character common context**, and identical complete four-row table. The common-context hash remains `1a1fd8fa8ec1c7d50ec0c8ac593891bed34baa05637efcb295f3a6790a23b5ef`; the sorted-key, Unicode-retained compact-JSON table hash remains `7752b9681efd352cc058810b6ce360e9083df27d024ff4bbef44b0fbf4308714`. Q105 supplies its own completed twenty-job checks and results, so it does not depend on Q104's selected answer or display order. The phrase “20 jobs from July” is unambiguously a count and period.
+
+All four Q109 alternatives were independently reconstructed. Six months at $9,000 produce $54,000 of realized savings after the action costs already accounted for. The remaining nonoverlapping audit costs total $24,000 + $9,000 + $7,000 = $40,000. The correct net contribution is **$14,000**. The alternatives correctly represent $68,000 from annualizing to twelve months, $54,000 from omitting all remaining costs, and $30,000 from deducting only auditor labor. No additional six months are treated as realized, no action cost is deducted twice, and this one financial measure is not equated with total program effectiveness.
+
+The current BoK ceilings and actual labels were reconfirmed, including Q107 Apply, Q109 Analyze and Q110 Understand. Q102 does not import dated legal examples as universal rules; Q103 does not prescribe remote verification for every corrective action; Q104 does not let a proprietary label excuse essential in-scope evidence; and Q110 does not assign a fixed FMEA score or universal cutoff. Structural and targeted novelty checks found no required correction. Final retained keys are **C/A/D/B/C/A/D/B/A/D**. All 110 preceding question objects remain unchanged in the following 120-question bank.
+
+Detailed fresh reports: `batch11-reaudit-q101-q105.md`, SHA-256 `183e8a05af31e36b1711ff580eab7b6911cc11feb020659e259f15b7afcb83b5`, and `batch11-reaudit-q106-q110.md`, SHA-256 `7a4e95f4b154835be844bb3a8497ee212be5e34ec86af0c1270438fc53c226f8`. The first report's completion date was clarified to the client date, 2026-10-28 (America/Regina), without changing any audit finding. The review establishes content and source consistency, not empirical equivalence to a live ASQ examination or human SME certification.
+
+## Batch 12: Q111–Q120 source and independent item review
+
+Review date: **2026-10-28, America/Regina**.
+
+All ten final objects passed independent review of their complete stems, four options, keyed answers, explanations, key points, traps and thirty distractor rationales. The review checked direct handbook support, actual cognitive demand against the current 2026 CQA BoK ceiling, plausible competing choices and substantive differences from existing items. These are original simulated questions; content review is not a claim of measured psychometric equivalence to an administered ASQ examination.
+
+### Final question and source map
+
+| Item | Decision tested | BoK | Actual / maximum level | Key | Printed pages | One-based PDF pages |
+|---|---|---|---|---|---|---|
+| Q111 | Complete product-audit coverage of the specified finished kit, including accessories, instructions and protection | I.A.1 | Apply / Analyze | B | 2–3 | 21–22 |
+| Q112 | Respect the boundary between program-wide controls and leadership of one audit engagement | I.D | Apply / Apply | D | 26–27 | 45–46 |
+| Q113 | Credit substantive analysis and drafting while retaining the lead's review and reporting responsibility | I.E.1 | Apply / Apply | A | 26, 29 | 45, 48 |
+| Q114 | Investigate the current status of a prior emerging trend during audit preparation | II.A.3 | Analyze / Analyze | C | 71 | 90 |
+| Q115 | Supplement useful process tracing with evidence for applicable criteria not exercised by the sampled path | II.A.6 | Apply / Apply | B | 82 | 101 |
+| Q116 | Assess where a confirmed failure mechanism can exist across differing configurations | II.D.1 | Evaluate / Evaluate | C | 134, 136 | 153, 155 |
+| Q117 | Ask a neutral closed follow-up and corroborate the event-specific answer | III.E | Apply / Apply | A | 167, 169 | 186, 188 |
+| Q118 | Preserve verified and unfinished evidence status while transferring audit work after a team member leaves | III.F | Apply / Apply | D | 172–173 | 191–192 |
+| Q119 | Separate appraisal from pre-delivery failure-caused retesting within one laboratory account | IV.B.3 | Analyze / Analyze | B | 218 | 237 |
+| Q120 | Establish comparable DMAIC measurement definitions before adopting a pooled baseline | V.B.1 | Apply / Apply | C | 250–251 | 269–270 |
+
+There are **16 distinct cited printed folios**: 2, 3, 26, 27, 29, 71, 82, 134, 136, 167, 169, 172, 173, 218, 250 and 251. The independent reviewer personally inspected every relevant passage and visible folio in fresh full-page renders. The printed-to-PDF offset of +19 was checked visually, not accepted merely from the text-extraction index. P. 26 is cited by two items and is counted once in the distinct total.
+
+Direct support is specific. Pp. 2–3 include customer requirements for the complete product, packaging, instructions, accessories and shipment protection. Pp. 26–27 distinguish lead-auditor duties from qualification, controls and scheduling across the program. P. 29 supports due credit; p. 26 also supports the lead's responsibility for the final report with team input. P. 71 explicitly addresses prior emerging trends that were not violations and their use in preparation. P. 82 identifies the need to link the process approach to external requirements. Pp. 134 and 136 support consideration of similar conditions elsewhere, necessary action and effectiveness verification. P. 167 demonstrates focused follow-up and distinguishes leading questions; p. 169 supports corroboration. Pp. 172–173 address recorded results, evidence-based team decisions, new responsibilities, deliverables and support during an emergency. P. 218 distinguishes appraisal and failure-related retesting. Pp. 250–251 distinguish measurement-system/baseline work from causal analysis, improvement and sustaining controls.
+
+### Reasoning and one-best-answer review
+
+**Q111 — Complete finished-kit coverage.** The customer specification explicitly requires the leads, printed instructions and molded protection, and the selected kits' functional performance has already been verified. Inspecting those same finished packages addresses the remaining requirements. Observing later packing does not establish the selected packages' contents, additional functional tests do not cover omitted package characteristics, and correct labels or carton counts do not establish what is inside. The item does not assume a package defect before inspection or impose an auditor's preferred packaging method.
+
+**Q112 — Bounded authority.** Separate program and engagement roles are supplied, and the lead has no program-wide delegation. The common qualification rule and a specialist's cross-audit conflict therefore require program coordination; the engagement lead contributes needs and manages the approved local work. The alternatives either extend a lead's authority beyond its stated boundary, fragment the common controls or assign program qualification duties to auditee coordinators. The explanation expressly allows organizations to combine roles or delegate tasks; it does not create a universal ban on those arrangements.
+
+**Q113 — Credit and responsibility.** The member's analysis and drafting and the lead's verification, revisions and approval are separate, substantive contributions. The authorized summary may name them. Accurate attribution preserves both the origin of the work and the lead's final responsibility. Signing the report does not transfer sole credit; recognizing the member does not transfer the lead's final-report duty; silence by the member does not authorize misattribution. The current ASQ code's credit principle was independently checked against the official page, while the learner-facing source remains the handbook.
+
+**Q114 — Time and evidence boundaries in preparation.** The previous sample contained no overdue work, and completing maintenance on the last allowed day is not itself a violation. The increasing proportion was an emerging concern, not an established current condition or a corrective-action request. Obtaining recent data and responses allows the auditor to decide whether the concern continued, worsened or reversed. The other choices ignore useful history, turn the historical trend into an unsupported finding, or present it as current without checking. No statistical significance or root cause is inferred from the descriptive pattern.
+
+**Q115 — Coverage of a periodic external requirement.** The customer quality agreement is expressly in the agreed criteria. Tracing selected jobs establishes transaction-level evidence but does not itself test the required quarterly review of approver authorizations. A criteria-to-activity mapping identifies the gap and directs examination of the relevant records while retaining useful tracing. A larger sample on the same path does not automatically exercise the separate periodic control. Approved procedures alone do not demonstrate operation, and unexamined records do not establish that the review was missed. The item distinguishes a gap in the auditor's coverage from a proven auditee nonconformity.
+
+**Q116 — Extent without indiscriminate rollout.** The restart-label mechanism, local action and Cell A effectiveness are established. The remaining issue is whether the mechanism can exist in the other controller versions and settings. The selected review examines applicability, exposure and controls before determining necessary actions and verification. An absence of recorded incidents does not rule out the condition, and similarity of output does not establish that the identical change is appropriate everywhere. Matching instructions do not prove actual controller behavior. The auditee retains responsibility for the technical solution.
+
+**Q117 — A closed question can be neutral.** The open account has explained normal receiving, but the auditor still needs the actual movement of pallet P84. The selected prompt permits either answer without suggesting the desired one, then checks the relevant movement record. The leading alternative embeds what the clerk supposedly should have done. The other identical closed prompt improperly treats an answer as automatically verified, and repeating the general process does not establish this pallet's history. Interview statements remain information to evaluate; the item does not imply they are never audit evidence.
+
+**Q118 — Evidence status survives a personnel change.** Controlled notes distinguish verified, traceable observations from an item awaiting confirmation. The recipient is expressly qualified, authorized to access the records and able to finish the work within the plan. The lead supports the departure, preserves the record, obtains an explicit handover and completes the outstanding verification before a conclusion. The departure does not invalidate adequate completed evidence; experience does not turn an unverified lead into a finding; quietly omitting unfinished work does not complete the assignment. Any actual gap identified in the recipient's review still needs attention. The final explanation avoids assuming a qualification that the stem does not expressly assign to the departing member.
+
+**Q119 — The reason for testing determines the cost category.** The two entries use the same people and equipment but have different cost drivers. Routine first-pass conformity testing is appraisal; additional testing required because a failure led to repair is internal failure when it occurs before customer delivery. The expense is testing labor only, with repair labor explicitly separate. The classification therefore changes the profile within the account, not the amount spent. Performing a check before shipment does not make it prevention of the underlying failure, and a failure is not external merely because it has occurred.
+
+**Q120 — Comparable measurement before causal analysis.** Both branches stop when the approved quotation is sent. One starts at complete-request receipt and the other only when estimator work begins. The latter omits the preceding wait from the charter-defined interval. A common label, larger samples or a branch factor in analysis cannot repair that mismatch. Consistently adopting estimator-start time would measure a different interval from the approved charter. The selected approach verifies consistent definitions and recording before adopting a comparable baseline. Historical data are not automatically discarded: they may remain usable if the intended interval can be reconstructed. No quantitative MSA cutoff or particular study design is invented.
+
+### Exhibit and numerical checks
+
+Q119 contains the batch's only new table: two activities, two costs and a shared reporting period. It stands alone and is not a formal case-pair item.
+
+| Component or alternative | Appraisal | Internal failure | Other category | Total listed testing labor |
+|---|---:|---:|---|---:|
+| Correct classification, B | $8,400 | $2,100 | None | **$10,500** |
+| A: classifies all laboratory work as appraisal | $10,500 | $0 | None | $10,500 |
+| C: calls first-pass detection prevention and retesting appraisal | $2,100 | $0 | Prevention $8,400 | $10,500 |
+| D: calls a pre-delivery failure external | $8,400 | $0 | External failure $2,100 | $10,500 |
+
+The independent reconstruction confirms **$8,400 + $2,100 = $10,500**. The entries do not overlap, and no unspecified repair expense is added. Each alternative preserves the total and isolates its classification error, so the answer is not exposed by an arithmetic-total mismatch.
+
+All ten questions have four choices and three correctly indexed distractor rationales. The forty choices range from **19 to 26 whitespace-delimited words**, with a largest within-question maximum/minimum ratio of approximately **1.131**. Q114 has four equal-length choices. Several keys are shorter than or equal to distractors, and the modestly longest Q118 key differs by one word. Content and plausibility were reviewed directly; these length measurements are only a check for avoidable cues.
+
+### Novelty review and replacements
+
+The comparison inventory includes all **150 Set 1 and 110 existing Set 2 items**. The earlier 250 inventory entries were exactly unchanged, and Q101–Q110 had been fully reviewed in the previous cycle and were reconsidered for this plan. Relevant complete neighboring objects were reread. The comparison focused on the task and misconception, not just different industries, objects or names.
+
+- **Q111:** Set 1 `cal-01` compares product and process audit labels; this item completes actual coverage of a specified finished customer kit. Q071 concerns a QMS certificate versus lot conformity, while Q111 has direct functional evidence and a separate unexamined package requirement.
+- **Q112:** Set 1 `b06-16` broadly assigns schedules, staffing and budgets to program management. The new item uses the explicit limit of a single-engagement delegation to resolve a common qualification rule and cross-audit assignment request. Q013, Q062 and Q093 address other participant boundaries. The role connection is acknowledged rather than described as a wholly new subject.
+- **Q113:** Earlier professional-conduct items cover confidentiality, gifts, independence, signing authority and legal exposure. This item tests substantive credit without confusing it with final approval responsibility, using an authorized internal summary so disclosure permission is not an unstated competing issue.
+- **Q114:** Q034 concerns missing documentation for an interface between approved procedures. The new task uses a prior emerging trend that was not a finding. Q019 and Q059 concern program metrics or management review; Set 1 `b02-24` concerns actual recurring nonconformities.
+- **Q115:** The original proposal to notify an immediate significant quality risk was rejected because Set 1 `b04-02` already tests immediate reporting rather than waiting for closing. The final item repairs the process method's link to an external periodic criterion. Q035 instead adapts a checklist to an omitted manual operating route, and Q081 identifies an element method across departments.
+- **Q116:** The original factual-counterevidence proposal was rejected because Q018 and Set 1 `b04-16` already address correction of unsupported or misidentified findings. The final item supplies a valid local action and isolates applicability across configurations. Set 1 `b04-23` lacks cause/owner/date and already has other observed failures; Q014 challenges a remedy that misses the known cause, and Q095 accepts a substantiated alternative remedy.
+- **Q117:** Set 1 `b05-21` rejects interviews made only of yes/no prompts, `b05-23` rejects leading questions, and Q077 recovers an unanswered part of a compound prompt. The new item positively recognizes a suitable neutral closed follow-up and distinguishes the question's form from how its answer is verified.
+- **Q118:** Q006 assigns spare competent capacity to an investigation. The new decision preserves completed versus pending evidence and explicit responsibility through an actual handover. Set 1 `b06-05` includes emergency contacts among several preparation problems, rather than this evidence-continuity decision.
+- **Q119:** Set 1 `cal-09` distinguishes supplier surveys from incoming inspection. The new item distinguishes routine and failure-caused versions of the same apparent testing activity. Q009 compares gross failure-cost and total-COQ changes, and Q109 separates realized and annualized financial contribution; neither resolves this appraisal/internal-failure account split.
+- **Q120:** Set 1 `b07-05` critiques changing a process before a charter/baseline and omitting sustaining controls. The new task diagnoses a specific measurement-definition mismatch within Measure. It does not repeat Q049's conflicting business-unit metrics or Q057's interpretation of interview terminology.
+
+Actual cognitive levels are **Apply7 / Analyze2 / Evaluate1**. Q114 distinguishes old and current information in preparation; Q119 breaks a common account into activities with different cost causes and delivery boundaries. Q116 judges proposed extent reviews against the established mechanism and configuration facts. The other items apply the specified principles to their supplied situations. No level exceeds its current BoK ceiling, and no question was enlarged merely to claim a higher level.
+
+### Review refinements and exact frozen versions
+
+The review made four bounded refinements:
+
+- Q113's source footer changed from p. 29 to **pp. 26, 29**, supporting both due credit and the lead's reporting responsibility. No question text, option, key or rationale changed.
+- Q120 now says both branches stop when the **approved quotation** is sent, leaving the start definition as the sole measurement mismatch.
+- Q116's explanation now states that an absence of recorded incidents **does not rule out the condition**, replacing an awkward double-negative construction.
+- Q118's third distractor rationale no longer calls the departing auditor qualified, because the stem expressly supplies that qualification for the recipient only. The reasoning continues to depend on supported, traceable observations.
+
+Final arrays:
+
+- Q111–Q115: `set2_batch12_q111_q115.json`, 15,975 bytes; SHA-256 `ddd3355d403cd71582cf96f155f23b9b9ccc0cde7ff688dbd0f1de472e0d10fb`.
+- Q116–Q120: `set2_batch12_q116_q120.json`, 16,389 bytes; SHA-256 `9756f036339e7125ab0798be3d220a6014b5465e3e5a81e74eb5a31cadebac8a`.
+
+The reviewer independently reversed Q113's sole footer change to reproduce the exact first draft hash, and reversed the last two second-half wording changes to reproduce its exact reviewed draft hash. These checks establish that all other options, key indices, citations and content remained unchanged across those final refinements. The Q120 final object also matches its separately reviewed, clarified provisional object.
+
+### Source qualifications retained
+
+The current ASQ ethics provision was checked at [ASQ's official Code of Ethics page](https://asq.org/about-asq/conferences-events-policies/code-of-ethics). It supports giving due credit; its current structure differs from the handbook's old seven-article presentation. Attribution does not by itself authorize reuse, which is why authorized use is stated in Q113.
+
+The finished-product status in Q111 is a scenario fact, not a claim that all product audits universally occur at one lifecycle point. The roles in Q112 follow the expressly stated delegation. The quarterly control in Q115 is a stated customer-agreement requirement, not a universal audit frequency. Q116 does not prescribe one technical fix for every configuration. Q119 relies on p. 218's explicit pre-delivery categories rather than the problematic restaurant example on p. 219. Q120 does not import p. 249's introductory sigma/DPM language, require a universal measurement-system threshold or demand deletion of reconstructable historical data.
+
 ## Progress and remaining blueprint
 
-| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 | Batch 9 | Batch 10 | Batch 11 | Current total | Final target | Remaining |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 27 | 37 | 10 |
-| II. Audit Process | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 33 | 45 | 12 |
-| III. Auditor Competencies | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 22 | 30 | 8 |
-| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 17 | 23 | 6 |
-| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 11 | 15 | 4 |
-| **Total** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **110** | **150** | **40** |
+| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 | Batch 9 | Batch 10 | Batch 11 | Batch 12 | Current total | Final target | Remaining |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 30 | 37 | 7 |
+| II. Audit Process | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 36 | 45 | 9 |
+| III. Auditor Competencies | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 24 | 30 | 6 |
+| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 18 | 23 | 5 |
+| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 12 | 15 | 3 |
+| **Total** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **120** | **150** | **30** |
 
-Continue alternating the established domain allocations: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation and independent review; allocation alone is not content validation. The next user-requested batch will be **Q111–Q120**, allocation **3/3/2/1/1**, after a fresh audit of Q101–Q110. It has not been started in this update.
+Continue alternating the established domain allocations: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation and independent review; allocation alone is not content validation. The next user-requested batch will be **Q121–Q130**, allocation **2/3/2/2/1**, after a fresh audit of Q111–Q120. It has not been started in this update.
 
-The first 110 questions contain twelve document-case items in six pairs (Q004–Q005, Q023–Q024, Q043–Q044, Q064–Q065, Q084–Q085 and Q104–Q105), approximately **10.91%**, and **26 rendered question tables**. The new pair repeats its complete context and exhibit and remains independently answerable after shuffling. Twelve case items at 120 questions will equal 10%; another pair can be considered in Batch 13. Answer positions are **A28/B27/C27/D28**. Actual cognitive labels are **Apply 49, Analyze 31, Evaluate 25 and Understand 5**.
+The first 120 questions contain twelve document-case items in six pairs (Q004–Q005, Q023–Q024, Q043–Q044, Q064–Q065, Q084–Q085 and Q104–Q105), exactly **10%**, and **27 rendered question tables**. Batch 12 adds one standalone cost-classification table and no formal case pair. Existing case copies retain their complete context and exhibits and remain independently answerable after shuffling. Another pair can be considered in Batch 13. Answer positions are **A30/B30/C30/D30**. Actual cognitive labels are **Apply 56, Analyze 33, Evaluate 26 and Understand 5**.
 
-The existing engine randomizes question order. Practice timing remains two minutes per question: the available 110-question Full session uses **220 minutes**, displayed as **3 hr 40 min**. Quick Quiz retains its fifty-question maximum and samples from all 110 available items. This remains a partial practice set toward the planned 150.
+The existing engine randomizes question order. Practice timing remains two minutes per question: the available 120-question Full session uses **240 minutes**, displayed as **4 hr**. Quick Quiz retains its fifty-question maximum and samples from all 120 available items. This remains a partial practice set toward the planned 150.
 
 ## Integration verification
 
 - `node --test --test-isolation=none tests/test-bank-cqa-set1.test.js tests/test-bank-cqa-set2.test.js`: **13 passed, 0 failed**.
 - `npm run build:site`: **passed**, including scans of 619 public files with no known static findings and three clean protected-tool shells. These static checks do not claim verification of a production runtime or CDN.
-- The learner checks exercise all 110 questions, a 220-minute Full session, correct grading, a fifty-question Quick Quiz sampled from the available 110, a ten-question diagnostic, and all five focused domains with 27/33/22/17/11 questions.
-- An all-correct Full attempt scores 110/110 and 100%. A fifty-question Quick attempt with one deliberate wrong answer scores 49/50, displayed as 98%, and identifies the single incorrect item in review.
-- All 26 question tables render during the attempt and review. All 110 review cards display the authored explanations and all **330 distractor rationales**. Distractor feedback is not exposed during the timed attempt.
-- The runtime timer was checked at **13,200 seconds** and the existing display convention at `3 hr 40 min`. Quick Quiz serves its fifty-question request without an availability-cap notice. No timing or quiz-engine implementation change was needed.
+- The learner checks exercise all 120 questions, a 240-minute Full session, correct grading, a fifty-question Quick Quiz sampled from the available 120, a ten-question diagnostic, and all five focused domains with 30/36/24/18/12 questions.
+- An all-correct Full attempt scores 120/120 and 100%. A fifty-question Quick attempt with one deliberate wrong answer scores 49/50, displayed as 98%, and identifies the single incorrect item in review.
+- All 27 question tables render during the attempt and review. All 120 review cards display the authored explanations and all **360 distractor rationales**. Distractor feedback is not exposed during the timed attempt.
+- The runtime timer was checked at **14,400 seconds** and the existing display convention at `4 hr`. Quick Quiz serves its fifty-question request without an availability-cap notice. No timing or quiz-engine implementation change was needed.
 - Set 1 remains at 150 unchanged questions. Set 2 is included only in the protected CQA package and excluded from other exam packages and public staging.
-- All 100 preceding question objects were compared with the prior PR bank and remain unchanged, including their serialized source text. The ten new objects exactly match the frozen author arrays. All **260 combined Set 1/Set 2 question IDs** are unique; every Set 2 item has four distinct options, exactly three non-key distractor rationales and a printed-page source reference.
-- JavaScript syntax checks passed for the bank and test file. The HTML change since the preceding PR head is only the CQA completion label, from Batch 10 to Batch 11. The replacement is scoped to the CQA registration to preserve every other exam's label. The reviewed update includes only the bank, its existing integration tests, the CQA progress label and this cumulative audit; unrelated regenerated build files are excluded.
+- Root and an independent integration reviewer separately confirmed that all 110 preceding question objects remain unchanged from the prior PR bank, including their exact serialized source text. The ten new objects exactly match the frozen author arrays. All **270 combined Set 1/Set 2 question IDs** are unique; every Set 2 item has four distinct options, exactly three non-key distractor rationales and a printed-page source reference.
+- JavaScript syntax checks passed for the bank and test file. The HTML change since the preceding PR head is only the CQA completion label, from Batch 11 to Batch 12. The replacement is scoped to the CQA registration to preserve every other exam's label. The reviewed update includes only the bank, its existing integration tests, the CQA progress label and this cumulative audit; unrelated regenerated build files are excluded.
 
 PR #368 remains an accumulation branch; publication is deferred until all 150 questions are ready. No merge or production deployment is part of this batch update.
