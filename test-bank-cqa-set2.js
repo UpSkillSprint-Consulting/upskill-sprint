@@ -1,6 +1,6 @@
 /*
  * ASQ CQA Exam Set 2 — original practice questions.
- * Batches 1–9: Q001–Q090. Planned bank: 150 questions.
+ * Batches 1–10: Q001–Q100. Planned bank: 150 questions.
  * Author in reviewed batches of 10; hold PR #368 until all 150 are ready.
  * 2026 BoK target counts: I 37 / II 45 / III 30 / IV 23 / V 15.
  * Batch 1 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
@@ -12,6 +12,7 @@
  * Batch 7 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Batch 8 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Batch 9 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
+ * Batch 10 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Questions and exhibits are original; handbook citations use printed pages.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
  */
@@ -2861,6 +2862,297 @@
       "1": "This reverses the roles of the indices. Cp compares widths, while Cpk uses the nearer limit and therefore responds to the mean's location as well as process spread.",
       "2": "Cpk takes the smaller of the upper-side and lower-side standardized distances. Its value alone does not identify which side supplied that minimum.",
       "3": "Cpk does not become a time-change or loss-of-control measure merely because it is lower than Cp. The stem establishes stability; the difference here concerns centering under the stated model."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q091",
+    "set": 2,
+    "batch": 10,
+    "sub": "cqa-prospective-risk-audit-purpose",
+    "bok": "I.A.3",
+    "cognitive": "Apply",
+    "stem": "A business-continuity review identifies dependence on one transport carrier as a potential source of delivery interruption. Management establishes an alternate-carrier arrangement and a stock-buffer control, then commissions an audit of whether these treatments are implemented and effective. No interruption or related nonconformity has occurred, and there is no earlier audit finding to close. Which purpose best describes the assignment?",
+    "options": [
+      "Investigate the causes and extent of an actual delivery interruption, using the treatment records as evidence of the failure that prompted the audit.",
+      "Assess whether controls for the identified potential interruption are implemented and effective, using evidence about the arrangements before an actual delivery failure occurs.",
+      "Verify closure of an earlier audit finding by checking whether corrective actions for the recorded delivery failure were completed and prevented its recurrence.",
+      "Establish initial supplier qualification by evaluating the primary carrier's capability before it is approved to begin providing the organization's first transport service."
+    ],
+    "answer": 1,
+    "why": "The assignment audits treatment of an identified risk: it seeks evidence that the alternate-carrier and stock-buffer arrangements are implemented and effective before the potential interruption becomes an actual failure. That is a risk-focused purpose. The scenario does not describe a reported interruption requiring a for-cause investigation, a previous finding requiring follow-up closure, or initial approval of the existing carrier. Risk-focused work can also examine conformity to applicable requirements; the distinction here is the stated purpose of this engagement, not a rule that audit purposes cannot overlap. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 7, 206.</span>",
+    "keyPoint": "An audit can verify treatment of an identified potential risk before a failure or nonconformity occurs.",
+    "trap": "Assuming that checking protective controls must be an investigation of a past failure or follow-up of an earlier audit finding.",
+    "distractors": {
+      "0": "No actual interruption has occurred. The purpose is to assess controls for the identified possibility of interruption, rather than establish the cause and extent of an existing failure.",
+      "2": "The stem expressly excludes an earlier finding to close. Although risk-treatment verification and corrective-action verification can use similar techniques, this assignment has no previous finding or recorded failure to resolve.",
+      "3": "The organization already uses the primary carrier. The stated engagement assesses controls for a dependency risk, not qualification before the carrier's first approved service."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q092",
+    "set": 2,
+    "batch": 10,
+    "sub": "cqa-effective-revision-criteria",
+    "bok": "I.C",
+    "cognitive": "Analyze",
+    "stem": "A contract revision states that coating specification revision B, requiring at least 50 μm, applies to orders accepted on or after 1 September. Orders accepted earlier retain revision A, requiring at least 40 μm, unless separately amended. Both orders in the exhibit were produced on 10 September and have no separate amendments. Which assessment of their verified thickness results follows the applicable criteria?",
+    "options": [
+      "Apply revision A to both orders and accept both thickness results, because a new revision requires an individual amendment before it can affect any order.",
+      "Apply revision B to both orders and record both thickness results as nonconforming, because production occurred after the revision's stated effective date.",
+      "Apply revision A to P610 and revision B to P611; the measured thickness meets P610's applicable minimum but falls below P611's applicable minimum.",
+      "Defer classification until the customer chooses one common revision for both orders, because orders produced together should be assessed against a consistent criterion."
+    ],
+    "answer": 2,
+    "why": "The contract makes order acceptance the applicability trigger. P610 was accepted before 1 September and has no separate amendment, so revision A's 40 μm minimum applies; its 45 μm result meets that minimum. P611 was accepted after the trigger date, so revision B's 50 μm minimum applies; its 45 μm result falls short. The common production date does not replace the expressly stated acceptance-date rule. The assessment concerns the reported thickness criterion, not proof that either order meets every contractual requirement. These effective-date and amendment rules come from this contract rather than a universal rule about how revisions apply. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 21–22.</span>",
+    "keyPoint": "Determine the criterion applicable to each transaction using the contract's explicit revision and effective-date rules.",
+    "trap": "Applying the newest revision retroactively because production is later, or preserving an old revision for new orders despite an explicit applicability trigger.",
+    "distractors": {
+      "0": "The separate-amendment condition applies to orders accepted before the trigger date. The contract already applies revision B to later accepted orders, including P611, without requiring another amendment.",
+      "1": "Production date is not the stated trigger. Applying revision B to P610 disregards the contract's express retention of revision A for earlier accepted, unamended orders.",
+      "3": "Producing the orders together does not create a conflicting criterion. The contract supplies a clear rule for each order, so a new common-revision decision is unnecessary."
+    },
+    "chart": {
+      "type": "data-table",
+      "title": "Verified order dates and coating measurements",
+      "columns": [
+        "Order",
+        "Acceptance date",
+        "Verified coating thickness"
+      ],
+      "rows": [
+        [
+          "P610",
+          "31 August",
+          "45 μm"
+        ],
+        [
+          "P611",
+          "2 September",
+          "45 μm"
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q093",
+    "set": 2,
+    "batch": 10,
+    "sub": "cqa-observer-information-route",
+    "bok": "I.D",
+    "cognitive": "Apply",
+    "stem": "An approved audit plan permits an employee to accompany an auditor as an observer for training. The observer is not assigned authority to interview personnel, assess conformity or issue findings. During an in-scope walkthrough, the observer notices a status label that appears inconsistent with its associated inspection record. The discrepancy has not been verified. What should the observer do?",
+    "options": [
+      "Question the operator, gather additional records and draft a finding for the lead, treating approval to accompany the team as authority to conduct audit work.",
+      "Exclude the observation from the audit, because only appointed auditors may originate information that could support a finding and observer comments would compromise the investigation.",
+      "Send the apparent discrepancy directly to the client as a confirmed nonconformity, then allow the assigned auditor to complete its supporting evidence trail afterward.",
+      "Relay the specific observation to the assigned auditor, who can verify the relevant requirement and evidence and decide how to record and report it."
+    ],
+    "answer": 3,
+    "why": "The planned observer role does not include interviewing, conformity assessment or reporting findings. Passing the specific observation to the responsible auditor preserves potentially useful information while respecting those assigned boundaries. The auditor can then examine the applicable requirement and corroborating evidence before deciding whether there is a finding and reporting through the audit team. Observer status does not make the information unusable, and permission to accompany the audit does not by itself confer the auditor's authority. These limits are explicit in this assignment rather than an assertion that every accompanying person has identical restrictions. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 25, 53.</span>",
+    "keyPoint": "Route an observer's potentially useful information through the responsible auditor for verification and assessment within the agreed roles.",
+    "trap": "Confusing permission to observe with authority to audit, or discarding useful information solely because its source is an observer.",
+    "distractors": {
+      "0": "The approved assignment expressly withholds interviewing and conformity-assessment authority. Preparing a finding first and asking for later review does not satisfy those limits.",
+      "1": "An auditor can investigate relevant information brought to attention by another person. The observer's role limits what the observer may decide or perform, not whether the auditor may verify the reported facts.",
+      "2": "The discrepancy is unverified, and the observer has no finding-reporting authority. Reporting a confirmed nonconformity directly to the client both overstates the evidence and bypasses the assigned audit process."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q094",
+    "set": 2,
+    "batch": 10,
+    "sub": "cqa-forward-tracing-branches",
+    "bok": "II.A.6",
+    "cognitive": "Apply",
+    "stem": "An auditor selects incoming material lot K47 to trace its identification and controls through use and dispatch. Issue records show that K47 was divided between work orders W31 and W32; W31 includes an approved rework route. Some resulting output has been dispatched and some remains in controlled stock. Which path best applies forward tracing to the selected lot?",
+    "options": [
+      "Start with receipt and lot identity; follow issues into both work orders, relevant rework and inspection links, then reconcile the resulting stock and dispatch records.",
+      "Start with recent customer dispatches; trace each shipment backward through finished stock and production to its incoming material records, then examine the associated supplier approvals.",
+      "Start with K47's receipt; examine supplier approval, purchase-order and certificate details, then conclude the trace once the incoming acceptance and purchasing requirements are verified.",
+      "Start with W31's normal production route and dispatch records, then apply that trace's conclusions to W32 and the rework route without following their separate links."
+    ],
+    "answer": 0,
+    "why": "Forward tracing follows a selected input or transaction downstream through its linked activities and results. Starting with K47's receipt preserves the selected lot's identity while following its issues into both work orders, including the relevant rework and inspection controls, and onward to stock and dispatched output. Starting from shipments and moving upstream is backward tracing. Supplier and purchasing checks may be relevant, but stopping at incoming acceptance would not cover the stated downstream objective. The selected lot's different paths should be examined rather than assumed equivalent; this does not require a universal 100% inspection of every record or transfer operational stock-disposition duties to the auditor. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 81–82.</span>",
+    "keyPoint": "Follow a selected input downstream through its relevant process branches, controls and outputs while preserving the links to that input.",
+    "trap": "Calling a review forward tracing while moving upstream, stopping at receipt, or substituting one branch for other relevant paths.",
+    "distractors": {
+      "1": "This describes a backward trace from outputs toward inputs and does not necessarily preserve the initially selected K47 path. It may be useful for another objective but is not the requested forward trace.",
+      "2": "Those checks address upstream purchasing and incoming acceptance. They stop before the use, rework, output and dispatch activities that this selected-lot trace is intended to examine.",
+      "3": "W32 and the approved rework route are relevant branches of K47's use. Results from W31's normal route do not by themselves establish how the separate branches maintained the required controls."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q095",
+    "set": 2,
+    "batch": 10,
+    "sub": "cqa-substantiated-alternative-capa",
+    "bok": "II.D.2",
+    "cognitive": "Evaluate",
+    "stem": "Errors in an order-total workbook were traced to a formula range that omits newly inserted lines. The criteria require accurate totals and controlled formula changes. Until implementation, every order total is independently recalculated outside the workbook before release. The auditor suggests replacing the workbook with new software. The auditee instead proposes a revised formula that includes added lines, with edits restricted to authorized, reviewed changes. Independent challenge tests support the proposed mechanism. The plan names an owner, implementation date and 30 days of production checks against agreed accuracy criteria. The procedure requires those checks before closure. Which review decision is best supported?",
+    "options": [
+      "Reject the alternative and require the suggested software replacement, because the auditor's original recommendation defines the permanent remedy once the cause has been verified.",
+      "Defer any decision on the proposed plan until the production checks are complete, because plan approval requires results from an action that is already implemented.",
+      "Accept the substantiated alternative plan, document the review and retain the agreed implementation and effectiveness checks before closure, rather than require the preferred software replacement.",
+      "Accept the alternative and close the finding on the challenge-test results, treating the planned production checks as routine monitoring outside the corrective-action verification process."
+    ],
+    "answer": 2,
+    "why": "The proposal addresses the verified mechanism that excludes added order lines, includes control of formula changes, and supplies supporting tests, responsibility, timing and production-effectiveness criteria. Interim independent recalculation protects order totals while the permanent change awaits implementation. Those facts support accepting the plan even though it differs from the auditor's preferred remedy. A reviewer should assess the auditee's reasoning against the cause and applicable requirements, not make a personal preference an additional criterion. Plan acceptance does not establish completed implementation or production effectiveness: the specified follow-up checks remain necessary before closure under the stated procedure. If evidence revealed a concrete weakness, the reviewer should identify it for resolution; no such unsupported weakness needs to be invented merely because the solution retains the workbook. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 138.</span>",
+    "keyPoint": "Accept a supported corrective-action alternative that addresses the verified cause and required outcomes, while preserving the agreed verification and closure conditions.",
+    "trap": "Treating the auditor's preferred remedy as a requirement, or confusing approval of a sound plan with verification that the completed action is effective.",
+    "distractors": {
+      "0": "The stated criteria concern accuracy and controlled changes, not a mandatory software replacement. The auditor's suggestion does not override a substantiated alternative that addresses the verified cause.",
+      "1": "Review of a proposed plan precedes its implementation and subsequent effectiveness checks. The supporting evidence is sufficient to decide on this plan while retaining those later obligations.",
+      "3": "Challenge tests support the proposed mechanism but do not demonstrate the required 30 days of production effectiveness. The local procedure expressly requires those checks before closure."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q096",
+    "set": 2,
+    "batch": 10,
+    "sub": "cqa-observation-time-boundary",
+    "bok": "II.B.5",
+    "cognitive": "Analyze",
+    "stem": "An audit examines whether a required label-verification check was completed before order D671 was released on 8 August. On 22 August, the auditor observes a technician demonstrate the approved check correctly and verifies its satisfactory result. The technician says the same check was completed before D671's release. No records or other evidence corroborating that earlier event have yet been examined. Which statement best describes what the current evidence supports?",
+    "options": [
+      "The demonstration confirms both present and earlier performance because the same check was used, unless another record directly contradicts the technician's account of D671.",
+      "The demonstration establishes correct execution during the observed check; whether it occurred before D671's release remains a separate historical claim requiring relevant corroboration.",
+      "The earlier check should be reported as omitted because its supporting evidence has not been examined; today's satisfactory result does not change that finding.",
+      "The arranged demonstration should be treated as testimonial explanation, while the technician's recollection provides stronger evidence because it concerns the original release event."
+    ],
+    "answer": 1,
+    "why": "The auditor directly observed and verified the check performed on 22 August, so that observation has evidentiary value for the demonstrated activity. It does not establish that the same activity occurred before a particular release on 8 August. The earlier event requires relevant corroboration, such as records or other evidence linked to that event. The absence of an examination so far is not proof that the check was omitted, and arranging a demonstration does not turn an observed fact into merely an interview statement. Evidence must be relevant and sufficient for the particular conclusion being drawn. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 107.</span>",
+    "keyPoint": "Match an observed fact to the event and time it establishes; a satisfactory current demonstration does not by itself verify a claimed earlier completion.",
+    "trap": "Extending present observation backward in time, or treating an unexamined historical claim as either confirmed performance or confirmed nonperformance.",
+    "distractors": {
+      "0": "Using the same method does not establish that it was performed at the earlier required time. A lack of contradictory records is not a substitute for relevant support for the historical claim.",
+      "2": "The historical claim has not yet been corroborated; the stem does not say the check was omitted. Reporting nonperformance would convert an unresolved evidence question into an unsupported finding.",
+      "3": "The auditor observed the demonstration and verified its result. It therefore supplies direct evidence about that event, while the technician's recollection about the earlier event still needs corroboration."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q097",
+    "set": 2,
+    "batch": 10,
+    "sub": "cqa-work-focused-visual-interview",
+    "bok": "III.E",
+    "cognitive": "Apply",
+    "stem": "An operator asks what the auditor's written question means and gives short, incomplete answers to its abstract quality terminology. They share a working language. The normal task uses an approved pictorial instruction, but the operator must also read the product code and enter the lot number on the job record. No work has yet been observed. Which interview approach best develops evidence about the operator's actual performance?",
+    "options": [
+      "Read the entire written question more slowly and request a yes-or-no answer, using the operator's confidence in that answer to judge ability to perform the task.",
+      "Ask the supervisor to describe the operator's routine and compare that account with the pictorial instruction, using agreement to confirm the operator's ability to follow it.",
+      "Use the pictorial instruction as sufficient evidence of task understanding, and omit code-reading and record-entry checks because the visual sequence reduces the need for written communication.",
+      "Observe ordinary work using the approved visual aid, ask short neutral questions, check the required code reading and lot entry, and corroborate relevant statements."
+    ],
+    "answer": 3,
+    "why": "The unproductive written question does not yet establish whether the operator can perform the job. A work-focused conversation, appropriate visual aid and short neutral prompts can make the activity easier to explain and observe. The auditor should still check the actual requirements, including reading the product code and entering the lot number. Adapting the interview does not waive a necessary job skill or permit coaching the operator through a required step. Observation and relevant corroboration develop evidence about performance more directly than confidence, a supervisor's substitute account or the mere existence of an instruction. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 39, 166–167, 169.</span>",
+    "keyPoint": "Adapt the interview to the work and the person's communication needs while continuing to assess every applicable job requirement.",
+    "trap": "Confusing difficulty with the auditor's question with job incompetence, or using a visual aid as a reason to waive required reading and recording skills.",
+    "distractors": {
+      "0": "Repeating the same abstract question more slowly may leave the communication problem unresolved. A confident yes-or-no answer does not demonstrate the required work, code reading or record entry.",
+      "1": "The supervisor's account may provide context, but agreement with the instruction does not demonstrate this operator's performance. It substitutes another person's explanation for evidence the auditor can obtain from the work.",
+      "2": "An approved visual sequence can support communication, but the stem expressly requires product-code reading and lot-number entry. Those skills cannot be excluded merely because part of the instruction is pictorial."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q098",
+    "set": 2,
+    "batch": 10,
+    "sub": "cqa-parallel-fixed-observations",
+    "bok": "III.B",
+    "cognitive": "Apply",
+    "stem": "Two auditors are free in the briefing room at 09:05. Both are qualified for the two required observations in the exhibit, and one auditor is sufficient for each. Access and escorts are arranged. Each event must be observed for its complete fixed window and cannot be repeated during the visit. The team review is also fixed. Which allocation meets the coverage and timing requirements?",
+    "options": [
+      "Keep both auditors at West Bay for its observation, then travel to East Bay and use the operator's account to reconstruct that event before the review.",
+      "Assign one auditor to each bay, then exchange locations at 09:35 so both see each process and can combine their partial observations during the review.",
+      "Assign one auditor to each bay for the full window, complete the five-minute note checks there, and return separately for the reserved 10:00 team review.",
+      "Assign one auditor to each bay for the full window, then have both meet at West Bay at 09:50 to compare notes before returning together."
+    ],
+    "answer": 2,
+    "why": "Parallel assignments allow both complete observations. Leaving the briefing room at 09:05 gets each auditor to the assigned bay at 09:15, before the 09:20 start. Each observes until 09:45, completes the five-minute note check by 09:50, and returns in ten minutes for the 10:00 team review. Keeping the auditors together would miss the simultaneous event. Exchanging bays interrupts both required observations, and gathering at West Bay first adds travel that cannot meet the proposed 09:50 gathering or the reserved review. Coordinated parallel work preserves coverage while retaining time to reconcile the team's evidence. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 152–153.</span>",
+    "keyPoint": "Allocate qualified auditors to simultaneous fixed opportunities, include travel and note time, and preserve the team's scheduled evidence review.",
+    "trap": "Trying to give both auditors exposure to every event at the cost of complete observation or the time needed to consolidate evidence.",
+    "distractors": {
+      "0": "Both events run from 09:20 to 09:45. Arriving at East Bay after completing West Bay cannot satisfy its required full observation, and an account afterward is not the coverage specified by this plan.",
+      "1": "Leaving at 09:35 misses the final ten minutes at each original bay. The fifteen-minute transfer reaches the other bay at 09:50, after both events have ended, so the partial observations cannot reconstruct full coverage.",
+      "3": "The East Bay auditor finishes the required note check at 09:50 and then needs fifteen minutes to reach West Bay. The proposed gathering is impossible; traveling onward to the briefing room would also miss the fixed 10:00 review."
+    },
+    "chart": {
+      "type": "data-table",
+      "title": "Fixed observations and time allowances",
+      "columns": [
+        "Activity or movement",
+        "Requirement"
+      ],
+      "rows": [
+        [
+          "West Bay start-up verification",
+          "Observe 09:20–09:45 in full."
+        ],
+        [
+          "East Bay line clearance",
+          "Observe 09:20–09:45 in full."
+        ],
+        [
+          "Notes and confirmation",
+          "Five minutes at the bay immediately after each observation."
+        ],
+        [
+          "Travel",
+          "Briefing room to either bay, or back: ten minutes. Between bays: fifteen minutes."
+        ],
+        [
+          "Team evidence review",
+          "Both auditors in the briefing room, 10:00–10:20."
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q099",
+    "set": 2,
+    "batch": 10,
+    "sub": "cqa-auditor-succession-continuity-risk",
+    "bok": "IV.A.8",
+    "cognitive": "Analyze",
+    "stem": "An audit program requires quarterly coverage of a critical process. Its only auditor qualified for that process will retire in six weeks; the next required audit is in ten weeks. Program rules require competent, independent auditors. The last audit was satisfactory. Two independent auditors are available for supervised development, but neither has yet demonstrated the required technical competence. The process engineer knows the work but designs and approves its controls. Which analysis best identifies the program's risk and its implications?",
+    "options": [
+      "The known departure threatens qualified coverage; plan handover and development now, and confirm competent, independent coverage for the due audit, including a contingency if needed.",
+      "The main risk is an outdated schedule; replace the retiring auditor's name with a generally qualified auditor and retain the previous checklist to preserve technical coverage.",
+      "The satisfactory last audit reduces the need for the upcoming audit; postpone successor development until after retirement and use the earlier findings for the intervening period.",
+      "The main need is process familiarity; assign the process engineer to lead the audit and use management review of the report to address the independence concern."
+    ],
+    "answer": 0,
+    "why": "The known departure creates a foreseeable dependency risk: the program may lose the competence needed to perform a required critical-process audit. The period before retirement provides an opportunity for knowledge transfer and supervised development, but participation alone does not establish qualification. The program must confirm competent, independent coverage and plan a suitable contingency if an internal successor is not ready. A satisfactory earlier audit does not remove the stated quarterly requirement, a checklist does not supply missing technical competence, and reviewing the process engineer's report does not remove responsibility for the controls being audited. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 207–208.</span>",
+    "keyPoint": "Treat an anticipated loss of scarce audit competence as a program continuity risk, and prepare qualified, independent coverage before the required work is left unsupported.",
+    "trap": "Treating a known personnel change as a clerical scheduling issue, or mistaking training attendance, past audit success or technical familiarity for qualified independent coverage.",
+    "distractors": {
+      "1": "Changing the name and retaining a checklist do not establish competence for this critical process. The risk concerns the ability to perform the audit effectively, not merely the completeness of the schedule.",
+      "2": "The program still requires quarterly coverage. The earlier satisfactory result neither meets the later audit obligation nor removes the foreseeable loss of competence; waiting also sacrifices the available handover period.",
+      "3": "The engineer is responsible for designing and approving the controls being audited. Technical knowledge and later management review do not provide an independent assessment of that engineer's own work."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q100",
+    "set": 2,
+    "batch": 10,
+    "sub": "cqa-configuration-approved-combination",
+    "bok": "V.F",
+    "cognitive": "Understand",
+    "stem": "A device's configuration baseline identifies the controller hardware, firmware and operating instructions approved together for Model R. A technician says the baseline adds little because each item can be checked separately against its latest approved revision. Which explanation best describes the baseline's role?",
+    "options": [
+      "It preserves the original design for historical reference; once individual revisions are current and approved, those revisions automatically replace the combination recorded in the baseline.",
+      "It identifies the approved combination for that device configuration; individually current hardware, firmware and instructions do not by themselves establish that the combination is approved.",
+      "It links physical parts to inventory identifiers; firmware and operating instructions can be managed independently because their revision status does not affect the hardware configuration.",
+      "It confirms each item's separate conformity; any combination of individually conforming items represents the same controlled configuration when their identification and revision records are complete."
+    ],
+    "answer": 1,
+    "why": "Configuration management defines and maintains the product or system as a documented, traceable configuration. Document control is one part of that work. In this scenario, the baseline identifies the hardware, firmware and instructions approved as a combination for Model R. An item's individual revision or conformity status does not establish that it belongs in that particular combination. This does not mean newer items are necessarily incompatible or that a baseline can never change; the configuration and its changes must remain defined and controlled. The principle concerns the relationship among the items, not just whether each has a current document. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 297–299.</span>",
+    "keyPoint": "A configuration baseline defines the controlled product or system combination; individual item status alone does not establish conformity to that baseline.",
+    "trap": "Equating the newest or individually conforming components with an approved configuration, or reducing configuration management to document revision control.",
+    "distractors": {
+      "0": "A baseline is not merely an obsolete historical list automatically superseded by separate item releases. The defined combination and changes to it remain subject to configuration control.",
+      "2": "The stated baseline includes firmware and instructions as well as hardware. Treating these as unrelated to the device configuration would omit the relationships the baseline is intended to define and trace.",
+      "3": "Separate item conformity does not establish that every possible combination is the same approved configuration. Complete item records still need to identify the combination applicable to the device."
     }
   }
 ];
