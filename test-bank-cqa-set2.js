@@ -1,6 +1,6 @@
 /*
  * ASQ CQA Exam Set 2 — original practice questions.
- * Batches 1–7: Q001–Q070. Planned bank: 150 questions.
+ * Batches 1–8: Q001–Q080. Planned bank: 150 questions.
  * Author in reviewed batches of 10; hold PR #368 until all 150 are ready.
  * 2026 BoK target counts: I 37 / II 45 / III 30 / IV 23 / V 15.
  * Batch 1 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
@@ -10,6 +10,7 @@
  * Batch 5 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Batch 6 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Batch 7 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
+ * Batch 8 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Questions and exhibits are original; handbook citations use printed pages.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
  */
@@ -2277,6 +2278,268 @@
         [
           "S6",
           "10"
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q071",
+    "set": 2,
+    "batch": 8,
+    "sub": "cqa-purpose",
+    "bok": "I.A.3",
+    "cognitive": "Analyze",
+    "stem": "A supplier provides a current ISO 9001 certificate whose scope includes the plant and manufacturing activities supplying lot M184. The customer's incoming-release procedure requires review of dimensional acceptance records linked to each delivered lot. The supplier offers its certificate in place of the records for M184. Which assessment best distinguishes the assurance provided from the evidence still needed?",
+    "options": [
+      "The certificate supports release of M184 because its current scope covers the manufacturing activities; confirm its validity instead of requesting the lot's acceptance records.",
+      "The certificate supports management-system conformity within its scope; obtain the lot-linked acceptance records to satisfy the separately stated incoming-release check for M184.",
+      "The certificate supports release once the supplier confirms that M184 was produced under the certified system; use that confirmation to replace the acceptance records.",
+      "The certificate supports product conformity if the certification body's accreditation covers the supplier's industry; verify that accreditation before substituting it for the acceptance records."
+    ],
+    "answer": 1,
+    "why": "Management-system certification provides assurance about conformity of the system to the applicable standard within the certification scope. It does not, by itself, demonstrate the dimensional acceptance of the particular units in M184. The customer's stated release procedure calls for lot-linked acceptance records, so those records remain necessary for that check. The certificate remains relevant system evidence; neither its validity nor the certification body's accreditation changes the kind of assurance it supplies. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 8, 16.</span>",
+    "keyPoint": "Match the assurance supplied by an audit or certificate to the specific decision and evidence requirement.",
+    "trap": "Extending assurance about a management system into verification of a particular product lot.",
+    "distractors": {
+      "0": "A current, relevant certificate addresses the system and its scope. Validating that certificate does not supply the dimensional acceptance records required for M184.",
+      "2": "Confirmation that a lot was made under the certified system still describes the system used. It does not replace the lot-linked acceptance evidence required by this customer's procedure.",
+      "3": "Accreditation concerns the certification body's conformity to applicable criteria. Checking it does not turn a management-system certificate into evidence of the delivered lot's dimensional acceptance."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q072",
+    "set": 2,
+    "batch": 8,
+    "sub": "cqa-professional-conduct",
+    "bok": "I.E.1",
+    "cognitive": "Apply",
+    "stem": "At a supplier audit, an auditor receives an unreviewed nondisclosure agreement that includes obligations on the auditor's employer. The auditor has no authority to accept those obligations. Access to a proprietary process is conditional on the agreement, and no alternative evidence arrangement has been approved. What should the auditor do next?",
+    "options": [
+      "Sign in an individual capacity, annotate that the employer's review is pending, and begin the process examination while the designated authority reviews the agreement.",
+      "Remove the proprietary process from the day's coverage, continue with unrestricted records, and explain the resulting scope change to the client in the final report.",
+      "Treat the auditor's existing confidentiality training as sufficient authorization to enter the proprietary process, leaving the employer's obligations for discussion after evidence collection.",
+      "Refer the agreement to the designated authority and coordinate approved confidentiality and access arrangements before proceeding with the affected portion of the audit work."
+    ],
+    "answer": 3,
+    "why": "An auditor should obtain review and approval of an unfamiliar confidentiality agreement from the auditing organization's legal counsel or designated authority rather than accept obligations beyond the auditor's authority. The audit participants can then arrange authorized access or an acceptable alternative method that still meets the audit's needs. The scenario does not establish that the agreement is invalid or that the proprietary process may be omitted. Confidentiality and adequate evidence collection both need to be addressed. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 32.</span>",
+    "keyPoint": "Resolve confidentiality commitments through the authorized reviewer while preserving the audit's evidence needs.",
+    "trap": "Treating schedule pressure or personal confidentiality training as authority to accept an employer's obligations.",
+    "distractors": {
+      "0": "Adding an individual-capacity notation or a pending-review annotation does not establish authority to accept the agreement presented. The auditor needs authorized review before signing or relying on altered terms.",
+      "1": "Unrestricted work may be useful, but removing required coverage and disclosing the change only afterward bypasses approval of the changed arrangements. The access problem needs to be addressed while the audit can still be adjusted.",
+      "2": "Training may support professional confidentiality, but it does not resolve the proposed obligations or establish an approved access arrangement. The designated authority should review the agreement before affected work proceeds."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q073",
+    "set": 2,
+    "batch": 8,
+    "sub": "cqa-audit-benefits",
+    "bok": "I.B.2",
+    "cognitive": "Analyze",
+    "stem": "An order-entry process owner tracks entry accuracy and order-processing time. A recent internal audit found the sampled controls conforming and supported their effectiveness for the period examined. A director asks whether the next quarterly audit can replace the owner's monitoring between audits. Which response best uses the favorable audit result?",
+    "options": [
+      "Keep the process owner's monitoring against objectives, and use the audit findings as an additional independent input when management evaluates performance and decides on improvements.",
+      "Have the audit team take over the interim performance reviews, and ask the process owner to intervene when an auditor identifies a missed process objective.",
+      "Use the favorable audit as the performance baseline until the next audit, and have the owner monitor completion of documented work steps during the intervening period.",
+      "Continue tracking customer complaints, and use the favorable audit as assurance of the other process objectives until a new complaint justifies broader performance monitoring."
+    ],
+    "answer": 0,
+    "why": "Audits provide objective information that management can use to evaluate conformity, effectiveness, risks, and opportunities for improvement. Even an audit that examines effectiveness does not replace management's continuing responsibility to monitor performance. The process owner should therefore continue monitoring entry accuracy and processing time, with the audit result contributing additional information. A favorable conclusion for the period examined does not establish that later performance will remain satisfactory or transfer management's monitoring work to the audit team. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 18, 125.</span>",
+    "keyPoint": "Independent audit information supplements management's monitoring of whether processes continue to meet their objectives.",
+    "trap": "Using a favorable audit conclusion as a substitute for ongoing performance information and process-owner responsibility.",
+    "distractors": {
+      "1": "This transfers the process owner's ongoing monitoring work to the audit team and makes management's response depend on the next auditor observation. Auditing supplies additional information; it does not assume that management responsibility.",
+      "2": "Monitoring whether work steps are completed does not by itself show whether accuracy and processing-time objectives continue to be achieved. The earlier audit result cannot supply the missing interim performance information.",
+      "3": "Customer complaints may be useful information, but the scenario does not establish that they detect every failure to meet the two process objectives. The favorable audit is not sufficient grounds for replacing those performance measures with complaint-triggered monitoring."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q074",
+    "set": 2,
+    "batch": 8,
+    "sub": "cqa-on-site-management",
+    "bok": "II.B.1",
+    "cognitive": "Analyze",
+    "stem": "A one-day audit must determine whether approved customer configuration changes were implemented in production during the preceding week. An outage makes the only records linking those changes to actual production inaccessible until two days after the visit. The team and auditee confirm that interviews, available products, and older records cannot establish which configurations were used in that week. Approved procedures remain available. The audit client retains authority to approve changes to the objectives or scope and to terminate the audit. What should the lead auditor do?",
+    "options": [
+      "Review the available procedures and report conformity to the implementation objective, identifying the inaccessible production records as a limitation to be resolved after the visit.",
+      "Combine older production records with management's description of current practice, complete the planned assessment, and identify the outage as a reason for reduced confidence.",
+      "Report why the objective cannot be achieved to the client and auditee, then seek an authorized decision on revised arrangements, objectives, scope, or termination.",
+      "Terminate the audit because the essential evidence is inaccessible, document the reason, and ask the client to approve that decision when the final report is submitted."
+    ],
+    "answer": 2,
+    "why": "The objective concerns actual implementation during a defined recent period. The available evidence cannot answer that question, and a procedure review or evidence from an older period would not remedy the gap. When audit objectives are unattainable, the lead auditor should explain the reasons to the audit client and auditee so they can determine the appropriate action. Depending on their decision, this can involve revised arrangements, changed objectives or scope, or termination. The lead auditor should not substitute a different assessment or exercise authority expressly retained by the client. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 93.</span>",
+    "keyPoint": "When available evidence cannot meet the objective, make the limitation explicit and obtain an authorized decision about the audit's continuation or change.",
+    "trap": "Preserving the scheduled visit by answering a different question, or treating an evidence gap as authority to terminate the audit unilaterally.",
+    "distractors": {
+      "0": "Procedures can show the defined method, but they do not demonstrate implementation during the week in question. Naming the missing evidence as a limitation does not make a conformity conclusion defensible.",
+      "1": "The scenario establishes that older records and interviews cannot identify the configurations used in the relevant week. Combining those sources does not produce the missing implementation evidence.",
+      "3": "Termination may be an appropriate outcome, but the client retains that decision authority. The lead auditor should report the constraint and seek the authorized decision before taking that action."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q075",
+    "set": 2,
+    "batch": 8,
+    "sub": "cqa-working-papers",
+    "bok": "II.A.5",
+    "cognitive": "Apply",
+    "stem": "Procedure PM-06, revision 3, section 4 requires the applied bearing-bolt torque to be recorded on each maintenance work order. At press P4, an auditor examines completed work order M619 dated 12 May and finds its torque field blank. The technician says the usual setting is 45 N·m but does not recall this job. Which working-paper entry best preserves traceable evidence without converting an assumption into a fact?",
+    "options": [
+      "PM-06 rev. 3 §4 checked; M619 at P4 has a blank torque field, but the technician's usual 45 N·m setting supports marking the maintenance requirement conforming.",
+      "PM-06 rev. 3 §4 requires a torque entry; M619, P4, 12 May has a blank field. Technician described the usual 45 N·m setting without recalling this job.",
+      "PM-06 rev. 3 §4 checked; M619 at P4 has a blank torque field, establishing that the technician omitted the required tightening operation when completing the bearing work.",
+      "PM-06 rev. 3 §4 not met in the maintenance sample; torque documentation was missing. Ask the technician to identify the particular work order again at the closing meeting."
+    ],
+    "answer": 1,
+    "why": "Working papers should record observations while the evidence is available and make them traceable to their source. The selected entry identifies the requirement, work order, equipment, date, observed blank field, and the limited nature of the technician's statement. It supports evaluation of the torque-recording requirement without claiming that the actual torque was correct or that the tightening operation was omitted. Recording the identifying details now also avoids relying on memory at the closing meeting. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 80–81.</span>",
+    "keyPoint": "Record identifiable sources and observed facts, and distinguish them from statements or conclusions that the evidence does not establish.",
+    "trap": "Replacing a traceable observation with a checkmark, an inference about the work performed, or a plan to reconstruct the details later.",
+    "distractors": {
+      "0": "The observed blank field does not meet the stated recording requirement. A description of the usual setting neither supplies the required entry nor establishes the torque used for M619.",
+      "2": "The missing entry establishes a documentation gap, not that the tightening operation was omitted. That additional conclusion goes beyond the evidence observed or reported.",
+      "3": "The entry records a general issue but omits the available identifiers needed to trace it directly to M619 at P4. Planning to recover those details later creates an avoidable dependence on memory."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q076",
+    "set": 2,
+    "batch": 8,
+    "sub": "cqa-evidenced-capa-extension",
+    "bok": "II.D.2",
+    "cognitive": "Evaluate",
+    "stem": "An approved corrective-action plan replaces a controller whose failure mode has been verified. Before the agreed deadline, the auditee requests a 14-day extension after a documented supplier shutdown delays delivery. Records show that ordering was timely, preparatory work is complete, and an approved interim check is operating effectively. The request names an owner and confirmed delivery, installation and effectiveness-review dates within the extension. The designated reviewer may authorize revised dates. Which response is best?",
+    "options": [
+      "Reject the extension and require a different permanent solution that can meet the original date, despite the verified cause and documented delivery constraint.",
+      "Accept the interim check as final resolution and close the action, transferring controller installation and later effectiveness review to the department's improvement schedule.",
+      "Approve the delivery and installation dates but defer setting the effectiveness-review date until installation, treating verification as a separate scheduling decision.",
+      "Approve and record the justified extension with its milestones and continued interim monitoring, keeping the action open until required implementation and effectiveness are verified."
+    ],
+    "answer": 3,
+    "why": "The request provides evidence of action already taken, a documented external delay, an effective interim control, an accountable owner and reviewable completion milestones. Those facts support the designated reviewer approving a bounded extension through the formal corrective-action process. Timeliness is assessed against justified agreed dates and progress, rather than an unchangeable universal deadline. Approval should preserve the planned implementation and effectiveness checks and the interim monitoring needed while the permanent action remains incomplete. It does not close the action or turn the interim check into proof that the verified cause has been removed. Discarding a defined effectiveness-review milestone would weaken an otherwise reviewable revised plan. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 135, 142.</span>",
+    "keyPoint": "Assess extension requests using documented reasons, progress, interim control and credible milestones; keep approval of more time separate from verified closure.",
+    "trap": "Treating a revised date as either automatic failure or completed corrective action, instead of judging the supported request and retaining the remaining checks.",
+    "distractors": {
+      "0": "The documented external delay and verified progress support considering revised dates. Nothing supplied establishes a need to abandon the accepted cause-based solution solely to preserve the original date.",
+      "1": "The interim check controls the present exposure, but the permanent action and its effectiveness verification remain incomplete. Moving them to an improvement schedule does not satisfy the existing closure obligations.",
+      "2": "The request already supplies an effectiveness-review date. Removing it leaves the revised plan less complete without a stated reason and separates verification from the agreed completion milestones."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q077",
+    "set": 2,
+    "batch": 8,
+    "sub": "cqa-focused-interview-follow-up",
+    "bok": "III.E",
+    "cognitive": "Apply",
+    "stem": "An audit requires evidence that price-waiver approval is recorded before dispatch. The auditor asks a service coordinator, 'Who authorizes a waiver, what happens to the approval information, and how is dispatch notified?' The coordinator names the approver and describes the dispatch message but does not address the approval record. No relevant order has yet been examined. Which follow-up best develops the missing information without presuming a failure?",
+    "options": [
+      "Repeat the three-part question and accept another description of the approver and dispatch message as a complete answer about the approval-recording activity.",
+      "Ask, 'The approved waiver is retained in the order file, correct?' Treat agreement as confirmation that the recording requirement is being met.",
+      "Ask, 'For the latest waiver, what record, if any, shows the approval?' Let the coordinator explain and examine the evidence identified.",
+      "Document a missing-approval-record finding from the omitted answer, then ask the coordinator which part of the recording procedure staff failed to follow."
+    ],
+    "answer": 2,
+    "why": "The unanswered part concerns how the approval is recorded. A focused question about a recent waiver invites the coordinator to supply that information without suggesting a storage location or assuming that no record exists. Examining the identified evidence can then establish what was actually recorded and when. This applies conversational questioning, follow-up and corroboration to a specific information gap. Repeating the full compound prompt does not ensure that the missing activity is addressed. Agreement with a suggested answer is not sufficient verification, and omission from an interview response does not by itself establish a nonconformity. The issue is the question's focus and neutrality, not a rule that every closed question is improper. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 166–167, 169.</span>",
+    "keyPoint": "Identify the unanswered activity, ask a focused neutral question, and follow the account to relevant evidence before judging conformity.",
+    "trap": "Treating a partial answer as complete, supplying the expected answer, or interpreting an unanswered question as proof of nonconformity.",
+    "distractors": {
+      "0": "The approver and dispatch message are the parts already described. Repeating them still does not provide the missing information about the approval record.",
+      "1": "The question supplies a particular location and expected answer. Agreement alone does not demonstrate that the required approval was recorded before dispatch.",
+      "3": "The evidence has not established that the record is absent. The proposed finding and follow-up both assume the failure that the auditor still needs to investigate."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q078",
+    "set": 2,
+    "batch": 8,
+    "sub": "cqa-performing-team-oversight",
+    "bok": "III.F",
+    "cognitive": "Apply",
+    "stem": "By the end of an audit's first day, a competent team is completing its parallel assignments on time, producing adequate evidence records and resolving handoff questions cooperatively. Members understand the agreed methods and responsibilities, and the purpose and team membership remain unchanged. The lead has scheduled brief progress reviews and a final reconciliation of findings. Which leadership approach best maintains this performance?",
+    "options": [
+      "Retain independent work within agreed assignments, use the scheduled evidence and progress reviews, and intervene when an issue needs coordination or a lead decision.",
+      "Require the lead to approve routine questions and notes before each interview continues, replacing the scheduled team reviews with continuous oversight of individual work.",
+      "Cancel the remaining checkpoints and let each auditor issue conclusions directly to the auditee, since demonstrated cooperation makes further coordination of outputs unnecessary.",
+      "Keep the entire team together for every remaining interview and record examination, replacing parallel work with shared attendance to maintain a common understanding."
+    ],
+    "answer": 0,
+    "why": "The described team already demonstrates cohesive, competent performance under an unchanged purpose. Independent execution of clear assignments can continue while the lead monitors progress, reviews evidence and coordinates the team's outputs. Scheduled checkpoints preserve those responsibilities without requiring approval of every routine action. The lead still owns management of the audit process and must respond when an issue needs direction. Eliminating reviews would confuse trust with abandonment of oversight; requiring continuous approval or full-team attendance would add control without an identified performance or coordination problem. The decision follows the observed team conditions, not an assumption that every newly assembled team automatically performs this way. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 172–173, 175–176.</span>",
+    "keyPoint": "Match oversight to demonstrated team performance: support competent independent work while retaining progress checks, coordination and responsibility for outputs.",
+    "trap": "Equating a performing team with either freedom from all lead oversight or a need for continuous approval of routine audit work.",
+    "distractors": {
+      "1": "No evidence or coordination deficiency requiring continuous approval is stated. Replacing planned reviews with routine micromanagement disrupts the effective independent work already demonstrated.",
+      "2": "Team members still report progress and contribute to coordinated outputs under the lead. Effective cooperation does not remove the need to reconcile evidence and findings.",
+      "3": "The parallel assignments are working and handoffs are being resolved. Full-team attendance at every activity is not justified by the conditions given and removes the benefit of competent independent execution."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q079",
+    "set": 2,
+    "batch": 8,
+    "sub": "cqa-controlled-audit-appeals-procedure",
+    "bok": "IV.A.5",
+    "cognitive": "Evaluate",
+    "stem": "An internal audit program has approved procedures for planning, reporting and follow-up, but appeals are handled through local email practices. Across three sites, different people decide similar appeals, some decisions are given only verbally, and records are inconsistently retained. The program manager is authorized to establish controlled program procedures. Which proposal best addresses these weaknesses?",
+    "options": [
+      "Let each lead publish local appeal instructions and preserve whichever correspondence seems useful, allowing the sites to adapt the decision route to their own preferences.",
+      "Define appeal steps, responsible decision roles and record-retention requirements in an approved, controlled procedure, then communicate the process to auditors and auditees.",
+      "Introduce a common appeal form and count submissions, while leaving decision authority, decision communication and record handling to each site's existing informal arrangements.",
+      "Issue a common appeals guidance memo outside document control so that leads can change the route locally without waiting for program-level review and approval."
+    ],
+    "answer": 1,
+    "why": "The weaknesses involve the appeal process, decision responsibilities, communication and records, so a common form alone is insufficient. An approved procedure under change control can define how appeals are handled, who has the assigned decision role, and what records must be retained. Communicating the procedure to auditors and auditees supports consistent use. The handbook identifies an appeal method and retention/handling of audit records as elements of audit-execution procedures and emphasizes approval, control and implementation communication. The item does not prescribe a universal appeal deadline or a particular reviewer appointment; those details must be established within the authorized program process. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 194–195.</span>",
+    "keyPoint": "Make audit appeals and their decision records part of the approved, controlled program process, with clear responsibilities and communicated requirements.",
+    "trap": "Mistaking a shared form or informal guidance for a complete, controlled process governing decisions and records.",
+    "distractors": {
+      "0": "Leaving the decision route and retained records to individual preference perpetuates the inconsistencies identified across the sites rather than establishing a common program process.",
+      "2": "A form and submission count standardize intake but leave the stated weaknesses in decision authority, communication and retention unresolved.",
+      "3": "Guidance that can be changed locally outside approval and change control does not provide the consistent, authorized procedure the program needs."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q080",
+    "set": 2,
+    "batch": 8,
+    "sub": "cqa-original-acceptance-sample-result",
+    "bok": "V.E.1",
+    "cognitive": "Apply",
+    "stem": "An approved local single-sampling plan requires 32 randomly selected units: accept at zero or one nonconforming unit (Ac = 1) and reject at two or more (Re = 2). Each nonconforming unit counts once, regardless of its number of defects. The exhibit gives the original sample results. The inspector replaces S31 and S32 with two conforming units and reports zero nonconforming units. Which disposition and record of the original inspection follow the plan?",
+    "options": [
+      "Accept the lot using the two replacement units, since all 32 units in the revised sample now conform and the failed items were removed.",
+      "Reject the original lot and record five nonconforming units, counting every observed defect separately when comparing the results with the rejection number.",
+      "Reject the original lot for two nonconforming units, retain the original inspection results, and treat any authorized rectification and resubmission as a separate process.",
+      "Draw a second random sample and defer the initial lot decision, treating the first two nonconforming units as a warning that needs confirmation."
+    ],
+    "answer": 2,
+    "why": "The original random sample contains 30 conforming units and two nonconforming units. S31 and S32 each count once, although they have five defects between them. The count of two reaches Re = 2, so the initial lot decision is rejection under the supplied plan. Replacing those units with conforming ones does not change what the original sample showed or justify recording zero. A second sample is not part of this stated single-sampling decision. The original results must remain available; any later authorized rectification and resubmission is a separate process. This decision applies the supplied local acceptance rule and does not claim that every unit in the lot is nonconforming. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 284, 289.</span>",
+    "keyPoint": "Apply the acceptance and rejection numbers to the original sample using the defined counting unit, and preserve that result through any later authorized disposition process.",
+    "trap": "Erasing original failures by substitution, counting defects as separate nonconforming units, or adding an unplanned second chance to a single-sampling decision.",
+    "distractors": {
+      "0": "The replacement units were selected after the original failures were known. Their conformity does not remove the two nonconforming units observed in the original random sample.",
+      "1": "The plan counts nonconforming units, not separate defects. Two units failed, so five is an incorrect count even though rejection is the correct disposition.",
+      "3": "The rejection threshold has already been reached. The supplied single-sampling plan does not require or authorize another sample to postpone that initial decision."
+    },
+    "chart": {
+      "type": "data-table",
+      "title": "Verified results for the original 32-unit random sample",
+      "columns": [
+        "Original sample units",
+        "Verified inspection outcome"
+      ],
+      "rows": [
+        [
+          "S01–S30 (30 units)",
+          "All conforming; no defects found"
+        ],
+        [
+          "S31 (one unit)",
+          "Nonconforming; two defects found"
+        ],
+        [
+          "S32 (one unit)",
+          "Nonconforming; three defects found"
         ]
       ]
     }
