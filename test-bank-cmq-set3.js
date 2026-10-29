@@ -1,12 +1,13 @@
 /*
  * ASQ CMQ/OE Exam Set 3 — original practice questions.
- * Batches 1–5: Q001–Q100. Planned bank: 165 questions, added in reviewed batches of 20.
+ * Batches 1–6: Q001–Q120. Planned bank: 165 questions, added in reviewed batches of 20.
  * 2026 BoK target counts: I 28 / II 23 / III 26 / IV 31 / V 22 / VI 19 / VII 16.
  * Batch 1 counts: I 4 / II 3 / III 3 / IV 4 / V 2 / VI 2 / VII 2.
  * Batch 2 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
  * Batch 3 counts: I 4 / II 3 / III 3 / IV 4 / V 2 / VI 2 / VII 2.
  * Batch 4 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
  * Batch 5 counts: I 3 / II 2 / III 4 / IV 3 / V 3 / VI 3 / VII 2.
+ * Batch 6 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
  * Handbook citations use printed page numbers (printed page = PDF sheet − 25).
  * Items on 2026 BoK topics the 5th-edition handbook does not cover cite the named outside source.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
@@ -1513,6 +1514,306 @@
       "set": 3,
       "sourceQuestion": 100,
       "qid": "cmq:set-3:source-100"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "A process improvement team wants to monitor how well it works together, not just its project results. Which approach does the handbook suggest the team use?",
+      "options": [
+        "Ask the sponsor to rate the team once the project closes",
+        "Track first-time yield and the other process measures only, every week",
+        "Rate each meeting against criteria drawn from the team's own norms",
+        "Compare members' individual output in each monthly report"
+      ],
+      "answer": 2,
+      "why": "A team should take responsibility for self-evaluation. One way is to select criteria from team effectiveness guidelines in training materials or from the team's own list of behavioural norms, then use a list of questions and a rating scale at the end of each meeting; the criteria can evolve as the team develops. Process measures such as first-time yield track the project goal, not how the team is working (Chapter 3, p. 79). <b>C. Rate each meeting against criteria drawn from the team's own norms</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 3, p. 79.</span>",
+      "set": 3,
+      "sourceQuestion": 101,
+      "qid": "cmq:set-3:source-101"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "During process validation for a new product, a run of 300 parts gives \\(P_{pk} = 1.50\\). Using the handbook's decision points for this kind of preliminary study, how should the result be read?",
+      "options": [
+        "Capable with tight control (between 1.33 and 1.67)",
+        "Capable, because it exceeds the usual 1.33 threshold",
+        "Not capable, because it falls below 2.0",
+        "Not capable, because \\(P_{pk}\\) must exceed \\(C_{pk}\\)"
+      ],
+      "answer": 0,
+      "why": "Initial capability studies during process validation use only a few hundred parts and miss the normal variability of full production, so the study is called potential capability and \\(P_{pk}\\) is used. To compensate, the decision points are raised: \\(P_{pk} > 1.67\\) is capable, 1.33 to 1.67 is capable with tight control, and below 1.33 is not capable. Applying the 1.33 rule used for \\(C_{pk}\\) overstates the result (Chapter 15, p. 438). <b>A. Capable with tight control (between 1.33 and 1.67)</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 15, p. 438.</span>",
+      "set": 3,
+      "sourceQuestion": 102,
+      "qid": "cmq:set-3:source-102"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "A plant's objectives are specific, measured, achievable, realistic and time-bound. A review finds that none of them has a named owner. Using the handbook's S.M.A.R.T. W.A.Y. template, which element is missing?",
+      "options": [
+        "W: ensure that every objective is worth doing",
+        "Y: ensure each objective will yield the desired return",
+        "S: focus on specific needs and opportunities",
+        "A: assign responsibility for each objective"
+      ],
+      "answer": 3,
+      "why": "In the S.M.A.R.T. W.A.Y. template, the W.A.Y. letters stand for worth doing, assign responsibility for each objective, and yield the desired return. Objectives with no named owner fail the assign-responsibility test, even though they meet the S.M.A.R.T. criteria (Chapter 5, pp. 93–94). <b>D. A: assign responsibility for each objective</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 5, pp. 93–94.</span>",
+      "set": 3,
+      "sourceQuestion": 103,
+      "qid": "cmq:set-3:source-103"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "A company's main source of customer feedback is a customer advisory council made up of its eight largest accounts. Leaders want to use the council's views to set service standards for all 2,000 customers. What does the handbook caution?",
+      "options": [
+        "Councils are useful only for handling complaints",
+        "Members are the largest, best customers, so other feedback is needed",
+        "Councils must include competitors' customers to be considered fully valid",
+        "Council views are representative once all eight members attend"
+      ],
+      "answer": 1,
+      "why": "Customer councils, also called customer advisory boards, meet periodically and are an excellent way to build customer-supplier partnerships. But because members usually come from the organization's largest and best customers, other forms of customer feedback are needed to represent the attitudes of all customers (Chapter 17, p. 489). <b>B. Members are the largest, best customers, so other feedback is needed</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 17, p. 489.</span>",
+      "set": 3,
+      "sourceQuestion": 104,
+      "qid": "cmq:set-3:source-104"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "Two lots of shafts are entirely within specification. Lot A is centred on the target diameter; lot B sits close to the upper limit. A manager says both lots are equally good because both meet the specification. Which quality leader's concept contradicts this view?",
+      "options": [
+        "Taguchi's loss function",
+        "Crosby's zero defects",
+        "Shewhart's control chart",
+        "Feigenbaum's total quality control"
+      ],
+      "answer": 0,
+      "why": "Taguchi defined quality as the minimum loss imparted by the product to society from the time it is shipped, and his loss function translates any deviation of a product from its target into a financial measure. Lot B, though within specification, imposes more loss than lot A. Crosby's zero defects judges conformance to requirements, which both lots meet (Chapter 12, p. 324). <b>A. Taguchi's loss function</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 12, p. 324.</span>",
+      "set": 3,
+      "sourceQuestion": 105,
+      "qid": "cmq:set-3:source-105"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "A purchaser sends its own inspector to a supplier's plant to verify a large order against requirements before it ships. When the order arrives, how can it be handled?",
+      "options": [
+        "Given full receiving inspection, since source checks don't count",
+        "Held until the supplier also sends a certificate",
+        "Sent directly to stock, because it was source inspected",
+        "Sampled at a tightened rate for the first three lots"
+      ],
+      "answer": 2,
+      "why": "Product may go directly to stock if the supplier is certified, if the product comes with supplier-generated or independent laboratory data showing it meets requirements (reviewed on receipt), or if it has been source inspected, meaning inspected by the purchaser at the supplier's facility to confirm it meets requirements before shipping (Chapter 18, p. 533). <b>C. Sent directly to stock, because it was source inspected</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, p. 533.</span>",
+      "set": 3,
+      "sourceQuestion": 106,
+      "qid": "cmq:set-3:source-106"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A team studying cycle time lists four losses it has observed. Which one does the handbook classify as invisible waste rather than visible waste?",
+      "options": [
+        "Holes drilled in the wrong place",
+        "A failed electrical continuity test",
+        "A school bus that will not start",
+        "Assembly parts kept out of easy reach"
+      ],
+      "answer": 3,
+      "why": "Cycle time suffers from both visible and invisible waste. Visible waste includes out-of-spec incoming material, scrap, downtime and rework, such as holes drilled in the wrong place, a failed continuity test or an inoperable bus. Invisible waste includes inefficient setups, queue times, unnecessary motion (materials located out of easy reach), waiting, excess inventory and movement of material (Chapter 14, p. 382). <b>D. Assembly parts kept out of easy reach</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 14, p. 382.</span>",
+      "set": 3,
+      "sourceQuestion": 107,
+      "qid": "cmq:set-3:source-107"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "After a team meeting, a facilitator tells a member, 'For next week, summarize the data before giving your opinion, so the team can weigh it first.' In Scholtes's terms, which type of feedback is this?",
+      "options": [
+        "Coaching feedback, stating an improvement needed",
+        "Motivational feedback, praising what went well today",
+        "Destructive feedback, which is never acceptable",
+        "Peer feedback, which only teammates may give"
+      ],
+      "answer": 0,
+      "why": "Scholtes describes two appropriate types of feedback. Motivational feedback must be constructive: specific, sincere, clear, timely and descriptive of what occurred. Coaching, or corrective, feedback specifically states the improvements that need to be made, as this statement does. Feedback can come from the facilitator or from team members (Chapter 3, p. 75). <b>A. Coaching feedback, stating an improvement needed</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 3, p. 75.</span>",
+      "set": 3,
+      "sourceQuestion": 108,
+      "qid": "cmq:set-3:source-108"
+    },
+    {
+      "sub": "cmq-training",
+      "stem": "A plant rolls out a mandatory SPC refresher course. Many operators sit through it but apply little afterward, saying they don't see what it changes for them. Which precept for performer-level training does the handbook say was missed?",
+      "options": [
+        "Training should be delivered by an outside expert",
+        "Learners must see how it benefits them and meets a felt need",
+        "Training should run as long as possible to improve retention",
+        "Hands-on practice should be avoided in mandatory courses"
+      ],
+      "answer": 1,
+      "why": "Trainers need to understand that the learner is always in control of what is learned. For training to be fully effective, learners must see clearly how what is taught will benefit them and fulfill a felt need. The program should address benefits in terms of the trainee's needs, align with business needs and be reinforced with hands-on application (Chapter 19, p. 554). <b>B. Learners must see how it benefits them and meets a felt need</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 19, p. 554.</span>",
+      "set": 3,
+      "sourceQuestion": 109,
+      "qid": "cmq:set-3:source-109"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "The handbook's model of the components of an environment analysis sorts factors into external and internal groups. Which item does the model list as an internal factor?",
+      "options": [
+        "Competition changes",
+        "Regulatory changes",
+        "Technology changes",
+        "Customer base"
+      ],
+      "answer": 3,
+      "why": "The handbook's figure lists societal, competition, economic, regulatory and technology changes as external factors, and organization structure, customer base, supplier base and internal capability as internal factors. A common error is to file the customer base with the external changes (Chapter 6, p. 100). <b>D. Customer base</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 6, p. 100.</span>",
+      "set": 3,
+      "sourceQuestion": 110,
+      "qid": "cmq:set-3:source-110"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "A new CEO introduces forced-ranking annual performance reviews so that managers will compete harder. Teamwork across departments soon declines and turnover among managers rises. Which of Deming's seven deadly diseases does this illustrate?",
+      "options": [
+        "Lack of constancy of purpose in planning",
+        "Emphasis on short-term profits and dividends",
+        "Evaluation by performance or merit rating",
+        "Mobility of management (job-hopping)"
+      ],
+      "answer": 2,
+      "why": "Deming's third deadly disease is evaluation by performance, merit rating or annual review of performance. He held that its effects are devastating: teamwork is destroyed, rivalry is nurtured, fear builds, and it encourages defection in the ranks of management. Mobility of management is a separate disease, and here it is a result rather than the cause (Chapter 12, p. 318). <b>C. Evaluation by performance or merit rating</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 12, p. 318.</span>",
+      "set": 3,
+      "sourceQuestion": 111,
+      "qid": "cmq:set-3:source-111"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "Before designing a large quantitative survey, a company needs to discover which issues matter most to its core customers, probe for details and explore new ideas with them. Which method does the handbook call the most powerful for this?",
+      "options": [
+        "One-to-one, in-person interviews",
+        "Mailed written questionnaires",
+        "Automated opt-in phone surveys",
+        "Comment cards at the point of sale"
+      ],
+      "answer": 0,
+      "why": "The face-to-face interview is the most powerful of all survey methods. It can identify the qualitative issues most important to customers so that they can be included in later quantitative written or telephone surveys, and a skilled interviewer can pursue the areas of greatest importance, probe for details and discuss new ideas and approaches (Chapter 17, p. 487). <b>A. One-to-one, in-person interviews</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 17, p. 487.</span>",
+      "set": 3,
+      "sourceQuestion": 112,
+      "qid": "cmq:set-3:source-112"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "In the handbook's pyramid model for structuring quality management system documentation, how do the levels relate to one another?",
+      "options": [
+        "Each level stands alone so it can be revised independently",
+        "Each level interlocks with and supports the level above it",
+        "Records sit at the top because they prove compliance",
+        "Work instructions sit above procedures and govern them"
+      ],
+      "answer": 1,
+      "why": "As the pyramid implies, each level interlocks with and supports a higher level: the system description in level 1 references the supporting procedures in level 2, level 2 procedures reference work instructions, and records are referenced in both level 2 and level 3 documents (Chapter 14, p. 377). <b>B. Each level interlocks with and supports the level above it</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 14, p. 377.</span>",
+      "set": 3,
+      "sourceQuestion": 113,
+      "qid": "cmq:set-3:source-113"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "A plant's leadership team has tried for three years to transform its own culture using only insiders, and it keeps reaching the same conclusions. A board member suggests bringing in an outside change agent. Which statement of Deming's, cited in the handbook, supports her view?",
+      "options": [
+        "Drive out fear, so that everyone may work effectively for the company",
+        "Remove barriers that rob people of pride of workmanship",
+        "End the practice of awarding business on price tag alone",
+        "A system cannot understand itself; it needs a view from outside"
+      ],
+      "answer": 3,
+      "why": "Deming emphasized the role of change agents in organizational transformation: 'A system cannot understand itself. The transformation requires a view from outside.' An external change agent can assess the organization objectively and give honest feedback without a vested interest in long-held traditions. The other options are among Deming's 14 points and address different problems (Chapter 2, p. 27). <b>D. A system cannot understand itself; it needs a view from outside</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 2, p. 27.</span>",
+      "set": 3,
+      "sourceQuestion": 114,
+      "qid": "cmq:set-3:source-114"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "Five companies are forming an integrated supply chain for a new product. Each assumes another will coordinate demand forecasts and production pacing. What does the handbook say is critical to decide early?",
+      "options": [
+        "Which supplier offers the lowest unit price",
+        "How many of the existing suppliers can be eliminated first",
+        "Which organization and which person is in charge of SCM",
+        "Whether to use push or pull scheduling everywhere"
+      ],
+      "answer": 2,
+      "why": "Integrating a supply chain requires careful planning, effective support systems, patience, collaboration and negotiation. How customer demand will be disseminated and how the pace of production will be planned, monitored and synchronized is critical, and so is deciding early which organization and what person is in charge of SCM: someone has to facilitate the big decisions, or the chain can collapse (Chapter 18, p. 533). <b>C. Which organization and which person is in charge of SCM</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, p. 533.</span>",
+      "set": 3,
+      "sourceQuestion": 115,
+      "qid": "cmq:set-3:source-115"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "A hoshin planning team has set its multiyear objectives and now needs one matrix showing how each objective will be achieved, who is responsible, what resources are needed and how progress will be measured. What tool does the handbook describe for this?",
+      "options": [
+        "A top-level means matrix",
+        "A SWOT analysis",
+        "A balanced scorecard",
+        "A force-field analysis of the plan"
+      ],
+      "answer": 0,
+      "why": "Using the goals and objectives, a top-level means matrix is prepared. The means answer the how question; the matrix shows the multiyear objectives as columns and the means as rows, with the relationship of each means to each objective coded, plus the resources required, the persons responsible and the basis for measurement (Chapter 5, p. 94). <b>A. A top-level means matrix</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 5, p. 94.</span>",
+      "set": 3,
+      "sourceQuestion": 116,
+      "qid": "cmq:set-3:source-116"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "A customer's video about a rude delivery driver spreads quickly online. What approach does the handbook associate with more progressive companies?",
+      "options": [
+        "Ignore it, since online posts are not formal complaints",
+        "Monitor social media and act to mitigate the damage",
+        "Ask the customer to delete the video before responding",
+        "Answer it only through paid celebrity promotion"
+      ],
+      "answer": 1,
+      "why": "Social media can magnify the impact of both negative and positive experiences. More progressive companies not only monitor customer issues shared on social media but also attempt to mitigate the impact of negative publicity. Treating a viral complaint as informal ignores how widely it spreads (Chapter 17, p. 489). <b>B. Monitor social media and act to mitigate the damage</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 17, p. 489.</span>",
+      "set": 3,
+      "sourceQuestion": 117,
+      "qid": "cmq:set-3:source-117"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "Over several years a company adopted quality circles, then SPC, then QFD, each as a separate initiative. Each produced some gains, but overall results have been disappointing. Which TQM implementation strategy does this describe?",
+      "options": [
+        "The guru approach",
+        "The organization model approach",
+        "The award criteria approach",
+        "The TQM element approach"
+      ],
+      "answer": 3,
+      "why": "The handbook describes five TQM implementation strategies. The TQM element approach implements TQM element by element, using tools such as quality circles, statistical process control, Taguchi methods and QFD; some gain is achieved, but overall effectiveness is lacking. The guru approach instead uses one quality thinker's teachings as the guide to find and fix deficiencies (Chapter 12, pp. 307–308). <b>D. The TQM element approach</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 12, pp. 307–308.</span>",
+      "set": 3,
+      "sourceQuestion": 118,
+      "qid": "cmq:set-3:source-118"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A design team specifies a tolerance far tighter than the customer needs, so each part needs an extra grinding pass and 100% gauging. In the handbook's list of the seven wastes, where does this belong?",
+      "options": [
+        "Excess inventory",
+        "Transportation",
+        "Overprocessing",
+        "Waiting"
+      ],
+      "answer": 2,
+      "why": "Overprocessing is effort beyond what would be normal, including non-value-added effort and designs that ignore production process capabilities, such as the tolerances that can actually be attained, or that are simply too complex. Excess inventory is keeping unnecessary materials or parts (Chapter 14, p. 381). <b>C. Overprocessing</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 14, p. 381.</span>",
+      "set": 3,
+      "sourceQuestion": 119,
+      "qid": "cmq:set-3:source-119"
+    },
+    {
+      "sub": "cmq-training",
+      "stem": "A course designer writes the learning objective 'Participants will understand control charts.' A reviewer says it is not a proper terminal objective. What does the handbook say such an objective should contain?",
+      "options": [
+        "A list of the topics and the time allotted to each",
+        "An observable action, a measurable criterion and the conditions",
+        "The instructor's formal qualifications and the delivery method chosen",
+        "A summary of the trainees' current skill levels"
+      ],
+      "answer": 1,
+      "why": "Learning objectives, also called terminal objectives, state what will be learned by the end of the module: the resulting observable action, the measurable criterion for that action, and the conditions under which performance will be measured. 'Understand' is neither observable nor measurable; 'Given 20 days of data, construct an \\(\\bar{x}\\) chart and identify every out-of-control point' would qualify (Chapter 19, p. 557). <b>B. An observable action, a measurable criterion and the conditions</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 19, p. 557.</span>",
+      "set": 3,
+      "sourceQuestion": 120,
+      "qid": "cmq:set-3:source-120"
     }
   ];
 })(window);

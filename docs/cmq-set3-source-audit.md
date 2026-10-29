@@ -140,3 +140,30 @@ Batch 4 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent 
 | 100 | cmq-training | VII.D | Apply | B | Handbook Ch. 19, p. 570 | p. 570: “first year”; p. 570: “prorated over the period in which the training is delivered” |
 
 Batch 5 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent same-domain items across batch boundaries. Allocation shifts one item from II and IV to III and VI to keep every domain on track for the 165-item blueprint. All 20 items cite handbook pages only. Highest stem similarity to Sets 1–2 is about 0.4 (shared supplier-question phrasing, different concept).
+
+## Batch 6 (Q101–Q120)
+
+| Q | Domain | BoK | Level | Key | Source | Terms verified on page |
+|---|---|---|---|---|---|---|
+| 101 | cmq-lead | I.C.5 | Apply | C | Handbook Ch. 3, p. 79 | p. 79: “self-evaluation”; p. 79: “behavioral norms”; p. 79: “rating scale” |
+| 102 | cmq-tools | IV.C.7 | Analyze | A | Handbook Ch. 15, p. 438 | p. 438: “process validation”; p. 438: “Ppk > 1.67 (capable)”; p. 438: “Ppk = 1.33 − 1.67” |
+| 103 | cmq-strategy | II.A | Apply | D | Handbook Ch. 5, pp. 93–94 | p. 93: “S.M.A.R.T. W.A.Y.”; p. 94: “Assign responsibility for each objective” |
+| 104 | cmq-customer | V.B.2 | Evaluate | B | Handbook Ch. 17, p. 489 | p. 489: “Customer councils”; p. 489: “largest and best customers”; p. 489: “represent the attitudes of all customers” |
+| 105 | cmq-management | III.E.4 | Apply | A | Handbook Ch. 12, p. 324 | p. 324: “Taguchi loss function”; p. 324: “deviation of a product from its target” |
+| 106 | cmq-supply | VI.G | Apply | C | Handbook Ch. 18, p. 533 | p. 533: “source inspection”; p. 533: “directly sent to stock” |
+| 107 | cmq-tools | IV.B.2 | Apply | D | Handbook Ch. 14, p. 382 | p. 382: “visible and invis ible waste”; p. 382: “Unnecessary motion”; p. 382: “out of easy reach” |
+| 108 | cmq-lead | I.C.4 | Apply | A | Handbook Ch. 3, p. 75 | p. 75: “motivational and coaching”; p. 75: “Coaching, or corrective feedback” |
+| 109 | cmq-training | VII.C | Apply | B | Handbook Ch. 19, p. 554 | p. 554: “learner is always in control”; p. 554: “felt need” |
+| 110 | cmq-strategy | II.B.5 | Understand | D | Handbook Ch. 6, p. 100 | p. 100: “External factors”; p. 100: “Customer base”; p. 100: “Internal capability” |
+| 111 | cmq-management | III.E.4 | Apply | C | Handbook Ch. 12, p. 318 | p. 318: “seven deadly diseases”; p. 318: “merit rating”; p. 318: “teamwork is destroyed” |
+| 112 | cmq-customer | V.B.2 | Apply | A | Handbook Ch. 17, p. 487 | p. 487: “most powerful of all survey methods”; p. 487: “probe for details” |
+| 113 | cmq-tools | IV.B.2 | Understand | B | Handbook Ch. 14, p. 377 | p. 377: “interlocks with and supports a higher level”; p. 377: “work instructions” |
+| 114 | cmq-lead | I.B.3 | Analyze | D | Handbook Ch. 2, p. 27 | p. 27: “A system cannot understand itself”; p. 27: “view from outside” |
+| 115 | cmq-supply | VI.G | Apply | C | Handbook Ch. 18, p. 533 | p. 533: “Deciding early on which organization and what person is in charge of SCM”; p. 533: “collapse” |
+| 116 | cmq-strategy | II.A | Apply | A | Handbook Ch. 5, p. 94 | p. 94: “top-level means matrix”; p. 94: “answer the how question” |
+| 117 | cmq-customer | V.B.2 | Apply | B | Handbook Ch. 17, p. 489 | p. 489: “magnify the impact”; p. 489: “mitigate the impact of negative publicity” |
+| 118 | cmq-management | III.E.3 | Analyze | D | Handbook Ch. 12, pp. 307–308 | p. 307: “TQM element approach”; p. 307: “overall effectiveness is lacking”; p. 308: “award criteria approach” |
+| 119 | cmq-tools | IV.B.3 | Apply | C | Handbook Ch. 14, p. 381 | p. 381: “Overprocessing”; p. 381: “tolerances that can be attained”; p. 381: “Excess inventory” |
+| 120 | cmq-training | VII.C | Apply | B | Handbook Ch. 19, p. 557 | p. 557: “terminal objectives”; p. 557: “measurable criterion”; p. 557: “conditions” |
+
+Batch 6 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent same-domain items across batch boundaries. All 20 items cite handbook pages only; the environment-analysis item (p. 100) was checked against the rendered figure. A draft bathtub-curve item was replaced because Set 2 already tests infant mortality; the replacement tests visible vs invisible waste.

@@ -27,7 +27,8 @@ const BATCH_COUNTS = [
   { 'cmq-lead': 3, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 3, 'cmq-supply': 2, 'cmq-training': 2 },
   { 'cmq-lead': 4, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 2, 'cmq-supply': 2, 'cmq-training': 2 },
   { 'cmq-lead': 3, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 3, 'cmq-supply': 2, 'cmq-training': 2 },
-  { 'cmq-lead': 3, 'cmq-strategy': 2, 'cmq-management': 4, 'cmq-tools': 3, 'cmq-customer': 3, 'cmq-supply': 3, 'cmq-training': 2 }
+  { 'cmq-lead': 3, 'cmq-strategy': 2, 'cmq-management': 4, 'cmq-tools': 3, 'cmq-customer': 3, 'cmq-supply': 3, 'cmq-training': 2 },
+  { 'cmq-lead': 3, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 3, 'cmq-supply': 2, 'cmq-training': 2 }
 ];
 const HANDBOOK = /The ASQ CMQ\/OE Handbook, 5th ed\. \(Furterer &amp; Wood\), Chapter \d+, pp?\. \d+/;
 const OUTSIDE = /ASQ CMQ\/OE Body of Knowledge \(2026\), Part [IVX]+/;
