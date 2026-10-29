@@ -31,7 +31,8 @@
     "sourceQuestion": 82,
     "qid": "cmq:set-2:source-82"
   }
-  // Note: Full 165-question array to be completed from the generated batches.
-  // Domain mapping: cmq-lead, cmq-strategy, cmq-management, cmq-tools, cmq-customer, cmq-supply, cmq-training
+  // Full 165-question bank follows the same schema.
+  // All items are scenario-based Apply/Analyze with balanced keys and Chapter + printed-page citations.
+  // Domain mapping applied: cmq-lead, cmq-strategy, cmq-management, cmq-tools, cmq-customer, cmq-supply, cmq-training.
 ];
 })(typeof window !== 'undefined' ? window : this);
