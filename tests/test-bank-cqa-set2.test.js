@@ -212,7 +212,7 @@ test('the protected CQA runtime retains both banks and identifies Set 2 as a com
     assert.doesNotMatch(w.document.querySelector('.tb-setnote').textContent, /140 of 150|currently serves 140/);
     const fullCard = w.document.querySelector('[data-mode="full"]').closest('.tb-mode');
     assert.match(fullCard.textContent, /150 randomized questions/);
-    assert.match(fullCard.textContent, /Strict 5 hr limit/);
+    assert.match(fullCard.textContent, /Strict 5h limit/);
     assert.equal(w.document.querySelector('[data-quiz-set-kind="quick"][data-quiz-set="1"]').getAttribute('aria-pressed'), 'true', 'Full Exam selection does not silently switch Quick Quiz');
     assert.deepEqual(h.errors, []);
   } finally {h.close();}
