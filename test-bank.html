@@ -240,15 +240,21 @@
   .tb-quizfoot{display:flex;align-items:center;gap:14px;justify-content:space-between;margin-top:18px;flex-wrap:wrap}
   .tb-nav{display:flex;flex-wrap:wrap;gap:6px}
   .tb-nav-long{flex:1 1 240px;min-width:min(100%,240px);max-height:156px;overflow:auto;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
-  .tb-nav-long .tb-navcell{width:36px;height:36px;font-size:11px;padding:0}
-  .tb-nav-long .tb-navcell::before{content:'';font-size:0;line-height:0}
+  .tb-nav-long .tb-navcell{width:44px;height:48px;font-size:12px;padding:4px}
   .tb-navcell{position:relative;display:grid;place-items:center;flex-shrink:0;width:44px;height:48px;padding:4px;border-radius:8px;border:1px solid currentColor;background:color-mix(in srgb,var(--status-neutral) 7%,var(--card));color:var(--status-neutral);font:inherit;font-size:12px;font-weight:600;cursor:pointer}
   .tb-navcell::before{content:'○';font-size:16px;line-height:16px}
   .tb-navcell.done{background:#0e7490;color:#fff;border-color:var(--status-answered)}
   .tb-navcell.done::before{content:'●'}
   .tb-navcell.cur{outline:3px solid var(--status-current);outline-offset:2px}
-  .tb-status-key{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12px;line-height:1.6;color:var(--ink);margin:16px 0}
+  .tb-status-key{display:flex;flex:0 0 100%;flex-wrap:wrap;gap:8px 16px;box-sizing:border-box;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:12px;line-height:1.6;color:var(--ink);margin:0}
+  .tb-status-key strong{flex-basis:100%;font-size:13px}
   .tb-status-key span{display:inline-flex;align-items:center;gap:5px}
+  .tb-status-key .tb-status-swatch{display:inline-grid;place-items:center;flex:none;width:22px;height:22px;box-sizing:border-box;border:1px solid currentColor;border-radius:5px;font-style:normal;font-size:14px;line-height:1}
+  .tb-status-swatch.unanswered{background:color-mix(in srgb,var(--status-neutral) 7%,var(--card));color:var(--status-neutral)}
+  .tb-status-swatch.answered{background:#0e7490;color:#fff}
+  .tb-status-swatch.revealed{background:#1d4ed8;color:#fff}
+  .tb-status-swatch.flagged{background:#ff9500;color:#172b3a}
+  .tb-status-swatch.current{outline:2px solid var(--status-current);outline-offset:2px;margin:2px;color:var(--status-neutral)}
   /* results */
   .tb-resbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
   .tb-restag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
@@ -482,6 +488,7 @@
 <script src="/test-bank-cmq-set2.js"></script>
 <script src="/test-bank-cmq-set3.js"></script>
 <script src="/test-bank-cqa-set1.js"></script>
+<script src="/test-bank-cqa-set2.js"></script>
 <script src="/test-bank-mbb-set1.js"></script>
 <script src="/test-bank-mbb-set2.js"></script>
 <script src="/test-bank-mbb-batch1-review.js"></script>
@@ -518,6 +525,7 @@
   var CMQ_SET2=window.CMQ_SET2||[];
   var CMQ_SET3=window.CMQ_SET3||[];
   var CQA_SET1=window.CQA_SET1||[];
+  var CQA_SET2=window.CQA_SET2||[];
   var MBB_SET1=window.MBB_SET1||[];
   var MBB_SET2=window.MBB_SET2||[];
   var MBB_SET3=window.MBB_SET3||[];
@@ -2576,7 +2584,7 @@
       /* 2026 CQA BoK (tested from April 2026): five domains, 37/45/30/23/15 of 150 scored items. The 150-item
          paper sitting is five hours. Questions keep their finer BoK code (e.g. II.B.3) in q.bok and their
          subtopic in q.topic; q.sub is set to the domain below so diagnostics stay at two items per area. */
-      bank:CQA_SET1,sets:{1:CQA_SET1},
+      bank:CQA_SET1,sets:{1:CQA_SET1,2:CQA_SET2},setPlans:{2:{target:150,label:'Batch 14 complete'}},
       bok:[d('cqa-fundamentals',37,[s('cqa-fundamentals','I. Auditing Fundamentals','/lessons.html','Browse lessons',37)]),d('cqa-process',45,[s('cqa-process','II. Audit Process','/lessons.html','Browse lessons',45)]),d('cqa-competencies',30,[s('cqa-competencies','III. Auditor Competencies','/lessons.html','Browse lessons',30)]),d('cqa-program',23,[s('cqa-program','IV. Audit Program Management & Business Applications','/lessons.html','Browse lessons',23)]),d('cqa-tools',15,[s('cqa-tools','V. Quality Tools & Techniques','/lessons.html','Browse lessons',15)])]},
     cmq:{badge:'CMQ',bc:'#2c7f92',body:'ASQ Manager of Quality / Org. Excellence',title:'Manager of Quality — Final Exam Simulation',setName:'Exam Set 1',questions:165,minutes:258,pass:70,
       bank:CMQ_SET1,sets:{1:CMQ_SET1,2:CMQ_SET2,3:CMQ_SET3},
@@ -2634,9 +2642,9 @@
     var domain=EXAMS.cre.bok.find(function(d){return d.subs.some(function(s){return s.id===pair[0];});});
     if(domain&&!domain.subs.some(function(s){return s.id===pair[1];}))domain.subs.push({id:pair[1],name:domain.subs[0].name,w:0,lesson:domain.subs[0].lesson,lessonName:domain.subs[0].lessonName});
   });
-  /* CQA Set 1 tags each item with a fine subtopic. Keep it as q.topic and map q.sub to its BoK domain. */
+  /* CQA sets tag each item with a fine subtopic. Keep it as q.topic and map q.sub to its BoK domain. */
   var CQA_DOMAIN_SUB={I:'cqa-fundamentals',II:'cqa-process',III:'cqa-competencies',IV:'cqa-program',V:'cqa-tools'};
-  CQA_SET1.forEach(function(q){var area=CQA_DOMAIN_SUB[String(q.bok||'').split('.')[0]];if(area&&q.sub!==area){if(!q.topic)q.topic=q.sub;q.sub=area;}});
+  CQA_SET1.concat(CQA_SET2).forEach(function(q){var area=CQA_DOMAIN_SUB[String(q.bok||'').split('.')[0]];if(area&&q.sub!==area){if(!q.topic)q.topic=q.sub;q.sub=area;}});
   var GROUPS=[['Six Sigma',['cssbb','mbb','cssgb']],['Quality',['cqe','cqa','cmq']],['Reliability',['cre']],['Project Management',['pmp']],['Professional Practice',['nppe']]];
   var current=window.__ExamAccess?window.__ExamAccess.exam:'cssbb', view='browse', session=null;
   var linkedExam=(new URLSearchParams(window.location.search).get('exam')||'').trim().toLowerCase();
@@ -3760,6 +3768,7 @@
     return e.formatNote||'';
   }
   function fullTimingContext(e){
+    if(current==='cqa'&&selectedSet==='2')return 'uses the same two-minute-per-question practice pace as Set 1.';
     if(current==='nppe')return 'uses the 110-question, 150-minute pace. Ten unscored items stay unidentified, and a raw percentage is not the official scaled score.';
     if(current==='cre')return 'uses the average pace of the 165-question, 258-minute ASQ computer exam.';
     if(e.sourceSimulation&&selectedSet==='1')return 'matches the supplied source simulation.';
@@ -4733,9 +4742,9 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       '<div class="tb-progress"><span style="width:'+(completedQuestionCount()/n*100)+'%"></span></div>'+
       '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(topic)+'</div>'+
       renderQuestionContent(q,false)+opts+revealedAnswerHTML(q)+
-      '<div class="tb-quizfoot"><div class="tb-nav'+(n>40?' tb-nav-long':'')+'">'+nav+'</div>'+
+      '<div class="tb-quizfoot"><div class="tb-status-key" aria-label="Question status legend"><strong>Question status</strong><span><i class="tb-status-swatch unanswered" aria-hidden="true">○</i> Slate grey: unanswered</span><span><i class="tb-status-swatch answered" aria-hidden="true">●</i> Teal: answered, awaiting grading</span><span><i class="tb-status-swatch revealed" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></i> Blue: revealed (counts as incorrect)</span><span><i class="tb-status-swatch flagged" aria-hidden="true">⚑</i> Orange: flagged for review</span><span><i class="tb-status-swatch current" aria-hidden="true">1</i> Outline: current question</span></div>'+
+      '<div class="tb-nav'+(n>40?' tb-nav-long':'')+'">'+nav+'</div>'+
         (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
-      '<div class="tb-status-key" aria-label="Question status legend"><span>○ Slate grey: unanswered</span><span>● Teal: answered, awaiting grading</span><span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg> Blue: revealed (counts as incorrect)</span><span>⚑ Orange: flagged for review</span><span>Outline: current question</span></div>'+
       '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';
   }
   function updateQuizAnswerState(host){
