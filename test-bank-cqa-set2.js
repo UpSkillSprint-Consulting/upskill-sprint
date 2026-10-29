@@ -1,6 +1,6 @@
 /*
  * ASQ CQA Exam Set 2 — original practice questions.
- * Batches 1–12: Q001–Q120. Planned bank: 150 questions.
+ * Batches 1–13: Q001–Q130. Planned bank: 150 questions.
  * Author in reviewed batches of 10; hold PR #368 until all 150 are ready.
  * 2026 BoK target counts: I 37 / II 45 / III 30 / IV 23 / V 15.
  * Batch 1 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
@@ -15,6 +15,7 @@
  * Batch 10 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Batch 11 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Batch 12 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
+ * Batch 13 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Questions and exhibits are original; handbook citations use printed pages.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
  */
@@ -3729,6 +3730,324 @@
       "0": "A branch factor does not make the two recorded intervals equivalent. An apparent difference may reflect the measurement definition, so pooling them does not establish the requested turnaround baseline.",
       "1": "More observations collected under the same incompatible definitions retain the mismatch. The measurement method must first support the interval specified in the charter.",
       "3": "Using one rule consistently would remove the between-branch definition difference, but estimator-start time still omits part of the elapsed interval required by the approved charter. It would establish a different measure."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q121",
+    "set": 2,
+    "batch": 13,
+    "sub": "cqa-conduct-complaint-evidence-separation",
+    "bok": "I.E.3",
+    "cognitive": "Apply",
+    "stem": "After receiving a draft finding, an auditee alleges that the auditor intimidated an employee. The finding cites interview statements and traceable inspection records. The allegation has not been investigated, and the effect of any pressure on the evidence is unknown. The program's approved procedure requires confidential review by an uninvolved manager and protects both complainant and auditor. Which response best protects audit credibility?",
+    "options": [
+      "Investigate the complaint under the procedure, but exclude the finding permanently because disputed auditor behavior prevents any reliable assessment of its supporting evidence.",
+      "Preserve the finding without further review and close the complaint, because traceable inspection records demonstrate that the auditor's interview conduct was professional.",
+      "Investigate the conduct complaint first, then decide the finding solely from whether that complaint is upheld, avoiding a separate review of its supporting evidence.",
+      "Initiate the protected conduct review and assess the finding's criterion and evidence independently, retaining or correcting the conclusion according to what that assessment supports."
+    ],
+    "answer": 3,
+    "why": "The complaint should receive fair, confidential review under the authorized procedure, protecting both the complainant and the auditor without assuming either misconduct or a false allegation. The proposed finding also needs assessment against its criterion and supporting evidence. Alleged pressure could affect the reliability of an interview statement, while other evidence may be independently verifiable; neither possibility determines the result in advance. The conclusion may be retained, revised or removed according to that assessment. A conduct-review outcome alone does not establish whether the audited activity met its requirement, and a traceable record alone does not establish that the interview was conducted professionally. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 46–47.</span>",
+    "keyPoint": "Protect both parties through the authorized complaint process and determine the audit conclusion from a separate, impartial assessment of the applicable criterion and evidence.",
+    "trap": "Treating a conduct allegation or its resolution as an automatic verdict on the finding, instead of examining how the available evidence supports the conclusion.",
+    "distractors": {
+      "0": "A complaint does not automatically make all supporting evidence unusable. Permanent exclusion before assessing the records and statements could suppress a supported finding and does not follow from fair complaint handling.",
+      "1": "Traceability can help establish the reliability of a record, but it does not demonstrate how an interview was conducted or justify dismissing the complaint. The finding's evidential basis also remains subject to review.",
+      "2": "Whether the auditor behaved improperly and whether the audited activity met its requirement are different questions. The conduct outcome may inform an assessment of evidence reliability, but it cannot replace that assessment."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q122",
+    "set": 2,
+    "batch": 13,
+    "sub": "cqa-conditional-benefit-versus-nominal-courtesy",
+    "bok": "I.E.1",
+    "cognitive": "Apply",
+    "stem": "During a supplier audit, the auditee offers the lead a $15 meal voucher, saying it is available if a supported nonconformity is omitted from the report. The auditing organization's policy allows nominal business courtesies up to $25. Its audit protocol requires pausing the affected activity and notifying the client and program manager when improper influence is identified. Which response best applies the auditor's professional responsibilities?",
+    "options": [
+      "Refuse the conditional offer, retain the factual record and follow the pause and notification protocol; assess and report the finding on its evidence.",
+      "Accept and disclose the voucher within the nominal-courtesy allowance, but decline to change the finding because no reporting concession will actually be made.",
+      "Decline the voucher and continue without notification, treating rejection as sufficient to resolve the attempted influence because the report can still remain unchanged.",
+      "Redirect the voucher to a team welfare fund, document its value and continue the audit, since the auditor would receive no personal benefit."
+    ],
+    "answer": 0,
+    "why": "The offer explicitly links a benefit to suppressing a supported finding. That condition makes it an attempt to influence reporting, rather than an ordinary courtesy made acceptable by its low value. Refusing the offer and following the stated pause and notification protocol protects the integrity of the audit and brings the incident to the authorized decision makers. The factual record should be retained and the finding assessed and reported on its evidence. Disclosure, sharing or redirecting the benefit does not remove the offered exchange, and privately declining it does not satisfy the scenario's reporting protocol. The monetary allowance and the response route are local facts, not universal limits or rules for every audit. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 38.</span>",
+    "keyPoint": "Evaluate the condition attached to an offered benefit, not just its value; refuse improper influence and follow the authorized response process.",
+    "trap": "Treating a low-value allowance, disclosure or lack of personal benefit as permission to accept a benefit linked to changing audit results.",
+    "distractors": {
+      "1": "The voucher was offered in exchange for omitting a supported finding. Its nominal value and disclosure do not make that condition an acceptable business courtesy, even if the auditor intends to keep the finding.",
+      "2": "Declining the benefit is necessary, but the stated protocol also requires pausing the affected activity and notifying the client and program manager. Keeping the attempted influence private leaves that required response incomplete.",
+      "3": "Changing the beneficiary does not remove the condition attached to the offer or satisfy the required incident response. The concern is attempted influence over the audit result, not solely the auditor's personal gain."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q123",
+    "set": 2,
+    "batch": 13,
+    "sub": "cqa-contemporaneous-note-clarification",
+    "bok": "II.B.5",
+    "cognitive": "Apply",
+    "stem": "At the end of an interview, an auditor notices this note: 'R684 — 14:20 / 14:35; approval?' The auditor did not record which event labels belong to the times and cannot reconstruct that detail reliably from memory. The exact read-only version of R684 and its record custodian are still available. The criterion requires approval before dispatch. What should the auditor do before using the note to support a finding?",
+    "options": [
+      "Assign the earlier time to dispatch and the later time to approval, treating the written order of the times as sufficient evidence of sequence.",
+      "Reopen the same record, clarify the fields with the custodian and complete traceable factual notes, preserving any unresolved uncertainty before drawing a conclusion.",
+      "Report an authorization failure because uncertainty in the auditor's note establishes that R684 does not adequately demonstrate approval before the product was dispatched.",
+      "Ask the custodian to approve the intended finding before completing the notes, treating agreement with that conclusion as the necessary confirmation of factual accuracy."
+    ],
+    "answer": 1,
+    "why": "Notes should be completed while the source and relevant personnel remain available, so their meaning can be verified rather than reconstructed later. Reexamining the exact record and clarifying its field meanings allows the auditor to identify what each timestamp actually establishes and record traceable facts. Any remaining ambiguity must stay explicit; the note's question mark is not evidence that approval was late or absent. The custodian can clarify facts, but does not gain authority to approve or veto the audit conclusion. That conclusion depends on the applicable requirement and the verified evidence, not the order in which the auditor wrote two times. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 106–107.</span>",
+    "keyPoint": "Clarify incomplete notes against the original available source promptly, separating factual corroboration from agreement with an audit conclusion.",
+    "trap": "Turning uncertainty in the auditor's own notes into an auditee nonconformity, or substituting assumed chronology or auditee approval for verified facts.",
+    "distractors": {
+      "0": "The note does not identify the events associated with the times. Their written order cannot establish which event occurred first, so assigning labels from that order would add an unsupported fact.",
+      "2": "The uncertainty is in the auditor's incomplete note. The original record is available for clarification, and the stated facts do not establish that approval was late, absent or inadequately recorded.",
+      "3": "The custodian can help confirm what the fields and records mean. Agreement with a proposed finding is a different matter and is not a prerequisite for an evidence-supported audit conclusion."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q124",
+    "set": 2,
+    "batch": 13,
+    "sub": "cqa-retrospective-shipped-product-impact",
+    "bok": "II.D.1",
+    "cognitive": "Evaluate",
+    "stem": "Panel-packaging case. An assigned auditor reviews corrective action under customer agreement PK-9. Each package contains one panel. PK-9 requires arrival without edge damage and exterior identification readable at receiving without opening the protective wrapping. The exhibit contains verified information. The auditee selects and implements remedies; the auditor evaluates response adequacy and effectiveness against the agreement. Which additional work is needed specifically for the 120 earlier P4 shipments?",
+    "options": [
+      "Treat the earlier shipments as covered by implementing P5, because preventing future edge damage resolves the product consequences of the original packaging condition.",
+      "Require return and replacement of all 120 panels before assessing their condition, because the confirmed packaging mechanism establishes damage in every earlier shipment.",
+      "Request assessment of the traceable P4 shipments and proportionate action based on the identified exposure and consequences, with verification that required actions were completed.",
+      "Limit the response to customers who have already complained, because the lack of complaints for other identified P4 shipments establishes that those panels arrived unaffected."
+    ],
+    "answer": 2,
+    "why": "Corrective-action review includes the effects of the original condition on product or services already supplied. Implementing P5 addresses future packaging, but does not assess the 120 additional P4 shipments made while the confirmed failure mechanism existed. The auditee should determine the relevant exposure and consequences within that traceable population, select proportionate action for affected product and customers, and provide evidence that the required response was completed. The mechanism does not prove that every panel was damaged, while silence from a customer does not prove that no effect occurred. A blanket return or replacement requirement cannot be inferred from the facts given. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 136.</span>",
+    "keyPoint": "Assess the effects of a confirmed nonconformity on already-supplied outputs as well as preventing recurrence in future work.",
+    "trap": "Assuming that a successful future change resolves earlier product exposure, or that a known failure mechanism proves every affected-period unit was damaged.",
+    "distractors": {
+      "0": "Changing new packaging does not determine the condition or consequences of product already shipped in P4. That earlier population remains unassessed even if the new design prevents future edge damage.",
+      "1": "The evidence establishes a failure mechanism and damage in the reviewed sample, not damage in every additional shipment. The appropriate response must be based on assessment of exposure and consequences, rather than an unsupported universal disposition.",
+      "3": "A customer complaint is useful evidence, but the absence of one does not establish that a shipped panel was unaffected. Restricting assessment to complainants leaves the identified earlier population inadequately considered."
+    },
+    "caseId": "cqa-set2-panel-packaging-capa-01",
+    "chart": {
+      "type": "data-table",
+      "title": "Panel-packaging corrective action: verified cause, shipments and follow-up",
+      "columns": [
+        "Review area",
+        "Verified information"
+      ],
+      "rows": [
+        [
+          "Original P4 condition and cause",
+          "For panel type T7 on route R2, 10 of 40 reviewed P4 packages had edge damage. Investigation confirmed that inadequate corner restraint allowed movement that caused the damage."
+        ],
+        [
+          "Earlier shipped population",
+          "Records identify 120 additional P4 packages of T7 shipped on R2 during the affected period before P5. Their product condition and customer impact have not been assessed."
+        ],
+        [
+          "Permanent change",
+          "The approved P5 design adds corner restraints and extends the protective wrapping. Implementation on new shipments has been verified."
+        ],
+        [
+          "P5 follow-up results",
+          "Receiving records for 40 P5 packages of T7 on R2 show no edge damage. On six, the new wrapping obscured exterior identification so it could not be read without opening the wrapping."
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q125",
+    "set": 2,
+    "batch": 13,
+    "sub": "cqa-corrective-action-unintended-effects",
+    "bok": "II.D.3",
+    "cognitive": "Evaluate",
+    "stem": "Panel-packaging case. An assigned auditor reviews corrective action under customer agreement PK-9. Each package contains one panel. PK-9 requires arrival without edge damage and exterior identification readable at receiving without opening the protective wrapping. The exhibit contains verified information. The auditee selects and implements remedies; the auditor evaluates response adequacy and effectiveness against the agreement. Which assessment of P5's effectiveness is best supported by the follow-up evidence?",
+    "options": [
+      "Accept P5 as effective because none of the reviewed panels had edge damage; record the obscured labels as housekeeping observations unrelated to the remedy.",
+      "Approve P5 as effective because the authorized design was implemented; defer identification review until another edge-damage complaint provides evidence of a continuing problem.",
+      "Require immediate restoration of P4 because its wrapping left identification readable, treating removal of the new wrapping problem as sufficient corrective action.",
+      "Recognize the favorable edge-damage results, but have the auditee address and verify the introduced identification failure before treating P5 as an effective remedy."
+    ],
+    "answer": 3,
+    "why": "The follow-up records show a favorable edge-damage result for the 40 reviewed P5 packages, but six also violate PK-9's identification requirement because of the new wrapping. Corrective action must address the original problem without introducing another. Verified implementation and improvement in one outcome do not establish that the complete remedy is effective when a connected required outcome fails. The auditee should address that unintended effect and provide verification against the relevant requirements. The auditor evaluates that evidence without prescribing a particular packaging redesign or automatically returning to P4's known inadequate restraint. The sample does not guarantee that every future P5 shipment will be free of damage. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 136, 140.</span>",
+    "keyPoint": "Verify the intended result and the effects of the corrective action on connected requirements; an improved original outcome does not excuse a new failure.",
+    "trap": "Declaring a remedy effective from implementation or one improved measure while dismissing a verified problem introduced elsewhere in the process.",
+    "distractors": {
+      "0": "Exterior identification is an explicit customer requirement, and the new wrapping caused the observed failures. Calling them housekeeping observations does not remove their relevance to the remedy's effectiveness.",
+      "1": "Implementation confirms that the planned change was made. The existing receiving evidence already shows a required outcome is not met; another edge-damage complaint is not needed to make identification relevant.",
+      "2": "Restoring P4 would reintroduce the confirmed inadequate restraint without establishing a satisfactory overall remedy. The auditee must develop an appropriate solution; the auditor's role does not require prescribing that specific reversal."
+    },
+    "caseId": "cqa-set2-panel-packaging-capa-01",
+    "chart": {
+      "type": "data-table",
+      "title": "Panel-packaging corrective action: verified cause, shipments and follow-up",
+      "columns": [
+        "Review area",
+        "Verified information"
+      ],
+      "rows": [
+        [
+          "Original P4 condition and cause",
+          "For panel type T7 on route R2, 10 of 40 reviewed P4 packages had edge damage. Investigation confirmed that inadequate corner restraint allowed movement that caused the damage."
+        ],
+        [
+          "Earlier shipped population",
+          "Records identify 120 additional P4 packages of T7 shipped on R2 during the affected period before P5. Their product condition and customer impact have not been assessed."
+        ],
+        [
+          "Permanent change",
+          "The approved P5 design adds corner restraints and extends the protective wrapping. Implementation on new shipments has been verified."
+        ],
+        [
+          "P5 follow-up results",
+          "Receiving records for 40 P5 packages of T7 on R2 show no edge damage. On six, the new wrapping obscured exterior identification so it could not be read without opening the wrapping."
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q126",
+    "set": 2,
+    "batch": 13,
+    "sub": "cqa-complementary-team-competence",
+    "bok": "III.A",
+    "cognitive": "Apply",
+    "stem": "Two independent, qualified auditors are assigned to an audit linking heat-treatment cycle controls with electronic release records. One is competent in heat-treatment parameters; the other is competent in electronic record linkage. Neither is qualified to make the other's specialized technical judgments. Together they cover the required competence, and the schedule allows a joint review of selected linked records. Which direction best uses the team's strengths?",
+    "options": [
+      "Have each auditor judge both areas using the same checklist, then reconcile their pass rates to give both technical judgments equal weight.",
+      "Postpone the audit until both auditors are qualified in both specialisms, because each team member must be able to make every required technical judgment.",
+      "Assign each specialist area to the appropriately competent auditor and coordinate their review of linked evidence so the team can assess the process interface.",
+      "Let each auditor finalize a separate area conclusion and omit joint review, because competence in both areas is already present somewhere on the team."
+    ],
+    "answer": 2,
+    "why": "The lead should use the auditors' complementary strengths while ensuring that their work collectively meets the audit objective. Each auditor can make the specialized judgments for which competence is established; neither should be assigned the other's technical assessment merely because both are qualified auditors. Their coordinated review connects the cycle controls with the release records, allowing each contribution to inform the interface assessment. Collective competence does not require identical expertise in every team member, but it does require effective collaboration rather than disconnected area conclusions. The stated schedule provides for that joint work. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 146, 149.</span>",
+    "keyPoint": "Use complementary individual competence through coordinated assignments so the team's combined work meets the audit objectives.",
+    "trap": "Confusing collective team competence with identical expertise in every auditor, or assuming different specialists' work integrates itself.",
+    "distractors": {
+      "0": "A common checklist does not establish the specialized competence that each auditor lacks. Averaging or reconciling pass rates cannot replace competent technical judgments and review of the evidence linking the areas.",
+      "1": "The required competence is available across the team. Requiring every member to possess both specialisms adds a condition the audit does not need when assignments and collaboration provide the necessary coverage.",
+      "3": "The audit explicitly links cycle controls to release records. Separate conclusions without the planned joint review can leave that relationship unassessed even though both specialties are represented."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q127",
+    "set": 2,
+    "batch": 13,
+    "sub": "cqa-software-report-fidelity",
+    "bok": "III.D",
+    "cognitive": "Evaluate",
+    "stem": "An audit's approved reporting method requires evidence-linked findings and a scoped conclusion, with no overall supplier-approval rating. The audit software records the findings correctly but automatically adds an aggregate score and an 'Approved supplier' banner. The lead is authorized to customize report templates and disable optional scoring; access, approval and retention controls remain mandatory. Which reporting approach best preserves the approved assessment?",
+    "options": [
+      "Disable the optional score and banner through the authorized template settings, present the supported findings and scoped conclusion, and retain the required report controls.",
+      "Keep the default score and banner for consistency with earlier software outputs, and add a footnote explaining that the approved method did not require them.",
+      "Change the numerical weight of each finding until the software's overall rating reflects the lead's judgment, then issue that rating alongside the original finding statements.",
+      "Issue the software's aggregate rating as the report summary, and keep the individual findings in the controlled file for recipients who later request more detail."
+    ],
+    "answer": 0,
+    "why": "Audit software should support an effective report rather than impose an assessment the approved method does not authorize. Here, the software's score and approval banner add a supplier-approval conclusion that is outside that method. Authorized template changes can remove those outputs while preserving the actual findings, the scoped conclusion and all required controls. A footnote would leave the conflicting message in the report, changing weights would invent an unsupported rating method, and retaining findings only in the file would not provide the required reporting content. The permission to customize output does not waive access, approval or retention requirements. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 163.</span>",
+    "keyPoint": "Configure authorized audit-reporting tools to represent the approved method and evidence faithfully while preserving required controls.",
+    "trap": "Treating a software-generated score or status as audit authority, or changing the assessment to obtain a preferred software output.",
+    "distractors": {
+      "1": "The approved method does not authorize an overall supplier-approval rating. Keeping the score and banner can mislead recipients even if a footnote acknowledges the mismatch.",
+      "2": "Changing weights creates a rating method that was not approved. The task is to communicate the supported assessment, not tune the scoring until it produces a desired label.",
+      "3": "An aggregate rating does not replace the required evidence-linked findings and scoped conclusion. Keeping those findings elsewhere also does not authorize the software's supplier-approval label."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q128",
+    "set": 2,
+    "batch": 13,
+    "sub": "cqa-continuity-shared-dependency",
+    "bok": "IV.A.8",
+    "cognitive": "Analyze",
+    "stem": "A service centre's continuity objective is to resume order processing within four hours after loss of electrical Feeder F. Its plan transfers work to another building. Verified utility diagrams show that both buildings depend on Feeder F, and neither has an independent power source. A successful two-hour exercise disabled the primary application but kept Feeder F energized. Management cites the exercise as proof that the stated feeder-loss scenario is controlled. Which assessment is best supported?",
+    "options": [
+      "The two-hour transfer meets the four-hour objective, and using a different building provides sufficient separation to treat the stated feeder-loss risk as controlled.",
+      "The exercise supports transfer while Feeder F is available, but both buildings still depend on it; the result does not demonstrate continuity for the stated feeder loss.",
+      "Repeating the same powered exercise for four hours would establish continuity for feeder loss, because the longer exercise would match the full objective period.",
+      "The shared feeder should remain background information until a real outage occurs, because only an actual interruption can show whether the fallback is needed."
+    ],
+    "answer": 1,
+    "why": "The identified disruption is loss of Feeder F, not just loss of the primary application. The exercise demonstrated a transfer under conditions in which that feeder continued supplying both buildings. Because the verified arrangements provide no independent power, the fallback retains the same dependency that the plan is intended to address. The audit should report this gap in treatment of the specified scenario; the successful exercise does not establish the claimed continuity capability. Extending the same powered test would not remove the mismatch, and the organization need not wait for an actual outage to identify it. The evidence supports the gap without prescribing which technical or operational remedy management must choose. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 204, 206.</span>",
+    "keyPoint": "Assess a continuity treatment against the identified disruption and the dependencies actually exercised, rather than treating any successful transfer as proof of resilience.",
+    "trap": "Mistaking an alternate location or a successful limited exercise for removal of the dependency that causes the specified interruption.",
+    "distractors": {
+      "0": "The elapsed transfer time was achieved while the shared feeder remained available. A different building does not provide independence from a utility dependency that both verified configurations retain.",
+      "2": "Longer operation with Feeder F energized tests duration under powered conditions, not operation after its loss. The changed test duration would leave the decisive dependency untested and unchanged.",
+      "3": "The diagrams, power arrangements and test conditions already identify the treatment gap. Waiting for a real outage is not necessary to assess whether the fallback addresses this known risk."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q129",
+    "set": 2,
+    "batch": 13,
+    "sub": "cqa-activity-based-coq-allocation",
+    "bok": "IV.B.3",
+    "cognitive": "Apply",
+    "stem": "An organization's approved COQ method allocates a shared analysis-platform license cost by verified platform-use hours. An auditor is reviewing only the $24,000 annual license-cost pool. The exhibit lists its complete users for that year, and the COQ categories are already established. Use hours do not overlap; the license cost is not included in the labor amounts, and no part of it has been allocated elsewhere. Which allocation of the license cost follows the approved method?",
+    "options": [
+      "Prevention $6,000; appraisal $18,000, based on each activity's share of the 480 verified platform-use hours.",
+      "Prevention $18,000; appraisal $6,000, based on each activity's share of the $24,000 in direct labor costs.",
+      "Prevention $12,000; appraisal $12,000, because the two listed activity categories are the platform's complete users for the year.",
+      "Prevention $0; appraisal $24,000, because the audit activity uses more platform hours and therefore receives the full shared cost."
+    ],
+    "answer": 0,
+    "why": "The stated allocation basis is resource use. Total platform use is 120 + 360 = 480 hours. Prevention uses 120/480 of the platform time, so it receives $24,000 × 120/480 = $6,000; appraisal uses 360/480 and receives $18,000. These allocations sum to the complete $24,000 license pool. Direct labor costs provide a different proportion and are not the adopted driver. They are also not added to this answer because the question asks only for the license allocation. Equal sharing or charging the whole pool to its largest user would disregard the verified use proportions. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 220.</span>",
+    "keyPoint": "Under an adopted activity-based COQ method, allocate a shared resource's cost using its specified consumption driver and reconcile the allocations to the cost pool.",
+    "trap": "Substituting labor-cost proportions, equal shares or the largest user's category for the stated resource-use basis.",
+    "distractors": {
+      "1": "The labor costs produce a 3:1 split, whereas platform use produces a 1:3 split. The approved method specifies platform-use hours, so allocating by wages reverses the required amounts.",
+      "2": "There are two users, but they do not use the platform equally. Counting categories instead of their hours does not implement the stated consumption-based allocation.",
+      "3": "The prevention activity uses one-quarter of the recorded platform time. The appraisal activity's larger use does not justify assigning it the entire cost pool under the approved proportional method."
+    },
+    "chart": {
+      "type": "data-table",
+      "title": "Annual platform use and separately recorded labor",
+      "columns": [
+        "Activity",
+        "Established COQ category",
+        "Verified platform-use hours",
+        "Direct labor cost"
+      ],
+      "rows": [
+        [
+          "Quality planning",
+          "Prevention",
+          120,
+          "$18,000"
+        ],
+        [
+          "Routine conformity audits",
+          "Appraisal",
+          360,
+          "$6,000"
+        ]
+      ]
+    }
+  },
+  {
+    "qid": "cqa:set-2:q130",
+    "set": 2,
+    "batch": 13,
+    "sub": "cqa-sampling-risk-conditioning",
+    "bok": "V.E.3",
+    "cognitive": "Understand",
+    "stem": "A buyer uses one acceptance-sampling plan for incoming connector lots. The agreed acceptable reference quality is 0.5% nonconforming, and the unacceptable reference quality is 4% nonconforming. Plan-performance information gives a 5% probability of rejection for lots at exactly 0.5% nonconforming and a 10% probability of acceptance for lots at exactly 4% nonconforming. No distribution of incoming lot qualities is supplied. Which statement correctly interprets this information?",
+    "options": [
+      "Of all accepted connector lots, 10% have 4% nonconforming units; the plan's consumer-risk figure describes the quality mix of the lots released to the buyer.",
+      "Of all incoming connector lots, 10% are accepted at unacceptable quality and 5% are rejected at acceptable quality; these are the plan's overall decision-error rates.",
+      "Lots actually at 4% nonconforming have a 10% chance of acceptance; the figures do not establish what proportion of all accepted lots have that quality.",
+      "Each accepted connector lot may contain up to 10% nonconforming units; consumer risk sets that permitted fraction, while 0.5% and 4% are reference test conditions."
+    ],
+    "answer": 2,
+    "why": "The 10% consumer-risk figure describes acceptance when a lot's actual quality is the specified unacceptable level of 4% nonconforming. It does not describe the quality mix among all lots that the plan accepts. Similarly, the 5% producer-risk figure concerns rejection when the lot is at the stated acceptable level of 0.5% nonconforming. Determining the mix of accepted lots would require information about incoming lot qualities and the plan's performance at those qualities; that information is not supplied. A decision-error probability also is not a permitted percentage of nonconforming units in an accepted lot. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 291–292.</span>",
+    "keyPoint": "Consumer risk concerns acceptance at a specified unacceptable quality level; it does not state the quality composition of all accepted lots.",
+    "trap": "Reversing the condition in a sampling-risk statement, or treating a decision-error probability as an overall error rate or a permitted fraction of nonconforming units.",
+    "distractors": {
+      "0": "This reverses the condition. The supplied 10% is the chance of acceptance for a lot at 4% nonconforming, not the proportion of accepted lots that have that quality. The incoming quality mix is unknown.",
+      "1": "The two percentages apply at their specified quality levels. Overall error rates among incoming lots also depend on how often those and other lot qualities occur, which the question does not provide.",
+      "3": "Consumer risk describes a sampling decision, not a product-quality allowance. The 10% probability does not authorize 10% nonconforming units in each accepted lot."
     }
   }
 ];

@@ -1,6 +1,6 @@
 # CQA Set 2: source and question audit
 
-Audit record started: 2026-10-28. Latest batch review: 2026-10-28 (America/Regina). This record accompanies PR #368, which is accumulating one reviewed batch of ten questions at a time toward 150. The PR is to remain unmerged until all 150 questions are ready.
+Audit record started: 2026-10-28. Latest batch review: 2026-10-29 (UTC). This record accompanies PR #368, which is accumulating one reviewed batch of ten questions at a time toward 150. The PR is to remain unmerged until all 150 questions are ready.
 
 ## Sources and method
 
@@ -816,33 +816,158 @@ The current ASQ ethics provision was checked at [ASQ's official Code of Ethics p
 
 The finished-product status in Q111 is a scenario fact, not a claim that all product audits universally occur at one lifecycle point. The roles in Q112 follow the expressly stated delegation. The quarterly control in Q115 is a stated customer-agreement requirement, not a universal audit frequency. Q116 does not prescribe one technical fix for every configuration. Q119 relies on p. 218's explicit pre-delivery categories rather than the problematic restaurant example on p. 219. Q120 does not import p. 249's introductory sigma/DPM language, require a universal measurement-system threshold or demand deletion of reconstructable historical data.
 
+### Batch 12 fresh re-audit before adding Batch 13
+
+**PASS — Q111–Q120 and every cited printed page are retained without correction.** Review completed **2026-10-29 (UTC)**. Opposite-author reviewers freshly read all ten complete canonical objects: forty choices, ten keys and main explanations, thirty distractor rationales, all teaching fields, the Q119 exhibit, current 2026 BoK mappings and actual cognitive labels. Root separately reread the ten objects, all sixteen cited source passages and both complete fresh reports. The exact audited 120-question bank had SHA-256 `1b953ad7641c054e8c2839734d76ee532c4571a87fc873be7d28bf894eb15810` and remained unchanged throughout the audit.
+
+All **16 distinct cited printed folios** were freshly rendered from the uploaded fifth-edition PDF and personally inspected by the independent reviewers. Seven support Q111–Q115 and nine support Q116–Q120. Printed pages 2 and 172 have chapter-opening footer folios; the other cited numbers appear in headers. Every source passage and visible printed number was checked. The corresponding one-based PDF positions were individually confirmed rather than inferred solely from the +19 offset. Historical author ledgers were not substituted for fresh source reading or visual verification.
+
+| Item | Verified printed pages | One-based PDF pages | Fresh result |
+|---|---|---|---|
+| Q111 | 2–3 | 21–22 | Functional evidence does not cover the selected packages' specified contents and protection. Retain. |
+| Q112 | 26–27 | 45–46 | Explicitly separate roles and absence of broader delegation require program coordination for common controls and cross-audit commitments. Retain. |
+| Q113 | 26, 29 | 45, 48 | Accurate contributor credit and the lead's final-report responsibility are both directly supported. Retain. |
+| Q114 | 71 | 90 | A prior nonviolating emerging trend prompts current evidence review, not an assumed current violation. Retain. |
+| Q115 | 82 | 101 | Process tracing needs linkage to the applicable periodic criterion; unexamined records do not prove nonperformance. Retain. |
+| Q116 | 134, 136 | 153, 155 | A confirmed mechanism requires configuration-specific extent assessment, not no-incident reassurance or an indiscriminate identical remedy. Retain. |
+| Q117 | 167, 169 | 186, 188 | A neutral closed question can clarify a specific event, followed by relevant corroboration. Retain. |
+| Q118 | 172–173 | 191–192 | A qualified recipient reviews traceable completed work and explicitly accepts unresolved verification after the emergency departure. Retain. |
+| Q119 | 218 | 237 | Routine first-pass testing is appraisal; failure-caused pre-delivery retesting is internal failure. Retain. |
+| Q120 | 250–251 | 269–270 | The common stop point does not repair different starts; Measure must establish the charter-defined interval before pooling the baseline. Retain. |
+
+The current [ASQ Code of Ethics](https://asq.org/about-asq/conferences-events-policies/code-of-ethics) was reopened during this cycle. It retains the due-credit principle supporting Q113. The item does not describe the handbook's historical seven-article code layout as current, and its authorized internal summary removes any unstated disclosure exception. Page 26 independently supports the lead's final-report duty. Q112 likewise preserves the handbook's possibility of delegation; the answer follows this scenario's explicit absence of such delegation rather than a universal restriction on combined roles.
+
+Every Q119 numerical and categorical alternative was independently reconstructed. The entries are nonoverlapping testing labor; separate repair labor is not supplied or added. All four alternatives total **$10,500**:
+
+| Option | Appraisal | Internal failure | Other category | Assessment |
+|---|---:|---:|---|---|
+| A | $10,500 | $0 | None | Wrongly classifies the whole account by its shared laboratory/method. |
+| B | $8,400 | $2,100 | None | Correct classification by cost origin and the pre-delivery boundary. |
+| C | $2,100 | $0 | Prevention $8,400 | Confuses first-pass detection with prevention and failure-caused retesting with routine appraisal. |
+| D | $8,400 | $0 | External failure $2,100 | Ignores the explicitly stated pre-delivery boundary. |
+
+Q120 does not require discarding historical data if the charter-defined interval can be reconstructed, invent a numerical measurement-system threshold, or infer causation from a branch label. Q116 leaves the technical solution with the auditee. Q117 does not treat every closed question as leading or every clear answer as self-verifying. Q118 permits review of actual evidence gaps without demanding blanket repetition of all completed work.
+
+The current BoK ceilings were reconfirmed for all ten. Actual demand remains **Apply 7 / Analyze 2 / Evaluate 1**, with keys **B/D/A/C/B/C/A/D/B/C**. All options and correctly indexed non-key rationales remain coherent with the stems and teaching fields. Targeted nearest-item review found related competencies but distinct decision tasks. There are no formal case-pair dependencies in this batch; Q119's two-row exhibit remains complete.
+
+Detailed fresh reports: `batch12-reaudit-q111-q115.md`, SHA-256 `7a2ce3b756be50546508d35ba120085777ed0012115596ff9ba7b752fdfe67ff`, and `batch12-reaudit-q116-q120.md`, SHA-256 `81f85c6192f94703262b0834bab6c837753f5acfe8d67b77ed30d9a1ee4abe05`. No question, citation, key, rationale, exhibit or cognitive-label correction is required. This source/content audit does not claim empirical equivalence to a live ASQ examination or human SME certification.
+
+## Batch 13: Q121–Q130 source and independent item review
+
+Review date: **2026-10-29 UTC**.
+
+All ten final objects passed independent review of the complete stems, four options, keyed answers, explanations, key points, traps and thirty distractor rationales. The review checked direct handbook support, actual cognitive demand against the current 2026 CQA BoK ceiling, single-best-answer reasoning, plausible alternatives and substantive differences from the 270 existing questions. These are original simulated questions; this review does not establish measured psychometric equivalence to an administered ASQ examination.
+
+### Final question and source map
+
+| Item | Decision tested | BoK | Actual / maximum level | Key | Printed pages | One-based PDF pages |
+|---|---|---|---|---|---|---|
+| Q121 | Protect both parties in a conduct review and assess the finding's evidence separately | I.E.3 | Apply / Apply | D | 46–47 | 65–66 |
+| Q122 | Reject a benefit conditional on suppressing a supported finding despite a nominal-courtesy allowance | I.E.1 | Apply / Apply | A | 38 | 57 |
+| Q123 | Clarify incomplete contemporaneous notes against the exact original record before drawing a conclusion | II.B.5 | Apply / Analyze | B | 106–107 | 125–126 |
+| Q124 | Assess the possible consequences for already-shipped products from the bounded affected period | II.D.1 | Evaluate / Evaluate | C | 136 | 155 |
+| Q125 | Verify that a remedy's favorable original outcome does not conceal a new failure in a connected requirement | II.D.3 | Evaluate / Evaluate | D | 136, 140 | 155, 159 |
+| Q126 | Coordinate complementary auditors' competent contributions to a process-interface assessment | III.A | Apply / Apply | C | 146, 149 | 165, 168 |
+| Q127 | Adapt authorized reporting software to preserve the approved assessment and required controls | III.D | Evaluate / Evaluate | A | 163 | 182 |
+| Q128 | Analyze an alternate site's shared dependency against the specified continuity scenario | IV.A.8 | Analyze / Analyze | B | 204, 206 | 223, 225 |
+| Q129 | Allocate a complete shared cost pool by the adopted resource-use driver | IV.B.3 | Apply / Analyze | A | 220 | 239 |
+| Q130 | Interpret a conditional sampling-risk probability without reversing its condition | V.E.3 | Understand / Understand | C | 291–292 | 310–311 |
+
+There are **15 distinct cited printed folios**: 38, 46, 47, 106, 107, 136, 140, 146, 149, 163, 204, 206, 220, 291 and 292. The independent reviewer personally inspected the relevant passages and visible folios in fresh full-page renders. All printed-to-PDF mappings are **+19**. P. 146 is a chapter-opening page with its folio at the bottom; it was checked directly. P. 136 is used by both case items and is counted once in the distinct total.
+
+Direct source support is specific. P. 46 supports complaint procedures protecting both parties; p. 47 supports impartiality and accurate presentation of findings. P. 38 addresses refusal and management attention for an improper offer and distinguishes this from ordinary gifts subject to local policy. P. 106 supports promptly completing and clarifying notes, while p. 107 requires recorded, verifiable, relevant and sufficient evidence. P. 136 addresses both effects on products or services already supplied and avoiding a new problem from corrective action; p. 140 requires evidence that the desired results were achieved. Pp. 146 and 149 support directing complementary strengths and collective team competence. P. 163 supports flexible software, bypassable scoring and suitable reports. Pp. 204 and 206 support continuity arrangements and verification of risk treatments against identified risks. P. 220 directly describes activity-based allocation by resource use. Pp. 291–292 define producer and consumer risk.
+
+### Reasoning and one-best-answer review
+
+**Q121 — Separate related questions.** The conduct allegation remains uninvestigated, and the possible effect on interview evidence is expressly unknown. A protected, impartial conduct review and a separate assessment of the finding's criterion and evidence are both required. The latter can retain, revise or remove the conclusion according to what is supported. The alternatives incorrectly make a complaint, traceable records, or the conduct-review outcome an automatic answer to both questions. The item presumes neither misconduct nor a retaliatory allegation.
+
+**Q122 — The condition matters.** The $15 benefit is explicitly offered for omission of a supported nonconformity. The $25 ordinary-courtesy allowance does not authorize that exchange. The correct response refuses the benefit, preserves the record and follows the explicitly supplied local pause/notification route. Disclosure, redirecting the beneficiary and privately declining without the required notification do not meet those facts. No universal monetary limit or criminal-law outcome is asserted.
+
+**Q123 — Clarify the original evidence.** The exact read-only R684 and its custodian remain available. The note contains two times without their event labels, so their written order is not evidence of dispatch or approval sequence. Reopening that same record can establish the field meanings and support accurate, traceable notes. Unresolved uncertainty must remain explicit. The custodian can clarify facts but cannot approve or veto the auditor's conclusion. A fresh observation of a different event is not used to reconstruct the earlier event.
+
+**Q124 — The earlier-output question remains.** P5's prospective change does not assess the 120 additional P4 shipments identified in the affected period. A proportionate response requires assessing exposure and consequences within that traceable group and verifying completion of the actions found necessary. The confirmed mechanism and observed damage in the original reviewed group do not prove that every additional panel was damaged. Conversely, absence of a complaint does not establish that a panel was unaffected. An automatic blanket return or replacement is not supported.
+
+**Q125 — An introduced failure counts.** All 40 reviewed P5 packages arrived without observed edge damage, but six violated the separate exterior-identification requirement because of the new wrapping. Those are actual outcome records, not merely an implementation checklist. The favorable damage result therefore cannot establish an adequate overall remedy while a connected required outcome fails. The auditee must address and verify the unintended effect; the auditor does not prescribe a specific redesign or a return to the known inadequate P4 restraint. The explanation explicitly avoids a guarantee about all future P5 shipments.
+
+**Q126 — Collective competence needs coordination.** Each auditor is qualified and independent but has a different established technical specialty. The combined team covers the required competence, and joint review time is available. Assigning each technical judgment to the appropriate auditor and connecting their evidence assesses the required interface. A shared checklist does not confer missing expertise; identical expertise in both people is not necessary; independent area conclusions do not automatically assess the relationship between cycle controls and release records.
+
+**Q127 — Software does not create assessment authority.** The approved method requires evidence-linked findings and a scoped conclusion, without an overall supplier-approval rating. The software's additional score and banner conflict with that method. The authorized template change removes the unsupported output while preserving all required access, approval and retention controls. A footnote does not remove the conflicting banner, revised weights invent an unapproved rating method, and filing the required findings elsewhere does not make the aggregate report adequate. Evaluating competing reporting approaches against these criteria supports the actual Evaluate label.
+
+**Q128 — Match evidence to the disruption.** The identified continuity scenario is loss of Feeder F. Both buildings depend on it and have no independent power source. The successful two-hour exercise kept F energized and disabled only the primary application. It therefore supports transfer under powered conditions, not the claimed feeder-loss capability. Extending the same powered exercise does not resolve the shared dependency, and an actual outage is not necessary to identify the gap. The conclusion is bounded to the stated scenario and does not dictate management's technical remedy.
+
+**Q129 — Use the stated allocation basis.** The entire $24,000 license pool is allocated by nonoverlapping platform-use hours for the same year. The two category assignments are supplied. Labor is separately recorded, and no license cost is already allocated elsewhere. The task applies a specified proportional method, so **Apply** is the actual cognitive label even though IV.B.3 permits Analyze. It does not reclassify the categories, create savings or add labor to the requested license allocation.
+
+**Q130 — Keep the quality condition attached.** The 10% probability is acceptance conditional on a lot being at exactly 4% nonconforming. It is not the proportion of all accepted lots at that quality, an unconditional error rate, or an allowed fraction of nonconforming units. The 5% rejection probability similarly applies at the specified acceptable quality of 0.5% nonconforming. Incoming lot-quality distribution is absent. The question asks for interpretation, with no calculation or plan selection beyond the Understand ceiling.
+
+### Case integrity, exhibits and numerical checks
+
+Q124/Q125 use caseId `cqa-set2-panel-packaging-capa-01`. Their shared **433-character context**, complete **four-row table**, title, columns and caseId are identical. Each prompt specifies its own independent decision: the earlier P4 population or the observed P5 remedy outcomes. Neither depends on selecting the other answer. The complete criteria and evidence accompany each item when shuffled.
+
+The case distinguishes the original **40 reviewed P4 packages with 10 damaged panels**, **120 additional earlier P4 shipments not yet assessed**, and **40 reviewed P5 packages with zero observed edge damage and six obscured identifiers**. One panel per package is explicit. No prevalence estimate is extrapolated to the 120 additional shipments, no 10/160 rate is invented, and no all-future success or automatic recall is claimed. The two case exhibits and the standalone Q129 table are the batch's three tables.
+
+Q129 was independently recomputed using exact fractions:
+
+- Total use: 120 + 360 = **480 hours**.
+- Prevention: $24,000 × 120/480 = **$6,000**.
+- Appraisal: $24,000 × 360/480 = **$18,000**.
+- Correct allocations reconcile to **$24,000**. All three numerical alternatives also sum to $24,000; they represent the wrong driver, equal shares, or assigning everything to the largest user.
+- The separate labor values total $24,000 but give the opposite 3:1 allocation. They are deliberately a competing driver, not additional license costs.
+
+Every answer index is valid and every item has exactly three rationales keyed to its incorrect options. Options have comparable detail: Q121–Q128 use 22–27 words, Q129's calculation choices use 15–19, and Q130 uses 25 each. The key is not systematically the longest option. The ten-item distribution is **I2/II3/III2/IV2/V1**, keys **A3/B2/C3/D2**, and cognition **Apply5/Analyze1/Evaluate3/Understand1**.
+
+### Novelty checks
+
+- **Q121:** differs from Set 1 b03-10 and Set 2 Q033/Q044/Q079 by separating an unresolved conduct complaint from assessment of the finding's evidence, rather than testing bonus misuse, omission pressure, grading or appeal-procedure design.
+- **Q122:** differs from Q082's unsolicited post-audit gift and local value cap; the explicit exchange for changing a supported result defeats the ordinary-courtesy rationale even below the cap.
+- **Q123:** differs from Q075's absence-of-record-versus-absence-of-operation issue and Q096's current-demonstration-versus-historical-event issue. It addresses the auditor's own incomplete note with the original source still available. Set 1 b04-08 concerns alteration of a source record.
+- **Q124/Q125:** full Q065, Q095 and Q103 were compared, as were Set 1 b04-23, b04-25 and b05-01. The new decisions concern already-supplied outputs and an introduced downstream failure, rather than missing cause, containment, auditor preference, implementation paperwork or remote verification. Q116's extent assessment concerns other current configurations, not retrospective shipments. Q111 covers complete product-audit attributes, not CAPA impact assessment.
+- **Q126:** differs from Q006's resource reassignment, Q016's selection and independence decision, and Q062's technical-expert boundaries. The team is already appointed; the task is coordinated direction of complementary competence.
+- **Q127:** differs from Q035's checklist coverage, Q043's severity rubric and Q079's program appeals. It evaluates faithful reporting despite an automated output that adds an unauthorized overall conclusion.
+- **Q128:** differs from Q043's grading of an actual failed recovery exercise, Q091's prospective audit-purpose choice and Q099's auditor succession. It analyzes why an alternative site retains the exact dependency of the defined outage scenario.
+- **Q129:** differs from Q009/Q109's financial contribution and Q119's classification of routine testing versus retesting. Set 1 b06-25 concerns visibility of COQ hidden in overhead. The new task allocates a stated shared cost pool by consumption under an adopted activity-based method.
+- **Q130:** full Set 1 b07-13 was reviewed. That item names the error of accepting bad product alongside a confused manual-review confidence statement. The new task distinguishes conditional probability from reverse or unconditional probability. Q080 applies an Ac/Re decision; Q020 allocates a stratified sample.
+
+### Review refinements and source limits
+
+The only requested refinement to the completed first-half drafts was **Q121's source footer from p. 46 to pp. 46–47**, adding direct support for fair presentation and impartial evidence assessment to the complaint-protection source. No stem, key or option changed. Q129's planning label was resolved to Apply before the complete second-half draft because its categories and allocation method are supplied. No changes were requested to the completed second-half array.
+
+The review excludes the handbook's gift/cultural generalizations on pp. 38–39, any presumption of false complaints from p. 46, and p. 47's outdated count of six auditing principles. It does not import p. 146's dated certification/degree assertions. The case uses p. 136's assessment principles without inventing universal recall, deadline or remedy-ownership rules. Q130 uses the risk definitions only: the unrelated denominator error on p. 291, surrounding confidence generalizations and the problematic reverse-confidence discussion on p. 289 are not used. The original incoming-quality probabilities are explicit scenario data, not copied from a standards table.
+
+### Frozen author arrays
+
+- **Q121–Q125:** `7f88a25ef0e8b6c923eb803ca2ed09a8136021681f9dc4ba174d3d5a5bbae25f`.
+- **Q126–Q130:** `d7a652a5a335f952c02243ea3f52cf919785e03f2854242abf89b14b5e9ab520`.
+
+Both exact arrays passed full independent content and source review. These hashes identify the reviewed objects; integration, learner tests, publication status and remote checks are recorded separately.
+
 ## Progress and remaining blueprint
 
-| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 | Batch 9 | Batch 10 | Batch 11 | Batch 12 | Current total | Final target | Remaining |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 30 | 37 | 7 |
-| II. Audit Process | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 36 | 45 | 9 |
-| III. Auditor Competencies | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 24 | 30 | 6 |
-| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 18 | 23 | 5 |
-| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 12 | 15 | 3 |
-| **Total** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **120** | **150** | **30** |
+| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 | Batch 9 | Batch 10 | Batch 11 | Batch 12 | Batch 13 | Current total | Final target | Remaining |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 32 | 37 | 5 |
+| II. Audit Process | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 39 | 45 | 6 |
+| III. Auditor Competencies | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 26 | 30 | 4 |
+| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 20 | 23 | 3 |
+| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 13 | 15 | 2 |
+| **Total** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **130** | **150** | **20** |
 
-Continue alternating the established domain allocations: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation and independent review; allocation alone is not content validation. The next user-requested batch will be **Q121–Q130**, allocation **2/3/2/2/1**, after a fresh audit of Q111–Q120. It has not been started in this update.
+Continue alternating the established allocations: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation and independent review; allocation alone is not content validation. The next user-requested batch will be **Q131–Q140**, allocation **3/3/2/1/1**, after a fresh audit of Q121–Q130. It has not been started in this update.
 
-The first 120 questions contain twelve document-case items in six pairs (Q004–Q005, Q023–Q024, Q043–Q044, Q064–Q065, Q084–Q085 and Q104–Q105), exactly **10%**, and **27 rendered question tables**. Batch 12 adds one standalone cost-classification table and no formal case pair. Existing case copies retain their complete context and exhibits and remain independently answerable after shuffling. Another pair can be considered in Batch 13. Answer positions are **A30/B30/C30/D30**. Actual cognitive labels are **Apply 56, Analyze 33, Evaluate 26 and Understand 5**.
+The first 130 questions contain fourteen document-case items in seven pairs (Q004–Q005, Q023–Q024, Q043–Q044, Q064–Q065, Q084–Q085, Q104–Q105 and Q124–Q125), approximately **10.77%**, and **30 rendered question tables**. Batch 13 adds two complete packaging-case exhibits and one standalone allocation table. Each case item includes its complete context and exhibit and remains independently answerable after shuffling. Fourteen case items at 140 questions will equal 10%; another pair can be considered in Batch 15 to reach sixteen at 150. Answer positions are **A33/B32/C33/D32**. Actual cognitive labels are **Apply 61, Analyze 34, Evaluate 29 and Understand 6**.
 
-The existing engine randomizes question order. Practice timing remains two minutes per question: the available 120-question Full session uses **240 minutes**, displayed as **4 hr**. Quick Quiz retains its fifty-question maximum and samples from all 120 available items. This remains a partial practice set toward the planned 150.
+The existing engine randomizes question order. Practice timing remains two minutes per question: the available 130-question Full session uses **260 minutes**, displayed as **4 hr 20 min**. Quick Quiz retains its fifty-question maximum and samples from all 130 available items. This remains a partial practice set toward the planned 150.
 
 ## Integration verification
 
 - `node --test --test-isolation=none tests/test-bank-cqa-set1.test.js tests/test-bank-cqa-set2.test.js`: **13 passed, 0 failed**.
 - `npm run build:site`: **passed**, including scans of 619 public files with no known static findings and three clean protected-tool shells. These static checks do not claim verification of a production runtime or CDN.
-- The learner checks exercise all 120 questions, a 240-minute Full session, correct grading, a fifty-question Quick Quiz sampled from the available 120, a ten-question diagnostic, and all five focused domains with 30/36/24/18/12 questions.
-- An all-correct Full attempt scores 120/120 and 100%. A fifty-question Quick attempt with one deliberate wrong answer scores 49/50, displayed as 98%, and identifies the single incorrect item in review.
-- All 27 question tables render during the attempt and review. All 120 review cards display the authored explanations and all **360 distractor rationales**. Distractor feedback is not exposed during the timed attempt.
-- The runtime timer was checked at **14,400 seconds** and the existing display convention at `4 hr`. Quick Quiz serves its fifty-question request without an availability-cap notice. No timing or quiz-engine implementation change was needed.
+- The learner checks exercise all 130 questions, a 260-minute Full session, correct grading, a fifty-question Quick Quiz sampled from the available 130, a ten-question diagnostic, and all five focused domains with 32/39/26/20/13 questions.
+- An all-correct Full attempt scores 130/130 and 100%. A fifty-question Quick attempt with one deliberate wrong answer scores 49/50, displayed as 98%, and identifies the single incorrect item in review.
+- All 30 question tables render during the attempt and review. All 130 review cards display the authored explanations and all **390 distractor rationales**. Distractor feedback is not exposed during the timed attempt.
+- The runtime timer was checked at **15,600 seconds** and the existing display convention at `4 hr 20 min`. Quick Quiz serves its fifty-question request without an availability-cap notice. No timing or quiz-engine implementation change was needed.
 - Set 1 remains at 150 unchanged questions. Set 2 is included only in the protected CQA package and excluded from other exam packages and public staging.
-- Root and an independent integration reviewer separately confirmed that all 110 preceding question objects remain unchanged from the prior PR bank, including their exact serialized source text. The ten new objects exactly match the frozen author arrays. All **270 combined Set 1/Set 2 question IDs** are unique; every Set 2 item has four distinct options, exactly three non-key distractor rationales and a printed-page source reference.
-- JavaScript syntax checks passed for the bank and test file. The HTML change since the preceding PR head is only the CQA completion label, from Batch 11 to Batch 12. The replacement is scoped to the CQA registration to preserve every other exam's label. The reviewed update includes only the bank, its existing integration tests, the CQA progress label and this cumulative audit; unrelated regenerated build files are excluded.
+- Root and an independent integration reviewer separately confirmed that all 120 preceding question objects remain unchanged from the prior PR bank, including their exact serialized source text. The ten new objects match the frozen author arrays as parsed data and raw object text. All **280 combined Set 1/Set 2 question IDs** are unique; every Set 2 item has four distinct options, exactly three non-key distractor rationales and a printed-page source reference.
+- The Q124/Q125 case retains identical **55-word / 433-character context**, a complete four-row exhibit and the same case ID. Context SHA-256 is `6bd9692fe1384cc2cdb677f7d4fda78ca62609a4800858a80322aa070191ab38`; table SHA-256 is `ba9258c17bf6b9640ee5ac9ab609a80554d43f51f75d5f53853ab0c9de9b97bb`, using sorted-key, Unicode-retained compact JSON. Each prompt and exhibit remain sufficient independently of the other answer.
+- JavaScript syntax checks passed for the bank and test file. The HTML change since the preceding PR head is only the CQA completion label, from Batch 12 to Batch 13. The replacement is scoped to the CQA registration to preserve every other exam's label. The reviewed update includes only the bank, its existing integration tests, the CQA progress label and this cumulative audit; unrelated regenerated build files are excluded.
 
 PR #368 remains an accumulation branch; publication is deferred until all 150 questions are ready. No merge or production deployment is part of this batch update.
