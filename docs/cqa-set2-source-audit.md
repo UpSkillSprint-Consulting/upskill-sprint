@@ -1,6 +1,6 @@
 # CQA Set 2: source and question audit
 
-Audit record started: 2026-10-28. Latest batch review: 2026-10-29 (UTC). This record accompanies PR #368, which is accumulating one reviewed batch of ten questions at a time toward 150. The PR is to remain unmerged until all 150 questions are ready.
+Audit record started: 2026-10-28. Latest batch review: 2026-10-29 (America/Regina). Earlier dated records retain their original timezone. This record accompanies PR #368, which is accumulating one reviewed batch of ten questions at a time toward 150. The PR is to remain unmerged until all 150 questions are ready.
 
 ## Sources and method
 
@@ -940,34 +940,165 @@ The review excludes the handbook's gift/cultural generalizations on pp. 38–39,
 
 Both exact arrays passed full independent content and source review. These hashes identify the reviewed objects; integration, learner tests, publication status and remote checks are recorded separately.
 
+## Fresh preceding-batch audit: Q121–Q130
+
+**Reviewed 2026-10-29 (America/Regina): PASS without corrections.** The preceding batch was audited again before authoring Batch 14. The two reviewers audited the halves they had not authored. Root separately read all ten complete objects and the cited source passages. Historical UTC dates in earlier review records remain unchanged.
+
+The audit covered all forty choices, ten answer keys and main explanations, thirty distractor rationales, key points, traps, current BoK mappings, actual cognitive demand, both complete packaging-case exhibits and the cost-allocation table. All **15 distinct cited printed folios** were freshly rendered and personally inspected by the assigned reviewers, including the bottom-centre printed number on the chapter-opening p. 146. The page offset was used only for navigation; visible printed numbers and actual supporting passages established the references.
+
+Audited bank: `test-bank-cqa-set2.js`, 130 questions, SHA-256 `dc07962fddc41d4765427845e7930f6103f9a9f3e5205c6b1211fe779de701a4`. Actual uploaded fifth-edition PDF SHA-256: `dd47993300b2a1a5ab2d55a3edf79599f859b2b7f4d8076e0d9550d1505f789f`. A mechanical comparison confirmed that the ten canonical objects exactly match the preceding frozen author arrays read by root.
+
+| Item | Key | BoK | Actual cognition | Verified printed pages | One-based PDF pages | Result |
+| --- | --- | --- | --- | --- | --- | --- |
+| Q121 | D | I.E.3 | Apply | 46–47 | 65–66 | PASS |
+| Q122 | A | I.E.1 | Apply | 38 | 57 | PASS |
+| Q123 | B | II.B.5 | Apply | 106–107 | 125–126 | PASS |
+| Q124 | C | II.D.1 | Evaluate | 136 | 155 | PASS |
+| Q125 | D | II.D.3 | Evaluate | 136, 140 | 155, 159 | PASS |
+| Q126 | C | III.A | Apply | 146, 149 | 165, 168 | PASS |
+| Q127 | A | III.D | Evaluate | 163 | 182 | PASS |
+| Q128 | B | IV.A.8 | Analyze | 204, 206 | 223, 225 | PASS |
+| Q129 | A | IV.B.3 | Apply | 220 | 239 | PASS |
+| Q130 | C | V.E.3 | Understand | 291–292 | 310–311 | PASS |
+
+The current official 2026 BoK was reopened. All actual demands remain within their topic ceilings; the audit does not inflate Q123 or Q129 to their topics' Analyze maxima, or Q130 beyond Understand.
+
+### Content and source conclusions
+
+- **Q121:** The protected conduct investigation and impartial assessment of finding evidence remain distinct. Potential interview pressure can affect reliability without automatically invalidating every record. Pages 46–47 support both duties. The question presumes neither misconduct nor a false complaint and does not reproduce the book's incomplete six-principle count.
+- **Q122:** The explicit exchange for suppressing a supported finding defeats the nominal-courtesy argument. The refusal, pause and notifications follow the stated local protocol. Page 38 supports the professional-responsibility principle without creating a universal gift limit or criminal-law conclusion.
+- **Q123:** The exact original record and custodian remain available. Clarifying the two timestamp labels permits traceable completion of the auditor's notes; their written order is not evidence of event order. Pages 106–107 support prompt meaningful notes and verifiable evidence. The custodian clarifies facts rather than approving the conclusion.
+- **Q124–Q125:** The identical shared context, complete four-row exhibits and case IDs remain intact. The original 40 reviewed P4 packages with ten damaged panels, the additional 120 earlier P4 shipments with unassessed condition, and the separate 40 P5 follow-up packages with six obscured identifiers remain distinct. Q124 assesses earlier product consequences; Q125 evaluates an unintended failure introduced by the remedy. Pages 136 and 140 directly support those different decisions. Neither item extrapolates a population failure rate, requires an automatic recall, guarantees future outcomes or prescribes management's packaging redesign. Each remains independently answerable after shuffling.
+- **Q126:** Pages 146 and 149 support complementary competence and coordination. The already-qualified specialists need not have identical expertise, and their individual conclusions do not automatically assess the linked process interface. Dated certification and degree assertions on p. 146 are not used.
+- **Q127:** Page 163 supports adapting software to communicate an effective assessment. The scenario expressly authorizes template changes while retaining access, approval and retention controls. A generated supplier-approval score does not create authority absent from the approved reporting method.
+- **Q128:** Pages 204 and 206 support continuity planning and verification against identified risks. A powered transfer between buildings sharing Feeder F does not demonstrate continuity after losing that feeder. The conclusion stays within the stated disruption and avoids dictating a technical purchase.
+- **Q129:** Page 220 directly supports the adopted resource-use allocation. Total platform use is 480 hours; the correct allocations are **$6,000 prevention and $18,000 appraisal**. All four alternatives were independently reconstructed and each totals $24,000. The alternatives respectively use the correct 120:360 hour driver, the reversed labour-cost driver, equal shares or the largest-user-only allocation. Separately recorded labour is not added, and no universal ABC requirement is implied.
+- **Q130:** The risk definitions on pp. 291–292 support the stated conditional decision probabilities. A 10% acceptance probability at 4% nonconforming does not establish the composition of all accepted lots, an unconditional error rate or a permitted nonconforming fraction. The question avoids the unrelated p. 291 denominator typo, p. 292's broad confidence generalizations and p. 289's faulty reverse-confidence discussion.
+
+The batch retains **Apply 5 / Analyze 1 / Evaluate 3 / Understand 1** and keys **D/A/B/C/D/C/A/B/A/C**. No citation, answer, explanation, teaching-field, exhibit or metadata change is required. All 130 preceding objects are to be preserved during Batch 14 integration.
+
+### Fresh review records
+
+- Q121–Q125 report: `batch13-reaudit-q121-q125.md`, SHA-256 `fc3c594403452a95712f45c44d08fc1d0b3f0ea63be25bd58cc94253ecfcd787`.
+- Q126–Q130 report: `batch13-reaudit-q126-q130.md`, SHA-256 `a97da4ae6a378647a48d42e979dac4988576366f07d2abdcefdef00e4532b35e`.
+- Fresh image manifests retain the actual rendered folios and their hashes. The source inventory records all ten canonical mappings and exact equality with the earlier frozen arrays.
+
+These checks establish source support, internal consistency and intended cognitive demand. They do not claim human SME review or empirical equivalence to live ASQ exam difficulty.
+
+## Batch 14 independent content and source review — Q131–Q140
+
+**Review date: 2026-10-29, America/Regina. Result: PASS on the exact arrays identified below.** The independent reviewer read all ten complete objects, including stems, all forty choices, answer indices, explanations, key points, traps, thirty indexed distractor rationales and the Q140 exhibit. The current official 2026 CQA BoK governs the mapping and cognitive ceilings. These are original simulated questions; this content review does not establish measured psychometric equivalence to an administered ASQ exam.
+
+### Final question and source map
+
+| Item | Decision tested | BoK | Actual / maximum level | Key | Printed pages | One-based PDF pages |
+|---|---|---|---|---|---|---|
+| Q131 | Preserve system-level coverage while using process-tracing techniques | I.A.1 | Apply / Analyze | B | 4 | 23 |
+| Q132 | Distinguish a met contractual limit from a failed additional internal obligation | I.C | Analyze / Analyze | D | 21 | 40 |
+| Q133 | Reject unauthorized private use of confidential audit information | I.E.1 | Apply / Apply | A | 30 | 49 |
+| Q134 | Apply the approved selection method to the complete relevant sampling frame | II.A.5 | Apply / Apply | C | 79 | 98 |
+| Q135 | Report a verified historical breach and its later correction with accurate response status | II.C.1 | Evaluate / Create | B | 122, 134 | 141, 153 |
+| Q136 | Assess a substantiated no-additional-project response under the applicable procedure | II.D.2 | Evaluate / Evaluate | D | 135 | 154 |
+| Q137 | Observe an in-scope concentration-sensitive task before completing the interview | III.E | Apply / Apply | A | 170 | 189 |
+| Q138 | Defer an unrelated dispute while investigating a material evidence disagreement | III.C | Analyze / Analyze | C | 156–158 | 175–177 |
+| Q139 | Preserve an approval breach and promising results without endorsing an unapproved method | IV.A.7 | Evaluate / Evaluate | B | 203 | 222 |
+| Q140 | Correct a proven transcription error traceably while retaining a genuine in-scope extreme | V.D.3 | Apply / Apply | D | 102, 283 | 121, 302 |
+
+All **14 distinct cited printed folios** were freshly rendered and personally inspected by the independent reviewer: **4, 21, 30, 79, 102, 122, 134, 135, 156, 157, 158, 170, 203 and 283**. Visible folios and relevant supporting text were checked, including the continuation on p. 158 and the short outlier discussion on p. 283. Every mapping is printed page plus **19** to the one-based PDF page. Every final source footer was separately parsed and matched to this map. Image hashes and the exact file hashes are retained in `batch14-independent-mechanical-check.json`; rendering alone was not counted as inspection.
+
+Direct support is specific. P. 4 expressly permits system auditors to use process-audit techniques and describes linked operational and support coverage. P. 21 permits additional internal obligations beyond external requirements. P. 30's **IIA ethics illustration** prohibits personal gain from protected information; the current [ASQ Code of Ethics](https://asq.org/about-asq/conferences-events-policies/code-of-ethics), section 3.2, was separately reopened and confirms the relevant ASQ principle. P. 79 ties sampling to the intended group and cautions against auditee-picked favorable examples. P. 122 supports reporting established requirement violations with evidence and response status, while p. 134 distinguishes correction from cause-removing action. P. 135 supports evaluating a substantiated explanation for no additional corrective action under applicable conditions. P. 170 supports observing required work before further questions when the worker is preoccupied with completing it. Pp. 156–158 distinguish non-audit conflict from material conflict and explain collaboration where resolution matters and time permits. P. 203 distinguishes potentially useful methods from unauthorized procedural shortcuts and assigns implementation to appropriate owners. P. 102 supports controlled corrections retaining the original record; p. 283 requires investigation and transparent reasoning before excluding an unusual value. The Q140 population rule comes from its explicit original scenario.
+
+### Complete reasoning and one-best-answer checks
+
+**Q131 — Technique serves the wider assessment.** The objective includes management, order fulfilment, purchasing, competence and their interactions. Following selected orders is compatible with that purpose when linked management and support evidence is also examined. It neither restricts the assignment to isolated operational processes nor establishes whole-system effectiveness merely by adding departmental conformity counts. The incorrect alternatives narrow coverage, forbid a legitimate method or substitute aggregation for interface evidence. The item asks for an applicable audit approach rather than identifying an audit label, so actual Apply is appropriate.
+
+**Q132 — Both limits remain applicable.** The response interval is explicitly measured on the same continuous basis for both criteria. Sixteen hours is within the contractual 24-hour maximum and exceeds the mandatory internal eight-hour limit. The internal failure should be identified without alleging a contractual delay. The alternatives incorrectly substitute one requirement for the other or treat compatible obligations as an unresolved conflict. The explanation limits the conclusion to the stated response-time obligations; it does not declare every aspect of the contract or system conforming.
+
+**Q133 — Use as well as disclosure.** The settings remain confidential and were learned through the audit; their exact private commercial use has not been authorized. No files need be copied and no third party need receive the information for personal exploitation to breach the stated professional responsibility. Waiting for report issue, returning records and failing to demonstrate measurable harm do not supply permission. The question does not prohibit general professional knowledge or invent damages, criminal liability or a confidentiality expiry date.
+
+**Q134 — Randomizing a restricted folder leaves the restriction.** The approved population is all completed repair jobs in January–March, while the offered folder excludes late and complained-about jobs. The complete master ID list and all linked records are verified available. Applying the approved method to that frame preserves the intended population. Randomizing within the restricted folder, increasing its sample size or adding department-selected examples does not repair the exclusion. A complete frame is necessary here but does not by itself guarantee representativeness or statistical confidence; the explanation says so. Neither fraud nor a universal requirement for random sampling is asserted.
+
+**Q135 — Preserve chronology and current status.** The obsolete instruction was actually used at 10:05 in breach of DC-3. At 11:00, the auditor verified removal and use of the current revision. The report must preserve both supported facts and the explicitly pending cause/recurrence work. Reporting only present conformity erases a verified result; reporting an unchanged condition contradicts the later observation; declaring effectiveness confuses correction with completed causal action. No universal rule about mandatory full CAPA or closure is invented.
+
+**Q136 — A justified response can be proportionate.** The cause is a unique legacy format in a retired one-time transfer utility; all transferred files were checked, the code was restored, and no current use of that utility or product/retrieval impact remains. CA-6 expressly permits the assigned reviewer to accept this bounded response and retains an owned, dated monitoring review with escalation criteria. Acceptance therefore follows verified cause, extent, exposure and applicable authority, not a bare assertion that the defect is isolated. The alternatives impose an unrequired project, erase the historical finding or cancel an explicit response obligation. This is consistent with Q135: reporting the breach and deciding the required extent of action are separate decisions.
+
+**Q137 — Protect concentration while obtaining the planned evidence.** The check must start now and requires fixed-interval readings. It is already in scope, safe and authorized to observe, and the remaining conversation and notes fit afterward. Observation first therefore preserves both work and audit evidence. Postponing the task violates its supplied timing condition; substituting a supervisor's account or a completed record omits an available planned observation. The auditor does not coach or operate equipment, infer obstruction or treat observation alone as proof of conformity.
+
+**Q138 — Different relevance warrants different responses.** The optional conference preference is expressly unrelated to current audit competence, resources or deliverables. It can be deferred without pretending that the disagreement is resolved. Whether two entries describe one shipment or two can change the finding and should be investigated using the available source records and adequate review time. Collaboration is a method for examining the evidence, not a guarantee of consensus. The alternatives let seniority, relationship preservation or convenient omission replace the material assessment. Any remaining material uncertainty is recorded or assigned for further work.
+
+**Q139 — Improvement evidence does not confer authority.** A verified reduction from eight to six minutes is useful but does not supply the missing CM-3 approval or demonstrate broader effectiveness. Current use is already being handled under the stated deviation procedure, so the question is the candidate's assessment and promotion, not an unstated emergency response. Preserve the approval gap and the bounded benefit, then refer evaluation to the designated owner before endorsement or replication. The approved-practice library cannot confer authorization by attaching a finding, and the audit team expressly lacks approval authority. The method's unauthorized introduction also does not make its underlying idea permanently unsuitable for controlled evaluation.
+
+**Q140 — Verified causes require different treatments.** The authenticated J28 source is 14.4 minutes; import trace establishes that 144.0 is a transcription error. Correct the analysis value through the permitted process while preserving the import, source, reason and approval trail; do not delete the job. J63's 91.0 minutes is real, independently corroborated and within a study expressly including equipment delays. Retain it. The alternatives delete both observations, preserve a known bad analysis value, or correct the error while improperly excluding the real delay. An unusual magnitude or a known operating cause alone does not override the defined population.
+
+### Exhibits, numerical checks and schema
+
+The batch has **one standalone two-row data table**, in Q140, and **no new formal shared case pair**. Its full source and investigation facts accompany the prompt without relying on another answer. Existing case items are unaffected by these new objects.
+
+The numerical comparisons were independently recomputed: Q132 satisfies **16 ≤ 24** and violates **16 ≤ 8**; Q139's time reduction is two minutes, or 25%, but the item does not ask for that calculation or infer a broader quality outcome. Q140's erroneous J28 entry is exactly ten times its authenticated 14.4-minute value, and J63 remains 91.0 minutes. No mean, standard deviation, outlier cutoff or unstated distribution is needed. Q135's 10:05/11:00 sequence and Q137's stated ten-minute task introduce no hidden timing assumptions.
+
+All ten unique IDs are exactly Q131–Q140. Every object has four distinct nonempty options, a valid keyed index, all required teaching fields and exactly three rationales keyed to the incorrect options. All source footers match the inspected pages. The actual cognitive demands stay within the current BoK ceilings: **Apply5 / Analyze2 / Evaluate3**. Domain allocation is **I3 / II3 / III2 / IV1 / V1** and keys are **A2 / B3 / C2 / D3**. Options contain **22–27 whitespace-delimited words**; no correct option is uniquely longest. Comparable length was checked alongside content and is not a substitute for plausible reasoning.
+
+### Full nearest-object novelty comparisons
+
+All 150 Set 1 and 130 preceding Set 2 stems/decisions were screened, and the complete closest objects were compared.
+
+- **Q131:** Set 1 b02-03 and Q021 classify a bounded process; Q081 distinguishes an element across departments, and Q094 chooses a tracing path. The new item applies process techniques inside broader system coverage without reducing the conclusion to isolated processes.
+- **Q132:** Q001 concerns a lot-specific internal exception that cannot waive the contract. Q042 concerns unadopted guidance; Q092 applies a contract revision trigger. Set 1 b03-02/b03-03 concern document tiers and added customer requirements. Q132 instead retains two current compatible obligations and identifies the one actually failed.
+- **Q133:** Q002 and Q102 concern unauthorized disclosure; Q041 concerns a new financial conflict. Set 1 b06-10 includes sister-plant disclosure. The new item tests exact confidential information used privately from memory even when no information is communicated to anyone else.
+- **Q134:** Q020 allocates a proportional sample within supplied complete frames. Set 1 b06-21 combines an obsolete special-order sample with audit-created risks; b07-13 primarily addresses confidence and risk terminology. Q035 concerns omitted checklist coverage. The new decision repairs a favorable-outcome sampling frame before applying the approved selection method.
+- **Q135:** Q018's proposed allegation is disproved by an already-permitted method; Q085's originally unresolved fact is later resolved by verified historical evidence. Neither has an established violation followed by an actual subsequent correction. Set 1 b04-17/b04-21 address report issuance, approvals, retention and unresolved disagreement.
+- **Q136:** Q076 evaluates an extension for an action still required; Q095 evaluates a different supported permanent remedy. Set 1 b04-23/b04-24 reject missing cause/extent evidence and unsupported operator blame. Here the complete evidence supports the explicitly permitted limited response rather than excusing an unresolved cause.
+- **Q137:** Q097 adapts communication while preserving required job skills; Q106 uses an equally adequate record arrangement. Set 1 b05-17 concerns readiness and environmental distractions; b05-22 links questions to work-order and machine evidence. The new decision is the timing of observation and questions during legitimate concentration-sensitive work.
+- **Q138:** Set 1 b05-16 concerns a public clause dispute; Q046 de-escalates a heated accusation; Q018 already has resolving counterevidence. Q027/Q047 address participation and team roles. The new task differentiates a deferrable unrelated issue from a still-unresolved material factual disagreement under calm, adequately timed conditions.
+- **Q139:** Q039 begins with an approved source practice and evaluates receiving-site enablers. Set 1 b04-13 supplies no violated criterion, while b06-19 concerns positive-practice reportability and dissemination. Here the source-site method itself lacks required approval, so both its actual breach and its possible value need accurate treatment before endorsement.
+- **Q140:** Set 1 b07-12 rejects unexplained deletion to improve an index; Q050 retains a valid long event for a mean reconciled to total work. The new question requires different treatments for a verified transcription error and a genuine in-scope extreme. Its primary task is controlled correction versus retention, not merely avoiding deletion of a large value.
+
+### Review changes and source qualifications
+
+**No changes were requested to either completed author array during the independent or root content reviews.** Planning refinements were resolved before the complete arrays: Q131 became a strategy/coverage decision rather than an opposite-label version of Q021; Q132's lower-tier conflict idea was replaced by coexisting criteria; Q135 explicitly separates established history, later correction and pending response. Q131–Q135's combined array was proved parsed-identical to the five individually reviewed drafts.
+
+The p. 30 illustration is accurately attributed to the **IIA**, with the current ASQ principle verified separately; neither the illustration nor historical handbook article numbering is presented as the current ASQ code. P. 135's qualified possibility of no additional action does not waive mandatory applicable CAPA criteria. Pp. 156–158 are not used to claim that collaboration guarantees truth or unanimity. P. 203's favorable-practice discussion does not make results retroactive authorization. The outlier item does **not** import p. 282's blanket characterizations of all unusual values as special causes requiring deletion. P. 283's cause-investigation principle is combined with p. 102's controlled correction and the scenario's explicit population; no universal statistical exclusion rule is invented.
+
+### Exact reviewed author arrays
+
+| Items | File | Bytes | SHA-256 |
+|---|---|---:|---|
+| Q131–Q135 | `set2_batch14_q131_q135.json` | 15,613 | `3819a740509ef3a955ded3ce5f9ef28c6476b4c2b02de7b20f86899695364611` |
+| Q136–Q140 | `set2_batch14_q136_q140.json` | 18,193 | `67bb0bb784c5d4ca1f6c6ea88616b9100dfdf2fdd409ed28c594be01b4b6880a` |
+
+Both exact arrays passed independent complete-object review and fresh inspection of every cited folio. Scope ends at **Q140**; no Q141+ question was authored or approved in this review.
+
 ## Progress and remaining blueprint
 
-| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 | Batch 9 | Batch 10 | Batch 11 | Batch 12 | Batch 13 | Current total | Final target | Remaining |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 32 | 37 | 5 |
-| II. Audit Process | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 39 | 45 | 6 |
-| III. Auditor Competencies | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 26 | 30 | 4 |
-| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 20 | 23 | 3 |
-| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 13 | 15 | 2 |
-| **Total** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **130** | **150** | **20** |
+| Domain | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 | Batch 9 | Batch 10 | Batch 11 | Batch 12 | Batch 13 | Batch 14 | Current total | Final target | Remaining |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| I. Auditing Fundamentals | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 3 | 35 | 37 | 2 |
+| II. Audit Process | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 3 | 42 | 45 | 3 |
+| III. Auditor Competencies | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 28 | 30 | 2 |
+| IV. Audit Program Management and Business Applications | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 2 | 1 | 21 | 23 | 2 |
+| V. Quality Tools and Techniques | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 14 | 15 | 1 |
+| **Total** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **10** | **140** | **150** | **10** |
 
-Continue alternating the established allocations: odd-numbered batches 2/3/2/2/1 and even-numbered batches 3/3/2/1/1. Across fifteen batches this produces exactly 37/45/30/23/15. Future items still need individual topic coverage, source validation and independent review; allocation alone is not content validation. The next user-requested batch will be **Q131–Q140**, allocation **3/3/2/1/1**, after a fresh audit of Q121–Q130. It has not been started in this update.
+The established alternating allocations produce the final 37/45/30/23/15 blueprint. **140 of 150 questions are complete; ten remain.** The next user-requested cycle will freshly audit Q131–Q140 before authoring **Q141–Q150**, with allocation **2/3/2/2/1**. No Q141+ item has been started in this update. Topic coverage, source support and independent review remain necessary beyond the numerical allocation.
 
-The first 130 questions contain fourteen document-case items in seven pairs (Q004–Q005, Q023–Q024, Q043–Q044, Q064–Q065, Q084–Q085, Q104–Q105 and Q124–Q125), approximately **10.77%**, and **30 rendered question tables**. Batch 13 adds two complete packaging-case exhibits and one standalone allocation table. Each case item includes its complete context and exhibit and remains independently answerable after shuffling. Fourteen case items at 140 questions will equal 10%; another pair can be considered in Batch 15 to reach sixteen at 150. Answer positions are **A33/B32/C33/D32**. Actual cognitive labels are **Apply 61, Analyze 34, Evaluate 29 and Understand 6**.
+The first 140 questions contain fourteen document-case items in seven pairs (Q004–Q005, Q023–Q024, Q043–Q044, Q064–Q065, Q084–Q085, Q104–Q105 and Q124–Q125), exactly **10%**, and **31 rendered question tables**. Batch 14 adds Q140's standalone two-row table and no formal case pair. Each existing case item retains its complete context and exhibit and remains independently answerable after shuffling. Plan one additional independently answerable pair in the final batch so that sixteen case items out of 150 maintain the BoK's 10–15% case range; those questions are not yet authored. Answer positions are **A35/B35/C35/D35**. Actual cognitive labels are **Apply 66, Analyze 36, Evaluate 32 and Understand 6**.
 
-The existing engine randomizes question order. Practice timing remains two minutes per question: the available 130-question Full session uses **260 minutes**, displayed as **4 hr 20 min**. Quick Quiz retains its fifty-question maximum and samples from all 130 available items. This remains a partial practice set toward the planned 150.
+The existing engine randomizes question order. Practice timing remains two minutes per question: the available 140-question Full session uses **280 minutes**, displayed as **4 hr 40 min**. Quick Quiz retains its fifty-question maximum and samples from all 140 available items. This remains a partial practice set toward the planned 150.
 
 ## Integration verification
 
-- `node --test --test-isolation=none tests/test-bank-cqa-set1.test.js tests/test-bank-cqa-set2.test.js`: **13 passed, 0 failed**.
-- `npm run build:site`: **passed**, including scans of 619 public files with no known static findings and three clean protected-tool shells. These static checks do not claim verification of a production runtime or CDN.
-- The learner checks exercise all 130 questions, a 260-minute Full session, correct grading, a fifty-question Quick Quiz sampled from the available 130, a ten-question diagnostic, and all five focused domains with 32/39/26/20/13 questions.
-- An all-correct Full attempt scores 130/130 and 100%. A fifty-question Quick attempt with one deliberate wrong answer scores 49/50, displayed as 98%, and identifies the single incorrect item in review.
-- All 30 question tables render during the attempt and review. All 130 review cards display the authored explanations and all **390 distractor rationales**. Distractor feedback is not exposed during the timed attempt.
-- The runtime timer was checked at **15,600 seconds** and the existing display convention at `4 hr 20 min`. Quick Quiz serves its fifty-question request without an availability-cap notice. No timing or quiz-engine implementation change was needed.
-- Set 1 remains at 150 unchanged questions. Set 2 is included only in the protected CQA package and excluded from other exam packages and public staging.
-- Root and an independent integration reviewer separately confirmed that all 120 preceding question objects remain unchanged from the prior PR bank, including their exact serialized source text. The ten new objects match the frozen author arrays as parsed data and raw object text. All **280 combined Set 1/Set 2 question IDs** are unique; every Set 2 item has four distinct options, exactly three non-key distractor rationales and a printed-page source reference.
-- The Q124/Q125 case retains identical **55-word / 433-character context**, a complete four-row exhibit and the same case ID. Context SHA-256 is `6bd9692fe1384cc2cdb677f7d4fda78ca62609a4800858a80322aa070191ab38`; table SHA-256 is `ba9258c17bf6b9640ee5ac9ab609a80554d43f51f75d5f53853ab0c9de9b97bb`, using sorted-key, Unicode-retained compact JSON. Each prompt and exhibit remain sufficient independently of the other answer.
-- JavaScript syntax checks passed for the bank and test file. The HTML change since the preceding PR head is only the CQA completion label, from Batch 12 to Batch 13. The replacement is scoped to the CQA registration to preserve every other exam's label. The reviewed update includes only the bank, its existing integration tests, the CQA progress label and this cumulative audit; unrelated regenerated build files are excluded.
+Completed local checks for Batch 14 on 2026-10-29:
 
-PR #368 remains an accumulation branch; publication is deferred until all 150 questions are ready. No merge or production deployment is part of this batch update.
+- `node --check test-bank-cqa-set2.js` and `node --check tests/test-bank-cqa-set2.test.js`: **passed**.
+- `node --test --test-isolation=none tests/test-bank-cqa-set1.test.js tests/test-bank-cqa-set2.test.js`: **13 passed, 0 failed**.
+- `npm run build:site`: **passed**, including scans of 619 public files with no known static findings and three clean protected-tool shells. These local static checks do not claim verification of a production runtime or CDN.
+- The learner checks exercise all 140 questions, a 280-minute Full session, correct grading, a fifty-question Quick Quiz sampled from the available 140, a ten-question diagnostic, and all five focused domains with **35/42/28/21/14** questions.
+- An all-correct Full attempt scores **140/140 and 100%**. A fifty-question Quick attempt with one deliberate wrong answer scores **49/50**, displayed as **98%**, and identifies the single incorrect item in review.
+- All **31 question tables** render during the attempt and review. All 140 review cards display the authored explanations and all **420 distractor rationales**. Distractor feedback remains confined to review.
+- The runtime timer was checked at **16,800 seconds** and the existing display convention at `4 hr 40 min`. Quick Quiz serves its fifty-question request without an availability-cap notice. No timing or quiz-engine implementation change was needed.
+- Set 1 remains at 150 unchanged questions. Set 2 is included only in the protected CQA package and excluded from other exam packages and public staging.
+- Root and an independent integration reviewer separately confirmed that all **130 preceding question objects remain unchanged**, including their exact serialized source text. The ten appended objects match the exact frozen author arrays. All **290 combined Set 1/Set 2 IDs** are unique; every Set 2 item has four distinct options, exactly three non-key distractor rationales and a printed-page source reference.
+- All seven existing case pairs and their complete exhibits remain unchanged. Q140's new two-row table distinguishes the confirmed J28 entry error from the genuine in-scope J63 observation; its treatment matches the reviewed source array.
+- The HTML change since the preceding PR head is only the CQA completion label, from Batch 13 to Batch 14. The replacement is scoped to the CQA registration. The reviewed update includes only the bank, its existing integration tests, the CQA progress label and this cumulative audit; unrelated regenerated build files are excluded.
+
+PR #368 remains an accumulation branch, open and unmerged. Publication remains deferred until all 150 questions are ready. Automated remote checks report their own commit-specific status separately from these completed local results. No merge or production deployment is part of this batch update.

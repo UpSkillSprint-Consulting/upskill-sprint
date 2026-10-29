@@ -1,6 +1,6 @@
 /*
  * ASQ CQA Exam Set 2 — original practice questions.
- * Batches 1–13: Q001–Q130. Planned bank: 150 questions.
+ * Batches 1–14: Q001–Q140. Planned bank: 150 questions.
  * Author in reviewed batches of 10; hold PR #368 until all 150 are ready.
  * 2026 BoK target counts: I 37 / II 45 / III 30 / IV 23 / V 15.
  * Batch 1 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
@@ -16,6 +16,7 @@
  * Batch 11 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
  * Batch 12 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Batch 13 counts: I 2 / II 3 / III 2 / IV 2 / V 1.
+ * Batch 14 counts: I 3 / II 3 / III 2 / IV 1 / V 1.
  * Questions and exhibits are original; handbook citations use printed pages.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
  */
@@ -4048,6 +4049,267 @@
       "0": "This reverses the condition. The supplied 10% is the chance of acceptance for a lot at 4% nonconforming, not the proportion of accepted lots that have that quality. The incoming quality mix is unknown.",
       "1": "The two percentages apply at their specified quality levels. Overall error rates among incoming lots also depend on how often those and other lot qualities occur, which the question does not provide.",
       "3": "Consumer risk describes a sampling decision, not a product-quality allowance. The 10% probability does not authorize 10% nonconforming units in each accepted lot."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q131",
+    "set": 2,
+    "batch": 14,
+    "sub": "cqa-process-technique-system-coverage",
+    "bok": "I.A.1",
+    "cognitive": "Apply",
+    "stem": "An audit is intended to assess how management direction, order fulfilment, purchasing and competence controls operate together against the organization's quality requirements. The plan traces selected customer orders and examines linked management and support evidence. A colleague argues that following process steps requires limiting conclusions to separate operational processes. Which decision best preserves the approved objective?",
+    "options": [
+      "Convert the assignment into separate operational process audits and omit management and support review, because tracing requires conclusions limited to each observed process.",
+      "Use tracing within the planned wider assessment, linking relevant management, operational and support evidence so conclusions address the system and its interactions.",
+      "Replace the traces with a document-only clause review, because an assessment of the wider management system cannot rely on following operational process steps.",
+      "Keep separate department conclusions and add their conformity counts, treating that total as sufficient evidence of how the management-system activities work together."
+    ],
+    "answer": 1,
+    "why": "Following process steps is an audit technique that can be used within a management-system assessment. It does not restrict an assignment to isolated operational processes when the approved objective includes management, operations, support and their interactions. The planned traces can connect evidence across those activities, provided the team also examines the relevant controls needed for the wider objective. Neither replacing operational evidence with documents alone nor adding independent departmental counts establishes how the system works together. The method should serve the approved coverage rather than redefine it. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 4.</span>",
+    "keyPoint": "Use process-tracing techniques within the broader audit purpose and scope; the evidence-collection method does not itself narrow the assessment to isolated processes.",
+    "trap": "Mistaking a process-based method for a requirement to exclude management, support or interface evidence from a wider system assessment.",
+    "distractors": {
+      "0": "The approved objective includes management, support and how the controls operate together. The use of tracing does not authorize removing those parts of the assignment.",
+      "2": "System auditors may use process techniques and relevant operational evidence. A document-only review would not by itself establish how the stated controls operate together.",
+      "3": "Separate conclusions and their counts may be inputs, but adding them does not establish the relationships between activities. The planned interface evidence is needed for the stated wider assessment."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q132",
+    "set": 2,
+    "batch": 14,
+    "sub": "cqa-concurrent-internal-contractual-criteria",
+    "bok": "I.C",
+    "cognitive": "Analyze",
+    "stem": "An audit's criteria include a customer contract requiring technical responses within 24 hours and an approved internal procedure requiring them within 8 hours. Both requirements apply to the reviewed request, measure continuous elapsed time from receipt to sending the technical response, and have no authorized exception. Verified records show a 16-hour interval. Which assessment correctly distinguishes the obligations?",
+    "options": [
+      "Report a breach of both time limits because the internal 8-hour rule replaces the 24-hour contract limit whenever the company adopts a tighter requirement.",
+      "Report conformity to both limits because the external contract takes precedence, so meeting its 24-hour condition makes the more demanding internal target irrelevant for this response.",
+      "Defer assessment until the customer chooses one governing limit, because an internal deadline and a contract deadline must be identical before the same response can be judged.",
+      "The 16-hour response meets the contract's 24-hour limit but violates the applicable 8-hour internal requirement; identify that internal breach without alleging a contractual delay."
+    ],
+    "answer": 3,
+    "why": "The applicable internal procedure adds an obligation beyond the contract's maximum response time. A response within eight hours would satisfy both, so the two criteria do not create an unresolved conflict. This 16-hour response meets the 24-hour contractual limit but exceeds the internal eight-hour limit. The finding should identify the requirement actually violated rather than rewrite the customer's deadline or disregard the internal obligation. The conclusion concerns these response-time criteria for the reviewed request, not every aspect of contractual or system conformity. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 21.</span>",
+    "keyPoint": "Evaluate each applicable obligation separately; meeting an external minimum does not erase an additional internal requirement, and an internal failure does not automatically breach the contract.",
+    "trap": "Assuming that one applicable criterion replaces another, or extending a failure of a stricter internal requirement into an unsupported external breach.",
+    "distractors": {
+      "0": "The company can adopt a tighter internal obligation without changing the customer's contract. The 16-hour result violates eight hours but not the stated 24-hour contractual limit.",
+      "1": "Both requirements are explicitly applicable audit criteria. Conformity to the longer contractual limit does not make the approved internal obligation optional.",
+      "2": "The limits can be met simultaneously by responding within eight hours. Their difference does not prevent assessment, and the stem supplies no unresolved applicability question requiring customer selection."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q133",
+    "set": 2,
+    "batch": 14,
+    "sub": "cqa-confidential-information-private-use",
+    "bok": "I.E.1",
+    "cognitive": "Apply",
+    "stem": "During an audit, an auditor learns confidential fixture settings developed by the auditee that reduce setup time. The auditor plans to use those exact settings for paid orders in a one-person private workshop, working from memory without copying files or telling anyone the source. The information remains confidential, no authorization for this use has been given, and the audit report would remain unchanged. Which response best meets the auditor's professional responsibility?",
+    "options": [
+      "Do not apply the confidential settings to the private orders; using audit information for personal gain breaches the obligation even without copying or disclosure.",
+      "Wait until the audit report is formally issued, then apply the settings privately because the completed findings can no longer be influenced by that use.",
+      "Return all audit records and use only the remembered settings, treating the absence of retained documents or copied files as sufficient protection of confidentiality.",
+      "Assess the likely financial loss to the auditee and proceed if none can be demonstrated, treating the absence of measurable damage as permission for private use."
+    ],
+    "answer": 0,
+    "why": "Confidentiality protects against improper use as well as disclosure. These are specific settings learned through the audit, still confidential and not authorized for private commercial use. Applying them to paid orders would use that information for personal gain even if the auditor works alone, copies no files and does not change the audit report. Returning records or waiting until reporting is finished does not remove that obligation. The auditor does not need proof of measurable financial loss before respecting the restriction, and the question does not assume that loss has occurred. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 30.</span>",
+    "keyPoint": "Protect confidential audit information from unauthorized personal use as well as disclosure; remembering it does not convert it into unrestricted commercial knowledge.",
+    "trap": "Treating silence, use from memory, a completed audit or absence of demonstrated loss as permission to exploit still-confidential information for personal gain.",
+    "distractors": {
+      "1": "Issuing the report does not make the information public or authorize its private use. The continuing confidentiality obligation is separate from whether the audit findings change.",
+      "2": "Returning source records protects those records, but does not authorize exploiting their confidential content from memory. The proposed benefit comes from the information, not from possessing a copied file.",
+      "3": "The stated restriction does not depend on first proving a financial loss. An inability to quantify damage is not permission to use the auditee's confidential information for personal gain."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q134",
+    "set": 2,
+    "batch": 14,
+    "sub": "cqa-sampling-frame-working-papers",
+    "bok": "II.A.5",
+    "cognitive": "Apply",
+    "stem": "An approved audit sampling plan covers closure controls for all repair jobs completed from January through March. Before selection, the auditee supplies a folder containing only jobs that closed on time without a customer complaint. The auditor verifies that a separate master ID list covers every completed job in the period and that all linked records are available. Which selection approach best implements the plan?",
+    "options": [
+      "Randomize the IDs in the supplied folder, select the planned number, and document the random procedure as evidence that the period is covered.",
+      "Expand the sample within the supplied folder to twice the planned number, and document the larger sample as evidence that the period is covered.",
+      "Apply the approved selection method to the complete master list, and record the population, selected IDs and any limitations in the working papers.",
+      "Ask department representatives to add examples they consider typical, select from that expanded folder, and document the departments represented as evidence of coverage."
+    ],
+    "answer": 2,
+    "why": "The planned population is all repair jobs completed in the stated period. The supplied folder excludes jobs according to their outcome, so selecting more of those records or randomizing within that folder leaves the same exclusion in place. The verified master list provides the appropriate frame for applying the approved selection method under the auditor's control. The working papers should identify the population, selected records and relevant limitations. A complete frame does not by itself guarantee a representative result or establish a statistical confidence claim; the selection method and resulting evidence still matter. There is no stated need to inspect every job or to assume that the auditee deliberately concealed information. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 79.</span>",
+    "keyPoint": "Select from the population defined by the audit plan; randomizing or enlarging an outcome-selected subset does not repair its excluded coverage.",
+    "trap": "Treating a random procedure, a larger sample or departmental representation as a substitute for an appropriate sampling frame.",
+    "distractors": {
+      "0": "Random selection within the supplied folder gives excluded jobs no opportunity to enter the sample. It does not extend the folder's coverage to the complete planned population.",
+      "1": "A larger sample from the same restricted folder still excludes late or complained-about jobs. Extra volume does not correct that frame limitation.",
+      "3": "Additional examples chosen as typical by department representatives remain an auditee-curated selection. Their departmental spread does not establish coverage of the complete population already available to the auditor."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q135",
+    "set": 2,
+    "batch": 14,
+    "sub": "cqa-reporting-corrected-observed-condition",
+    "bok": "II.C.1",
+    "cognitive": "Evaluate",
+    "stem": "At 10:05, an auditor verifies that cell C2 is using obsolete work instruction WI-7, revision 2, although procedure DC-3 requires current approved revision 3 at the point of use. At 11:00, the auditor verifies that the obsolete copy has been removed and the operator is using revision 3. The auditee's agreed response still has cause analysis and recurrence controls pending. The report will be issued that afternoon. Which report treatment most accurately reflects the evidence and response status?",
+    "options": [
+      "Record the 11:00 compliant condition in the report and retain the 10:05 breach only in working papers, since correction occurred before report issue.",
+      "Report the 10:05 breach of DC-3, the verified 11:00 correction and the pending cause and recurrence work, retaining traceable evidence for those statuses.",
+      "Report the 10:05 breach as an unchanged condition and keep the later replacement outside the report, since findings describe the auditor's first observation.",
+      "Report the breach with corrective action completed and verified effective, using the observed replacement as evidence that the document control will prevent recurrence."
+    ],
+    "answer": 1,
+    "why": "The 10:05 observation establishes a requirement breach that should be reported with its supporting facts. The verified 11:00 correction changes the current condition and should also be recorded accurately. Removing the obsolete copy does not erase the earlier violation, and the report should not imply that the obsolete instruction remained in use after the auditor verified otherwise. Immediate correction is also distinct from demonstrating that an underlying cause has been addressed and recurrence prevented. Here that work remains pending in the agreed response, so the replacement alone cannot support a statement of verified corrective-action effectiveness. The reporting decision preserves both the observed nonconformity and the supported status of the response. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 122, 134.</span>",
+    "keyPoint": "Report a verified earlier requirement breach together with its verified correction and current response status; distinguish correction from demonstrated corrective-action effectiveness.",
+    "trap": "Letting a correction erase a supported finding, ignoring the correction when describing current conditions, or treating replacement alone as proof against recurrence.",
+    "distractors": {
+      "0": "The later correction does not negate the verified requirement breach. Reporting only the current compliant condition omits an established audit result rather than explaining its subsequent correction.",
+      "2": "The auditor has verified a change in the condition. Presenting the obsolete instruction as still in use would misstate the evidence available before the report is issued.",
+      "3": "The replacement verifies immediate correction. It does not establish that the pending cause and recurrence work is complete or that the corrective action is effective."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q136",
+    "set": 2,
+    "batch": 14,
+    "sub": "cqa-justified-no-additional-capa-project",
+    "bok": "II.D.2",
+    "cognitive": "Evaluate",
+    "stem": "An internal audit finds one missing required indexing code after a completed, one-time archive transfer. An authorized correction restored the code. Investigation traced the omission to a unique legacy record format unsupported by the retired transfer utility; checking all transferred files found no other omissions, and no active process uses that utility. No product or record-retrieval requirement was affected. Procedure CA-6 permits the assigned reviewer to accept correction plus monitoring for one administrative occurrence with no continuing exposure; recurrence or product/retrieval impact requires a formal corrective-action project. No external criterion requires more here. The response includes a dated monitoring review owned by the records manager. Which decision is best supported?",
+    "options": [
+      "Require a new permanent-control project despite the documented scope and cause assessment, because any verified nonconformity makes the local exception to additional corrective action inapplicable.",
+      "Accept the response and remove the original finding from the audit record, because completed correction and the absence of continuing exposure establish that no nonconformity remains reportable.",
+      "Accept the correction alone as the complete response and cancel monitoring, because checking all transferred files establishes that further review cannot add value to this event.",
+      "Accept the justified no-project response under CA-6, retain the finding and correction record, and keep the assigned monitoring review and escalation criteria in place."
+    ],
+    "answer": 3,
+    "why": "The stated procedure permits a proportionate response when the investigation supports its conditions. Here, the cause is identified, the entire affected transfer population was checked, the record was corrected, the utility is retired, and no continuing exposure or overriding external obligation is identified. Those facts support the assigned reviewer accepting the documented justification without requiring another corrective-action project. This is more than an unsupported claim that the event was isolated or below a numerical threshold. The response must still preserve the finding and correction history and the agreed monitoring and escalation conditions. Acceptance does not erase the original requirement failure or turn this local exception into a rule for every nonconformity. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 135.</span>",
+    "keyPoint": "Evaluate a justified decision not to require additional corrective action against the applicable procedure, verified cause and extent, remaining exposure, and required monitoring.",
+    "trap": "Assuming every nonconformity requires another permanent-action project, or treating an accepted limited response as permission to erase the finding or cancel its monitoring.",
+    "distractors": {
+      "0": "CA-6 expressly permits this route when its conditions are met. The evidence addresses cause, extent, correction and continuing exposure; imposing another project solely because a nonconformity occurred adds a requirement not stated here.",
+      "1": "The original omission violated a requirement even though it was later corrected. Accepting a justified response does not make the historical finding disappear or authorize removing its record.",
+      "2": "The complete population check supports the justification, but it does not cancel the monitoring element required by the permitted response. That review and its escalation conditions remain part of what the reviewer is accepting."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q137",
+    "set": 2,
+    "batch": 14,
+    "sub": "cqa-interview-during-time-sensitive-work",
+    "bok": "III.E",
+    "cognitive": "Apply",
+    "stem": "At the scheduled interview time, a technician is about to begin a ten-minute check whose approved method requires starting now and recording readings at fixed intervals. Detailed questions would interrupt the required concentration. Observing this check is already in the audit plan. The auditor is competent and authorized to watch safely without operating equipment; the observation, remaining questions and notes fit the available period. Which approach best develops the planned evidence?",
+    "options": [
+      "Agree to observe the check without interrupting or directing it, then complete the interview and corroborate relevant explanations while retaining the planned evidence requirements.",
+      "Ask the technician to postpone the check until the interview ends, because a scheduled interview should take priority over an observation that can be documented later.",
+      "Ask the supervisor to answer the remaining questions while the technician works, and treat that account as sufficient evidence of how this technician performs the check.",
+      "Return after the check and assess its execution from the completed record alone, treating the technician's preoccupation as a reason to omit the planned observation."
+    ],
+    "answer": 0,
+    "why": "The technician's immediate need to concentrate on required work is compatible with the audit's planned observation. Agreeing to watch the normal task first preserves that evidence opportunity without creating an interruption or coaching the work. The auditor can complete the remaining questions and relevant corroboration afterward within the stated time. Preoccupation does not itself establish resistance or incompetence. The method's timing requirement should not be displaced merely to preserve the original conversational sequence, and a supervisor's account or a later record alone does not replace the planned observation of this technician's work. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 170.</span>",
+    "keyPoint": "When required work is time-sensitive and already needs observation, arrange a suitable sequence that protects the work and completes the remaining interview and evidence checks.",
+    "trap": "Treating concentration on a legitimate task as obstruction, or preserving the interview sequence by interrupting required work or abandoning planned observation.",
+    "distractors": {
+      "1": "The approved method requires the check to start now. The plan can be fulfilled by observing first and asking the remaining questions afterward, so postponing the work creates an unnecessary conflict with its requirement.",
+      "2": "The supervisor may provide useful context, but that account does not demonstrate how this technician carries out the check. It substitutes another person's explanation for the observation and interview that remain feasible.",
+      "3": "The auditor can safely observe now and still finish the questions and notes. Omitting the planned observation loses available evidence without a justified access, timing or safety constraint."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q138",
+    "set": 2,
+    "batch": 14,
+    "sub": "cqa-conflict-relevance-and-resolution",
+    "bok": "III.C",
+    "cognitive": "Analyze",
+    "stem": "During a calm audit-team review, two members disagree about which optional professional conference they should attend next year. That preference has no bearing on this audit's competence, resources or deliverables. They also disagree whether two evidence entries describe one shipment or two, a point that could change a draft finding. The source records are available, and sufficient review time remains to compare them. Which response best fits the two disputes?",
+    "options": [
+      "Resolve the conference dispute first to restore complete agreement, then accept the senior auditor's shipment interpretation so the review remains within the time available.",
+      "Defer both disagreements until after report issue, preserving each auditor's opinion separately because requiring a common view before reporting could damage their working relationship.",
+      "Set aside the conference preference and collaboratively compare the shipment evidence against the relevant criterion, recording or assigning follow-up for any material uncertainty that remains.",
+      "Avoid debating either disagreement and omit the disputed shipment from the finding, treating the narrower conclusion as a practical compromise that preserves cooperation within the team."
+    ],
+    "answer": 2,
+    "why": "The two disagreements have different relevance to the current audit. The optional conference preference can be deferred without affecting its purpose or evidence, even though deferral does not resolve that personal disagreement. The shipment question can affect a finding, so it requires examination rather than avoidance or a compromise made only for harmony. Calm conditions, accessible records and sufficient time support collaborative clarification of the facts and their relationship to the criterion. If a material question remains, it should be recorded and pursued appropriately; collaboration does not guarantee consensus or permit an unsupported conclusion. Seniority is not a substitute for that assessment. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 156–158.</span>",
+    "keyPoint": "Choose the conflict response according to its effect on the audit: defer an unrelated preference when appropriate, but address a material evidence disagreement through reasoned review.",
+    "trap": "Applying one response to every disagreement, or treating harmony, seniority or a narrower finding as a substitute for resolving material evidence questions.",
+    "distractors": {
+      "0": "Agreement on an unrelated conference preference is not a prerequisite for reviewing audit evidence. Assigning the substantive conclusion to the senior member also bypasses the available comparison of facts.",
+      "1": "Deferring the personal preference is reasonable, but deferring an evidence issue that could change the finding until after report issue leaves a known material question unaddressed despite available time and sources.",
+      "3": "Omitting disputed evidence simply to avoid discussion can distort the finding. The available records should be evaluated; any later decision to exclude unsupported evidence must follow that assessment, not a compromise for cooperation."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q139",
+    "set": 2,
+    "batch": 14,
+    "sub": "cqa-promising-practice-with-approval-gap",
+    "bok": "IV.A.7",
+    "cognitive": "Evaluate",
+    "stem": "An internal audit's objectives include conformity and identifying practices for wider use. Procedure CM-3 requires approval before changing the dispatch-check method. A team introduced a barcode comparison without requesting approval. Verified records show that average handling time fell from eight to six minutes under unchanged measurement rules, but no broader effectiveness review has been completed. The process owner is handling current use under the deviation procedure; the audit team cannot approve method changes. The program's practice library contains approved methods. Which recommendation best handles this candidate?",
+    "options": [
+      "Enter the method in the approved-practice library now, attach the approval finding, and let receiving sites decide whether the verified time saving justifies adopting it without delay.",
+      "Report the approval gap and bounded performance evidence, then refer the candidate to the designated process owner for authorized evaluation before endorsing or replicating the method.",
+      "Report only the approval gap and exclude the method from improvement review, because considering its possible benefits would weaken the requirement for authorization before use.",
+      "Have the audit team retrospectively approve the change from the verified results, then recommend replication through the normal best-practice communication channel and monitor local outcomes."
+    ],
+    "answer": 1,
+    "why": "The time reduction is useful, verified information, but it neither supplies the missing authorization nor establishes that every relevant quality outcome is satisfactory. The approval-control failure and the potential improvement should both remain visible. The process owner and authorized change decision makers can assess the method, its enablers and its broader effects before any endorsement or replication. The auditor reports and evaluates evidence within the agreed objectives rather than granting retrospective approval. Treating the method as an approved practice now would bypass the stated controls; excluding it from all improvement consideration would discard a potentially useful idea merely because its introduction was unauthorized. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., p. 203.</span>",
+    "keyPoint": "Preserve evidence of a promising improvement without excusing an approval failure; use the authorized evaluation and change process before endorsing wider adoption.",
+    "trap": "Assuming favorable results retrospectively authorize a shortcut, or assuming an unauthorized introduction makes the underlying idea permanently unsuitable for evaluation.",
+    "distractors": {
+      "0": "The library is for approved methods, and this one lacks approval and a broader effectiveness review. Attaching a finding does not confer approval or authorize receiving sites to bypass their controls.",
+      "2": "Reporting the approval failure is necessary, but it does not require suppressing the verified performance information or excluding the method from controlled evaluation. The audit objectives expressly include useful practices.",
+      "3": "The audit team is explicitly not authorized to approve method changes. Verified time savings do not transfer that authority or demonstrate all outcomes needed to support an approved change."
+    }
+  },
+  {
+    "qid": "cqa:set-2:q140",
+    "set": 2,
+    "batch": 14,
+    "sub": "cqa-outlier-cause-and-population-treatment",
+    "bok": "V.D.3",
+    "cognitive": "Apply",
+    "stem": "A study describes actual elapsed completion time for all service jobs completed during a month, including delays caused by equipment interruptions. Two unusually large entries are flagged for review. The exhibit gives the verified investigation results. An authorized analyst may correct transcription errors through the approved process, preserving the imported value, source, reason and approval trail. Which treatment should be applied before analysis?",
+    "options": [
+      "Exclude J28 and J63 from the analysis while retaining the imported file separately, because both flagged entries arose from exceptional conditions outside ordinary operating performance.",
+      "Retain both imported values unchanged and describe their causes in the report, because preserving the original analysis values prevents an authorized correction from distorting the recorded results.",
+      "Correct J28 to 14.4 minutes through the controlled process, but exclude J63 because its verified equipment interruption makes the elapsed time unrepresentative of routine work.",
+      "Correct J28 to 14.4 minutes through the controlled process and retain J63 at 91.0 minutes, documenting each treatment against the verified evidence and defined study population."
+    ],
+    "answer": 3,
+    "why": "The investigations establish different reasons for the two large entries. J28 is a transcription error: its authentic source gives 14.4 minutes, and the authorized correction can replace 144.0 in the analysis while retaining the original import and correction trail. The job itself is not removed. J63 is a genuine 91.0-minute completion that includes a verified equipment delay, which the study expressly includes. Its size and known cause do not make it outside that population. Flagging prompts investigation; it does not by itself authorize deletion. Transparent treatment preserves both record integrity and the stated purpose of the analysis without claiming that every unusual value has the same cause. <span class=\"tb-source-ref\">Source: The ASQ Certified Quality Auditor Handbook, 5th ed., pp. 102, 283.</span>",
+    "keyPoint": "Distinguish a verified recording error from a genuine in-scope extreme: correct the error traceably and retain valid observations required by the analysis purpose.",
+    "trap": "Treating an unusual value or any known cause as sufficient reason for exclusion, or retaining a proven transcription error in the analysis merely to preserve the original record.",
+    "distractors": {
+      "0": "J28 can be corrected from its verified original value, and J63 is explicitly within the study population. Excluding both loses valid job information and changes the defined analysis without justification.",
+      "1": "Record integrity is preserved by retaining the original import and documenting the authorized correction. Leaving a proven erroneous analysis value unchanged would misstate J28's actual completion time.",
+      "2": "The correction for J28 is appropriate, but the study expressly includes equipment-interruption delays. A known cause for J63 does not justify excluding a valid observation that meets the inclusion rule."
+    },
+    "chart": {
+      "type": "data-table",
+      "title": "Verified review of two flagged completion-time entries",
+      "columns": [
+        "Job",
+        "Imported analysis value",
+        "Verified source and investigation"
+      ],
+      "rows": [
+        [
+          "J28",
+          "144.0 minutes",
+          "The authenticated original record gives 14.4 minutes. Comparison with the import trace confirms that its decimal point was lost during transcription."
+        ],
+        [
+          "J63",
+          "91.0 minutes",
+          "The original record and independent timestamps confirm 91.0 minutes, including an equipment interruption. This completed job meets the study's inclusion rule."
+        ]
+      ]
     }
   }
 ];
