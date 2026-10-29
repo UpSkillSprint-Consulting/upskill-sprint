@@ -10,6 +10,7 @@ const { installDurableLearning } = require('./helpers/test-bank-durable-learning
 const ROOT = path.join(__dirname, '..');
 const cmqScript = fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set1.js'), 'utf8');
 const cmqSet2Script = fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set2.js'), 'utf8');
+const cmqSet3Script = fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set3.js'), 'utf8');
 const mbbScript = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set1.js'), 'utf8');
 const mbbSet2Script = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set2.js'), 'utf8');
 const mbbSet3Script = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set3.js'), 'utf8');
@@ -24,6 +25,7 @@ const pmpSet6Script = fs.readFileSync(path.join(ROOT, 'test-bank-pmp-set6.js'), 
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
   .replace('<script src="/test-bank-cmq-set1.js"></script>', `<script>${cmqScript}</script>`)
   .replace('<script src="/test-bank-cmq-set2.js"></script>', `<script>${cmqSet2Script}</script>`)
+  .replace('<script src="/test-bank-cmq-set3.js"></script>', `<script>${cmqSet3Script}</script>`)
   .replace('<script src="/test-bank-mbb-set1.js"></script>', `<script>${mbbScript}</script>`)
   .replace('<script src="/test-bank-mbb-set2.js"></script>', `<script>${mbbSet2Script}</script>`)
   .replace('<script src="/test-bank-mbb-set3.js"></script>', `<script>${mbbSet3Script}</script>`)
@@ -99,7 +101,7 @@ test('only CQA remains Coming soon; CSSBB, MBB, CSSGB, CQE, CMQ, and CRE are liv
   assert.match(cqe.textContent, /3 exam sets/i, "CQE tile advertises the set count");
   const cmq = tiles.find(t => t.dataset.exam === 'cmq');
   assert.doesNotMatch(cmq.textContent, /Coming soon/, 'CMQ/OE is live now');
-  assert.match(cmq.textContent, /150 questions/i, 'CMQ/OE tile advertises the full-exam count');
+  assert.match(cmq.textContent, /165 questions/i, 'CMQ/OE tile advertises the 2026 computer-based scored-question count');
   const cssgb = tiles.find(t => t.dataset.exam === 'cssgb');
   assert.doesNotMatch(cssgb.textContent, /Coming soon/, 'CSSGB is live now');
   assert.match(cssgb.textContent, /110 questions/i, 'CSSGB tile advertises the complete computer-based simulation count');

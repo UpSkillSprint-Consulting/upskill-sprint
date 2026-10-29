@@ -20,7 +20,8 @@ const SET2 = context.window.CMQ_SET2;
 
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
   .replace('<script src="/test-bank-cmq-set1.js"></script>', `<script>${set1Script}</script>`)
-  .replace('<script src="/test-bank-cmq-set2.js"></script>', `<script>${set2Script}</script>`);
+  .replace('<script src="/test-bank-cmq-set2.js"></script>', `<script>${set2Script}</script>`)
+  .replace('<script src="/test-bank-cmq-set3.js"></script>', `<script>${fs.readFileSync(path.join(ROOT, 'test-bank-cmq-set3.js'), 'utf8')}</script>`);
 
 let windows = [];
 afterEach(() => windows.splice(0).forEach(window => { try { window.close(); } catch (_) {} }));
@@ -100,7 +101,7 @@ test('CMQ/OE exposes a Set 2 selector and a quick quiz drawn only from Set 2', a
   const overview = openCmq(window);
   assert.deepEqual(errors, []);
   const selectors = Array.from(overview.querySelectorAll('.tb-setpick [data-set]'));
-  assert.deepEqual(selectors.map(button => button.dataset.set), ['1', '2', 'mix']);
+  assert.deepEqual(selectors.map(button => button.dataset.set), ['1', '2', '3', 'mix']);
   assert.equal(selectors[1].querySelector('.tb-sets').textContent, '165');
   click(window, overview.querySelector('[data-set="2"]'));
   const rerendered = window.document.getElementById('tb-overview');
@@ -110,7 +111,7 @@ test('CMQ/OE exposes a Set 2 selector and a quick quiz drawn only from Set 2', a
   assert.ok(!SET1.some(question => question.stem === stem));
 });
 
-test('a student can complete a 150-question Set 2 full exam with a perfect score', async () => {
+test('a student can complete a 165-question Set 2 full exam with a perfect score', async () => {
   const { window, errors } = await loadPage();
   let overview = openCmq(window);
   click(window, overview.querySelector('[data-set="2"]'));
@@ -118,9 +119,9 @@ test('a student can complete a 150-question Set 2 full exam with a perfect score
   click(window, overview.querySelector('[data-timed="0"]'));
   overview = window.document.getElementById('tb-overview');
   click(window, overview.querySelector('[data-mode="full"]'));
-  assert.equal(window.document.querySelectorAll('.tb-navcell').length, 150);
+  assert.equal(window.document.querySelectorAll('.tb-navcell').length, 165);
   const byStem = new Map(SET2.map(question => [question.stem, question]));
-  for (let index = 0; index < 150; index += 1) {
+  for (let index = 0; index < 165; index += 1) {
     const question = byStem.get(window.document.querySelector('.tb-stem').textContent);
     assert.ok(question, `rendered question ${index + 1} belongs to Set 2`);
     click(window, window.document.querySelectorAll('.tb-opt')[question.answer]);
