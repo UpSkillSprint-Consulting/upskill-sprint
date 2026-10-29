@@ -2,9 +2,9 @@
 
 Original practice questions for the CMQ/OE test bank, Set 3. Planned size 165 (2026 BoK: I 28 / II 23 / III 26 / IV 31 / V 22 / VI 19 / VII 16), added in batches of 20.
 
-Handbook = *The ASQ CMQ/OE Handbook*, 5th ed. (Furterer & Wood, 2021). Page numbers are printed folios (printed page = PDF sheet − 25). Each cited page was checked by script for the quoted key terms, and the chapter running head was checked against the cited chapter.
+Handbook = *The ASQ CMQ/OE Handbook*, 5th ed. (Furterer & Wood, 2021). Every page reference is the printed folio on the book page (top left on even pages, top right on odd pages; chapter-opening pages carry it at the foot), never the PDF sheet position. Printed page = PDF sheet − 25 throughout the body. Each cited page was checked by script for the quoted key terms, and the chapter running head was checked against the cited chapter.
 
-Two items cover 2026 BoK topics that the 5th edition does not include (8D, PESTLE). Those cite the ASQ and CIPD pages named in the item.
+Items on 2026 BoK topics that the 5th edition does not cover (8D, PESTLE) cite ASQ or CIPD and also give the closest handbook pages.
 
 ## Batch 1 (Q001–Q020)
 
@@ -31,4 +31,31 @@ Two items cover 2026 BoK topics that the 5th edition does not include (8D, PESTL
 | 19 | cmq-training | VII.D | Apply | B | Handbook Ch. 19, p. 569 | p. 569: “Behavior”; p. 569: “applied back on the job” |
 | 20 | cmq-lead | I.B.4 | Apply | C | Handbook Ch. 2, pp. 37–38 | p. 37: “hygiene factors”; p. 38: “continue to motivate the next time” |
 
-Batch 1 checks: keys A5/B5/C5/D5, longest run 2, no two adjacent items from the same domain, key option strictly longest in 4 of 20, no all/none-of-the-above, highest stem similarity to Sets 1–2 is 0.28 (token SequenceMatcher), highest within the batch 0.23. Each item was also checked by concept against Sets 1–2. Two first-draft items that repeated Set 2 concepts (the one-year certification rule and stated-versus-rewarded culture) were replaced.
+Batch 1 checks: keys A5/B5/C5/D5, longest run 2, no two adjacent items from the same domain, key strictly longest in 4 of 20. Highest stem similarity to Sets 1–2 is 0.28, within the batch 0.23. Two first-draft items that repeated Set 2 concepts (the one-year certification rule and stated-versus-rewarded culture) were replaced.
+
+## Batch 2 (Q021–Q040)
+
+| Q | Domain | BoK | Level | Key | Source | Terms verified on page |
+|---|---|---|---|---|---|---|
+| 21 | cmq-tools | IV.A.3 (2026: Is/Is Not) | Analyze | B | Handbook Ch. 13, pp. 344–345, 360 | p. 344: “systematically eliminate possible causes”; p. 345: “high level of specificity”; p. 360: “Is-is not question” |
+| 22 | cmq-lead | I.C.4 | Apply | D | Handbook Ch. 3, pp. 74–75 | p. 74: “Floundering”; p. 74: “project plan and written objectives”; p. 75: “gatekeeping” |
+| 23 | cmq-strategy | II.C.3 | Analyze | A | Handbook Ch. 7, p. 128 | p. 128: “closed-loop”; p. 128: “open-loop”; p. 128: “control points” |
+| 24 | cmq-customer | V.B.2 | Understand | C | Handbook Ch. 17, p. 490 | p. 490: “customer-value map”; p. 490: “premium prices” |
+| 25 | cmq-management | III.A.2 | Analyze | A | Handbook Ch. 8, pp. 148–149 | p. 148: “country club”; p. 148: “Managerial Grid”; p. 149: “Team management” |
+| 26 | cmq-supply | VI.G | Apply | D | Handbook Ch. 18, p. 532 | p. 532: “nuts and bolts”; p. 532: “car seats”; p. 532: “cost of inventory” |
+| 27 | cmq-tools | IV.C.8 | Apply | B | Handbook Ch. 15, p. 441 | p. 441: “Inherent availability”; p. 441: “MTBF/(MTBF + MTTR)”; p. 441: “Operational availability” |
+| 28 | cmq-lead | I.C.4 | Analyze | C | Handbook Ch. 3, p. 74 | p. 74: “Team Leader”; p. 74: “steering committee”; p. 74: “process owner” |
+| 29 | cmq-training | VII.D | Apply | D | Handbook Ch. 19, p. 575 | p. 575: “training within industry”; p. 575: “shifts the onus for success from the trainee to the trainer” |
+| 30 | cmq-strategy | II.C.1 | Evaluate | B | Handbook Ch. 7, pp. 121–122 | p. 121: “specific, measurable, attainable, relevant, and time specific”; p. 122: “Link to the strategic objective”; p. 122: “Date project completion is needed”; p. 122: “sufficient organizational capacity” |
+| 31 | cmq-customer | V.B.2 | Apply | A | Handbook Ch. 17, p. 495 | p. 495: “Albrecht”; p. 495: “neither positive nor negative”; p. 495: “formal complaint” |
+| 32 | cmq-management | III.A.2 | Apply | C | Handbook Ch. 8, p. 148 | p. 148: “Complexity Theory”; p. 148: “Make many small changes rather than major disruptions”; p. 148: “wide range of system performance metrics” |
+| 33 | cmq-tools | IV.B.2 (2026: SIPOC) | Apply | D | Handbook Ch. 14, pp. 366–367 | p. 366: “begins with defining the process of interest”; p. 366: “listing on the right side the outputs” |
+| 34 | cmq-supply | VI.G | Understand | A | Handbook Ch. 18, p. 532 | p. 532: “Producer”; p. 532: “Type I error”; p. 532: “Consumer” |
+| 35 | cmq-lead | I.C.4 | Apply | B | Handbook Ch. 3, p. 75 | p. 75: “Make observations, not conclusions”; p. 75: “Avoid using labels”; p. 75: “statement, not a question” |
+| 36 | cmq-strategy | II.B.1 | Apply | C | Handbook Ch. 6, p. 103 | p. 103: “no reason to prevent a critical discovery”; p. 103: “SWOT” |
+| 37 | cmq-management | III.C.3 | Evaluate | D | Handbook Ch. 10, p. 261 | p. 261: “stage gates”; p. 261: “back on track”; p. 261: “documented” |
+| 38 | cmq-tools | IV.C.3 | Apply | A | Handbook Ch. 15, p. 426 | p. 426: “2.5 sigma”; p. 426: “quicker response”; p. 426: “actually in control” |
+| 39 | cmq-customer | V.B.2 | Apply | C | Handbook Ch. 17, p. 490 | p. 490: “Unconditional Guarantees”; p. 490: “not be challenged”; p. 490: “sincere apology”; p. 490: “quick and fair” |
+| 40 | cmq-training | VII.B | Evaluate | B | Handbook Ch. 19, p. 552 | p. 552: “not a needs assessment”; p. 552: “Employees often do not know what they need” |
+
+Batch 2 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no two adjacent items from the same domain (including across the batch 1/2 boundary). Highest stem similarity to Sets 1–2 is 0.33. Each item was checked by concept against Sets 1–2 and batch 1. Draft topics already covered there were dropped: too many KPIs, and management review inputs. Is/is-not and SIPOC are 2026 BoK additions that the handbook does cover.
