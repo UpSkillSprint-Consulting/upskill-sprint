@@ -1,6 +1,6 @@
 'use strict';
 // CMQ/OE Set 3: 165 original questions, released in eight reviewed batches of 20 and a final batch of 5.
-// These checks cover the data contract for every batch, the completed blueprint and the learner-facing Set 3 flow.
+// These checks cover the data contract for every batch, the completed blueprint, the learner-facing Set 3 flow and the question-navigator statuses.
 const assert = require('node:assert/strict');
 const test = require('node:test');
 const { afterEach } = require('node:test');
@@ -46,14 +46,20 @@ const html = read('test-bank.html')
   .replace('<script src="/test-bank-cmq-set2.js"></script>', `<script>${scripts[2]}</script>`)
   .replace('<script src="/test-bank-cmq-set3.js"></script>', `<script>${scripts[3]}</script>`);
 
+// Production's edge function injects the in-memory study runtime into <head>; sessions need it to start.
+const sessionHtml = html.replace('</head>', () => `<script>${read('test-bank-memory-learning.js')}</script>\n</head>`);
+
 const windows = [];
 afterEach(() => windows.splice(0).forEach(window => { try { window.close(); } catch (_) {} }));
 
-async function loadPage() {
+async function loadPage({ withSessions = false } = {}) {
   const errors = [];
   const virtualConsole = new VirtualConsole();
   virtualConsole.on('jsdomError', error => errors.push(error.message));
-  const dom = new JSDOM(html, { url: 'https://upskillsprint.com/test-bank.html', runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole });
+  const dom = new JSDOM(withSessions ? sessionHtml : html, {
+    url: 'https://upskillsprint.com/test-bank.html', runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole,
+    beforeParse(window) { window.HTMLElement.prototype.scrollIntoView = function () {}; }
+  });
   windows.push(dom.window);
   await new Promise(resolve => dom.window.addEventListener('load', resolve));
   // The simulator has been stateless since 3de2cea removed the learning ledger, so no durable-learning fixture is installed.
@@ -138,5 +144,92 @@ test('CMQ/OE lists the complete Set 3 as selectable for every mode', async () =>
     const button = window.document.querySelector(`[data-quiz-set-kind="${kind}"][data-quiz-set="3"]`);
     assert.ok(button && !button.disabled, `${kind} quiz can choose Set 3`);
   }
+  assert.deepEqual(errors, []);
+});
+
+// The question navigator must show every status in the legend: slate grey unanswered, teal answered (awaiting
+// grading), blue revealed (counts as incorrect), orange flag, and an outline on the current question.
+const LEGEND = ['Slate grey: unanswered', 'Teal: answered, awaiting grading', 'Blue: revealed (counts as incorrect)', 'Orange: flagged for review', 'Outline: current question'];
+const navCell = (window, i) => window.document.querySelectorAll('.tb-navcell')[i];
+// Status classes in a stable order, so in-place updates and fresh renders compare equally.
+const statusOf = cell => Array.from(cell.classList).filter(c => c !== 'tb-navcell').sort().join(' ');
+const keyOf = window => {
+  const stem = window.document.querySelector('.tb-stem').textContent.replace(/\s+/g, ' ').trim();
+  const q = SET3.find(item => JSDOM.fragment(item.stem).textContent.replace(/\s+/g, ' ').trim() === stem);
+  assert.ok(q, 'the on-screen stem is a Set 3 question');
+  return q.answer;
+};
+
+test('a Set 3 Quick Quiz shows every navigator status and grades a revealed answer as incorrect', async () => {
+  const { window, errors } = await loadPage({ withSessions: true });
+  const doc = window.document;
+  click(window, doc.querySelector('.tb-tile[data-exam="cmq"]'));
+  click(window, doc.querySelector('[data-quiz-set-kind="quick"][data-quiz-set="3"]'));
+  click(window, doc.querySelector('[data-count="quick"][data-n="10"]'));
+  click(window, doc.querySelector('[data-mode="quick"]'));
+  assert.match(doc.querySelector('.tb-diag-kick').textContent, /Quick Quiz · Set 3 · untimed/);
+  const n = doc.querySelectorAll('.tb-navcell').length;
+  assert.ok(n >= 4);
+  const legend = doc.querySelector('.tb-status-key').textContent;
+  LEGEND.forEach(label => assert.ok(legend.includes(label), `legend lists "${label}"`));
+  assert.match(doc.querySelector('#tb-reveal-hint').textContent, /Revealing an answer counts that question as incorrect/);
+
+  assert.equal(statusOf(navCell(window, 0)), 'cur', 'unanswered current question: slate grey with outline');
+  click(window, doc.querySelector(`[data-opt="${keyOf(window)}"]`));                    // Q1 answered correctly
+  click(window, doc.querySelector('[data-next]'));
+  click(window, doc.querySelector('[data-flag]'));                                      // Q2 flagged, left unanswered
+  click(window, doc.querySelector('[data-next]'));
+  click(window, doc.querySelector('[data-reveal]'));                                    // Q3 revealed
+  assert.ok(doc.querySelector('#tb-revealed-answer'), 'the revealed answer panel is shown');
+  assert.ok(Array.from(doc.querySelectorAll('[data-opt]')).every(b => b.disabled), 'a revealed question can no longer be answered');
+
+  assert.equal(statusOf(navCell(window, 0)), 'done');
+  assert.equal(navCell(window, 0).getAttribute('aria-label'), 'Question 1, answered, awaiting grading');
+  assert.equal(statusOf(navCell(window, 1)), 'flag');
+  assert.equal(navCell(window, 1).getAttribute('aria-label'), 'Question 2, unanswered, flagged');
+  assert.equal(statusOf(navCell(window, 2)), 'cur done revealed');
+  assert.equal(navCell(window, 2).getAttribute('aria-label'), 'Question 3, answer revealed, counted as incorrect');
+  assert.match(doc.querySelector('.tb-quizprog').textContent, /1 answered · 1 revealed · 1 flagged/);
+
+  // Answer every other question correctly, including flagged Q2, then submit: only the revealed Q3 is wrong.
+  click(window, navCell(window, 1));
+  assert.equal(statusOf(navCell(window, 2)), 'done revealed', 'the revealed marker survives a full re-render of the navigator');
+  assert.equal(statusOf(navCell(window, 1)), 'cur flag');
+  click(window, doc.querySelector(`[data-opt="${keyOf(window)}"]`));
+  assert.equal(statusOf(navCell(window, 1)), 'cur done flag', 'answered and flagged keep both markers');
+  for (let i = 3; i < n; i += 1) {
+    click(window, navCell(window, i));
+    click(window, doc.querySelector(`[data-opt="${keyOf(window)}"]`));
+  }
+  click(window, doc.querySelector('[data-submit]'));
+  assert.match(doc.getElementById('tb-overview').textContent, new RegExp(`Session score: \\d+% \\(${n - 1}/${n}\\)`), 'the revealed answer is graded as incorrect');
+  assert.deepEqual(errors, []);
+});
+
+test('the Set 3 Full Exam keeps the navigator statuses: timed hides reveal, untimed offers it', async () => {
+  const { window, errors } = await loadPage({ withSessions: true });
+  const doc = window.document;
+  click(window, doc.querySelector('.tb-tile[data-exam="cmq"]'));
+  click(window, doc.querySelector('.tb-setpick [data-set="3"]'));
+  click(window, doc.querySelector('[data-mode="full"]'));
+  assert.match(doc.querySelector('.tb-diag-kick').textContent, /Full Exam · Set 3 · timed/);
+  assert.equal(doc.querySelectorAll('.tb-navcell').length, 165);
+  assert.match(doc.getElementById('tb-timer').textContent, /^4:1[78]:\d\d$/, 'the 4 h 18 min exam clock is running');
+  assert.equal(doc.querySelector('[data-reveal]'), null, 'like the real exam, a timed Full Exam does not offer answer reveal');
+  click(window, doc.querySelector('[data-opt="0"]'));
+  click(window, doc.querySelector('[data-next]'));
+  click(window, doc.querySelector('[data-flag]'));
+  assert.equal(statusOf(navCell(window, 0)), 'done');
+  assert.equal(statusOf(navCell(window, 1)), 'cur flag');
+  const legend = doc.querySelector('.tb-status-key').textContent;
+  LEGEND.forEach(label => assert.ok(legend.includes(label), `Full Exam legend lists "${label}"`));
+  click(window, doc.querySelector('[data-backsim]'));
+
+  click(window, doc.querySelector('.tb-setpick [data-set="3"]'));
+  click(window, doc.querySelector('[data-timing-kind="full"][data-timed="0"]'));
+  click(window, doc.querySelector('[data-mode="full"]'));
+  assert.match(doc.querySelector('.tb-diag-kick').textContent, /Full Exam · Set 3 · untimed/);
+  click(window, doc.querySelector('[data-reveal]'));
+  assert.equal(statusOf(navCell(window, 0)), 'cur done revealed');
   assert.deepEqual(errors, []);
 });
