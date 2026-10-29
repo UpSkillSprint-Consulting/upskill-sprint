@@ -6,7 +6,7 @@
     badge:card.querySelector('.exam-acronym').textContent,publication_status:card.dataset.publication,
     can_practice:false,access_status:'locked',request_revision:0
   }));
-  const EXAM_PREVIEWS = ['cssbb','cssgb','mbb','cqe','cqa','pmp'];
+  const EXAM_PREVIEWS = ['cssbb','cssgb','mbb','cqe','cqa','pmp','nppe'];
   const labels = {granted:'Access granted',locked:'Locked',pending:'Request pending',expired:'Access expired',revoked:'Access revoked',declined:'Request declined',coming_soon:'Coming soon',loading:'Checking access',unavailable:'Access unavailable'};
   let auth, user = null, phase = 'loading', rows = defaults, version = 0, active = null, reading = null, busy = false, initialized = false;
   const notice = text => { byId('exam-directory-status').textContent = text; };
@@ -45,7 +45,7 @@
     if(row.expires_at && phase==='ready') card.appendChild(node('p',(status==='expired'?'Expired ': 'Access expiry: ')+new Date(row.expires_at).toLocaleString(),'exam-card-detail'));
     const controls=node('div','','exam-card-controls');
     if(status==='granted') {
-      const link=node('a','Start practicing →','btn btn-teal exam-card-action');link.href='/test-bank?exam='+encodeURIComponent(row.exam_key);
+      const link=node('a','Start practising →','btn btn-teal exam-card-action');link.href='/test-bank?exam='+encodeURIComponent(row.exam_key);
       controls.appendChild(link);
     } else if(phase==='signedout') {
       const link=node('a','Sign in to request access','btn exam-card-action');link.href=signIn(row.exam_key);controls.appendChild(link);
@@ -55,7 +55,7 @@
       controls.appendChild(node('p','Your request is with an administrator. Access stays locked until approved.','exam-card-note'));
       controls.appendChild(button('Cancel request','cancel',row));
     } else {
-      const detail=status==='revoked'?'Your previous access was revoked. You can request a review.':status==='expired'?'Request renewed access to continue practicing.':status==='declined'?'Your previous request was declined. Contact us if you need help.':'Administrator approval is required to open this exam.';
+      const detail=status==='revoked'?'Your previous access was revoked. You can request a review.':status==='expired'?'Request renewed access to continue practising.':status==='declined'?'Your previous request was declined. Contact us if you need help.':'Administrator approval is required to open this exam.';
       controls.appendChild(node('p',detail,'exam-card-note'));
       const request=button(['expired','revoked'].includes(status)?'Request renewed access':'Request access','request',row);
       const retryAt=row.requested_at?new Date(row.requested_at).getTime()+86400000:0;

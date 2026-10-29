@@ -10179,7 +10179,7 @@
             "The Lean: A Field Guide to Bias",
             "So what is bias, exactly?"
           ],
-          "text": "Bias is a systematic error: a consistent tendency for a result to be pushed away from the truth in one direction. It comes from how data is collected, how it's measured, how it's analyzed, or how the human in the loop thinks about it. The key word is systematic . Random error scatters results around the truth, so averaging helps. Bias moves the whole scatter, so averaging just gives you a very precise wrong answer. In MSA terms, noise is a precision problem and bias is an accuracy problem. The word shows up in two worlds that turn out to be the same world: In statistics, an estimator is biased when its average across repeated samples doesn't equal the value it's trying to estimate. In psychology, a cognitive bias is a predictable shortcut in human judgement that bends conclusions the same way every time. Both are a thumb on the scale. One lives in the data pipeline, the other lives in our heads, and most real failures involve both. \\[\\operatorname{Bias}(\\hat{\\theta})=\\mathbb{E}[\\hat{\\theta}]-\\theta\\] The average of your estimates θ̂ minus the true value θ. Zero means unbiased. \\[\\operatorname{MSE}(\\hat{\\theta})=\\operatorname{Bias}(\\hat{\\theta})^{2}+\\operatorname{Var}(\\hat{\\theta})\\] Total error has two parts. A bigger sample shrinks the variance term toward zero. The bias term doesn't budge. \\[s^{2}=\\frac{\\sum_{i=1}^{n}(x_i-\\bar{x})^{2}}{n-1}\\] A classic case: dividing by n instead of n − 1 makes the sample variance biased low, by a factor of (n − 1)/n. Bessel's correction removes it.",
+          "text": "Bias is a systematic error: a consistent tendency for a result to be pushed away from the truth in one direction. It comes from how data is collected, how it's measured, how it's analyzed, or how the human in the loop thinks about it. The key word is systematic . Random error scatters results around the truth, so averaging helps. Bias moves the whole scatter, so averaging just gives you a very precise wrong answer. In MSA terms, noise is a precision problem and bias is an accuracy problem. The word shows up in two worlds that turn out to be the same world: In statistics, an estimator is biased when its average across repeated samples doesn't equal the value it's trying to estimate. In psychology, a cognitive bias is a predictable shortcut in human judgment that bends conclusions the same way every time. Both are a thumb on the scale. One lives in the data pipeline, the other lives in our heads, and most real failures involve both. \\[\\operatorname{Bias}(\\hat{\\theta})=\\mathbb{E}[\\hat{\\theta}]-\\theta\\] The average of your estimates θ̂ minus the true value θ. Zero means unbiased. \\[\\operatorname{MSE}(\\hat{\\theta})=\\operatorname{Bias}(\\hat{\\theta})^{2}+\\operatorname{Var}(\\hat{\\theta})\\] Total error has two parts. A bigger sample shrinks the variance term toward zero. The bias term doesn't budge. \\[s^{2}=\\frac{\\sum_{i=1}^{n}(x_i-\\bar{x})^{2}}{n-1}\\] A classic case: dividing by n instead of n − 1 makes the sample variance biased low, by a factor of (n − 1)/n. Bessel's correction removes it.",
           "excerpt": "Bias is a systematic error: a consistent tendency for a result to be pushed away from the truth in one direction. It comes from how data is collected, how it's measured, how it's analyzed, or how the human in the loop thinks about it. The key word is…",
           "kinds": [
             "section",
@@ -10234,8 +10234,8 @@
             "The Lean: A Field Guide to Bias",
             "Three families of bias"
           ],
-          "text": "A useful way to sort the whole zoo is by where the lean enters: the data and the math, the people making judgements, or the system everyone operates inside.",
-          "excerpt": "A useful way to sort the whole zoo is by where the lean enters: the data and the math, the people making judgements, or the system everyone operates inside.",
+          "text": "A useful way to sort the whole zoo is by where the lean enters: the data and the math, the people making judgments, or the system everyone operates inside.",
+          "excerpt": "A useful way to sort the whole zoo is by where the lean enters: the data and the math, the people making judgments, or the system everyone operates inside.",
           "kinds": [
             "section"
           ]
@@ -10938,8 +10938,8 @@
             "Analysis and models How the data got interpreted or used by models",
             "Automation bias"
           ],
-          "text": "Trusting an automated system over our own correct judgement or contradictory evidence. Show example The vision system says \"pass,\" so the inspector waves through a pipe with a lap he can plainly see on the end. Human. Graphic 5",
-          "excerpt": "Trusting an automated system over our own correct judgement or contradictory evidence. Show example The vision system says \"pass,\" so the inspector waves through a pipe with a lap he can plainly see on the end. Human. Graphic 5",
+          "text": "Trusting an automated system over our own correct judgment or contradictory evidence. Show example The vision system says \"pass,\" so the inspector waves through a pipe with a lap he can plainly see on the end. Human. Graphic 5",
+          "excerpt": "Trusting an automated system over our own correct judgment or contradictory evidence. Show example The vision system says \"pass,\" so the inspector waves through a pipe with a lap he can plainly see on the end. Human. Graphic 5",
           "kinds": [
             "section",
             "example"
@@ -10947,14 +10947,14 @@
         },
         {
           "id": "bias-category-mind",
-          "heading": "Judgement and memory How individual minds process information",
+          "heading": "Judgment and memory How individual minds process information",
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information"
+            "Judgment and memory How individual minds process information"
           ],
           "text": "",
-          "excerpt": "Judgement and memory How individual minds process information",
+          "excerpt": "Judgment and memory How individual minds process information",
           "kinds": [
             "section"
           ]
@@ -10965,7 +10965,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Anchoring"
           ],
           "text": "Leaning too heavily on the first number or piece of information we encounter. Show example A contractor opens at $90k. The revised $70k feels like a bargain, even though comparable jobs run about $50k. Human. Graphic 5",
@@ -10981,7 +10981,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Availability heuristic"
           ],
           "text": "Judging how likely something is by how easily examples come to mind. Show example After a plane crash dominates the news, people choose to drive instead of fly, which is statistically far riskier. Human. Graphic 5",
@@ -10997,7 +10997,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Framing effect"
           ],
           "text": "Reacting differently to the same information depending on how it's presented. Show example \"95% first-pass yield\" gets applause. \"One pipe in twenty needs rework\" gets an action plan. Same number. Human. Graphic 5",
@@ -11013,7 +11013,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Sunk cost fallacy"
           ],
           "text": "Continuing because of what has already been spent rather than what lies ahead. Also called escalation of commitment. Show example \"We've put $400k into this upgrade, we can't stop now,\" said after trials show it doesn't fix the defect it was bought for. Human. Graphic 4, 5",
@@ -11029,7 +11029,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Status quo bias"
           ],
           "text": "Preferring things to stay the same, so any change feels like a loss. Show example A paper check sheet survives for years \"because it works,\" even though a tablet would catch out-of-spec entries in real time. Human. Graphic 5",
@@ -11045,7 +11045,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Zero-risk bias"
           ],
           "text": "Preferring to eliminate a small risk entirely over substantially reducing a larger one. Show example The safety budget goes to eliminating a once-a-decade hazard completely, while the daily forklift risk gets a token fix. Human. Graphic 5",
@@ -11061,7 +11061,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Gambler's fallacy"
           ],
           "text": "Believing past independent random events change the odds of future ones. Show example \"Red came up six times, black is due.\" The roulette wheel has no memory. Human. Graphic 5",
@@ -11077,7 +11077,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Clustering illusion"
           ],
           "text": "Seeing meaningful patterns or streaks in random data. Show example Three defects in the same pipe position looks like a trend. With enough pipe, random clusters are guaranteed. Test before you chase. Human. Graphic 5",
@@ -11093,7 +11093,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Law of triviality"
           ],
           "text": "Spending disproportionate time on trivial issues because they're easy to have opinions about. Also called bike-shedding. Show example A 90-minute meeting: 60 minutes on the new report template's colours, five on the customer claim. Human. Graphic 5",
@@ -11109,7 +11109,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Dunning-Kruger effect"
           ],
           "text": "People with limited skill in an area tend to overrate it, while experts see how much they don't know. Show example After one online stats course, someone confidently declares a gauge R&R study \"a waste of time.\" Human. Graphic 5",
@@ -11125,7 +11125,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Curse of knowledge"
           ],
           "text": "Once we know something, it's hard to imagine not knowing it. Show example A 25-year veteran writes a work instruction that skips every step he considers obvious. New hires are lost by step three. Human. Graphic 5",
@@ -11141,7 +11141,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Google effect"
           ],
           "text": "Forgetting information we know we can easily look up. Also called digital amnesia. Show example You know exactly where the spec table lives on the shared drive but can't recall a single value in it. Human. Graphic 5",
@@ -11157,7 +11157,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Zeigarnik effect"
           ],
           "text": "Unfinished tasks stick in memory more than completed ones. Show example You can recite the three open corrective actions in detail but can't remember the twelve you closed last month. Human. Graphic 5",
@@ -11173,7 +11173,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "IKEA effect"
           ],
           "text": "Placing extra value on things we built or partly created ourselves. Show example Defending your homemade spreadsheet tool long after a better, supported option became available. Human. Graphic 5",
@@ -11189,7 +11189,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Tachypsychia"
           ],
           "text": "Our sense of time stretches or compresses under stress, fear or exertion. Show example A near-miss with a crane load \"lasted forever,\" says the witness. The camera shows two seconds. It matters when taking incident statements. Human. Graphic 5",
@@ -11205,7 +11205,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "False memory"
           ],
           "text": "Remembering events that didn't happen, or that happened differently. Show example Two operators give confident, contradictory accounts of which alarm sounded first. The alarm log agrees with neither. Human. Graphic 5",
@@ -11221,7 +11221,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Suggestibility"
           ],
           "text": "Taking on ideas suggested by others as our own memories or conclusions. Show example \"Did you see sparks before it broke?\" The leading question plants sparks in the witness's memory. Human. Graphic 5",
@@ -11237,7 +11237,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Cryptomnesia"
           ],
           "text": "A forgotten memory resurfaces and is mistaken for a brand-new idea. Show example You pitch a \"totally original\" improvement idea, then realise you heard it at a conference last spring. Human. Graphic 5",
@@ -11253,7 +11253,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Declinism"
           ],
           "text": "Romanticising the past and expecting the future to be worse. Show example \"Quality was better in the old days.\" The old scrap records strongly disagree. Human. Graphic 5",
@@ -11269,7 +11269,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Pessimism bias"
           ],
           "text": "Overestimating the likelihood of bad outcomes. Show example Refusing to trial a promising process change because \"it will definitely generate scrap.\" Human. Graphic 5",
@@ -11285,7 +11285,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Optimism bias"
           ],
           "text": "Overestimating the likelihood of good outcomes. Show example A commissioning schedule assumes every step works first time. It never has, on any project, anywhere. Human. Graphic 5",
@@ -11301,7 +11301,7 @@
           "breadcrumb": [
             "The Lean: A Field Guide to Bias",
             "The field guide: 83 biases",
-            "Judgement and memory How individual minds process information",
+            "Judgment and memory How individual minds process information",
             "Placebo effect"
           ],
           "text": "Believing a treatment will work can produce real improvement. Flagged in the source graphic as not strictly a cognitive bias. Show example Patients given a sugar pill they believe is a painkiller report meaningfully less pain. That's why good trials use a placebo control group. Human. Graphic 5",
@@ -11414,8 +11414,8 @@
             "Social and group How people judge each other and move together",
             "Implicit bias"
           ],
-          "text": "Unconscious associations that shape our judgements without our awareness. Show example In field experiments, identical résumés received different callback rates depending only on the name at the top. Human. Graphic 4",
-          "excerpt": "Unconscious associations that shape our judgements without our awareness. Show example In field experiments, identical résumés received different callback rates depending only on the name at the top. Human. Graphic 4",
+          "text": "Unconscious associations that shape our judgments without our awareness. Show example In field experiments, identical résumés received different callback rates depending only on the name at the top. Human. Graphic 4",
+          "excerpt": "Unconscious associations that shape our judgments without our awareness. Show example In field experiments, identical résumés received different callback rates depending only on the name at the top. Human. Graphic 4",
           "kinds": [
             "section",
             "example"
@@ -34453,8 +34453,8 @@
             "Problem solving Finding and fixing the real cause",
             "Brainstorming"
           ],
-          "text": "Generating many ideas quickly in a group, withholding judgement until the list is complete. Quality. Know the name",
-          "excerpt": "Generating many ideas quickly in a group, withholding judgement until the list is complete. Quality. Know the name",
+          "text": "Generating many ideas quickly in a group, withholding judgment until the list is complete. Quality. Know the name",
+          "excerpt": "Generating many ideas quickly in a group, withholding judgment until the list is complete. Quality. Know the name",
           "kinds": [
             "section"
           ]

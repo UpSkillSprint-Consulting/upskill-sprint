@@ -163,7 +163,7 @@
   const SITE_NAV_LINKS = [
     ['Start Here', '/start-here'],
     ['Lessons', '/lessons'],
-    ['Practise Certification Exam', EXAM_PRACTICE_PATH],
+    ['Practice Certification Exams', EXAM_PRACTICE_PATH],
     ['Engineering Tools', TOOLS_PATH],
     ['Services', '/services'],
     ['Request a Topic', '/request-topic'],
@@ -187,7 +187,7 @@
     ['Home', '/'],
     ['Start Here', '/start-here'],
     ['Lessons', '/lessons'],
-    ['Practise Certification Exam', EXAM_PRACTICE_PATH],
+    ['Practice Certification Exams', EXAM_PRACTICE_PATH],
     ['Engineering Tools', TOOLS_PATH],
     ['Services', '/services'],
     ['Request a Topic', '/request-topic'],
@@ -212,7 +212,7 @@
 
   function currentNavLabel() {
     const path = window.location.pathname.replace(/\.html$/i, '').replace(/\/index$/i, '/').replace(/\/+$/, '') || '/';
-    if (path === '/test-bank' || path.startsWith('/test-bank/')) return 'Practise Certification Exam';
+    if (path === '/test-bank' || path.startsWith('/test-bank/')) return 'Practice Certification Exams';
     if (path === '/lessons' || path.startsWith('/lessons/') || path.startsWith('/lesson/')) return 'Lessons';
     if (path === '/engineering-tools' || path.startsWith('/engineering-tools/') || path.startsWith('/tools/')) return 'Engineering Tools';
     const match = SITE_NAV_LINKS.find(function (item) { return item[1].replace(/\.html$/i, '') === path; });
@@ -602,7 +602,7 @@
     document.querySelectorAll('nav.desktop-nav, nav.mobile-nav').forEach(addToolsLinkToNav);
     ensureSiteFooter();
     addToolsLinkToFooter();
-    const examBreadcrumb = currentNavLabel() === 'Practise Certification Exam' && document.querySelector('.tb-crumb a');
+    const examBreadcrumb = currentNavLabel() === 'Practice Certification Exams' && document.querySelector('.tb-crumb a');
     if (examBreadcrumb) {
       examBreadcrumb.href = EXAM_PRACTICE_PATH;
       examBreadcrumb.textContent = 'Back to All Certifications';

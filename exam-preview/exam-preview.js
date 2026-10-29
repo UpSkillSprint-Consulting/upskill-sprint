@@ -139,6 +139,36 @@
       ctaBody: 'A full 150-question exam set, timed or untimed, plus focused quizzes by Body of Knowledge area, all in this same simulator.',
       fullBank: 'The full bank tests the same depth across a 150-question exam set.'
     },
+    nppe: {
+      dm: {
+        'nppe-professionalism': {name: 'Professionalism', color: '#2b5aa0'},
+        'nppe-ethics': {name: 'Ethics', color: '#0e8f86'},
+        'nppe-practice': {name: 'Professional Practice', color: '#6b52b5'},
+        'nppe-law': {name: 'Law for Professional Practice', color: '#b8791b'},
+        'nppe-professional-law': {name: 'Professional Law', color: '#c0453f'},
+        'nppe-discipline': {name: 'Regulation of Members & Discipline Processes', color: '#1a5276'}
+      },
+      bok: [
+        {domain: 'nppe-professionalism', subs: [{id: 'nppe-professionalism', name: 'I. Professionalism', lesson: '/lessons/quality-engineering/quality-gurus-crosby-juran-deming', lessonName: 'Quality Gurus: Crosby, Juran and Deming'}]},
+        {domain: 'nppe-ethics', subs: [{id: 'nppe-ethics', name: 'II. Ethics', lesson: '/lessons.html', lessonName: 'Browse lessons'}]},
+        {domain: 'nppe-practice', subs: [{id: 'nppe-practice', name: 'III. Professional Practice', lesson: '/lessons/ai-for-work/engineering-data-science-analysis-protocol', lessonName: 'Engineering Data Science Analysis Protocol'}]},
+        {domain: 'nppe-law', subs: [{id: 'nppe-law', name: 'IV. Law for Professional Practice', lesson: '/lessons/root-cause-analysis-5-whys-fishbone', lessonName: 'Root Cause Analysis: 5 Whys and Fishbone'}]},
+        {domain: 'nppe-professional-law', subs: [{id: 'nppe-professional-law', name: 'V. Professional Law', lesson: '/lessons.html', lessonName: 'Browse lessons'}]},
+        {domain: 'nppe-discipline', subs: [{id: 'nppe-discipline', name: 'VI. Regulation of Members & Discipline Processes', lesson: '/lessons.html', lessonName: 'Browse lessons'}]}
+      ],
+      examName: 'National Professional Practice Examination (NPPE)',
+      short: 'NPPE',
+      // The NPPE is a closed-book, multiple-choice law and ethics exam with no
+      // formula sheet, tables or calculator, so ExamPreview shows no tool buttons.
+      formulas: false,
+      tables: false,
+      calc: false,
+      startTitle: 'Free NPPE practice questions: ExamPreview',
+      ctaLabel: 'Get the complete NPPE question bank',
+      ctaTitle: 'Practise with the complete NPPE question bank',
+      ctaBody: 'Four full 110-question practice mocks, timed or untimed, plus focused quizzes by blueprint area, all in this same simulator.',
+      fullBank: 'The full bank tests the same depth across 110-question practice mocks.'
+    },
     pmp: {
       dm: {
         'pmp-people': {name: 'People', color: '#1a5276'},
@@ -234,6 +264,8 @@
       if (CFG.tables === false) { var td = document.getElementById('tb-tables'); if (td) td.remove(); }
       // Exams without a formula sheet (CQA) drop the Formulas drawer too, leaving Calc only.
       if (CFG.formulas === false) { var fdr = document.getElementById('tb-formulas'); if (fdr) fdr.remove(); }
+      // Exams without a calculator (NPPE) drop the Calc drawer, leaving no tool buttons.
+      if (CFG.calc === false) { var cdr = document.getElementById('tb-calc'); if (cdr) cdr.remove(); }
       view = 'quiz'; render(); announce('ExamPreview started. Question 1 of ' + session.items.length + '.');
       var first = host.querySelector('[data-opt]'); if (first) first.focus({preventScroll: true});
     }).catch(function () {
@@ -265,7 +297,7 @@
       '<button type="button" class="tb-tbtn" data-reveal aria-describedby="tb-reveal-hint" ' + (revealed ? 'aria-controls="tb-revealed-answer" ' : '') + 'aria-expanded="' + revealed + '"' + (revealed ? ' disabled' : '') + '>' + (revealed ? 'Answer Revealed' : 'Reveal Answer') + '</button>' +
       (CFG.formulas === false ? '' : '<button type="button" class="tb-tbtn" data-formulas>\u2630 Formulas</button>') +
       (CFG.tables === false ? '' : '<button type="button" class="tb-tbtn" data-tables>\u25a4 Tables</button>') +
-      '<button type="button" class="tb-tbtn" data-calc>\u00f7 Calc</button>' +
+      (CFG.calc === false ? '' : '<button type="button" class="tb-tbtn" data-calc>\u00f7 Calc</button>') +
       '<button type="button" class="tb-ghost" data-quit>Exit</button></div>';
     return '<div class="tb-quiz" data-question-id="' + esc(q.id) + '"><div class="tb-quiztop"><div><div class="tb-diag-kick">ExamPreview &middot; Free ' + CFG.short + ' questions &middot; untimed</div>' +
       '<div class="tb-quizprog">Question ' + (session.i + 1) + ' of ' + n + ' &middot; ' + answeredCount() + ' answered' + (rv ? ' &middot; ' + rv + ' revealed' : '') + (flagged ? ' &middot; ' + flagged + ' flagged' : '') + '</div></div>' + toolbar + '</div>' +

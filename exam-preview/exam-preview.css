@@ -31,3 +31,4 @@ html[data-theme="dark"] .exam-preview-page :focus-visible{outline-color:#9be3ea}
 
 /* CQA cites the printed handbook page under each explanation, as the CRE exam does. */
 body[data-exam-preview="cqa"] .tb-source-ref{display:block;margin-top:6px}
+body[data-exam-preview="nppe"] .tb-source-ref{display:block;margin-top:6px}
