@@ -29,7 +29,8 @@ const BATCH_COUNTS = [
   { 'cmq-lead': 3, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 3, 'cmq-supply': 2, 'cmq-training': 2 },
   { 'cmq-lead': 3, 'cmq-strategy': 2, 'cmq-management': 4, 'cmq-tools': 3, 'cmq-customer': 3, 'cmq-supply': 3, 'cmq-training': 2 },
   { 'cmq-lead': 3, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 3, 'cmq-supply': 2, 'cmq-training': 2 },
-  { 'cmq-lead': 3, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 3, 'cmq-customer': 3, 'cmq-supply': 3, 'cmq-training': 2 }
+  { 'cmq-lead': 3, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 3, 'cmq-customer': 3, 'cmq-supply': 3, 'cmq-training': 2 },
+  { 'cmq-lead': 4, 'cmq-strategy': 3, 'cmq-management': 3, 'cmq-tools': 4, 'cmq-customer': 2, 'cmq-supply': 2, 'cmq-training': 2 }
 ];
 const HANDBOOK = /The ASQ CMQ\/OE Handbook, 5th ed\. \(Furterer &amp; Wood\), Chapter \d+, pp?\. \d+/;
 const OUTSIDE = /ASQ CMQ\/OE Body of Knowledge \(2026\), Part [IVX]+/;
@@ -118,7 +119,9 @@ test('CMQ/OE lists Set 3 as selectable with its batch progress for every mode', 
   assert.equal(overview.querySelector('.tb-setpick [data-set="3"]').getAttribute('aria-pressed'), 'true');
   const note = overview.querySelector('.tb-setnote').textContent;
   assert.match(note, new RegExp(`${SET3.length} of ${PLANNED} planned questions`));
-  assert.match(note, new RegExp(`A Full Exam currently serves ${SET3.length} questions`));
+  // A Full Exam never exceeds the exam's question count (150 for CMQ/OE), even once Set 3 holds more.
+  const fullCount = Math.min(SET3.length, window.__TB.EXAMS.cmq.questions);
+  assert.match(note, new RegExp(`A Full Exam currently serves ${fullCount} questions`));
   for (const kind of ['quick', 'focus']) {
     const button = window.document.querySelector(`[data-quiz-set-kind="${kind}"][data-quiz-set="3"]`);
     assert.ok(button && !button.disabled, `${kind} quiz can choose Set 3`);

@@ -4,7 +4,7 @@ Original practice questions for the CMQ/OE test bank, Set 3. Planned size 165 (2
 
 Handbook = *The ASQ CMQ/OE Handbook*, 5th ed. (Furterer & Wood, 2021). Every page reference is the printed folio on the book page (top left on even pages, top right on odd pages; chapter-opening pages carry it at the foot), never the PDF sheet position. Printed page = PDF sheet − 25 throughout the body. Each cited page was checked by script for the quoted key terms, and the chapter running head was checked against the cited chapter.
 
-Items on 2026 BoK topics that the 5th edition does not cover (8D, PESTLE, TPM, A3, supplier exit strategies, skill matrices) cite ASQ, CIPD, the Lean Enterprise Institute or the Scottish Government Procurement Journey and also give the closest handbook pages.
+Items on 2026 BoK topics that the 5th edition does not cover (8D, PESTLE, TPM, A3, supplier exit strategies, skill matrices, process reliability, AI and cybersecurity) cite ASQ, CIPD, the Lean Enterprise Institute, the Scottish Government Procurement Journey or NIST and also give the closest handbook pages.
 
 ## Batch 1 (Q001–Q020)
 
@@ -194,3 +194,30 @@ Batch 6 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent 
 | 140 | cmq-training | VII.C | Apply | B | Handbook Ch. 19, p. 567 | p. 567: “eliminate the need for training”; p. 567: “buddy system” |
 
 Batch 7 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent same-domain items across batch boundaries. Two 2026 BoK additions the handbook does not cover: supplier exit strategies (Scottish Government Procurement Journey; nearest handbook pages Ch. 18 pp. 511, 533 on supplier life cycle and turnover) and skill matrices (Lean Enterprise Institute, The Lean Post; nearest pages Ch. 19 pp. 548, 567). Two EXCEPT-format items (Porter's competitor framework, ISO principles) add the NOT/EXCEPT style the real exam uses.
+
+## Batch 8 (Q141–Q160)
+
+| Q | Domain | BoK | Level | Key | Source | Terms verified on page |
+|---|---|---|---|---|---|---|
+| 141 | cmq-lead | I.B.5 | Apply | A | Handbook Ch. 2, p. 48 | p. 48: “remove barriers to empowerment”; p. 48: “coach frontline managers”; p. 48: “performance review and compensation systems” |
+| 142 | cmq-tools | IV.C.8 (2026: process reliability) | Apply | C | NIST/SEMATECH e-Handbook of Statistical Methods, §8.1.8.2 “Series model,” itl.nist.gov; ASQ CMQ/OE Body of Knowledge (2026), Part IV (process reliability, new in 2026). Related: Handbook Ch. 15, p. 440 | p. 440: “weakest (most failure-prone) element” |
+| 143 | cmq-strategy | II.B.4 (2026: AI & cybersecurity) | Understand | D | NIST, The NIST Cybersecurity Framework (CSF) 2.0, NIST CSWP 29, February 2024; ASQ CMQ/OE Body of Knowledge (2026), Part II (AI and cybersecurity, new in 2026). Related: Handbook Ch. 6, pp. 112–113 | p. 112: “cloud computing”; p. 113: “machine learning (ML) and artificial intelligence (AI)” |
+| 144 | cmq-customer | V.A.3 | Analyze | B | Handbook Ch. 16, p. 459 | p. 459: “Purchase volume”; p. 459: “Profitability segmentation can yield different results than vol ume segmentation” |
+| 145 | cmq-management | III.D.3 | Understand | A | Handbook Ch. 11, pp. 285–286 | p. 285: “first-party audit”; p. 286: “third-party audit”; p. 286: “registrar” |
+| 146 | cmq-supply | VI.C | Apply | D | Handbook Ch. 18, pp. 511, 518 | p. 511: “pass- through characteristics (PTC)”; p. 518: “PTCs are special characteristics” |
+| 147 | cmq-tools | IV.C.1 | Apply | B | Handbook Ch. 15, p. 410 | p. 410: “Goal-question-metric (GQM)”; p. 410: “Operational level (question)”; p. 410: “Quantitative level (metric)” |
+| 148 | cmq-lead | I.B.5 | Analyze | C | Handbook Ch. 2, p. 48 | p. 48: “well matched with the jobs they hold”; p. 48: “gregarious extrovert” |
+| 149 | cmq-training | VII.A | Apply | A | Handbook Ch. 19, p. 539 | p. 539: “executive briefings are the norm”; p. 539: “Management training” |
+| 150 | cmq-strategy | II.C.3 | Apply | D | Handbook Ch. 7, p. 130 | p. 130: “Annual closed-loop assessment”; p. 130: “Identify improvement opportunities”; p. 130: “Deploy action plan” |
+| 151 | cmq-management | III.D.1 | Analyze | C | Handbook Ch. 11, p. 279 | p. 279: “quality function mission”; p. 279: “if the service or product is not needed, eliminate it” |
+| 152 | cmq-tools | IV.B.2 | Understand | B | Handbook Ch. 14, p. 402 | p. 402: “Advanced Product Quality Planning (APQP)”; p. 402: “conceptualize, design, develop, validate, and launch” |
+| 153 | cmq-lead | I.C.5 | Evaluate | D | Handbook Ch. 3, p. 80 | p. 80: “choose their own rewards within a value range”; p. 80: “under-standard achievements” |
+| 154 | cmq-supply | VI.D | Understand | A | Handbook Ch. 18, p. 523 | p. 523: “Reinforce the terms of the contract”; p. 523: “accepted by the supplier is a contract” |
+| 155 | cmq-customer | V.B.2 | Evaluate | C | Handbook Ch. 17, pp. 476–477 | p. 476: “standing cross-functional team for VOC”; p. 477: “Dedicated staff” |
+| 156 | cmq-tools | IV.C.1 | Evaluate | D | Handbook Ch. 15, p. 410 | p. 410: “Will the use of the measure cause the correct actions?”; p. 410: “verifiable and repeatable” |
+| 157 | cmq-lead | I.D (2026: ethics & ESG) | Apply | B | Handbook Ch. 4, p. 85 | p. 85: “social responsibilities”; p. 85: “ISO) 26000”; p. 85: “subcontractors” |
+| 158 | cmq-strategy | II.B.5 | Apply | A | Handbook Ch. 6, p. 117 | p. 117: “five generations”; p. 117: “differing styles in learning” |
+| 159 | cmq-management | III.B.3 | Apply | C | Handbook Ch. 9, p. 218 | p. 218: “Time differentials”; p. 218: “Establish and publish the business hours and protocols” |
+| 160 | cmq-training | VII.C | Apply | B | Handbook Ch. 19, p. 556 | p. 556: “task- centered”; p. 556: “need to know why” |
+
+Batch 8 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent same-domain items across batch boundaries. 2026 BoK additions: process reliability, as a series-system calculation (NIST/SEMATECH e-Handbook §8.1.8.2; nearest handbook p. 440, weakest element), and AI and cybersecurity (NIST CSF 2.0 Govern function; nearest handbook pp. 112–113 on technology). The ethics item ties the 2026 ESG and social-responsibility emphasis to the handbook's ISO 26000 note (p. 85).

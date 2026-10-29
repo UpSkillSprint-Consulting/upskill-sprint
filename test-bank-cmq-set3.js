@@ -1,6 +1,6 @@
 /*
  * ASQ CMQ/OE Exam Set 3 — original practice questions.
- * Batches 1–7: Q001–Q140. Planned bank: 165 questions, added in reviewed batches of 20.
+ * Batches 1–8: Q001–Q160. Planned bank: 165 questions, added in reviewed batches of 20.
  * 2026 BoK target counts: I 28 / II 23 / III 26 / IV 31 / V 22 / VI 19 / VII 16.
  * Batch 1 counts: I 4 / II 3 / III 3 / IV 4 / V 2 / VI 2 / VII 2.
  * Batch 2 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
@@ -9,6 +9,7 @@
  * Batch 5 counts: I 3 / II 2 / III 4 / IV 3 / V 3 / VI 3 / VII 2.
  * Batch 6 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
  * Batch 7 counts: I 3 / II 3 / III 3 / IV 3 / V 3 / VI 3 / VII 2.
+ * Batch 8 counts: I 4 / II 3 / III 3 / IV 4 / V 2 / VI 2 / VII 2.
  * Handbook citations use printed page numbers (printed page = PDF sheet − 25).
  * Items on 2026 BoK topics the 5th-edition handbook does not cover cite the named outside source.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
@@ -2115,6 +2116,306 @@
       "set": 3,
       "sourceQuestion": 140,
       "qid": "cmq:set-3:source-140"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "A company is moving to empowered work teams. Frontline supervisors are unsure how to shift from directing work to supporting teams, and the old appraisal criteria still reward them for close control. According to the handbook, what role should middle management play, and what usually has to change?",
+      "options": [
+        "Remove barriers and coach supervisors; realign reviews and pay",
+        "Take over decisions until supervisors adapt; keep current reviews",
+        "Leave supervisors to adjust alone; change pay only if needed",
+        "Hire new supervisors; keep the appraisal criteria unchanged"
+      ],
+      "answer": 0,
+      "why": "Empowerment needs to happen from top to bottom. Frontline managers need to understand how to move from a traditional role to that of an empowering leader, and middle management should work to remove barriers to empowerment and coach frontline managers in their new roles. Changes in performance review and compensation systems are usually required to align them with the new responsibilities (Chapter 2, p. 48). <b>A. Remove barriers and coach supervisors; realign reviews and pay</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 2, p. 48.</span>",
+      "set": 3,
+      "sourceQuestion": 141,
+      "qid": "cmq:set-3:source-141"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A packaging line has three machines in series, and the line stops if any one of them fails. Over a shift, the machines' reliabilities are 0.98, 0.95 and 0.99, and they fail independently. What is the line's reliability for the shift?",
+      "options": [
+        "0.950",
+        "0.973",
+        "0.922",
+        "0.99999"
+      ],
+      "answer": 2,
+      "why": "For independent components in series, where the system fails when any component fails, system reliability is the product of the component reliabilities: \\(R_S = 0.98 \\times 0.95 \\times 0.99 \\approx 0.922\\). The line is less reliable than its weakest machine (0.950), averaging the three (0.973) has no basis, and 0.99999 is the result for a redundant (parallel) arrangement. The handbook makes the related point that a product's life depends on its weakest, most failure-prone element. The 5th-edition handbook predates this 2026 BoK topic; the closest handbook coverage is Chapter 15, p. 440. <b>C. 0.922</b> <span class=\"tb-source-ref\">Source: NIST/SEMATECH e-Handbook of Statistical Methods, §8.1.8.2 “Series model,” itl.nist.gov; ASQ CMQ/OE Body of Knowledge (2026), Part IV (process reliability, new in 2026). Related handbook pages: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 15, p. 440.</span>",
+      "set": 3,
+      "sourceQuestion": 142,
+      "qid": "cmq:set-3:source-142"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "A company's strategic plan now relies on AI-enabled quality analytics and cloud-hosted production data. The board wants the cybersecurity function that establishes, communicates and monitors the organization's cybersecurity risk strategy, expectations and policy. In the NIST Cybersecurity Framework 2.0, which function is this?",
+      "options": [
+        "Identify",
+        "Protect",
+        "Recover",
+        "Govern"
+      ],
+      "answer": 3,
+      "why": "The NIST Cybersecurity Framework 2.0 (2024) has six core functions: Govern, Identify, Protect, Detect, Respond and Recover. Govern, added in version 2.0, covers how the organization's cybersecurity risk management strategy, expectations and policy are established, communicated and monitored. Identify is about understanding current cybersecurity risks, and Recover restores assets and operations affected by an incident. The handbook discusses AI, machine learning and cloud computing among the technologies that shape strategy. The 5th-edition handbook predates this 2026 BoK topic; the closest handbook coverage is Chapter 6, pp. 112–113. <b>D. Govern</b> <span class=\"tb-source-ref\">Source: NIST, The NIST Cybersecurity Framework (CSF) 2.0, NIST CSWP 29, February 2024; ASQ CMQ/OE Body of Knowledge (2026), Part II (AI and cybersecurity, new in 2026). Related handbook pages: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 6, pp. 112–113.</span>",
+      "set": 3,
+      "sourceQuestion": 143,
+      "qid": "cmq:set-3:source-143"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "A distributor segments customers by purchase volume and treats its top 10% as core customers. A cost study shows that several of these high-volume accounts are barely profitable because of heavy service demands. What does the handbook point out?",
+      "options": [
+        "Volume segmentation always finds the most profitable customers",
+        "Profitability segmentation can differ from volume segmentation",
+        "Only industry type should be used to segment business customers",
+        "High-volume customers should be dropped from the core group"
+      ],
+      "answer": 1,
+      "why": "Common segmentation differentiators include purchase volume, where high-volume core customers may be only 10% of the base but as much as 90% of the business, and profitability. Profitability segmentation can yield different results from volume segmentation because it is based on the profit from each segment rather than on purchase volume (Chapter 16, p. 459). <b>B. Profitability segmentation can differ from volume segmentation</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 16, p. 459.</span>",
+      "set": 3,
+      "sourceQuestion": 144,
+      "qid": "cmq:set-3:source-144"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "To obtain ISO 9001 certification, a manufacturer pays a registrar, whose auditor assesses the quality management system and recommends whether to certify it. How is this audit classified?",
+      "options": [
+        "Third-party audit",
+        "Second-party audit",
+        "First-party audit",
+        "Internal process audit"
+      ],
+      "answer": 0,
+      "why": "A third-party audit is performed on a supplier or regulated entity by an external party other than a customer; for example, a registrar's auditor audits a client's ISO 9001-based quality management system and recommends, or not, certification, and the registrar bills the client. A second-party audit is performed by or for a customer at the supplier's site, and a first-party audit is an internal audit (Chapter 11, pp. 285–286). <b>A. Third-party audit</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 11, pp. 285–286.</span>",
+      "set": 3,
+      "sourceQuestion": 145,
+      "qid": "cmq:set-3:source-145"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "An automotive supplier's part carries a special characteristic that is created by its own sub-tier supplier and passes through into the finished product. Based on the handbook's discussion of supplier requirements, how should this characteristic be handled?",
+      "options": [
+        "Leave it entirely to the sub-tier supplier's own judgment",
+        "Inspect it only at the final assembly stage",
+        "Remove it from the drawing so that sourcing is simpler",
+        "Flag it as a pass-through characteristic for the supplier"
+      ],
+      "answer": 3,
+      "why": "Pass-through characteristics (PTCs) are special characteristics that need to be identified and communicated to suppliers as part of the product technical requirements. AIAG's CQI-19 sub-tier supplier management guideline defines minimum requirements for sub-tier suppliers and gives explicit guidance on identifying and controlling PTCs (Chapter 18, pp. 511, 518). <b>D. Flag it as a pass-through characteristic for the supplier</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, pp. 511, 518.</span>",
+      "set": 3,
+      "sourceQuestion": 146,
+      "qid": "cmq:set-3:source-146"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "Using goal-question-metric (GQM) for a help desk, a team sets the goal 'improve first-contact resolution from the user's point of view.' It then asks, 'What share of tickets is closed without escalation?' At which GQM level is this question?",
+      "options": [
+        "Conceptual level",
+        "Operational level",
+        "Quantitative level",
+        "Strategic level"
+      ],
+      "answer": 1,
+      "why": "GQM defines measurement on three levels: the conceptual level (goal), defined for an object from a point of view and relative to an environment; the operational level (question), a set of questions that characterize the assessment or achievement of the goal; and the quantitative level (metric), the metrics that answer each question measurably. The stated question is at the operational level; the ticket percentage that answers it is the metric (Chapter 15, p. 410). <b>B. Operational level</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 15, p. 410.</span>",
+      "set": 3,
+      "sourceQuestion": 147,
+      "qid": "cmq:set-3:source-147"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "A highly sociable customer-service representative is moved to a job sorting returns alone in a back room. Her quality and output drop, although nothing else has changed. What does the handbook's discussion of empowerment and job fit suggest?",
+      "options": [
+        "She needs much closer supervision to restore her output",
+        "Her pay should be raised to offset the change",
+        "The job is a poor match for her, so motivation suffers",
+        "She needs retraining on the sorting procedure"
+      ],
+      "answer": 2,
+      "why": "People who are well matched to their jobs don't need force, coercion, bribery or trickery to work hard and produce quality work; they are internally motivated. The handbook's example of a mismatch is assigning a gregarious extrovert to spray-paint parts alone in an isolated room all day, which would be dissatisfying and lead to poor work (Chapter 2, p. 48). <b>C. The job is a poor match for her, so motivation suffers</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 2, p. 48.</span>",
+      "set": 3,
+      "sourceQuestion": 148,
+      "qid": "cmq:set-3:source-148"
+    },
+    {
+      "sub": "cmq-training",
+      "stem": "A quality director wants to bring the senior leadership team up to speed on new risk requirements in a short session. Which term does the handbook say is typically used for this kind of short-term learning at the executive level?",
+      "options": [
+        "Executive briefing",
+        "Operator training",
+        "On-the-job training",
+        "Refresher course"
+      ],
+      "answer": 0,
+      "why": "The term training is often not used with top management. Executive education may take the form of multiday retreats or intensive programs at academic institutions; for shorter-term education, executive briefings are the norm, and forums and symposia are other terms used. Management training is the term typically used for supervisors and managers (Chapter 19, p. 539). <b>A. Executive briefing</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 19, p. 539.</span>",
+      "set": 3,
+      "sourceQuestion": 149,
+      "qid": "cmq:set-3:source-149"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "In the handbook's annual closed-loop assessment, a company has defined business excellence with strategic measures of success and assessed its progress against world-class competitors and its objectives. What is the next step?",
+      "options": [
+        "Deploy the action plan and align metrics to all levels",
+        "Redefine what business excellence means for next year",
+        "Pause the metrics until the identified gaps are closed",
+        "Identify improvement opportunities and priorities"
+      ],
+      "answer": 3,
+      "why": "The annual closed-loop assessment runs: (1) define business excellence and establish strategic measures of success; (2) assess progress against world-class competitors and strategic objectives, and identify gaps; (3) identify improvement opportunities, setting annual priorities and improvement goals; and (4) deploy the action plan, aligning key metrics to all levels of the organization (Chapter 7, p. 130). <b>D. Identify improvement opportunities and priorities</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 7, p. 130.</span>",
+      "set": 3,
+      "sourceQuestion": 150,
+      "qid": "cmq:set-3:source-150"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "While developing its mission, a quality department reviews the monthly defect report it produces. When it asks the report's recipients, none of them uses it or needs it. Following the handbook's steps, what should the department do?",
+      "options": [
+        "Redesign the report's format to make it more attractive",
+        "Keep producing it, since quality data should always be reported",
+        "Eliminate the report, since the service isn't needed",
+        "Send it more often so that recipients notice it"
+      ],
+      "answer": 2,
+      "why": "The steps for developing a quality function mission include identifying a service the function provides, determining its customers, and discussing with them whether they need it and which attributes they value. If a need exists, the function agrees on standards and measures; if the service or product is not needed, it should be eliminated (Chapter 11, p. 279). <b>C. Eliminate the report, since the service isn't needed</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 11, p. 279.</span>",
+      "set": 3,
+      "sourceQuestion": 151,
+      "qid": "cmq:set-3:source-151"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "In the handbook's table of process management techniques, Advanced Product Quality Planning (APQP) is described as an automotive methodology that guides new product and process launches through which phases?",
+      "options": [
+        "Define, measure, analyze, improve and control the process",
+        "Conceptualize, design, develop, validate and launch",
+        "Plan, do, check and act",
+        "Sort, set in order, shine, standardize and sustain"
+      ],
+      "answer": 1,
+      "why": "The handbook's table describes APQP as a methodology used to guide the development and launch of a new product or process in the automotive industry, defining the phases conceptualize, design, develop, validate and launch. DMAIC is the Six Sigma improvement sequence, and PDCA is the general improvement cycle (Chapter 14, p. 402). <b>B. Conceptualize, design, develop, validate and launch</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 14, p. 402.</span>",
+      "set": 3,
+      "sourceQuestion": 152,
+      "qid": "cmq:set-3:source-152"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "After a successful project, a company gives every member of a 12-person improvement team the same branded jacket. Several members are unenthusiastic. Which approach does the handbook suggest is often more effective?",
+      "options": [
+        "Give the reward only to the team leader instead",
+        "Replace all recognition with a single cash bonus",
+        "Recognize only the members who logged the most hours",
+        "Let members pick rewards within a set value range"
+      ],
+      "answer": 3,
+      "why": "Recognizing an entire team with one standard reward can be less effective than letting team members choose their own rewards within a value range, and catalogue programs have grown up to support that approach. Recognition must also be applied fairly: ignoring some achievements, rewarding under-standard work or weighting achievements wrongly breeds disappointment and discontent (Chapter 3, p. 80). <b>D. Let members pick rewards within a set value range</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 3, p. 80.</span>",
+      "set": 3,
+      "sourceQuestion": 153,
+      "qid": "cmq:set-3:source-153"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "A supplier argues that the delivery and quality metrics on the purchaser's scorecard are 'just the purchaser's opinion.' The supplier had accepted the purchase order that stated those requirements. What does the handbook say supplier performance metrics do in this situation?",
+      "options": [
+        "Reinforce the contract, since an accepted order is one",
+        "Replace the contract once the scorecard has been published",
+        "Apply only after the supplier has become certified",
+        "Serve only to rank suppliers against one another"
+      ],
+      "answer": 0,
+      "why": "Supplier performance metrics reinforce the terms of the contract (a purchaser's order accepted by the supplier is a contract), link the supplier with the purchaser's strategic objectives, help detect current or emerging problems, help process owners understand the overall process and support the decisions needed to keep the supply chain viable (Chapter 18, p. 523). <b>A. Reinforce the contract, since an accepted order is one</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, p. 523.</span>",
+      "set": 3,
+      "sourceQuestion": 154,
+      "qid": "cmq:set-3:source-154"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "At a manufacturer, complaint data sit in service, survey results in marketing and field reports in engineering, and one analyst reviews them part-time each quarter. Which change does the handbook suggest to build a robust voice of the customer (VOC) system?",
+      "options": [
+        "Assign all of the VOC work to the marketing department",
+        "Replace all of these sources with one annual survey",
+        "Form a chartered, cross-functional VOC team with staff",
+        "Report VOC data only when complaint numbers rise"
+      ],
+      "answer": 2,
+      "why": "Ideas for a robust VOC system include a standing cross-functional VOC team that represents all customer touchpoints and functions, with a charter setting its meeting frequency and its purpose of monitoring current and future needs and how well they are met, plus dedicated staff to organize and analyze the data. Bringing all owners of customer information into one group creates synergy and shared ownership (Chapter 17, pp. 476–477). <b>C. Form a chartered, cross-functional VOC team with staff</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 17, pp. 476–477.</span>",
+      "set": 3,
+      "sourceQuestion": 155,
+      "qid": "cmq:set-3:source-155"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A call centre rewards agents for short average call times. Agents begin transferring difficult callers and ending calls early, and repeat calls rise. Which of the handbook's questions for evaluating a measure does this metric fail?",
+      "options": [
+        "Are the data economical to gather, store and analyze?",
+        "Is the measure's definition clear to everyone?",
+        "Are the data verifiable and repeatable?",
+        "Will using the measure cause the correct actions?"
+      ],
+      "answer": 3,
+      "why": "The handbook's questions for evaluating a measure include whether the data are economical, verifiable and repeatable, whether the definition is clear, whether the measure indicates trends, and whether use of the measure will cause the correct actions. Short call times are cheap to measure and well defined, but rewarding them drives behaviour that hurts customers (Chapter 15, p. 410). <b>D. Will using the measure cause the correct actions?</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 15, p. 410.</span>",
+      "set": 3,
+      "sourceQuestion": 156,
+      "qid": "cmq:set-3:source-156"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "A quality manager is asked to extend her company's ethics code to cover the social responsibilities of the company and its subcontractors. The handbook notes that the ASQ Code of Ethics does not address this specifically. Which standard does it point to for guidance?",
+      "options": [
+        "ISO 9001",
+        "ISO 26000",
+        "ISO 14001",
+        "ISO 31000"
+      ],
+      "answer": 1,
+      "why": "The handbook notes a growing concern that the social responsibilities of an organization, its management, its employees and its subcontractors be addressed in any code of ethics. Although this concern is not specifically mentioned in the ASQ Code of Ethics, its intent can be assumed, and ISO 26000 provides guidance on social responsibility. ISO 9001 sets quality management system requirements, and ISO 31000 covers risk management (Chapter 4, p. 85). <b>B. ISO 26000</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 4, p. 85.</span>",
+      "set": 3,
+      "sourceQuestion": 157,
+      "qid": "cmq:set-3:source-157"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "An organization's growth strategy depends on developing a workforce that spans five generations, from traditionalists to Generation Z. What does the handbook say must be considered when planning how to build their competencies?",
+      "options": [
+        "Their differing learning styles",
+        "A single standard e-learning format",
+        "Age-based pay bands",
+        "Training only the youngest generation"
+      ],
+      "answer": 0,
+      "why": "Among the human resource questions for strategy is whether the labour pool can acquire the competencies future strategies require. In 2020, five generations made up the workforce (traditionalists, baby boomers, Generation X, millennials and Generation Z), and their differing styles in learning need to be taken into consideration (Chapter 6, p. 117). <b>A. Their differing learning styles</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 6, p. 117.</span>",
+      "set": 3,
+      "sourceQuestion": 158,
+      "qid": "cmq:set-3:source-158"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "Engineers at headquarters and at an offshore plant 12 time zones away keep missing each other's calls, and the plant's staff treat meeting times loosely. Which remedy from the handbook's list of global communication obstacles fits best?",
+      "options": [
+        "Provide glossaries of common business terms",
+        "Assess the region's political, social and financial risks",
+        "Publish business hours and communication protocols",
+        "Publish a side-by-side multilingual newsletter"
+      ],
+      "answer": 2,
+      "why": "For time differentials, including differing perceptions of time, the handbook's remedies are to establish and publish the business hours and protocols for communications to and from offshore locations, and to address the importance of day and time through orientation and daily communication. Glossaries and multilingual newsletters address language and cultural differences (Chapter 9, p. 218). <b>C. Publish business hours and communication protocols</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 9, p. 218.</span>",
+      "set": 3,
+      "sourceQuestion": 159,
+      "qid": "cmq:set-3:source-159"
+    },
+    {
+      "sub": "cmq-training",
+      "stem": "A trainer is redesigning a statistics course for experienced plant engineers. Which design choice best reflects Knowles's observation that adults enter learning with a task-centred orientation?",
+      "options": [
+        "Teach all the theory first and leave applications for later",
+        "Build each module around a real problem the engineers face",
+        "Use a fixed lecture sequence with no learner input",
+        "Grade learners mainly on memorized definitions"
+      ],
+      "answer": 1,
+      "why": "Knowles identifies six factors that influence adult learning, including that adults enter a learning experience with a task-centred (problem-centred or life-centred) orientation, that they need to know why they should learn something, and that they become ready to learn when their life situation creates a need. Building modules around real problems uses that orientation; theory-first lectures do not (Chapter 19, p. 556). <b>B. Build each module around a real problem the engineers face</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 19, p. 556.</span>",
+      "set": 3,
+      "sourceQuestion": 160,
+      "qid": "cmq:set-3:source-160"
     }
   ];
 })(window);
