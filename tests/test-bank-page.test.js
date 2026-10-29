@@ -101,7 +101,7 @@ test('only CQA remains Coming soon; CSSBB, MBB, CSSGB, CQE, CMQ, and CRE are liv
   assert.match(cqe.textContent, /3 exam sets/i, "CQE tile advertises the set count");
   const cmq = tiles.find(t => t.dataset.exam === 'cmq');
   assert.doesNotMatch(cmq.textContent, /Coming soon/, 'CMQ/OE is live now');
-  assert.match(cmq.textContent, /150 questions/i, 'CMQ/OE tile advertises the full-exam count');
+  assert.match(cmq.textContent, /165 questions/i, 'CMQ/OE tile advertises the 2026 computer-based scored-question count');
   const cssgb = tiles.find(t => t.dataset.exam === 'cssgb');
   assert.doesNotMatch(cssgb.textContent, /Coming soon/, 'CSSGB is live now');
   assert.match(cssgb.textContent, /110 questions/i, 'CSSGB tile advertises the complete computer-based simulation count');

@@ -129,7 +129,9 @@ test('CMQ/OE lists the complete Set 3 as selectable for every mode', async () =>
   assert.equal(overview.querySelector('.tb-setpick [data-set="3"]').getAttribute('aria-pressed'), 'true');
   const note = overview.querySelector('.tb-setnote').textContent;
   assert.doesNotMatch(note, /planned questions/, 'a complete Set 3 no longer shows a batch-progress note');
-  // A Full Exam never exceeds the exam's question count (150 for CMQ/OE), even once Set 3 holds more.
+  // The Full Exam matches the 2026 computer-based exam: 165 scored questions in 258 minutes, so Set 3 is served in full.
+  assert.equal(window.__TB.EXAMS.cmq.questions, 165);
+  assert.equal(window.__TB.EXAMS.cmq.minutes, 258);
   const fullCount = Math.min(SET3.length, window.__TB.EXAMS.cmq.questions);
   assert.match(note, new RegExp(`A Full Exam currently serves ${fullCount} questions`));
   for (const kind of ['quick', 'focus']) {

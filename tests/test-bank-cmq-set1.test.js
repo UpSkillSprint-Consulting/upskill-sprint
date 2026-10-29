@@ -37,7 +37,8 @@ test('CMQ/OE Set 1 contains all 166 source questions with stable source numberin
     const exam = window.__TB.EXAMS.cmq;
     assert.equal(exam.bank.length, 166);
     assert.equal(exam.sets[1], exam.bank);
-    assert.equal(exam.questions, 150, 'the full simulation draws 150 questions from the 166-question pool');
+    assert.equal(exam.questions, 165, 'the full simulation draws the 165 scored questions of the 2026 computer-based exam from the 166-question pool');
+    assert.equal(exam.minutes, 258, 'the Full Exam allows the 4 h 18 min exam time of the 2026 computer-based exam');
     assert.deepEqual(Array.from(exam.bank, question => question.sourceQuestion), Array.from({ length: 166 }, (_, i) => i + 1));
   } finally {
     dom.window.close();
@@ -103,7 +104,7 @@ test('ambiguous or indefensible source items have one student-defensible answer'
   }
 });
 
-test('CMQ/OE launches all three live modes and Full Exam draws exactly 150 questions', async () => {
+test('CMQ/OE launches all three live modes and Full Exam draws exactly 165 questions', async () => {
   const { dom, window } = await loadPage();
   try {
     const click = element => element.dispatchEvent(new window.Event('click', { bubbles: true }));
@@ -112,9 +113,9 @@ test('CMQ/OE launches all three live modes and Full Exam draws exactly 150 quest
     assert.equal(overview.querySelectorAll('[data-mode]').length, 3);
     assert.match(overview.textContent, /across all 7 areas/i, 'the diagnostic states the seven-area CMQ blueprint');
     assert.doesNotMatch(overview.textContent, /all nine areas|weighted to match the real exam/i, 'CMQ makes no incorrect area-count or sampling claim');
-    assert.match(overview.textContent, /150 randomized questions across every available area/i, 'Full Exam accurately describes its randomized selection');
+    assert.match(overview.textContent, /165 randomized questions across every available area/i, 'Full Exam accurately describes its randomized selection');
     click(overview.querySelector('[data-mode="full"]'));
-    assert.equal(overview.querySelectorAll('.tb-navcell').length, 150);
+    assert.equal(overview.querySelectorAll('.tb-navcell').length, 165);
     assert.match(overview.textContent, /Full Exam · timed/i, 'Full Exam retains its identity in the player');
     click(overview.querySelector('[data-backsim]'));
     await syncEndedSession(window);

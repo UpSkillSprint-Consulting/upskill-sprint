@@ -39,11 +39,11 @@ test('private CMQ/OE package renders Set 1, Set 2, the complete Set 3 and Mixed'
         [['1', false], ['2', false], ['3', false], ['mix', false]], kind + ' quiz set choices');
       assert.equal(quiz[3].title, '496 available questions');
     }
-    // Set 3 is complete (165 questions): it can be chosen, and its Full Exam serves the 150-question CMQ/OE length.
+    // Set 3 is complete (165 questions): it can be chosen, and its Full Exam serves all 165 questions, the scored length of the 2026 computer-based exam.
     full[2].click();
     await new Promise(resolve => setTimeout(resolve, 50));
     const pressed = [...doc.querySelectorAll('#tb-overview .tb-setpick [data-set][aria-pressed="true"]')].map(b => b.dataset.set);
     assert.deepEqual(pressed, ['3'], 'Set 3 can be the Full Exam set');
-    assert.match(doc.querySelector('#tb-overview .tb-setnote').textContent, /Full Exam draws only from Set 3 questions\. A Full Exam currently serves 150 questions/);
+    assert.match(doc.querySelector('#tb-overview .tb-setnote').textContent, /Full Exam draws only from Set 3 questions\. A Full Exam currently serves 165 questions/);
   } finally { fs.rmSync(temp, { recursive: true, force: true }); }
 });
