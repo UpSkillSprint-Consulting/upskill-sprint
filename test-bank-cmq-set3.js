@@ -1,6 +1,6 @@
 /*
  * ASQ CMQ/OE Exam Set 3 — original practice questions.
- * Batches 1–6: Q001–Q120. Planned bank: 165 questions, added in reviewed batches of 20.
+ * Batches 1–7: Q001–Q140. Planned bank: 165 questions, added in reviewed batches of 20.
  * 2026 BoK target counts: I 28 / II 23 / III 26 / IV 31 / V 22 / VI 19 / VII 16.
  * Batch 1 counts: I 4 / II 3 / III 3 / IV 4 / V 2 / VI 2 / VII 2.
  * Batch 2 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
@@ -8,6 +8,7 @@
  * Batch 4 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
  * Batch 5 counts: I 3 / II 2 / III 4 / IV 3 / V 3 / VI 3 / VII 2.
  * Batch 6 counts: I 3 / II 3 / III 3 / IV 4 / V 3 / VI 2 / VII 2.
+ * Batch 7 counts: I 3 / II 3 / III 3 / IV 3 / V 3 / VI 3 / VII 2.
  * Handbook citations use printed page numbers (printed page = PDF sheet − 25).
  * Items on 2026 BoK topics the 5th-edition handbook does not cover cite the named outside source.
  * UpSkill Sprint is not affiliated with ASQ. This is not an official ASQ exam.
@@ -1814,6 +1815,306 @@
       "set": 3,
       "sourceQuestion": 120,
       "qid": "cmq:set-3:source-120"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "The plant manager asks a team's facilitator to report privately which members have been criticizing the new schedule in team meetings. Based on the handbook's description of the facilitator role, how should the facilitator respond?",
+      "options": [
+        "Report the names, since the plant manager sponsors the team",
+        "Report the comments but leave out the names",
+        "Ask the team leader to pass on the names instead",
+        "Decline, since facilitators keep the team's confidences"
+      ],
+      "answer": 3,
+      "why": "The handbook describes the facilitator as someone who deals with the team's process rather than its content, respects confidential information shared by individuals or the team, and will not accept the facilitator role if expected to report to management information that is proprietary to the team. Passing on the comments without names still breaches that trust (Chapter 3, p. 70). <b>D. Decline, since facilitators keep the team's confidences</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 3, p. 70.</span>",
+      "set": 3,
+      "sourceQuestion": 121,
+      "qid": "cmq:set-3:source-121"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "An order of 120 pieces passes through four operations of 15 seconds each. As a batch, every piece waits for the whole lot at each step. In single-piece flow, a finished piece leaves the line every 15 seconds once the line is full. About how long does the whole order take in single-piece flow, compared with batch processing?",
+      "options": [
+        "About 1,800 seconds, versus 7,200 seconds",
+        "About 7,200 seconds in both cases",
+        "About 3,600 seconds, versus 7,200 seconds",
+        "About 60 seconds, versus 7,200 seconds"
+      ],
+      "answer": 0,
+      "why": "As a batch, the total cycle time is \\(120 \\times (4 \\times 15) = 7{,}200\\) seconds. In single-piece flow there is no accumulation between steps, so once the line is full a finished piece leaves every 15 seconds: roughly \\(120 \\times 15 = 1{,}800\\) seconds (exactly \\(60 + 119 \\times 15 = 1{,}845\\)), about a 75% reduction, with work in process cut to one piece per operation. Problems are also detected earlier, reducing scrap (Chapter 14, pp. 381–382). <b>A. About 1,800 seconds, versus 7,200 seconds</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 14, pp. 381–382.</span>",
+      "set": 3,
+      "sourceQuestion": 122,
+      "qid": "cmq:set-3:source-122"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "A company drafts a short list stating that it will be customer focused, act ethically in every transaction and accept prudent risk in order to innovate. Leaders want the list to shape the culture and serve as the basis for everyday decisions. What does the handbook call this element of the strategic plan?",
+      "options": [
+        "The vision statement",
+        "The organization's mission statement",
+        "Guiding principles or values",
+        "Strategic goals"
+      ],
+      "answer": 2,
+      "why": "Guiding principles or values specify how business is to be conducted; they help establish and define the organization's culture and form the basis for decision-making, and they may be customer focused, innovative, ethical or risk-taking. The vision describes the desired future, and the mission defines the organization's core purpose (Chapter 5, p. 93). <b>C. Guiding principles or values</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 5, p. 93.</span>",
+      "set": 3,
+      "sourceQuestion": 123,
+      "qid": "cmq:set-3:source-123"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "A retailer's data-mining model can predict major life events, such as pregnancy, from customers' purchases, and marketing wants to send targeted mailings based on the predictions. What cautions does the handbook raise?",
+      "options": [
+        "None, since purchase data belong to the retailer to use as it wishes",
+        "Avoid uses customers wouldn't approve; verify with real customers",
+        "Wait until at least a full year of purchase data has been collected",
+        "Share the model with competitors so that they can validate it"
+      ],
+      "answer": 1,
+      "why": "Among the handbook's cautions for big data and data mining: be careful that customers' preferences are not used in a way they would not approve, such as revealing a teen pregnancy before it was disclosed to her parents (a real case), and make sure the data are accurate, you know what you are looking for, and the projections have been verified with actual customers (Chapter 17, p. 491). <b>B. Avoid uses customers wouldn't approve; verify with real customers</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 17, p. 491.</span>",
+      "set": 3,
+      "sourceQuestion": 124,
+      "qid": "cmq:set-3:source-124"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "A manager sends a blunt one-line e-mail to a supplier about a late shipment, and the supplier's team takes offence. Which limitation of written electronic messages, described in the handbook, fits this case?",
+      "options": [
+        "The writer cannot see the receiver's body language or reaction",
+        "E-mail cannot be used as a formal business record",
+        "Written messages are always slower than a phone call would ever be",
+        "E-mail must always be followed up by a meeting"
+      ],
+      "answer": 0,
+      "why": "The handbook notes that e-mail messages are often short and blunt, lack the politeness of letters, may be more aggressive because they are not delivered face to face, and are often sent without proofreading. The writer also cannot observe the receiver's body language, so cannot judge how the message is being received, whether the receiver is offended, or whether the intended urgency is understood (Chapter 9, p. 214). <b>A. The writer cannot see the receiver's body language or reaction</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 9, p. 214.</span>",
+      "set": 3,
+      "sourceQuestion": 125,
+      "qid": "cmq:set-3:source-125"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "A purchaser is signing a five-year contract with the sole supplier of a critical service. According to current public-procurement guidance on supplier exit strategies, when should the exit strategy be developed?",
+      "options": [
+        "Only once the supplier's performance falls to probation",
+        "At contract end, when the replacement is chosen",
+        "After the first annual performance review",
+        "Up front, in the procurement documents and contract"
+      ],
+      "answer": 3,
+      "why": "Exit planning is a front-end activity: it should be considered when developing the commodity or service strategy, built where possible into the procurement documents and contract terms, and reviewed annually or when significant change occurs. A good exit plan covers continuity of service during transition, data security and transfer, knowledge and documentation transfer, costs and personnel. The 5th-edition handbook predates this 2026 BoK topic; the closest handbook coverage is Chapter 18, pp. 511, 533. <b>D. Up front, in the procurement documents and contract</b> <span class=\"tb-source-ref\">Source: Scottish Government, Procurement Journey, “Exit Strategy,” procurementjourney.scot; ASQ CMQ/OE Body of Knowledge (2026), Part VI (supplier exit strategies, new in 2026). Related handbook pages: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, pp. 511, 533.</span>",
+      "set": 3,
+      "sourceQuestion": 126,
+      "qid": "cmq:set-3:source-126"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A plant drafts a control plan listing each key characteristic, its tolerance, the measurement method and the method of control. A supervisor proposes discarding the operator work instructions, since the control plan now covers everything. What does the handbook say?",
+      "options": [
+        "Agree, since a control plan replaces work instructions",
+        "Agree, provided the plan is posted at every station",
+        "Disagree; work instructions still support each item",
+        "Disagree, since control plans apply only to services"
+      ],
+      "answer": 2,
+      "why": "Control plans identify, classify and weight the characteristics for quality, with tolerances, applicable measurements and methods of control. A control plan does not replace the details required in specific operator instructions; typically each item in it is supported by procedures or work instructions (Chapter 14, p. 378). <b>C. Disagree; work instructions still support each item</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 14, p. 378.</span>",
+      "set": 3,
+      "sourceQuestion": 127,
+      "qid": "cmq:set-3:source-127"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "An external change agent has just started at a plant. Employees there routinely check with a few respected senior operators before supporting any new idea, although these operators hold no supervisory title. What does the handbook advise the change agent to do?",
+      "options": [
+        "Work only through the formal chain of command",
+        "Build relationships with these informal leaders early",
+        "Replace them on key teams with newer staff",
+        "Wait until the change is approved before involving them"
+      ],
+      "answer": 1,
+      "why": "External change agents must build a relationship with the client organization, including understanding both formal and informal leadership structures. They need to become acquainted with the informal leaders to whom others turn for new ideas, because other members will check with those leaders for affirmation that it is beneficial or safe to support the change (Chapter 2, p. 27). <b>B. Build relationships with these informal leaders early</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 2, p. 27.</span>",
+      "set": 3,
+      "sourceQuestion": 128,
+      "qid": "cmq:set-3:source-128"
+    },
+    {
+      "sub": "cmq-training",
+      "stem": "A cell's team leader maps eight operators (rows) against the cell's twelve tasks (columns), marking who is qualified for each. Two tasks have only one qualified person, and demand for one of them is about to rise. How should the leader use this skill matrix?",
+      "options": [
+        "Cross-train others on the single-person tasks first",
+        "Give the busiest task to the most senior operator",
+        "Retrain everyone on all twelve tasks at once",
+        "Hire for the tasks that already have the most people"
+      ],
+      "answer": 0,
+      "why": "A skill (training) matrix shows, task by task, who is currently qualified, so a leader can compare where the team is now with where it needs to be. A thinly covered column signals risk, especially where only one person can do a task and demand may rise, so those cells become cross-training priorities. The 5th-edition handbook predates this 2026 BoK topic; the closest handbook coverage is Chapter 19, pp. 548, 567. <b>A. Cross-train others on the single-person tasks first</b> <span class=\"tb-source-ref\">Source: G. Lane, “A Tool That Every High-Mix, Low-Volume Leader Needs to See,” The Lean Post, Lean Enterprise Institute, 2017; ASQ CMQ/OE Body of Knowledge (2026), Part VII (skill matrices, new in 2026). Related handbook pages: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 19, pp. 548, 567.</span>",
+      "set": 3,
+      "sourceQuestion": 129,
+      "qid": "cmq:set-3:source-129"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "A strategic planning team has written 14 strategic goals, each with several objectives, and department heads say they cannot tell what matters most. What guidance does the handbook give on the number of strategic goals?",
+      "options": [
+        "Keep all 14, but rank them by the size of their budgets",
+        "Aim for one goal per department",
+        "Turn each goal into a vision statement",
+        "Strive for no more than three or four goals"
+      ],
+      "answer": 3,
+      "why": "Keeping the vision and mission in view, planners use the environmental scan to formulate strategic goals and should strive for no more than three or four. Each goal is then expanded into measurable multiyear objectives, and a goal may have one or many objectives (Chapter 5, p. 93). <b>D. Strive for no more than three or four goals</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 5, p. 93.</span>",
+      "set": 3,
+      "sourceQuestion": 130,
+      "qid": "cmq:set-3:source-130"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "A software company runs free monthly webinars that teach customers how to use its products more effectively. In the handbook's list of ways to protect a customer base, which approach is this?",
+      "options": [
+        "Reward usage",
+        "Reward loyalty",
+        "Provide unpaid services",
+        "Establish personal relationships"
+      ],
+      "answer": 2,
+      "why": "The handbook lists four ways to protect a customer base: reward usage (such as in-pack coupons for buying more of the same product), reward loyalty (such as frequent-flier programs), provide unpaid services (such as free lessons on how to use the products) and establish personal relationships (such as honouring loyal customers and greeting them on birthdays) (Chapter 17, p. 495). <b>C. Provide unpaid services</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 17, p. 495.</span>",
+      "set": 3,
+      "sourceQuestion": 131,
+      "qid": "cmq:set-3:source-131"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "A food plant flowcharts its process, identifies the hazards at each step, sets limits for the parameters that control them, monitors those parameters and defines reaction plans for when limits are exceeded. Which risk technique is this, and which automotive tool does the handbook compare it to?",
+      "options": [
+        "Bow tie analysis; similar to an FMEA",
+        "HACCP; similar to a control plan",
+        "Fault tree analysis; similar to a PPAP",
+        "Cause-and-effect analysis; similar to a check sheet"
+      ],
+      "answer": 1,
+      "why": "Hazard analysis and critical control points (HACCP) begins with a flowchart, identifies hazards at each step, determines where they can be controlled, sets parameters and limits, monitors and controls them, and defines reaction plans, containment and corrective actions when limits are exceeded. The handbook notes that in the automotive industry a control plan is very similar to an HACCP plan (Chapter 8, p. 190). <b>B. HACCP; similar to a control plan</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 8, p. 190.</span>",
+      "set": 3,
+      "sourceQuestion": 132,
+      "qid": "cmq:set-3:source-132"
+    },
+    {
+      "sub": "cmq-tools",
+      "stem": "A team's new process map shows the work passing back and forth between purchasing and receiving five times, with more side branches than steps in the main flow. What does the handbook say about these patterns?",
+      "options": [
+        "They show a well-controlled process with built-in checks",
+        "They matter only if the cycle time exceeds its target",
+        "They should be removed from the map to simplify it",
+        "They are signs of problems or improvement opportunities"
+      ],
+      "answer": 3,
+      "why": "Simply mapping a process often surfaces situations that may be causing current problems or that point to improvement areas, including branching steps that exceed the steps in the main flow, missing or excessive checking steps, and steps that take the flow back and forth between work units. A cross-functional (swim-lane) chart makes such handoffs between departments easy to see (Chapter 14, p. 374). <b>D. They are signs of problems or improvement opportunities</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 14, p. 374.</span>",
+      "set": 3,
+      "sourceQuestion": 133,
+      "qid": "cmq:set-3:source-133"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "An appliance maker stops building its control panels in-house and instead buys complete, tested panel subassemblies from a supplier, which it installs on its final line. What does the handbook call this move?",
+      "options": [
+        "Modular assembly",
+        "Ship-to-stock",
+        "Source inspection",
+        "Vendor-managed inventory"
+      ],
+      "answer": 0,
+      "why": "Modular assembly transfers additional business back to suppliers, who produce a complete subassembly that the purchaser previously assembled; the purchaser can then integrate the finished subassembly into final assembly more effectively. Ship-to-stock and source inspection concern how received material is accepted, not who builds it (Chapter 18, p. 532). <b>A. Modular assembly</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, p. 532.</span>",
+      "set": 3,
+      "sourceQuestion": 134,
+      "qid": "cmq:set-3:source-134"
+    },
+    {
+      "sub": "cmq-lead",
+      "stem": "An experienced operator who has always worked well under a delegating style starts missing targets. The supervisor learns that the operator's tooling has been worn for weeks and a family member is seriously ill. Applying the handbook's keys to situational leadership, what should the supervisor conclude?",
+      "options": [
+        "Switch permanently to a directing style with this operator",
+        "The operator's maturity has fallen, so retrain the operator",
+        "Factors such as tools and personal events may be the cause",
+        "Keep the same style, since the last style always fits again"
+      ],
+      "answer": 2,
+      "why": "The keys to situational leadership include realizing that one style does not fit all situations, that the style used last may not be best next time, and that other factors can influence performance, such as the performer's health, events in the performer's personal life, coworkers, lack of tools or equipment, and working conditions. Worn tooling and a family illness are such factors, not a loss of competence (Chapter 2, p. 19). <b>C. Factors such as tools and personal events may be the cause</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 2, p. 19.</span>",
+      "set": 3,
+      "sourceQuestion": 135,
+      "qid": "cmq:set-3:source-135"
+    },
+    {
+      "sub": "cmq-strategy",
+      "stem": "Porter's framework for comparing an organization with its competitors, as cited in the handbook, examines each of the following EXCEPT:",
+      "options": [
+        "Core capabilities and ability to grow",
+        "Number of shareholders",
+        "Quick response and ability to adapt to change",
+        "Staying power"
+      ],
+      "answer": 1,
+      "why": "The framework the handbook cites from Porter examines, among other factors, a competitor's core capabilities, its ability to grow, its quick response capability, its ability to adapt to change and its staying power. The number of shareholders is not part of it (Chapter 6, p. 107). <b>B. Number of shareholders</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 6, p. 107.</span>",
+      "set": 3,
+      "sourceQuestion": 136,
+      "qid": "cmq:set-3:source-136"
+    },
+    {
+      "sub": "cmq-customer",
+      "stem": "A supplier has served its largest customer for 15 years and has received no complaints in two years, so its managers decide that a satisfaction survey is unnecessary. What does the handbook identify this as?",
+      "options": [
+        "A common mistake: assuming they know the customer's view",
+        "A sound decision, since no complaints means the customer is satisfied",
+        "A reactive data strategy that suits key accounts best",
+        "Appropriate, provided the contract is renewed on time"
+      ],
+      "answer": 0,
+      "why": "The common mistake most often made by organizations is assuming they know how satisfied customers are and what they want, a perception usually based on a long-term relationship or the absence of complaints. The absence of complaints does not show that customers are satisfied (Chapter 17, p. 492). <b>A. A common mistake: assuming they know the customer's view</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 17, p. 492.</span>",
+      "set": 3,
+      "sourceQuestion": 137,
+      "qid": "cmq:set-3:source-137"
+    },
+    {
+      "sub": "cmq-management",
+      "stem": "All of the following are among the seven quality management principles used with ISO 9001 EXCEPT:",
+      "options": [
+        "Evidence-based decision-making",
+        "Relationship management",
+        "Engagement of people",
+        "Zero defects"
+      ],
+      "answer": 3,
+      "why": "The seven principles are customer focus, leadership, engagement of people, process approach, improvement, evidence-based decision-making and relationship management. Zero defects is Crosby's performance standard, not an ISO quality management principle (Chapter 8, p. 142). <b>D. Zero defects</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 8, p. 142.</span>",
+      "set": 3,
+      "sourceQuestion": 138,
+      "qid": "cmq:set-3:source-138"
+    },
+    {
+      "sub": "cmq-supply",
+      "stem": "An apparel brand's end customers now demand that its whole supply chain meet environmental and social sustainability goals. Which supplier selection criterion from the handbook's list addresses this directly?",
+      "options": [
+        "Capacity to ramp up to meet future demand quickly",
+        "Financial stability, as shown in Dun & Bradstreet reports",
+        "Code of conduct and social and environmental responsibility",
+        "Track record of improving its business performance over time"
+      ],
+      "answer": 2,
+      "why": "Customers may require suppliers to meet environmental or social sustainability goals, coined the triple bottom line, and the handbook's selection criteria include the supplier's code of conduct and its ability to be socially, environmentally and ethically responsible. Financial stability and ramp-up capacity matter, but they do not address sustainability (Chapter 18, pp. 512–513). <b>C. Code of conduct and social and environmental responsibility</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 18, pp. 512–513.</span>",
+      "set": 3,
+      "sourceQuestion": 139,
+      "qid": "cmq:set-3:source-139"
+    },
+    {
+      "sub": "cmq-training",
+      "stem": "Every year, new hires at a call centre need a full day of training to learn a confusing nine-screen order-entry process. Among the handbook's other training options, which could remove much of the need for this training?",
+      "options": [
+        "Send new hires to the software vendor's course",
+        "Reexamine the job to simplify the process",
+        "Add a buddy system for the first month on the job",
+        "Start book-reading discussion groups on order entry"
+      ],
+      "answer": 1,
+      "why": "The handbook's list of other training options includes periodically reexamining jobs for ways to improve the processes and perhaps eliminate the need for training in a particular area, or simplify the training needed. A buddy system or a vendor course still trains people on a confusing process instead of fixing it (Chapter 19, p. 567). <b>B. Reexamine the job to simplify the process</b> <span class=\"tb-source-ref\">Source: The ASQ CMQ/OE Handbook, 5th ed. (Furterer &amp; Wood), Chapter 19, p. 567.</span>",
+      "set": 3,
+      "sourceQuestion": 140,
+      "qid": "cmq:set-3:source-140"
     }
   ];
 })(window);

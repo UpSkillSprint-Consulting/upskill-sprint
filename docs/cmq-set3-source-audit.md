@@ -4,7 +4,7 @@ Original practice questions for the CMQ/OE test bank, Set 3. Planned size 165 (2
 
 Handbook = *The ASQ CMQ/OE Handbook*, 5th ed. (Furterer & Wood, 2021). Every page reference is the printed folio on the book page (top left on even pages, top right on odd pages; chapter-opening pages carry it at the foot), never the PDF sheet position. Printed page = PDF sheet − 25 throughout the body. Each cited page was checked by script for the quoted key terms, and the chapter running head was checked against the cited chapter.
 
-Items on 2026 BoK topics that the 5th edition does not cover (8D, PESTLE, TPM, A3) cite ASQ, CIPD or the Lean Enterprise Institute and also give the closest handbook pages.
+Items on 2026 BoK topics that the 5th edition does not cover (8D, PESTLE, TPM, A3, supplier exit strategies, skill matrices) cite ASQ, CIPD, the Lean Enterprise Institute or the Scottish Government Procurement Journey and also give the closest handbook pages.
 
 ## Batch 1 (Q001–Q020)
 
@@ -167,3 +167,30 @@ Batch 5 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent 
 | 120 | cmq-training | VII.C | Apply | B | Handbook Ch. 19, p. 557 | p. 557: “terminal objectives”; p. 557: “measurable criterion”; p. 557: “conditions” |
 
 Batch 6 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent same-domain items across batch boundaries. All 20 items cite handbook pages only; the environment-analysis item (p. 100) was checked against the rendered figure. A draft bathtub-curve item was replaced because Set 2 already tests infant mortality; the replacement tests visible vs invisible waste.
+
+## Batch 7 (Q121–Q140)
+
+| Q | Domain | BoK | Level | Key | Source | Terms verified on page |
+|---|---|---|---|---|---|---|
+| 121 | cmq-lead | I.C.4 | Analyze | D | Handbook Ch. 3, p. 70 | p. 70: “Respects confidential information”; p. 70: “Will not accept facilitator role if expected to report to management” |
+| 122 | cmq-tools | IV.B.2 | Apply | A | Handbook Ch. 14, pp. 381–382 | p. 381: “single-piece flow”; p. 381: “6000 seconds (200 × 30 seconds)”; p. 382: “detected early” |
+| 123 | cmq-strategy | II.A | Apply | C | Handbook Ch. 5, p. 93 | p. 93: “Guiding Principles or Values”; p. 93: “basis for decision-making”; p. 93: “mission defines the purpose” |
+| 124 | cmq-customer | V.B.2 | Evaluate | B | Handbook Ch. 17, p. 491 | p. 491: “would not approve”; p. 491: “verified the big data projections with actual customers”; p. 491: “Data Mining” |
+| 125 | cmq-management | III.B.4 | Apply | A | Handbook Ch. 9, p. 214 | p. 214: “short, blunt”; p. 214: “body language of the receiver” |
+| 126 | cmq-supply | VI.B (2026: exit strategies) | Apply | D | Scottish Government, Procurement Journey, “Exit Strategy,” procurementjourney.scot; ASQ CMQ/OE Body of Knowledge (2026), Part VI (supplier exit strategies, new in 2026). Related: Handbook Ch. 18, pp. 511, 533 | p. 511: “reevaluating suppliers over time”; p. 533: “supplier turnover” |
+| 127 | cmq-tools | IV.B.2 | Understand | C | Handbook Ch. 14, p. 378 | p. 378: “Control Plans”; p. 378: “does not replace the details required in specific operator instruc” |
+| 128 | cmq-lead | I.B.3 | Apply | B | Handbook Ch. 2, p. 27 | p. 27: “informal leaders”; p. 27: “affirmation” |
+| 129 | cmq-training | VII.B (2026: skill matrices) | Apply | A | G. Lane, “A Tool That Every High-Mix, Low-Volume Leader Needs to See,” The Lean Post, Lean Enterprise Institute, 2017; ASQ CMQ/OE Body of Knowledge (2026), Part VII (skill matrices, new in 2026). Related: Handbook Ch. 19, pp. 548, 567 | p. 548: “KESAA”; p. 567: “cross-training workers” |
+| 130 | cmq-strategy | II.A | Apply | D | Handbook Ch. 5, p. 93 | p. 93: “no more than three or four goals”; p. 93: “multiyear strategic objectives” |
+| 131 | cmq-customer | V.B.2 | Apply | C | Handbook Ch. 17, p. 495 | p. 495: “Provide unpaid services”; p. 495: “free lessons”; p. 495: “Reward loyalty” |
+| 132 | cmq-management | III.A.6 | Apply | B | Handbook Ch. 8, p. 190 | p. 190: “HACCP”; p. 190: “control plan is very similar to a HACCP plan”; p. 190: “reaction plans” |
+| 133 | cmq-tools | IV.B.2 | Analyze | D | Handbook Ch. 14, p. 374 | p. 374: “swim-lane chart”; p. 374: “Branching steps exceed the number of steps in the main flow”; p. 374: “back and forth” |
+| 134 | cmq-supply | VI.G | Understand | A | Handbook Ch. 18, p. 532 | p. 532: “modular assembly”; p. 532: “complete subassembly” |
+| 135 | cmq-lead | I.B.1 | Analyze | C | Handbook Ch. 2, p. 19 | p. 19: “keys to effective situational leadership”; p. 19: “Events in the performer”; p. 19: “Lack of material, tools, equipment” |
+| 136 | cmq-strategy | II.B.2 | Remember | B | Handbook Ch. 6, p. 107 | p. 107: “core capabilities, its ability to grow, its quick response capability”; p. 107: “staying power” |
+| 137 | cmq-customer | V.B.2 | Analyze | A | Handbook Ch. 17, p. 492 | p. 492: “assuming that they know how satisfied the customers are”; p. 492: “absence of complaints” |
+| 138 | cmq-management | III.E.1 | Remember | D | Handbook Ch. 8, p. 142 | p. 142: “seven quality management principles”; p. 142: “Relationship management”; p. 142: “Evidence-based decision-making” |
+| 139 | cmq-supply | VI.A | Apply | C | Handbook Ch. 18, pp. 512–513 | p. 512: “Triple Bottom Line”; p. 513: “code of conduct”; p. 513: “environmentally, and ethically responsible” |
+| 140 | cmq-training | VII.C | Apply | B | Handbook Ch. 19, p. 567 | p. 567: “eliminate the need for training”; p. 567: “buddy system” |
+
+Batch 7 checks: keys A5/B5/C5/D5, no repeated key letters in a row, no adjacent same-domain items across batch boundaries. Two 2026 BoK additions the handbook does not cover: supplier exit strategies (Scottish Government Procurement Journey; nearest handbook pages Ch. 18 pp. 511, 533 on supplier life cycle and turnover) and skill matrices (Lean Enterprise Institute, The Lean Post; nearest pages Ch. 19 pp. 548, 567). Two EXCEPT-format items (Porter's competitor framework, ISO principles) add the NOT/EXCEPT style the real exam uses.
