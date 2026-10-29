@@ -3,6 +3,7 @@ import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Script } from 'node:vm';
 import { integrateNPPEDiagnostic } from './nppe-diagnostic-runtime.mjs';
+import { integrateCQASet2Completion } from './cqa-set2-completion.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const EXAM_KEYS = ['cssbb', 'mbb', 'cssgb', 'cqe', 'cmq', 'cqa', 'cre', 'pmp', 'nppe'];
@@ -55,7 +56,7 @@ async function collectAssets(scripts, exam, root) {
 }
 
 export async function buildExamDelivery(root = ROOT) {
-  const page = await readFile(join(root, 'test-bank.html'), 'utf8');
+  const page = integrateCQASet2Completion(await readFile(join(root, 'test-bank.html'), 'utf8'));
   const edgeSource = await readFile(join(root, 'netlify/edge-functions/test-bank-mobile-picker.js'), 'utf8');
   const edge = (await import('data:text/javascript;base64,' + Buffer.from(edgeSource).toString('base64'))).default;
   const transformed = await (await edge(new Request('https://upskillsprint.com/test-bank'), {
