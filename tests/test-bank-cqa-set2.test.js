@@ -123,8 +123,8 @@ function click(w, selector) {
   element.click();
   return element;
 }
-function selectSet(w, kind) {
-  click(w, kind === 'full' ? '.tb-setpick [data-set="2"]' : `[data-quiz-set-kind="${kind}"][data-quiz-set="2"]`);
+function selectSet(w, kind, set = 2) {
+  click(w, kind === 'full' ? `.tb-setpick [data-set="${set}"]` : `[data-quiz-set-kind="${kind}"][data-quiz-set="${set}"]`);
 }
 function snapshot(w, expected) {
   const result = w.__TB.getFeedbackSnapshot();
@@ -331,6 +331,117 @@ test('Set 2 diagnostic uses ten questions under the existing two-per-domain cap'
     assert.deepEqual(counts, Object.fromEntries(Object.values(AREAS).map(area => [area, 2])));
     assert.deepEqual(h.errors, []);
   } finally {h.close();}
+});
+
+test('both protected CQA sets retain all five question states and reveal scoring in untimed practice', async parent => {
+  for (const set of [1, 2]) for (const mode of ['full', 'quick', 'focus']) for (const theme of ['light', 'dark']) {
+    await parent.test(`Set ${set}, ${mode}, ${theme}`, async () => {
+      const h = await harness(), {w} = h, d = w.document;
+      try {
+        d.documentElement.dataset.theme = theme;
+        selectSet(w, mode, set);
+        click(w, `[data-timing-kind="${mode}"][data-timed="0"]`);
+        if (mode !== 'full') click(w, `[data-count="${mode}"][data-n="10"]`);
+        click(w, `[data-mode="${mode}"]`);
+        const attempt = w.__TB.getFeedbackSnapshot();
+        assert.equal(attempt.setId, String(set));
+        assert.ok(attempt.records.length >= 4);
+        const first = attempt.records[0].question;
+        const second = attempt.records[1].question;
+        const third = attempt.records[2].question;
+        const nav = index => d.querySelector(`[data-goto="${index}"]`);
+        const legend = d.querySelector('.tb-status-key').textContent;
+        for (const label of ['Slate grey: unanswered', 'Teal: answered, awaiting grading', 'Blue: revealed (counts as incorrect)', 'Orange: flagged for review', 'Outline: current question']) {
+          assert.ok(legend.includes(label), label);
+        }
+        assert.match(nav(0).getAttribute('aria-label'), /unanswered/);
+        assert.equal(nav(0).classList.contains('done'), false);
+        assert.equal(nav(0).getAttribute('aria-current'), 'step');
+        assert.equal(d.querySelectorAll('.tb-navcell.cur').length, 1);
+        assert.equal(w.getComputedStyle(d.querySelector('.tb-quiz')).getPropertyValue('--status-neutral').trim(), theme === 'dark' ? '#cbd5e1' : '#475569');
+
+        click(w, '[data-flag]');
+        assert.ok(nav(0).classList.contains('flag'));
+        assert.equal(d.querySelector('[data-flag]').getAttribute('aria-pressed'), 'true');
+        click(w, `[data-opt="${first.answer}"]`);
+        assert.ok(nav(0).classList.contains('done'));
+        assert.ok(nav(0).classList.contains('flag'), 'Answering preserves the independent flag');
+        assert.match(nav(0).getAttribute('aria-label'), /answered, awaiting grading/);
+        assert.equal(w.getComputedStyle(nav(0)).backgroundColor, 'rgb(14, 116, 144)');
+
+        click(w, '[data-reveal]');
+        assert.ok(nav(0).classList.contains('revealed'));
+        assert.ok(nav(0).classList.contains('flag'), 'Revealing preserves the independent flag');
+        assert.equal(w.getComputedStyle(nav(0)).backgroundColor, 'rgb(29, 78, 216)');
+        assert.match(nav(0).getAttribute('aria-label'), /answer revealed, counted as incorrect/);
+        assert.equal(d.activeElement.id, 'tb-revealed-answer');
+        assert.ok([...d.querySelectorAll('[data-opt]')].every(button => button.disabled));
+        assert.equal(w.__TB.revealCurrentAnswer(), false, 'An answer cannot be revealed twice');
+
+        click(w, '[data-goto="1"]');
+        assert.equal(nav(0).classList.contains('cur'), false);
+        assert.equal(nav(1).getAttribute('aria-current'), 'step');
+        assert.equal(d.querySelectorAll('.tb-navcell.cur').length, 1);
+        click(w, '[data-reveal]');
+        assert.equal(w.__TB.getFeedbackSnapshot().records[1].selected, null, 'Reveal without an answer remains distinct from selecting one');
+        click(w, '[data-goto="2"]');
+        click(w, `[data-opt="${third.answer}"]`);
+        click(w, '[data-goto="0"]');
+        assert.ok(d.querySelector('#tb-revealed-answer'), 'Revealed explanation survives navigation');
+        assert.ok(nav(0).classList.contains('flag'));
+        click(w, '[data-flag]');
+        assert.equal(nav(0).classList.contains('flag'), false, 'Flags can be removed independently');
+        assert.ok(nav(0).classList.contains('revealed'));
+        click(w, '[data-flag]');
+
+        click(w, `[data-goto="${attempt.records.length - 1}"]`);
+        click(w, '[data-submit]');
+        await tick(w);
+        const result = w.__TB.getFeedbackSnapshot();
+        assert.equal(result.grading.correct, 1, 'A correct choice followed by Reveal earns no credit');
+        assert.equal(result.grading.incorrect, 2);
+        assert.equal(result.grading.revealed, 2);
+        assert.equal(result.grading.unanswered, attempt.records.length - 3);
+        click(w, '[data-open-review="all"]');
+        assert.equal(d.querySelectorAll('.tb-review-navcell.revealed').length, 2);
+        const revealed = d.querySelector('.tb-review-navcell.revealed');
+        assert.ok(revealed.querySelector('svg'), 'Reveal retains its eye icon');
+        assert.ok(revealed.querySelector('.tb-rnc-flag'), 'Flag survives submission');
+        assert.equal(w.getComputedStyle(revealed).backgroundColor, 'rgb(29, 78, 216)');
+        assert.equal(w.getComputedStyle(revealed.querySelector('.tb-rnc-flag')).backgroundColor, 'rgb(255, 149, 0)');
+        assert.equal(d.querySelectorAll('.tb-review-navcell.cur').length, 0, 'Review all has no single current question');
+        for (const q of [first, second]) {
+          const card = d.querySelector(`.tb-review-card[data-question-id="${q.qid}"]`);
+          assert.equal(card.dataset.reviewStatus, 'incorrect');
+          assert.match(card.textContent, /Answer revealed — counted as incorrect/);
+        }
+        click(w, '[data-review-goto="1"]');
+        assert.equal(d.querySelectorAll('.tb-review-navcell.cur').length, 1);
+        assert.equal(d.querySelector('.tb-review-navcell.cur').dataset.reviewGoto, '1');
+        assert.equal(d.querySelector('.tb-review-navcell.cur').getAttribute('aria-current'), 'true');
+        assert.deepEqual(h.errors, []);
+      } finally {h.close();}
+    });
+  }
+});
+
+test('both protected CQA sets disable answer reveal in timed Full, Quick and Focused sessions', async parent => {
+  for (const set of [1, 2]) for (const mode of ['full', 'quick', 'focus']) {
+    await parent.test(`Set ${set}, ${mode}`, async () => {
+      const h = await harness(), {w} = h;
+      try {
+        selectSet(w, mode, set);
+        click(w, `[data-timing-kind="${mode}"][data-timed="1"]`);
+        click(w, `[data-mode="${mode}"]`);
+        assert.equal(w.__TB.getFeedbackSnapshot().setId, String(set));
+        assert.ok(w.document.querySelector('#tb-timer'));
+        assert.equal(w.document.querySelector('[data-reveal]'), null);
+        assert.equal(w.__TB.revealCurrentAnswer(), false);
+        assert.ok(w.__TB.getFeedbackSnapshot().records.every(record => !record.revealed));
+        assert.deepEqual(h.errors, []);
+      } finally {h.close();}
+    });
+  }
 });
 
 test('Set 2 questions are delivered only in CQA and remain absent from the public shell and staging', async () => {

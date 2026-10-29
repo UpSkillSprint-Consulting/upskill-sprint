@@ -119,4 +119,20 @@ The complete repository build and browser-style learner suite were **not run in 
 
 ## Release status
 
+### Question-state capabilities verified — 2026-10-29
+
+The existing protected CQA runtime supports the five requested question states in both sets. No question content, scoring implementation or UI change was needed. Regression coverage now explicitly exercises both sets in Full, Quick and Focused practice, with light and dark themes:
+
+| State | Verified behaviour |
+|---|---|
+| Slate grey | Unanswered questions retain their neutral styling and accessible status. |
+| Teal | Selecting an answer marks it answered, awaiting grading. |
+| Blue | Reveal Answer displays the answer and explanation in untimed practice, locks answer changes, and counts the item as incorrect even if the correct choice was selected first. |
+| Orange flag | Flags can be toggled independently and survive answering, revealing, navigation and submission. |
+| Current outline | Exactly one current question is indicated during an attempt and when selecting an individual review question; Review all has no single current question. |
+
+The new tests cover revealing before and after selection, retained explanations on return, eye icons, accessible labels, keyboard focus, computed teal/blue/orange colours, final grading, and timed-mode rejection of reveal. The existing contrast tests are included in the CQA CI command.
+
+Validation: the CQA Set 1, Set 2, completion and status-contrast suites passed locally: **40 tests, zero failures**, including nested mode/theme cases. These tests build and exercise the protected exam package. The full repository suite and a manual authenticated browser walkthrough were not run for this test-only update.
+
 **150/150 authored; no merge or production publication in this cycle.** Before release, perform the whole-form editorial and semantic-duplication audit, resolve any failing automated checks, verify the authenticated preview on desktop and mobile, and obtain the repository's required approval. A pass prediction or live-exam difficulty equivalence requires candidate-performance evidence that this source audit does not supply.

@@ -37,4 +37,4 @@ jobs:
       - name: Validate the complete CQE Set 3 question audit
         run: node --test tests/test-bank-cqe-question-audit.test.js
       - name: Validate complete CQA sets and final-batch integration
-        run: node --test --test-concurrency=1 tests/test-bank-cqa-set1.test.js tests/test-bank-cqa-set2.test.js tests/test-bank-cqa-completion.test.js
+        run: node --test --test-concurrency=1 tests/test-bank-cqa-set1.test.js tests/test-bank-cqa-set2.test.js tests/test-bank-cqa-completion.test.js tests/test-bank-student-status-contrast.test.js
