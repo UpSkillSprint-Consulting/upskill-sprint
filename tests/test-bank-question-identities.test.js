@@ -10,7 +10,7 @@ const ROOT = path.join(__dirname, '..');
 const registrySource = fs.readFileSync(path.join(ROOT, 'test-bank-question-registry.js'), 'utf8');
 
 function embedQuestionBanks(html) {
-  return ['test-bank-cmq-set1.js', 'test-bank-mbb-set1.js', 'test-bank-mbb-set2.js', 'test-bank-mbb-set3.js', 'test-bank-cssgb-set1.js', 'test-bank-cssgb-set2.js'].reduce((page, file) => {
+  return ['test-bank-cmq-set1.js', 'test-bank-cmq-set2.js', 'test-bank-mbb-set1.js', 'test-bank-mbb-set2.js', 'test-bank-mbb-set3.js', 'test-bank-cssgb-set1.js', 'test-bank-cssgb-set2.js'].reduce((page, file) => {
     const source = fs.readFileSync(path.join(ROOT, file), 'utf8');
     return page.replace('<script src="/' + file + '"></script>', '<script>' + source + '</script>');
   }, html);

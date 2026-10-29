@@ -13,6 +13,7 @@ const DUMMY_USER_ID = 'baf168ec-5af3-4fa1-b026-3c2e950ce752';
 const OTHER_USER_ID = '7d1c1da5-59ce-4e35-9dc6-0de8fb967d34';
 const bankFiles = [
   'test-bank-cmq-set1.js',
+  'test-bank-cmq-set2.js',
   'test-bank-mbb-set1.js',
   'test-bank-mbb-set2.js',
   'test-bank-mbb-set3.js',
