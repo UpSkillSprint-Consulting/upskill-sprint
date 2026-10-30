@@ -81,7 +81,6 @@
 .bfm-steps li { background: var(--bfm-panel); border: 1px solid var(--bfm-line); border-radius: 8px; padding: 10px 12px; font-size: .92rem; }
 .bfm-steps li::before { counter-increment: s; content: counter(s); font-family: var(--bfm-display); font-weight: 700; font-size: 1.4rem; color: var(--bfm-accent); margin-right: 8px; }
 .bfm-formula { background: var(--bfm-panel); color: var(--bfm-ink); border: 1px solid var(--bfm-line); border-radius: 8px; padding: 8px 12px; margin: 10px 0; overflow-x: auto; max-width: none; }
-.bfm-prose { max-width: none; }
 details.bfm-details { margin: 10px 0; }
 details.bfm-details summary { cursor: pointer; font-weight: 600; }
 @media (max-width: 900px) { .bfm-grid2, .bfm-grid3, .bfm-steps { grid-template-columns: minmax(0, 1fr); } }
