@@ -1,8 +1,11 @@
 /**
- * Excel Coach Phase 3 – Quality & polish
- * Builds on Phase 1 (parser/diagnostics/hints) and Phase 2 (context/pedagogy).
- * Adds safer state handling, expanded diagnostics, cleaner hint logic,
- * and more robust fallbacks. Fully offline.
+ * Excel Coach Phase 4 – Optional enhancement layer
+ * Builds on Phases 1–3 (offline parser, diagnostics, progressive hints,
+ * challenge context, safer state handling).
+ *
+ * Adds a pluggable enhancement hook so responses can be enriched
+ * (locally or via a future optional endpoint) without breaking the
+ * offline-first path. Fully functional offline.
  */
 (function (global) {
   "use strict";
@@ -155,8 +158,25 @@
     return state;
   }
 
-  // ─── Main local response (Phase 3) ──────────────────────────────
-  CoachEngine.localResponse = function (message, mode, contextFn, challenges, state) {
+  // ─── Optional enhancement layer ───────────────────────────────────
+  // Callers may set CoachEngine.enhance = async (reply, meta) => enrichedReply
+  // If not set, the offline reply is returned unchanged.
+  CoachEngine.enhance = null;
+
+  async function maybeEnhance(reply, meta) {
+    if (typeof CoachEngine.enhance === "function") {
+      try {
+        const enriched = await CoachEngine.enhance(reply, meta);
+        if (enriched && typeof enriched === "string") return enriched;
+      } catch (e) {
+        console.warn("CoachEngine.enhance failed, using offline reply", e);
+      }
+    }
+    return reply;
+  }
+
+  // ─── Main local response (Phase 4) ──────────────────────────────
+  CoachEngine.localResponse = async function (message, mode, contextFn, challenges, state) {
     const c = typeof contextFn === "function" ? contextFn() : {};
     const m = String(message || "").trim();
     const lower = m.toLowerCase();
@@ -166,57 +186,56 @@
 
     if (!m) return "Ask a specific question or paste a formula and I will guide the next step.";
 
+    let reply = "";
+
     // Audit
     if (/workbook audit|audit finding/.test(lower)) {
       if (!c.audit) return "No workbook audit yet. Upload a workbook in the Inspector first.";
       const top = (c.audit.issues || []).slice(0, 3);
-      return `Latest audit: ${c.audit.score}% (${c.audit.grade}).\n${top.map((x, i) => `${i + 1}. ${x.title}: ${x.detail}`).join("\n") || "No high-priority issues."}\nStart with the first item.`;
+      reply = `Latest audit: ${c.audit.score}% (${c.audit.grade}).\n${top.map((x, i) => `${i + 1}. ${x.title}: ${x.detail}`).join("\n") || "No high-priority issues."}\nStart with the first item.`;
     }
-
     // Next skill
-    if (/next skill|what should i learn next|what.*next/.test(lower)) {
+    else if (/next skill|what should i learn next|what.*next/.test(lower)) {
       const r = c.skill || { name: "Formula Foundations" };
-      return `${r.name} is the current priority in the ${c.path || "Excel Foundations"} pathway. Start with one targeted challenge and explain the reference behavior aloud.`;
+      reply = `${r.name} is the current priority in the ${c.path || "Excel Foundations"} pathway. Start with one targeted challenge and explain the reference behavior aloud.`;
     }
-
     // Debug mode or error language
-    if (mode === "debug" || /debug|why.*not|error|fix this|#value|#spill|#n\/a/.test(lower)) {
+    else if (mode === "debug" || /debug|why.*not|error|fix this|#value|#spill|#n\/a/.test(lower)) {
       const findings = diagnose(formula);
       const lines = findings.map(f => `• [${f.level.toUpperCase()}] ${f.msg}`).join("\n");
-      let reply = `Formula diagnosis:\n${lines || "No obvious syntax issues detected."}\n\nNext: evaluate the innermost function or Boolean test alone before rebuilding the full formula.`;
+      reply = `Formula diagnosis:\n${lines || "No obvious syntax issues detected."}\n\nNext: evaluate the innermost function or Boolean test alone before rebuilding the full formula.`;
       if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
-      return reply;
     }
-
     // Progressive hint
-    if (mode === "hint" || /one hint|hint|help me.*challenge|current challenge/.test(lower)) {
+    else if (mode === "hint" || /one hint|hint|help me.*challenge|current challenge/.test(lower)) {
       const s = ensureHintState(state);
       const key = String((s && s.current) || "general");
       const level = s.phase3.coach.hintLevels[key] || 0;
       const reveal = /final solution|reveal|show.*answer|full formula/.test(lower);
       if (reveal) {
         s.phase3.coach.hintLevels[key] = 99;
-        return challenge.f
+        reply = challenge.f
           ? `Final formula: ${challenge.f}\n\nWhy it works: ${challenge.w || "Each stage feeds the next."}`
           : "No stored final formula for this activity. I can still help you test stages.";
+      } else {
+        s.phase3.coach.hintLevels[key] = Math.min(level + 1, 3);
+        reply = progressiveHint(formula, level, challenge);
       }
-      s.phase3.coach.hintLevels[key] = Math.min(level + 1, 3);
-      return progressiveHint(formula, level, challenge);
     }
-
     // Explain
-    if (mode === "explain" || /explain|what is|how does|understand/.test(lower)) {
-      let reply = `You are in the ${c.path || "Excel Foundations"} pathway focusing on ${c.skill?.name || "formulas"}.`;
+    else if (mode === "explain" || /explain|what is|how does|understand/.test(lower)) {
+      reply = `You are in the ${c.path || "Excel Foundations"} pathway focusing on ${c.skill?.name || "formulas"}.`;
       if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
       reply += `\n\nPaste a formula or name the concept and I will break it into stages with a workplace example.`;
-      return reply;
+    }
+    // Default Socratic
+    else {
+      reply = `You are working in the ${c.path || "Excel Foundations"} pathway. ${c.skill?.name || "Formula Foundations"} is the current priority.`;
+      if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
+      reply += `\n\nTell me the result you need and paste the formula you have tried. I will identify the first incorrect stage without giving the full solution.`;
     }
 
-    // Default Socratic
-    let reply = `You are working in the ${c.path || "Excel Foundations"} pathway. ${c.skill?.name || "Formula Foundations"} is the current priority.`;
-    if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
-    reply += `\n\nTell me the result you need and paste the formula you have tried. I will identify the first incorrect stage without giving the full solution.`;
-    return reply;
+    return maybeEnhance(reply, { message: m, mode, formula, challenge, context: c });
   };
 
   CoachEngine.diagnose = diagnose;
