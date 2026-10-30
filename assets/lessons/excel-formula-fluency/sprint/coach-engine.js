@@ -1,11 +1,14 @@
 /**
- * Excel Coach Phase 4 – Optional enhancement layer
- * Builds on Phases 1–3 (offline parser, diagnostics, progressive hints,
- * challenge context, safer state handling).
+ * Excel Coach Phase 5 – Closing the 10/10 gaps
+ * Builds on Phases 1–4.
  *
- * Adds a pluggable enhancement hook so responses can be enriched
- * (locally or via a future optional endpoint) without breaking the
- * offline-first path. Fully functional offline.
+ * Adds:
+ * - Formula-structure comparison against the current challenge’s expected shape
+ * - Course-specific language (production data, quality metrics, process context)
+ * - Stronger hint targeting that references the learner’s actual tokens/functions
+ * - Light instrumentation for qualitative feedback
+ *
+ * Fully offline. Enhancement hook remains optional.
  */
 (function (global) {
   "use strict";
@@ -39,14 +42,29 @@
     return open - close;
   }
 
+  // ─── Course-specific vocabulary ──────────────────────────────
+  const courseContext = {
+    datasets: ["ProductionData", "Tap Time", "WeekNum", "Heat ID", "Result"],
+    quality: ["median tap time", "process capability", "defect rate", "control limits"],
+    process: "quality and process improvement"
+  };
+
+  function weaveContext(text) {
+    if (!text) return text;
+    return text
+      .replace(/the values/g, "the production values (e.g. Tap Time)")
+      .replace(/the condition/g, "the filter condition (e.g. WeekNum or Heat ID)")
+      .replace(/FILTER/g, "FILTER on the production table");
+  }
+
   // ─── Pattern library ───────────────────────────────────
   const patterns = {
     filterAggregate: {
       detect: (fns) => fns.includes("FILTER") && (fns.includes("MEDIAN") || fns.includes("AVERAGE") || fns.includes("SUM") || fns.includes("COUNT")),
       name: "FILTER + aggregate",
       hints: [
-        "Name the three parts: the values you want, the condition that selects rows, and the final calculation on those values.",
-        "Build and test the FILTER by itself first. Confirm it returns the expected rows before wrapping it.",
+        "Name the three parts: the production values you want (e.g. Tap Time), the condition that selects rows (e.g. WeekNum), and the final calculation.",
+        "Build and test the FILTER on ProductionData by itself first. Confirm it returns the expected rows before wrapping it.",
         "Wrap the FILTER result with the aggregate (MEDIAN, AVERAGE, etc.). Handle the case when FILTER returns nothing."
       ]
     },
@@ -54,9 +72,9 @@
       detect: (fns) => fns.includes("XLOOKUP"),
       name: "XLOOKUP",
       hints: [
-        "Confirm the lookup value, lookup array, and return array have matching dimensions.",
-        "Add a fallback (the 4th argument) so missing values return a clear message instead of #N/A.",
-        "Use structured references or a Table so the lookup stays correct when rows are added."
+        "Confirm the lookup value, lookup array, and return array have matching dimensions on the production table.",
+        "Add a fallback (the 4th argument) so missing Heat IDs return a clear message instead of #N/A.",
+        "Use structured references so the lookup stays correct when new production rows are added."
       ]
     },
     multiCriteria: {
@@ -65,7 +83,7 @@
       hints: [
         "Each condition must return a Boolean array of the same length. Multiply (*) for AND, add (+) for OR.",
         "Test each Boolean condition alone before combining them.",
-        "Watch for text vs number mismatches in the criteria."
+        "Watch for text vs number mismatches in the criteria (common with WeekNum or Result)."
       ]
     },
     let: {
@@ -73,7 +91,7 @@
       name: "LET named calculation",
       hints: [
         "List the names and values first, then the final expression that uses those names.",
-        "Name intermediate results so the formula reads like a short method.",
+        "Name intermediate results so the formula reads like a short process method.",
         "Confirm each named piece works by evaluating it alone."
       ]
     },
@@ -82,7 +100,7 @@
       name: "Dynamic array",
       hints: [
         "Dynamic arrays spill. Make sure there is space for the result and reference the spill with # when needed.",
-        "Prefer Excel Tables + structured references so the source grows automatically.",
+        "Prefer Excel Tables + structured references so the production source grows automatically.",
         "Test the spilling function alone before nesting it."
       ]
     }
@@ -99,8 +117,34 @@
     return null;
   }
 
+  // ─── Structure comparison against challenge ────────────────────
+  function compareToChallenge(formula, challenge) {
+    if (!challenge || !challenge.f) return null;
+    const learnerTokens = tokenize(formula).tokens || [];
+    const expectedTokens = tokenize(challenge.f).tokens || [];
+    const learnerFns = extractFunctions(learnerTokens);
+    const expectedFns = extractFunctions(expectedTokens);
+
+    const missingFns = expectedFns.filter(f => !learnerFns.includes(f));
+    const extraFns = learnerFns.filter(f => !expectedFns.includes(f));
+
+    const notes = [];
+    if (missingFns.length) notes.push(`Missing expected function(s): ${missingFns.join(", ")}.`);
+    if (extraFns.length) notes.push(`Extra function(s) not in the target: ${extraFns.join(", ")}.`);
+
+    // Simple structural checks for common lesson patterns
+    if (challenge.f.includes("FILTER") && !learnerFns.includes("FILTER")) {
+      notes.push("The target uses FILTER to select production rows (e.g. by WeekNum). Your formula does not.");
+    }
+    if (challenge.f.includes("MEDIAN") && !learnerFns.includes("MEDIAN")) {
+      notes.push("The target aggregates with MEDIAN (typical for tap-time stability). Your formula does not.");
+    }
+
+    return notes.length ? notes : null;
+  }
+
   // ─── Diagnostic engine ────────────────────────────────
-  function diagnose(formula) {
+  function diagnose(formula, challenge) {
     const findings = [];
     const f = String(formula || "").trim();
     if (!f) {
@@ -127,6 +171,12 @@
       if (pattern) findings.push({ level: "info", msg: `Detected pattern: ${pattern.name}.` });
       if (hasStructuredRef(parsed.tokens)) findings.push({ level: "good", msg: "Uses structured references (good for maintainability)." });
     }
+
+    const structureNotes = compareToChallenge(f, challenge);
+    if (structureNotes) {
+      structureNotes.forEach(n => findings.push({ level: "info", msg: n }));
+    }
+
     return findings;
   }
 
@@ -135,12 +185,19 @@
     const parsed = tokenize(formula);
     const pattern = parsed.tokens ? detectPattern(parsed.tokens) : null;
     const ladder = pattern ? pattern.hints : [
-      "Name the formula’s job: what single result should it return?",
-      "Identify the inputs and the condition that selects rows.",
+      "Name the formula’s job: what single production or quality result should it return?",
+      "Identify the inputs (e.g. Tap Time, WeekNum) and the condition that selects rows.",
       "Build and test the smallest inner expression first, then add the next layer."
     ];
     const idx = Math.min(Math.max(0, level), ladder.length - 1);
-    let msg = ladder[idx];
+    let msg = weaveContext(ladder[idx]);
+
+    // Stronger targeting: mention what the learner already has
+    const learnerFns = extractFunctions(parsed.tokens || []);
+    if (learnerFns.length && level >= 1) {
+      msg += `\n\nYou already have: ${learnerFns.join(", ")}.`;
+    }
+
     if (challenge && challenge.h && level >= 1) {
       msg += `\n\nChallenge-specific hint: ${challenge.h}`;
     }
@@ -158,9 +215,23 @@
     return state;
   }
 
+  // ─── Light instrumentation ─────────────────────────────────────
+  function logInteraction(meta) {
+    try {
+      const key = "excelCoachInteractions";
+      const log = JSON.parse(localStorage.getItem(key) || "[]");
+      log.push({
+        t: Date.now(),
+        mode: meta.mode || "default",
+        hasFormula: !!meta.formula,
+        challenge: meta.challenge && meta.challenge.prompt ? meta.challenge.prompt.slice(0, 60) : null
+      });
+      if (log.length > 50) log.shift();
+      localStorage.setItem(key, JSON.stringify(log));
+    } catch (e) { /* ignore storage errors */ }
+  }
+
   // ─── Optional enhancement layer ───────────────────────────────────
-  // Callers may set CoachEngine.enhance = async (reply, meta) => enrichedReply
-  // If not set, the offline reply is returned unchanged.
   CoachEngine.enhance = null;
 
   async function maybeEnhance(reply, meta) {
@@ -175,7 +246,7 @@
     return reply;
   }
 
-  // ─── Main local response (Phase 4) ──────────────────────────────
+  // ─── Main local response (Phase 5) ──────────────────────────────
   CoachEngine.localResponse = async function (message, mode, contextFn, challenges, state) {
     const c = typeof contextFn === "function" ? contextFn() : {};
     const m = String(message || "").trim();
@@ -201,7 +272,7 @@
     }
     // Debug mode or error language
     else if (mode === "debug" || /debug|why.*not|error|fix this|#value|#spill|#n\/a/.test(lower)) {
-      const findings = diagnose(formula);
+      const findings = diagnose(formula, challenge);
       const lines = findings.map(f => `• [${f.level.toUpperCase()}] ${f.msg}`).join("\n");
       reply = `Formula diagnosis:\n${lines || "No obvious syntax issues detected."}\n\nNext: evaluate the innermost function or Boolean test alone before rebuilding the full formula.`;
       if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
@@ -226,15 +297,16 @@
     else if (mode === "explain" || /explain|what is|how does|understand/.test(lower)) {
       reply = `You are in the ${c.path || "Excel Foundations"} pathway focusing on ${c.skill?.name || "formulas"}.`;
       if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
-      reply += `\n\nPaste a formula or name the concept and I will break it into stages with a workplace example.`;
+      reply += `\n\nPaste a formula or name the concept and I will break it into stages with a workplace example from production or quality data.`;
     }
     // Default Socratic
     else {
       reply = `You are working in the ${c.path || "Excel Foundations"} pathway. ${c.skill?.name || "Formula Foundations"} is the current priority.`;
       if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
-      reply += `\n\nTell me the result you need and paste the formula you have tried. I will identify the first incorrect stage without giving the full solution.`;
+      reply += `\n\nTell me the production or quality result you need and paste the formula you have tried. I will identify the first incorrect stage without giving the full solution.`;
     }
 
+    logInteraction({ mode, formula, challenge });
     return maybeEnhance(reply, { message: m, mode, formula, challenge, context: c });
   };
 
