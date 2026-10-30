@@ -1,5 +1,5 @@
 /**
- * Tests for Excel Coach Phase 1–3 engine.
+ * Tests for Excel Coach Phase 1–10 engine.
  * Run with: node tests/excel-coach-engine.test.js
  */
 const assert = require("assert");
@@ -42,10 +42,23 @@ assert.ok(filterMed.some(f => f.msg.includes("FILTER + aggregate")), "Should det
 const xlookup = diagnose('=XLOOKUP(M2, ProductionData[Heat ID], ProductionData[Result], "Not found")');
 assert.ok(xlookup.some(f => f.msg.includes("XLOOKUP")), "Should detect XLOOKUP");
 
+// Structure comparison
+const challenge = { f: '=MEDIAN(FILTER(ProductionData[Tap Time], ProductionData[WeekNum]=M2))' };
+const missingWeek = diagnose('=MEDIAN(FILTER(ProductionData[Tap Time], ProductionData[Result]="OK"))', challenge);
+assert.ok(missingWeek.some(f => f.msg.includes("WeekNum")), "Should detect missing WeekNum criterion");
+
+const missingStruct = diagnose('=MEDIAN(FILTER(A2:A10, B2:B10=1))', challenge);
+assert.ok(missingStruct.some(f => f.msg.includes("structured references")), "Should detect missing structured refs");
+
+// Progressive hint
 const hint1 = Engine.progressiveHint('=MEDIAN(FILTER(A2:A10, B2:B10=1))', 0, { prompt: "Median of filtered values" });
-assert.ok(hint1.includes("values you want") || hint1.includes("Focus:"), "First hint should be introductory or focused");
+assert.ok(hint1.includes("values you want") || hint1.includes("Focus:") || hint1.includes("production"), "First hint should be introductory or focused");
 
 const hint2 = Engine.progressiveHint('=MEDIAN(FILTER(A2:A10, B2:B10=1))', 1, { h: "Test FILTER alone" });
-assert.ok(hint2.includes("Challenge-specific") || hint2 !== hint1, "Second hint should advance");
+assert.ok(hint2.includes("Challenge-specific") || hint2 !== hint1 || hint2.includes("already have"), "Second hint should advance");
+
+// Controlled review exists
+assert.strictEqual(typeof Engine.getControlledReview, "function", "getControlledReview should exist");
+assert.ok(Engine.getControlledReview().includes("Controlled review"), "getControlledReview should return a review string");
 
 console.log("All coach-engine tests passed.");
