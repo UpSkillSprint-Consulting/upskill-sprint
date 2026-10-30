@@ -97,9 +97,9 @@ test('lesson-owned CSS is namespaced and never restyles site chrome', () => {
   }
 });
 
-test('covers all five phases in order with their question, tools and output', () => {
+test('covers all five phases in order, each as a visual card with tools, deliverable and a picture', () => {
   const ids = ['dm-define', 'dm-measure', 'dm-analyze', 'dm-improve', 'dm-control'];
-  const roadmap = [...doc.querySelectorAll('.dm-road a')].map(a => a.getAttribute('href'));
+  const roadmap = [...doc.querySelectorAll('.dm-hero .dm-road a')].map(a => a.getAttribute('href'));
   assert.deepEqual(roadmap, ids.map(id => `#${id}`));
   const names = ['Define', 'Measure', 'Analyze', 'Improve', 'Control'];
   ids.forEach((id, i) => {
@@ -107,29 +107,65 @@ test('covers all five phases in order with their question, tools and output', ()
     assert(sec, id);
     assert.match(sec.querySelector('h2').textContent, new RegExp(`^${names[i]}:`));
     assert(sec.querySelector('.dm-phase-q').textContent.trim().endsWith('?'));
-    const facts = [...sec.querySelectorAll('.dm-fact h3')].map(h => h.textContent);
-    assert.deepEqual(facts, ['Common tools', 'Phase output']);
-    assert(sec.querySelector('.dm-example'), `${id} has the running example`);
+    assert.deepEqual([...sec.querySelectorAll('h3.dm-mini')].map(h => h.textContent), ['Tools', 'You finish with']);
+    assert(sec.querySelectorAll('.dm-chips li').length >= 3, `${id} tool chips`);
+    assert(sec.querySelector('.dm-deliverable').textContent.trim(), `${id} deliverable`);
+    assert(sec.querySelector('figure.dm-figure svg, figure.dm-figure .dm-charter'), `${id} has a picture`);
+    assert(sec.querySelector('figcaption').textContent.trim());
   });
-  const rows = [...doc.querySelectorAll('.dm-table tbody th[scope="row"]')].map(th => th.textContent);
-  assert.deepEqual(rows, names);
-  // The cheat-sheet table scrolls on phones and is reachable by keyboard.
-  const wrap = doc.querySelector('.table-scroll');
-  assert.equal(wrap.getAttribute('tabindex'), '0');
-  assert.equal(wrap.getAttribute('role'), 'region');
-  assert(wrap.getAttribute('aria-label'));
-  // The roadmap collapses to one column on narrow screens.
-  assert.match(doc.getElementById('dmaic-style').textContent, /@media \(max-width:760px\)\{\s*#lesson-content \.dm-road\{grid-template-columns:1fr\}/);
+  // Visual-first: no long paragraphs inside the phase cards.
+  for (const p of doc.querySelectorAll('.dm-phase p')) {
+    assert(p.textContent.trim().split(/\s+/).length <= 30, `too wordy: ${p.textContent.trim().slice(0, 60)}`);
+  }
+  // The decision flowchart and the four mistake cards.
+  const steps = [...doc.querySelectorAll('.dm-flow .dm-flow-step')];
+  assert.equal(steps.length, 3);
+  for (const st of steps) {
+    assert(st.querySelector('.dm-flow-q').textContent.trim().endsWith('?'));
+    assert(st.querySelector('.dm-flow-out .dm-flow-tag'));
+    assert.match(st.querySelector('.dm-flow-next').textContent, /(Yes|No): next question/);
+  }
+  assert.match(doc.querySelector('.dm-flow-end').textContent, /Use DMAIC/);
+  assert.equal(doc.querySelectorAll('.dm-mistakes li').length, 4);
 });
 
-test('the running example keeps its numbers consistent across phases', () => {
-  const text = id => doc.querySelector(`#${id} .dm-example`).textContent;
-  assert.match(text('dm-define'), /about 6%/);
-  assert.match(text('dm-define'), /2% or less/);
-  assert.match(text('dm-measure'), /5\.8%/);
-  assert.match(text('dm-improve'), /1\.6%/);
-  assert.match(text('dm-control'), /1\.7%/);
-  assert.match(doc.querySelector('#dm-roadmap .is-warn').textContent, /fictional/);
+test('every chart is an accessible image whose text matches its data', () => {
+  const svgs = [...doc.querySelectorAll('#lesson-content svg.dm-svg')];
+  assert.equal(svgs.length, 5);
+  for (const svg of svgs) {
+    assert.equal(svg.getAttribute('role'), 'img');
+    const [t, d] = svg.getAttribute('aria-labelledby').split(' ');
+    assert(doc.getElementById(t).textContent.trim() && doc.getElementById(d).textContent.trim().length > 40);
+    assert(!svg.querySelector('a, button, [tabindex]'), 'no focusable content inside role=img');
+    // Colours come from lesson tokens via classes, never hard-coded fills, so both themes work.
+    assert(!/fill="#|stroke="#/.test(svg.outerHTML));
+  }
+  const avg = xs => xs.reduce((a, b) => a + b, 0) / xs.length;
+  const series = doc.querySelector('#dm-story svg').dataset.series.split(',').map(Number);
+  assert.equal(series.length, 25);
+  const [define, measure, analyze, improve, control] = [series.slice(0, 3), series.slice(3, 7), series.slice(7, 10), series.slice(10, 13), series.slice(13)];
+  assert(define.every(v => v >= 5.8 && v <= 6.3), 'about 6% before the project');
+  assert.equal(avg(measure).toFixed(1), '5.8');
+  assert(analyze.every(v => v > 5));
+  assert.equal(avg(improve.slice(0, 2)).toFixed(1), '1.6');
+  assert.equal(avg(control).toFixed(1), '1.7');
+  assert(control.every(v => v < 2), 'every Control week beats the 2% goal');
+  const storyText = doc.querySelector('#dm-story svg').textContent;
+  for (const label of ['Baseline 5.8%', 'Pilot 1.6%', 'Holding at 1.7%', 'Goal 2%']) assert(storyText.includes(label), label);
+  assert.match(doc.querySelector('#dm-measure .dm-deliverable').textContent, /5\.8% bad cuts/);
+  // Pareto: the two biggest causes give the share quoted in the chart and caption.
+  const counts = doc.querySelector('#dm-analyze svg').dataset.counts.split(',').map(Number);
+  const share = Math.round(100 * (counts[0] + counts[1]) / counts.reduce((a, b) => a + b, 0));
+  assert.equal(share, 75);
+  assert.match(doc.querySelector('#dm-analyze svg').textContent, /75% from 2 causes/);
+  assert.match(doc.querySelector('#dm-analyze figcaption').textContent, /75%/);
+  // Measure: the tape spreads past the tolerance, the gauge stays within 1 mm.
+  const tape = doc.querySelector('#dm-measure svg').dataset.tape.split(',').map(Number);
+  const gauge = doc.querySelector('#dm-measure svg').dataset.gauge.split(',').map(Number);
+  assert(tape.some(v => Math.abs(v) > 5));
+  assert(gauge.every(v => Math.abs(v) <= 1));
+  assert.match(doc.querySelector('#dm-control figcaption').textContent, /1\.7%/);
+  assert.match(doc.querySelector('#dm-story p').textContent, /made-up example/);
 });
 
 test('every internal link and in-page anchor resolves', () => {

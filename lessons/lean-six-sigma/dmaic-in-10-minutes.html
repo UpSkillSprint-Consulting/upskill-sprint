@@ -96,23 +96,50 @@
 #lesson-content a{color:var(--lesson-dmaic-teal)}
 #lesson-content a:focus-visible, #lesson-content button:focus-visible, #lesson-content [tabindex="0"]:focus-visible{outline:3px solid var(--lesson-dmaic-focus);outline-offset:2px}
 
-/* cards, callouts, table of contents */
-#lesson-content .dm-card{background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:14px;padding:18px 20px;box-shadow:var(--lesson-dmaic-shadow)}
-#lesson-content .dm-goals{margin:6px 0 0;padding-left:22px}
-#lesson-content .dm-goals li{margin:4px 0}
+/* callouts, table of contents */
+#lesson-content .dm-muted{color:var(--lesson-dmaic-text-2)}
 #lesson-content .dm-callout{border-radius:12px;padding:14px 16px;margin:18px 0;border-left:5px solid var(--lesson-dmaic-teal);background:var(--lesson-dmaic-teal-bg);color:var(--lesson-dmaic-text)}
 #lesson-content .dm-callout p{margin:0}
-#lesson-content .dm-callout p + p{margin-top:8px}
-#lesson-content .dm-callout.is-warn{border-left-color:var(--lesson-dmaic-amber);background:var(--lesson-dmaic-amber-bg)}
 #lesson-content .dm-callout.is-key{border-left-color:var(--lesson-dmaic-navy);background:var(--lesson-dmaic-surface-2)}
 #lesson-content .dm-callout strong{color:var(--lesson-dmaic-text)}
 #lesson-content .dm-toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
 #lesson-content .dm-toc a{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid var(--lesson-dmaic-border);background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);text-decoration:none;font-size:14.5px;font-weight:600;min-height:24px}
 #lesson-content .dm-toc a:hover{border-color:var(--lesson-dmaic-teal);color:var(--lesson-dmaic-teal)}
-#lesson-content .dm-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:16px 0}
+
+/* charts: every colour is a lesson token, so they follow light and dark mode */
+#lesson-content .dm-figure{margin:0;background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:14px;padding:14px}
+#lesson-content .dm-figure.is-wide{box-shadow:var(--lesson-dmaic-shadow)}
+#lesson-content .dm-figure svg{display:block;width:100%;height:auto}
+#lesson-content .dm-figure.is-wide svg{max-width:680px;margin:0 auto}
+#lesson-content .dm-figure figcaption{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:14.5px;line-height:1.5;color:var(--lesson-dmaic-text-2);margin-top:8px}
+#lesson-content .dm-key{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--lesson-dmaic-text)}
+#lesson-content .dm-swatch{display:inline-block;width:22px;height:0;border-top:3px solid var(--lesson-dmaic-navy)}
+#lesson-content .dm-swatch.is-goal{border-top:3px dashed var(--lesson-dmaic-green)}
+#lesson-content .dm-svg text{font-family:'Work Sans',Arial,sans-serif;font-size:10.5px;fill:var(--lesson-dmaic-text)}
+#lesson-content .dm-svg .dm-tick{font-size:10px;fill:var(--lesson-dmaic-text-2)}
+#lesson-content .dm-svg .dm-band{fill:var(--lesson-dmaic-surface-2)}
+#lesson-content .dm-svg .dm-band.is-alt{fill:var(--lesson-dmaic-teal-bg)}
+#lesson-content .dm-svg .dm-band-l{font-size:12px;font-weight:700;fill:var(--lesson-dmaic-teal)}
+#lesson-content .dm-svg .dm-ax{stroke:var(--lesson-dmaic-text-2);stroke-width:1}
+#lesson-content .dm-svg .dm-grid{stroke:var(--lesson-dmaic-border);stroke-width:1}
+#lesson-content .dm-svg .dm-goal{stroke:var(--lesson-dmaic-green);stroke-width:2;stroke-dasharray:6 4}
+#lesson-content .dm-svg .dm-goal-l{font-weight:700;fill:var(--lesson-dmaic-green)}
+#lesson-content .dm-svg .dm-line{fill:none;stroke:var(--lesson-dmaic-navy);stroke-width:2}
+#lesson-content .dm-svg .dm-dot{fill:var(--lesson-dmaic-navy)}
+#lesson-content .dm-svg .dm-dot.is-bad{fill:var(--lesson-dmaic-red)}
+#lesson-content .dm-svg .dm-note, #lesson-content .dm-svg .dm-val{font-weight:700;fill:var(--lesson-dmaic-text)}
+#lesson-content .dm-svg .dm-val.is-in{fill:var(--lesson-dmaic-on-teal)}
+#lesson-content .dm-svg .dm-row-l{font-weight:600;font-size:11px}
+#lesson-content .dm-svg .dm-tol{fill:var(--lesson-dmaic-green-bg);stroke:var(--lesson-dmaic-green);stroke-dasharray:4 3}
+#lesson-content .dm-svg .dm-bar{fill:var(--lesson-dmaic-teal)}
+#lesson-content .dm-svg .dm-bar.is-muted{fill:var(--lesson-dmaic-control)}
+#lesson-content .dm-svg .dm-cum{fill:none;stroke:var(--lesson-dmaic-amber);stroke-width:2}
+#lesson-content .dm-svg .dm-cum-dot{fill:var(--lesson-dmaic-amber)}
+#lesson-content .dm-svg .dm-limit{stroke:var(--lesson-dmaic-red);stroke-width:1.5;stroke-dasharray:5 4}
+#lesson-content .dm-svg .dm-center{stroke:var(--lesson-dmaic-green);stroke-width:1.5}
 
 /* the five-phase roadmap: a row of five on wide screens, a stack on phones */
-#lesson-content .dm-road{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:20px 0 8px;padding:0;list-style:none}
+#lesson-content .dm-road{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:22px 0 4px;padding:0;list-style:none}
 #lesson-content .dm-road li{position:relative;background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:12px;padding:14px 12px 12px;font-size:14.5px;line-height:1.45;box-shadow:var(--lesson-dmaic-shadow)}
 #lesson-content .dm-road a{display:block;color:var(--lesson-dmaic-text);text-decoration:none}
 #lesson-content .dm-road a:hover .dm-road-name{text-decoration:underline}
@@ -121,27 +148,42 @@
 #lesson-content .dm-road-q{display:block;color:var(--lesson-dmaic-text-2)}
 #lesson-content .dm-road li + li::before{content:"\2192";position:absolute;left:-10px;top:22px;width:10px;text-align:center;font-weight:700;color:var(--lesson-dmaic-teal)}
 
-/* phase cards */
+/* phase cards: short text on one side, the picture on the other */
 #lesson-content .dm-phase{background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:16px;padding:20px;box-shadow:var(--lesson-dmaic-shadow);margin:14px 0}
-#lesson-content .dm-phase-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+#lesson-content .dm-phase-head{display:flex;align-items:center;gap:12px;margin-bottom:4px}
 #lesson-content .dm-phase-head h2{margin:0}
-#lesson-content .dm-phase-q{font-size:17.5px;font-style:italic;color:var(--lesson-dmaic-text-2);margin:4px 0 12px}
-#lesson-content .dm-facts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:12px 0 0}
-#lesson-content .dm-fact{background:var(--lesson-dmaic-surface-2);color:var(--lesson-dmaic-text);border-radius:10px;padding:12px 14px}
-#lesson-content .dm-fact h3{margin:0 0 6px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--lesson-dmaic-text-2)}
-#lesson-content .dm-fact ul{margin:0;padding-left:18px}
-#lesson-content .dm-fact li, #lesson-content .dm-fact p{font-size:15px;line-height:1.55;margin:2px 0}
-#lesson-content .dm-example{border-left:5px solid var(--lesson-dmaic-amber);background:var(--lesson-dmaic-amber-bg);color:var(--lesson-dmaic-text);border-radius:10px;padding:12px 14px;margin:14px 0 0}
-#lesson-content .dm-example p{margin:0;font-size:15.5px}
-#lesson-content .dm-example-label{display:block;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lesson-dmaic-amber);margin-bottom:4px}
+#lesson-content .dm-phase-q{font-size:18px;font-weight:600;color:var(--lesson-dmaic-teal);margin:6px 0 14px}
+#lesson-content .dm-phase-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);gap:18px;align-items:start}
+#lesson-content .dm-phase .dm-figure{background:var(--lesson-dmaic-page)}
+#lesson-content h3.dm-mini{font-family:'Work Sans',Arial,sans-serif;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lesson-dmaic-text-2);margin:0 0 8px}
+#lesson-content .dm-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px;padding:0;list-style:none}
+#lesson-content .dm-chips li{font-size:14.5px;line-height:1.3;font-weight:600;padding:6px 11px;border-radius:999px;background:var(--lesson-dmaic-teal-bg);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border)}
+#lesson-content .dm-chips a{color:var(--lesson-dmaic-teal);text-decoration:underline}
+#lesson-content .dm-deliverable{margin:0;padding:10px 12px;border-left:4px solid var(--lesson-dmaic-teal);border-radius:8px;background:var(--lesson-dmaic-surface-2);color:var(--lesson-dmaic-text);font-weight:700;font-size:15.5px;line-height:1.45}
+#lesson-content .dm-charter{background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-top:6px solid var(--lesson-dmaic-teal);border-radius:10px;padding:14px 16px}
+#lesson-content .dm-charter-title{font-weight:700;font-size:16px;margin:0 0 8px}
+#lesson-content .dm-charter dl{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#lesson-content .dm-charter dl > div{background:var(--lesson-dmaic-surface-2);border-radius:8px;padding:8px 10px}
+#lesson-content .dm-charter dt{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--lesson-dmaic-text-2)}
+#lesson-content .dm-charter dd{margin:2px 0 0;font-size:16px;font-weight:700;color:var(--lesson-dmaic-text)}
 
-/* at-a-glance table */
-#lesson-content .table-scroll{overflow-x:auto;margin:16px 0;border:1px solid var(--lesson-dmaic-border);border-radius:12px;background:var(--lesson-dmaic-surface)}
-#lesson-content table.dm-table{width:100%;min-width:640px;border-collapse:collapse;color:var(--lesson-dmaic-text);background:var(--lesson-dmaic-surface)}
-#lesson-content .dm-table caption{text-align:left;padding:12px 14px 4px;font-weight:600;color:var(--lesson-dmaic-text-2)}
-#lesson-content .dm-table th, #lesson-content .dm-table td{padding:10px 14px;text-align:left;vertical-align:top;border-top:1px solid var(--lesson-dmaic-border);font-size:15px;line-height:1.5}
-#lesson-content .dm-table thead th{background:var(--lesson-dmaic-surface-2);color:var(--lesson-dmaic-text);font-size:13.5px;letter-spacing:.04em;text-transform:uppercase}
-#lesson-content .dm-table tbody th{font-weight:700;white-space:nowrap}
+/* decision flowchart: question on the left, the way out on the right, arrow down to the next question */
+#lesson-content .dm-flow{list-style:none;margin:18px 0;padding:0}
+#lesson-content .dm-flow-step{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:28px;row-gap:6px;align-items:center;margin-bottom:10px}
+#lesson-content .dm-flow-next{grid-column:1;justify-self:center;margin:0;font-weight:700;font-size:15px;color:var(--lesson-dmaic-teal)}
+#lesson-content .dm-flow-q{margin:0;padding:14px 16px;border:2px solid var(--lesson-dmaic-navy);border-radius:12px;background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);font-weight:700;font-size:16.5px;line-height:1.4;position:relative}
+#lesson-content .dm-flow-q::after{content:"\2192";position:absolute;right:-22px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--lesson-dmaic-amber)}
+#lesson-content .dm-flow-out{margin:0;padding:12px 14px;border-left:5px solid var(--lesson-dmaic-amber);border-radius:10px;background:var(--lesson-dmaic-amber-bg);color:var(--lesson-dmaic-text);font-size:15.5px;line-height:1.45}
+#lesson-content .dm-flow-tag{display:inline-block;margin-right:8px;padding:2px 9px;border-radius:999px;font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--lesson-dmaic-navy);color:var(--lesson-dmaic-on-teal)}
+#lesson-content .dm-flow-tag.is-go{background:var(--lesson-dmaic-green)}
+#lesson-content .dm-flow-end{display:flex;align-items:center;gap:6px;width:calc(50% - 14px);padding:14px 16px;border:2px solid var(--lesson-dmaic-green);border-radius:12px;background:var(--lesson-dmaic-green-bg);color:var(--lesson-dmaic-text);font-size:17px}
+
+/* mistakes to avoid */
+#lesson-content .dm-mistakes{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:12px 0;padding:0;list-style:none}
+#lesson-content .dm-mistakes li{display:flex;flex-direction:column;gap:6px;background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:12px;padding:14px;font-size:15px;line-height:1.45}
+#lesson-content .dm-mistakes strong{font-size:16px}
+#lesson-content .dm-mistakes li > span:last-child{color:var(--lesson-dmaic-text-2)}
+#lesson-content .dm-x{display:grid;place-items:center;width:30px;height:30px;border-radius:999px;background:var(--lesson-dmaic-red-bg);color:var(--lesson-dmaic-red);font-weight:700;border:1px solid var(--lesson-dmaic-red)}
 
 /* "Which phase?" sorter */
 #lesson-content .dm-lab{background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:16px;padding:18px;margin:20px 0;box-shadow:var(--lesson-dmaic-shadow)}
@@ -175,9 +217,23 @@
   #lesson-content .dm-letter{margin:0;grid-row:span 2}
   #lesson-content .dm-road li + li::before{content:"\2193";left:22px;top:-12px;width:auto}
 }
+@media (max-width:760px){
+  #lesson-content .dm-phase-body{grid-template-columns:1fr}
+  #lesson-content .dm-flow-step{grid-template-columns:1fr;row-gap:8px}
+  #lesson-content .dm-flow-q::after{content:none}
+  #lesson-content .dm-flow-next{justify-self:start;padding-left:14px}
+  #lesson-content .dm-flow-end{width:auto}
+}
 @media (max-width:640px){
   #lesson-content .dm-hero{padding:28px 0 22px}
-  #lesson-content .dm-phase{padding:16px}
+  /* phones: give charts the full card width and larger text so labels stay readable (about 10px or more) */
+  #lesson-content .dm-figure{padding:8px}
+  #lesson-content .dm-svg text{font-size:12.5px}
+  #lesson-content .dm-svg .dm-tick{font-size:11.5px}
+  #lesson-content .dm-svg .dm-row-l{font-size:12.5px}
+  #lesson-content .dm-svg .dm-band-l{font-size:14px}
+  #lesson-content .dm-charter dl{grid-template-columns:1fr}
+  #lesson-content .dm-phase{padding:16px 12px}
 }
 </style>
 <style id="uss-quiz-style">
@@ -228,23 +284,17 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <li>Lean Six Sigma</li><li>Beginner</li><li>10 min</li><li>Interactive</li>
     </ul>
     <h1 id="dm-title">DMAIC in 10 Minutes</h1>
-    <p class="dm-lede"><strong>DMAIC</strong> (say it "duh-MAY-ick") is the five-phase roadmap Lean Six Sigma teams use to fix a problem in a process that already exists: <strong>Define, Measure, Analyze, Improve, Control</strong>. Each phase answers one question, and you finish it before you move on. That order is what stops teams from jumping to a fix that does not work.</p>
-    <div class="dm-card">
-      <h2 style="font-size:20px;margin:0 0 4px">By the end, you will be able to</h2>
-      <ul class="dm-goals">
-        <li>Name the five DMAIC phases in order and the question each one answers.</li>
-        <li>Match common tools and outputs to the right phase.</li>
-        <li>Explain why the phases run in this order, and when DMAIC is the wrong tool.</li>
-      </ul>
-    </div>
+    <p class="dm-lede"><strong>DMAIC</strong> is the five-step roadmap Lean Six Sigma teams use to fix a problem in a process that already exists. One question per step, answered in order.</p>
+    <ol class="dm-road" aria-label="The five DMAIC phases in order">
+      <li><a href="#dm-define"><span class="dm-letter" aria-hidden="true">D</span><span class="dm-road-name">Define</span><span class="dm-road-q">What's the problem?</span></a></li>
+      <li><a href="#dm-measure"><span class="dm-letter" aria-hidden="true">M</span><span class="dm-road-name">Measure</span><span class="dm-road-q">How big is it?</span></a></li>
+      <li><a href="#dm-analyze"><span class="dm-letter" aria-hidden="true">A</span><span class="dm-road-name">Analyze</span><span class="dm-road-q">What causes it?</span></a></li>
+      <li><a href="#dm-improve"><span class="dm-letter" aria-hidden="true">I</span><span class="dm-road-name">Improve</span><span class="dm-road-q">What fixes it?</span></a></li>
+      <li><a href="#dm-control"><span class="dm-letter" aria-hidden="true">C</span><span class="dm-road-name">Control</span><span class="dm-road-q">How do we keep it fixed?</span></a></li>
+    </ol>
     <nav aria-label="Lesson sections">
       <ul class="dm-toc">
-        <li><a href="#dm-roadmap">The roadmap</a></li>
-        <li><a href="#dm-define">Define</a></li>
-        <li><a href="#dm-measure">Measure</a></li>
-        <li><a href="#dm-analyze">Analyze</a></li>
-        <li><a href="#dm-improve">Improve</a></li>
-        <li><a href="#dm-control">Control</a></li>
+        <li><a href="#dm-story">The story</a></li>
         <li><a href="#dm-sort">Which phase?</a></li>
         <li><a href="#dm-when">When to use it</a></li>
         <li><a href="#quiz">Quiz</a></li>
@@ -253,24 +303,65 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   </div>
 </section>
 
-<section class="dm-section" id="dm-roadmap" aria-labelledby="dm-roadmap-h">
+<section class="dm-section" id="dm-story" aria-labelledby="dm-story-h">
   <div class="dm-wrap">
-    <span class="dm-step">The big picture</span>
-    <h2 id="dm-roadmap-h">The five DMAIC phases at a glance</h2>
-    <p>Think of DMAIC as a road with five stops. At each stop the team answers one question, shows the evidence to its sponsor, and only then moves on. Select a phase to jump to it.</p>
-    <ol class="dm-road" aria-label="The five DMAIC phases in order">
-      <li><a href="#dm-define"><span class="dm-letter" aria-hidden="true">D</span><span class="dm-road-name">Define</span><span class="dm-road-q">What is the problem, and why does it matter?</span></a></li>
-      <li><a href="#dm-measure"><span class="dm-letter" aria-hidden="true">M</span><span class="dm-road-name">Measure</span><span class="dm-road-q">How big is it today, and can we trust the data?</span></a></li>
-      <li><a href="#dm-analyze"><span class="dm-letter" aria-hidden="true">A</span><span class="dm-road-name">Analyze</span><span class="dm-road-q">What is really causing it?</span></a></li>
-      <li><a href="#dm-improve"><span class="dm-letter" aria-hidden="true">I</span><span class="dm-road-name">Improve</span><span class="dm-road-q">What fixes the root causes?</span></a></li>
-      <li><a href="#dm-control"><span class="dm-letter" aria-hidden="true">C</span><span class="dm-road-name">Control</span><span class="dm-road-q">How do we keep the gains?</span></a></li>
-    </ol>
-    <div class="dm-callout is-key">
-      <p><strong>Tollgates.</strong> Each phase ends with a short review, often called a <em>tollgate</em>, where the project sponsor checks the phase's output and agrees the team is ready to move on. If the data in Analyze shows the problem was measured wrongly, the team goes back to Measure. The road is in order, but it is allowed to loop back.</p>
-    </div>
-    <div class="dm-callout is-warn">
-      <p><strong>One running example.</strong> To keep things concrete, every phase below follows the same made-up project: a pipe-cutting line where too many pieces are cut out of length tolerance and have to be re-cut. The plant and its numbers are fictional and are there for illustration only.</p>
-    </div>
+    <span class="dm-step">One project, start to finish</span>
+    <h2 id="dm-story-h">A DMAIC project in one chart</h2>
+    <p>A pipe-cutting line re-cuts too many pipes. Follow the bad-cut rate through the five phases. <span class="dm-muted">(A made-up example.)</span></p>
+    <figure class="dm-figure is-wide">
+      <svg class="dm-svg" viewBox="0 0 360 224" role="img" aria-labelledby="dm-story-t dm-story-d" data-series="6.2,5.9,6.1,5.7,6,5.6,5.9,5.8,6.1,5.7,1.7,1.5,1.9,1.8,1.6,1.7,1.9,1.5,1.7,1.8,1.6,1.7,1.6,1.8,1.6">
+<title id="dm-story-t">The whole project in one chart</title>
+<desc id="dm-story-d">Weekly percentage of out-of-tolerance cuts on Line 2 across the five DMAIC phases. About 6% in Define, a 5.8% baseline in Measure and Analyze, 1.6% during the Improve pilot, and holding at 1.7% in Control, under the 2% goal.</desc>
+<rect class="dm-band" x="30" y="10" width="38.64" height="176"/>
+<text class="dm-band-l" x="49.32" y="21" text-anchor="middle">D</text>
+<rect class="dm-band is-alt" x="68.64" y="10" width="51.52" height="176"/>
+<text class="dm-band-l" x="94.4" y="21" text-anchor="middle">M</text>
+<rect class="dm-band" x="120.16" y="10" width="38.64" height="176"/>
+<text class="dm-band-l" x="139.48" y="21" text-anchor="middle">A</text>
+<rect class="dm-band is-alt" x="158.8" y="10" width="38.64" height="176"/>
+<text class="dm-band-l" x="178.12" y="21" text-anchor="middle">I</text>
+<rect class="dm-band" x="197.44" y="10" width="154.56" height="176"/>
+<text class="dm-band-l" x="274.72" y="21" text-anchor="middle">C</text>
+<text class="dm-tick" x="25" y="189.5" text-anchor="end">0%</text>
+<text class="dm-tick" x="25" y="143.79" text-anchor="end">2%</text>
+<text class="dm-tick" x="25" y="98.07" text-anchor="end">4%</text>
+<text class="dm-tick" x="25" y="52.36" text-anchor="end">6%</text>
+<line class="dm-ax" x1="30" y1="186" x2="352" y2="186"/>
+<line class="dm-goal" x1="30" y1="140.29" x2="352" y2="140.29"/>
+<text class="dm-goal-l" x="350" y="135.29" text-anchor="end">Goal 2%</text>
+<polyline class="dm-line" points="36.44,44.29 49.32,51.14 62.2,46.57 75.08,55.71 87.96,48.86 100.84,58 113.72,51.14 126.6,53.43 139.48,46.57 152.36,55.71 165.24,147.14 178.12,151.71 191,142.57 203.88,144.86 216.76,149.43 229.64,147.14 242.52,142.57 255.4,151.71 268.28,147.14 281.16,144.86 294.04,149.43 306.92,147.14 319.8,149.43 332.68,144.86 345.56,149.43"/>
+<circle class="dm-dot" cx="36.44" cy="44.29" r="2.6"/>
+<circle class="dm-dot" cx="49.32" cy="51.14" r="2.6"/>
+<circle class="dm-dot" cx="62.2" cy="46.57" r="2.6"/>
+<circle class="dm-dot" cx="75.08" cy="55.71" r="2.6"/>
+<circle class="dm-dot" cx="87.96" cy="48.86" r="2.6"/>
+<circle class="dm-dot" cx="100.84" cy="58" r="2.6"/>
+<circle class="dm-dot" cx="113.72" cy="51.14" r="2.6"/>
+<circle class="dm-dot" cx="126.6" cy="53.43" r="2.6"/>
+<circle class="dm-dot" cx="139.48" cy="46.57" r="2.6"/>
+<circle class="dm-dot" cx="152.36" cy="55.71" r="2.6"/>
+<circle class="dm-dot" cx="165.24" cy="147.14" r="2.6"/>
+<circle class="dm-dot" cx="178.12" cy="151.71" r="2.6"/>
+<circle class="dm-dot" cx="191" cy="142.57" r="2.6"/>
+<circle class="dm-dot" cx="203.88" cy="144.86" r="2.6"/>
+<circle class="dm-dot" cx="216.76" cy="149.43" r="2.6"/>
+<circle class="dm-dot" cx="229.64" cy="147.14" r="2.6"/>
+<circle class="dm-dot" cx="242.52" cy="142.57" r="2.6"/>
+<circle class="dm-dot" cx="255.4" cy="151.71" r="2.6"/>
+<circle class="dm-dot" cx="268.28" cy="147.14" r="2.6"/>
+<circle class="dm-dot" cx="281.16" cy="144.86" r="2.6"/>
+<circle class="dm-dot" cx="294.04" cy="149.43" r="2.6"/>
+<circle class="dm-dot" cx="306.92" cy="147.14" r="2.6"/>
+<circle class="dm-dot" cx="319.8" cy="149.43" r="2.6"/>
+<circle class="dm-dot" cx="332.68" cy="144.86" r="2.6"/>
+<circle class="dm-dot" cx="345.56" cy="149.43" r="2.6"/>
+<text class="dm-note" x="100.84" y="38.57" text-anchor="middle">Baseline 5.8%</text>
+<text class="dm-note" x="178.12" y="167.43" text-anchor="middle">Pilot 1.6%</text>
+<text class="dm-note" x="287.6" y="167.14" text-anchor="middle">Holding at 1.7%</text>
+<text class="dm-tick" x="191" y="212" text-anchor="middle">Weeks 1 to 25</text>
+</svg>
+      <figcaption><span class="dm-key"><span class="dm-swatch is-line"></span>Weekly bad cuts</span><span class="dm-key"><span class="dm-swatch is-goal"></span>Goal</span>Shaded bands: D, M, A, I, C phases.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -278,13 +369,27 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   <div class="dm-wrap">
     <article class="dm-phase">
       <div class="dm-phase-head"><span class="dm-letter" aria-hidden="true">D</span><h2 id="dm-define-h">Define: agree on the problem</h2></div>
-      <p class="dm-phase-q">What is the problem, who does it hurt, and what does success look like?</p>
-      <p>Define turns a vague complaint ("the cutting line is a mess") into a clear, agreed problem the team can actually solve. The most important document is the <strong>project charter</strong>: a one-page agreement between the team and its sponsor.</p>
-      <div class="dm-facts">
-        <div class="dm-fact"><h3>Common tools</h3><ul><li>Project charter</li><li>SIPOC map (suppliers, inputs, process, outputs, customers)</li><li>Voice of the customer and critical-to-quality (CTQ) requirements</li></ul></div>
-        <div class="dm-fact"><h3>Phase output</h3><p>An approved charter with a problem statement, a measurable goal, a clear scope, and a named team and sponsor.</p></div>
+      <p class="dm-phase-q">What's the problem, and what does success look like?</p>
+      <div class="dm-phase-body">
+        <div class="dm-phase-side">
+          <h3 class="dm-mini">Tools</h3>
+          <ul class="dm-chips"><li>Project charter</li><li>SIPOC</li><li>Voice of the customer</li></ul>
+          <h3 class="dm-mini">You finish with</h3>
+          <p class="dm-deliverable">A signed-off project charter</p>
+        </div>
+        <figure class="dm-figure">
+          <div class="dm-charter" role="group" aria-label="Example project charter">
+            <p class="dm-charter-title">Project charter: Line 2 re-cuts</p>
+            <dl>
+              <div><dt>Problem</dt><dd>6% of pipes re-cut</dd></div>
+              <div><dt>Goal</dt><dd>2% or less in 4 months</dd></div>
+              <div><dt>Scope</dt><dd>Line 2, both shifts</dd></div>
+              <div><dt>Out of scope</dt><dd>The upstream mill</dd></div>
+            </dl>
+          </div>
+          <figcaption>One page that the team and sponsor agree on.</figcaption>
+        </figure>
       </div>
-      <div class="dm-example"><span class="dm-example-label">Example: the cutting line</span><p>Problem statement: last quarter, about 6% of pipes cut on Line 2 were out of length tolerance and had to be re-cut. Goal: 2% or less within four months. In scope: Line 2, both shifts. Out of scope: the upstream mill.</p></div>
     </article>
   </div>
 </section>
@@ -292,14 +397,55 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 <section class="dm-section" id="dm-measure" aria-labelledby="dm-measure-h">
   <div class="dm-wrap">
     <article class="dm-phase">
-      <div class="dm-phase-head"><span class="dm-letter" aria-hidden="true">M</span><h2 id="dm-measure-h">Measure: get a baseline you can trust</h2></div>
-      <p class="dm-phase-q">How big is the problem today, and is our measurement system good enough to tell?</p>
-      <p>Measure answers "how bad is it, really?" with data instead of opinion. Before trusting that data, the team checks the measurement system itself. If the gauge is unreliable, every later conclusion is too. A <a href="/lessons/quality-engineering/gauge-rr-study">Gage R&amp;R study</a> is the usual check.</p>
-      <div class="dm-facts">
-        <div class="dm-fact"><h3>Common tools</h3><ul><li>Data collection plan</li><li>Measurement system analysis (Gage R&amp;R)</li><li>Detailed process map</li><li>Baseline performance and capability</li></ul></div>
-        <div class="dm-fact"><h3>Phase output</h3><p>A validated baseline: how the process performs today, measured with a system the team trusts.</p></div>
+      <div class="dm-phase-head"><span class="dm-letter" aria-hidden="true">M</span><h2 id="dm-measure-h">Measure: trust the data first</h2></div>
+      <p class="dm-phase-q">How big is the problem today, and can we trust our measurements?</p>
+      <div class="dm-phase-body">
+        <div class="dm-phase-side">
+          <h3 class="dm-mini">Tools</h3>
+          <ul class="dm-chips"><li><a href="/lessons/quality-engineering/gauge-rr-study">Gage R&amp;R</a></li><li>Data collection plan</li><li>Process map</li></ul>
+          <h3 class="dm-mini">You finish with</h3>
+          <p class="dm-deliverable">A baseline you trust: 5.8% bad cuts</p>
+        </div>
+        <figure class="dm-figure">
+          <svg class="dm-svg" viewBox="0 0 360 150" role="img" aria-labelledby="dm-msa-t dm-msa-d" data-tape="-5,-3,-1,0,2,4,6,-4,3,1" data-gauge="-1,0,0,1,0,-1,0,1,0,0">
+<title id="dm-msa-t">One pipe, measured ten times</title>
+<desc id="dm-msa-d">Ten readings of the same pipe. The hand tape spreads from minus 5 to plus 6 millimetres, wider than the plus or minus 5 millimetre tolerance, so it cannot tell good pipes from bad. The length gauge stays within 1 millimetre.</desc>
+<rect class="dm-tol" x="131.71" y="12" width="178.57" height="104"/>
+<text class="dm-tick" x="221" y="10" text-anchor="middle">Tolerance ±5 mm</text>
+<text class="dm-row-l" x="86" y="48" text-anchor="end">Hand tape</text>
+<line class="dm-grid" x1="96" y1="44" x2="346" y2="44"/>
+<circle class="dm-dot is-bad" cx="131.71" cy="44" r="4"/>
+<circle class="dm-dot is-bad" cx="167.43" cy="44" r="4"/>
+<circle class="dm-dot is-bad" cx="203.14" cy="44" r="4"/>
+<circle class="dm-dot is-bad" cx="221" cy="44" r="4"/>
+<circle class="dm-dot is-bad" cx="256.71" cy="44" r="4"/>
+<circle class="dm-dot is-bad" cx="292.43" cy="44" r="4"/>
+<circle class="dm-dot is-bad" cx="328.14" cy="44" r="4"/>
+<circle class="dm-dot is-bad" cx="149.57" cy="44" r="4"/>
+<circle class="dm-dot is-bad" cx="274.57" cy="44" r="4"/>
+<circle class="dm-dot is-bad" cx="238.86" cy="44" r="4"/>
+<text class="dm-row-l" x="86" y="96" text-anchor="end">Length gauge</text>
+<line class="dm-grid" x1="96" y1="92" x2="346" y2="92"/>
+<circle class="dm-dot" cx="203.14" cy="95" r="4"/>
+<circle class="dm-dot" cx="221" cy="107" r="4"/>
+<circle class="dm-dot" cx="221" cy="101" r="4"/>
+<circle class="dm-dot" cx="238.86" cy="95" r="4"/>
+<circle class="dm-dot" cx="221" cy="95" r="4"/>
+<circle class="dm-dot" cx="203.14" cy="89" r="4"/>
+<circle class="dm-dot" cx="221" cy="89" r="4"/>
+<circle class="dm-dot" cx="238.86" cy="89" r="4"/>
+<circle class="dm-dot" cx="221" cy="83" r="4"/>
+<circle class="dm-dot" cx="221" cy="77" r="4"/>
+<line class="dm-ax" x1="96" y1="122" x2="346" y2="122"/>
+<text class="dm-tick" x="113.86" y="136" text-anchor="middle">-6</text>
+<text class="dm-tick" x="167.43" y="136" text-anchor="middle">-3</text>
+<text class="dm-tick" x="221" y="136" text-anchor="middle">0</text>
+<text class="dm-tick" x="274.57" y="136" text-anchor="middle">+3</text>
+<text class="dm-tick" x="328.14" y="136" text-anchor="middle">+6</text>
+<text class="dm-tick" x="221" y="148" text-anchor="middle">mm from nominal length</text></svg>
+          <figcaption>The tape can't tell good pipes from bad, so the team switches to the gauge before collecting the baseline.</figcaption>
+        </figure>
       </div>
-      <div class="dm-example"><span class="dm-example-label">Example: the cutting line</span><p>A Gage R&amp;R study shows the hand tape measures disagree too much from operator to operator, so the team switches to a fixed length gauge. Four weeks of baseline data with the new gauge confirm the problem: 5.8% of cuts are out of tolerance.</p></div>
     </article>
   </div>
 </section>
@@ -308,13 +454,51 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   <div class="dm-wrap">
     <article class="dm-phase">
       <div class="dm-phase-head"><span class="dm-letter" aria-hidden="true">A</span><h2 id="dm-analyze-h">Analyze: find the root causes</h2></div>
-      <p class="dm-phase-q">Which causes really drive the problem, and what is the evidence?</p>
-      <p>Analyze is where the team resists the urge to fix things. First it lists every possible cause, then uses data to sort the few causes that really matter from the many that do not. A cause only counts as a root cause once the data backs it up.</p>
-      <div class="dm-facts">
-        <div class="dm-fact"><h3>Common tools</h3><ul><li><a href="/lessons/root-cause-analysis-5-whys-fishbone">Fishbone diagram and 5 Whys</a></li><li><a href="/lessons/understanding-pareto-chart">Pareto chart</a></li><li><a href="/lessons/hypothesis-testing-for-beginners">Hypothesis tests</a> and regression</li></ul></div>
-        <div class="dm-fact"><h3>Phase output</h3><p>A short list of verified root causes, each backed by data rather than opinion.</p></div>
+      <p class="dm-phase-q">Which causes really drive the problem?</p>
+      <div class="dm-phase-body">
+        <div class="dm-phase-side">
+          <h3 class="dm-mini">Tools</h3>
+          <ul class="dm-chips"><li><a href="/lessons/understanding-pareto-chart">Pareto chart</a></li><li><a href="/lessons/root-cause-analysis-5-whys-fishbone">Fishbone and 5 Whys</a></li><li><a href="/lessons/hypothesis-testing-for-beginners">Hypothesis tests</a></li></ul>
+          <h3 class="dm-mini">You finish with</h3>
+          <p class="dm-deliverable">Root causes proven with data</p>
+        </div>
+        <figure class="dm-figure">
+          <svg class="dm-svg" viewBox="0 0 360 222" role="img" aria-labelledby="dm-par-t dm-par-d" data-counts="104,70,30,16,12">
+<title id="dm-par-t">Pareto chart of bad cuts by cause</title>
+<desc id="dm-par-d">232 bad cuts in the baseline. Blade wear caused 104 and stop-block setup 70: together 75% of all bad cuts. Material bow, measuring and other causes make up the rest.</desc>
+<rect class="dm-bar" x="40" y="26.29" width="46.4" height="143.71"/>
+<text class="dm-val" x="63.2" y="22.29" text-anchor="middle">104</text>
+<text class="dm-tick" x="63.2" y="183" text-anchor="middle">Blade</text>
+<text class="dm-tick" x="63.2" y="195" text-anchor="middle">wear</text>
+<rect class="dm-bar" x="98.4" y="73.27" width="46.4" height="96.73"/>
+<text class="dm-val" x="121.6" y="69.27" text-anchor="middle">70</text>
+<text class="dm-tick" x="121.6" y="183" text-anchor="middle">Stop-block</text>
+<text class="dm-tick" x="121.6" y="195" text-anchor="middle">setup</text>
+<rect class="dm-bar is-muted" x="156.8" y="128.55" width="46.4" height="41.45"/>
+<text class="dm-val" x="180" y="124.55" text-anchor="middle">30</text>
+<text class="dm-tick" x="180" y="183" text-anchor="middle">Material</text>
+<text class="dm-tick" x="180" y="195" text-anchor="middle">bow</text>
+<rect class="dm-bar is-muted" x="215.2" y="147.89" width="46.4" height="22.11"/>
+<text class="dm-val" x="238.4" y="143.89" text-anchor="middle">16</text>
+<text class="dm-tick" x="238.4" y="183" text-anchor="middle">Measuring</text>
+<rect class="dm-bar is-muted" x="273.6" y="153.42" width="46.4" height="16.58"/>
+<text class="dm-val" x="296.8" y="149.42" text-anchor="middle">12</text>
+<text class="dm-tick" x="296.8" y="183" text-anchor="middle">Other</text>
+<polyline class="dm-cum" points="63.2,101.86 121.6,56 180,36.34 238.4,25.86 296.8,18"/>
+<circle class="dm-cum-dot" cx="63.2" cy="101.86" r="3"/>
+<circle class="dm-cum-dot" cx="121.6" cy="56" r="3"/>
+<circle class="dm-cum-dot" cx="180" cy="36.34" r="3"/>
+<circle class="dm-cum-dot" cx="238.4" cy="25.86" r="3"/>
+<circle class="dm-cum-dot" cx="296.8" cy="18" r="3"/>
+<line class="dm-ax" x1="34" y1="170" x2="326" y2="170"/>
+<text class="dm-tick" x="330" y="173.5">0%</text>
+<text class="dm-tick" x="330" y="97.5">50%</text>
+<text class="dm-tick" x="330" y="21.5">100%</text>
+<text class="dm-note" x="156.8" y="75.76">75% from 2 causes</text>
+<text class="dm-tick" x="180" y="218" text-anchor="middle">Bad cuts by cause (bars) and cumulative % (line)</text></svg>
+          <figcaption>Two causes, blade wear and stop-block setup, make 75% of the bad cuts. Fix those first.</figcaption>
+        </figure>
       </div>
-      <div class="dm-example"><span class="dm-example-label">Example: the cutting line</span><p>A fishbone session lists 20 possible causes. A Pareto chart of the baseline data shows most bad cuts happen in the first hour after a saw blade change, and most of those on night shift, where the stop block is set by eye. Two root causes are confirmed: blade wear and stop-block setup with no reference gauge.</p></div>
     </article>
   </div>
 </section>
@@ -322,14 +506,30 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 <section class="dm-section" id="dm-improve" aria-labelledby="dm-improve-h">
   <div class="dm-wrap">
     <article class="dm-phase">
-      <div class="dm-phase-head"><span class="dm-letter" aria-hidden="true">I</span><h2 id="dm-improve-h">Improve: fix the causes and prove it</h2></div>
-      <p class="dm-phase-q">Which solutions remove the root causes, and do they work in practice?</p>
-      <p>Improve finally gets to solutions, but only ones aimed at the verified root causes. The team generates options, picks the best with clear criteria, checks what could go wrong, and runs a small pilot before rolling anything out.</p>
-      <div class="dm-facts">
-        <div class="dm-fact"><h3>Common tools</h3><ul><li>Brainstorming and a solution selection matrix</li><li>Failure mode and effects analysis (FMEA) on the new process</li><li>Pilot runs; design of experiments (DOE) when several factors interact</li></ul></div>
-        <div class="dm-fact"><h3>Phase output</h3><p>A piloted solution with data showing it beats the baseline, and a plan to roll it out.</p></div>
+      <div class="dm-phase-head"><span class="dm-letter" aria-hidden="true">I</span><h2 id="dm-improve-h">Improve: fix the causes, then prove it</h2></div>
+      <p class="dm-phase-q">Which fix removes the root causes, and does it work?</p>
+      <div class="dm-phase-body">
+        <div class="dm-phase-side">
+          <h3 class="dm-mini">Tools</h3>
+          <ul class="dm-chips"><li>Solution matrix</li><li>FMEA</li><li>Pilot run</li><li>DOE</li></ul>
+          <h3 class="dm-mini">You finish with</h3>
+          <p class="dm-deliverable">A piloted fix that beats the baseline</p>
+        </div>
+        <figure class="dm-figure">
+          <svg class="dm-svg" viewBox="0 0 360 128" role="img" aria-labelledby="dm-imp-t dm-imp-d">
+<title id="dm-imp-t">Baseline versus pilot</title>
+<desc id="dm-imp-d">Out-of-tolerance cuts fell from a 5.8% baseline to 1.6% on the pilot shift, beating the 2% goal.</desc>
+<text class="dm-row-l" x="82" y="41" text-anchor="end">Baseline</text>
+<rect class="dm-bar is-muted" x="92" y="22" width="197.2" height="28" rx="4"/>
+<text class="dm-val" x="295.2" y="41">5.8%</text>
+<text class="dm-row-l" x="82" y="83" text-anchor="end">Pilot</text>
+<rect class="dm-bar" x="92" y="64" width="54.4" height="28" rx="4"/>
+<text class="dm-val is-in" x="140.4" y="83" text-anchor="end">1.6%</text>
+<line class="dm-goal" x1="160" y1="10" x2="160" y2="102"/>
+<text class="dm-goal-l" x="160" y="118" text-anchor="middle">Goal 2%</text></svg>
+          <figcaption>Pilot on one shift: a setup checklist with a reference gauge, plus a fixed blade-change schedule.</figcaption>
+        </figure>
       </div>
-      <div class="dm-example"><span class="dm-example-label">Example: the cutting line</span><p>The team pilots two changes on one shift for two weeks: a setup checklist that uses a reference gauge for the stop block, and a fixed blade-change schedule with a test cut after every change. Out-of-tolerance cuts on the pilot shift fall to 1.6%, so both changes roll out to every shift.</p></div>
     </article>
   </div>
 </section>
@@ -338,33 +538,45 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   <div class="dm-wrap">
     <article class="dm-phase">
       <div class="dm-phase-head"><span class="dm-letter" aria-hidden="true">C</span><h2 id="dm-control-h">Control: make the gains stick</h2></div>
-      <p class="dm-phase-q">How do we make sure the process does not slide back once the team moves on?</p>
-      <p>Without Control, most improvements fade within months as people drift back to old habits. Control builds the new way of working into daily routine, gives the process owner a way to spot trouble early, and spells out what to do when it happens.</p>
-      <div class="dm-facts">
-        <div class="dm-fact"><h3>Common tools</h3><ul><li><a href="/lessons/control-charts-explained">Control charts</a> to watch the process</li><li>Control plan and response plan</li><li>Updated standard work, procedures and training</li></ul></div>
-        <div class="dm-fact"><h3>Phase output</h3><p>A control plan handed over to the process owner, and a closed project with its results recorded.</p></div>
+      <p class="dm-phase-q">How do we stop the process sliding back?</p>
+      <div class="dm-phase-body">
+        <div class="dm-phase-side">
+          <h3 class="dm-mini">Tools</h3>
+          <ul class="dm-chips"><li><a href="/lessons/control-charts-explained">Control chart</a></li><li>Control plan</li><li>Response plan</li><li>Standard work</li></ul>
+          <h3 class="dm-mini">You finish with</h3>
+          <p class="dm-deliverable">A control plan handed to the process owner</p>
+        </div>
+        <figure class="dm-figure">
+          <svg class="dm-svg" viewBox="0 0 360 176" role="img" aria-labelledby="dm-ctl-t dm-ctl-d">
+<title id="dm-ctl-t">Control chart of weekly bad cuts</title>
+<desc id="dm-ctl-d">Twelve weeks after the change, every point sits between the lower limit of 0.8% and the upper limit of 2.6%, around a centre line of 1.7%. No signals, so the gains are holding.</desc>
+<line class="dm-limit" x1="34" y1="34.31" x2="300" y2="34.31"/>
+<text class="dm-tick" x="305" y="37.81">UCL 2.6%</text>
+<line class="dm-center" x1="34" y1="80" x2="300" y2="80"/>
+<text class="dm-tick" x="305" y="83.5">CL 1.7%</text>
+<line class="dm-limit" x1="34" y1="125.69" x2="300" y2="125.69"/>
+<text class="dm-tick" x="305" y="129.19">LCL 0.8%</text>
+<polyline class="dm-line" points="45.08,74.92 67.25,85.08 89.42,80 111.58,69.85 133.75,90.15 155.92,80 178.08,74.92 200.25,85.08 222.42,80 244.58,85.08 266.75,74.92 288.92,85.08"/>
+<circle class="dm-dot" cx="45.08" cy="74.92" r="3"/>
+<circle class="dm-dot" cx="67.25" cy="85.08" r="3"/>
+<circle class="dm-dot" cx="89.42" cy="80" r="3"/>
+<circle class="dm-dot" cx="111.58" cy="69.85" r="3"/>
+<circle class="dm-dot" cx="133.75" cy="90.15" r="3"/>
+<circle class="dm-dot" cx="155.92" cy="80" r="3"/>
+<circle class="dm-dot" cx="178.08" cy="74.92" r="3"/>
+<circle class="dm-dot" cx="200.25" cy="85.08" r="3"/>
+<circle class="dm-dot" cx="222.42" cy="80" r="3"/>
+<circle class="dm-dot" cx="244.58" cy="85.08" r="3"/>
+<circle class="dm-dot" cx="266.75" cy="74.92" r="3"/>
+<circle class="dm-dot" cx="288.92" cy="85.08" r="3"/>
+<line class="dm-ax" x1="34" y1="146" x2="300" y2="146"/>
+<text class="dm-tick" x="167" y="162" text-anchor="middle">Weeks after rollout</text></svg>
+          <figcaption>Every week inside the limits: the gains are holding at 1.7%.</figcaption>
+        </figure>
       </div>
-      <div class="dm-example"><span class="dm-example-label">Example: the cutting line</span><p>The line supervisor now tracks the daily share of bad cuts on a control chart, with a response plan that says exactly what to check when the chart signals. The checklist goes into the standard work, and every operator is trained. Three months later the rate is holding at 1.7%, and the sponsor closes the project.</p></div>
     </article>
-  </div>
-</section>
-
-<section class="dm-section" id="dm-glance" aria-labelledby="dm-glance-h">
-  <div class="dm-wrap">
-    <span class="dm-step">Cheat sheet</span>
-    <h2 id="dm-glance-h">DMAIC phases, tools and outputs in one table</h2>
-    <div class="table-scroll" tabindex="0" role="region" aria-label="DMAIC phases, questions, common tools and outputs" style="overflow-x:auto">
-      <table class="dm-table">
-        <caption>Each phase, the question it answers, its common tools, and what it delivers</caption>
-        <thead><tr><th scope="col">Phase</th><th scope="col">Key question</th><th scope="col">Common tools</th><th scope="col">Phase output</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Define</th><td>What is the problem, and why does it matter?</td><td>Project charter, SIPOC, voice of the customer, CTQs</td><td>Approved charter: problem, goal, scope, team</td></tr>
-          <tr><th scope="row">Measure</th><td>How big is it today, and can we trust the data?</td><td>Data collection plan, Gage R&amp;R, process map, baseline capability</td><td>Validated baseline of current performance</td></tr>
-          <tr><th scope="row">Analyze</th><td>What is really causing it?</td><td>Fishbone, 5 Whys, Pareto chart, hypothesis tests, regression</td><td>Root causes verified with data</td></tr>
-          <tr><th scope="row">Improve</th><td>What fixes the root causes?</td><td>Solution selection matrix, FMEA, pilot, DOE</td><td>Piloted solution that beats the baseline</td></tr>
-          <tr><th scope="row">Control</th><td>How do we keep the gains?</td><td>Control charts, control plan, response plan, standard work</td><td>Control plan handed to the process owner</td></tr>
-        </tbody>
-      </table>
+    <div class="dm-callout is-key">
+      <p><strong>Tollgates.</strong> Each phase ends with a short sponsor review before the next one starts.</p>
     </div>
   </div>
 </section>
@@ -373,7 +585,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   <div class="dm-wrap">
     <span class="dm-step">Try it</span>
     <h2 id="dm-sort-h">Which phase? Sort six real project activities</h2>
-    <p>Each activity below comes from a DMAIC project. Choose the phase it belongs to. You get one try per activity, and the explanation appears straight away.</p>
+    <p>Pick the phase for each activity. One try each.</p>
     <div class="dm-lab" role="group" aria-labelledby="dm-sort-h">
       <span class="dm-lab-badge">Interactive</span>
       <div id="dm-sort-items">
@@ -413,34 +625,34 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 <section class="dm-section" id="dm-when" aria-labelledby="dm-when-h">
   <div class="dm-wrap">
     <span class="dm-step">Choosing the right tool</span>
-    <h2 id="dm-when-h">When to use DMAIC, and when not to</h2>
-    <div class="dm-grid">
-      <div class="dm-card">
-        <h3 style="margin-top:0">Use DMAIC when</h3>
-        <ul class="dm-goals">
-          <li>The process already exists and is not performing well enough.</li>
-          <li>The problem can be measured.</li>
-          <li>The root cause is not yet known.</li>
-        </ul>
-      </div>
-      <div class="dm-card">
-        <h3 style="margin-top:0">Reach for something else when</h3>
-        <ul class="dm-goals">
-          <li>The fix is already known and low-risk: just do it.</li>
-          <li>You are designing a brand-new product or process: design approaches such as DMADV (Design for Six Sigma) fit better.</li>
-          <li>Customers are being hurt right now: contain the problem first, then start DMAIC on the cause.</li>
-        </ul>
-      </div>
-    </div>
-    <h3>Four common mistakes</h3>
-    <ul>
-      <li><strong>Jumping to solutions.</strong> Skipping Measure and Analyze to "just fix it" usually fixes a symptom, not the cause.</li>
-      <li><strong>Trusting the data blindly.</strong> If nobody checks the measurement system, the baseline can be wrong before the project starts.</li>
-      <li><strong>Scoping too big.</strong> "Fix quality in the plant" is not a project. One line, one defect, one measurable goal is.</li>
-      <li><strong>Skipping Control.</strong> Without a control plan and an owner, the process drifts back and the gains disappear.</li>
+    <h2 id="dm-when-h">Is DMAIC the right tool? Follow the arrows</h2>
+    <ol class="dm-flow" aria-label="Decision steps for choosing DMAIC">
+      <li class="dm-flow-step">
+        <p class="dm-flow-q">Does the process already exist?</p>
+        <p class="dm-flow-out"><span class="dm-flow-tag">No</span>Design it new with a design approach such as DMADV.</p>
+        <p class="dm-flow-next"><span aria-hidden="true">&darr; </span>Yes: next question</p>
+      </li>
+      <li class="dm-flow-step">
+        <p class="dm-flow-q">Do you already know the cause and the fix?</p>
+        <p class="dm-flow-out"><span class="dm-flow-tag">Yes</span>Just do it. No project needed.</p>
+        <p class="dm-flow-next"><span aria-hidden="true">&darr; </span>No: next question</p>
+      </li>
+      <li class="dm-flow-step">
+        <p class="dm-flow-q">Are customers being hurt right now?</p>
+        <p class="dm-flow-out"><span class="dm-flow-tag">Yes</span>Contain it first, then start DMAIC.</p>
+        <p class="dm-flow-next"><span aria-hidden="true">&darr; </span>No: next question</p>
+      </li>
+      <li class="dm-flow-end"><span class="dm-flow-tag is-go">Otherwise</span><strong>Use DMAIC.</strong></li>
+    </ol>
+    <h3>Four mistakes to avoid</h3>
+    <ul class="dm-mistakes">
+      <li><span class="dm-x" aria-hidden="true">&#x2715;</span><strong>Jumping to a fix</strong><span>Skipping Measure and Analyze treats symptoms.</span></li>
+      <li><span class="dm-x" aria-hidden="true">&#x2715;</span><strong>Trusting bad data</strong><span>Check the gauge before the baseline.</span></li>
+      <li><span class="dm-x" aria-hidden="true">&#x2715;</span><strong>Scoping too big</strong><span>One line, one defect, one goal.</span></li>
+      <li><span class="dm-x" aria-hidden="true">&#x2715;</span><strong>Skipping Control</strong><span>No owner and no plan, and the gains fade.</span></li>
     </ul>
     <div class="dm-callout">
-      <p><strong>Exam tip.</strong> ASQ's Six Sigma Green Belt and Black Belt bodies of knowledge are organized largely around the DMAIC phases, so expect questions that ask which phase a tool or deliverable belongs to. The cheat-sheet table above is a good place to start revising.</p>
+      <p><strong>Exam tip.</strong> ASQ's Six Sigma Green Belt and Black Belt bodies of knowledge are organized largely around the DMAIC phases. Expect "which phase does this tool belong to?" questions.</p>
     </div>
   </div>
 </section>
