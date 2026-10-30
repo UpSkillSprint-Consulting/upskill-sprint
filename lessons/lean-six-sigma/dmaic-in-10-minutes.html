@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "DMAIC in 10 Minutes",
+  "slug": "dmaic-in-10-minutes",
+  "category": "Lean Six Sigma",
+  "category_slug": "lean-six-sigma",
+  "level": "Beginner",
+  "lesson_type": "General",
+  "estimated_minutes": 10,
+  "interactive": true,
+  "card_title": "DMAIC in 10 Minutes",
+  "card_description": "Understand the five phases of a structured Lean Six Sigma improvement project: what each phase asks, its main tools, and what it delivers.",
+  "search_keywords": ["dmaic","define","measure","analyze","improve","control","lean six sigma","six sigma project","tollgate","project charter","control plan","green belt"],
+  "suggested_github_path": "lessons/lean-six-sigma/dmaic-in-10-minutes.html",
+  "access_level": "public"
+}
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DMAIC in 10 Minutes | UpSkill Sprint</title>
+<meta name="description" content="Learn DMAIC in 10 minutes: what Define, Measure, Analyze, Improve and Control each ask, the main tools, and what every phase delivers, with a worked example.">
+<link rel="canonical" href="https://upskillsprint.com/lessons/lean-six-sigma/dmaic-in-10-minutes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DMAIC in 10 Minutes | UpSkill Sprint">
+<meta property="og:description" content="Learn DMAIC in 10 minutes: what Define, Measure, Analyze, Improve and Control each ask, the main tools, and what every phase delivers, with a worked example.">
+<meta property="og:image" content="https://upskillsprint.com/assets/logo-og.png">
+<meta property="og:url" content="https://upskillsprint.com/lessons/lean-six-sigma/dmaic-in-10-minutes">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/lessons-theme.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/site-nav.css">
+<script src="/site-nav.js" defer></script>
+<script src="/site-sections.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {"@type": "BreadcrumbList", "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://upskillsprint.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Lessons", "item": "https://upskillsprint.com/lessons"},
+      {"@type": "ListItem", "position": 3, "name": "DMAIC in 10 Minutes", "item": "https://upskillsprint.com/lessons/lean-six-sigma/dmaic-in-10-minutes"}
+    ]},
+    {"@type": "LearningResource", "name": "DMAIC in 10 Minutes", "description": "Learn DMAIC in 10 minutes: what Define, Measure, Analyze, Improve and Control each ask, the main tools, and what every phase delivers, with a worked example.", "url": "https://upskillsprint.com/lessons/lean-six-sigma/dmaic-in-10-minutes", "learningResourceType": "Lesson", "educationalLevel": "Beginner", "provider": {"@type": "Organization", "name": "UpSkill Sprint Consulting", "url": "https://upskillsprint.com/"}}
+  ]
+}
+</script>
+<style id="dmaic-style">
+/* DMAIC in 10 Minutes. Every lesson-owned token is prefixed --lesson-dmaic-
+   and every selector is scoped to #lesson-content, so site chrome is untouched. */
+#lesson-content{
+  color-scheme: light dark;
+  --lesson-dmaic-page:#f6f8fb;
+  --lesson-dmaic-surface:#ffffff;
+  --lesson-dmaic-surface-2:#eef3f8;
+  --lesson-dmaic-text:#1c2430;
+  --lesson-dmaic-text-2:#3d4a5c;
+  --lesson-dmaic-border:#cbd5e1;
+  --lesson-dmaic-control:#5f7189;
+  --lesson-dmaic-teal:#0f6b78;
+  --lesson-dmaic-teal-bg:#e3f3f5;
+  --lesson-dmaic-on-teal:#ffffff;
+  --lesson-dmaic-navy:#1f3a5f;
+  --lesson-dmaic-red:#b42318;
+  --lesson-dmaic-red-bg:#fdecea;
+  --lesson-dmaic-amber:#8a5300;
+  --lesson-dmaic-amber-bg:#fff3d6;
+  --lesson-dmaic-green:#1e7a46;
+  --lesson-dmaic-green-bg:#e6f5ec;
+  --lesson-dmaic-focus:#0b63c5;
+  --lesson-dmaic-shadow:0 1px 2px rgba(15,23,42,.06),0 6px 18px rgba(15,23,42,.06);
+  color:var(--lesson-dmaic-text);
+  background:var(--lesson-dmaic-page);
+  font-family:'Work Sans',Arial,sans-serif;
+  padding-bottom:24px;
+}
+#lesson-content .dm-wrap{max-width:900px;margin:0 auto;padding:0 20px}
+#lesson-content .dm-hero{background:linear-gradient(135deg,var(--lesson-dmaic-teal-bg),var(--lesson-dmaic-surface-2));border-bottom:1px solid var(--lesson-dmaic-border);padding:40px 0 30px;color:var(--lesson-dmaic-text)}
+#lesson-content .dm-kicker{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:0;list-style:none}
+#lesson-content .dm-kicker li{font-size:13px;font-weight:600;letter-spacing:.02em;padding:4px 10px;border-radius:999px;background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-teal);border:1px solid var(--lesson-dmaic-border)}
+#lesson-content h1{font-size:clamp(30px,5vw,42px);line-height:1.12;margin:0 0 14px;color:var(--lesson-dmaic-text)}
+#lesson-content .dm-lede{font-size:18px;line-height:1.65;margin:0 0 18px;color:var(--lesson-dmaic-text-2)}
+#lesson-content h2{font-size:clamp(24px,3.4vw,30px);line-height:1.2;margin:0 0 14px;color:var(--lesson-dmaic-text)}
+#lesson-content h3{font-size:19px;line-height:1.3;margin:22px 0 10px;color:var(--lesson-dmaic-text)}
+#lesson-content p, #lesson-content li{font-size:16.5px;line-height:1.7;color:var(--lesson-dmaic-text)}
+#lesson-content .dm-section{padding:38px 0 6px;scroll-margin-top:84px}
+#lesson-content .dm-step{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lesson-dmaic-teal);margin:0 0 6px}
+#lesson-content a{color:var(--lesson-dmaic-teal)}
+#lesson-content a:focus-visible, #lesson-content button:focus-visible, #lesson-content [tabindex="0"]:focus-visible{outline:3px solid var(--lesson-dmaic-focus);outline-offset:2px}
+
+/* cards, callouts, table of contents */
+#lesson-content .dm-card{background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:14px;padding:18px 20px;box-shadow:var(--lesson-dmaic-shadow)}
+#lesson-content .dm-goals{margin:6px 0 0;padding-left:22px}
+#lesson-content .dm-goals li{margin:4px 0}
+#lesson-content .dm-callout{border-radius:12px;padding:14px 16px;margin:18px 0;border-left:5px solid var(--lesson-dmaic-teal);background:var(--lesson-dmaic-teal-bg);color:var(--lesson-dmaic-text)}
+#lesson-content .dm-callout p{margin:0}
+#lesson-content .dm-callout p + p{margin-top:8px}
+#lesson-content .dm-callout.is-warn{border-left-color:var(--lesson-dmaic-amber);background:var(--lesson-dmaic-amber-bg)}
+#lesson-content .dm-callout.is-key{border-left-color:var(--lesson-dmaic-navy);background:var(--lesson-dmaic-surface-2)}
+#lesson-content .dm-callout strong{color:var(--lesson-dmaic-text)}
+#lesson-content .dm-toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+#lesson-content .dm-toc a{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid var(--lesson-dmaic-border);background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);text-decoration:none;font-size:14.5px;font-weight:600;min-height:24px}
+#lesson-content .dm-toc a:hover{border-color:var(--lesson-dmaic-teal);color:var(--lesson-dmaic-teal)}
+#lesson-content .dm-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:16px 0}
+
+/* the five-phase roadmap: a row of five on wide screens, a stack on phones */
+#lesson-content .dm-road{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:20px 0 8px;padding:0;list-style:none}
+#lesson-content .dm-road li{position:relative;background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:12px;padding:14px 12px 12px;font-size:14.5px;line-height:1.45;box-shadow:var(--lesson-dmaic-shadow)}
+#lesson-content .dm-road a{display:block;color:var(--lesson-dmaic-text);text-decoration:none}
+#lesson-content .dm-road a:hover .dm-road-name{text-decoration:underline}
+#lesson-content .dm-letter{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:var(--lesson-dmaic-teal);color:var(--lesson-dmaic-on-teal);font-weight:700;font-size:20px;margin-bottom:8px}
+#lesson-content .dm-road-name{display:block;font-weight:700;font-size:16px;margin-bottom:2px}
+#lesson-content .dm-road-q{display:block;color:var(--lesson-dmaic-text-2)}
+#lesson-content .dm-road li + li::before{content:"\2192";position:absolute;left:-10px;top:22px;width:10px;text-align:center;font-weight:700;color:var(--lesson-dmaic-teal)}
+
+/* phase cards */
+#lesson-content .dm-phase{background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:16px;padding:20px;box-shadow:var(--lesson-dmaic-shadow);margin:14px 0}
+#lesson-content .dm-phase-head{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+#lesson-content .dm-phase-head h2{margin:0}
+#lesson-content .dm-phase-q{font-size:17.5px;font-style:italic;color:var(--lesson-dmaic-text-2);margin:4px 0 12px}
+#lesson-content .dm-facts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:12px 0 0}
+#lesson-content .dm-fact{background:var(--lesson-dmaic-surface-2);color:var(--lesson-dmaic-text);border-radius:10px;padding:12px 14px}
+#lesson-content .dm-fact h3{margin:0 0 6px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--lesson-dmaic-text-2)}
+#lesson-content .dm-fact ul{margin:0;padding-left:18px}
+#lesson-content .dm-fact li, #lesson-content .dm-fact p{font-size:15px;line-height:1.55;margin:2px 0}
+#lesson-content .dm-example{border-left:5px solid var(--lesson-dmaic-amber);background:var(--lesson-dmaic-amber-bg);color:var(--lesson-dmaic-text);border-radius:10px;padding:12px 14px;margin:14px 0 0}
+#lesson-content .dm-example p{margin:0;font-size:15.5px}
+#lesson-content .dm-example-label{display:block;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lesson-dmaic-amber);margin-bottom:4px}
+
+/* at-a-glance table */
+#lesson-content .table-scroll{overflow-x:auto;margin:16px 0;border:1px solid var(--lesson-dmaic-border);border-radius:12px;background:var(--lesson-dmaic-surface)}
+#lesson-content table.dm-table{width:100%;min-width:640px;border-collapse:collapse;color:var(--lesson-dmaic-text);background:var(--lesson-dmaic-surface)}
+#lesson-content .dm-table caption{text-align:left;padding:12px 14px 4px;font-weight:600;color:var(--lesson-dmaic-text-2)}
+#lesson-content .dm-table th, #lesson-content .dm-table td{padding:10px 14px;text-align:left;vertical-align:top;border-top:1px solid var(--lesson-dmaic-border);font-size:15px;line-height:1.5}
+#lesson-content .dm-table thead th{background:var(--lesson-dmaic-surface-2);color:var(--lesson-dmaic-text);font-size:13.5px;letter-spacing:.04em;text-transform:uppercase}
+#lesson-content .dm-table tbody th{font-weight:700;white-space:nowrap}
+
+/* "Which phase?" sorter */
+#lesson-content .dm-lab{background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:16px;padding:18px;margin:20px 0;box-shadow:var(--lesson-dmaic-shadow)}
+#lesson-content .dm-lab-badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--lesson-dmaic-teal);color:var(--lesson-dmaic-on-teal);border-radius:999px;padding:3px 9px;margin-bottom:8px}
+#lesson-content .dm-sort-item{border:1px solid var(--lesson-dmaic-border);border-radius:12px;padding:12px 14px;margin:12px 0;background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text)}
+/* float the legend so a long, wrapping question sits inside the card instead of on its border */
+#lesson-content .dm-sort-item legend{float:left;width:100%;font-weight:600;font-size:16px;line-height:1.5;padding:0;margin:0 0 4px;color:var(--lesson-dmaic-text)}
+#lesson-content .dm-sort-item .dm-choices{clear:both}
+#lesson-content .dm-sort-item.is-right{border-color:var(--lesson-dmaic-green);background:var(--lesson-dmaic-green-bg)}
+#lesson-content .dm-sort-item.is-wrong{border-color:var(--lesson-dmaic-red);background:var(--lesson-dmaic-red-bg)}
+#lesson-content .dm-choices{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+#lesson-content .dm-choice{font:inherit;font-size:15px;font-weight:600;min-height:44px;min-width:44px;padding:8px 14px;border-radius:10px;cursor:pointer;border:1px solid var(--lesson-dmaic-control);background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text)}
+#lesson-content .dm-choice:hover:not(:disabled){border-color:var(--lesson-dmaic-teal);color:var(--lesson-dmaic-teal)}
+#lesson-content .dm-choice[aria-pressed="true"]{background:var(--lesson-dmaic-teal);border-color:var(--lesson-dmaic-teal);color:var(--lesson-dmaic-on-teal)}
+#lesson-content .dm-choice:disabled{cursor:default}
+#lesson-content .dm-choice:disabled:not([aria-pressed="true"]){opacity:.7}
+#lesson-content .dm-sort-feedback{margin:8px 0 0;font-size:15px;line-height:1.55;color:var(--lesson-dmaic-text)}
+#lesson-content .dm-sort-feedback:empty{display:none}
+#lesson-content .dm-lab-foot{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:10px}
+#lesson-content .dm-score{font-weight:700;margin:0}
+#lesson-content .dm-btn{font:inherit;font-size:15px;font-weight:600;border-radius:10px;padding:10px 16px;min-height:44px;cursor:pointer;border:1px solid var(--lesson-dmaic-teal);background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-teal)}
+
+/* related lessons sit in the same page column as everything else */
+#lesson-content .related-lessons{max-width:900px;margin-left:auto !important;margin-right:auto !important;padding-left:20px;padding-right:20px}
+#lesson-content .related-lessons h2{font-size:24px}
+
+@media (max-width:760px){
+  #lesson-content .dm-road{grid-template-columns:1fr}
+  #lesson-content .dm-road li{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center}
+  #lesson-content .dm-road a{display:contents}
+  #lesson-content .dm-letter{margin:0;grid-row:span 2}
+  #lesson-content .dm-road li + li::before{content:"\2193";left:22px;top:-12px;width:auto}
+}
+@media (max-width:640px){
+  #lesson-content .dm-hero{padding:28px 0 22px}
+  #lesson-content .dm-phase{padding:16px}
+}
+</style>
+<style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+</head>
+<body data-lesson-page="true" data-category="lean-six-sigma" data-level="beginner" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img class="logo-wordmark" src="/assets/logo-wordmark.png" data-logo-light="/assets/logo-wordmark.png" data-logo-dark="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></a>
+  <nav data-nav-root="desktop" class="desktop-nav" aria-label="Main"><div class="nav-item" data-nav-item="start"><a class="nav-tab-link" data-nav-tab="start" href="/start-here">Start Here</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-start" aria-label="Show Start Here menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-start" hidden><div class="nav-panel-head"><span>Learning paths</span></div><div class="nav-rows"><a class="nav-row" href="/start-here#quality-improvement-basics"><span class="nav-name">Quality Improvement Basics</span></a><a class="nav-row" href="/start-here#data-analysis-basics"><span class="nav-name">Data Analysis Basics</span></a><a class="nav-row" href="/start-here#lean-six-sigma-tools"><span class="nav-name">Lean Six Sigma Tools</span></a><a class="nav-row" href="/start-here#excel-and-power-bi-skills"><span class="nav-name">Excel and Power BI Skills</span></a><a class="nav-row" href="/start-here#statistics-for-decision-making"><span class="nav-name">Statistics for Decision-Making</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/start-here">See all learning paths →</a></div></div></div><div class="nav-item" data-nav-item="lessons"><a class="nav-tab-link" data-nav-tab="lessons" href="/lessons" aria-current="page">Lessons</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-lessons" aria-label="Show Lessons menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-lessons" hidden><div class="nav-panel-head"><span>Lesson library</span><span data-nav-total hidden></span></div><div class="nav-rows"><a class="nav-row" href="/lessons#data-analytics"><span class="nav-name">Data Analytics</span><span class="nav-count" data-nav-count="data-analytics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#quality-engineering"><span class="nav-name">Quality Engineering</span><span class="nav-count" data-nav-count="quality-engineering" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#lean-six-sigma"><span class="nav-name">Lean Six Sigma</span><span class="nav-count" data-nav-count="lean-six-sigma" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#statistics"><span class="nav-name">Statistics</span><span class="nav-count" data-nav-count="statistics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#power-bi-excel-sql"><span class="nav-name">Power BI, Excel &amp; SQL</span><span class="nav-count" data-nav-count="power-bi-excel-sql" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#project-management"><span class="nav-name">Project Management</span><span class="nav-count" data-nav-count="project-management" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#business-decision-making"><span class="nav-name">Business Decision-Making</span><span class="nav-count" data-nav-count="business-decision-making" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#ai-for-work"><span class="nav-name">AI for Work</span><span class="nav-count" data-nav-count="ai-for-work" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/lessons" data-nav-total-link>View all lessons →</a><a class="nav-foot-secondary" href="/request-topic">Request a topic</a></div></div></div><div class="nav-item nav-item-wide" data-nav-item="exam"><a class="nav-tab-link" data-nav-tab="exam" href="/exam-practice">Exam Practice</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-exam" aria-label="Show Exam Practice menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-exam" hidden><div class="nav-panel-head"><span>Certifications</span></div><div class="nav-rows"><a class="nav-row nav-exam" href="/exam-practice#exam-cssbb"><span class="nav-acronym">CSSBB</span><span class="nav-name">Six Sigma Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqe"><span class="nav-acronym">CQE</span><span class="nav-name">Quality Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-mbb"><span class="nav-acronym">CMBB</span><span class="nav-name">Six Sigma Master Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cssgb"><span class="nav-acronym">CSSGB</span><span class="nav-name">Six Sigma Green Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cmq"><span class="nav-acronym">CMQ/OE</span><span class="nav-name">Manager of Quality / Org. Excellence</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cre"><span class="nav-acronym">CRE</span><span class="nav-name">Reliability Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-pmp"><span class="nav-acronym">PMP</span><span class="nav-name">Project Management Professional</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-nppe"><span class="nav-acronym">NPPE</span><span class="nav-name">National Professional Practice Exam</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqa"><span class="nav-acronym">CQA</span><span class="nav-name">Quality Auditor</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/exam-practice">All exams →</a><a class="nav-foot-secondary" href="/exam-practice#my-exams">My exams</a></div></div></div><div class="nav-item" data-nav-item="tools"><a class="nav-tab-link" data-nav-tab="tools" href="/engineering-tools">Engineering Tools</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-tools" aria-label="Show Engineering Tools menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-tools" hidden><div class="nav-panel-head"><span>Tools</span></div><div class="nav-rows"><a class="nav-row" href="/tools/engineering-statistics-calculator"><span class="nav-name">Engineering &amp; Statistics Calculator</span></a><a class="nav-row" href="/tools/unit-converter"><span class="nav-name">Unit Converter</span></a><a class="nav-row" href="/engineering-tools/grade-specification-lookup/"><span class="nav-name">Material Specification Lookup</span></a><a class="nav-row" href="/tools/material-specification-compliance-checker"><span class="nav-name">Material Specification Compliance Checker</span></a><a class="nav-row" href="/tools/steel-phase-explorer"><span class="nav-name">Steel Phase &amp; Transformation Explorer</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/engineering-tools">All tools →</a><a class="nav-foot-secondary" href="/engineering-tools#suggest-a-tool">Suggest a tool</a></div></div></div><div class="nav-item nav-item-wide" data-nav-item="services"><a class="nav-tab-link" data-nav-tab="services" href="/services">Services</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-services" aria-label="Show Services menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-services" hidden><div class="nav-panel-head"><span>Services</span></div><div class="nav-rows"><a class="nav-row nav-rich" href="/services#corporate-training"><span class="nav-name">Corporate Training</span><span class="nav-desc">Team workshops on Lean Six Sigma and quality tools</span></a><a class="nav-row nav-rich" href="/services#one-on-one-coaching"><span class="nav-name">One-on-One Coaching</span><span class="nav-desc">Excel, Power BI, Minitab, statistics</span></a><a class="nav-row nav-rich" href="/services#consulting-support"><span class="nav-name">Consulting Support</span><span class="nav-desc">Root cause analysis, KPIs, quality investigations</span></a><a class="nav-row nav-rich" href="/services#custom-lessons"><span class="nav-name">Custom Lessons</span><span class="nav-desc">Training built around your team's needs</span></a><a class="nav-row nav-rich" href="/services#data-dashboard-support"><span class="nav-name">Data &amp; Dashboard Support</span><span class="nav-desc">Excel, Power BI and SQL help</span></a></div><div class="nav-foot nav-foot-solo"><a class="nav-book" href="/contact">Book a consultation</a></div></div></div><div class="nav-item" data-nav-item="about"><a class="nav-tab-link" data-nav-tab="about" href="/about">About</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-about" aria-label="Show About menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-about" hidden><div class="nav-panel-head"><span>About</span></div><div class="nav-rows"><a class="nav-row nav-rich" href="/about"><span class="nav-name">About UpSkill Sprint</span><span class="nav-desc">Who builds the lessons and why</span></a><a class="nav-row nav-rich" href="/faq"><span class="nav-name">FAQ</span><span class="nav-desc">Free lessons, accounts, exams</span></a><a class="nav-row nav-rich" href="/request-topic"><span class="nav-name">Request a Topic</span><span class="nav-desc">Tell us the lesson you need</span></a><a class="nav-row nav-rich" href="/contact"><span class="nav-name">Contact</span><span class="nav-desc">Questions and partnerships</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a></div></div></div></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<main id="lesson-content">
+
+<section class="dm-hero" aria-labelledby="dm-title">
+  <div class="dm-wrap">
+    <ul class="dm-kicker" aria-label="Lesson details">
+      <li>Lean Six Sigma</li><li>Beginner</li><li>10 min</li><li>Interactive</li>
+    </ul>
+    <h1 id="dm-title">DMAIC in 10 Minutes</h1>
+    <p class="dm-lede"><strong>DMAIC</strong> (say it "duh-MAY-ick") is the five-phase roadmap Lean Six Sigma teams use to fix a problem in a process that already exists: <strong>Define, Measure, Analyze, Improve, Control</strong>. Each phase answers one question, and you finish it before you move on. That order is what stops teams from jumping to a fix that does not work.</p>
+    <div class="dm-card">
+      <h2 style="font-size:20px;margin:0 0 4px">By the end, you will be able to</h2>
+      <ul class="dm-goals">
+        <li>Name the five DMAIC phases in order and the question each one answers.</li>
+        <li>Match common tools and outputs to the right phase.</li>
+        <li>Explain why the phases run in this order, and when DMAIC is the wrong tool.</li>
+      </ul>
+    </div>
+    <nav aria-label="Lesson sections">
+      <ul class="dm-toc">
+        <li><a href="#dm-roadmap">The roadmap</a></li>
+        <li><a href="#dm-define">Define</a></li>
+        <li><a href="#dm-measure">Measure</a></li>
+        <li><a href="#dm-analyze">Analyze</a></li>
+        <li><a href="#dm-improve">Improve</a></li>
+        <li><a href="#dm-control">Control</a></li>
+        <li><a href="#dm-sort">Which phase?</a></li>
+        <li><a href="#dm-when">When to use it</a></li>
+        <li><a href="#quiz">Quiz</a></li>
+      </ul>
+    </nav>
+  </div>
+</section>
+
+<section class="dm-section" id="dm-roadmap" aria-labelledby="dm-roadmap-h">
+  <div class="dm-wrap">
+    <span class="dm-step">The big picture</span>
+    <h2 id="dm-roadmap-h">The five DMAIC phases at a glance</h2>
+    <p>Think of DMAIC as a road with five stops. At each stop the team answers one question, shows the evidence to its sponsor, and only then moves on. Select a phase to jump to it.</p>
+    <ol class="dm-road" aria-label="The five DMAIC phases in order">
+      <li><a href="#dm-define"><span class="dm-letter" aria-hidden="true">D</span><span class="dm-road-name">Define</span><span class="dm-road-q">What is the problem, and why does it matter?</span></a></li>
+      <li><a href="#dm-measure"><span class="dm-letter" aria-hidden="true">M</span><span class="dm-road-name">Measure</span><span class="dm-road-q">How big is it today, and can we trust the data?</span></a></li>
+      <li><a href="#dm-analyze"><span class="dm-letter" aria-hidden="true">A</span><span class="dm-road-name">Analyze</span><span class="dm-road-q">What is really causing it?</span></a></li>
+      <li><a href="#dm-improve"><span class="dm-letter" aria-hidden="true">I</span><span class="dm-road-name">Improve</span><span class="dm-road-q">What fixes the root causes?</span></a></li>
+      <li><a href="#dm-control"><span class="dm-letter" aria-hidden="true">C</span><span class="dm-road-name">Control</span><span class="dm-road-q">How do we keep the gains?</span></a></li>
+    </ol>
+    <div class="dm-callout is-key">
+      <p><strong>Tollgates.</strong> Each phase ends with a short review, often called a <em>tollgate</em>, where the project sponsor checks the phase's output and agrees the team is ready to move on. If the data in Analyze shows the problem was measured wrongly, the team goes back to Measure. The road is in order, but it is allowed to loop back.</p>
+    </div>
+    <div class="dm-callout is-warn">
+      <p><strong>One running example.</strong> To keep things concrete, every phase below follows the same made-up project: a pipe-cutting line where too many pieces are cut out of length tolerance and have to be re-cut. The plant and its numbers are fictional and are there for illustration only.</p>
+    </div>
+  </div>
+</section>
+
+<section class="dm-section" id="dm-define" aria-labelledby="dm-define-h">
+  <div class="dm-wrap">
+    <article class="dm-phase">
+      <div class="dm-phase-head"><span class="dm-letter" aria-hidden="true">D</span><h2 id="dm-define-h">Define: agree on the problem</h2></div>
+      <p class="dm-phase-q">What is the problem, who does it hurt, and what does success look like?</p>
+      <p>Define turns a vague complaint ("the cutting line is a mess") into a clear, agreed problem the team can actually solve. The most important document is the <strong>project charter</strong>: a one-page agreement between the team and its sponsor.</p>
+      <div class="dm-facts">
+        <div class="dm-fact"><h3>Common tools</h3><ul><li>Project charter</li><li>SIPOC map (suppliers, inputs, process, outputs, customers)</li><li>Voice of the customer and critical-to-quality (CTQ) requirements</li></ul></div>
+        <div class="dm-fact"><h3>Phase output</h3><p>An approved charter with a problem statement, a measurable goal, a clear scope, and a named team and sponsor.</p></div>
+      </div>
+      <div class="dm-example"><span class="dm-example-label">Example: the cutting line</span><p>Problem statement: last quarter, about 6% of pipes cut on Line 2 were out of length tolerance and had to be re-cut. Goal: 2% or less within four months. In scope: Line 2, both shifts. Out of scope: the upstream mill.</p></div>
+    </article>
+  </div>
+</section>
+
+<section class="dm-section" id="dm-measure" aria-labelledby="dm-measure-h">
+  <div class="dm-wrap">
+    <article class="dm-phase">
+      <div class="dm-phase-head"><span class="dm-letter" aria-hidden="true">M</span><h2 id="dm-measure-h">Measure: get a baseline you can trust</h2></div>
+      <p class="dm-phase-q">How big is the problem today, and is our measurement system good enough to tell?</p>
+      <p>Measure answers "how bad is it, really?" with data instead of opinion. Before trusting that data, the team checks the measurement system itself. If the gauge is unreliable, every later conclusion is too. A <a href="/lessons/quality-engineering/gauge-rr-study">Gage R&amp;R study</a> is the usual check.</p>
+      <div class="dm-facts">
+        <div class="dm-fact"><h3>Common tools</h3><ul><li>Data collection plan</li><li>Measurement system analysis (Gage R&amp;R)</li><li>Detailed process map</li><li>Baseline performance and capability</li></ul></div>
+        <div class="dm-fact"><h3>Phase output</h3><p>A validated baseline: how the process performs today, measured with a system the team trusts.</p></div>
+      </div>
+      <div class="dm-example"><span class="dm-example-label">Example: the cutting line</span><p>A Gage R&amp;R study shows the hand tape measures disagree too much from operator to operator, so the team switches to a fixed length gauge. Four weeks of baseline data with the new gauge confirm the problem: 5.8% of cuts are out of tolerance.</p></div>
+    </article>
+  </div>
+</section>
+
+<section class="dm-section" id="dm-analyze" aria-labelledby="dm-analyze-h">
+  <div class="dm-wrap">
+    <article class="dm-phase">
+      <div class="dm-phase-head"><span class="dm-letter" aria-hidden="true">A</span><h2 id="dm-analyze-h">Analyze: find the root causes</h2></div>
+      <p class="dm-phase-q">Which causes really drive the problem, and what is the evidence?</p>
+      <p>Analyze is where the team resists the urge to fix things. First it lists every possible cause, then uses data to sort the few causes that really matter from the many that do not. A cause only counts as a root cause once the data backs it up.</p>
+      <div class="dm-facts">
+        <div class="dm-fact"><h3>Common tools</h3><ul><li><a href="/lessons/root-cause-analysis-5-whys-fishbone">Fishbone diagram and 5 Whys</a></li><li><a href="/lessons/understanding-pareto-chart">Pareto chart</a></li><li><a href="/lessons/hypothesis-testing-for-beginners">Hypothesis tests</a> and regression</li></ul></div>
+        <div class="dm-fact"><h3>Phase output</h3><p>A short list of verified root causes, each backed by data rather than opinion.</p></div>
+      </div>
+      <div class="dm-example"><span class="dm-example-label">Example: the cutting line</span><p>A fishbone session lists 20 possible causes. A Pareto chart of the baseline data shows most bad cuts happen in the first hour after a saw blade change, and most of those on night shift, where the stop block is set by eye. Two root causes are confirmed: blade wear and stop-block setup with no reference gauge.</p></div>
+    </article>
+  </div>
+</section>
+
+<section class="dm-section" id="dm-improve" aria-labelledby="dm-improve-h">
+  <div class="dm-wrap">
+    <article class="dm-phase">
+      <div class="dm-phase-head"><span class="dm-letter" aria-hidden="true">I</span><h2 id="dm-improve-h">Improve: fix the causes and prove it</h2></div>
+      <p class="dm-phase-q">Which solutions remove the root causes, and do they work in practice?</p>
+      <p>Improve finally gets to solutions, but only ones aimed at the verified root causes. The team generates options, picks the best with clear criteria, checks what could go wrong, and runs a small pilot before rolling anything out.</p>
+      <div class="dm-facts">
+        <div class="dm-fact"><h3>Common tools</h3><ul><li>Brainstorming and a solution selection matrix</li><li>Failure mode and effects analysis (FMEA) on the new process</li><li>Pilot runs; design of experiments (DOE) when several factors interact</li></ul></div>
+        <div class="dm-fact"><h3>Phase output</h3><p>A piloted solution with data showing it beats the baseline, and a plan to roll it out.</p></div>
+      </div>
+      <div class="dm-example"><span class="dm-example-label">Example: the cutting line</span><p>The team pilots two changes on one shift for two weeks: a setup checklist that uses a reference gauge for the stop block, and a fixed blade-change schedule with a test cut after every change. Out-of-tolerance cuts on the pilot shift fall to 1.6%, so both changes roll out to every shift.</p></div>
+    </article>
+  </div>
+</section>
+
+<section class="dm-section" id="dm-control" aria-labelledby="dm-control-h">
+  <div class="dm-wrap">
+    <article class="dm-phase">
+      <div class="dm-phase-head"><span class="dm-letter" aria-hidden="true">C</span><h2 id="dm-control-h">Control: make the gains stick</h2></div>
+      <p class="dm-phase-q">How do we make sure the process does not slide back once the team moves on?</p>
+      <p>Without Control, most improvements fade within months as people drift back to old habits. Control builds the new way of working into daily routine, gives the process owner a way to spot trouble early, and spells out what to do when it happens.</p>
+      <div class="dm-facts">
+        <div class="dm-fact"><h3>Common tools</h3><ul><li><a href="/lessons/control-charts-explained">Control charts</a> to watch the process</li><li>Control plan and response plan</li><li>Updated standard work, procedures and training</li></ul></div>
+        <div class="dm-fact"><h3>Phase output</h3><p>A control plan handed over to the process owner, and a closed project with its results recorded.</p></div>
+      </div>
+      <div class="dm-example"><span class="dm-example-label">Example: the cutting line</span><p>The line supervisor now tracks the daily share of bad cuts on a control chart, with a response plan that says exactly what to check when the chart signals. The checklist goes into the standard work, and every operator is trained. Three months later the rate is holding at 1.7%, and the sponsor closes the project.</p></div>
+    </article>
+  </div>
+</section>
+
+<section class="dm-section" id="dm-glance" aria-labelledby="dm-glance-h">
+  <div class="dm-wrap">
+    <span class="dm-step">Cheat sheet</span>
+    <h2 id="dm-glance-h">DMAIC phases, tools and outputs in one table</h2>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="DMAIC phases, questions, common tools and outputs" style="overflow-x:auto">
+      <table class="dm-table">
+        <caption>Each phase, the question it answers, its common tools, and what it delivers</caption>
+        <thead><tr><th scope="col">Phase</th><th scope="col">Key question</th><th scope="col">Common tools</th><th scope="col">Phase output</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Define</th><td>What is the problem, and why does it matter?</td><td>Project charter, SIPOC, voice of the customer, CTQs</td><td>Approved charter: problem, goal, scope, team</td></tr>
+          <tr><th scope="row">Measure</th><td>How big is it today, and can we trust the data?</td><td>Data collection plan, Gage R&amp;R, process map, baseline capability</td><td>Validated baseline of current performance</td></tr>
+          <tr><th scope="row">Analyze</th><td>What is really causing it?</td><td>Fishbone, 5 Whys, Pareto chart, hypothesis tests, regression</td><td>Root causes verified with data</td></tr>
+          <tr><th scope="row">Improve</th><td>What fixes the root causes?</td><td>Solution selection matrix, FMEA, pilot, DOE</td><td>Piloted solution that beats the baseline</td></tr>
+          <tr><th scope="row">Control</th><td>How do we keep the gains?</td><td>Control charts, control plan, response plan, standard work</td><td>Control plan handed to the process owner</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="dm-section" id="dm-sort" aria-labelledby="dm-sort-h">
+  <div class="dm-wrap">
+    <span class="dm-step">Try it</span>
+    <h2 id="dm-sort-h">Which phase? Sort six real project activities</h2>
+    <p>Each activity below comes from a DMAIC project. Choose the phase it belongs to. You get one try per activity, and the explanation appears straight away.</p>
+    <div class="dm-lab" role="group" aria-labelledby="dm-sort-h">
+      <span class="dm-lab-badge">Interactive</span>
+      <div id="dm-sort-items">
+        <fieldset class="dm-sort-item" data-phase="define" data-why="Agreeing what the problem is and what is in scope is the heart of Define. It goes in the project charter.">
+          <legend>1. Write a problem statement and agree the project scope with the sponsor.</legend>
+          <div class="dm-choices"></div><p class="dm-sort-feedback" aria-live="polite"></p>
+        </fieldset>
+        <fieldset class="dm-sort-item" data-phase="measure" data-why="Checking the measurement system before collecting baseline data is a core Measure step. Untrustworthy data spoils every later phase.">
+          <legend>2. Run a Gage R&amp;R study to check that inspectors measure the same part the same way.</legend>
+          <div class="dm-choices"></div><p class="dm-sort-feedback" aria-live="polite"></p>
+        </fieldset>
+        <fieldset class="dm-sort-item" data-phase="analyze" data-why="Using data to confirm which suspected causes really drive the problem is what Analyze is for.">
+          <legend>3. Use a Pareto chart and a hypothesis test to check which suspected causes really matter.</legend>
+          <div class="dm-choices"></div><p class="dm-sort-feedback" aria-live="polite"></p>
+        </fieldset>
+        <fieldset class="dm-sort-item" data-phase="improve" data-why="Trying a solution on a small scale and comparing it with the baseline is a pilot, the classic Improve activity.">
+          <legend>4. Pilot a new setup checklist on one shift and compare the results with the baseline.</legend>
+          <div class="dm-choices"></div><p class="dm-sort-feedback" aria-live="polite"></p>
+        </fieldset>
+        <fieldset class="dm-sort-item" data-phase="control" data-why="Handing over a control chart and a response plan is how Control keeps the gains after the team moves on.">
+          <legend>5. Give the process owner a control chart and a plan for what to do when it signals.</legend>
+          <div class="dm-choices"></div><p class="dm-sort-feedback" aria-live="polite"></p>
+        </fieldset>
+        <fieldset class="dm-sort-item" data-phase="measure" data-why="Establishing how the process performs today, before any change, is the baseline that Measure delivers.">
+          <legend>6. Collect four weeks of data to find out how often parts fail today.</legend>
+          <div class="dm-choices"></div><p class="dm-sort-feedback" aria-live="polite"></p>
+        </fieldset>
+      </div>
+      <div class="dm-lab-foot">
+        <p class="dm-score" id="dm-sort-score" role="status" aria-live="polite">0 of 6 sorted</p>
+        <button type="button" class="dm-btn" id="dm-sort-reset">Start again</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dm-section" id="dm-when" aria-labelledby="dm-when-h">
+  <div class="dm-wrap">
+    <span class="dm-step">Choosing the right tool</span>
+    <h2 id="dm-when-h">When to use DMAIC, and when not to</h2>
+    <div class="dm-grid">
+      <div class="dm-card">
+        <h3 style="margin-top:0">Use DMAIC when</h3>
+        <ul class="dm-goals">
+          <li>The process already exists and is not performing well enough.</li>
+          <li>The problem can be measured.</li>
+          <li>The root cause is not yet known.</li>
+        </ul>
+      </div>
+      <div class="dm-card">
+        <h3 style="margin-top:0">Reach for something else when</h3>
+        <ul class="dm-goals">
+          <li>The fix is already known and low-risk: just do it.</li>
+          <li>You are designing a brand-new product or process: design approaches such as DMADV (Design for Six Sigma) fit better.</li>
+          <li>Customers are being hurt right now: contain the problem first, then start DMAIC on the cause.</li>
+        </ul>
+      </div>
+    </div>
+    <h3>Four common mistakes</h3>
+    <ul>
+      <li><strong>Jumping to solutions.</strong> Skipping Measure and Analyze to "just fix it" usually fixes a symptom, not the cause.</li>
+      <li><strong>Trusting the data blindly.</strong> If nobody checks the measurement system, the baseline can be wrong before the project starts.</li>
+      <li><strong>Scoping too big.</strong> "Fix quality in the plant" is not a project. One line, one defect, one measurable goal is.</li>
+      <li><strong>Skipping Control.</strong> Without a control plan and an owner, the process drifts back and the gains disappear.</li>
+    </ul>
+    <div class="dm-callout">
+      <p><strong>Exam tip.</strong> ASQ's Six Sigma Green Belt and Black Belt bodies of knowledge are organized largely around the DMAIC phases, so expect questions that ask which phase a tool or deliverable belongs to. The cheat-sheet table above is a good place to start revising.</p>
+    </div>
+  </div>
+</section>
+
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="DMAIC stands for Define, Measure, Analyze, Improve, Control: the five phases of a Lean Six Sigma improvement project, in order.">
+        <legend>1. What do the letters DMAIC stand for?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> Design, Measure, Analyze, Implement, Check</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> Define, Measure, Analyze, Improve, Control</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> Define, Monitor, Act, Improve, Confirm</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Checking that the measurement system can be trusted, before collecting baseline data, is a Measure activity.">
+        <legend>2. A team checks that its inspection gauge gives repeatable readings before collecting baseline data. Which phase is this?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> Define</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> Analyze</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> Measure</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="d"> Control</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="Analyze verifies the root causes with data first, so the solutions chosen in Improve target real causes instead of guesses.">
+        <legend>3. Why does Analyze come before Improve?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> So the team fixes root causes it has verified, not causes it has guessed</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> Because Analyze is always the shortest phase</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Because the sponsor must approve the budget in Analyze</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Control ends with a control plan, including a response plan, handed to the process owner so the gains last after the team moves on.">
+        <legend>4. Which output marks the end of the Control phase?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> An approved project charter</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> A list of brainstormed solution ideas</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> A control plan handed to the process owner</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="DMAIC is for problems whose cause is unknown. When the fix is already known and low-risk, running a full project only adds delay: just make the change.">
+        <legend>5. In which situation is DMAIC the wrong tool?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> An existing process has a measurable defect with an unknown cause</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> The fix is already known and low-risk</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> A defect rate has been rising for three months and nobody knows why</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section class="related-lessons" style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);">
+  <h2>Related lessons</h2>
+  <ul>
+    <li><a href="/lessons/what-is-lean-six-sigma">What Is Lean Six Sigma?</a> — the bigger picture DMAIC sits inside: waste, variation and the belt roles.</li>
+    <li><a href="/lessons/7-essential-quality-tools">The 7 Essential Quality Tools</a> — the everyday tools you will reach for in Measure and Analyze.</li>
+    <li><a href="/lessons/root-cause-analysis-5-whys-fishbone">Root Cause Analysis: 5 Whys vs Fishbone Diagram</a> — the two root-cause tools at the heart of Analyze.</li>
+    <li><a href="/lessons/quality-engineering/gauge-rr-study">Gage R&amp;R</a> — how to check your measurement system before you trust the baseline.</li>
+    <li><a href="/lessons/control-charts-explained">Control Charts, Explained</a> — the main Control-phase tool for keeping the gains.</li>
+  </ul>
+</section>
+
+</main>
+
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#lean-six-sigma" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Lean Six Sigma lessons</a>
+</section>
+
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img class="logo-wordmark" src="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<script id="dm-sort-logic">
+/* "Which phase?" sorter. One try per activity; the score counts first-try answers. */
+(function () {
+  'use strict';
+  var PHASES = [['define', 'Define'], ['measure', 'Measure'], ['analyze', 'Analyze'], ['improve', 'Improve'], ['control', 'Control']];
+  var NAMES = {};
+  PHASES.forEach(function (p) { NAMES[p[0]] = p[1]; });
+  var root = document.getElementById('dm-sort-items');
+  var scoreEl = document.getElementById('dm-sort-score');
+  var reset = document.getElementById('dm-sort-reset');
+  if (!root || !scoreEl) return;
+  var items = Array.prototype.slice.call(root.querySelectorAll('.dm-sort-item'));
+
+  function render() {
+    var done = 0, right = 0;
+    items.forEach(function (it) {
+      if (it.getAttribute('data-picked')) { done++; if (it.classList.contains('is-right')) right++; }
+    });
+    scoreEl.textContent = done < items.length
+      ? done + ' of ' + items.length + ' sorted'
+      : 'All ' + items.length + ' sorted: ' + right + ' of ' + items.length + ' right first time.';
+  }
+
+  function pick(it, phase) {
+    if (it.getAttribute('data-picked')) return;
+    var answer = it.getAttribute('data-phase');
+    var ok = phase === answer;
+    it.setAttribute('data-picked', phase);
+    it.classList.add(ok ? 'is-right' : 'is-wrong');
+    Array.prototype.forEach.call(it.querySelectorAll('.dm-choice'), function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-pick') === phase ? 'true' : 'false');
+      b.disabled = true;
+    });
+    it.querySelector('.dm-sort-feedback').textContent = (ok ? '✓ Correct: ' : '✗ Not quite. This one belongs in ' + NAMES[answer] + ': ') + it.getAttribute('data-why');
+    render();
+  }
+
+  function build() {
+    items.forEach(function (it) {
+      var box = it.querySelector('.dm-choices');
+      box.innerHTML = '';
+      it.removeAttribute('data-picked');
+      it.classList.remove('is-right', 'is-wrong');
+      it.querySelector('.dm-sort-feedback').textContent = '';
+      PHASES.forEach(function (p) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'dm-choice';
+        b.textContent = p[1];
+        b.setAttribute('data-pick', p[0]);
+        b.setAttribute('aria-pressed', 'false');
+        b.addEventListener('click', function () { pick(it, p[0]); });
+        box.appendChild(b);
+      });
+    });
+    render();
+  }
+
+  if (reset) reset.addEventListener('click', build);
+  build();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+<style id="dmaic-in-10-minutes-dark-overrides">
+html[data-theme="dark"] #lesson-content{
+  --lesson-dmaic-page:#0d1726;
+  --lesson-dmaic-surface:#132134;
+  --lesson-dmaic-surface-2:#1a2b42;
+  --lesson-dmaic-text:#eef3f9;
+  --lesson-dmaic-text-2:#c3cfdd;
+  --lesson-dmaic-border:#34465e;
+  --lesson-dmaic-control:#8597ae;
+  --lesson-dmaic-teal:#5fd0dc;
+  --lesson-dmaic-teal-bg:#123241;
+  --lesson-dmaic-on-teal:#08141f;
+  --lesson-dmaic-navy:#9cc2ec;
+  --lesson-dmaic-red:#ff9b91;
+  --lesson-dmaic-red-bg:#3a1b1b;
+  --lesson-dmaic-amber:#f2b84b;
+  --lesson-dmaic-amber-bg:#332811;
+  --lesson-dmaic-green:#63d59a;
+  --lesson-dmaic-green-bg:#123224;
+  --lesson-dmaic-focus:#7dd3fc;
+  --lesson-dmaic-shadow:none;
+}
+</style>
+</body>
+</html>

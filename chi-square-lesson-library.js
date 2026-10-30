@@ -303,6 +303,18 @@
       description: 'Master all seven Excel CUBE functions, from your first CUBEVALUE to dynamic Top N reports, slicer-driven formulas, MDX sets and KPIs, with live builders and practice data.'
     },
     {
+      marker: 'data-dmaic-in-10-minutes',
+      sectionId: 'lean-six-sigma',
+      path: '/lessons/lean-six-sigma/dmaic-in-10-minutes',
+      topic: 'lean-six-sigma',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'dmaic define measure analyze improve control lean six sigma six sigma project roadmap phases tollgate project charter sipoc gage r&r root cause pilot control plan green belt beginner interactive',
+      meta: '<span>Beginner</span><span>Interactive</span><span>10 min</span><span>DMAIC</span>',
+      title: 'DMAIC in 10 Minutes',
+      description: 'Understand the five phases of a structured Lean Six Sigma improvement project: what each phase asks, its main tools, and what it delivers.'
+    },
+    {
       marker: 'data-process-capability',
       sectionId: 'lean-six-sigma',
       path: '/lessons/lean-six-sigma/process-capability-cp-and-cpk',
