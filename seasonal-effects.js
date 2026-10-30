@@ -170,9 +170,10 @@
     var n = id === 'christmas' ? (small ? 45 : 90) : (small ? 10 : 18);
     for (var i = 0; i < n; i++) parts.push(make(true));
 
-    var flyer = null, nextAt = null, trail = [];
+    // Passes alternate: first from the right (flying left), then from the left.
+    var flyer = null, nextAt = null, trail = [], lastDir = 1;
     function spawnFlyer() {
-      var dir = R() < 0.5 ? 1 : -1;
+      var dir = lastDir = -lastDir;
       var s = W < 700 ? 0.75 : 1.1;
       var wiz = id === 'halloween';
       return {
