@@ -1,12 +1,11 @@
 /**
- * Excel Coach Phase 5 – Closing the 10/10 gaps
- * Builds on Phases 1–4.
+ * Excel Coach Phase 6 – Final gap closure
+ * Builds on Phases 1–5.
  *
  * Adds:
- * - Formula-structure comparison against the current challenge’s expected shape
- * - Course-specific language (production data, quality metrics, process context)
- * - Stronger hint targeting that references the learner’s actual tokens/functions
- * - Light instrumentation for qualitative feedback
+ * - Deeper structure comparison (missing criteria inside FILTER, missing arguments, etc.)
+ * - More natural, example-rich course language
+ * - Richer instrumentation for reviewing completion and formula quality
  *
  * Fully offline. Enhancement hook remains optional.
  */
@@ -42,19 +41,19 @@
     return open - close;
   }
 
-  // ─── Course-specific vocabulary ──────────────────────────────
-  const courseContext = {
-    datasets: ["ProductionData", "Tap Time", "WeekNum", "Heat ID", "Result"],
-    quality: ["median tap time", "process capability", "defect rate", "control limits"],
-    process: "quality and process improvement"
+  // ─── Course-specific examples ──────────────────────────────
+  const examples = {
+    filterMedian: "For example, median tap time for a given week: =MEDIAN(FILTER(ProductionData[Tap Time], ProductionData[WeekNum]=M2))",
+    xlookup: "For example, look up a heat result: =XLOOKUP(M2, ProductionData[Heat ID], ProductionData[Result], \"Not found\")",
+    multi: "For example, filter by week and result: =FILTER(ProductionData[Tap Time], (ProductionData[WeekNum]=M2)*(ProductionData[Result]=\"OK\"))"
   };
 
-  function weaveContext(text) {
+  function naturalize(text) {
     if (!text) return text;
     return text
-      .replace(/the values/g, "the production values (e.g. Tap Time)")
-      .replace(/the condition/g, "the filter condition (e.g. WeekNum or Heat ID)")
-      .replace(/FILTER/g, "FILTER on the production table");
+      .replace(/the production values \(e\.g\. Tap Time\)/g, "the production values such as Tap Time")
+      .replace(/the filter condition \(e\.g\. WeekNum or Heat ID\)/g, "the filter condition such as WeekNum or Heat ID")
+      .replace(/FILTER on the production table/g, "FILTER on the ProductionData table");
   }
 
   // ─── Pattern library ───────────────────────────────────
@@ -63,7 +62,7 @@
       detect: (fns) => fns.includes("FILTER") && (fns.includes("MEDIAN") || fns.includes("AVERAGE") || fns.includes("SUM") || fns.includes("COUNT")),
       name: "FILTER + aggregate",
       hints: [
-        "Name the three parts: the production values you want (e.g. Tap Time), the condition that selects rows (e.g. WeekNum), and the final calculation.",
+        "Name the three parts: the production values such as Tap Time, the condition that selects rows such as WeekNum, and the final calculation.",
         "Build and test the FILTER on ProductionData by itself first. Confirm it returns the expected rows before wrapping it.",
         "Wrap the FILTER result with the aggregate (MEDIAN, AVERAGE, etc.). Handle the case when FILTER returns nothing."
       ]
@@ -117,7 +116,7 @@
     return null;
   }
 
-  // ─── Structure comparison against challenge ────────────────────
+  // ─── Deeper structure comparison ─────────────────────────────
   function compareToChallenge(formula, challenge) {
     if (!challenge || !challenge.f) return null;
     const learnerTokens = tokenize(formula).tokens || [];
@@ -125,17 +124,27 @@
     const learnerFns = extractFunctions(learnerTokens);
     const expectedFns = extractFunctions(expectedTokens);
 
+    const notes = [];
+
     const missingFns = expectedFns.filter(f => !learnerFns.includes(f));
     const extraFns = learnerFns.filter(f => !expectedFns.includes(f));
-
-    const notes = [];
     if (missingFns.length) notes.push(`Missing expected function(s): ${missingFns.join(", ")}.`);
     if (extraFns.length) notes.push(`Extra function(s) not in the target: ${extraFns.join(", ")}.`);
 
-    // Simple structural checks for common lesson patterns
-    if (challenge.f.includes("FILTER") && !learnerFns.includes("FILTER")) {
-      notes.push("The target uses FILTER to select production rows (e.g. by WeekNum). Your formula does not.");
+    // Deeper: missing criteria inside FILTER
+    if (challenge.f.includes("FILTER") && learnerFns.includes("FILTER")) {
+      const expectedHasWeek = /WeekNum/i.test(challenge.f);
+      const learnerHasWeek = /WeekNum/i.test(formula);
+      if (expectedHasWeek && !learnerHasWeek) {
+        notes.push("The target FILTER selects rows by WeekNum. Your FILTER is missing the WeekNum criterion.");
+      }
+      const expectedHasHeat = /Heat ID/i.test(challenge.f);
+      const learnerHasHeat = /Heat ID/i.test(formula);
+      if (expectedHasHeat && !learnerHasHeat) {
+        notes.push("The target uses Heat ID in the lookup or filter. Your formula does not.");
+      }
     }
+
     if (challenge.f.includes("MEDIAN") && !learnerFns.includes("MEDIAN")) {
       notes.push("The target aggregates with MEDIAN (typical for tap-time stability). Your formula does not.");
     }
@@ -186,13 +195,12 @@
     const pattern = parsed.tokens ? detectPattern(parsed.tokens) : null;
     const ladder = pattern ? pattern.hints : [
       "Name the formula’s job: what single production or quality result should it return?",
-      "Identify the inputs (e.g. Tap Time, WeekNum) and the condition that selects rows.",
+      "Identify the inputs such as Tap Time or WeekNum and the condition that selects rows.",
       "Build and test the smallest inner expression first, then add the next layer."
     ];
     const idx = Math.min(Math.max(0, level), ladder.length - 1);
-    let msg = weaveContext(ladder[idx]);
+    let msg = naturalize(ladder[idx]);
 
-    // Stronger targeting: mention what the learner already has
     const learnerFns = extractFunctions(parsed.tokens || []);
     if (learnerFns.length && level >= 1) {
       msg += `\n\nYou already have: ${learnerFns.join(", ")}.`;
@@ -204,6 +212,12 @@
     if (challenge && challenge.prompt && level === 0) {
       msg = `Focus: ${challenge.prompt}\n\n${msg}`;
     }
+
+    // Add a short example when relevant
+    if (level >= 2 && pattern && pattern.key === "filterAggregate") {
+      msg += `\n\n${examples.filterMedian}`;
+    }
+
     return msg;
   }
 
@@ -215,7 +229,7 @@
     return state;
   }
 
-  // ─── Light instrumentation ─────────────────────────────────────
+  // ─── Richer instrumentation ────────────────────────────────────
   function logInteraction(meta) {
     try {
       const key = "excelCoachInteractions";
@@ -224,12 +238,21 @@
         t: Date.now(),
         mode: meta.mode || "default",
         hasFormula: !!meta.formula,
-        challenge: meta.challenge && meta.challenge.prompt ? meta.challenge.prompt.slice(0, 60) : null
+        formulaLen: meta.formula ? meta.formula.length : 0,
+        challenge: meta.challenge && meta.challenge.prompt ? meta.challenge.prompt.slice(0, 80) : null,
+        revealed: !!(meta.mode === "hint" && /final|reveal|answer/.test(meta.message || ""))
       });
-      if (log.length > 50) log.shift();
+      if (log.length > 100) log.shift();
       localStorage.setItem(key, JSON.stringify(log));
     } catch (e) { /* ignore storage errors */ }
   }
+
+  // Expose a simple reviewer
+  CoachEngine.getInteractionLog = function () {
+    try {
+      return JSON.parse(localStorage.getItem("excelCoachInteractions") || "[]");
+    } catch (e) { return []; }
+  };
 
   // ─── Optional enhancement layer ───────────────────────────────────
   CoachEngine.enhance = null;
@@ -246,7 +269,7 @@
     return reply;
   }
 
-  // ─── Main local response (Phase 5) ──────────────────────────────
+  // ─── Main local response (Phase 6) ──────────────────────────────
   CoachEngine.localResponse = async function (message, mode, contextFn, challenges, state) {
     const c = typeof contextFn === "function" ? contextFn() : {};
     const m = String(message || "").trim();
@@ -306,7 +329,7 @@
       reply += `\n\nTell me the production or quality result you need and paste the formula you have tried. I will identify the first incorrect stage without giving the full solution.`;
     }
 
-    logInteraction({ mode, formula, challenge });
+    logInteraction({ mode, formula, challenge, message: m });
     return maybeEnhance(reply, { message: m, mode, formula, challenge, context: c });
   };
 
