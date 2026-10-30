@@ -1,10 +1,8 @@
 /**
- * Excel Coach Phase 2 – Context & pedagogy
- * Builds on Phase 1 offline parser + diagnostics + progressive hints.
- * Adds richer challenge context, Socratic questioning, error-specific guidance,
- * and workplace framing aligned with the Excel Formula Fluency lesson.
- *
- * Fully offline. Designed to replace or enhance the existing localResponse.
+ * Excel Coach Phase 3 – Quality & polish
+ * Builds on Phase 1 (parser/diagnostics/hints) and Phase 2 (context/pedagogy).
+ * Adds safer state handling, expanded diagnostics, cleaner hint logic,
+ * and more robust fallbacks. Fully offline.
  */
 (function (global) {
   "use strict";
@@ -88,9 +86,12 @@
   };
 
   function detectPattern(tokens) {
+    if (!tokens || !tokens.length) return null;
     const fns = extractFunctions(tokens);
     for (const key of Object.keys(patterns)) {
-      if (patterns[key].detect(fns, tokens)) return { key, ...patterns[key] };
+      try {
+        if (patterns[key].detect(fns, tokens)) return { key, ...patterns[key] };
+      } catch (e) { /* ignore pattern errors */ }
     }
     return null;
   }
@@ -112,6 +113,8 @@
     if (/#SPILL!/i.test(f)) findings.push({ level: "error", msg: "#SPILL! — the dynamic array result is blocked. Clear the cells below or to the right." });
     if (/#VALUE!/i.test(f)) findings.push({ level: "error", msg: "#VALUE! — usually a text/number mismatch or an invalid operation." });
     if (/#N\/A/i.test(f)) findings.push({ level: "error", msg: "#N/A — lookup value not found. Add a fallback argument if using XLOOKUP." });
+    if (/#DIV\/0!/i.test(f)) findings.push({ level: "error", msg: "#DIV/0! — division by zero. Check the denominator." });
+    if (/#NAME\?/i.test(f)) findings.push({ level: "error", msg: "#NAME? — unrecognized function or named range." });
     if (/\$?[A-Z]{1,3}:\$?[A-Z]{1,3}/i.test(f) && /FILTER|SUMPRODUCT|XLOOKUP|MATCH|SUMIFS/i.test(f)) {
       findings.push({ level: "warn", msg: "Whole-column reference detected. Prefer a Table or limited range for performance and clarity." });
     }
@@ -133,7 +136,7 @@
       "Identify the inputs and the condition that selects rows.",
       "Build and test the smallest inner expression first, then add the next layer."
     ];
-    const idx = Math.min(level, ladder.length - 1);
+    const idx = Math.min(Math.max(0, level), ladder.length - 1);
     let msg = ladder[idx];
     if (challenge && challenge.h && level >= 1) {
       msg += `\n\nChallenge-specific hint: ${challenge.h}`;
@@ -144,7 +147,15 @@
     return msg;
   }
 
-  // ─── Main local response (Phase 2) ──────────────────────────────
+  function ensureHintState(state) {
+    if (!state) return { phase3: { coach: { hintLevels: {} } } };
+    if (!state.phase3) state.phase3 = { coach: { hintLevels: {} } };
+    if (!state.phase3.coach) state.phase3.coach = { hintLevels: {} };
+    if (!state.phase3.coach.hintLevels) state.phase3.coach.hintLevels = {};
+    return state;
+  }
+
+  // ─── Main local response (Phase 3) ──────────────────────────────
   CoachEngine.localResponse = function (message, mode, contextFn, challenges, state) {
     const c = typeof contextFn === "function" ? contextFn() : {};
     const m = String(message || "").trim();
@@ -179,18 +190,17 @@
 
     // Progressive hint
     if (mode === "hint" || /one hint|hint|help me.*challenge|current challenge/.test(lower)) {
-      const key = String((state && state.current) || "general");
-      if (!state.phase3) state.phase3 = { coach: { hintLevels: {} } };
-      if (!state.phase3.coach.hintLevels) state.phase3.coach.hintLevels = {};
-      const level = state.phase3.coach.hintLevels[key] || 0;
+      const s = ensureHintState(state);
+      const key = String((s && s.current) || "general");
+      const level = s.phase3.coach.hintLevels[key] || 0;
       const reveal = /final solution|reveal|show.*answer|full formula/.test(lower);
       if (reveal) {
-        state.phase3.coach.hintLevels[key] = 99;
+        s.phase3.coach.hintLevels[key] = 99;
         return challenge.f
           ? `Final formula: ${challenge.f}\n\nWhy it works: ${challenge.w || "Each stage feeds the next."}`
           : "No stored final formula for this activity. I can still help you test stages.";
       }
-      state.phase3.coach.hintLevels[key] = Math.min(level + 1, 3);
+      s.phase3.coach.hintLevels[key] = Math.min(level + 1, 3);
       return progressiveHint(formula, level, challenge);
     }
 
