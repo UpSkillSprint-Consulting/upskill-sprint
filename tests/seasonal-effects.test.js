@@ -20,6 +20,29 @@ const seasonOn = (date, search) => {
 
 const at = (y, m, d, h, min) => new Date(y, m - 1, d, h, min);
 
+// Real Canadian Thanksgiving Mondays (2nd Monday of October), from a calendar.
+const THANKSGIVING_MONDAY = { 2026: 12, 2027: 11, 2028: 9, 2029: 8, 2030: 14, 2031: 13 };
+
+test('Thanksgiving runs Friday through Thanksgiving Monday, moving with the calendar', () => {
+  for (const [y, mon] of Object.entries(THANKSGIVING_MONDAY).map(([y, m]) => [+y, m])) {
+    assert.equal(seasonOn(at(y, 10, mon - 4, 23, 59)), 'halloween', `${y} Thu before`);
+    assert.equal(seasonOn(at(y, 10, mon - 3, 0, 0)), 'thanksgiving', `${y} Fri`);
+    assert.equal(seasonOn(day(y, 10, mon - 1)), 'thanksgiving', `${y} Sun`);
+    assert.equal(seasonOn(at(y, 10, mon, 23, 59)), 'thanksgiving', `${y} Mon`);
+    assert.equal(seasonOn(at(y, 10, mon + 1, 0, 0)), 'halloween', `${y} Tue after`);
+  }
+});
+
+test('Thanksgiving Monday is always the 2nd Monday of October', () => {
+  for (let y = 2026; y <= 2060; y++) {
+    const fri = fx.SEASONS.find(s => s.id === 'thanksgiving').range(y)[0];
+    const mon = new Date(fri.getFullYear(), fri.getMonth(), fri.getDate() + 3);
+    assert.equal(mon.getMonth(), 9, `${y} month`);
+    assert.equal(mon.getDay(), 1, `${y} weekday`);
+    assert.ok(mon.getDate() >= 8 && mon.getDate() <= 14, `${y} date ${mon.getDate()}`);
+  }
+});
+
 test('Halloween runs Oct 1 through Nov 4 every year, automatically', () => {
   for (const y of [2026, 2027, 2028, 2030]) {
     assert.equal(seasonOn(at(y, 9, 30, 23, 59)), null);
@@ -54,6 +77,8 @@ test('?season= preview overrides the date, including inside another season', () 
   assert.equal(seasonOn(day(2026, 10, 30), '?season=christmas'), 'christmas');
   assert.equal(seasonOn(day(2026, 12, 10), '?season=halloween'), 'halloween');
   assert.equal(seasonOn(day(2026, 6, 1), '?season=halloween'), 'halloween');
+  assert.equal(seasonOn(day(2026, 10, 30), '?season=thanksgiving'), 'thanksgiving');
+  assert.equal(seasonOn(day(2026, 10, 10), '?season=halloween'), 'halloween');
   assert.equal(seasonOn(day(2026, 10, 30), '?season=off'), null);
   assert.equal(fx.pick(day(2026, 6, 1), '?season=christmas').forced, true);
 });
