@@ -896,12 +896,21 @@ Worked example: the Engineering & Statistics Calculator,
 ---
 
 
-### 9.9 Text width (no per-lesson `ch` caps)
+### 9.9 Text width and page wrappers (no per-lesson `ch` caps)
 
-- Do not set your own `max-width: NNch` on lesson prose (ledes, intros, section intros, callouts, "why it matters" boxes, cards, promos). Boxes, cards and callouts fill their container.
-- Where a reading column is genuinely wanted, use the shared token from `style.css`: `max-width: var(--text-measure);` (about 75ch). Do not hard-code a different value.
-- Short deliberate caps on display headings, pull quotes or badges (under about 55ch) are allowed when they are clearly intentional.
+- **Text fills its container.** Prose classes (`.prose`, `.lz-prose`, `.bfm-prose`, ledes, intros, section intros) must not set `max-width` at all: not a `ch` cap, not a px cap and not `max-width: none`. Boxes, cards, panels, callouts, promos and CTAs also fill their container.
+- **The page wrapper sets the column.** A page-wrapper class is any class that sets `max-width` plus `margin: 0 auto` (for example `.wrap`, `.lz-wrap` at 1120px, `.bfm-wrap` at 1200px, `.cpti-wrap`). Never override a page wrapper's `max-width` or margins, either in a later rule or with a class on the same element.
+- **Never put a wrapper class and a prose or text class that sets `max-width` on the same element.** Nest them, with the wrapper outside and the prose inside:
+  ```html
+  <!-- wrong: .lz-prose{max-width:none} comes later and wins, so the section runs edge to edge -->
+  <div class="lz-wrap lz-prose">...</div>
+  <!-- right -->
+  <div class="lz-wrap"><div class="lz-prose">...</div></div>
+  ```
+  This exact bug shipped in PR #374: six linearize-data sections (`#why-linearize`, `#special-cases`, `#did-it-work`, `#worked-example`, `#python-r`, `#references`) lost their margins and ran to the screen edges (§23).
+- **No per-lesson `ch` caps.** The only exception is short display text, such as a lede or pull quote, capped at 44ch or less when that is clearly intentional. Where a reading column is genuinely wanted, use the shared token from `style.css`, `max-width: var(--text-measure);` (about 75ch), on the text element itself, never on the wrapper.
 - The `max-width:900px` wrappers in §7.1 (`.quiz-section`) and §8 (Return to lesson category) are the deliberate page-column width for those blocks and stay as they are; they are not text caps.
+- `tests/layout-wrapper-override.test.js` fails the build when an element combines a wrapper class with a later class that sets `max-width`.
 
 ## 10. Mobile requirements (all lessons)
 
@@ -1504,7 +1513,8 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] Search index regenerated with npm run build:lesson-search-index on a clean tree and committed.
 - [ ] sitemap.xml snapshot updated from public-site/sitemap.xml (page added/removed only).
 **Page structure & head**
-- [ ] No per-lesson `max-width: NNch` caps on prose; boxes, cards and callouts fill their container; any reading column uses `var(--text-measure)` from style.css (§9.9).
+- [ ] No per-lesson `max-width: NNch` caps on prose (short display text of 44ch or less excepted); prose classes set no `max-width`; boxes, cards and callouts fill their container (§9.9).
+- [ ] No element combines a page-wrapper class with a prose class that sets `max-width`. At 1280px and 1600px, every section's text edges line up with the page column; nothing runs edge to edge (§9.9).
 - [ ] Filename is lowercase-hyphenated; equals slug; in lessons/<category_slug>/.
 - [ ] <html lang="en"> is immediately followed by the UPSKILLSPRINT_LESSON_META comment; JSON valid; all required fields; >=5 search_keywords; suggested_github_path correct.
 - [ ] <title> ends with " | UpSkill Sprint" and is ≤65 chars in total (test-locked older titles exempt, §2.1); meta description ≤165 chars; canonical extensionless (slash only for directory index); og:type/title/description/image/url + twitter:card; favicon links.
@@ -1871,4 +1881,5 @@ PR that Ernest asked for.
 | Gated lessons ship their full content in the HTML and the public search index | `require-auth.js`, `access-control.js`, search index | Plan in PR #257 (`docs/plans/gated-lesson-content-plan.md`). Until Ernest approves an approach, treat any non-public lesson's content as visible to anyone. |
 | Full suite has 164 failing tests on `main`, almost all `tests/test-bank-*` and student-audit tests, plus 2 in `reliability-maintainability-lesson.test.js` that still expect `role="img"` after PR #253 | `tests/` | Compare with `main` (§16 step 3). Require no new failures. |
 | "Node 22 full suite" check only runs the stateless test-bank tests, despite its name | `.github/workflows/full-test-suite.yml` | Run the lesson set and full-suite comparison locally (§16). |
+| Page wrapper overridden by a prose class on the same element (`class="lz-wrap lz-prose"` with a later `.lz-prose{max-width:none}`), so sections run edge to edge | linearize-data lesson (6 sections) after PR #374; `.bfm-wrap bfm-prose` in the Best-Fit tool (hidden by embed mode) | Fixed by removing `max-width` from `.lz-prose` and `.bfm-prose`. Never repeat it: nest wrapper and prose (§9.9); `tests/layout-wrapper-override.test.js` guards it. |
 | Older lessons have overlong or suffix-less titles, mixed math renderers, `$` delimiters, and missing dark fixes | various | Leave them unless your task is that lesson. Test-locked titles are exempt (§2.1). Math migrates per §22.1. |
