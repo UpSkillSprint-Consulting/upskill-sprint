@@ -31,7 +31,9 @@
   // Pages that never get effects (prefix match). Exams stay distraction-free.
   // The build-time injector reads this same list, so edit it here only.
   var EXCLUDE_PATHS = ['/test-bank', '/exam-preview'];
-  var Z = 9998; // overlay layer; badge sits at Z+1
+  // Layer: above page content and the sticky header (20), below the mobile
+  // menu drawer (40, site-nav.css) so an open menu always covers the effects.
+  var Z = 30; // badge sits at Z+1
   // Flyover (geese / wizard on a broom / Santa's sleigh): first pass N seconds after load,
   // then one pass every [min, max] seconds. Set FLYER_ON = false to disable.
   var FLYER_ON = true;
@@ -110,13 +112,16 @@
   function addBadge(s, onOff) {
     var css = document.createElement('style');
     css.textContent =
-      '.uss-fx-badge{position:fixed;left:12px;bottom:12px;z-index:' + (Z + 1) + ';display:flex;align-items:center;gap:6px;' +
-      'padding:6px 6px 6px 10px;border-radius:999px;background:rgba(13,27,48,.9);color:#e6f1f8;' +
+      '.uss-fx-badge{position:fixed;left:calc(12px + env(safe-area-inset-left,0px));' +
+      'bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:' + (Z + 1) + ';display:flex;align-items:center;gap:6px;' +
+      'padding:2px 2px 2px 10px;border-radius:999px;background:rgba(13,27,48,.9);color:#e6f1f8;' +
       'border:1px solid rgba(63,182,216,.45);font:600 13px/1 system-ui,-apple-system,Segoe UI,sans-serif;' +
       'box-shadow:0 4px 14px rgba(0,0,0,.35)}' +
       '.uss-fx-badge .t{max-width:170px;overflow:hidden;white-space:nowrap;transition:max-width .5s ease}' +
       '.uss-fx-badge.mini .t{max-width:0}' +
-      '.uss-fx-badge button{all:unset;cursor:pointer;padding:3px 7px;border-radius:999px;opacity:.75}' +
+      // 32px close target: comfortably above the WCAG 2.2 AA 24px minimum for touch
+      '.uss-fx-badge button{all:unset;cursor:pointer;box-sizing:border-box;min-width:32px;min-height:32px;' +
+      'display:inline-flex;align-items:center;justify-content:center;border-radius:999px;opacity:.75}' +
       '.uss-fx-badge button:hover,.uss-fx-badge button:focus-visible{opacity:1;background:rgba(255,255,255,.14)}' +
       '@media print{.uss-fx-badge,.uss-fx-canvas{display:none!important}}';
     document.head.appendChild(css);
@@ -135,7 +140,8 @@
     var c = document.createElement('canvas');
     c.className = 'uss-fx-canvas';
     c.setAttribute('aria-hidden', 'true');
-    c.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:' + Z;
+    // inset:0 tracks the visible viewport as a phone's address bar shows and hides
+    c.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:' + Z;
     var ctx = c.getContext && c.getContext('2d');
     if (!ctx) return function () {}; // no canvas support: greeting only
     document.body.appendChild(c);
@@ -143,7 +149,7 @@
 
     function resize() {
       var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      W = window.innerWidth; H = window.innerHeight;
+      W = c.clientWidth || window.innerWidth; H = c.clientHeight || window.innerHeight;
       c.width = Math.round(W * dpr); c.height = Math.round(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
