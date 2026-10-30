@@ -1,11 +1,10 @@
 /**
- * Excel Coach Phase 6 – Final gap closure
- * Builds on Phases 1–5.
+ * Excel Coach Phase 7 – Final 10/10 polish
+ * Builds on Phases 1–6.
  *
  * Adds:
- * - Deeper structure comparison (missing criteria inside FILTER, missing arguments, etc.)
- * - More natural, example-rich course language
- * - Richer instrumentation for reviewing completion and formula quality
+ * - In-lesson interaction summary so completion and formula quality can be reviewed
+ * - More specific next-action sentence when structure notes are present
  *
  * Fully offline. Enhancement hook remains optional.
  */
@@ -131,7 +130,6 @@
     if (missingFns.length) notes.push(`Missing expected function(s): ${missingFns.join(", ")}.`);
     if (extraFns.length) notes.push(`Extra function(s) not in the target: ${extraFns.join(", ")}.`);
 
-    // Deeper: missing criteria inside FILTER
     if (challenge.f.includes("FILTER") && learnerFns.includes("FILTER")) {
       const expectedHasWeek = /WeekNum/i.test(challenge.f);
       const learnerHasWeek = /WeekNum/i.test(formula);
@@ -189,6 +187,14 @@
     return findings;
   }
 
+  function specificNextAction(findings) {
+    const structure = findings.find(f => f.msg && /WeekNum|Heat ID|Missing expected function/.test(f.msg));
+    if (structure) {
+      return `Next: address the structure note above (“${structure.msg.split(".")[0]}”) before rebuilding the full formula.`;
+    }
+    return "Next: evaluate the innermost function or Boolean test alone before rebuilding the full formula.";
+  }
+
   // ─── Progressive-hint ladder ─────────────────────────────────────
   function progressiveHint(formula, level, challenge) {
     const parsed = tokenize(formula);
@@ -213,7 +219,6 @@
       msg = `Focus: ${challenge.prompt}\n\n${msg}`;
     }
 
-    // Add a short example when relevant
     if (level >= 2 && pattern && pattern.key === "filterAggregate") {
       msg += `\n\n${examples.filterMedian}`;
     }
@@ -229,7 +234,7 @@
     return state;
   }
 
-  // ─── Richer instrumentation ────────────────────────────────────
+  // ─── Richer instrumentation + summary ─────────────────────────
   function logInteraction(meta) {
     try {
       const key = "excelCoachInteractions";
@@ -247,11 +252,20 @@
     } catch (e) { /* ignore storage errors */ }
   }
 
-  // Expose a simple reviewer
   CoachEngine.getInteractionLog = function () {
     try {
       return JSON.parse(localStorage.getItem("excelCoachInteractions") || "[]");
     } catch (e) { return []; }
+  };
+
+  CoachEngine.getInteractionSummary = function () {
+    const log = CoachEngine.getInteractionLog();
+    if (!log.length) return "No coach interactions recorded yet.";
+    const total = log.length;
+    const withFormula = log.filter(e => e.hasFormula).length;
+    const reveals = log.filter(e => e.revealed).length;
+    const avgLen = Math.round(log.filter(e => e.formulaLen).reduce((s, e) => s + e.formulaLen, 0) / (withFormula || 1));
+    return `Coach interactions: ${total} total, ${withFormula} with a formula (avg length ${avgLen}), ${reveals} full reveals.`;
   };
 
   // ─── Optional enhancement layer ───────────────────────────────────
@@ -269,7 +283,7 @@
     return reply;
   }
 
-  // ─── Main local response (Phase 6) ──────────────────────────────
+  // ─── Main local response (Phase 7) ──────────────────────────────
   CoachEngine.localResponse = async function (message, mode, contextFn, challenges, state) {
     const c = typeof contextFn === "function" ? contextFn() : {};
     const m = String(message || "").trim();
@@ -297,7 +311,7 @@
     else if (mode === "debug" || /debug|why.*not|error|fix this|#value|#spill|#n\/a/.test(lower)) {
       const findings = diagnose(formula, challenge);
       const lines = findings.map(f => `• [${f.level.toUpperCase()}] ${f.msg}`).join("\n");
-      reply = `Formula diagnosis:\n${lines || "No obvious syntax issues detected."}\n\nNext: evaluate the innermost function or Boolean test alone before rebuilding the full formula.`;
+      reply = `Formula diagnosis:\n${lines || "No obvious syntax issues detected."}\n\n${specificNextAction(findings)}`;
       if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
     }
     // Progressive hint
@@ -321,6 +335,10 @@
       reply = `You are in the ${c.path || "Excel Foundations"} pathway focusing on ${c.skill?.name || "formulas"}.`;
       if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
       reply += `\n\nPaste a formula or name the concept and I will break it into stages with a workplace example from production or quality data.`;
+    }
+    // Summary request
+    else if (/summary|progress|how am i doing|interaction/.test(lower)) {
+      reply = CoachEngine.getInteractionSummary();
     }
     // Default Socratic
     else {
