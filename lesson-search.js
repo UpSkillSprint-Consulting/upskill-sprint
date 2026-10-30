@@ -1258,7 +1258,7 @@
     input.setAttribute('aria-controls', suggestions.id);
     input.setAttribute('aria-expanded', 'false');
     input.setAttribute('aria-describedby', [input.getAttribute('aria-describedby'), privacy.id, suggestionStatus.id].filter(Boolean).join(' '));
-    input.placeholder = 'Try a phrase, formula, example, or question…';
+    input.placeholder = 'Search lessons, formulas…';
     input.autocomplete = 'off';
     input.spellcheck = true;
     input.maxLength = 160;

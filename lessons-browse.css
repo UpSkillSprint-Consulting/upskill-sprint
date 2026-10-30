@@ -72,3 +72,14 @@ main .lesson-library { padding-top: 28px; }
   main .lessons-hero { padding: 36px 0 18px; }
   main .lesson-library { padding-top: 20px; }
 }
+
+/* Search on its own full-width row above the filters, at every width.
+   Before: it shared a 7-column grid row and got about 190px at 1280px, so the
+   placeholder was cut off and the two-word label wrapped onto a second line. */
+main .library-tools > .lesson-search-shell { grid-column: 1 / -1; }
+main .library-tools > .lesson-search-shell > label { white-space: normal; overflow: visible; }
+.lesson-search-hint { margin: 2px 0 0; color: var(--muted); font-size: 13px; line-height: 1.4; }
+#lesson-search::placeholder { color: var(--muted); opacity: 1; }
+@media (min-width: 981px) {
+  main .library-tools { grid-template-columns: repeat(4, minmax(0, 1fr)) auto auto; }
+}
