@@ -1,16 +1,17 @@
 /**
- * Excel Coach Phase 1 – Foundation (core offline intelligence)
- * Lightweight formula parser, pattern library, diagnostic engine,
- * and progressive-hint ladder for the Excel Formula Fluency lesson.
+ * Excel Coach Phase 2 – Context & pedagogy
+ * Builds on Phase 1 offline parser + diagnostics + progressive hints.
+ * Adds richer challenge context, Socratic questioning, error-specific guidance,
+ * and workplace framing aligned with the Excel Formula Fluency lesson.
  *
- * Works fully offline. Designed to replace or enhance the existing localResponse.
+ * Fully offline. Designed to replace or enhance the existing localResponse.
  */
 (function (global) {
   "use strict";
 
   const CoachEngine = {};
 
-  // ─── Lightweight formula parser ────────────────────────────────────
+  // ─── Lightweight formula parser ────────────────────────────────
   function tokenize(formula) {
     const f = String(formula || "").trim();
     if (!f.startsWith("=")) return { error: "Formula must start with =" };
@@ -37,10 +38,10 @@
     return open - close;
   }
 
-  // ─── Pattern library ──────────────────────────────────────────
+  // ─── Pattern library ───────────────────────────────────
   const patterns = {
     filterAggregate: {
-      detect: (fns, tokens) => fns.includes("FILTER") && (fns.includes("MEDIAN") || fns.includes("AVERAGE") || fns.includes("SUM") || fns.includes("COUNT")),
+      detect: (fns) => fns.includes("FILTER") && (fns.includes("MEDIAN") || fns.includes("AVERAGE") || fns.includes("SUM") || fns.includes("COUNT")),
       name: "FILTER + aggregate",
       hints: [
         "Name the three parts: the values you want, the condition that selects rows, and the final calculation on those values.",
@@ -94,7 +95,7 @@
     return null;
   }
 
-  // ─── Diagnostic engine ────────────────────────────────────────
+  // ─── Diagnostic engine ────────────────────────────────
   function diagnose(formula) {
     const findings = [];
     const f = String(formula || "").trim();
@@ -108,6 +109,9 @@
     if ((f.match(/"/g) || []).length % 2) findings.push({ level: "error", msg: "Unpaired double quote." });
     if (/!=/.test(f)) findings.push({ level: "error", msg: "Use <> for not-equal, not !=." });
     if (/#REF!/i.test(f)) findings.push({ level: "error", msg: "#REF! — a referenced cell or range no longer exists." });
+    if (/#SPILL!/i.test(f)) findings.push({ level: "error", msg: "#SPILL! — the dynamic array result is blocked. Clear the cells below or to the right." });
+    if (/#VALUE!/i.test(f)) findings.push({ level: "error", msg: "#VALUE! — usually a text/number mismatch or an invalid operation." });
+    if (/#N\/A/i.test(f)) findings.push({ level: "error", msg: "#N/A — lookup value not found. Add a fallback argument if using XLOOKUP." });
     if (/\$?[A-Z]{1,3}:\$?[A-Z]{1,3}/i.test(f) && /FILTER|SUMPRODUCT|XLOOKUP|MATCH|SUMIFS/i.test(f)) {
       findings.push({ level: "warn", msg: "Whole-column reference detected. Prefer a Table or limited range for performance and clarity." });
     }
@@ -120,8 +124,8 @@
     return findings;
   }
 
-  // ─── Progressive-hint ladder ──────────────────────────────────────
-  function progressiveHint(formula, level, challengeHint) {
+  // ─── Progressive-hint ladder ─────────────────────────────────────
+  function progressiveHint(formula, level, challenge) {
     const parsed = tokenize(formula);
     const pattern = parsed.tokens ? detectPattern(parsed.tokens) : null;
     const ladder = pattern ? pattern.hints : [
@@ -131,11 +135,16 @@
     ];
     const idx = Math.min(level, ladder.length - 1);
     let msg = ladder[idx];
-    if (challengeHint && level >= 1) msg += `\n\nChallenge-specific hint: ${challengeHint}`;
+    if (challenge && challenge.h && level >= 1) {
+      msg += `\n\nChallenge-specific hint: ${challenge.h}`;
+    }
+    if (challenge && challenge.prompt && level === 0) {
+      msg = `Focus: ${challenge.prompt}\n\n${msg}`;
+    }
     return msg;
   }
 
-  // ─── Main local response (Phase 1) ─────────────────────────────────
+  // ─── Main local response (Phase 2) ──────────────────────────────
   CoachEngine.localResponse = function (message, mode, contextFn, challenges, state) {
     const c = typeof contextFn === "function" ? contextFn() : {};
     const m = String(message || "").trim();
@@ -163,7 +172,9 @@
     if (mode === "debug" || /debug|why.*not|error|fix this|#value|#spill|#n\/a/.test(lower)) {
       const findings = diagnose(formula);
       const lines = findings.map(f => `• [${f.level.toUpperCase()}] ${f.msg}`).join("\n");
-      return `Formula diagnosis:\n${lines || "No obvious syntax issues detected."}\n\nNext: evaluate the innermost function or Boolean test alone before rebuilding the full formula.`;
+      let reply = `Formula diagnosis:\n${lines || "No obvious syntax issues detected."}\n\nNext: evaluate the innermost function or Boolean test alone before rebuilding the full formula.`;
+      if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
+      return reply;
     }
 
     // Progressive hint
@@ -180,16 +191,22 @@
           : "No stored final formula for this activity. I can still help you test stages.";
       }
       state.phase3.coach.hintLevels[key] = Math.min(level + 1, 3);
-      return progressiveHint(formula, level, challenge.h);
+      return progressiveHint(formula, level, challenge);
     }
 
     // Explain
     if (mode === "explain" || /explain|what is|how does|understand/.test(lower)) {
-      return `You are in the ${c.path || "Excel Foundations"} pathway focusing on ${c.skill?.name || "formulas"}.\n\nPaste a formula or name the concept and I will break it into stages with a workplace example.`;
+      let reply = `You are in the ${c.path || "Excel Foundations"} pathway focusing on ${c.skill?.name || "formulas"}.`;
+      if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
+      reply += `\n\nPaste a formula or name the concept and I will break it into stages with a workplace example.`;
+      return reply;
     }
 
     // Default Socratic
-    return `You are working in the ${c.path || "Excel Foundations"} pathway. ${c.skill?.name || "Formula Foundations"} is the current priority.\n\nTell me the result you need and paste the formula you have tried. I will identify the first incorrect stage without giving the full solution.`;
+    let reply = `You are working in the ${c.path || "Excel Foundations"} pathway. ${c.skill?.name || "Formula Foundations"} is the current priority.`;
+    if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
+    reply += `\n\nTell me the result you need and paste the formula you have tried. I will identify the first incorrect stage without giving the full solution.`;
+    return reply;
   };
 
   CoachEngine.diagnose = diagnose;
