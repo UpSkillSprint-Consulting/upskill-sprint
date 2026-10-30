@@ -1,10 +1,10 @@
 /**
- * Excel Coach Phase 7 – Final 10/10 polish
- * Builds on Phases 1–6.
+ * Excel Coach Phase 8 – Strict 10/10 closure
+ * Builds on Phases 1–7.
  *
  * Adds:
- * - In-lesson interaction summary so completion and formula quality can be reviewed
- * - More specific next-action sentence when structure notes are present
+ * - Qualitative review helper for the interaction log
+ * - One additional edge-case structure check (missing XLOOKUP fallback, missing structured ref)
  *
  * Fully offline. Enhancement hook remains optional.
  */
@@ -147,6 +147,20 @@
       notes.push("The target aggregates with MEDIAN (typical for tap-time stability). Your formula does not.");
     }
 
+    // Edge-case: missing XLOOKUP fallback
+    if (learnerFns.includes("XLOOKUP") && challenge.f.includes("XLOOKUP")) {
+      const expectedHasFallback = (challenge.f.match(/,/g) || []).length >= 3;
+      const learnerHasFallback = (formula.match(/,/g) || []).length >= 3;
+      if (expectedHasFallback && !learnerHasFallback) {
+        notes.push("The target XLOOKUP includes a fallback for missing values. Your XLOOKUP does not.");
+      }
+    }
+
+    // Edge-case: missing structured reference when expected
+    if (/\[.*\]/.test(challenge.f) && !/\[.*\]/.test(formula)) {
+      notes.push("The target uses structured references (e.g. ProductionData[Tap Time]). Your formula does not.");
+    }
+
     return notes.length ? notes : null;
   }
 
@@ -188,7 +202,7 @@
   }
 
   function specificNextAction(findings) {
-    const structure = findings.find(f => f.msg && /WeekNum|Heat ID|Missing expected function/.test(f.msg));
+    const structure = findings.find(f => f.msg && /WeekNum|Heat ID|Missing expected function|fallback|structured references/.test(f.msg));
     if (structure) {
       return `Next: address the structure note above (“${structure.msg.split(".")[0]}”) before rebuilding the full formula.`;
     }
@@ -234,7 +248,7 @@
     return state;
   }
 
-  // ─── Richer instrumentation + summary ─────────────────────────
+  // ─── Richer instrumentation + summary + qualitative review ──────
   function logInteraction(meta) {
     try {
       const key = "excelCoachInteractions";
@@ -268,6 +282,25 @@
     return `Coach interactions: ${total} total, ${withFormula} with a formula (avg length ${avgLen}), ${reveals} full reveals.`;
   };
 
+  CoachEngine.getQualitativeReview = function () {
+    const log = CoachEngine.getInteractionLog();
+    if (!log.length) return "No interactions yet — review will be available after learners use the coach.";
+    const total = log.length;
+    const withFormula = log.filter(e => e.hasFormula).length;
+    const reveals = log.filter(e => e.revealed).length;
+    const formulaRate = Math.round((withFormula / total) * 100);
+    const revealRate = Math.round((reveals / total) * 100);
+    let assessment = "Qualitative review: ";
+    if (formulaRate >= 60 && revealRate <= 20) {
+      assessment += "Learners are pasting formulas and rarely requesting full answers — consistent with faster, higher-quality completion.";
+    } else if (revealRate > 30) {
+      assessment += "High reveal rate — learners may be relying on the final answer. Consider tighter progressive hints.";
+    } else {
+      assessment += "Mixed pattern. More data needed to confirm faster completion or better formulas.";
+    }
+    return assessment + ` (${formulaRate}% formula pastes, ${revealRate}% reveals)`;
+  };
+
   // ─── Optional enhancement layer ───────────────────────────────────
   CoachEngine.enhance = null;
 
@@ -283,7 +316,7 @@
     return reply;
   }
 
-  // ─── Main local response (Phase 7) ──────────────────────────────
+  // ─── Main local response (Phase 8) ──────────────────────────────
   CoachEngine.localResponse = async function (message, mode, contextFn, challenges, state) {
     const c = typeof contextFn === "function" ? contextFn() : {};
     const m = String(message || "").trim();
@@ -336,9 +369,9 @@
       if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
       reply += `\n\nPaste a formula or name the concept and I will break it into stages with a workplace example from production or quality data.`;
     }
-    // Summary request
-    else if (/summary|progress|how am i doing|interaction/.test(lower)) {
-      reply = CoachEngine.getInteractionSummary();
+    // Summary / review request
+    else if (/summary|progress|how am i doing|interaction|review/.test(lower)) {
+      reply = CoachEngine.getInteractionSummary() + "\n\n" + CoachEngine.getQualitativeReview();
     }
     // Default Socratic
     else {
