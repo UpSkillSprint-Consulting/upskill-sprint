@@ -895,6 +895,14 @@ Worked example: the Engineering & Statistics Calculator,
 
 ---
 
+
+### 9.9 Text width (no per-lesson `ch` caps)
+
+- Do not set your own `max-width: NNch` on lesson prose (ledes, intros, section intros, callouts, "why it matters" boxes, cards, promos). Boxes, cards and callouts fill their container.
+- Where a reading column is genuinely wanted, use the shared token from `style.css`: `max-width: var(--text-measure);` (about 75ch). Do not hard-code a different value.
+- Short deliberate caps on display headings, pull quotes or badges (under about 55ch) are allowed when they are clearly intentional.
+- The `max-width:900px` wrappers in §7.1 (`.quiz-section`) and §8 (Return to lesson category) are the deliberate page-column width for those blocks and stay as they are; they are not text caps.
+
 ## 10. Mobile requirements (all lessons)
 
 - Include `<meta name="viewport" content="width=device-width, initial-scale=1">`.
@@ -1496,6 +1504,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] Search index regenerated with npm run build:lesson-search-index on a clean tree and committed.
 - [ ] sitemap.xml snapshot updated from public-site/sitemap.xml (page added/removed only).
 **Page structure & head**
+- [ ] No per-lesson `max-width: NNch` caps on prose; boxes, cards and callouts fill their container; any reading column uses `var(--text-measure)` from style.css (§9.9).
 - [ ] Filename is lowercase-hyphenated; equals slug; in lessons/<category_slug>/.
 - [ ] <html lang="en"> is immediately followed by the UPSKILLSPRINT_LESSON_META comment; JSON valid; all required fields; >=5 search_keywords; suggested_github_path correct.
 - [ ] <title> ends with " | UpSkill Sprint" and is ≤65 chars in total (test-locked older titles exempt, §2.1); meta description ≤165 chars; canonical extensionless (slash only for directory index); og:type/title/description/image/url + twitter:card; favicon links.
