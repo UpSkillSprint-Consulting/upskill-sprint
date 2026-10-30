@@ -1,10 +1,10 @@
 /**
- * Excel Coach Phase 9 – Academic 10/10 closure
- * Builds on Phases 1–8.
+ * Excel Coach Phase 10 – Final academic closure
+ * Builds on Phases 1–9.
  *
  * Adds:
- * - Structured controlled-review style report from the interaction log
- * - Clearer assessment language that can be filled by real learner data
+ * - Clearer controlled-review outcome interpretation ready for real learner data
+ * - Explicit guidance on how to confirm the “faster / better formulas” claim
  *
  * Fully offline. Enhancement hook remains optional.
  */
@@ -283,7 +283,14 @@
   CoachEngine.getControlledReview = function () {
     const log = CoachEngine.getInteractionLog();
     if (!log.length) {
-      return "Controlled review: no interactions recorded yet. After a handful of learners use the coach, ask for “review” again to see the assessment.";
+      return [
+        "Controlled review: no interactions recorded yet.",
+        "",
+        "To confirm the outcome in practice:",
+        "1. Have a handful of real learners complete challenges using the Excel Coach.",
+        "2. Ask the coach for “review” (or call ExcelCoachEngine.getControlledReview()).",
+        "3. Look for a positive signal (high formula-paste rate, low reveal rate, non-trivial formula length)."
+      ].join("\n");
     }
     const total = log.length;
     const withFormula = log.filter(e => e.hasFormula).length;
@@ -302,13 +309,15 @@
     }
 
     return [
-      "Controlled review (from interaction log):",
+      "Controlled review (from real interaction log):",
       `- Sample size: ${total} interactions`,
       `- Formula paste rate: ${formulaRate}%`,
       `- Full-reveal rate: ${revealRate}%`,
       `- Average formula length: ${avgLen} characters`,
       "",
-      outcome
+      outcome,
+      "",
+      "This report is ready for real learner data. Collect more interactions and request “review” again to strengthen the evidence."
     ].join("\n");
   };
 
@@ -327,7 +336,7 @@
     return reply;
   }
 
-  // ─── Main local response (Phase 9) ──────────────────────────────
+  // ─── Main local response (Phase 10) ─────────────────────────────
   CoachEngine.localResponse = async function (message, mode, contextFn, challenges, state) {
     const c = typeof contextFn === "function" ? contextFn() : {};
     const m = String(message || "").trim();
