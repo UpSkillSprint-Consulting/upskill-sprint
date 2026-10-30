@@ -99,8 +99,14 @@ test('lesson-owned CSS is namespaced and never restyles site chrome', () => {
 
 test('covers all five phases in order, each as a visual card with tools, deliverable and a picture', () => {
   const ids = ['dm-define', 'dm-measure', 'dm-analyze', 'dm-improve', 'dm-control'];
-  const roadmap = [...doc.querySelectorAll('.dm-hero .dm-road a')].map(a => a.getAttribute('href'));
-  assert.deepEqual(roadmap, ids.map(id => `#${id}`));
+  // The hero roadmap is a poster-style infographic: five arrow blocks, one per phase, in order.
+  const chevrons = [...doc.querySelectorAll('.dm-hero .dm-poster .dm-chev a')];
+  assert.deepEqual(chevrons.map(a => a.getAttribute('href')), ids.map(id => `#${id}`));
+  assert.deepEqual(chevrons.map(a => a.querySelector('.dm-chev-l').textContent), ['D', 'M', 'A', 'I', 'C']);
+  for (const a of chevrons) {
+    for (const part of ['.dm-chev-name', '.dm-chev-do', '.dm-chev-out']) assert(a.querySelector(part).textContent.trim(), part);
+    assert(a.querySelector('.dm-chev-do').textContent.trim().split(/\s+/).length <= 5, 'poster actions stay short');
+  }
   const names = ['Define', 'Measure', 'Analyze', 'Improve', 'Control'];
   ids.forEach((id, i) => {
     const sec = doc.getElementById(id);
@@ -126,7 +132,7 @@ test('covers all five phases in order, each as a visual card with tools, deliver
     assert.match(st.querySelector('.dm-flow-next').textContent, /(Yes|No): next question/);
   }
   assert.match(doc.querySelector('.dm-flow-end').textContent, /Use DMAIC/);
-  assert.equal(doc.querySelectorAll('.dm-mistakes li').length, 4);
+  assert.equal(doc.querySelectorAll('.dm-warn-poster .dm-mistakes li').length, 4);
 });
 
 test('every chart is an accessible image whose text matches its data', () => {

@@ -24467,8 +24467,8 @@
           "breadcrumb": [
             "DMAIC in 10 Minutes"
           ],
-          "text": "DMAIC is the five-step roadmap Lean Six Sigma teams use to fix a problem in a process that already exists. One question per step, answered in order. Define What's the problem? Measure How big is it? Analyze What causes it? Improve What fixes it? Control How do we keep it fixed? One project, start to finish",
-          "excerpt": "DMAIC is the five-step roadmap Lean Six Sigma teams use to fix a problem in a process that already exists. One question per step, answered in order. Define What's the problem? Measure How big is it? Analyze What causes it? Improve What fixes it? Control How…",
+          "text": "DMAIC is the five-step roadmap Lean Six Sigma teams use to fix a problem in a process that already exists. One question per step, answered in order. One project, start to finish",
+          "excerpt": "DMAIC is the five-step roadmap Lean Six Sigma teams use to fix a problem in a process that already exists. One question per step, answered in order. One project, start to finish",
           "kinds": [
             "section"
           ]
@@ -24719,12 +24719,12 @@
           ]
         },
         {
-          "id": "lesson-section-four-mistakes-to-avoid",
-          "heading": "Four mistakes to avoid",
+          "id": "lesson-section-4-ways-dmaic-projects-go-wrong",
+          "heading": "4 ways DMAIC projects go wrong",
           "breadcrumb": [
             "DMAIC in 10 Minutes",
             "Is DMAIC the right tool? Follow the arrows",
-            "Four mistakes to avoid"
+            "4 ways DMAIC projects go wrong"
           ],
           "text": "Jumping to a fix Skipping Measure and Analyze treats symptoms. Trusting bad data Check the gauge before the baseline. Scoping too big One line, one defect, one goal. Skipping Control No owner and no plan, and the gains fade. Exam tip. ASQ's Six Sigma Green Belt and Black Belt bodies of knowledge are organized largely around the DMAIC phases. Expect \"which phase does this tool belong to?\" questions.",
           "excerpt": "Jumping to a fix Skipping Measure and Analyze treats symptoms. Trusting bad data Check the gauge before the baseline. Scoping too big One line, one defect, one goal. Skipping Control No owner and no plan, and the gains fade. Exam tip. ASQ's Six Sigma Green…",

@@ -76,6 +76,10 @@
   --lesson-dmaic-green:#1e7a46;
   --lesson-dmaic-green-bg:#e6f5ec;
   --lesson-dmaic-focus:#0b63c5;
+  --lesson-dmaic-poster-bg:#0f1d33;
+  --lesson-dmaic-poster-text:#ffffff;
+  --lesson-dmaic-poster-text-2:#c9d4e3;
+  --lesson-dmaic-poster-line:rgba(255,255,255,.18);
   --lesson-dmaic-shadow:0 1px 2px rgba(15,23,42,.06),0 6px 18px rgba(15,23,42,.06);
   color:var(--lesson-dmaic-text);
   background:var(--lesson-dmaic-page);
@@ -138,15 +142,8 @@
 #lesson-content .dm-svg .dm-limit{stroke:var(--lesson-dmaic-red);stroke-width:1.5;stroke-dasharray:5 4}
 #lesson-content .dm-svg .dm-center{stroke:var(--lesson-dmaic-green);stroke-width:1.5}
 
-/* the five-phase roadmap: a row of five on wide screens, a stack on phones */
-#lesson-content .dm-road{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:22px 0 4px;padding:0;list-style:none}
-#lesson-content .dm-road li{position:relative;background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:12px;padding:14px 12px 12px;font-size:14.5px;line-height:1.45;box-shadow:var(--lesson-dmaic-shadow)}
-#lesson-content .dm-road a{display:block;color:var(--lesson-dmaic-text);text-decoration:none}
-#lesson-content .dm-road a:hover .dm-road-name{text-decoration:underline}
+/* letter badge on each phase card */
 #lesson-content .dm-letter{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:var(--lesson-dmaic-teal);color:var(--lesson-dmaic-on-teal);font-weight:700;font-size:20px;margin-bottom:8px}
-#lesson-content .dm-road-name{display:block;font-weight:700;font-size:16px;margin-bottom:2px}
-#lesson-content .dm-road-q{display:block;color:var(--lesson-dmaic-text-2)}
-#lesson-content .dm-road li + li::before{content:"\2192";position:absolute;left:-10px;top:22px;width:10px;text-align:center;font-weight:700;color:var(--lesson-dmaic-teal)}
 
 /* phase cards: short text on one side, the picture on the other */
 #lesson-content .dm-phase{background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:16px;padding:20px;box-shadow:var(--lesson-dmaic-shadow);margin:14px 0}
@@ -178,12 +175,33 @@
 #lesson-content .dm-flow-tag.is-go{background:var(--lesson-dmaic-green)}
 #lesson-content .dm-flow-end{display:flex;align-items:center;gap:6px;width:calc(50% - 14px);padding:14px 16px;border:2px solid var(--lesson-dmaic-green);border-radius:12px;background:var(--lesson-dmaic-green-bg);color:var(--lesson-dmaic-text);font-size:17px}
 
-/* mistakes to avoid */
-#lesson-content .dm-mistakes{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:12px 0;padding:0;list-style:none}
-#lesson-content .dm-mistakes li{display:flex;flex-direction:column;gap:6px;background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:12px;padding:14px;font-size:15px;line-height:1.45}
-#lesson-content .dm-mistakes strong{font-size:16px}
-#lesson-content .dm-mistakes li > span:last-child{color:var(--lesson-dmaic-text-2)}
-#lesson-content .dm-x{display:grid;place-items:center;width:30px;height:30px;border-radius:999px;background:var(--lesson-dmaic-red-bg);color:var(--lesson-dmaic-red);font-weight:700;border:1px solid var(--lesson-dmaic-red)}
+/* poster-style infographics: a dark panel with bold colour blocks, the same in both themes */
+#lesson-content .dm-poster{background:var(--lesson-dmaic-poster-bg);color:var(--lesson-dmaic-poster-text);border:1px solid var(--lesson-dmaic-poster-line);border-radius:18px;padding:18px 18px 20px;margin:22px 0 6px}
+#lesson-content .dm-poster-title{font-family:'Work Sans',Arial,sans-serif;font-size:15px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--lesson-dmaic-poster-text);margin:0 0 14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+#lesson-content .dm-poster-title span{font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:none;color:var(--lesson-dmaic-poster-text-2)}
+#lesson-content .dm-chev{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin:0;padding:0;list-style:none}
+#lesson-content .dm-chev a{position:relative;z-index:0;display:flex;flex-direction:column;gap:2px;height:100%;padding:14px 18px 14px 30px;color:#ffffff;text-decoration:none;border-radius:4px}
+#lesson-content .dm-chev li:first-child a{padding-left:16px}
+/* the arrow shape lives on a background layer, so the link's focus ring is never clipped */
+#lesson-content .dm-chev a::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--lesson-dmaic-chev);clip-path:polygon(0 0,calc(100% - 18px) 0,100% 50%,calc(100% - 18px) 100%,0 100%,18px 50%)}
+#lesson-content .dm-chev li:first-child a::before{clip-path:polygon(0 0,calc(100% - 18px) 0,100% 50%,calc(100% - 18px) 100%,0 100%);border-radius:10px 0 0 10px}
+#lesson-content .dm-chev a:hover::before{filter:brightness(1.12)}
+#lesson-content .dm-chev a:focus-visible{outline:3px solid #ffffff;outline-offset:3px}
+#lesson-content .dm-chev .is-d{--lesson-dmaic-chev:#0f6b78}
+#lesson-content .dm-chev .is-m{--lesson-dmaic-chev:#2d5b8a}
+#lesson-content .dm-chev .is-a{--lesson-dmaic-chev:#8a5300}
+#lesson-content .dm-chev .is-i{--lesson-dmaic-chev:#1e7a46}
+#lesson-content .dm-chev .is-c{--lesson-dmaic-chev:#b42318}
+#lesson-content .dm-chev-l{font-family:'Source Serif 4',Georgia,serif;font-size:46px;font-weight:700;line-height:1}
+#lesson-content .dm-chev-name{font-size:15px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+#lesson-content .dm-chev-do{font-size:14.5px;line-height:1.35;font-weight:500;flex:1}
+#lesson-content .dm-chev-out{align-self:flex-start;margin-top:8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:rgba(0,0,0,.28);color:#ffffff;white-space:nowrap}
+#lesson-content .dm-warn-poster .dm-poster-title{font-size:15px}
+#lesson-content .dm-mistakes{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:0;padding:0;list-style:none}
+#lesson-content .dm-mistakes li{display:flex;flex-direction:column;gap:6px;background:rgba(255,255,255,.06);border:1px solid var(--lesson-dmaic-poster-line);border-radius:12px;padding:14px;font-size:15px;line-height:1.45;color:var(--lesson-dmaic-poster-text)}
+#lesson-content .dm-mistakes strong{font-size:17px;color:var(--lesson-dmaic-poster-text)}
+#lesson-content .dm-mistakes li > span:last-child{color:var(--lesson-dmaic-poster-text-2)}
+#lesson-content .dm-x{display:grid;place-items:center;width:38px;height:38px;border-radius:999px;background:#b42318;color:#ffffff;font-weight:800;font-size:18px}
 
 /* "Which phase?" sorter */
 #lesson-content .dm-lab{background:var(--lesson-dmaic-surface);color:var(--lesson-dmaic-text);border:1px solid var(--lesson-dmaic-border);border-radius:16px;padding:18px;margin:20px 0;box-shadow:var(--lesson-dmaic-shadow)}
@@ -211,12 +229,14 @@
 #lesson-content .related-lessons h2{font-size:24px}
 
 @media (max-width:760px){
-  #lesson-content .dm-road{grid-template-columns:1fr}
-  #lesson-content .dm-road li{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:center}
-  #lesson-content .dm-road a{display:contents}
-  #lesson-content .dm-letter{margin:0;grid-row:span 2}
-  #lesson-content .dm-road li + li::before{content:"\2193";left:22px;top:-12px;width:auto}
-}
+  #lesson-content .dm-chev{grid-template-columns:1fr;gap:2px}
+  #lesson-content .dm-chev a, #lesson-content .dm-chev li:first-child a{display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto auto;column-gap:14px;align-items:center;padding:16px 16px 26px}
+  #lesson-content .dm-chev-l{grid-row:span 2;font-size:40px;min-width:40px;text-align:center}
+  #lesson-content .dm-chev-do{grid-column:2}
+  #lesson-content .dm-chev-out{grid-column:3;grid-row:1 / span 2;align-self:center;margin:0}
+  #lesson-content .dm-chev a::before, #lesson-content .dm-chev li:first-child a::before{clip-path:polygon(0 0,50% 12px,100% 0,100% calc(100% - 12px),50% 100%,0 calc(100% - 12px));border-radius:0}
+  #lesson-content .dm-chev li:first-child a::before{clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),50% 100%,0 calc(100% - 12px));border-radius:10px 10px 0 0}
+        }
 @media (max-width:760px){
   #lesson-content .dm-phase-body{grid-template-columns:1fr}
   #lesson-content .dm-flow-step{grid-template-columns:1fr;row-gap:8px}
@@ -285,13 +305,16 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     </ul>
     <h1 id="dm-title">DMAIC in 10 Minutes</h1>
     <p class="dm-lede"><strong>DMAIC</strong> is the five-step roadmap Lean Six Sigma teams use to fix a problem in a process that already exists. One question per step, answered in order.</p>
-    <ol class="dm-road" aria-label="The five DMAIC phases in order">
-      <li><a href="#dm-define"><span class="dm-letter" aria-hidden="true">D</span><span class="dm-road-name">Define</span><span class="dm-road-q">What's the problem?</span></a></li>
-      <li><a href="#dm-measure"><span class="dm-letter" aria-hidden="true">M</span><span class="dm-road-name">Measure</span><span class="dm-road-q">How big is it?</span></a></li>
-      <li><a href="#dm-analyze"><span class="dm-letter" aria-hidden="true">A</span><span class="dm-road-name">Analyze</span><span class="dm-road-q">What causes it?</span></a></li>
-      <li><a href="#dm-improve"><span class="dm-letter" aria-hidden="true">I</span><span class="dm-road-name">Improve</span><span class="dm-road-q">What fixes it?</span></a></li>
-      <li><a href="#dm-control"><span class="dm-letter" aria-hidden="true">C</span><span class="dm-road-name">Control</span><span class="dm-road-q">How do we keep it fixed?</span></a></li>
-    </ol>
+    <nav class="dm-poster" aria-labelledby="dm-poster-t">
+      <p class="dm-poster-title" id="dm-poster-t">The DMAIC roadmap <span>5 steps, in order</span></p>
+      <ol class="dm-chev">
+        <li class="is-d"><a href="#dm-define"><span class="dm-chev-l" aria-hidden="true">D</span><span class="dm-chev-name">Define</span><span class="dm-chev-do">Pin down the problem</span><span class="dm-chev-out">Charter</span></a></li>
+        <li class="is-m"><a href="#dm-measure"><span class="dm-chev-l" aria-hidden="true">M</span><span class="dm-chev-name">Measure</span><span class="dm-chev-do">Get a trusted baseline</span><span class="dm-chev-out">Baseline</span></a></li>
+        <li class="is-a"><a href="#dm-analyze"><span class="dm-chev-l" aria-hidden="true">A</span><span class="dm-chev-name">Analyze</span><span class="dm-chev-do">Prove the root cause</span><span class="dm-chev-out">Root causes</span></a></li>
+        <li class="is-i"><a href="#dm-improve"><span class="dm-chev-l" aria-hidden="true">I</span><span class="dm-chev-name">Improve</span><span class="dm-chev-do">Fix it, pilot it</span><span class="dm-chev-out">Proven fix</span></a></li>
+        <li class="is-c"><a href="#dm-control"><span class="dm-chev-l" aria-hidden="true">C</span><span class="dm-chev-name">Control</span><span class="dm-chev-do">Lock in the gains</span><span class="dm-chev-out">Control plan</span></a></li>
+      </ol>
+    </nav>
     <nav aria-label="Lesson sections">
       <ul class="dm-toc">
         <li><a href="#dm-story">The story</a></li>
@@ -644,13 +667,15 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       </li>
       <li class="dm-flow-end"><span class="dm-flow-tag is-go">Otherwise</span><strong>Use DMAIC.</strong></li>
     </ol>
-    <h3>Four mistakes to avoid</h3>
-    <ul class="dm-mistakes">
-      <li><span class="dm-x" aria-hidden="true">&#x2715;</span><strong>Jumping to a fix</strong><span>Skipping Measure and Analyze treats symptoms.</span></li>
-      <li><span class="dm-x" aria-hidden="true">&#x2715;</span><strong>Trusting bad data</strong><span>Check the gauge before the baseline.</span></li>
-      <li><span class="dm-x" aria-hidden="true">&#x2715;</span><strong>Scoping too big</strong><span>One line, one defect, one goal.</span></li>
-      <li><span class="dm-x" aria-hidden="true">&#x2715;</span><strong>Skipping Control</strong><span>No owner and no plan, and the gains fade.</span></li>
-    </ul>
+    <div class="dm-poster dm-warn-poster">
+      <h3 class="dm-poster-title">4 ways DMAIC projects go wrong</h3>
+      <ul class="dm-mistakes">
+        <li><span class="dm-x" aria-hidden="true">&#x2715;</span><strong>Jumping to a fix</strong><span>Skipping Measure and Analyze treats symptoms.</span></li>
+        <li><span class="dm-x" aria-hidden="true">&#x2715;</span><strong>Trusting bad data</strong><span>Check the gauge before the baseline.</span></li>
+        <li><span class="dm-x" aria-hidden="true">&#x2715;</span><strong>Scoping too big</strong><span>One line, one defect, one goal.</span></li>
+        <li><span class="dm-x" aria-hidden="true">&#x2715;</span><strong>Skipping Control</strong><span>No owner and no plan, and the gains fade.</span></li>
+      </ul>
+    </div>
     <div class="dm-callout">
       <p><strong>Exam tip.</strong> ASQ's Six Sigma Green Belt and Black Belt bodies of knowledge are organized largely around the DMAIC phases. Expect "which phase does this tool belong to?" questions.</p>
     </div>
@@ -831,6 +856,10 @@ html[data-theme="dark"] #lesson-content{
   --lesson-dmaic-green:#63d59a;
   --lesson-dmaic-green-bg:#123224;
   --lesson-dmaic-focus:#7dd3fc;
+  --lesson-dmaic-poster-bg:#07101f;
+  --lesson-dmaic-poster-text:#ffffff;
+  --lesson-dmaic-poster-text-2:#c9d4e3;
+  --lesson-dmaic-poster-line:rgba(255,255,255,.22);
   --lesson-dmaic-shadow:none;
 }
 </style>
