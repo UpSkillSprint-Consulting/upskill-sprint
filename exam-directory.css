@@ -69,11 +69,11 @@ html[data-theme="dark"] .exam-card h3 { color: #f1f5f9; }
 .exam-card .exam-acronym { color: var(--exam-accent); }
 
 /* Free ExamPreview entry point (signed-out visitors and members without CSSBB access). */
-.exam-preview-promo{display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:18px 0;padding:18px 20px;border:2px solid var(--accent,#1f4e5f);border-radius:12px;background:var(--card,#fff)}
+.exam-preview-promo{display:flex;gap:18px;flex-direction:column;align-items:stretch;flex-wrap:nowrap;margin:18px 0;padding:18px 20px;border:2px solid var(--accent,#1f4e5f);border-radius:12px;background:var(--card,#fff)}
 .exam-preview-promo h2{margin:4px 0 6px;font-size:20px}
-.exam-preview-promo p{margin:0;max-width:60ch;color:var(--ink-soft,var(--ink))}
+.exam-preview-promo p{margin:0;max-width:none;color:var(--ink-soft,var(--ink))}
 .exam-preview-promo .btn{min-height:44px;max-width:100%;white-space:normal;text-align:center}
-.exam-preview-promo>div{min-width:0}
+.exam-preview-promo>div{min-width:0;width:100%}
 .exam-preview-promo-actions{display:flex;flex-wrap:wrap;gap:10px}
 @media(max-width:480px){.exam-preview-promo{padding:16px}.exam-preview-promo .btn{width:100%}}
 .exam-card-preview{display:inline-block;margin-top:10px;font-weight:600;color:var(--accent,#1f4e5f);text-decoration:underline;min-height:44px;line-height:44px}

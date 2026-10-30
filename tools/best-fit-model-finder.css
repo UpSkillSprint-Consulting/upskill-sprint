@@ -24,7 +24,7 @@
 #bfm-tool code, .bfm-mono { font-family: var(--bfm-mono); font-size: .9em; }
 .bfm-eyebrow { font-family: var(--bfm-mono); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--bfm-accent); margin: 0 0 8px; }
 .bfm-hero { padding-block: 36px 22px; border-bottom: 1px solid var(--bfm-line); }
-.bfm-lead { max-width: 78ch; font-size: 1.08rem; margin: 0 0 12px; }
+.bfm-lead { max-width: none; font-size: 1.08rem; margin: 0 0 12px; }
 .bfm-badge { display: inline-block; font-family: var(--bfm-mono); font-size: .75rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--bfm-signal); color: var(--bfm-signal); vertical-align: middle; margin-left: 8px; }
 .bfm-section { padding-block: 30px 6px; }
 .bfm-panel { background: var(--bfm-panel); color: var(--bfm-ink); border: 1px solid var(--bfm-line); border-radius: 10px; padding: 16px; }
@@ -80,8 +80,8 @@
 .bfm-steps { counter-reset: s; list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .bfm-steps li { background: var(--bfm-panel); border: 1px solid var(--bfm-line); border-radius: 8px; padding: 10px 12px; font-size: .92rem; }
 .bfm-steps li::before { counter-increment: s; content: counter(s); font-family: var(--bfm-display); font-weight: 700; font-size: 1.4rem; color: var(--bfm-accent); margin-right: 8px; }
-.bfm-formula { background: var(--bfm-panel); color: var(--bfm-ink); border: 1px solid var(--bfm-line); border-radius: 8px; padding: 8px 12px; margin: 10px 0; overflow-x: auto; max-width: 78ch; }
-.bfm-prose { max-width: 78ch; }
+.bfm-formula { background: var(--bfm-panel); color: var(--bfm-ink); border: 1px solid var(--bfm-line); border-radius: 8px; padding: 8px 12px; margin: 10px 0; overflow-x: auto; max-width: none; }
+.bfm-prose { max-width: none; }
 details.bfm-details { margin: 10px 0; }
 details.bfm-details summary { cursor: pointer; font-weight: 600; }
 @media (max-width: 900px) { .bfm-grid2, .bfm-grid3, .bfm-steps { grid-template-columns: minmax(0, 1fr); } }
