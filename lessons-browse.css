@@ -1,0 +1,85 @@
+/* Lessons page browse layer: orientation block, collapsed categories,
+   mobile filter toggle. Text inside cards fills its card (no ch cap). */
+.lesson-orient { margin: 28px 0 8px; }
+.start-here-card {
+  display: block; padding: 18px 22px; border: 1px solid var(--line);
+  border-left: 4px solid var(--teal); border-radius: var(--radius);
+  background: var(--card); color: var(--ink); text-decoration: none;
+}
+.start-here-card:hover { border-color: var(--teal); }
+.start-here-kicker { display: block; color: var(--ink-soft); font-size: 12px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; }
+.start-here-title { display: block; margin-top: 4px; font-size: 17px; font-weight: 600; }
+.orient-heading { margin: 30px 0 14px; font-size: 20px; }
+.path-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.path-card { padding: 18px 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card); }
+.path-card h3 { margin: 0 0 4px; font-size: 17px; }
+.path-meta { margin: 0 0 10px; color: var(--muted); font-size: 13px; }
+.path-steps { margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.55; }
+.path-steps li { margin: 3px 0; }
+.path-steps a { color: var(--ink); }
+.path-steps a:hover { color: var(--teal-dark); }
+.topic-tiles { gap: 9px; }
+.topic-tiles .chip { padding: 8px 12px; font-size: 13px; }
+.topic-tile-count { margin-left: 6px; color: var(--muted); font-weight: 500; }
+.start-here-card:focus-visible, .path-steps a:focus-visible, .topic-tiles .chip:focus-visible,
+.show-all-lessons:focus-visible, .filters-toggle:focus-visible {
+  outline: 3px solid var(--teal); outline-offset: 2px;
+}
+
+/* Collapsed categories: only when JS is running and no search or filter is active. */
+.lesson-library.is-browsing [data-collapsed="true"] [data-lesson-item].is-extra { display: none; }
+.show-all-lessons {
+  margin-top: 12px; min-height: 44px; padding: 0 16px; border: 1px solid var(--line);
+  border-radius: var(--radius); background: var(--card); color: var(--ink);
+  font: 600 14px/1 'Work Sans', Arial, sans-serif; cursor: pointer;
+}
+.show-all-lessons:hover { border-color: var(--teal); color: var(--teal-dark); }
+.lesson-library.is-filtering .show-all-lessons,
+.lesson-library.is-filtering .lesson-orient { display: none; }
+
+.filters-toggle {
+  min-height: 44px; margin-top: 12px; padding: 0 16px; border: 1px solid var(--line);
+  border-radius: var(--radius); background: var(--card); color: var(--ink);
+  font: 600 14px/1 'Work Sans', Arial, sans-serif; cursor: pointer;
+}
+.filters-toggle-count:not(:empty) { margin-left: 6px; color: var(--teal-dark); }
+
+html[data-theme="dark"] .start-here-card,
+html[data-theme="dark"] .path-card,
+html[data-theme="dark"] .show-all-lessons,
+html[data-theme="dark"] .filters-toggle { background: var(--card); color: var(--ink); border-color: var(--line); }
+html[data-theme="dark"] .path-steps a { color: var(--ink); }
+
+@media (max-width: 900px) {
+  .path-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .lesson-library.has-filter-toggle .library-tools .filter-field:not(.lesson-search-shell),
+  .lesson-library.has-filter-toggle .library-tools .filter-toggle,
+  .lesson-library.has-filter-toggle .library-tools .clear-filters { display: none; }
+  .lesson-library.has-filter-toggle.filters-open .library-tools .filter-field:not(.lesson-search-shell),
+  .lesson-library.has-filter-toggle.filters-open .library-tools .filter-toggle,
+  .lesson-library.has-filter-toggle.filters-open .library-tools .clear-filters { display: flex; }
+  .lesson-library.has-filter-toggle .lesson-search-options { display: none; }
+  .lesson-library.has-filter-toggle.filters-open .lesson-search-options { display: flex; }
+}
+@media (min-width: 641px) { .filters-toggle { display: none; } }
+
+/* Tighter hero so search sits higher on first load. */
+main .lessons-hero { padding: 56px 0 24px; }
+main .lesson-library { padding-top: 28px; }
+@media (max-width: 640px) {
+  main .lessons-hero { padding: 36px 0 18px; }
+  main .lesson-library { padding-top: 20px; }
+}
+
+/* Search on its own full-width row above the filters, at every width.
+   Before: it shared a 7-column grid row and got about 190px at 1280px, so the
+   placeholder was cut off and the two-word label wrapped onto a second line. */
+main .library-tools > .lesson-search-shell { grid-column: 1 / -1; }
+main .library-tools > .lesson-search-shell > label { white-space: normal; overflow: visible; }
+.lesson-search-hint { margin: 2px 0 0; color: var(--muted); font-size: 13px; line-height: 1.4; }
+#lesson-search::placeholder { color: var(--muted); opacity: 1; }
+@media (min-width: 981px) {
+  main .library-tools { grid-template-columns: repeat(4, minmax(0, 1fr)) auto auto; }
+}

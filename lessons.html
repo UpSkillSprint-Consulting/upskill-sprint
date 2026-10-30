@@ -38,6 +38,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="/lesson-search.css">
+  <link rel="stylesheet" href="/lessons-browse.css">
   <style>
     .lessons-hero {
       padding: 72px 0 36px;
@@ -430,18 +431,7 @@
       <div class="wrap">
         <p class="eyebrow">Lesson library</p>
         <h1>Build practical skills, one clear lesson at a time.</h1>
-        <p class="lessons-hero-copy">Explore practical lessons in statistics, Lean Six Sigma, quality engineering, data tools, project management, and business decision-making.</p>
-        <p class="lessons-hero-copy">Want hands-on practice? Download the <a href="/datasets">free Excel and Minitab practice datasets</a> that go with these lessons.</p>
-        <div class="topic-jump" style="display:flex;flex-wrap:wrap;">
-          <a href="#data-analytics" class="chip">Data Analytics</a>
-          <a href="#quality-engineering" class="chip">Quality Engineering</a>
-          <a href="#lean-six-sigma" class="chip">Lean Six Sigma</a>
-          <a href="#statistics" class="chip">Statistics</a>
-          <a href="#power-bi-excel-sql" class="chip">Power BI, Excel &amp; SQL</a>
-          <a href="#project-management" class="chip">Project Management</a>
-          <a href="#business-decision-making" class="chip">Business Decision-Making</a>
-          <a href="#ai-for-work" class="chip">AI for Work</a>
-        </div>
+        <p class="lessons-hero-copy">Free, practical lessons in statistics, Lean Six Sigma, quality engineering and data tools. Search below, or <a href="/start-here">start here if you are new to quality</a>. Practice files are in the <a href="/datasets">free Excel and Minitab datasets</a>.</p>
       </div>
     </section>
 
@@ -450,7 +440,8 @@
         <form class="library-tools" id="lesson-filters" role="search" onsubmit="return false;">
           <div class="filter-field lesson-search-shell">
             <label for="lesson-search">Search lessons and lesson content</label>
-            <input id="lesson-search" type="search" placeholder="Try “harmonic mean,” SPC, a formula, or a question…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="lesson-search-suggestions">
+            <input id="lesson-search" type="search" placeholder="Search lessons, formulas…" aria-describedby="lesson-search-hint" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="lesson-search-suggestions">
+            <p id="lesson-search-hint" class="lesson-search-hint">Try a phrase, formula, example or question, e.g. “harmonic mean” or SPC.</p>
             <div id="lesson-search-suggestions" role="listbox" aria-label="Search suggestions" hidden></div>
           </div>
 
@@ -506,6 +497,7 @@
 
           <button class="clear-filters" id="clear-filters" type="button">Clear</button>
         </form>
+        <button type="button" class="filters-toggle" id="filters-toggle" aria-expanded="false" aria-controls="lesson-filters" hidden>Filters<span class="filters-toggle-count" id="filters-toggle-count"></span></button>
 
         <div class="lesson-search-options">
           <div id="lesson-search-modes" class="lesson-search-modes" role="group" aria-label="Search within"></div>
@@ -516,6 +508,66 @@
           <span id="results-count" aria-live="polite">Loading lessons…</span>
           <span id="lesson-search-status-hint">Open a lesson to start learning.</span>
         </div>
+
+
+        <section class="lesson-orient" id="lesson-orient" aria-labelledby="lesson-orient-heading">
+          <a class="start-here-card" href="/start-here">
+            <span class="start-here-kicker">New to quality?</span>
+            <span class="start-here-title">Start here: the basics, in a sensible order <span aria-hidden="true">&rarr;</span></span>
+          </a>
+
+          <h2 id="lesson-orient-heading" class="orient-heading">Learning paths</h2>
+          <!-- Paths list only existing lessons, in teaching order. See docs/LESSON_CREATION_GUIDE.md §12.6. -->
+          <div class="path-grid">
+            <article class="path-card" data-path="green-belt-foundations">
+              <h3>Green Belt foundations</h3>
+              <p class="path-meta">6 lessons · Beginner to intermediate</p>
+              <ol class="path-steps">
+                <li><a href="/lessons/what-is-lean-six-sigma">What Is Lean Six Sigma?</a></li>
+                <li><a href="/lessons/7-essential-quality-tools">The 7 Essential Quality Tools</a></li>
+                <li><a href="/lessons/understanding-pareto-chart">Understanding Pareto Chart</a></li>
+                <li><a href="/lessons/root-cause-analysis-5-whys-fishbone">Root Cause Analysis: 5 Whys vs Fishbone</a></li>
+                <li><a href="/lessons/quality-engineering/gauge-rr-study">Gage R&amp;R for Beginners</a></li>
+                <li><a href="/lessons/lean-six-sigma/process-capability-cp-and-cpk">Process Capability: Cp and Cpk</a></li>
+              </ol>
+            </article>
+            <article class="path-card" data-path="spc-control-charts">
+              <h3>SPC and control charts</h3>
+              <p class="path-meta">5 lessons · Beginner to advanced</p>
+              <ol class="path-steps">
+                <li><a href="/lessons/control-charts-explained">Control Charts, Explained</a></li>
+                <li><a href="/lessons/power-bi-excel-sql/minitab-control-chart-selection-analysis">Minitab Control Chart Master Guide</a></li>
+                <li><a href="/lessons/lean-six-sigma/process-capability-cp-and-cpk">Process Capability: Cp and Cpk</a></li>
+                <li><a href="/lessons/lean-six-sigma/short-run-spc-control-charts">Short-Run SPC</a></li>
+                <li><a href="/lessons/lean-six-sigma/signal-or-noise-arl-nelson-rules-control-limit-design">Signal or Noise: ARL and Nelson Rules</a></li>
+              </ol>
+            </article>
+            <article class="path-card" data-path="stats-for-quality">
+              <h3>Stats for quality</h3>
+              <p class="path-meta">6 lessons · Beginner to intermediate</p>
+              <ol class="path-steps">
+                <li><a href="/lessons/statistics/probability-basics-the-language-of-chance">Probability Basics</a></li>
+                <li><a href="/lessons/statistics/the-normal-distribution-meet-the-bell-curve">The Normal Distribution</a></li>
+                <li><a href="/lessons/statistics/confidence-prediction-tolerance-intervals">Confidence vs Prediction vs Tolerance Intervals</a></li>
+                <li><a href="/lessons/hypothesis-testing-for-beginners">Hypothesis Testing for Beginners</a></li>
+                <li><a href="/lessons/anova-plain-english">ANOVA in Plain English</a></li>
+                <li><a href="/lessons/statistics/choosing-the-right-regression-analysis-in-minitab">Choosing the Right Regression Analysis</a></li>
+              </ol>
+            </article>
+          </div>
+
+          <h2 class="orient-heading">Browse by topic</h2>
+          <div class="topic-jump topic-tiles" style="display:flex;flex-wrap:wrap;">
+            <a href="#data-analytics" class="chip" data-topic-tile="data-analytics">Data Analytics</a>
+            <a href="#quality-engineering" class="chip" data-topic-tile="quality-engineering">Quality Engineering</a>
+            <a href="#lean-six-sigma" class="chip" data-topic-tile="lean-six-sigma">Lean Six Sigma</a>
+            <a href="#statistics" class="chip" data-topic-tile="statistics">Statistics</a>
+            <a href="#power-bi-excel-sql" class="chip" data-topic-tile="power-bi-excel-sql">Power BI, Excel &amp; SQL</a>
+            <a href="#project-management" class="chip" data-topic-tile="project-management">Project Management</a>
+            <a href="#business-decision-making" class="chip" data-topic-tile="business-decision-making">Business Decision-Making</a>
+            <a href="#ai-for-work" class="chip" data-topic-tile="ai-for-work">AI for Work</a>
+          </div>
+        </section>
 
         <section id="lesson-search-results" class="lesson-search-results" aria-labelledby="lesson-search-results-heading" hidden>
           <h2 id="lesson-search-results-heading" class="sr-only">Search results</h2>
@@ -907,5 +959,6 @@
 <script src="/contrast-fix.js"></script>
 <script src="/lesson-search-core.js"></script>
 <script src="/lesson-search.js"></script>
+<script src="/lessons-browse.js"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@ reinterpret, or substitute equivalents unless this guide explicitly allows a cho
 
 **Quick map:** governance rules §20 · page skeleton §2 · head/SEO §2.1 · chrome §4 ·
 engineering-tool theme §9.8 ·
-catalog §12 · access rules (Supabase) §12.4 · sitemap §12.5 · images §13.2 ·
+catalog §12 · access rules (Supabase) §12.4 · sitemap §12.5 · learning paths §12.6 · images §13.2 ·
 accessibility §21 · math notation §22 · commands §16 · PR workflow §17 ·
 PR checklist §18 · known site-wide defects §23.
 
@@ -1155,6 +1155,30 @@ The sitemap skips `noindex` pages, meta-refresh redirects, `assets/`, `lessons/a
 reference, the test-bank report form). `scripts/stage-public-site.mjs`
 excludes `docs/`, `tests/`, `scripts/`, `netlify/`, `content/`, and `source-assets/` from the
 deploy, plus those authoring files. Never put lesson files in an excluded folder.
+
+---
+
+### 12.6 Learning paths and the collapsed lessons page
+
+`lessons.html` opens with a "Start here" link, three learning-path cards
+(`#lesson-orient`, one `<article class="path-card" data-path="…">` each) and topic tiles.
+Category sections are collapsed to their first 3 lessons by `lessons-browse.js`, so a new
+lesson is easy to miss unless it sits in the right place.
+
+- **Paths list real lessons only, in teaching order.** When your lesson is a natural step in
+  Green Belt foundations, SPC and control charts, or Stats for quality, propose adding it to
+  that path's `<ol class="path-steps">` in your PR (keep each path to about 5–7 lessons and
+  update the "N lessons" line). Do not add a new path without Ernest's OK.
+- **Order inside a category matters.** The first 3 rows of each category are the ones a
+  first-time visitor sees, so beginner lessons come first. Do not reorder existing rows
+  without Ernest's OK; propose it in the PR.
+- **Topic tiles mirror the category sections.** Same rule as the sections: never add, rename
+  or remove a tile without Ernest's OK.
+- **Filters are in the URL.** `/lessons?q=&topic=&level=&duration=&tool=&interactive=1` restores
+  the view. Your `data-topic`, `data-level` and minutes in `meta` must be right, or the lesson
+  drops out of filtered links people share.
+- **Check it.** Load `/lessons` at 1280px and 390px: the lesson appears in its category (after
+  "Show all" if it is not in the first 3), in `?topic=<slug>` results, and in search.
 
 ---
 
