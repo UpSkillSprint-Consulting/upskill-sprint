@@ -221,77 +221,167 @@
       structureNotes.forEach(n => findings.push(typeof n === "string" ? { level: "info", msg: n } : n));
     }
 
-    // Lesson-taught mistakes — each returns an error/warn plus a specific next step
-    // Unquoted text in IF / COUNTIF / SUMIF criteria (bare words, not cell refs, not LET names)
-    if (/(?:IF|COUNTIF|SUMIF)\s*\([^)]*,\s*[A-Z][A-Z_]*\s*(?:,|\))/i.test(f) && !/COUNTIFS|SUMIFS/i.test(f)) {
-      const bare = f.match(/(?:IF|COUNTIF|SUMIF)\s*\([^)]*,\s*([A-Z][A-Z_]*)/i);
-      if (bare && !/[A-Z]+\d+/.test(bare[1])) {
-        findings.push({ level: "error", msg: "Unquoted text (such as REVIEW, FAIL or OK) is treated as a name and returns #NAME?. Wrap it in double quotes. Next: change the bare word to a quoted string." });
-      }
-    }
-    // + used to join text
-    if (/\+"[^"]*"\+|\+\s*"[^"]*"/.test(f) && !/&/.test(f)) {
-      findings.push({ level: "error", msg: "Use & to join text, not +. Next: rewrite as C2&\" - \"&H2." });
-    }
-    // AVERAGE of two cells instead of a range
-    if (/AVERAGE\s*\(\s*\$?[A-Z]+\d+\s*,\s*\$?[A-Z]+\d+\s*\)/i.test(f)) {
-      findings.push({ level: "warn", msg: "AVERAGE of two separate cells averages only those two. Next: use a continuous range such as E2:E6." });
-    }
-    // Missing full absolute lock when challenge expects $M$2
-    if (challenge && /\$M\$2/.test(challenge.f || "") && /=\s*E2\/(?:\$?M2|M\$2|\$M2)(?!\$)/i.test(f)) {
-      findings.push({ level: "warn", msg: "The target locks both column and row ($M$2). Next: change the denominator to $M$2." });
-    }
-    // Missing mixed lock when challenge expects C$2
-    if (challenge && /C\$2/.test(challenge.f || "") && /=\s*B4\*(?:C2|\$C\$2|\$C2)(?!\$)/i.test(f)) {
-      findings.push({ level: "warn", msg: "The target uses a mixed reference (C$2) so the row stays fixed. Next: change the rate to C$2." });
-    }
-    // Sheet name with space but no apostrophes
-    if (/[A-Za-z]+ [A-Za-z]+!/.test(f) && !/'[^']+'!/.test(f)) {
-      findings.push({ level: "error", msg: "Sheet names with spaces need apostrophes. Next: use 'Production Data'!E2." });
-    }
-    // COUNTIF with a partial code that likely needs wildcards
-    if (/COUNTIF\s*\([^,]+,\s*"A00"\s*\)/i.test(f)) {
-      findings.push({ level: "warn", msg: "COUNTIF with \"A00\" matches only that exact text. Next: use a wildcard such as \"A00*\" if you need codes that start with A00." });
-    }
-    // IFERROR missing the second argument
-    if (/IFERROR\s*\([^,)]+\)/i.test(f)) {
-      findings.push({ level: "error", msg: "IFERROR needs a value_if_error. Next: add a second argument, such as IFERROR(F2/E2,0)." });
-    }
-    // ROUND missing num_digits (only when the ROUND call itself has one argument)
-    if (/ROUND\s*\(/i.test(f)) {
-      const m = /ROUND\s*\(/i.exec(f);
-      if (m) {
+    // Lesson-taught mistakes — generic rules (not exact checklist strings)
+    // Helpers: per-call arg count, ref normalization
+    function callArgs(s, fnName) {
+      const re = new RegExp(fnName + "\\s*\\(", "gi");
+      const results = [];
+      let m;
+      while ((m = re.exec(s)) !== null) {
         let depth = 1, args = 1, i = m.index + m[0].length;
-        while (i < f.length && depth > 0) {
-          if (f[i] === "(") depth++;
-          else if (f[i] === ")") depth--;
-          else if (f[i] === "," && depth === 1) args++;
+        const start = i;
+        while (i < s.length && depth > 0) {
+          if (s[i] === "(") depth++;
+          else if (s[i] === ")") depth--;
+          else if (s[i] === "," && depth === 1) args++;
           i++;
         }
-        if (args < 2) findings.push({ level: "error", msg: "ROUND needs num_digits. Next: add a second argument, such as ROUND(AVERAGE(E2:E6),1)." });
+        results.push({ args, body: s.slice(start, i - 1) });
+      }
+      return results;
+    }
+    function normRef(r) { return String(r || "").replace(/\$/g, "").replace(/\s+/g, "").toUpperCase(); }
+    function extractRefs(s) {
+      return (s.match(/\$?[A-Z]{1,3}\$?\d+/gi) || []).map(normRef);
+    }
+
+    // Unquoted bare words in criteria (IF, COUNTIF, COUNTIFS, SUMIF, SUMIFS)
+    if (/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*,\s*[A-Z][A-Z_]*\s*(?:,|\))/i.test(f)) {
+      const bare = f.match(/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*,\s*([A-Z][A-Z_]*)/i);
+      if (bare && !/[A-Z]+\d+/.test(bare[1]) && !/^(TRUE|FALSE|AND|OR|NOT)$/i.test(bare[1])) {
+        findings.push({ level: "error", msg: "Unquoted text is treated as a name and returns #NAME?. Wrap it in double quotes. Next: change the bare word to a quoted string." });
       }
     }
-    // XLOOKUP range size mismatch (different row counts)
-    const xl = f.match(/XLOOKUP\s*\([^,]+,\s*([A-Z]+\d+):([A-Z]+)(\d+)\s*,\s*([A-Z]+\d+):([A-Z]+)(\d+)/i);
-    if (xl && xl[3] !== xl[6]) {
-      findings.push({ level: "error", msg: "XLOOKUP lookup and return ranges have different heights. Next: make both ranges the same size (for example C2:C28 and E2:E28)." });
+
+    // + used to join text: only when a quote is next to +, or the target uses &
+    if ((/\+\s*"|\"\s*\+/i.test(f) || (challenge && /&/.test(challenge.f || "") && /=\s*[A-Z]+\d+\s*\+\s*[A-Z]+\d+\s*$/i.test(f))) && !/&/.test(f)) {
+      findings.push({ level: "error", msg: "Use & to join text, not +. Next: rewrite the concatenation with &." });
     }
-    // XLOOKUP missing search_mode -1 when the target uses it
-    if (challenge && /-1\s*\)/.test(challenge.f || "") && /XLOOKUP/i.test(f) && !/,-1\s*\)/.test(f) && !/,\s*-1\s*\)/.test(f)) {
-      findings.push({ level: "warn", msg: "The target searches last-to-first. Next: add search_mode -1 as the final argument." });
+
+    // AVERAGE of two cells, semicolon, or incomplete range
+    if (/AVERAGE\s*\(\s*\$?[A-Z]+\d+\s*[,;]\s*\$?[A-Z]+\d+\s*\)/i.test(f)) {
+      findings.push({ level: "warn", msg: "AVERAGE of two separate cells (or a semicolon) averages only those cells. Next: use a continuous range such as E2:E6." });
     }
-    // SUMIFS with arguments in the wrong order (criteria before sum range)
-    if (/SUMIFS\s*\(\s*[A-Z]+\d+:[A-Z]+\d+\s*,\s*[A-Z]+\d+\s*,/i.test(f) && !/SUMIFS\s*\(\s*[A-Z]+\d+:[A-Z]+\d+\s*,\s*[A-Z]+\d+:[A-Z]+\d+/i.test(f)) {
-      findings.push({ level: "error", msg: "SUMIFS expects the sum range first, then criteria ranges and criteria. Next: put the sum range (for example G2:G28) first." });
+    // Range shorter than the target's simple AVERAGE range
+    if (challenge && /AVERAGE\s*\(\s*\$?[A-Z]+\d+:\$?[A-Z]+\d+\s*\)/i.test(challenge.f || "") &&
+        /AVERAGE\s*\(\s*\$?[A-Z]+\d+:\$?[A-Z]+\d+\s*\)/i.test(f)) {
+      const t = (challenge.f.match(/AVERAGE\s*\(\s*(\$?[A-Z]+\d+:\$?[A-Z]+\d+)/i) || [])[1];
+      const l = (f.match(/AVERAGE\s*\(\s*(\$?[A-Z]+\d+:\$?[A-Z]+\d+)/i) || [])[1];
+      if (t && l && normRef(t) !== normRef(l)) {
+        const tEnd = parseInt((t.match(/\d+$/) || ["0"])[0], 10);
+        const lEnd = parseInt((l.match(/\d+$/) || ["0"])[0], 10);
+        if (lEnd < tEnd) findings.push({ level: "warn", msg: `The target averages ${t}. Next: extend the range to match.` });
+      }
     }
-    // COUNTA on a single cell when a spill is expected
-    if (/COUNTA\s*\(\s*[A-Z]+\d+\s*\)/i.test(f) && challenge && /#/.test(challenge.f || "")) {
-      findings.push({ level: "warn", msg: "COUNTA on a single cell counts only that cell. Next: use the spill reference, such as D2#." });
+
+    // Absolute / mixed anchors: compare learner refs to target's locked refs
+    if (challenge && challenge.f) {
+      const targetLocked = (challenge.f.match(/\$?[A-Z]{1,3}\$?\d+/gi) || []).filter(r => r.includes("$"));
+      const learnerRefs = f.match(/\$?[A-Z]{1,3}\$?\d+/gi) || [];
+      for (const t of targetLocked) {
+        const base = normRef(t);
+        const learnerMatch = learnerRefs.find(r => normRef(r) === base);
+        if (learnerMatch && learnerMatch !== t && !learnerMatch.includes("$")) {
+          findings.push({ level: "warn", msg: `The target locks ${t}. Next: change the matching reference to ${t}.` });
+          break;
+        }
+      }
     }
-    // GROUPBY / PIVOTBY with a quoted function name
-    if (/(?:GROUPBY|PIVOTBY)\s*\([^)]*"[A-Z]+"/i.test(f)) {
-      findings.push({ level: "error", msg: "GROUPBY and PIVOTBY take a bare function, not a quoted name. Next: use AVERAGE, not \"AVERAGE\"." });
+
+    // Sheet name with space but no apostrophes (or unquoted multi-word)
+    if (/[A-Za-z]+\s+[A-Za-z]+!/.test(f) && !/'[^']+'!/.test(f)) {
+      findings.push({ level: "error", msg: "Sheet names with spaces need apostrophes. Next: wrap the sheet name in single quotes, e.g. 'Production Data'!E2." });
     }
+    // ProductionData without space is fine; flag only if target has quotes and learner does not
+    if (challenge && /'[^']+'!/.test(challenge.f || "") && /[A-Za-z]+!/.test(f) && !/'[^']+'!/.test(f)) {
+      findings.push({ level: "error", msg: "The target uses a quoted sheet name. Next: add the single quotes around the sheet name." });
+    }
+
+    // COUNTIF / COUNTIFS with exact text that target uses a wildcard for
+    if (challenge && /[*?]/.test(challenge.f || "") && /COUNTIF[S]?\s*\([^,]+,\s*"[^*?]*"\s*\)/i.test(f)) {
+      findings.push({ level: "warn", msg: "The target uses a wildcard. Next: add * or ? so the criterion matches the intended codes." });
+    }
+    // Partial or mismatched wildcards: learner criterion has * or ? but does not match the target's pattern
+    if (challenge && /[*?]/.test(challenge.f || "")) {
+      const tCrit = (challenge.f.match(/COUNTIF[S]?\s*\([^,]+,\s*"([^"]*)"/i) || [])[1];
+      const lCrit = (f.match(/COUNTIF[S]?\s*\([^,]+,\s*"([^"]*)"/i) || [])[1];
+      if (tCrit && lCrit && /[*?]/.test(lCrit) && lCrit !== tCrit) {
+        findings.push({ level: "warn", msg: "The criterion uses only a partial wildcard. Next: match the target's wildcard pattern." });
+      }
+    }
+
+    // IFERROR missing the second argument (per call)
+    callArgs(f, "IFERROR").forEach(c => {
+      if (c.args < 2) findings.push({ level: "error", msg: "IFERROR needs a value_if_error. Next: add a second argument, such as IFERROR(F2/E2,0)." });
+    });
+
+    // ROUND / ROUNDUP arity
+    ["ROUND", "ROUNDUP", "ROUNDDOWN"].forEach(fn => {
+      callArgs(f, fn).forEach(c => {
+        if (c.args < 2 || /,\s*$/.test(c.body)) findings.push({ level: "error", msg: `${fn} needs num_digits. Next: add a second argument, such as ${fn}(AVERAGE(E2:E6),1).` });
+      });
+    });
+
+    // XLOOKUP: every call — compare start and end rows, strip $
+    callArgs(f, "XLOOKUP").forEach(c => {
+      const ranges = c.body.match(/\$?[A-Z]+\$?\d+:\$?[A-Z]+\$?\d+/gi) || [];
+      if (ranges.length >= 2) {
+        const heights = ranges.slice(0, 2).map(r => {
+          const clean = r.replace(/\$/g, "");
+          const m = clean.match(/(\d+):[A-Z]*(\d+)/i);
+          return m ? Math.abs(parseInt(m[2], 10) - parseInt(m[1], 10)) : null;
+        });
+        if (heights[0] != null && heights[1] != null && heights[0] !== heights[1]) {
+          findings.push({ level: "error", msg: "XLOOKUP lookup and return ranges have different heights. Next: make both ranges the same size." });
+        }
+      }
+    });
+
+    // Every XLOOKUP call: missing fallback when the target has one
+    if (challenge && /XLOOKUP/i.test(challenge.f || "") && /XLOOKUP/i.test(f)) {
+      const tCalls = callArgs(challenge.f, "XLOOKUP");
+      const lCalls = callArgs(f, "XLOOKUP");
+      if (tCalls.some(c => c.args >= 4) && lCalls.some(c => c.args < 4)) {
+        findings.push({ level: "warn", msg: "The target XLOOKUP includes a fallback. Next: add a fourth argument to every XLOOKUP that needs one." });
+      }
+    }
+
+    // XLOOKUP missing search_mode -1 when the target uses it (any call)
+    if (challenge && /-1\s*\)/.test(challenge.f || "") && /XLOOKUP/i.test(f)) {
+      const hasMode = callArgs(f, "XLOOKUP").some(c => /,-1\s*$|,-1\s*,/.test(c.body));
+      if (!hasMode) findings.push({ level: "warn", msg: "The target searches last-to-first. Next: add search_mode -1 as the final argument." });
+    }
+
+    // SUMIFS wrong order: second argument is a single cell (criteria before sum range)
+    if (/SUMIFS\s*\(\s*\$?[A-Z]+\d+:\$?[A-Z]+\d+\s*,\s*\$?[A-Z]+\d+\s*,/i.test(f)) {
+      findings.push({ level: "error", msg: "SUMIFS expects the sum range first, then criteria ranges and criteria. Next: put the sum range first." });
+    }
+
+    // SUMIFS: sum range should match the target's sum range (first arg)
+    if (challenge && /SUMIFS/i.test(challenge.f || "") && /SUMIFS/i.test(f)) {
+      const tArgs = callArgs(challenge.f, "SUMIFS")[0];
+      const lArgs = callArgs(f, "SUMIFS")[0];
+      if (tArgs && lArgs) {
+        const tSum = (tArgs.body.match(/\$?[A-Z]+\$?\d+:\$?[A-Z]+\$?\d+/i) || [])[0];
+        const lSum = (lArgs.body.match(/\$?[A-Z]+\$?\d+:\$?[A-Z]+\$?\d+/i) || [])[0];
+        if (tSum && lSum && normRef(tSum) !== normRef(lSum)) {
+          findings.push({ level: "error", msg: "SUMIFS expects the sum range first. Next: put the target's sum range first." });
+        }
+      }
+    }
+
+    // Criteria written as >=M3 without quotes and &
+    if (/(?:>=|<=|>|<)\s*\$?[A-Z]+\d+/.test(f) && !/"[^"]*"\s*&/.test(f)) {
+      findings.push({ level: "error", msg: "Comparison criteria need quotes joined to the cell. Next: use \">=\"&M2, not >=M2." });
+    }
+
+    // PERCENTILE.INC / PERCENTILE with 90 (handles nested commas by arg parse)
+    callArgs(f, "PERCENTILE\.INC|PERCENTILE").forEach(c => {
+      if (/,\s*90\s*$/.test(c.body) || /,\s*90\s*,/.test(c.body)) {
+        findings.push({ level: "warn", msg: "PERCENTILE.INC expects a fraction between 0 and 1. Next: use 0.9, not 90." });
+      }
+    });
+
     if (/FILTER/i.test(f) && /\bAND\s*\(|\bOR\s*\(/i.test(f)) {
       findings.push({ level: "warn", msg: "AND() and OR() inside FILTER usually return a single value. Next: use * for AND and + for OR between conditions." });
     }

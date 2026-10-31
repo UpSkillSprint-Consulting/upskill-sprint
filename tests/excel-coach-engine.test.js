@@ -121,3 +121,62 @@ test("controlled review does not claim finishing faster", () => {
   const review = Engine.getControlledReview();
   assert.ok(!/finishing faster/i.test(review));
 });
+
+test("generic rules catch 3+ variants per mistake not in the audit list", () => {
+  const diagnose = Engine.diagnose;
+  const variants = [
+    // absolute lock
+    ["=G2/M2", { f: "=E2/$M$2" }, /locks/i],
+    ["=H4/M2", { f: "=E2/$M$2" }, /locks/i],
+    ["= E4 / M2 ", { f: "=E2/$M$2" }, /locks/i],
+    // mixed lock
+    ["=B6*C2", { f: "=B4*C$2" }, /locks/i],
+    ["=B7*C2", { f: "=B4*C$2" }, /locks/i],
+    ["=B8*C2", { f: "=B4*C$2" }, /locks/i],
+    // unquoted
+    ["=COUNTIFS(H2:H28,HOLD)", { f: "=COUNTIFS(H2:H28,\"HOLD\")" }, /unquoted/i],
+    ["=IF(A1>1,OK,BAD)", { f: "=IF(A1>1,\"OK\",\"BAD\")" }, /unquoted/i],
+    ["=SUMIFS(A2:A10,B2:B10,PASS)", { f: "=SUMIFS(A2:A10,B2:B10,\"PASS\")" }, /unquoted/i],
+    // concat
+    ["=D2+E2", { f: "=D2&E2" }, /&/],
+    ["=A2+\" - \"+B2", { f: "=A2&\" - \"&B2" }, /&/],
+    ["=X2+Y2", { f: "=X2&\" \"&Y2" }, /&/],
+    // AVERAGE
+    ["=AVERAGE(F2;F8)", { f: "=AVERAGE(F2:F8)" }, /range|semicolon/i],
+    ["=AVERAGE(G2,G5)", { f: "=AVERAGE(G2:G5)" }, /range/i],
+    ["=AVERAGE(H2:H4)", { f: "=AVERAGE(H2:H10)" }, /extend|averages/i],
+    // sheet
+    ["=Other Sheet!A1", { f: "='Other Sheet'!A1" }, /apostrophe|quoted/i],
+    ["=My Data!B2", { f: "='My Data'!B2" }, /apostrophe|quoted/i],
+    ["=Raw Values!C3", { f: "='Raw Values'!C3" }, /apostrophe|quoted/i],
+    // wildcard
+    ["=COUNTIF(A2:A10,\"B00*\")", { f: "=COUNTIF(A2:A10,\"*B00*\")" }, /wildcard/i],
+    ["=COUNTIF(A2:A10,\"*B00\")", { f: "=COUNTIF(A2:A10,\"B00*\")" }, /wildcard/i],
+    ["=COUNTIFS(A2:A10,\"C00*\")", { f: "=COUNTIFS(A2:A10,\"*C00\")" }, /wildcard/i],
+    // ROUND
+    ["=ROUND(SUM(A1:A5),)", { f: "=ROUND(SUM(A1:A5),0)" }, /num_digits/i],
+    ["=ROUNDUP(A1)", { f: "=ROUNDUP(A1,0)" }, /num_digits/i],
+    ["=ROUNDDOWN(B1:B5)", { f: "=ROUNDDOWN(B1:B5,1)" }, /num_digits/i],
+    // XLOOKUP size
+    ["=XLOOKUP(A1,B3:B20,C2:C20)", { f: "=XLOOKUP(A1,B2:B20,C2:C20)" }, /height|size/i],
+    ["=XLOOKUP(A1,B2:B10,C2:C11)", { f: "=XLOOKUP(A1,B2:B10,C2:C10)" }, /height|size/i],
+    ["=XLOOKUP(A1,$B$2:$B$10,$C$2:$C$11)", { f: "=XLOOKUP(A1,B2:B10,C2:C10)" }, /height|size/i],
+    // PERCENTILE
+    ["=PERCENTILE.INC(A1:A10,90)", { f: "=PERCENTILE.INC(A1:A10,0.9)" }, /0\.9|fraction/i],
+    ["=PERCENTILE(FILTER(A2:A10,B2:B10=1),90)", { f: "=PERCENTILE(FILTER(A2:A10,B2:B10=1),0.9)" }, /0\.9|fraction/i],
+    ["=PERCENTILE.INC(C2:C28,90)", { f: "=PERCENTILE.INC(C2:C28,0.9)" }, /0\.9|fraction/i],
+    // SUMIFS order / range
+    ["=SUMIFS(D2:D10,E2,F2:F10)", { f: "=SUMIFS(F2:F10,D2:D10,E2)" }, /sum range|first/i],
+    ["=SUMIFS(A2:A5,B2,C2:C5)", { f: "=SUMIFS(C2:C5,A2:A5,B2)" }, /sum range|first/i],
+    ["=SUMIFS(X2:X8,Y2:Y8,Z2)", { f: "=SUMIFS(Z2:Z8,X2:X8,Y2)" }, /sum range|first/i],
+    // criteria
+    ["=SUMIFS(A2:A10,B2:B10,>=M4)", { f: "=SUMIFS(A2:A10,B2:B10,\">=\"&M4)" }, /quotes|joined/i],
+    ["=SUMIFS(A2:A10,B2:B10,<=N2)", { f: "=SUMIFS(A2:A10,B2:B10,\"<=\"&N2)" }, /quotes|joined/i],
+    ["=COUNTIFS(A2:A10,>P5)", { f: "=COUNTIFS(A2:A10,\">\"&P5)" }, /quotes|joined/i],
+  ];
+  for (const [formula, ch, re] of variants) {
+    const findings = diagnose(formula, ch);
+    assert.ok(findings.some(f => (f.level === "error" || f.level === "warn") && re.test(f.msg)),
+      `Variant missed: ${formula} → ${findings.map(f => f.msg).join("; ")}`);
+  }
+});
