@@ -180,6 +180,7 @@
     if (/#VALUE!/i.test(f)) findings.push({ level: "error", msg: "#VALUE! — usually a text/number mismatch or an invalid operation." });
     if (/#N\/A/i.test(f)) findings.push({ level: "error", msg: "#N/A — lookup value not found. Add a fallback argument if using XLOOKUP." });
     if (/#DIV\/0!/i.test(f)) findings.push({ level: "error", msg: "#DIV/0! — division by zero. Check the denominator." });
+    if (/(?:^|[^\w])\/\s*0(?:\.0+)?(?![\d.])/i.test(f) || /\/\s*0\b/.test(f)) findings.push({ level: "error", msg: "#DIV/0! — division by zero. Check the denominator." });
     if (/#NAME\?/i.test(f)) findings.push({ level: "error", msg: "#NAME? — unrecognized function or named range." });
     if (/\$?[A-Z]{1,3}:\$?[A-Z]{1,3}/i.test(f) && /FILTER|SUMPRODUCT|XLOOKUP|MATCH|SUMIFS/i.test(f)) {
       findings.push({ level: "warn", msg: "Whole-column reference detected. Prefer a Table or limited range for performance and clarity." });
@@ -194,6 +195,10 @@
     const structureNotes = compareToChallenge(f, challenge);
     if (structureNotes) {
       structureNotes.forEach(n => findings.push({ level: "info", msg: n }));
+    }
+
+    if (!findings.length && f.startsWith("=")) {
+      findings.push({ level: "info", msg: "Detected a simple expression. No obvious syntax issues." });
     }
 
     return findings;

@@ -61,4 +61,24 @@ assert.ok(hint2.includes("Challenge-specific") || hint2 !== hint1 || hint2.inclu
 assert.strictEqual(typeof Engine.getControlledReview, "function", "getControlledReview should exist");
 assert.ok(Engine.getControlledReview().includes("Controlled review"), "getControlledReview should return a review string");
 
-console.log("All coach-engine tests passed.");
+// Priority 1: every mode's visible reply is a plain string and never "[object Promise]"
+(async () => {
+  const modes = ["socratic", "hint", "explain", "debug"];
+  const messages = [
+    "Give me one hint",
+    "Why is this wrong =A1+B1",
+    "Explain FILTER",
+    "Debug =1/0",
+    "What should I learn next",
+    "review my formula"
+  ];
+  for (const mode of modes) {
+    for (const msg of messages) {
+      const reply = await Engine.localResponse(msg, mode, () => ({}), [], { current: 0, phase3: { coach: { hintLevels: {} } } });
+      assert.strictEqual(typeof reply, "string", `Mode ${mode} reply must be a string, got ${typeof reply}`);
+      assert.ok(!String(reply).includes("[object Promise]"), `Mode ${mode} must not contain [object Promise]`);
+      assert.ok(reply.length > 0, `Mode ${mode} reply must not be empty`);
+    }
+  }
+  console.log("All coach-engine tests passed, including Promise regression.");
+})().catch(e => { console.error(e); process.exit(1); });

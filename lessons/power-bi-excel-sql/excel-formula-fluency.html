@@ -2156,17 +2156,19 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   }
   function add(role,text){state.phase3.coach.history.push({role,text:String(text),at:Date.now()});state.phase3.coach.history=state.phase3.coach.history.slice(-40);P3.persist();renderMessages();}
   function renderMessages(){const box=P3.el("coachMessages"),history=state.phase3.coach.history;if(!history.length)history.push({role:"assistant",text:`Hi ${P3.activeName()}. I am connected to your current Excel learning context. Ask for a hint, paste a formula to debug, or ask what to learn next.`,at:Date.now()});box.innerHTML="";history.forEach(m=>{const d=document.createElement("div");d.className=`coach-message ${m.role}`;const label=document.createElement("span");label.className="coach-label";label.textContent=m.role==="assistant"?"Excel Coach":"You";const body=document.createElement("span");body.textContent=m.text;d.append(label,body);box.appendChild(d);});box.scrollTop=box.scrollHeight;}
-  async function send(message){const input=P3.el("coachInput"),m=(message??input.value).trim();if(!m)return;input.value="";add("user",m);const mode=P3.el("coachMode").value,endpoint=state.phase3.coach.endpoint;let reply;if(endpoint&&/^https:\/\//i.test(endpoint)){try{const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:m,mode,context:context(),history:state.phase3.coach.history.slice(-8)})});if(!res.ok)throw Error(String(res.status));const data=await res.json();reply=String(data.reply||data.message||"");}catch{reply=localResponse(m,mode)+"\n\nThe secure coaching endpoint was unavailable, so I used the built-in contextual coach.";}}else reply=localResponse(m,mode);add("assistant",reply);}
+  async function send(message){const input=P3.el("coachInput"),m=(message??input.value).trim();if(!m)return;input.value="";add("user",m);const mode=P3.el("coachMode").value,endpoint=state.phase3.coach.endpoint;let reply;try{if(endpoint&&/^https:\/\//i.test(endpoint)){try{const res=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:m,mode,context:context(),history:state.phase3.coach.history.slice(-8)})});if(!res.ok)throw Error(String(res.status));const data=await res.json();reply=String(data.reply||data.message||"");}catch(e){const fallback=await localResponse(m,mode);reply=String(fallback||"")+"\n\nThe secure coaching endpoint was unavailable, so I used the built-in contextual coach.";}}else reply=await localResponse(m,mode);}catch(e){console.warn("Coach reply failed",e);reply="I could not produce a reply just now. Try again, or paste the formula and ask for one specific step.";}reply=String(reply||"");add("assistant",reply);}
   function open(prompt){const d=P3.el("coachDialog");d.showModal?d.showModal():d.setAttribute("open","");renderMessages();renderContext();if(prompt){P3.el("coachInput").value=prompt;send(prompt);}}
   function renderContext(){const c=context(),items=[["Learner",c.learner],["Active pathway",c.path],["Priority skill",c.skill.name],["Current work",c.current],["Reviews due",c.due]];P3.el("coachContextPreview").innerHTML=items.map(([a,b])=>`<div class="coach-context-item"><span>${P3.esc(a)}</span><b>${P3.esc(b)}</b></div>`).join("");P3.el("coachSkillChip").textContent=c.skill.name;P3.el("coachPathChip").textContent=c.path;P3.el("coachSubhead").textContent=`${c.learner} · context connected · local reasoning active`;}
   P3.openCoach=open;if (window.ExcelCoachEngine && window.ExcelCoachEngine.localResponse) {
     const originalLocal = localResponse;
-    localResponse = function(message, mode) {
+    localResponse = async function(message, mode) {
       try {
-        return window.ExcelCoachEngine.localResponse(message, mode, context, typeof challenges !== "undefined" ? challenges : {}, state);
+        const result = await window.ExcelCoachEngine.localResponse(message, mode, context, typeof challenges !== "undefined" ? challenges : {}, state);
+        return String(result || "");
       } catch (e) {
         console.warn("CoachEngine fallback", e);
-        return originalLocal(message, mode);
+        try { return String(await originalLocal(message, mode) || ""); }
+        catch (e2) { console.warn("Original localResponse also failed", e2); return "I could not produce a reply just now. Try a more specific question."; }
       }
     };
   }
