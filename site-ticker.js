@@ -114,20 +114,15 @@
   function shouldShow(items, opts) { return mode(items, opts) === 'bar'; }
 
   // ---------- styles ----------
-  // Follows the site's light/dark toggle (html[data-theme]), with values mirroring
-  // style.css: light = the site's white card and header colours with dark teal
-  // (--teal #1f4e5f) accents; dark = the site's dark card (#111c2d) with light teal
-  // (#67d4df). Every text/background pair meets WCAG AA (4.5:1) in both themes;
-  // tests/site-ticker.test.js checks the ratios and that the two themes differ.
+  // Site palette: the bar is the site's navy (the same colour as the footer and the
+  // primary buttons) in the light theme and the site's dark card colour in the dark
+  // theme, with the site's light teal (#67d4df, dark-theme --teal-dark) as the accent.
+  // Values mirror style.css so the bar blends in. Every text/background pair below
+  // meets WCAG AA (4.5:1); tests/site-ticker.test.js checks the ratios.
   var CSS =
-    ':root{--utk-bg:#ffffff;--utk-glass:rgba(255,255,255,.94);--utk-line:#e3e7ee;--utk-ink:#1c2430;--utk-muted:#5b6578;--utk-accent:#1f4e5f;' +
-    '--utk-hover:rgba(28,36,48,.06);--utk-shadow:0 -6px 20px rgba(28,36,48,.08);' +
-    '--utk-tag-bg:#eef1f5;--utk-tag-fg:#344054;--utk-research:#1f4e5f;--utk-lesson-bg:#e2eaec;--utk-lesson-fg:#163a47;' +
-    '--utk-exam-bg:#1f4e5f;--utk-exam-fg:#ffffff;--utk-soon-line:#9aa4b2;--utk-soon-fg:#5b6578}' +
-    'html[data-theme="dark"]{--utk-bg:#111c2d;--utk-glass:rgba(17,28,45,.94);--utk-line:#2b3b50;--utk-ink:#f4f7fb;--utk-muted:#a9b6c8;--utk-accent:#67d4df;' +
-    '--utk-hover:rgba(255,255,255,.08);--utk-shadow:0 -8px 24px rgba(0,0,0,.35);' +
-    '--utk-tag-bg:#2b3b50;--utk-tag-fg:#d2dbea;--utk-research:#67d4df;--utk-lesson-bg:#163445;--utk-lesson-fg:#9be3ea;' +
-    '--utk-exam-bg:#67d4df;--utk-exam-fg:#0b1220;--utk-soon-line:#5b6578;--utk-soon-fg:#a9b6c8}' +
+    ':root{--utk-bg:#1c2430;--utk-glass:rgba(28,36,48,.94);--utk-line:#2b3b50;--utk-ink:#f4f7fb;--utk-muted:#a9b6c8;--utk-accent:#67d4df;' +
+    '--utk-hover:rgba(255,255,255,.08);--utk-shadow:0 14px 34px rgba(11,18,32,.3),0 2px 8px rgba(11,18,32,.18)}' +
+    'html[data-theme="dark"]{--utk-bg:#111c2d;--utk-glass:rgba(17,28,45,.94);--utk-line:#2b3b50}' +
 
     // Docked full-width along the bottom edge, like a trading-site ticker. Safe-area
     // padding keeps it clear of the home indicator and rounded corners on phones.
@@ -135,7 +130,7 @@
     'height:calc(42px + env(safe-area-inset-bottom,0px));box-sizing:border-box;display:flex;align-items:center;margin:0;' +
     'padding:0 calc(6px + env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);' +
     'border:0;border-top:1px solid var(--utk-line);border-radius:0;background:var(--utk-bg);color:var(--utk-ink);' +
-    'box-shadow:var(--utk-shadow);font:500 13.5px/1.2 "Work Sans",Arial,sans-serif;' +
+    'box-shadow:0 -8px 24px rgba(0,0,0,.18);font:500 13.5px/1.2 "Work Sans",Arial,sans-serif;' +
     'opacity:0;transform:translateY(100%);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.8,.2,1)}' +
     // Smoked glass: near-opaque charcoal with a blur, so text contrast never depends on the page behind it.
     '@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){' +
@@ -164,14 +159,14 @@
     'color:var(--utk-ink)!important;text-decoration:none!important;white-space:nowrap;transition:background .2s ease}' +
     '.utk-item:hover,.utk-item:focus-visible{background:var(--utk-hover)}' +
     '.utk-item:focus-visible,.utk-btn:focus-visible{outline:2px solid var(--utk-accent);outline-offset:-2px}' +
-    // Tag colours (theme variables above): teal outline = research, teal tint = lessons,
-    // solid teal = exams (same pairing as the site's .btn-accent), slate = the rest.
+    // Tag colours from the site palette: teal outline = research, teal tint = lessons,
+    // solid teal = exams (same pairing as the site's dark-theme .btn-accent), slate = the rest.
     '.utk-tag{font-size:11.5px;font-weight:600;letter-spacing:.02em;padding:3px 10px;border-radius:999px;' +
-    'border:1px solid transparent;background:var(--utk-tag-bg);color:var(--utk-tag-fg)}' +
-    '.utk-tag[data-kind="research"]{background:transparent;border-color:var(--utk-research);color:var(--utk-research)}' +
-    '.utk-tag[data-kind="lesson"]{background:var(--utk-lesson-bg);color:var(--utk-lesson-fg)}' +
-    '.utk-tag[data-kind="exam"]{background:var(--utk-exam-bg);color:var(--utk-exam-fg)}' +
-    '.utk-tag[data-kind="soon"]{background:transparent;border:1px dashed var(--utk-soon-line);color:var(--utk-soon-fg)}' +
+    'border:1px solid transparent;background:#2b3b50;color:#d2dbea}' +
+    '.utk-tag[data-kind="research"]{background:transparent;border-color:#67d4df;color:#67d4df}' +
+    '.utk-tag[data-kind="lesson"]{background:#163445;color:#9be3ea}' +
+    '.utk-tag[data-kind="exam"]{background:#67d4df;color:#0b1220}' +
+    '.utk-tag[data-kind="soon"]{background:transparent;border:1px dashed #5b6578;color:#a9b6c8}' +
     '.utk-arrow{width:12px;height:12px;flex:0 0 auto;opacity:0;transform:translate(-5px,3px);' +
     'transition:opacity .2s ease,transform .25s ease}' +
     '.utk-item:hover .utk-arrow,.utk-item:focus-visible .utk-arrow{opacity:.85;transform:none}' +
