@@ -335,29 +335,163 @@ header.site nav.desktop-nav .nav-foot-solo {
   }
 }
 
-nav.mobile-nav .nav-acc-btn {
+/* ---------- Mobile drawer: section cards ----------
+   Each section is a card: coloured icon badge, label, one-line subtitle and a
+   count. Opening a card shows its links as tiles (Lessons, Exam Practice),
+   numbered steps (Start Here) or rows. Selectors start with
+   nav.mobile-nav[data-nav-root="mobile"] so the old style.css rule
+   `nav.mobile-nav a { border-bottom… }` (the stray lines) cannot leak in.
+   Badge fills are the guide's tested white-on-colour set (§24). */
+
+nav.mobile-nav[data-nav-root="mobile"] {
+  --nav-tile: var(--tint, #f5f7fa);
+  --nav-fill: #0f6b78;          /* white text 6.1:1 */
+  --nav-exam-ink: #8a5300;
+}
+
+html[data-theme="dark"] nav.mobile-nav[data-nav-root="mobile"] {
+  --nav-tile: #0d1726;
+  --nav-exam-ink: #f0c36a;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc,
+nav.mobile-nav[data-nav-root="mobile"] .nav-poster {
+  flex: none; /* the drawer is a fixed-height flex column; never squash cards */
+  width: calc(100% - 24px);
+  max-width: 620px;
+  margin: 0 auto 8px;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc {
+  border: 1px solid var(--line, #e3e7ee);
+  border-radius: 14px;
+  background: var(--card, #fff);
+  overflow: hidden;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc:first-child {
+  margin-top: 12px;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc.is-open,
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc:has(.nav-acc-btn[aria-current="page"]) {
+  border-color: var(--teal, #1f4e5f);
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-head {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto 16px;
+  grid-template-areas:
+    "badge label meta chev"
+    "badge sub   meta chev";
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 1px;
+  min-height: 66px;
+  padding: 10px 14px 10px 11px;
+}
+
+@media (hover: hover) {
+  nav.mobile-nav[data-nav-root="mobile"] .nav-acc-head:hover {
+    background: var(--nav-panel-hover);
+  }
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-badge {
+  grid-area: badge;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 50px;
-  padding: 0 16px;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #0f6b78;
+  color: #ffffff;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-badge[data-badge="lessons"] { background: #2d5b8a; }
+nav.mobile-nav[data-nav-root="mobile"] .nav-badge[data-badge="exam"] { background: #8a5300; }
+nav.mobile-nav[data-nav-root="mobile"] .nav-badge[data-badge="tools"] { background: #1e7a46; }
+nav.mobile-nav[data-nav-root="mobile"] .nav-badge[data-badge="services"] { background: #b42318; }
+nav.mobile-nav[data-nav-root="mobile"] .nav-badge[data-badge="about"] { background: #4b5568; }
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-badge svg {
+  display: block;
+  width: 26px;
+  height: 26px;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-btn {
+  grid-area: label;
+  align-self: end;
+  display: block;
+  width: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
   border: 0;
-  border-bottom: 1px solid var(--line, #e3e7ee);
-  background: transparent;
+  background: none;
   color: var(--ink);
   font-family: "Work Sans", Arial, sans-serif;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
   text-align: left;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
-nav.mobile-nav .nav-acc-btn[aria-current="page"] {
-  color: var(--teal);
+/* Stretched hit area: tapping anywhere on the card head toggles it. */
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
-nav.mobile-nav .nav-acc.is-open .nav-chevron-icon {
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-btn:focus-visible {
+  outline: none;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-btn:focus-visible::after {
+  border-radius: 13px;
+  outline: 3px solid var(--teal, #1f4e5f);
+  outline-offset: -3px;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-btn[aria-current="page"] {
+  color: var(--teal, #1f4e5f);
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-sub {
+  grid-area: sub;
+  align-self: start;
+  color: var(--muted, #5b6578);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-meta {
+  grid-area: meta;
+  padding: 3px 9px;
+  border: 1px solid var(--line, #e3e7ee);
+  border-radius: 999px;
+  background: var(--nav-tile);
+  color: var(--ink-soft, #344054);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-chev {
+  grid-area: chev;
+  display: flex;
+  color: var(--muted, #5b6578);
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc.is-open .nav-chevron-icon {
   transform: rotate(180deg);
 }
 
@@ -365,110 +499,309 @@ nav.mobile-nav .nav-acc-panel[hidden] {
   display: none !important;
 }
 
-nav.mobile-nav .nav-acc-panel {
-  display: flex;
-  flex-direction: column;
-  padding: 4px 0 8px;
-  background: var(--nav-panel-hover);
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-panel {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--line, #e3e7ee);
+  background: transparent;
 }
 
-nav.mobile-nav .nav-acc-panel a,
-nav.mobile-nav .nav-acc-panel .nav-row {
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-panel[data-layout="tiles"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Rows and tiles. */
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-panel .nav-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-height: 40px;
-  margin: 0 12px 0 16px;
-  padding: 8px 12px 8px 12px;
-  border: 0;
-  border-bottom: 0;
-  border-left: 2px solid var(--teal);
+  gap: 10px;
+  min-height: 48px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line, #e3e7ee);
+  border-radius: 10px;
+  background: var(--nav-tile);
   color: var(--ink);
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
 }
 
-nav.mobile-nav .nav-acc-panel a.nav-acc-all,
-nav.mobile-nav .nav-acc-panel a.nav-book {
-  font-weight: 700;
-  color: var(--teal);
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-panel a.nav-row:hover {
+  border-color: var(--teal, #1f4e5f);
 }
 
-nav.mobile-nav .nav-acc-panel .nav-rich {
-  align-items: flex-start;
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-panel a.nav-row:focus-visible {
+  outline: 3px solid var(--teal, #1f4e5f);
+  outline-offset: 1px;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-name {
+  flex: 1;
+  min-width: 0;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-panel .nav-rich {
   flex-direction: column;
-  gap: 3px;
-  min-height: 44px;
+  align-items: flex-start;
+  gap: 2px;
   text-align: left;
 }
 
-nav.mobile-nav .nav-name {
-  flex: 1;
-  color: var(--ink);
-  font-weight: 500;
-}
-
-nav.mobile-nav .nav-desc {
+nav.mobile-nav[data-nav-root="mobile"] .nav-desc {
   color: var(--muted, #5b6578);
   font-size: 12.5px;
   font-weight: 400;
   line-height: 1.4;
 }
 
-nav.mobile-nav .nav-count {
-  color: var(--nav-muted);
-  font-size: 12.5px;
-  font-weight: 600;
+/* Start Here: numbered steps, because these are paths. */
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-panel[data-layout="steps"] {
+  counter-reset: nav-step;
 }
 
-nav.mobile-nav .nav-acronym {
-  flex: 0 0 64px;
-  color: var(--teal);
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-panel[data-layout="steps"] .nav-row::before {
+  counter-increment: nav-step;
+  content: counter(nav-step);
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--nav-fill);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* Lessons and Exam Practice: two-column tiles. */
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-panel[data-layout="tiles"] .nav-row {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start; /* no gap when a page has no live counts */
+  gap: 6px;
+  min-height: 58px;
+  font-size: 14px;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-count {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #2d5b8a;
+  color: #ffffff;
+  font-size: 12px;
   font-weight: 700;
 }
 
-nav.mobile-nav .nav-drawer-footer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: auto;
-  position: sticky;
-  bottom: 0;
-  padding: 12px;
-  border-top: 1px solid var(--line, #e3e7ee);
-  background: var(--nav-foot);
+nav.mobile-nav[data-nav-root="mobile"] .nav-soon {
+  padding: 1px 8px;
+  border: 1px solid var(--line, #e3e7ee);
+  border-radius: 999px;
+  color: var(--muted, #5b6578);
+  font-size: 11.5px;
+  font-weight: 700;
 }
 
-nav.mobile-nav .nav-drawer-footer a {
+nav.mobile-nav[data-nav-root="mobile"] .nav-exam .nav-acronym {
+  flex: none;
+  color: var(--nav-exam-ink);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-exam .nav-name {
+  flex: none;
+  color: var(--muted, #5b6578);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Panel footer: the main "all" link is a solid button; the extra link is plain. */
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-foot {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+  padding-top: 2px;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-foot a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--teal, #1f4e5f);
+  font-size: 14.5px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-foot a.nav-acc-all {
+  flex: 1 1 auto;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: var(--nav-fill);
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-foot a.nav-acc-all:hover {
+  background: #0b5561;
+  color: #ffffff;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-acc-foot a:focus-visible {
+  outline: 3px solid var(--teal, #1f4e5f);
+  outline-offset: 2px;
+}
+
+/* ---------- "New here?" poster (replaces the Account / Browse bar) ---------- */
+nav.mobile-nav[data-nav-root="mobile"] .nav-poster {
+  position: relative;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  padding: 18px 16px 16px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #0f6b78 0%, #2d5b8a 100%);
+  color: #ffffff;
+}
+
+/* Oversized sprint chevron, purely decorative. */
+nav.mobile-nav[data-nav-root="mobile"] .nav-poster::before {
+  content: "";
+  position: absolute;
+  top: -18px;
+  right: -36px;
+  width: 150px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.1);
+  clip-path: polygon(0 0, 55% 0, 100% 50%, 55% 100%, 0 100%, 45% 50%);
+  pointer-events: none;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-poster-kicker {
+  position: relative;
+  margin: 0;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-poster-title {
+  position: relative;
+  margin: 4px 0 12px;
+  color: #ffffff;
+  font-family: "Work Sans", Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-poster-steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+  counter-reset: nav-poster;
+}
+
+/* Chevron-shaped segments; a dark overlay keeps white text above 4.5:1. */
+nav.mobile-nav[data-nav-root="mobile"] .nav-poster-steps li {
+  counter-increment: nav-poster;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 -5px 0 0;
+  padding: 9px 14px 9px 17px;
+  background: rgba(8, 20, 35, 0.3);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%, 10px 50%);
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-poster-steps li:first-child {
+  padding-left: 11px;
+  border-radius: 8px 0 0 8px;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-poster-steps li::before {
+  content: counter(nav-poster);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #0f4f5c;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+nav.mobile-nav[data-nav-root="mobile"] .nav-poster a.nav-poster-cta {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  padding: 10px 12px;
-  border: 1px solid var(--line, #e3e7ee);
-  border-radius: 10px;
-  background: var(--card, #fff);
-  color: var(--ink);
-  font-size: 14px;
-  font-weight: 700;
-  text-align: center;
+  min-height: 48px;
+  margin: 0;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #0f4f5c;
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
 }
 
-nav.mobile-nav .nav-drawer-browse {
-  border-color: transparent;
-  background: #0e7490;
-  color: #ffffff;
+nav.mobile-nav[data-nav-root="mobile"] .nav-poster a.nav-poster-cta:hover {
+  background: #e6f2f4;
+  color: #0f4f5c;
 }
 
-nav.mobile-nav .nav-drawer-browse:hover {
-  background: #0a5a70;
-  color: #ffffff;
+nav.mobile-nav[data-nav-root="mobile"] .nav-poster a.nav-poster-cta:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  nav.mobile-nav[data-nav-root="mobile"] .nav-chevron-icon {
+    transition: transform 160ms ease;
+  }
+  nav.mobile-nav[data-nav-root="mobile"] .nav-acc-panel:not([hidden]) {
+    animation: nav-panel-in 160ms ease;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   header.site nav.desktop-nav .nav-panel:not([hidden]),
   header.site nav.desktop-nav .nav-chevron-icon,
-  nav.mobile-nav .nav-chevron-icon {
+  nav.mobile-nav .nav-chevron-icon,
+  nav.mobile-nav .nav-acc-panel:not([hidden]) {
     animation: none;
     transition: none;
   }
