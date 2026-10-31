@@ -15,7 +15,7 @@
  * BEHAVIOUR
  *   - Headlines glide right-to-left at a steady reading speed; hovering, focusing
  *     or pressing Pause stops them (WCAG 2.2.2 Pause, Stop, Hide).
- *   - Close (x) turns the bar off; it shrinks to a small amber on/off icon in the
+ *   - Close (x) turns the bar off; it shrinks to a small teal on/off icon in the
  *     bottom-right corner that turns it back on. The choice is remembered on every
  *     page until a newer headline is published.
  *   - prefers-reduced-motion: nothing moves; the headlines become a row the
@@ -114,13 +114,15 @@
   function shouldShow(items, opts) { return mode(items, opts) === 'bar'; }
 
   // ---------- styles ----------
-  // "Trading terminal" look: charcoal pill with amber accents. The bar keeps the
-  // same colours in the site's light and dark themes, so it reads as one branded
-  // element on any page. Every text/background pair below meets WCAG AA (4.5:1);
-  // tests/site-ticker.test.js checks the ratios.
+  // Site palette: the bar is the site's navy (the same colour as the footer and the
+  // primary buttons) in the light theme and the site's dark card colour in the dark
+  // theme, with the site's light teal (#67d4df, dark-theme --teal-dark) as the accent.
+  // Values mirror style.css so the bar blends in. Every text/background pair below
+  // meets WCAG AA (4.5:1); tests/site-ticker.test.js checks the ratios.
   var CSS =
-    ':root{--utk-bg:#141414;--utk-line:#2f2f2f;--utk-ink:#f2f2f2;--utk-muted:#a3a3a3;--utk-amber:#ffb020;' +
-    '--utk-hover:rgba(255,255,255,.08);--utk-shadow:0 14px 34px rgba(0,0,0,.35),0 2px 8px rgba(0,0,0,.22)}' +
+    ':root{--utk-bg:#1c2430;--utk-glass:rgba(28,36,48,.94);--utk-line:#2b3b50;--utk-ink:#f4f7fb;--utk-muted:#a9b6c8;--utk-accent:#67d4df;' +
+    '--utk-hover:rgba(255,255,255,.08);--utk-shadow:0 14px 34px rgba(11,18,32,.3),0 2px 8px rgba(11,18,32,.18)}' +
+    'html[data-theme="dark"]{--utk-bg:#111c2d;--utk-glass:rgba(17,28,45,.94);--utk-line:#2b3b50}' +
 
     // Docked full-width along the bottom edge, like a trading-site ticker. Safe-area
     // padding keeps it clear of the home indicator and rounded corners on phones.
@@ -132,15 +134,15 @@
     'opacity:0;transform:translateY(100%);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.8,.2,1)}' +
     // Smoked glass: near-opaque charcoal with a blur, so text contrast never depends on the page behind it.
     '@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){' +
-    '.utk{background:rgba(20,20,20,.9);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px)}}' +
+    '.utk{background:var(--utk-glass);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px)}}' +
     '.utk.is-in{opacity:1;transform:translateY(0)}' +
     '.utk.is-out{opacity:0;transform:translateY(100%)}' +
 
     '.utk-live{flex:0 0 auto;display:flex;align-items:center;gap:8px;height:24px;padding:0 16px 0 20px;' +
-    'border-right:1px solid var(--utk-line);color:var(--utk-amber);font-size:11.5px;font-weight:700;' +
+    'border-right:1px solid var(--utk-line);color:var(--utk-accent);font-size:11.5px;font-weight:700;' +
     'letter-spacing:.1em;text-transform:uppercase}' +
-    '.utk-dot{position:relative;width:8px;height:8px;border-radius:50%;background:var(--utk-amber)}' +
-    '.utk-dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--utk-amber);' +
+    '.utk-dot{position:relative;width:8px;height:8px;border-radius:50%;background:var(--utk-accent)}' +
+    '.utk-dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--utk-accent);' +
     'animation:utk-ping 2s cubic-bezier(0,0,.2,1) infinite}' +
     '@keyframes utk-ping{70%,100%{transform:scale(2.6);opacity:0}}' +
 
@@ -156,14 +158,15 @@
     '.utk-item{display:inline-flex;align-items:center;gap:9px;padding:6px 10px 6px 7px;border-radius:999px;' +
     'color:var(--utk-ink)!important;text-decoration:none!important;white-space:nowrap;transition:background .2s ease}' +
     '.utk-item:hover,.utk-item:focus-visible{background:var(--utk-hover)}' +
-    '.utk-item:focus-visible,.utk-btn:focus-visible{outline:2px solid var(--utk-amber);outline-offset:-2px}' +
-    // Tag colours: amber = research, green = lessons, solid amber = exams, greys = everything else.
+    '.utk-item:focus-visible,.utk-btn:focus-visible{outline:2px solid var(--utk-accent);outline-offset:-2px}' +
+    // Tag colours from the site palette: teal outline = research, teal tint = lessons,
+    // solid teal = exams (same pairing as the site's dark-theme .btn-accent), slate = the rest.
     '.utk-tag{font-size:11.5px;font-weight:600;letter-spacing:.02em;padding:3px 10px;border-radius:999px;' +
-    'border:1px solid transparent;background:#262626;color:#d6d6d6}' +
-    '.utk-tag[data-kind="research"]{background:#3a2a05;color:#ffb020}' +
-    '.utk-tag[data-kind="lesson"]{background:#0f3320;color:#3ddc84}' +
-    '.utk-tag[data-kind="exam"]{background:#ffb020;color:#141414}' +
-    '.utk-tag[data-kind="soon"]{background:transparent;border:1px dashed #5c5c5c;color:#bdbdbd}' +
+    'border:1px solid transparent;background:#2b3b50;color:#d2dbea}' +
+    '.utk-tag[data-kind="research"]{background:transparent;border-color:#67d4df;color:#67d4df}' +
+    '.utk-tag[data-kind="lesson"]{background:#163445;color:#9be3ea}' +
+    '.utk-tag[data-kind="exam"]{background:#67d4df;color:#0b1220}' +
+    '.utk-tag[data-kind="soon"]{background:transparent;border:1px dashed #5b6578;color:#a9b6c8}' +
     '.utk-arrow{width:12px;height:12px;flex:0 0 auto;opacity:0;transform:translate(-5px,3px);' +
     'transition:opacity .2s ease,transform .25s ease}' +
     '.utk-item:hover .utk-arrow,.utk-item:focus-visible .utk-arrow{opacity:.85;transform:none}' +
@@ -189,10 +192,10 @@
     '.utk-toggle{all:unset;position:fixed;z-index:' + Z + ';box-sizing:border-box;width:44px;height:44px;border-radius:50%;' +
     'right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));' +
     'display:inline-flex;align-items:center;justify-content:center;cursor:pointer;background:var(--utk-bg);' +
-    'border:1px solid var(--utk-line);color:var(--utk-amber);box-shadow:var(--utk-shadow);' +
+    'border:1px solid var(--utk-line);color:var(--utk-accent);box-shadow:var(--utk-shadow);' +
     'transition:transform .25s ease,opacity .3s ease}' +
     '.utk-toggle:hover{transform:scale(1.06)}' +
-    '.utk-toggle:focus-visible{outline:2px solid var(--utk-amber);outline-offset:3px}' +
+    '.utk-toggle:focus-visible{outline:2px solid var(--utk-accent);outline-offset:3px}' +
     '.utk-toggle[hidden]{display:none}' +
     '.utk-toggle svg{width:22px;height:22px;display:block}' +
     '.utk[hidden]{display:none}' +
@@ -210,7 +213,7 @@
     pause: '<svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><rect x="3" y="2" width="2.6" height="10" rx="1" fill="currentColor"/><rect x="8.4" y="2" width="2.6" height="10" rx="1" fill="currentColor"/></svg>',
     play: '<svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M4 2.2v9.6a.6.6 0 0 0 .9.5l7.6-4.8a.6.6 0 0 0 0-1L4.9 1.7a.6.6 0 0 0-.9.5z" fill="currentColor"/></svg>',
     close: '<svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
-    // "Broadcast" mark for the on/off icon: an amber dot with signal waves.
+    // "Broadcast" mark for the on/off icon: a teal dot with signal waves.
     live: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="2.6" fill="currentColor"/>' +
       '<path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
     arrow: '<svg class="utk-arrow" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3 9l6-6M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
