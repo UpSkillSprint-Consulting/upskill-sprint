@@ -133,6 +133,32 @@ test('nothing renders out of season or on exam pages', () => {
   exam.window.close();
 });
 
+test('preview validators ignore exactly the build-injected seasonal tag, and nothing else', async () => {
+  const { injectTag } = await import(injectorUrl);
+  const page = '<!doctype html><html><body><main>Lesson</main>\n</body>\n</html>\n';
+  // Netlify then adds its deploy-preview block right before </body>, after our tag.
+  const netlify = '<div data-netlify-deploy-id="0123456789abcdef01234567" data-netlify-site-id="82c1a97f-bb8d-4e7b-8367-fe93d7ce1657" data-vcs="github" style="position:fixed"><script async src="/.netlify/scripts/cdp"></script></div>\n';
+  const built = injectTag(page);
+  const served = built.replace('</body>', netlify + '</body>');
+  const regexFrom = (file, name) => {
+    const src = fs.readFileSync(path.join(ROOT, 'scripts', file), 'utf8');
+    const literal = src.match(new RegExp('const ' + name + ' ?= ?(/.*/[gimsuy]*);'))[1];
+    return new Function('return ' + literal)();
+  };
+  const validators = {
+    'validate-spread-lab.cjs': ['NETLIFY_DEPLOYMENT_BLOCK', 'SEASONAL_EFFECTS_TAG'],
+    'validate-signal-noise.cjs': ['injected', 'seasonalTag']
+  };
+  for (const [file, [netlifyName, seasonalName]] of Object.entries(validators)) {
+    const strip = body => body.replace(regexFrom(file, netlifyName), '').replace(regexFrom(file, seasonalName), '');
+    assert.equal(strip(served), page, `${file}: served preview reduces to the source`);
+    assert.equal(strip(built), page, `${file}: build output without Netlify block`);
+    // Any other difference must still be caught.
+    const tampered = served.replace('<main>Lesson</main>', '<main>Lesson</main><script src="/other.js" defer></script>');
+    assert.notEqual(strip(tampered), page, `${file}: other added scripts are not ignored`);
+  }
+});
+
 test('build injector adds the tag once, before </body>, and skips exams and fragments', async () => {
   const { injectSeasonalEffects, injectTag, SEASONAL_TAG } = await import(injectorUrl);
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'uss-fx-'));

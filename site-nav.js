@@ -392,13 +392,19 @@
         else focusMenuButton();
       }
     });
+    /* Remember whether the last input was a keyboard or a pointer (tap/click).
+       Keyboard users get focus moved into the drawer; a tap does not, because
+       phones then draw the focus ring around the first item. */
+    var keyboardInput = false;
+    doc.addEventListener('keydown', function () { keyboardInput = true; }, true);
+    doc.addEventListener('pointerdown', function () { keyboardInput = false; }, true);
     doc.addEventListener('change', function (event) {
       if (!event.target.classList || !event.target.classList.contains('mnav-check')) return;
       doc.body.classList.toggle('nav-drawer-open', event.target.checked);
       if (event.target.checked) {
         drawerOpener = doc.activeElement;
         var firstBtn = doc.querySelector('nav.mobile-nav .nav-acc-btn');
-        if (firstBtn) firstBtn.focus();
+        if (firstBtn && keyboardInput) firstBtn.focus();
       }
     });
     doc.addEventListener('upskill:lesson-catalog-ready', lessonCounts);
