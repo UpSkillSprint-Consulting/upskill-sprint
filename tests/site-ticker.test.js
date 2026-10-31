@@ -149,10 +149,26 @@ test('seasonal badge moves up while the ticker is showing', () => {
   assert.match(src, /\.uss-fx-badge\{[^}]*bottom:calc\(12px \+ var\(--uss-ticker-offset,0px\)/);
 });
 
-test('ticker colours come from the site theme tokens, not its own palette', () => {
-  for (const token of ['--card', '--ink', '--line', '--teal', '--teal-dark', '--accent', '--tint']) {
-    assert.ok(SRC.includes('var(' + token), 'uses ' + token);
+test('charcoal-and-amber palette: every text colour meets WCAG AA on its background', () => {
+  const lum = hex => {
+    const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
+      .map(v => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  };
+  const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+  const token = name => SRC.match(new RegExp('--utk-' + name + ':(#[0-9a-f]{6})', 'i'))[1];
+  const bar = token('bg');
+  assert.equal(bar.toLowerCase(), '#141414');
+  for (const t of ['ink', 'muted', 'amber']) assert.ok(ratio(token(t), bar) >= 4.5, t + ' on bar');
+  const base = SRC.match(/'\.utk-tag\{[^}]*background:(#[0-9a-f]{6});color:(#[0-9a-f]{6})\}/i);
+  assert.ok(ratio(base[2], base[1]) >= 4.5, 'default tag');
+  const kinds = [...SRC.matchAll(/\.utk-tag\[data-kind="(\w+)"\]\{background:(#[0-9a-f]{6}|transparent);[^}]*?color:(#[0-9a-f]{6})\}/gi)];
+  assert.deepEqual(kinds.map(k => k[1]).sort(), ['exam', 'lesson', 'research', 'soon']);
+  for (const [, kind, bg, fg] of kinds) {
+    assert.ok(ratio(fg, bg === 'transparent' ? bar : bg) >= 4.5, kind + ' tag contrast');
   }
+  // Same look in the site's light and dark themes: no theme-specific overrides.
+  assert.doesNotMatch(SRC, /data-theme/);
   assert.match(SRC, /"Work Sans"/);
 });
 
