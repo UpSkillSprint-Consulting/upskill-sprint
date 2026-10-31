@@ -231,15 +231,45 @@ test('pause button toggles and announces its state', () => {
   w.close();
 });
 
-test('close remembers the newest headline and gives the page its space back', () => {
-  const w = dom({ footer: false });
+test('turning it off leaves a small on/off icon; the icon turns it back on', () => {
+  const w = dom({ footer: false, reduce: true });
+  const html = w.document.documentElement;
   const ui = tk._show(w, ITEMS);
-  assert.ok(w.document.body.classList.contains('utk-nofooter'));
+  assert.equal(ui.toggle.hidden, true, 'icon hidden while the ticker is on');
+  assert.ok(html.classList.contains('utk-on'));
+
   ui.close.click();
   assert.equal(w.localStorage.getItem(tk.STORE_KEY), 'n1');
-  assert.ok(!w.document.documentElement.classList.contains('utk-on'));
-  assert.equal(w.document.documentElement.style.getPropertyValue('--uss-ticker-offset'), '');
-  assert.ok(!w.document.body.classList.contains('utk-nofooter'));
+  assert.equal(ui.bar.hidden, true, 'bar fully hidden, so nothing inside it can take focus');
+  assert.equal(ui.toggle.hidden, false);
+  assert.equal(ui.toggle.getAttribute('aria-label'), 'Show site updates');
+  assert.equal(ui.toggle.getAttribute('aria-expanded'), 'false');
+  assert.equal(w.document.activeElement, ui.toggle, 'focus moves to the icon');
+  assert.ok(!html.classList.contains('utk-on') && html.classList.contains('utk-mini'));
+  assert.equal(html.style.getPropertyValue('--uss-ticker-offset'), '', 'seasonal badge drops back down');
+  assert.ok(w.document.body.classList.contains('utk-nofooter'), 'page end stays clear of the icon');
+
+  ui.toggle.click();
+  assert.equal(w.localStorage.getItem(tk.STORE_KEY), null);
+  assert.equal(ui.bar.hidden, false);
+  assert.equal(ui.toggle.hidden, true);
+  assert.equal(ui.toggle.getAttribute('aria-expanded'), 'true');
+  assert.equal(w.document.activeElement, ui.close, 'focus moves to the hide button');
+  assert.ok(html.classList.contains('utk-on') && !html.classList.contains('utk-mini'));
+  w.close();
+});
+
+test('a visitor who turned it off sees only the icon on the next page', () => {
+  const items = tk.selectUpdates([item('new', '2026-10-30')], day(2026, 10, 31));
+  assert.equal(tk.mode(items, { path: '/', closedId: 'new' }), 'mini');
+  assert.equal(tk.mode(items, { path: '/', closedId: 'older' }), 'bar');
+  assert.equal(tk.mode(items, { path: '/test-bank', closedId: 'new' }), 'none');
+  assert.equal(tk.mode(items, { path: '/', search: '?ticker=off' }), 'none');
+  const w = dom();
+  const ui = tk._show(w, ITEMS, true);
+  assert.equal(ui.bar.hidden, true);
+  assert.equal(ui.toggle.hidden, false);
+  assert.ok(w.document.documentElement.classList.contains('utk-mini'));
   w.close();
 });
 

@@ -15,7 +15,9 @@
  * BEHAVIOUR
  *   - Headlines glide right-to-left at a steady reading speed; hovering, focusing
  *     or pressing Pause stops them (WCAG 2.2.2 Pause, Stop, Hide).
- *   - Close (x) hides the bar until a newer headline is published.
+ *   - Close (x) turns the bar off; it shrinks to a small amber on/off icon in the
+ *     bottom-right corner that turns it back on. The choice is remembered on every
+ *     page until a newer headline is published.
  *   - prefers-reduced-motion: nothing moves; the headlines become a row the
  *     visitor can swipe or scroll through themselves.
  *   - Lifts the seasonal-effects badge above itself and pads the footer, so
@@ -99,14 +101,17 @@
       .slice(0, MAX_ITEMS);
   }
 
-  /** Show the bar? `closedId` is what the visitor closed last time (or null). */
-  function shouldShow(items, opts) {
+  /** 'bar' (show the ticker), 'mini' (visitor turned it off: show just the small
+   *  on/off icon) or 'none'. `closedId` is the newest headline when they turned it
+   *  off, so a newer headline turns the ticker back on once. */
+  function mode(items, opts) {
     opts = opts || {};
     var q = /[?&]ticker=(on|off)\b/i.exec(opts.search || '');
-    if (q) return q[1].toLowerCase() === 'on' && items.length > 0;
-    if (!items.length || opts.webdriver || excluded(opts.path)) return false;
-    return opts.closedId !== items[0].id;
+    if (q) return q[1].toLowerCase() === 'on' && items.length > 0 ? 'bar' : 'none';
+    if (!items.length || opts.webdriver || excluded(opts.path)) return 'none';
+    return opts.closedId === items[0].id ? 'mini' : 'bar';
   }
+  function shouldShow(items, opts) { return mode(items, opts) === 'bar'; }
 
   // ---------- styles ----------
   // "Trading terminal" look: charcoal pill with amber accents. The bar keeps the
@@ -180,15 +185,34 @@
     '.utk-view{overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity}' +
     '.utk-view::-webkit-scrollbar{display:none}.utk-track li{scroll-snap-align:start}}' +
 
-    // Keep the page's end clear of the bar.
+    // The small on/off icon (bottom-right) that brings the ticker back after it's turned off.
+    '.utk-toggle{all:unset;position:fixed;z-index:' + Z + ';box-sizing:border-box;width:44px;height:44px;border-radius:50%;' +
+    'right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));' +
+    'display:inline-flex;align-items:center;justify-content:center;cursor:pointer;background:var(--utk-bg);' +
+    'border:1px solid var(--utk-line);color:var(--utk-amber);box-shadow:var(--utk-shadow);' +
+    'transition:transform .25s ease,opacity .3s ease}' +
+    '.utk-toggle:hover{transform:scale(1.06)}' +
+    '.utk-toggle:focus-visible{outline:2px solid var(--utk-amber);outline-offset:3px}' +
+    '.utk-toggle[hidden]{display:none}' +
+    '.utk-toggle svg{width:22px;height:22px;display:block}' +
+    '.utk[hidden]{display:none}' +
+    '@media (max-width:560px){.utk-toggle{right:calc(8px + env(safe-area-inset-right,0px));bottom:calc(8px + env(safe-area-inset-bottom,0px))}}' +
+    '@media (prefers-reduced-motion:reduce){.utk-toggle{transition:none}.utk-toggle:hover{transform:none}}' +
+
+    // Keep the page's end clear of the bar (or of the small icon when the bar is off).
     'html.utk-on footer.site{padding-bottom:calc(32px + var(--uss-ticker-offset,0px))}' +
     'html.utk-on body.utk-nofooter{padding-bottom:var(--uss-ticker-offset,0px)}' +
-    '@media print{.utk{display:none!important}}';
+    'html.utk-mini footer.site{padding-bottom:96px}' +
+    'html.utk-mini body.utk-nofooter{padding-bottom:64px}' +
+    '@media print{.utk,.utk-toggle{display:none!important}}';
 
   var ICON = {
     pause: '<svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><rect x="3" y="2" width="2.6" height="10" rx="1" fill="currentColor"/><rect x="8.4" y="2" width="2.6" height="10" rx="1" fill="currentColor"/></svg>',
     play: '<svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M4 2.2v9.6a.6.6 0 0 0 .9.5l7.6-4.8a.6.6 0 0 0 0-1L4.9 1.7a.6.6 0 0 0-.9.5z" fill="currentColor"/></svg>',
     close: '<svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    // "Broadcast" mark for the on/off icon: an amber dot with signal waves.
+    live: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="2.6" fill="currentColor"/>' +
+      '<path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
     arrow: '<svg class="utk-arrow" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3 9l6-6M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
   };
 
@@ -255,7 +279,7 @@
     return { bar: bar, track: track, pause: pause, close: close };
   }
 
-  function show(items) {
+  function mount(items, startOff) {
     var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     var css = el('style');
     css.setAttribute('data-ticker-style', '');
@@ -264,8 +288,21 @@
 
     var ui = build(items, reduce);
     var html = document.documentElement;
+    var noFooter = !document.querySelector('footer.site');
+    ui.bar.id = 'utk-bar';
     document.body.appendChild(ui.bar);
-    if (!document.querySelector('footer.site')) document.body.classList.add('utk-nofooter');
+
+    // Small icon that turns the ticker back on. Only visible while the ticker is off.
+    var toggle = el('button', 'utk-toggle');
+    toggle.type = 'button';
+    toggle.setAttribute('aria-label', 'Show site updates');
+    toggle.setAttribute('aria-controls', 'utk-bar');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.title = 'Show site updates';
+    toggle.innerHTML = ICON.live;
+    toggle.hidden = true;
+    document.body.appendChild(toggle);
+    ui.toggle = toggle;
 
     // Steady reading speed whatever the number or length of headlines.
     function pace() {
@@ -274,16 +311,47 @@
     }
     // Space the seasonal badge and the footer need to stay clear of the bar.
     function offset() {
+      if (ui.bar.hidden) return;
       var r = ui.bar.getBoundingClientRect();
       var gap = Math.max(0, window.innerHeight - r.top) + 8;
       html.style.setProperty('--uss-ticker-offset', Math.round(gap) + 'px');
     }
-    pace(); offset();
-    html.classList.add('utk-on');
+    var raf = window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : function (f) { return setTimeout(f, 16); };
+    var hideTimer = null;
+
+    function turnOn(focus) {
+      clearTimeout(hideTimer);
+      store(function (ls) { ls.removeItem(STORE_KEY); });
+      toggle.hidden = true;
+      toggle.setAttribute('aria-expanded', 'true');
+      ui.bar.hidden = false;
+      ui.bar.classList.remove('is-out');
+      html.classList.remove('utk-mini');
+      html.classList.add('utk-on');
+      if (noFooter) document.body.classList.add('utk-nofooter');
+      pace(); offset();
+      raf(function () { raf(function () { ui.bar.classList.add('is-in'); offset(); }); }); // two frames so the slide-in animates
+      if (focus) ui.close.focus();
+    }
+
+    function turnOff(focus) {
+      store(function (ls) { ls.setItem(STORE_KEY, items[0].id); });
+      ui.bar.classList.remove('is-in');
+      ui.bar.classList.add('is-out');
+      html.classList.remove('utk-on');
+      html.classList.add('utk-mini');
+      html.style.removeProperty('--uss-ticker-offset');
+      if (noFooter) document.body.classList.add('utk-nofooter');
+      toggle.hidden = false;
+      toggle.setAttribute('aria-expanded', 'false');
+      if (focus) toggle.focus();
+      // Fully hidden (not focusable, not animating) once the slide-out has played.
+      var done = function () { if (ui.bar.classList.contains('is-out')) ui.bar.hidden = true; };
+      if (reduce) done(); else hideTimer = setTimeout(done, 500);
+    }
+
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(pace, function () {});
     window.addEventListener('resize', function () { pace(); offset(); });
-    var raf = window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : function (f) { return setTimeout(f, 16); };
-    raf(function () { raf(function () { ui.bar.classList.add('is-in'); offset(); }); }); // two frames so the slide-in animates
 
     ui.pause.addEventListener('click', function () {
       var paused = ui.bar.classList.toggle('is-paused');
@@ -292,16 +360,19 @@
       ui.pause.title = paused ? 'Play updates' : 'Pause updates';
       ui.pause.innerHTML = paused ? ICON.play : ICON.pause;
     });
+    ui.close.addEventListener('click', function () { turnOff(true); });
+    toggle.addEventListener('click', function () { turnOn(true); });
 
-    ui.close.addEventListener('click', function () {
-      store(function (ls) { ls.setItem(STORE_KEY, items[0].id); });
-      ui.bar.classList.remove('is-in');
+    if (startOff) {
+      ui.bar.hidden = true;
       ui.bar.classList.add('is-out');
-      html.classList.remove('utk-on');
-      html.style.removeProperty('--uss-ticker-offset');
-      document.body.classList.remove('utk-nofooter');
-      setTimeout(function () { if (ui.bar.parentNode) ui.bar.parentNode.removeChild(ui.bar); }, reduce ? 0 : 500);
-    });
+      html.classList.add('utk-mini');
+      if (noFooter) document.body.classList.add('utk-nofooter');
+      toggle.hidden = false;
+    } else {
+      turnOn(false);
+    }
+    ui.turnOn = turnOn; ui.turnOff = turnOff;
     return ui;
   }
 
@@ -322,13 +393,13 @@
       load(function (list) {
         if (document.querySelector('[data-ticker]')) return;
         var items = selectUpdates(list, new Date());
-        var ok = shouldShow(items, {
+        var m = mode(items, {
           search: search,
           path: root.location.pathname,
           webdriver: !!(root.navigator && root.navigator.webdriver),
           closedId: store(function (ls) { return ls.getItem(STORE_KEY); })
         });
-        if (ok) show(items);
+        if (m !== 'none') mount(items, m === 'mini');
       });
     }
     // Wait for the page to finish loading so the bar never competes with real content.
@@ -338,7 +409,7 @@
 
   return {
     EXCLUDE_PATHS: EXCLUDE_PATHS, MAX_ITEMS: MAX_ITEMS, MAX_AGE_DAYS: MAX_AGE_DAYS, STORE_KEY: STORE_KEY,
-    excluded: excluded, safeHref: safeHref, selectUpdates: selectUpdates, shouldShow: shouldShow,
-    boot: boot, _show: function (root, items) { window = root; document = root.document; return show(items); }
+    excluded: excluded, safeHref: safeHref, selectUpdates: selectUpdates, mode: mode, shouldShow: shouldShow,
+    boot: boot, _show: function (root, items, startOff) { window = root; document = root.document; return mount(items, !!startOff); }
   };
 });
