@@ -1475,10 +1475,10 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
         state.completed[state.current]=true;
         if(state.phase3&&state.phase3.coach&&state.phase3.coach.hintLevels){delete state.phase3.coach.hintLevels[state.current];}
         save();
-        coachMetrics.log({ challengeIdx: state.current, level: c.l, tStart, tFirstCorrect: first ? Date.now() : null, attempts: (state.skillStats[c.t]||{}).attempts||1, hintsUsed: (state.skillStats[c.t]||{}).hints||0, revealed: !!state.revealed[state.current], correct: true });
+        coachMetrics.log({ challengeIdx: state.current, level: c.l, tStart, tFirstCorrect: first ? Date.now() : null, attempts: (state.skillStats&&state.skillStats[c.t]||{}).attempts||1, hintsUsed: (state.skillStats&&state.skillStats[c.t]||{}).hints||0, revealed: !!state.revealed[state.current], correct: true });
         showFeedback("success","Correct. Your formula uses the intended structure. Explain each component before moving on."); renderList(); updateProgress();
       } else { state.streak=0; save();
-        coachMetrics.log({ challengeIdx: state.current, level: c.l, tStart, attempts: (state.skillStats[c.t]||{}).attempts||1, hintsUsed: (state.skillStats[c.t]||{}).hints||0, revealed: !!state.revealed[state.current], correct: false });
+        coachMetrics.log({ challengeIdx: state.current, level: c.l, tStart, attempts: (state.skillStats&&state.skillStats[c.t]||{}).attempts||1, hintsUsed: (state.skillStats&&state.skillStats[c.t]||{}).hints||0, revealed: !!state.revealed[state.current], correct: false });
         const diagnosis=typeof window.phase1Diagnose==="function"?window.phase1Diagnose(input,c):"Not quite. Check the references and argument order."; showFeedback("error",diagnosis); updateProgress(); }
     }
     function moveChallenge(delta){ const pos=filteredIndices.indexOf(state.current); const next=Math.max(0,Math.min(filteredIndices.length-1,pos+delta)); state.current=filteredIndices[next]; save(); renderChallenge(); }
