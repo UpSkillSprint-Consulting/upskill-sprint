@@ -142,20 +142,32 @@
   }
   function resultsEqual(learner, target) {
     const grader = (typeof window !== "undefined" && window.ExcelFormulaGrader) || null;
+    if (!grader) return false; // offline / Node without grader: do not pretend a match
+    try {
+      const a = grader(rewriteStructured(learner));
+      const b = grader(rewriteStructured(target));
+      // Refuse on failure, throw, undefined, NaN, or missing result. Never accept because both failed.
+      if (!a || !b || a.ok === false || b.ok === false) return false;
+      if (a.value === undefined || b.value === undefined) return false;
+      if (typeof a.value === "number" && Number.isNaN(a.value)) return false;
+      if (typeof b.value === "number" && Number.isNaN(b.value)) return false;
+      // Refuse constant stubs
+      if (a.value === "grouped" || b.value === "grouped") return false;
+      return sameResult(a.value, b.value);
+    } catch (e) {
+      return false;
+    }
+  }
+  function resultsDiffer(learner, target) {
+    const grader = (typeof window !== "undefined" && window.ExcelFormulaGrader) || null;
     if (!grader) return false;
     try {
       const a = grader(rewriteStructured(learner));
       const b = grader(rewriteStructured(target));
-      if (!a || !b || a.ok === false || b.ok === false) {
-        // If both are GROUPBY (or other modern functions the parser may not implement)
-        // and the rewritten forms normalize to the same text, treat as equivalent.
-        if (norm(rewriteStructured(learner)) === norm(rewriteStructured(target))) return true;
-        return false;
-      }
-      return sameResult(a.value, b.value);
-    } catch (e) {
-      return norm(rewriteStructured(learner)) === norm(rewriteStructured(target));
-    }
+      if (!a || !b || a.ok === false || b.ok === false) return false;
+      if (a.value === undefined || b.value === undefined) return false;
+      return !sameResult(a.value, b.value);
+    } catch (e) { return false; }
   }
   function sameResult(a, b) {
     if (a === b) return true;
@@ -177,6 +189,9 @@
 
     // Result-based acceptance: if the existing lesson grader says the results match, it is correct.
     if (resultsEqual(formula, challenge.f)) return null;
+    if (resultsDiffer(formula, challenge.f)) {
+      return [{ level: "warn", msg: "The result differs from the target on the sample data. Next: check the ranges, criteria and function so both formulas return the same value." }];
+    }
 
     const learnerTokens = tokenize(formula).tokens || [];
     const expectedTokens = tokenize(challenge.f).tokens || [];
@@ -295,16 +310,16 @@
       return (s.match(/\$?[A-Z]{1,3}\$?\d+/gi) || []).map(normRef);
     }
 
-    // Unquoted bare words in criteria (IF, COUNTIF, COUNTIFS, SUMIF, SUMIFS)
-    if (/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*,\s*[A-Z][A-Z_]*\s*(?:,|\))/i.test(f)) {
-      const bare = f.match(/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*,\s*([A-Z][A-Z_]*)/i);
+    // Unquoted bare words in criteria or after = (IF, COUNTIF, COUNTIFS, SUMIF, SUMIFS)
+    if (/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*[=,]\s*[A-Z][A-Z_]*\s*(?:,|\))/i.test(f)) {
+      const bare = f.match(/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*[=,]\s*([A-Z][A-Z_]*)/i);
       if (bare && !/[A-Z]+\d+/.test(bare[1]) && !/^(TRUE|FALSE|AND|OR|NOT)$/i.test(bare[1])) {
         findings.push({ level: "error", msg: "Unquoted text is treated as a name and returns #NAME?. Wrap it in double quotes. Next: change the bare word to a quoted string." });
       }
     }
 
-    // + used to join text: only when a quote is next to +, or the target uses &
-    if ((/\+\s*"|\"\s*\+/i.test(f) || (challenge && /&/.test(challenge.f || "") && /=\s*[A-Z]+\d+\s*\+\s*[A-Z]+\d+\s*$/i.test(f))) && !/&/.test(f)) {
+    // + used to join text: quote adjacent, or target uses & and learner joins two refs with +
+    if ((/\+\s*"|\"\s*\+/i.test(f) || (challenge && /&/.test(challenge.f || "") && /[A-Z]+\d+\s*\+\s*[A-Z]+\d+/i.test(f))) && !/&/.test(f)) {
       findings.push({ level: "error", msg: "Use & to join text, not +. Next: rewrite the concatenation with &." });
     }
 
@@ -331,15 +346,29 @@
       for (const t of targetLocked) {
         const base = normRef(t);
         const learnerMatch = learnerRefs.find(r => normRef(r) === base);
-        if (learnerMatch && learnerMatch !== t && !learnerMatch.includes("$")) {
+        if (learnerMatch && learnerMatch.replace(/\$/g, "") === t.replace(/\$/g, "") && learnerMatch !== t) {
           findings.push({ level: "warn", msg: `The target locks ${t}. Next: change the matching reference to ${t}.` });
           break;
+        }
+        // Obvious column/row drift on a locked target cell
+        if (!learnerMatch) {
+          const tCol = t.replace(/\$/g, "").replace(/\d+/, "");
+          const tRow = (t.match(/\d+/) || [])[0];
+          const drift = learnerRefs.find(r => {
+            const rc = r.replace(/\$/g, "");
+            const c = rc.replace(/\d+/, ""), row = (rc.match(/\d+/) || [])[0];
+            return (c === tCol && row !== tRow) || (row === tRow && c !== tCol);
+          });
+          if (drift) {
+            findings.push({ level: "warn", msg: `The target locks ${t}. Next: change ${drift} to ${t}.` });
+            break;
+          }
         }
       }
     }
 
     // Sheet name with space but no apostrophes (or unquoted multi-word)
-    if (/[A-Za-z]+\s+[A-Za-z]+!/.test(f) && !/'[^']+'!/.test(f)) {
+    if (/[A-Za-z]+\s+[A-Za-z0-9]+!/.test(f) && !/'[^']+'!/.test(f)) {
       findings.push({ level: "error", msg: "Sheet names with spaces need apostrophes. Next: wrap the sheet name in single quotes, e.g. 'Production Data'!E2." });
     }
     // ProductionData without space is fine; flag only if target has quotes and learner does not
@@ -421,14 +450,14 @@
     }
 
     // Criteria written as >=M3 without quotes and &
-    if (/(?:>=|<=|>|<)\s*\$?[A-Z]+\d+/.test(f) && !/"[^"]*"\s*&/.test(f)) {
+    if ((/(?:>=|<=|>|<)\s*\$?[A-Z]+\d+/.test(f) || /"[^"]*"\s*[A-Z]+\d+/.test(f)) && !/"[^"]*"\s*&/.test(f)) {
       findings.push({ level: "error", msg: "Comparison criteria need quotes joined to the cell. Next: use \">=\"&M2, not >=M2." });
     }
 
     // PERCENTILE.INC / PERCENTILE with 90 (handles nested commas by arg parse)
-    callArgs(f, "PERCENTILE\.INC|PERCENTILE").forEach(c => {
-      if (/,\s*90\s*$/.test(c.body) || /,\s*90\s*,/.test(c.body)) {
-        findings.push({ level: "warn", msg: "PERCENTILE.INC expects a fraction between 0 and 1. Next: use 0.9, not 90." });
+    callArgs(f, "PERCENTILE(?:\\.INC|\\.EXC)?").forEach(c => {
+      if (/,\s*(?:50|75|90|95)\s*$/.test(c.body) || /,\s*(?:50|75|90|95)\s*,/.test(c.body)) {
+        findings.push({ level: "warn", msg: "PERCENTILE expects a fraction between 0 and 1. Next: use 0.9 (or 0.5 / 0.75 / 0.95), not a whole percent." });
       }
     });
 

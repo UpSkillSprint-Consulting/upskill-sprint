@@ -224,8 +224,11 @@ test("valid equivalents produce no notes when results match", () => {
       const e = productionData[0][4], ff = productionData[0][5];
       return { ok: true, value: e === 0 ? "" : ff / e };
     }
-    // GROUPBY rewritten or A1
-    if (/GROUPBY/.test(f)) return { ok: true, value: "grouped" };
+    // GROUPBY rewritten or A1 — real grouped result so different GROUPBYs differ
+    if (/GROUPBY/.test(f)) {
+      if (f.includes("F2:F28") || f.includes("DELAY")) return { ok: true, value: [["Melt Shop", 14], ["Rolling Mill", 6]] };
+      return { ok: true, value: [["Melt Shop", 999]] };
+    }
     return { ok: false };
   };
 
@@ -242,5 +245,62 @@ test("valid equivalents produce no notes when results match", () => {
     const findings = Engine.diagnose(formula, ch);
     const notes = findings.filter(f => f.level === "error" || f.level === "warn" || /target uses|structured references|accepted equivalent/i.test(f.msg));
     assert.equal(notes.length, 0, `${formula} produced notes: ${notes.map(n => n.msg).join("; ")}`);
+  }
+});
+
+test("grader computes hand-checked criteria and rejects false accepts", () => {
+  // Real-ish grader using the hand-checked productionData totals
+  sandbox.window.ExcelFormulaGrader = function(formula) {
+    const f = String(formula || "").replace(/\s+/g, "").toUpperCase();
+    if (f.includes("SUMIF") && f.includes("MELTSOP") || (f.includes("SUMIF") && f.includes("B2:B28") && f.includes("G2:G28") && f.includes("M2"))) return { ok: true, value: 1762 };
+    if (f.includes("SUMIF(B2:B28,\"MELTSOP\",G2:G28)") || f.includes("SUMIF(B2:B28,\"MELT SHOP\",G2:G28)")) return { ok: true, value: 1762 };
+    if (f.includes("SUMIFS") && f.includes("> =28") || f.includes(">=28")) return { ok: true, value: 4036 };
+    if (f.includes("COUNTIF") && f.includes("<>PASS")) return { ok: true, value: 11 };
+    if (f.includes("COUNTIF") && f.includes("*B*")) return { ok: true, value: 6 };
+    if (f.includes("COUNTIFS") && f.includes("FAIL") && f.includes("SLITTER")) return { ok: true, value: 2 };
+    if (f.includes("COUNTIF") && f.includes("FAIL") && !f.includes("SLITTER")) return { ok: true, value: 6 };
+    if (f.includes("GROUPBY") && (f.includes("F2:F28") || f.includes("DELAY"))) return { ok: true, value: [["Melt Shop", 14.07]] };
+    if (f.includes("GROUPBY")) return { ok: true, value: [["other", 0]] };
+    if (f === "=0" || f === "0") return { ok: true, value: 0 };
+    if (f.includes("SUMIFS") && f.includes("B2:B28") && f.includes("M2")) return { ok: true, value: 1762 };
+    return { ok: false };
+  };
+  const diagnose = Engine.diagnose;
+  // Wrong COUNTIFS extra pair must NOT be accepted against COUNTIF FAIL
+  const wrongCount = diagnose('=COUNTIFS(H2:H28,"FAIL",B2:B28,"Slitter")', { f: '=COUNTIF(H2:H28,"FAIL")' });
+  assert.ok(wrongCount.some(x => x.level === "warn" || x.level === "error"), "wrong COUNTIFS must not be accepted");
+  // Wrong GROUPBY must not be accepted
+  const wrongGroup = diagnose("=GROUPBY(B2:B28,G2:G28,SUM)", { f: "=GROUPBY(ProductionData[Facility],ProductionData[Delay Time],AVERAGE)" });
+  assert.ok(wrongGroup.some(x => x.level === "warn" || x.level === "error"), "wrong GROUPBY must not be accepted");
+  // =0 vs a SUMIFS that also grades 0 must not false-accept (grader returns 1762 for that SUMIFS)
+  const zeroVs = diagnose("=0", { f: "=SUMIFS(G2:G28,B2:B28,M2)" });
+  assert.ok(zeroVs.some(x => x.level === "warn" || x.level === "error"), "=0 must not be accepted against SUMIFS");
+});
+
+test("Node without ExcelFormulaGrader does not throw or false-accept", () => {
+  delete sandbox.window.ExcelFormulaGrader;
+  const findings = Engine.diagnose("=SUMIF(B2:B28,M2,G2:G28)", { f: "=SUMIFS(G2:G28,B2:B28,M2)" });
+  assert.ok(Array.isArray(findings), "diagnose returns an array without a grader");
+  // Without a grader it must not claim the results matched (structure notes or info are fine)
+  assert.ok(!findings.some(f => /results match|equal results/i.test(f.msg)), "must not claim a match without a grader");
+});
+
+test("item-2 remaining misses are now caught", () => {
+  const diagnose = Engine.diagnose;
+  const cases = [
+    ["=PERCENTILE.INC(E2:E28,50)", {}, /fraction|0\.5|percent/i],
+    ["=PERCENTILE.EXC(FILTER(E2:E28,B2:B28=M2),95)", {}, /fraction|percent/i],
+    ["=PERCENTILE(IF(D2:D28=M3,F2:F28),75)", {}, /fraction|percent/i],
+    ["=F3*$C2", { f: "=F2*$C$2" }, /locks/i],
+    ["=G2*C$2", { f: "=F2*$C$2" }, /locks/i],
+    ["=IF(H2=HOLD,1,0)", {}, /unquoted|quote/i],
+    ["=H2+C2", { f: "=H2&C2" }, /&/],
+    ["=Sheet 2!A1", {}, /apostrophe|quote/i],
+    ['=SUMIFS(A2:A10,B2:B10,">=""M2")', {}, /joined|quotes/i]
+  ];
+  for (const [formula, ch, re] of cases) {
+    const findings = diagnose(formula, ch);
+    assert.ok(findings.some(f => (f.level === "error" || f.level === "warn") && re.test(f.msg)),
+      `Missed: ${formula} → ${findings.map(f => f.msg).join("; ")}`);
   }
 });
