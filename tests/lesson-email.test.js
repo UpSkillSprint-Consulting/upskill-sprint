@@ -121,7 +121,12 @@ test('config: off by default, and live requires every compliance setting', async
   assert.ok(missing.some((p) => /UNSUBSCRIBE_SECRET/.test(p)));
   assert.ok(configProblems(readConfig({ ...BASE_ENV, LESSON_EMAIL_MODE: 'LIVEE' })).some((p) => /off, test or live/.test(p)));
   assert.equal(readConfig({ ...BASE_ENV, LESSON_EMAIL_MODE: 'LIVEE' }).mode, 'off', 'a typo never sends');
-  assert.ok(configProblems(readConfig({ ...BASE_ENV, NEWSLETTER_FROM: 'Me <me@gmail.com>' })).some((p) => /verified upskillsprint\.com/.test(p)));
+  assert.ok(configProblems(readConfig({ ...BASE_ENV, NEWSLETTER_FROM: 'Me <me@gmail.com>' })).some((p) => /upskillsprint\.com or one of its subdomains/.test(p)));
+  assert.ok(configProblems(readConfig({ ...BASE_ENV, NEWSLETTER_FROM: 'X <x@upskillsprint.com.evil.io>' })).length > 0, 'look-alike domains rejected');
+  assert.ok(configProblems(readConfig({ ...BASE_ENV, NEWSLETTER_FROM: 'X <x@notupskillsprint.com>' })).length > 0);
+  for (const ok of ['UpSkill Sprint <lessons@news.upskillsprint.com>', 'UpSkill Sprint <lessons@upskillsprint.com>', 'lessons@news.upskillsprint.com']) {
+    assert.deepEqual(configProblems(readConfig({ ...BASE_ENV, NEWSLETTER_FROM: ok })), [], ok);
+  }
   assert.ok(configProblems(readConfig({ ...BASE_ENV, LESSON_EMAIL_MODE: 'test', NEWSLETTER_TEST_RECIPIENTS: '' })).some((p) => /TEST_RECIPIENTS/.test(p)));
 });
 

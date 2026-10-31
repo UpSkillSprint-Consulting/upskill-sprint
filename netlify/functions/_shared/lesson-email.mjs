@@ -113,8 +113,10 @@ export function configProblems(config) {
   if (!config.resendKey) problems.push('RESEND_API_KEY is not set');
   if (config.unsubscribeSecret.length < 32) problems.push('NEWSLETTER_UNSUBSCRIBE_SECRET must be at least 32 characters');
   if (config.postalAddress.length < 10) problems.push('NEWSLETTER_POSTAL_ADDRESS is required (CASL: every commercial email must show a mailing address)');
-  if (!/^[^<>]*<[^\s@<>]+@upskillsprint\.com>$|^[^\s@<>]+@upskillsprint\.com$/i.test(config.from)) {
-    problems.push('NEWSLETTER_FROM must use the verified upskillsprint.com domain');
+  // upskillsprint.com or a subdomain of it (e.g. news.upskillsprint.com) verified in Resend.
+  if (!/^(?:[^<>]*<)?[^\s@<>]+@(?:[a-z0-9-]+\.)*upskillsprint\.com>?$/i.test(config.from)
+      || (config.from.includes('<') !== config.from.endsWith('>'))) {
+    problems.push('NEWSLETTER_FROM must use upskillsprint.com or one of its subdomains');
   }
   if (config.replyTo && !EMAIL.test(config.replyTo)) problems.push('NEWSLETTER_REPLY_TO is not a valid email address');
   if (config.adminEmail && !EMAIL.test(config.adminEmail)) problems.push('NEWSLETTER_ADMIN_EMAIL is not a valid email address');
