@@ -154,6 +154,12 @@ test('email: escaped, accessible, compliant, with one-click unsubscribe and plai
   assert.ok(email.html.includes('PO Box 123, Regina SK S4P 0A0, Canada'), 'mailing address (CASL)');
   assert.ok(email.html.includes('lang="en"') && email.html.includes('role="presentation"'));
   assert.ok(email.html.includes('prefers-color-scheme: dark'));
+  assert.match(email.html, /<img class="logo-light" src="https:\/\/upskillsprint\.com\/assets\/email\/logo-wordmark-email\.png" width="220" height="45" alt="UpSkill Sprint Consulting"/, 'brand logo in the header');
+  assert.match(email.html, /<img class="logo-dark" src="https:\/\/upskillsprint\.com\/assets\/email\/logo-wordmark-email-on-dark\.png"[^>]*display:none/, 'dark-mode logo hidden by default');
+  for (const file of ['logo-wordmark-email.png', 'logo-wordmark-email-on-dark.png']) {
+    const size = fs.statSync(path.join(ROOT, 'assets/email', file)).size;
+    assert.ok(size < 40000, `${file} is email-sized (${size} bytes)`);
+  }
   assert.match(email.text, /Unsubscribe: https:\/\/upskillsprint\.com\/api\/newsletter\/unsubscribe\?t=abc/);
   assert.match(email.text, /UpSkill Sprint Consulting, PO Box 123/);
   assert.ok(!/<[a-z]/i.test(email.text.replace('Control <Charts> & You', '')), 'plain text has no markup');
