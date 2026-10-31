@@ -26,32 +26,6 @@ grant usage on schema newsletter_private to service_role;
 -- Tables
 -- ---------------------------------------------------------------------------
 
-create table if not exists newsletter_private.lessons (
-  lesson_path text primary key
-    check (lesson_path ~ '^/[a-z0-9][a-z0-9/_.-]*$' and char_length(lesson_path) <= 300),
-  title text not null check (char_length(btrim(title)) between 1 and 300),
-  status text not null check (status in (
-    'baseline',   -- existed when the system was switched on; never emailed
-    'pending',    -- new; waiting to be announced
-    'held',       -- new, but a safety rule stopped it; needs Ernest
-    'skipped',    -- author marked <meta name="upskill:email" content="skip">, or Ernest skipped it
-    'renamed',    -- new path, same title as a lesson that just left the feed
-    'withdrawn',  -- left the feed before it was announced
-    'sending',    -- claimed by a live campaign
-    'sent'        -- announced
-  )),
-  status_reason text check (status_reason is null or char_length(status_reason) <= 500),
-  approved boolean not null default false,
-  in_feed boolean not null default true,
-  teaser text check (teaser is null or char_length(teaser) <= 300),
-  teaser_source text check (teaser_source is null or teaser_source in ('author', 'ai', 'catalog')),
-  campaign_id uuid,
-  first_seen_at timestamptz not null default now(),
-  last_seen_at timestamptz not null default now(),
-  announced_at timestamptz,
-  updated_at timestamptz not null default now()
-);
-
 create table if not exists newsletter_private.campaigns (
   id uuid primary key default gen_random_uuid(),
   mode text not null check (mode in ('test', 'live')),
@@ -77,11 +51,31 @@ create unique index if not exists campaigns_dedupe_key_active
 create index if not exists campaigns_status_created
   on newsletter_private.campaigns (status, created_at);
 
-alter table newsletter_private.lessons
-  drop constraint if exists lessons_campaign_fkey;
-alter table newsletter_private.lessons
-  add constraint lessons_campaign_fkey
-  foreign key (campaign_id) references newsletter_private.campaigns (id) on delete set null;
+create table if not exists newsletter_private.lessons (
+  lesson_path text primary key
+    check (lesson_path ~ '^/[a-z0-9][a-z0-9/_.-]*$' and char_length(lesson_path) <= 300),
+  title text not null check (char_length(btrim(title)) between 1 and 300),
+  status text not null check (status in (
+    'baseline',   -- existed when the system was switched on; never emailed
+    'pending',    -- new; waiting to be announced
+    'held',       -- new, but a safety rule stopped it; needs Ernest
+    'skipped',    -- author marked <meta name="upskill:email" content="skip">, or Ernest skipped it
+    'renamed',    -- new path, same title as a lesson that just left the feed
+    'withdrawn',  -- left the feed before it was announced
+    'sending',    -- claimed by a live campaign
+    'sent'        -- announced
+  )),
+  status_reason text check (status_reason is null or char_length(status_reason) <= 500),
+  approved boolean not null default false,
+  in_feed boolean not null default true,
+  teaser text check (teaser is null or char_length(teaser) <= 300),
+  teaser_source text check (teaser_source is null or teaser_source in ('author', 'ai', 'catalog')),
+  campaign_id uuid references newsletter_private.campaigns (id) on delete set null,
+  first_seen_at timestamptz not null default now(),
+  last_seen_at timestamptz not null default now(),
+  announced_at timestamptz,
+  updated_at timestamptz not null default now()
+);
 
 create table if not exists newsletter_private.deliveries (
   campaign_id uuid not null references newsletter_private.campaigns (id) on delete cascade,
@@ -147,6 +141,17 @@ as $$
       and u.deleted_at is null
       and (u.banned_until is null or u.banned_until < now())
   );
+$$;
+
+-- The submitted feed as rows (used by lesson_email_sync_feed).
+create or replace function newsletter_private.feed_rows(p_lessons jsonb)
+returns table (lesson_path text, title text, email text)
+language sql
+immutable
+set search_path = ''
+as $$
+  select btrim(item ->> 'path'), btrim(item ->> 'title'), coalesce(nullif(btrim(item ->> 'email'), ''), 'announce')
+  from jsonb_array_elements(p_lessons) item;
 $$;
 
 -- ---------------------------------------------------------------------------
@@ -217,24 +222,16 @@ begin
     raise exception 'feed must contain between 1 and 2000 lessons';
   end if;
 
-  create temporary table if not exists lesson_feed (
-    lesson_path text primary key,
-    title text not null,
-    email text not null
-  ) on commit drop;
-  truncate pg_temp.lesson_feed;
-
-  insert into pg_temp.lesson_feed (lesson_path, title, email)
-  select btrim(item ->> 'path'), btrim(item ->> 'title'), coalesce(nullif(btrim(item ->> 'email'), ''), 'announce')
-  from jsonb_array_elements(p_lessons) item;
-
   if exists (
-    select 1 from pg_temp.lesson_feed
+    select 1 from newsletter_private.feed_rows(p_lessons)
     where lesson_path is null or lesson_path !~ '^/[a-z0-9][a-z0-9/_.-]*$' or char_length(lesson_path) > 300
        or title is null or char_length(title) not between 1 and 300
        or email not in ('announce', 'skip')
   ) then
     raise exception 'feed contains an invalid lesson entry';
+  end if;
+  if (select count(distinct lesson_path) from newsletter_private.feed_rows(p_lessons)) <> v_count then
+    raise exception 'feed repeats a lesson path';
   end if;
 
   -- Serialise syncs so two runners cannot both decide a lesson is new.
@@ -247,7 +244,7 @@ begin
     select lesson_path, title,
            case when email = 'skip' then 'skipped' else 'baseline' end,
            'present when lesson emails were switched on'
-    from pg_temp.lesson_feed;
+    from newsletter_private.feed_rows(p_lessons);
     return jsonb_build_object('bootstrapped', v_count, 'inserted', 0, 'pending', '[]'::jsonb,
       'held', 0, 'skipped', 0, 'renamed', 0, 'withdrawn', 0);
   end if;
@@ -255,12 +252,12 @@ begin
   -- Mark what is (not) in the current feed.
   update newsletter_private.lessons l
      set in_feed = true, last_seen_at = now()
-   where exists (select 1 from pg_temp.lesson_feed f where f.lesson_path = l.lesson_path);
+   where exists (select 1 from newsletter_private.feed_rows(p_lessons) f where f.lesson_path = l.lesson_path);
 
   update newsletter_private.lessons l
      set in_feed = false, updated_at = now()
    where l.in_feed
-     and not exists (select 1 from pg_temp.lesson_feed f where f.lesson_path = l.lesson_path);
+     and not exists (select 1 from newsletter_private.feed_rows(p_lessons) f where f.lesson_path = l.lesson_path);
 
   -- Pending/held lessons that disappeared before being announced.
   update newsletter_private.lessons
@@ -271,20 +268,20 @@ begin
   -- Pending/held lessons the author has since marked skip.
   update newsletter_private.lessons l
      set status = 'skipped', status_reason = 'marked upskill:email=skip', updated_at = now()
-    from pg_temp.lesson_feed f
+    from newsletter_private.feed_rows(p_lessons) f
    where f.lesson_path = l.lesson_path and f.email = 'skip' and l.status in ('pending', 'held');
   get diagnostics v_skipped = row_count;
 
   -- Keep titles of not-yet-announced lessons current.
   update newsletter_private.lessons l
      set title = f.title, updated_at = now()
-    from pg_temp.lesson_feed f
+    from newsletter_private.feed_rows(p_lessons) f
    where f.lesson_path = l.lesson_path and l.status in ('pending', 'held') and l.title <> f.title;
 
   -- Brand-new paths.
   for v_row in
     select f.lesson_path, f.title, f.email
-    from pg_temp.lesson_feed f
+    from newsletter_private.feed_rows(p_lessons) f
     left join newsletter_private.lessons l on l.lesson_path = f.lesson_path
     where l.lesson_path is null
     order by f.lesson_path
@@ -700,6 +697,7 @@ $$;
 -- ---------------------------------------------------------------------------
 
 revoke all on function newsletter_private.is_eligible(uuid) from public, anon, authenticated;
+revoke all on function newsletter_private.feed_rows(jsonb) from public, anon, authenticated;
 revoke all on function public.lesson_email_acquire_lease(text, integer) from public, anon, authenticated;
 revoke all on function public.lesson_email_release_lease(text) from public, anon, authenticated;
 revoke all on function public.lesson_email_sync_feed(jsonb) from public, anon, authenticated;

@@ -102,6 +102,7 @@ test('invalid feeds are rejected before anything changes', async () => {
   await assert.rejects(db.query('select public.lesson_email_sync_feed($1::jsonb)', ['[]']), /between 1 and 2000/);
   await assert.rejects(db.query('select public.lesson_email_sync_feed($1::jsonb)', [feed(['javascript:alert(1)', 'x'])]), /invalid lesson entry/);
   await assert.rejects(db.query('select public.lesson_email_sync_feed($1::jsonb)', [feed(['/lessons/x', 'X', 'maybe'])]), /invalid lesson entry/);
+  await assert.rejects(db.query('select public.lesson_email_sync_feed($1::jsonb)', [feed(['/lessons/x', 'X'], ['/lessons/x', 'X again'])]), /repeats a lesson path/);
   const { rows } = await db.query('select count(*)::int n from newsletter_private.lessons');
   assert.equal(rows[0].n, 0);
 });
@@ -214,6 +215,11 @@ test('runner lease is exclusive until it expires or is released', async () => {
   await db.query("select public.lesson_email_release_lease('a')");
   assert.equal(await json("select public.lesson_email_acquire_lease('b',60)"), true);
   await assert.rejects(db.query("select public.lesson_email_acquire_lease('c',5)"), /between 10 and 1800/);
+});
+
+test('the migration contains no destructive statements', () => {
+  const sql = readFileSync(MIGRATION, 'utf8').replace(/--.*$/gm, '');
+  assert.doesNotMatch(sql, /\b(drop|truncate)\b|\bdelete\s+from\b/i);
 });
 
 test('nothing is executable by anon or authenticated', async () => {
