@@ -1822,7 +1822,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
         COUNTIFS:function(){const a=[...arguments];const u=a[0]&&a[0].logs?a.slice(1):a;const first=resolve(u[0],grid);let n=0;for(let i=0;i<first.length;i++){let ok=true;for(let p=0;p<u.length;p+=2){const range=resolve(u[p],grid),crit=resolve(u[p+1],grid)[0];if(!matchCrit(range[i],crit))ok=false;}if(ok)n++;}return n;},
         CONCAT:(...args)=>args.map(a=>{const u=unwrap(a);return Array.isArray(u)?flatten(u).join(""):String(u??"");}).join(""),
         TEXTJOIN:(delim,ignore,...args)=>{const d=String(unwrap(delim)??""),ig=unwrap(ignore),keep=ig===false||String(ig).toUpperCase()==="FALSE";return args.flatMap(a=>flatten(unwrap(a))).filter(v=>keep||(v!=null&&v!=="")).join(d);},
-        GROUPBY:(rowFields,values,fn)=>{const keys=resolve(rowFields,grid),vals=resolve(values,grid),groups=new Map();keys.forEach((k,i)=>{if(!groups.has(k))groups.set(k,[]);const n=Number(vals[i]);if(Number.isFinite(n))groups.get(k).push(n);});const out=[];for(const [k,arr] of groups){const name=String(unwrap(fn)||"SUM").toUpperCase();let agg=0;if(name==="AVERAGE"||name==="AVG")agg=arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:0;else if(name==="MAX")agg=arr.length?Math.max(...arr):0;else if(name==="MIN")agg=arr.length?Math.min(...arr):0;else if(name==="COUNT")agg=arr.length;else agg=arr.reduce((a,b)=>a+b,0);out.push([k,agg]);}return out;}
+        GROUPBY:(rowFields,values,fn)=>{const keys=resolve(rowFields,grid),vals=resolve(values,grid),groups=new Map();keys.forEach((k,i)=>{if(!groups.has(k))groups.set(k,[]);const n=Number(vals[i]);if(Number.isFinite(n))groups.get(k).push(n);});const raw=unwrap(fn);const name=String(raw&&raw._error?"SUM":raw||"SUM").toUpperCase();const out=[];for(const [k,arr] of groups){let agg=0;if(name==="AVERAGE"||name==="AVG")agg=arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:0;else if(name==="MAX")agg=arr.length?Math.max(...arr):0;else if(name==="MIN")agg=arr.length?Math.min(...arr):0;else if(name==="COUNT")agg=arr.length;else agg=arr.reduce((a,b)=>a+b,0);out.push([k,Math.round(agg*100)/100]);}return out;}
       },
       functionsNeedContext:{
         MEDIAN:(ctx,x)=>{const a=flatten(x.value).filter(Number.isFinite).sort((a,b)=>a-b),m=Math.floor(a.length/2);return a.length%2?a[m]:(a[m-1]+a[m])/2;},
@@ -1844,7 +1844,8 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
   function evaluateLive(formula,grid) {
     if(!formula.trim().startsWith("="))return {ok:false,error:"Begin with an equals sign (=)."};
     try{
-      const value=makeParser(grid).parse(formula.trim().slice(1).replace(/;/g,","),{row:2,col:10,sheet:"Sheet1"},true);
+      const body=formula.trim().slice(1).replace(/;/g,",").replace(/GROUPBY\s*\(([^)]*)\)/gi,(m,args)=>m.replace(/,\s*(AVERAGE|SUM|MAX|MIN|COUNT)\s*\)/i,',"$1")'));
+      const value=makeParser(grid).parse(body,{row:2,col:10,sheet:"Sheet1"},true);
       if(value&&typeof value==="object"&&value._error)return{ok:false,error:formulaErrorText(value)};
       return{ok:true,value};
     }catch(error){return{ok:false,error:formulaErrorText(error)};}

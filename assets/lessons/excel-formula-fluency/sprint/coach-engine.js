@@ -153,6 +153,9 @@
       if (typeof b.value === "number" && Number.isNaN(b.value)) return false;
       // Refuse constant stubs
       if (a.value === "grouped" || b.value === "grouped") return false;
+      // Literal =0 / ="" / ="0" must not pass via result equality (coincident zeros).
+      const learnerTrim = String(learner || "").replace(/\s+/g, "").toUpperCase();
+      if (learnerTrim === "=0" || learnerTrim === "=\"\"" || learnerTrim === "=\"0\"") return false;
       return sameResult(a.value, b.value);
     } catch (e) {
       return false;
@@ -171,12 +174,15 @@
   }
   function sameResult(a, b) {
     if (a === b) return true;
+    // Numbers only match numbers (epsilon). No cross-type coercion.
     if (typeof a === "number" && typeof b === "number") return Math.abs(a - b) <= Math.max(1e-7, Math.abs(b) * 1e-7);
     if (Array.isArray(a) && Array.isArray(b)) {
       if (a.length !== b.length) return false;
       return a.every((v, i) => sameResult(v, b[i]));
     }
-    return String(a) === String(b);
+    // Strings match strings only. TRUE vs 1, "1762" vs 1762, "0" vs 0 are not equal.
+    if (typeof a === "string" && typeof b === "string") return a === b;
+    return false;
   }
 
 
@@ -311,15 +317,21 @@
     }
 
     // Unquoted bare words in criteria or after = (IF, COUNTIF, COUNTIFS, SUMIF, SUMIFS)
-    if (/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*[=,]\s*[A-Z][A-Z_]*\s*(?:,|\))/i.test(f)) {
-      const bare = f.match(/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*[=,]\s*([A-Z][A-Z_]*)/i);
+    if (/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*(?:=|<>|,)\s*[A-Z][A-Z_]*\s*(?:,|\))/i.test(f)) {
+      const bare = f.match(/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*(?:=|<>|,)\s*([A-Z][A-Z_]*)/i);
       if (bare && !/[A-Z]+\d+/.test(bare[1]) && !/^(TRUE|FALSE|AND|OR|NOT)$/i.test(bare[1])) {
         findings.push({ level: "error", msg: "Unquoted text is treated as a name and returns #NAME?. Wrap it in double quotes. Next: change the bare word to a quoted string." });
       }
     }
 
-    // + used to join text: quote adjacent, or target uses & and learner joins two refs with +
-    if ((/\+\s*"|\"\s*\+/i.test(f) || (challenge && /&/.test(challenge.f || "") && /[A-Z]+\d+\s*\+\s*[A-Z]+\d+/i.test(f))) && !/&/.test(f)) {
+    // + used to join text: quote adjacent, or target truly concatenates with & (not criteria joins, not & inside quotes)
+    function isTextJoinTarget(s) {
+      if (!s) return false;
+      // True text-join: & between cell refs (or ref & literal & ref), not criteria joins and not string&function
+      const noCrit = s.replace(/"[<>]=?"\s*&\s*\$?[A-Z]+\d+/gi, "");
+      return /\$?[A-Z]+\d+\s*&/.test(noCrit) || /&\s*\$?[A-Z]+\d+/.test(noCrit);
+    }
+    if ((/\+\s*"|\"\s*\+/i.test(f) || (challenge && isTextJoinTarget(challenge.f) && /[A-Z]+\d+\s*\+\s*[A-Z]+\d+/i.test(f))) && !/&/.test(f)) {
       findings.push({ level: "error", msg: "Use & to join text, not +. Next: rewrite the concatenation with &." });
     }
 
@@ -368,7 +380,7 @@
     }
 
     // Sheet name with space but no apostrophes (or unquoted multi-word)
-    if (/[A-Za-z]+\s+[A-Za-z0-9]+!/.test(f) && !/'[^']+'!/.test(f)) {
+    if (/[A-Za-z][A-Za-z0-9]*\s+[A-Za-z0-9]+!/.test(f) && !/'[^']+'!/.test(f)) {
       findings.push({ level: "error", msg: "Sheet names with spaces need apostrophes. Next: wrap the sheet name in single quotes, e.g. 'Production Data'!E2." });
     }
     // ProductionData without space is fine; flag only if target has quotes and learner does not
@@ -456,7 +468,7 @@
 
     // PERCENTILE.INC / PERCENTILE with 90 (handles nested commas by arg parse)
     callArgs(f, "PERCENTILE(?:\\.INC|\\.EXC)?").forEach(c => {
-      if (/,\s*(?:50|75|90|95)\s*$/.test(c.body) || /,\s*(?:50|75|90|95)\s*,/.test(c.body)) {
+      if (/,\s*(?:[2-9]|[1-9]\d+)\s*$/.test(c.body) || /,\s*(?:[2-9]|[1-9]\d+)\s*,/.test(c.body)) {
         findings.push({ level: "warn", msg: "PERCENTILE expects a fraction between 0 and 1. Next: use 0.9 (or 0.5 / 0.75 / 0.95), not a whole percent." });
       }
     });

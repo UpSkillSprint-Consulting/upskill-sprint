@@ -304,3 +304,58 @@ test("item-2 remaining misses are now caught", () => {
       `Missed: ${formula} → ${findings.map(f => f.msg).join("; ")}`);
   }
 });
+
+test("GROUPBY bare aggregation names compute distinct results", () => {
+  // Grader that mirrors the fixed lesson behaviour for bare names
+  sandbox.window.ExcelFormulaGrader = function(formula) {
+    const f = String(formula || "").toUpperCase();
+    if (!/GROUPBY/.test(f)) return { ok: false };
+    const delays = { "Melt Shop": [12.4,18.9,34.58,9.2,8.7,24.6,11.8,7.3,13.2], "Rolling Mill": [5.6,4.7,8.1,6.0,5.4,3.9,9.6,4.8,6.7], "Slitter": [3.2,2.9,4.5,7.4,3.1,2.4,5.1,8.6,3.0] };
+    const name = (f.match(/,\s*(AVERAGE|SUM|MAX|MIN|COUNT)\s*\)/) || [])[1] || "SUM";
+    const out = Object.entries(delays).map(([k, arr]) => {
+      let agg = 0;
+      if (name === "AVERAGE") agg = arr.reduce((a,b)=>a+b,0)/arr.length;
+      else if (name === "MAX") agg = Math.max(...arr);
+      else if (name === "MIN") agg = Math.min(...arr);
+      else if (name === "COUNT") agg = arr.length;
+      else agg = arr.reduce((a,b)=>a+b,0);
+      return [k, Math.round(agg*100)/100];
+    });
+    return { ok: true, value: out };
+  };
+  const target = { f: "=GROUPBY(ProductionData[Facility],ProductionData[Delay Time],AVERAGE)" };
+  const avg = Engine.diagnose("=GROUPBY(B2:B28,F2:F28,AVERAGE)", target);
+  assert.equal(avg.filter(x => x.level === "error" || x.level === "warn").length, 0, "bare AVERAGE must be accepted");
+  for (const bad of ["SUM", "MAX", "COUNT"]) {
+    const r = Engine.diagnose(`=GROUPBY(B2:B28,F2:F28,${bad})`, target);
+    assert.ok(r.some(x => x.level === "warn" || x.level === "error"), `bare ${bad} must not be accepted`);
+  }
+});
+
+test("sameResult refuses cross-type and literal zero", () => {
+  sandbox.window.ExcelFormulaGrader = function(formula) {
+    const f = String(formula || "").replace(/\s+/g, "");
+    if (f === "=0" || f === '=""' || f === '="0"') return { ok: true, value: 0 };
+    if (f.includes("SUMIF")) return { ok: true, value: 1762 };
+    if (f === '="1762"') return { ok: true, value: "1762" };
+    return { ok: true, value: 1762 };
+  };
+  const target = { f: "=SUMIFS(G2:G28,B2:B28,M2)" };
+  const zero = Engine.diagnose("=0", target);
+  assert.ok(zero.some(x => x.level === "warn" || x.level === "error"), "=0 must not match numeric 1762 or a zero SUMIF");
+  const str = Engine.diagnose('="1762"', target);
+  assert.ok(str.some(x => x.level === "warn" || x.level === "error"), '="1762" must not match numeric 1762');
+});
+
+test("item-2 leftovers: percent > 1, unquoted <>, digit sheet token", () => {
+  const diagnose = Engine.diagnose;
+  assert.ok(diagnose("=PERCENTILE.INC(E2:E28,25)", {}).some(f => /fraction|percent/i.test(f.msg)));
+  assert.ok(diagnose("=PERCENTILE.EXC(G2:G28,10)", {}).some(f => /fraction|percent/i.test(f.msg)));
+  assert.ok(!diagnose("=PERCENTILE.INC(E2:E28,0.5)", {}).some(f => f.level === "error" || f.level === "warn"));
+  assert.ok(diagnose("=IF(H2<>FAIL,1,0)", {}).some(f => /unquoted|quote/i.test(f.msg)));
+  assert.ok(diagnose("=Q4 Data!B2", {}).some(f => /apostrophe|quote/i.test(f.msg)));
+  assert.ok(!diagnose("=Sheet1!A1", {}).some(f => /apostrophe/i.test(f.msg)));
+  // B4 false-positive guards
+  assert.ok(!diagnose("=E2+F2", { f: '=SUMIFS(G2:G28,A2:A28,">="&M2)' }).some(f => /Use & to join/.test(f.msg)));
+  assert.ok(!diagnose("=E2+F2", { f: '=LET(x,1,"Median tap: "&ROUND(x,1))' }).some(f => /Use & to join/.test(f.msg)));
+});
