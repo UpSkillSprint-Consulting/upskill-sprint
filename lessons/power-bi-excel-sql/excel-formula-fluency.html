@@ -1435,15 +1435,51 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
       renderList(); updateProgress();
     }
     function showFeedback(type,msg){ const el=document.getElementById("feedback"); el.className="feedback show "+type; el.textContent=msg; }
+    // Criterion 5: local per-challenge instrumentation (no formula text)
+    const coachMetrics = {
+      get cohort() {
+        try {
+          let v = localStorage.getItem("excelCoachCohort");
+          if (!v) { v = Math.random() < 0.5 ? "off" : "on"; localStorage.setItem("excelCoachCohort", v); }
+          return v;
+        } catch (e) { return "on"; }
+      },
+      log(entry) {
+        try {
+          const key = "excelCoachChallengeLog";
+          const log = JSON.parse(localStorage.getItem(key) || "[]");
+          log.push(Object.assign({ t: Date.now(), coachOn: this.cohort === "on" }, entry));
+          if (log.length > 500) log.shift();
+          localStorage.setItem(key, JSON.stringify(log));
+        } catch (e) {}
+      },
+      start(idx, level) {
+        if (!state._coachStart) state._coachStart = {};
+        if (!state._coachStart[idx]) state._coachStart[idx] = Date.now();
+      }
+    };
+    if (coachMetrics.cohort === "off") {
+      const fab = document.getElementById("coachFab");
+      if (fab) fab.style.display = "none";
+    }
     function checkAnswer(){
       const c=challenges[state.current], input=document.getElementById("formulaInput").value;
       if(!input.trim().startsWith("=")){showFeedback("error","Start the formula with an equals sign (=).");return;}
       const ok=c.a.map(normalize).includes(normalize(input));
       if(typeof window.phase1RecordAttempt==="function") window.phase1RecordAttempt(c,ok,input);
+      coachMetrics.start(state.current, c.l);
+      const tStart = (state._coachStart && state._coachStart[state.current]) || Date.now();
       if(ok){
         if(!state.completed[state.current] && !state.revealed[state.current]){ const pts=c.l==="Beginner"?10:c.l==="Intermediate"?15:20; state.xp+=pts; state.streak+=1; }
-        state.completed[state.current]=true; save(); showFeedback("success","Correct. Your formula uses the intended structure. Explain each component before moving on."); renderList(); updateProgress();
-      } else { state.streak=0; save(); const diagnosis=typeof window.phase1Diagnose==="function"?window.phase1Diagnose(input,c):"Not quite. Check the references and argument order."; showFeedback("error",diagnosis); updateProgress(); }
+        const first = !state.completed[state.current];
+        state.completed[state.current]=true;
+        if(state.phase3&&state.phase3.coach&&state.phase3.coach.hintLevels){delete state.phase3.coach.hintLevels[state.current];}
+        save();
+        coachMetrics.log({ challengeIdx: state.current, level: c.l, tStart, tFirstCorrect: first ? Date.now() : null, attempts: (state.skillStats[c.t]||{}).attempts||1, hintsUsed: (state.skillStats[c.t]||{}).hints||0, revealed: !!state.revealed[state.current], correct: true });
+        showFeedback("success","Correct. Your formula uses the intended structure. Explain each component before moving on."); renderList(); updateProgress();
+      } else { state.streak=0; save();
+        coachMetrics.log({ challengeIdx: state.current, level: c.l, tStart, attempts: (state.skillStats[c.t]||{}).attempts||1, hintsUsed: (state.skillStats[c.t]||{}).hints||0, revealed: !!state.revealed[state.current], correct: false });
+        const diagnosis=typeof window.phase1Diagnose==="function"?window.phase1Diagnose(input,c):"Not quite. Check the references and argument order."; showFeedback("error",diagnosis); updateProgress(); }
     }
     function moveChallenge(delta){ const pos=filteredIndices.indexOf(state.current); const next=Math.max(0,Math.min(filteredIndices.length-1,pos+delta)); state.current=filteredIndices[next]; save(); renderChallenge(); }
 
@@ -1471,8 +1507,8 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
     document.getElementById("facilityFilter").onchange=renderFilter; document.getElementById("statusFilter").onchange=renderFilter;
     document.getElementById("checkAnswer").onclick=checkAnswer;
     document.getElementById("formulaInput").addEventListener("keydown",e=>{if(e.key==="Enter")checkAnswer();});
-    document.getElementById("showHint").onclick=()=>{const c=challenges[state.current];if(typeof window.phase1RecordHint==="function")window.phase1RecordHint(c);showFeedback("info",c.h);};
-    document.getElementById("revealAnswer").onclick=()=>{const c=challenges[state.current];state.revealed[state.current]=true;state.streak=0;if(typeof window.phase1RecordReveal==="function")window.phase1RecordReveal(c);save();document.getElementById("answerPanel").className="answer-panel show";showFeedback("info","This solution has been added to your spaced review queue. Study it, then re-type it from memory.");renderList();updateProgress();};
+    document.getElementById("showHint").onclick=()=>{const c=challenges[state.current];if(typeof window.phase1RecordHint==="function")window.phase1RecordHint(c);coachMetrics.log({ challengeIdx: state.current, level: c.l, hintsUsed: 1, revealed: false });showFeedback("info",c.h);};
+    document.getElementById("revealAnswer").onclick=()=>{const c=challenges[state.current];state.revealed[state.current]=true;state.streak=0;if(typeof window.phase1RecordReveal==="function")window.phase1RecordReveal(c);coachMetrics.log({ challengeIdx: state.current, level: c.l, revealed: true });save();document.getElementById("answerPanel").className="answer-panel show";showFeedback("info","This solution has been added to your spaced review queue. Study it, then re-type it from memory.");renderList();updateProgress();};
     document.getElementById("prevChallenge").onclick=()=>moveChallenge(-1); document.getElementById("nextChallenge").onclick=()=>moveChallenge(1);
     document.getElementById("levelFilter").onchange=e=>{filteredIndices=challenges.map((c,i)=>c.l===e.target.value||e.target.value==="all"?i:null).filter(i=>i!==null);state.current=filteredIndices[0]??0;renderChallenge();};
     document.getElementById("resetPractice").onclick=()=>{if(confirm("Reset Formula Lab completions, mastery evidence, and review history?")){state.completed={};state.revealed={};state.skillStats={};state.review={};state.liveLab={completed:{},attempts:{},seed:3471,mission:0};state.diagnostic=null;state.streak=0;state.xp=0;state.current=0;if(state.phase3&&state.phase3.coach){state.phase3.coach.hintLevels={};state.phase3.coach.history=[];}save();location.reload();}};
