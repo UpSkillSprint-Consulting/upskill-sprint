@@ -1,0 +1,337 @@
+/*!
+ * UpSkillSprint -- Site updates ticker (floating "Live" pill at the bottom of every page)
+ * Drop-in, zero dependencies.
+ *
+ * EDIT THE HEADLINES in /site-updates.json -- no code change needed. Newest first.
+ *
+ * INSTALL: nothing to do per page. scripts/inject-site-ticker.mjs adds
+ *   <script src="/site-ticker.js" defer></script>
+ * to every public page while the site is staged (npm run build:site).
+ *
+ * BEHAVIOUR
+ *   - Headlines glide right-to-left at a steady reading speed; hovering, focusing
+ *     or pressing Pause stops them (WCAG 2.2.2 Pause, Stop, Hide).
+ *   - Close (x) hides the bar until a newer headline is published.
+ *   - prefers-reduced-motion: nothing moves; the headlines become a row the
+ *     visitor can swipe or scroll through themselves.
+ *   - Lifts the seasonal-effects badge above itself and pads the footer, so
+ *     nothing on the page ends up hidden underneath it.
+ *   - Automated browsers (navigator.webdriver) don't get the bar, so page tests
+ *     that click near the bottom of the screen are not blocked by it.
+ *
+ * PREVIEW ANY TIME:  ?ticker=on (ignores "closed" and automation)   ?ticker=off
+ */
+(function (root, factory) {
+  var api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  if (root.document && root.location) api.boot(root);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  'use strict';
+
+  // ===== CONFIG -- edit here =====================================================
+  var DATA_URL = '/site-updates.json';
+  var MAX_ITEMS = 8;          // newest N headlines are shown
+  var MAX_AGE_DAYS = 90;      // older headlines drop off on their own
+  var SPEED = 42;             // scroll speed, pixels per second (constant for any list length)
+  var TAGS = ['lesson', 'exam', 'tool', 'update', 'soon'];  // anything else is styled as "update"
+  // Pages that never get the bar (prefix match). Exams and sign-in stay distraction-free.
+  // The build-time injector reads this same list, so edit it here only.
+  var EXCLUDE_PATHS = ['/test-bank', '/exam-preview', '/sign-in', '/signup', '/reset-password', '/admin-'];
+  // Layer: above page content, below the sticky header and mobile menu (40, site-nav.css)
+  // and below the seasonal effects (30) so their flyovers pass in front of it.
+  var Z = 29;
+  var STORE_KEY = 'uss-ticker-closed'; // holds the id of the newest headline when closed
+  // ==============================================================================
+
+  var window, document;
+
+  function store(fn) { try { return fn(window.localStorage); } catch (e) { return null; } }
+
+  function excluded(path) {
+    var p = String(path || '/').toLowerCase();
+    return EXCLUDE_PATHS.some(function (x) { return p === x || p.indexOf(x) === 0; });
+  }
+
+  // Only same-site paths or https links -- never javascript: or data: URLs from the JSON.
+  function safeHref(href) {
+    var h = String(href || '').trim();
+    if (/^\/(?!\/)/.test(h)) return h;
+    if (/^https:\/\/[^\s]+$/i.test(h)) return h;
+    return null;
+  }
+
+  function parseDay(s) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s || ''));
+    return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
+  }
+
+  /** Valid, recent headlines, newest first, at most MAX_ITEMS. */
+  function selectUpdates(list, now) {
+    now = now || new Date();
+    var oldest = new Date(now.getFullYear(), now.getMonth(), now.getDate() - MAX_AGE_DAYS);
+    var seen = {};
+    return (Array.isArray(list) ? list : [])
+      .map(function (u, i) {
+        if (!u || typeof u !== 'object') return null;
+        var day = parseDay(u.date), text = String(u.text || '').trim(), href = safeHref(u.href);
+        var id = String(u.id || '').trim();
+        if (!day || !text || !href || !id || seen[id]) return null;
+        if (day < oldest || day > now) return null; // future-dated items wait for their day
+        seen[id] = true;
+        var tag = String(u.tag || 'Update').trim();
+        var kind = TAGS.indexOf(tag.toLowerCase()) === -1 ? 'update' : tag.toLowerCase();
+        return { id: id, day: day, order: i, tag: tag, kind: kind, text: text, href: href };
+      })
+      .filter(Boolean)
+      .sort(function (a, b) { return (b.day - a.day) || (a.order - b.order); })
+      .slice(0, MAX_ITEMS);
+  }
+
+  /** Show the bar? `closedId` is what the visitor closed last time (or null). */
+  function shouldShow(items, opts) {
+    opts = opts || {};
+    var q = /[?&]ticker=(on|off)\b/i.exec(opts.search || '');
+    if (q) return q[1].toLowerCase() === 'on' && items.length > 0;
+    if (!items.length || opts.webdriver || excluded(opts.path)) return false;
+    return opts.closedId !== items[0].id;
+  }
+
+  // ---------- styles ----------
+  // Colours come straight from the site's own tokens in style.css (--card, --ink,
+  // --ink-soft, --muted, --line, --teal, --teal-dark, --accent, --amber), so the bar
+  // follows the theme toggle and any future palette change automatically. The
+  // fallbacks after each comma are the light-theme values, for pages without style.css.
+  var CSS =
+    ':root{--utk-card:var(--card,#ffffff);--utk-ink:var(--ink,#1c2430);--utk-ink-soft:var(--ink-soft,#344054);' +
+    '--utk-muted:var(--muted,#5b6578);--utk-line:var(--line,#e3e7ee);--utk-teal:var(--teal,#1f4e5f);' +
+    '--utk-teal-dark:var(--teal-dark,#163a47);--utk-accent:var(--accent,#1f4e5f);--utk-amber:var(--amber,#5b6578);' +
+    '--utk-on-accent:#ffffff;--utk-shadow:0 12px 32px rgba(28,36,48,.16),0 2px 6px rgba(28,36,48,.08)}' +
+    // Same pairing the site's .btn-accent uses in dark mode (dark text on light teal).
+    'html[data-theme="dark"]{--utk-on-accent:#0b1220;--utk-shadow:0 12px 32px rgba(0,0,0,.5),0 2px 6px rgba(0,0,0,.3)}' +
+
+    '.utk{position:fixed;z-index:' + Z + ';left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));' +
+    'width:min(780px,calc(100% - 24px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)));' +
+    'height:46px;box-sizing:border-box;display:flex;align-items:center;padding:0 5px 0 0;margin:0;' +
+    'border-radius:999px;border:1px solid var(--utk-line);background:var(--utk-card);color:var(--utk-ink);' +
+    'box-shadow:var(--utk-shadow);font:500 13.5px/1.2 "Work Sans",Arial,sans-serif;' +
+    'opacity:0;transform:translate(-50%,18px);transition:opacity .45s ease,transform .55s cubic-bezier(.2,.8,.2,1)}' +
+    // Frosted glass: the site's card colour, slightly see-through, with blur behind it.
+    '@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))) and (color:color-mix(in srgb,red 50%,blue)){' +
+    '.utk{background:color-mix(in srgb,var(--utk-card) 78%,transparent);' +
+    '-webkit-backdrop-filter:saturate(1.6) blur(16px);backdrop-filter:saturate(1.6) blur(16px)}}' +
+    '.utk.is-in{opacity:1;transform:translate(-50%,0)}' +
+    '.utk.is-out{opacity:0;transform:translate(-50%,18px)}' +
+
+    // "LIVE" label: the site's .eyebrow style (small, bold, spaced capitals in teal).
+    '.utk-live{flex:0 0 auto;display:flex;align-items:center;gap:8px;height:24px;padding:0 13px 0 17px;' +
+    'border-right:1px solid var(--utk-line);color:var(--utk-teal);font-size:11.5px;font-weight:700;' +
+    'letter-spacing:.1em;text-transform:uppercase}' +
+    '.utk-dot{position:relative;width:8px;height:8px;border-radius:50%;background:var(--utk-teal)}' +
+    '.utk-dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--utk-teal);' +
+    'animation:utk-ping 2s cubic-bezier(0,0,.2,1) infinite}' +
+    '@keyframes utk-ping{70%,100%{transform:scale(2.6);opacity:0}}' +
+
+    '.utk-view{flex:1 1 auto;min-width:0;height:100%;overflow:hidden;' +
+    '-webkit-mask-image:linear-gradient(90deg,transparent,#000 30px,#000 calc(100% - 30px),transparent);' +
+    'mask-image:linear-gradient(90deg,transparent,#000 30px,#000 calc(100% - 30px),transparent)}' +
+    '.utk-track{display:flex;align-items:center;width:max-content;height:100%;margin:0;padding:0;list-style:none;' +
+    'animation:utk-scroll var(--utk-dur,40s) linear infinite;will-change:transform}' +
+    '.utk-track li{margin:0;padding:0 3px}' +
+    '.utk:hover .utk-track,.utk:focus-within .utk-track,.utk.is-paused .utk-track{animation-play-state:paused}' +
+    '@keyframes utk-scroll{to{transform:translateX(-50%)}}' +
+
+    '.utk-item{display:inline-flex;align-items:center;gap:9px;padding:6px 10px 6px 7px;border-radius:999px;' +
+    'color:inherit!important;text-decoration:none!important;white-space:nowrap;transition:background .2s ease}' +
+    '.utk-item:hover,.utk-item:focus-visible{background:var(--tint,#f5f7fa)}' +
+    '.utk-item:focus-visible,.utk-btn:focus-visible{outline:2px solid var(--utk-teal);outline-offset:-2px}' +
+    // Tags use only the site palette: teal for lessons and exams, neutrals for the rest.
+    '.utk-tag{font-size:11.5px;font-weight:600;letter-spacing:.02em;padding:3px 10px;border-radius:999px;' +
+    'border:1px solid var(--utk-line);background:transparent;color:var(--utk-ink-soft)}' +
+    '.utk-tag[data-kind="lesson"]{border-color:transparent;background:var(--tint,#f5f7fa);color:var(--utk-teal-dark)}' +
+    '.utk-tag[data-kind="exam"]{border-color:var(--utk-accent);background:var(--utk-accent);color:var(--utk-on-accent)}' +
+    '.utk-tag[data-kind="soon"]{border-style:dashed;color:var(--utk-amber)}' +
+    '@supports (color:color-mix(in srgb,red 50%,blue)){' +
+    '.utk-tag[data-kind="lesson"]{background:color-mix(in srgb,var(--utk-teal) 14%,var(--utk-card))}}' +
+    '.utk-arrow{width:12px;height:12px;flex:0 0 auto;opacity:0;transform:translate(-5px,3px);' +
+    'transition:opacity .2s ease,transform .25s ease}' +
+    '.utk-item:hover .utk-arrow,.utk-item:focus-visible .utk-arrow{opacity:.85;transform:none}' +
+
+    '.utk-btn{all:unset;flex:0 0 auto;box-sizing:border-box;width:36px;height:36px;border-radius:50%;' +
+    'display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--utk-muted);' +
+    'transition:background .2s ease,color .2s ease}' +
+    '.utk-btn:hover{background:var(--tint,#f5f7fa);color:var(--utk-ink)}' +
+    '.utk-btn svg{width:14px;height:14px;display:block}' +
+    '.utk-sr{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}' +
+
+    // Phones: tighter edges, "Live" keeps just its dot.
+    '@media (max-width:560px){.utk{height:44px;bottom:calc(8px + env(safe-area-inset-bottom,0px));' +
+    'width:calc(100% - 16px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px));font-size:13px}' +
+    '.utk-live{padding:0 11px 0 15px}.utk-live-text{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}' +
+    '.utk-btn{width:34px;height:34px}}' +
+
+    // Reduced motion: nothing moves; headlines become a swipeable row.
+    '@media (prefers-reduced-motion:reduce){.utk,.utk-arrow,.utk-item{transition:none}' +
+    '.utk-dot::after{animation:none}.utk-track{animation:none}.utk-pause{display:none}' +
+    '.utk-view{overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity}' +
+    '.utk-view::-webkit-scrollbar{display:none}.utk-track li{scroll-snap-align:start}}' +
+
+    // Keep the page's end clear of the bar.
+    'html.utk-on footer.site{padding-bottom:calc(32px + var(--uss-ticker-offset,0px))}' +
+    'html.utk-on body.utk-nofooter{padding-bottom:var(--uss-ticker-offset,0px)}' +
+    '@media print{.utk{display:none!important}}';
+
+  var ICON = {
+    pause: '<svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><rect x="3" y="2" width="2.6" height="10" rx="1" fill="currentColor"/><rect x="8.4" y="2" width="2.6" height="10" rx="1" fill="currentColor"/></svg>',
+    play: '<svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M4 2.2v9.6a.6.6 0 0 0 .9.5l7.6-4.8a.6.6 0 0 0 0-1L4.9 1.7a.6.6 0 0 0-.9.5z" fill="currentColor"/></svg>',
+    close: '<svg viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    arrow: '<svg class="utk-arrow" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3 9l6-6M4.5 3H9v4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  };
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function itemNode(u, isCopy) {
+    var li = el('li');
+    var a = el('a', 'utk-item');
+    a.href = u.href;
+    if (/^https:/i.test(u.href)) { a.target = '_blank'; a.rel = 'noopener'; }
+    var tag = el('span', 'utk-tag', u.tag);
+    tag.setAttribute('data-kind', u.kind);
+    a.appendChild(tag);
+    a.appendChild(el('span', 'utk-text', u.text));
+    a.insertAdjacentHTML('beforeend', ICON.arrow);
+    if (isCopy) a.tabIndex = -1;
+    li.appendChild(a);
+    if (isCopy) li.setAttribute('aria-hidden', 'true');
+    return li;
+  }
+
+  function build(items, reduce) {
+    var bar = el('aside', 'utk');
+    bar.setAttribute('aria-label', 'Site updates');
+    bar.setAttribute('data-ticker', '');
+
+    var live = el('span', 'utk-live');
+    live.appendChild(el('span', 'utk-dot'));
+    live.appendChild(el('span', 'utk-live-text', 'Live'));
+    live.firstChild.setAttribute('aria-hidden', 'true');
+    bar.appendChild(live);
+
+    var view = el('div', 'utk-view');
+    var track = el('ul', 'utk-track');
+    items.forEach(function (u) { track.appendChild(itemNode(u, false)); });
+    // A second, identical copy makes the loop seamless. Screen readers and the
+    // keyboard only see the first copy.
+    if (!reduce) items.forEach(function (u) { track.appendChild(itemNode(u, true)); });
+    view.appendChild(track);
+    bar.appendChild(view);
+
+    var pause = el('button', 'utk-btn utk-pause');
+    pause.type = 'button';
+    pause.setAttribute('aria-pressed', 'false');
+    pause.setAttribute('aria-label', 'Pause updates');
+    pause.title = 'Pause updates';
+    pause.innerHTML = ICON.pause;
+    bar.appendChild(pause);
+
+    var close = el('button', 'utk-btn utk-close');
+    close.type = 'button';
+    close.setAttribute('aria-label', 'Hide updates');
+    close.title = 'Hide updates';
+    close.innerHTML = ICON.close;
+    bar.appendChild(close);
+
+    return { bar: bar, track: track, pause: pause, close: close };
+  }
+
+  function show(items) {
+    var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    var css = el('style');
+    css.setAttribute('data-ticker-style', '');
+    css.textContent = CSS;
+    document.head.appendChild(css);
+
+    var ui = build(items, reduce);
+    var html = document.documentElement;
+    document.body.appendChild(ui.bar);
+    if (!document.querySelector('footer.site')) document.body.classList.add('utk-nofooter');
+
+    // Steady reading speed whatever the number or length of headlines.
+    function pace() {
+      var half = ui.track.scrollWidth / 2;
+      if (half > 0) ui.track.style.setProperty('--utk-dur', Math.max(12, half / SPEED).toFixed(1) + 's');
+    }
+    // Space the seasonal badge and the footer need to stay clear of the bar.
+    function offset() {
+      var r = ui.bar.getBoundingClientRect();
+      var gap = Math.max(0, window.innerHeight - r.top) + 8;
+      html.style.setProperty('--uss-ticker-offset', Math.round(gap) + 'px');
+    }
+    pace(); offset();
+    html.classList.add('utk-on');
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(pace, function () {});
+    window.addEventListener('resize', function () { pace(); offset(); });
+    var raf = window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : function (f) { return setTimeout(f, 16); };
+    raf(function () { raf(function () { ui.bar.classList.add('is-in'); offset(); }); }); // two frames so the slide-in animates
+
+    ui.pause.addEventListener('click', function () {
+      var paused = ui.bar.classList.toggle('is-paused');
+      ui.pause.setAttribute('aria-pressed', paused ? 'true' : 'false');
+      ui.pause.setAttribute('aria-label', paused ? 'Play updates' : 'Pause updates');
+      ui.pause.title = paused ? 'Play updates' : 'Pause updates';
+      ui.pause.innerHTML = paused ? ICON.play : ICON.pause;
+    });
+
+    ui.close.addEventListener('click', function () {
+      store(function (ls) { ls.setItem(STORE_KEY, items[0].id); });
+      ui.bar.classList.remove('is-in');
+      ui.bar.classList.add('is-out');
+      html.classList.remove('utk-on');
+      html.style.removeProperty('--uss-ticker-offset');
+      document.body.classList.remove('utk-nofooter');
+      setTimeout(function () { if (ui.bar.parentNode) ui.bar.parentNode.removeChild(ui.bar); }, reduce ? 0 : 500);
+    });
+    return ui;
+  }
+
+  function load(cb) {
+    if (typeof window.fetch !== 'function') return;
+    window.fetch(DATA_URL, { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) { if (data) cb(data.updates); })
+      .catch(function () {});
+  }
+
+  function boot(root) {
+    window = root; document = root.document;
+    var search = root.location.search || '';
+    if (/[?&]ticker=off\b/i.test(search)) return;
+    if (!/[?&]ticker=on\b/i.test(search) && (excluded(root.location.pathname) || (root.navigator && root.navigator.webdriver))) return;
+    function go() {
+      load(function (list) {
+        if (document.querySelector('[data-ticker]')) return;
+        var items = selectUpdates(list, new Date());
+        var ok = shouldShow(items, {
+          search: search,
+          path: root.location.pathname,
+          webdriver: !!(root.navigator && root.navigator.webdriver),
+          closedId: store(function (ls) { return ls.getItem(STORE_KEY); })
+        });
+        if (ok) show(items);
+      });
+    }
+    // Wait for the page to finish loading so the bar never competes with real content.
+    if (document.readyState === 'complete') go();
+    else root.addEventListener('load', go);
+  }
+
+  return {
+    EXCLUDE_PATHS: EXCLUDE_PATHS, MAX_ITEMS: MAX_ITEMS, MAX_AGE_DAYS: MAX_AGE_DAYS, STORE_KEY: STORE_KEY,
+    excluded: excluded, safeHref: safeHref, selectUpdates: selectUpdates, shouldShow: shouldShow,
+    boot: boot, _show: function (root, items) { window = root; document = root.document; return show(items); }
+  };
+});
