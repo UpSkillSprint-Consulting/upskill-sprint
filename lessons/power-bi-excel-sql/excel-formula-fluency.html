@@ -1437,12 +1437,15 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
     function showFeedback(type,msg){ const el=document.getElementById("feedback"); el.className="feedback show "+type; el.textContent=msg; }
     // Criterion 5: local per-challenge instrumentation (no formula text)
     const coachMetrics = {
+      _cohort: null,
       get cohort() {
+        if (this._cohort) return this._cohort;
         try {
           let v = localStorage.getItem("excelCoachCohort");
           if (!v) { v = Math.random() < 0.5 ? "off" : "on"; localStorage.setItem("excelCoachCohort", v); }
+          this._cohort = v;
           return v;
-        } catch (e) { return "on"; }
+        } catch (e) { this._cohort = "on"; return "on"; }
       },
       log(entry) {
         try {
@@ -1458,10 +1461,7 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
         if (!state._coachStart[idx]) state._coachStart[idx] = Date.now();
       }
     };
-    if (coachMetrics.cohort === "off") {
-      const fab = document.getElementById("coachFab");
-      if (fab) fab.style.display = "none";
-    }
+    // Do not touch localStorage during init; cohort is resolved on first log.
     function checkAnswer(){
       const c=challenges[state.current], input=document.getElementById("formulaInput").value;
       if(!input.trim().startsWith("=")){showFeedback("error","Start the formula with an equals sign (=).");return;}
