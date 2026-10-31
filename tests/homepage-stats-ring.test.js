@@ -92,3 +92,14 @@ test('site palette: navy faces with light-teal numbers, legible in both themes',
   assert.match(HTML, /\.trust-ctrl \{[^}]*color: var\(--muted\)/);
   assert.doesNotMatch(HTML, /#ffb020|#141414/i, 'no leftover charcoal-and-amber colours');
 });
+
+test('the stats form a closed 3D box: walls at half the face width, plus a lid and a base', async t => {
+  const w = await homepage(t);
+  const c = w.document.getElementById('trust-stats');
+  const faces = [...c.querySelectorAll('.trust-face')];
+  assert.deepEqual(faces.map(f => f.style.transform), [0, 90, 180, 270].map(a => `rotateY(${a}deg) translateZ(var(--half))`));
+  assert.match(HTML, /\.trust-ring \{[^}]*--half: calc\(var\(--face\) \/ 2\)/);
+  assert.equal(c.querySelectorAll('.trust-cap.top[aria-hidden="true"], .trust-cap.bottom[aria-hidden="true"]').length, 2);
+  assert.ok(c.querySelector('.trust-floor[aria-hidden="true"]'), 'shadow under the box');
+  assert.match(c.querySelector('.trust-ring').style.transform, /rotateX\(-18deg\)/, 'tilted so the lid shows');
+});
