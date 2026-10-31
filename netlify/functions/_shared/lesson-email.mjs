@@ -12,7 +12,7 @@
 
 import { createHash, createHmac, randomUUID, timingSafeEqual } from 'node:crypto';
 
-export const TEMPLATE_VERSION = 'v1';
+export const TEMPLATE_VERSION = 'v2';
 export const MIN_FEED_LESSONS = 20;
 export const RESEND_ENDPOINT = 'https://api.resend.com';
 export const USER_AGENT = 'upskillsprint-lesson-email/1.0';
@@ -113,8 +113,10 @@ export function configProblems(config) {
   if (!config.resendKey) problems.push('RESEND_API_KEY is not set');
   if (config.unsubscribeSecret.length < 32) problems.push('NEWSLETTER_UNSUBSCRIBE_SECRET must be at least 32 characters');
   if (config.postalAddress.length < 10) problems.push('NEWSLETTER_POSTAL_ADDRESS is required (CASL: every commercial email must show a mailing address)');
-  if (!/^[^<>]*<[^\s@<>]+@upskillsprint\.com>$|^[^\s@<>]+@upskillsprint\.com$/i.test(config.from)) {
-    problems.push('NEWSLETTER_FROM must use the verified upskillsprint.com domain');
+  // upskillsprint.com or a subdomain of it (e.g. news.upskillsprint.com) verified in Resend.
+  if (!/^(?:[^<>]*<)?[^\s@<>]+@(?:[a-z0-9-]+\.)*upskillsprint\.com>?$/i.test(config.from)
+      || (config.from.includes('<') !== config.from.endsWith('>'))) {
+    problems.push('NEWSLETTER_FROM must use upskillsprint.com or one of its subdomains');
   }
   if (config.replyTo && !EMAIL.test(config.replyTo)) problems.push('NEWSLETTER_REPLY_TO is not a valid email address');
   if (config.adminEmail && !EMAIL.test(config.adminEmail)) problems.push('NEWSLETTER_ADMIN_EMAIL is not a valid email address');
@@ -237,6 +239,10 @@ export function renderLessonEmail({ lessons, config, unsubscribeHref, recipientN
     : `${lessons.length} new lessons just went live on UpSkill Sprint.`;
   const browseHref = trackedUrl(`${config.siteUrl}/lessons`, 'browse-all');
   const preferencesHref = `${config.siteUrl}/profile`;
+  const homeHref = trackedUrl(`${config.siteUrl}/`, 'logo');
+  // Small email-sized copies of the site wordmark (assets/email/); the dark one shows in clients that support dark mode.
+  const logoLight = `${config.siteUrl}/assets/email/logo-wordmark-email.png`;
+  const logoDark = `${config.siteUrl}/assets/email/logo-wordmark-email-on-dark.png`;
   const address = config.postalAddress;
 
   const cards = lessons.map((lesson, index) => {
@@ -284,7 +290,9 @@ export function renderLessonEmail({ lessons, config, unsubscribeHref, recipientN
     .card-box { background:#111a2e !important; border-color:#24324d !important; }
     .title, .title a, .ink { color:#f1f5f9 !important; }
     .body, .soft { color:#cbd5e1 !important; }
-    .meta, .link, .accent { color:#5eead4 !important; }
+    .meta, .link { color:#5eead4 !important; }
+    .logo-light { display:none !important; }
+    .logo-dark { display:block !important; max-height:none !important; }
     .rule { border-color:#24324d !important; }
     .foot { color:#94a3b8 !important; }
   }
@@ -296,7 +304,10 @@ export function renderLessonEmail({ lessons, config, unsubscribeHref, recipientN
   <tr><td align="center" class="pad" style="padding:28px 24px;">
     <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="container" style="width:600px;max-width:600px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
       <tr><td style="padding:0 0 18px 0;">
-        <p class="ink" style="margin:0;font-size:18px;line-height:24px;font-weight:800;color:#0f172a;">UpSkill <span class="accent" style="color:#0e7490;">Sprint</span></p>
+        <a href="${escapeHtml(homeHref)}" style="text-decoration:none;color:#0f172a;">
+          <img class="logo-light" src="${escapeHtml(logoLight)}" width="220" height="45" alt="UpSkill Sprint Consulting" style="display:block;border:0;outline:none;text-decoration:none;width:220px;max-width:100%;height:auto;font-size:20px;line-height:24px;font-weight:800;color:#0f172a;">
+          <!--[if !mso]><!--><img class="logo-dark" src="${escapeHtml(logoDark)}" width="220" height="45" alt="UpSkill Sprint Consulting" style="display:none;max-height:0;overflow:hidden;border:0;outline:none;width:220px;max-width:100%;height:auto;"><!--<![endif]-->
+        </a>
       </td></tr>
       ${testBanner}
       <tr><td style="padding:0 0 14px 0;">
