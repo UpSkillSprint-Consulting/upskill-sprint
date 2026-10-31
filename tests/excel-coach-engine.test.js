@@ -359,3 +359,26 @@ test("item-2 leftovers: percent > 1, unquoted <>, digit sheet token", () => {
   assert.ok(!diagnose("=E2+F2", { f: '=SUMIFS(G2:G28,A2:A28,">="&M2)' }).some(f => /Use & to join/.test(f.msg)));
   assert.ok(!diagnose("=E2+F2", { f: '=LET(x,1,"Median tap: "&ROUND(x,1))' }).some(f => /Use & to join/.test(f.msg)));
 });
+
+test("coincident zero without sheet refs is not accepted", () => {
+  sandbox.window.ExcelFormulaGrader = function(formula) {
+    const f = String(formula || "").replace(/\s+/g, "").toUpperCase();
+    // The real SUMIFS grades to 0 on this sample (M2 is Melt Shop, date criteria miss)
+    if (f.includes("SUMIFS")) return { ok: true, value: 0 };
+    // Literal-looking zeros
+    if (/^=(SUM\(0\)|0\*1|0\+0|--0|N\(0\)|0)$/.test(f)) return { ok: true, value: 0 };
+    return { ok: false };
+  };
+  const target = { f: '=SUMIFS(G2:G28,A2:A28,">="&M2,A2:A28,"<="&M3)' };
+  for (const bad of ["=SUM(0)", "=0*1", "=0+0", "=--0", "=N(0)"]) {
+    const r = Engine.diagnose(bad, target);
+    assert.ok(r.some(x => x.level === "warn" || x.level === "error") || r.every(x => x.level === "info"),
+      `${bad} must not clear the challenge`);
+    assert.ok(!r.every(x => x.level === "info" && /simple expression/.test(x.msg) && r.length === 1) || r.some(x => /result differs|SUMIFS|target/i.test(x.msg)),
+      `${bad} should not be silently accepted`);
+  }
+  // Real target self stays clean
+  const self = Engine.diagnose(target.f, target);
+  const badSelf = self.filter(x => x.level === "error" || x.level === "warn");
+  assert.equal(badSelf.length, 0, "real SUMIFS self must stay clean");
+});

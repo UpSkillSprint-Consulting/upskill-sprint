@@ -156,6 +156,9 @@
       // Literal =0 / ="" / ="0" must not pass via result equality (coincident zeros).
       const learnerTrim = String(learner || "").replace(/\s+/g, "").toUpperCase();
       if (learnerTrim === "=0" || learnerTrim === "=\"\"" || learnerTrim === "=\"0\"") return false;
+      // No sheet refs and a zero/empty result: cannot be computing the challenge.
+      const hasRef = /\$?[A-Z]{1,3}\$?\d+/.test(learner || "");
+      if (!hasRef && (a.value === 0 || a.value === "")) return false;
       return sameResult(a.value, b.value);
     } catch (e) {
       return false;

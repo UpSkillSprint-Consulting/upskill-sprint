@@ -1844,7 +1844,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
   function evaluateLive(formula,grid) {
     if(!formula.trim().startsWith("="))return {ok:false,error:"Begin with an equals sign (=)."};
     try{
-      const body=formula.trim().slice(1).replace(/;/g,",").replace(/GROUPBY\s*\(([^)]*)\)/gi,(m,args)=>m.replace(/,\s*(AVERAGE|SUM|MAX|MIN|COUNT)\s*\)/i,',"$1")'));
+      const body=formula.trim().slice(1).replace(/;/g,",").replace(/GROUPBY\s*\(([^)]*)\)/gi,(m,args)=>m.replace(/,\s*(AVERAGE|AVG|SUM|MAX|MIN|COUNT)\s*\)/i,',"$1")'));
       const value=makeParser(grid).parse(body,{row:2,col:10,sheet:"Sheet1"},true);
       if(value&&typeof value==="object"&&value._error)return{ok:false,error:formulaErrorText(value)};
       return{ok:true,value};
