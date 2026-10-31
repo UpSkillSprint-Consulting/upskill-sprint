@@ -1,5 +1,5 @@
 /*!
- * UpSkillSprint -- Seasonal Effects (Canadian Thanksgiving + Halloween + Christmas)
+ * UpSkillSprint -- Seasonal Effects (Canada Day + 4th of July + Canadian Thanksgiving + Halloween + Christmas)
  * Drop-in, zero dependencies. Turns on/off automatically every year by the visitor's local date.
  *
  * INSTALL: nothing to do per page. scripts/inject-seasonal-effects.mjs adds
@@ -7,7 +7,8 @@
  * to every public page while the site is staged (npm run build:site).
  *
  * PREVIEW ANY TIME (ignores dates and the visitor's "off" choice):
- *   ?season=thanksgiving   ?season=halloween   ?season=christmas   ?season=off
+ *   ?season=canadaday   ?season=july4   ?season=thanksgiving   ?season=halloween
+ *   ?season=christmas   ?season=off
  */
 (function (root, factory) {
   var api = factory();
@@ -22,6 +23,10 @@
   // Order matters: the first season whose dates match wins, so Thanksgiving
   // weekend takes over from Halloween for those four days, then Halloween resumes.
   var SEASONS = [
+    // Summer: Canada Day (July 1) then US Independence Day (July 4). The windows
+    // touch but never overlap, so each country gets its own days.
+    { id: 'canadaday', label: 'Happy Canada Day', icon: '\ud83c\udf41', start: [6, 28], end: [7, 2] }, // Jun 28 -> Jul 2
+    { id: 'july4', label: 'Happy 4th of July', icon: '\ud83c\udf86', start: [7, 3], end: [7, 5] },     // Jul 3 -> Jul 5
     // Canadian Thanksgiving is the 2nd Monday of October, so its dates move every
     // year. `range` works them out: Friday through Thanksgiving Monday.
     { id: 'thanksgiving', label: 'Happy Thanksgiving', icon: '\ud83c\udf41', range: thanksgivingWeekend },
@@ -34,7 +39,7 @@
   // Layer: above page content and the sticky header (20), below the mobile
   // menu drawer (40, site-nav.css) so an open menu always covers the effects.
   var Z = 30; // badge sits at Z+1
-  // Flyover (geese / wizard on a broom / Santa's sleigh): first pass N seconds after load,
+  // Flyover (banner plane / geese / wizard on a broom / Santa's sleigh): first pass N seconds after load,
   // then one pass every [min, max] seconds. Set FLYER_ON = false to disable.
   var FLYER_ON = true;
   var FLYER_FIRST = 3;
@@ -163,8 +168,32 @@
     var HALLOWEEN = ['\ud83c\udf83', '\ud83d\udc7b', '\ud83c\udf42', '\ud83c\udf41', '\ud83c\udf83', '\ud83d\udc7b'];
 
     var LEAF_COLOURS = ['#c0392b', '#d35400', '#e67e22', '#b5651d', '#a93226', '#d4a017', '#8e3b1f'];
+    var FIREWORKS = id === 'canadaday' || id === 'july4';
+    // Flag colours. White pieces get a thin outline so they still show on light pages.
+    var CANADA = ['#d52b1e', '#d52b1e', '#ffffff'];
+    var USA = ['#b22234', '#ffffff', '#2f55b8']; // a brighter blue than the flag's navy, so it reads on dark pages
 
     function make(anywhere) {
+      if (id === 'canadaday') {
+        // Red and white maple leaves, same tumble as Thanksgiving
+        return {
+          leaf: true, size: 7 + R() * 8, col: CANADA[(R() * CANADA.length) | 0],
+          x: R() * W, y: anywhere ? R() * H : -30,
+          vx: 0, vy: 22 + R() * 24, amp: 16 + R() * 26, ph: R() * 6.28, fs: 0.5 + R() * 0.9,
+          rot: R() * 6.28, vr: (R() - 0.5) * 2.2, flip: R() * 6.28, vf: 1 + R() * 2,
+          a: 0.8 + R() * 0.2, bob: 0
+        };
+      }
+      if (id === 'july4') {
+        // Red, white and blue star confetti that spins and flips as it falls
+        return {
+          confetti: true, size: 4 + R() * 5, col: USA[(R() * USA.length) | 0],
+          x: R() * W, y: anywhere ? R() * H : -20,
+          vx: 0, vy: 28 + R() * 30, amp: 14 + R() * 22, ph: R() * 6.28, fs: 0.6 + R() * 1,
+          rot: R() * 6.28, vr: (R() - 0.5) * 3, flip: R() * 6.28, vf: 2 + R() * 3,
+          a: 0.85, bob: 0
+        };
+      }
       if (id === 'thanksgiving') {
         // Vector maple leaves that tumble (flip) as they fall
         return {
@@ -205,15 +234,36 @@
     }
 
     var small = W < 700;
-    var n = id === 'christmas' ? (small ? 45 : 90) : id === 'thanksgiving' ? (small ? 16 : 30) : (small ? 10 : 18);
+    var n = id === 'christmas' ? (small ? 45 : 90) : id === 'thanksgiving' ? (small ? 16 : 30) :
+      FIREWORKS ? (small ? 12 : 24) : (small ? 10 : 18);
     for (var i = 0; i < n; i++) parts.push(make(true));
 
     // Passes alternate: first from the right (flying left), then from the left.
     var flyer = null, nextAt = null, trail = [], lastDir = 1;
     var walker = null, walkAt = null, walkDir = 1; // Thanksgiving turkey
+    var rockets = [], sparks = [], fwAt = null;      // Canada Day / 4th of July fireworks
+    // Bottom of the site header, so the plane and fireworks never cover the menu.
+    function headerBottom() {
+      var hd = document.querySelector('header.site');
+      var b = hd && hd.getBoundingClientRect ? hd.getBoundingClientRect().bottom : 0;
+      return Math.max(0, Math.min(b || 0, H * 0.4));
+    }
     function spawnFlyer() {
       var dir = lastDir = -lastDir;
       var mobile = W < 700;
+      if (FIREWORKS) {
+        // A small biplane towing a greeting banner. The banner text never mirrors.
+        var text = id === 'canadaday' ? 'HAPPY CANADA DAY' : 'HAPPY 4TH OF JULY';
+        var s = mobile ? 0.75 : 1;
+        ctx.font = '800 15px system-ui,-apple-system,"Segoe UI",sans-serif';
+        var bw = (ctx.measureText(text).width + 34) * s;
+        return {
+          kind: 'plane', dir: dir, s: s, age: 0, emit: 0, text: text, bw: bw,
+          x: dir > 0 ? -60 * s : W + 60 * s,
+          baseY: Math.max(headerBottom() + 44 * s, H * (0.1 + R() * 0.12)), wave: 8 + R() * 6, sway: 0.9,
+          speed: 125 * (mobile ? 0.8 : 1), tail: 0, exitPad: bw + 90 * s
+        };
+      }
       if (id === 'thanksgiving') {
         // A V of Canada geese: steadier and lower-amplitude than the others, no trail
         return {
@@ -250,6 +300,16 @@
         if (p.leaf) {
           p.flip += p.vf * dt;
           drawMapleLeaf(ctx, p.x, p.y, p.size, p.rot, p.flip, p.col);
+        } else if (p.confetti) {
+          p.flip += p.vf * dt;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.scale(Math.max(0.3, Math.abs(Math.cos(p.flip))), 1);
+          ctx.fillStyle = p.col;
+          star(ctx, 0, 0, p.size);
+          if (p.col === '#ffffff') { ctx.lineWidth = 0.8; ctx.strokeStyle = 'rgba(60,70,90,0.5)'; ctx.stroke(); }
+          ctx.restore();
         } else if (p.glyph) {
           ctx.save();
           ctx.translate(p.x, p.y);
@@ -294,15 +354,18 @@
               col: f.kind === 'wizard' ? (R() < 0.5 ? '#ffd34d' : '#fff3b0') : '#ffffff'
             });
           }
+          if (f.kind === 'plane') drawBanner(ctx, f, id);
           ctx.save();
           ctx.translate(f.x, f.y);
           ctx.rotate(tilt * f.dir);
           ctx.scale(f.dir * f.s, f.s);
           if (f.kind === 'wizard') drawWizard(ctx, f.age);
           else if (f.kind === 'geese') drawGeese(ctx, f.age);
+          else if (f.kind === 'plane') drawPlane(ctx, f.age, id);
           else drawSleigh(ctx, f.age);
           ctx.restore();
-          if ((f.dir > 0 && f.x > W + 220) || (f.dir < 0 && f.x < -220)) {
+          var pad = f.exitPad || 220;
+          if ((f.dir > 0 && f.x > W + pad) || (f.dir < 0 && f.x < -pad)) {
             flyer = null;
             nextAt = t + (FLYER_EVERY[0] + R() * (FLYER_EVERY[1] - FLYER_EVERY[0])) * 1000;
           }
@@ -315,6 +378,50 @@
           ctx.globalAlpha = q.life;
           ctx.fillStyle = q.col;
           star(ctx, q.x, q.y, q.r * (0.6 + q.life * 0.6));
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      // ----- Canada Day / 4th of July: fireworks in the upper part of the screen -----
+      if (FIREWORKS) {
+        if (fwAt === null) fwAt = t + 1200;
+        if (t >= fwAt && rockets.length < 2) {
+          var top = Math.max(headerBottom() + 110, H * 0.18); // room for the burst to spread upward
+          rockets.push({ x: W * (0.12 + R() * 0.76), y: H + 8, ty: top + R() * Math.max(40, H * 0.42 - top), vy: -(small ? 460 : 580) });
+          fwAt = t + (1.1 + R() * 1.6) * 1000;
+        }
+        var pal = id === 'canadaday' ? CANADA : USA;
+        for (var ri = rockets.length - 1; ri >= 0; ri--) {
+          var rk = rockets[ri];
+          rk.y += rk.vy * dt;
+          ctx.globalAlpha = 0.9;
+          ctx.strokeStyle = '#ffd34d'; ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.moveTo(rk.x, rk.y); ctx.lineTo(rk.x, rk.y + 16); ctx.stroke();
+          if (rk.y <= rk.ty) {
+            rockets.splice(ri, 1);
+            var cnt = small ? 32 : 52, col = pal[(R() * pal.length) | 0], col2 = pal[(R() * pal.length) | 0];
+            for (var si = 0; si < cnt; si++) {
+              var ang = si / cnt * 6.283 + R() * 0.2, sp = (90 + R() * 90) * (small ? 0.75 : 1);
+              sparks.push({ x: rk.x, y: rk.y, vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, life: 1,
+                decay: 0.55 + R() * 0.3, col: si % 3 ? col : col2 });
+            }
+          }
+        }
+        for (var sk = sparks.length - 1; sk >= 0; sk--) {
+          var sp2 = sparks[sk];
+          sp2.life -= sp2.decay * dt;
+          if (sp2.life <= 0) { sparks.splice(sk, 1); continue; }
+          sp2.vx *= 1 - 0.9 * dt; sp2.vy = sp2.vy * (1 - 0.9 * dt) + 70 * dt; // drag + gravity
+          sp2.x += sp2.vx * dt; sp2.y += sp2.vy * dt;
+          ctx.globalAlpha = Math.min(1, sp2.life * 1.4);
+          // a short streak along the direction of travel reads as a firework spark
+          var ex = sp2.x - sp2.vx * 0.07, ey = sp2.y - sp2.vy * 0.07;
+          if (sp2.col === '#ffffff') { // dark edge first so white shows on light pages
+            ctx.strokeStyle = 'rgba(60,70,90,0.55)'; ctx.lineWidth = 3.6;
+            ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(sp2.x, sp2.y); ctx.stroke();
+          }
+          ctx.strokeStyle = sp2.col; ctx.lineWidth = 2.4; ctx.lineCap = 'round';
+          ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(sp2.x, sp2.y); ctx.stroke();
         }
         ctx.globalAlpha = 1;
       }
@@ -382,6 +489,75 @@
     ctx.closePath();
     ctx.fillStyle = col;
     ctx.fill();
+    if (col === '#ffffff') { // white leaves need an edge on light pages
+      ctx.lineWidth = 0.06; ctx.strokeStyle = 'rgba(60,70,90,0.55)'; ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // Original biplane facing right, nose at the origin's right. Canada Day flies
+  // red and white; the 4th of July flies navy, white and red.
+  function drawPlane(ctx, t, id) {
+    var body = id === 'canadaday' ? '#d52b1e' : '#1f3a7a';
+    var wing = id === 'canadaday' ? '#f4f1ea' : '#b22234';
+    var trim = id === 'canadaday' ? '#ffffff' : '#f4f1ea';
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.fillStyle = wing; // lower wing
+    ctx.beginPath(); ctx.ellipse(4, 6, 20, 3, 0, 0, 6.283); ctx.fill();
+    ctx.strokeStyle = '#3a3a3a'; ctx.lineWidth = 1.2; // struts
+    ctx.beginPath(); ctx.moveTo(-6, 5); ctx.lineTo(-4, -12); ctx.moveTo(14, 5); ctx.lineTo(16, -12); ctx.stroke();
+    ctx.lineWidth = 1.5; // wheels
+    ctx.beginPath(); ctx.moveTo(4, 8); ctx.lineTo(1, 15); ctx.moveTo(10, 8); ctx.lineTo(12, 15); ctx.stroke();
+    ctx.fillStyle = '#2b2b2b';
+    ctx.beginPath(); ctx.arc(1, 16, 3, 0, 6.283); ctx.arc(12, 16, 3, 0, 6.283); ctx.fill();
+    ctx.fillStyle = body; // fuselage
+    ctx.beginPath();
+    ctx.moveTo(26, -4); ctx.quadraticCurveTo(30, 2, 26, 6); ctx.lineTo(-24, 3); ctx.lineTo(-34, -2); ctx.lineTo(-24, -6); ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = trim; // stripe
+    ctx.fillRect(-20, -1.5, 40, 2.4);
+    ctx.fillStyle = body; // tail fin and tailplane
+    ctx.beginPath(); ctx.moveTo(-24, -5); ctx.lineTo(-35, -17); ctx.lineTo(-30, -2); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = wing;
+    ctx.beginPath(); ctx.ellipse(-28, 0, 8, 2, 0, 0, 6.283); ctx.fill();
+    ctx.fillStyle = '#2b2b2b'; // pilot in the open cockpit
+    ctx.beginPath(); ctx.arc(-2, -8, 4, 0, 6.283); ctx.fill();
+    ctx.fillStyle = '#c98b3a';
+    ctx.fillRect(-5, -11, 6, 2.2); // goggles strap
+    ctx.fillStyle = wing; // upper wing
+    ctx.beginPath(); ctx.ellipse(6, -13, 22, 3.2, 0, 0, 6.283); ctx.fill();
+    ctx.fillStyle = '#5a5a5a'; // propeller hub and spinning blur
+    ctx.beginPath(); ctx.arc(29, 1, 2.6, 0, 6.283); ctx.fill();
+    ctx.globalAlpha = 0.45;
+    ctx.fillStyle = '#9aa3ad';
+    ctx.beginPath(); ctx.ellipse(31, 1, 1.8, 12 * Math.abs(Math.sin(t * 40)) + 4, 0, 0, 6.283); ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+
+  // Waving banner on a tow line behind the plane, drawn in screen space so the
+  // greeting always reads left to right whichever way the plane flies.
+  function drawBanner(ctx, f, id) {
+    var s = f.s, h = 22 * s;
+    var near = f.x - f.dir * 36 * s;          // tow-line start, at the plane's tail
+    var top = near - f.dir * 26 * s;          // banner edge nearest the plane
+    var x0 = f.dir > 0 ? top - f.bw : top;    // left edge in screen space
+    var y = f.y - h / 2 + 2 * s;
+    var seg = 12, i, wx, wy;
+    ctx.save();
+    ctx.strokeStyle = '#4a4a4a'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(near, f.y); ctx.lineTo(top, y + 2); ctx.moveTo(near, f.y); ctx.lineTo(top, y + h - 2); ctx.stroke();
+    ctx.beginPath();
+    for (i = 0; i <= seg; i++) { wx = x0 + f.bw * i / seg; wy = y + Math.sin(f.age * 6 + wx * 0.05) * 2.5 * s; ctx.lineTo(wx, wy); }
+    for (i = seg; i >= 0; i--) { wx = x0 + f.bw * i / seg; wy = y + h + Math.sin(f.age * 6 + wx * 0.05) * 2.5 * s; ctx.lineTo(wx, wy); }
+    ctx.closePath();
+    ctx.fillStyle = '#ffffff'; ctx.fill();
+    ctx.lineWidth = 2 * s;
+    ctx.strokeStyle = id === 'canadaday' ? '#d52b1e' : '#1f3a7a';
+    ctx.stroke();
+    ctx.fillStyle = id === 'canadaday' ? '#b8141b' : '#1f2a5c';
+    ctx.font = '800 ' + Math.round(15 * s) + 'px system-ui,-apple-system,"Segoe UI",sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(f.text, x0 + f.bw / 2, y + h / 2 + Math.sin(f.age * 6 + (x0 + f.bw / 2) * 0.05) * 2.5 * s);
     ctx.restore();
   }
 
