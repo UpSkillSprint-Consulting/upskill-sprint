@@ -55,6 +55,14 @@ test('unknown tags are styled as updates, known ones keep their style', () => {
   assert.equal(b.tag, 'Webinar');
 });
 
+test('expires retires a headline after its last day; a malformed expiry is rejected', () => {
+  const list = [item('r', '2026-10-30', { tag: 'Research', href: 'https://doi.org/10.1000/x', expires: '2026-11-27' })];
+  assert.equal(tk.selectUpdates(list, new Date(2026, 10, 27, 23, 59)).length, 1);
+  assert.equal(tk.selectUpdates(list, new Date(2026, 10, 28, 0, 0)).length, 0);
+  assert.equal(tk.selectUpdates([item('bad', '2026-10-30', { expires: 'next month' })], day(2026, 10, 31)).length, 0);
+  assert.equal(tk.selectUpdates(list, day(2026, 10, 31))[0].kind, 'research');
+});
+
 test('closing hides the bar only until a newer headline is published', () => {
   const items = tk.selectUpdates([item('new', '2026-10-30'), item('older', '2026-10-20')], day(2026, 10, 31));
   assert.equal(tk.shouldShow(items, { path: '/' }), true);
@@ -88,11 +96,13 @@ test('site-updates.json: valid, unique, short, and every link goes to a real pag
     assert.ok(!ids.has(u.id), 'duplicate id ' + u.id);
     ids.add(u.id);
     assert.match(u.date, /^\d{4}-\d{2}-\d{2}$/, u.id);
-    assert.ok(['Lesson', 'Exam', 'Tool', 'Update', 'Soon'].includes(u.tag), u.id + ' tag');
+    assert.ok(['Lesson', 'Exam', 'Tool', 'Research', 'Update', 'Soon'].includes(u.tag), u.id + ' tag');
     assert.ok(u.text.length <= 60, u.id + ' text is ' + u.text.length + ' characters (keep it under 60)');
     // Each headline must pass the same checks the browser applies, on its own date.
     const [y, m, d] = u.date.split('-').map(Number);
     assert.equal(tk.selectUpdates([u], day(y, m, d)).length, 1, u.id + ' is rejected by selectUpdates');
+    if (/^https:\/\//.test(u.href)) continue; // outside source links (Research) can't be checked offline
+    assert.ok(u.href.startsWith('/'), u.id + ': href must be a site path or https:// link');
     const pathname = u.href.split('#')[0].split('?')[0];
     const candidates = [pathname + '.html', path.join(pathname, 'index.html'), pathname === '/' ? '/index.html' : null].filter(Boolean);
     assert.ok(candidates.some(c => fs.existsSync(path.join(ROOT, c))), u.id + ': no page for ' + u.href);
@@ -164,6 +174,19 @@ test('renders a labelled region; only the first copy is reachable by keyboard an
   assert.equal(lis[0].querySelector('.utk-text').textContent, 'CMQ <b>Set</b> 3');
   assert.equal(lis[0].querySelector('b'), null);
   assert.equal(lis[0].querySelector('.utk-tag').getAttribute('data-kind'), 'exam');
+  assert.equal(lis[0].querySelector('a').target, '');
+  w.close();
+});
+
+test('research items link straight to the source in a new tab and say so', () => {
+  const w = dom();
+  const ui = tk._show(w, tk.selectUpdates([item('r', '2026-10-30', { tag: 'Research', text: 'EWMA for autocorrelated data', href: 'https://doi.org/10.1080/00224065.2026.1' })], day(2026, 10, 31)));
+  const a = ui.track.querySelector('li a');
+  assert.equal(a.getAttribute('href'), 'https://doi.org/10.1080/00224065.2026.1');
+  assert.equal(a.target, '_blank');
+  assert.equal(a.rel, 'noopener');
+  assert.match(a.textContent, /EWMA for autocorrelated data \(source, opens in a new tab\)/);
+  assert.equal(a.querySelector('.utk-tag').getAttribute('data-kind'), 'research');
   assert.ok(w.document.documentElement.classList.contains('utk-on'));
   assert.match(w.document.documentElement.style.getPropertyValue('--uss-ticker-offset'), /^\d+px$/);
   w.close();

@@ -3,6 +3,9 @@
  * Drop-in, zero dependencies.
  *
  * EDIT THE HEADLINES in /site-updates.json -- no code change needed. Newest first.
+ * Outside links (https://...) open in a new tab -- use them for "Research" items that
+ * point straight at the paper or source. Optional "expires": "YYYY-MM-DD" retires an
+ * item early (it shows through that day).
  *
  * INSTALL: nothing to do per page. scripts/inject-site-ticker.mjs adds
  *   <script src="/site-ticker.js" defer></script>
@@ -33,7 +36,7 @@
   var MAX_ITEMS = 8;          // newest N headlines are shown
   var MAX_AGE_DAYS = 90;      // older headlines drop off on their own
   var SPEED = 42;             // scroll speed, pixels per second (constant for any list length)
-  var TAGS = ['lesson', 'exam', 'tool', 'update', 'soon'];  // anything else is styled as "update"
+  var TAGS = ['lesson', 'exam', 'tool', 'research', 'update', 'soon'];  // anything else is styled as "update"
   // Pages that never get the bar (prefix match). Exams and sign-in stay distraction-free.
   // The build-time injector reads this same list, so edit it here only.
   var EXCLUDE_PATHS = ['/test-bank', '/exam-preview', '/sign-in', '/signup', '/reset-password', '/admin-'];
@@ -77,6 +80,9 @@
         var id = String(u.id || '').trim();
         if (!day || !text || !href || !id || seen[id]) return null;
         if (day < oldest || day > now) return null; // future-dated items wait for their day
+        var expires = u.expires == null || u.expires === '' ? null : parseDay(u.expires);
+        if (u.expires && !expires) return null;          // malformed expiry: leave it out
+        if (expires && now >= new Date(expires.getFullYear(), expires.getMonth(), expires.getDate() + 1)) return null;
         seen[id] = true;
         var tag = String(u.tag || 'Update').trim();
         var kind = TAGS.indexOf(tag.toLowerCase()) === -1 ? 'update' : tag.toLowerCase();
@@ -150,6 +156,7 @@
     '.utk-tag[data-kind="lesson"]{border-color:transparent;background:var(--tint,#f5f7fa);color:var(--utk-teal-dark)}' +
     '.utk-tag[data-kind="exam"]{border-color:var(--utk-accent);background:var(--utk-accent);color:var(--utk-on-accent)}' +
     '.utk-tag[data-kind="soon"]{border-style:dashed;color:var(--utk-amber)}' +
+    '.utk-tag[data-kind="research"]{border-color:var(--utk-teal);color:var(--utk-teal-dark)}' +
     '@supports (color:color-mix(in srgb,red 50%,blue)){' +
     '.utk-tag[data-kind="lesson"]{background:color-mix(in srgb,var(--utk-teal) 14%,var(--utk-card))}}' +
     '.utk-arrow{width:12px;height:12px;flex:0 0 auto;opacity:0;transform:translate(-5px,3px);' +
@@ -198,11 +205,13 @@
     var li = el('li');
     var a = el('a', 'utk-item');
     a.href = u.href;
-    if (/^https:/i.test(u.href)) { a.target = '_blank'; a.rel = 'noopener'; }
+    var external = /^https:/i.test(u.href);
+    if (external) { a.target = '_blank'; a.rel = 'noopener'; }
     var tag = el('span', 'utk-tag', u.tag);
     tag.setAttribute('data-kind', u.kind);
     a.appendChild(tag);
     a.appendChild(el('span', 'utk-text', u.text));
+    if (external) a.appendChild(el('span', 'utk-sr', ' (source, opens in a new tab)'));
     a.insertAdjacentHTML('beforeend', ICON.arrow);
     if (isCopy) a.tabIndex = -1;
     li.appendChild(a);
