@@ -4,7 +4,8 @@
  *
  * EDIT THE HEADLINES in /site-updates.json -- no code change needed. Newest first.
  * Outside links (https://...) open in a new tab -- use them for "Research" items that
- * point straight at the paper or source. Optional "expires": "YYYY-MM-DD" retires an
+ * point straight at the paper or source. Only the newest batch of Research items
+ * shows: publishing next Friday's picks retires the previous week's on every page. Optional "expires": "YYYY-MM-DD" retires an
  * item early (it shows through that day).
  *
  * INSTALL: nothing to do per page. scripts/inject-site-ticker.mjs adds
@@ -68,11 +69,14 @@
     return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null;
   }
 
-  /** Valid, recent headlines, newest first, at most MAX_ITEMS. */
+  /** Valid, recent headlines, newest first, at most MAX_ITEMS.
+   *  Research picks are weekly: only the newest batch shows, so last week's
+   *  links disappear everywhere the moment this week's are published. */
   function selectUpdates(list, now) {
     now = now || new Date();
     var oldest = new Date(now.getFullYear(), now.getMonth(), now.getDate() - MAX_AGE_DAYS);
     var seen = {};
+    var latestResearch = 0;
     return (Array.isArray(list) ? list : [])
       .map(function (u, i) {
         if (!u || typeof u !== 'object') return null;
@@ -89,6 +93,8 @@
         return { id: id, day: day, order: i, tag: tag, kind: kind, text: text, href: href };
       })
       .filter(Boolean)
+      .map(function (u) { if (u.kind === 'research' && +u.day > latestResearch) latestResearch = +u.day; return u; })
+      .filter(function (u) { return u.kind !== 'research' || +u.day === latestResearch; })
       .sort(function (a, b) { return (b.day - a.day) || (a.order - b.order); })
       .slice(0, MAX_ITEMS);
   }

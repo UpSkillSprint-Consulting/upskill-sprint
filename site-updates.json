@@ -1,5 +1,5 @@
 {
-  "_howto": "Headlines for the scrolling updates bar (site-ticker.js). Add new items at the top. Fields: id (unique, never reuse), date (YYYY-MM-DD), tag (Lesson | Exam | Tool | Research | Update | Soon), text (your own words, under ~60 characters), href (a site path starting with /, or a direct https:// link to the source for Research items; those open in a new tab), expires (optional YYYY-MM-DD; shows through that day). Items older than 90 days drop off automatically; at most 8 show. A new top item brings the bar back for visitors who closed it.",
+  "_howto": "Headlines for the scrolling updates bar (site-ticker.js). Add new items at the top. Fields: id (unique, never reuse), date (YYYY-MM-DD), tag (Lesson | Exam | Tool | Research | Update | Soon), text (your own words, under ~60 characters), href (a site path starting with /, or a direct https:// link to the source for Research items; those open in a new tab), expires (optional YYYY-MM-DD; shows through that day). Research items are weekly: only the newest dated batch shows, so a new Friday's picks replace the previous week's automatically. Items older than 90 days drop off automatically; at most 8 show. A new top item brings the bar back for visitors who closed it.",
   "updates": [
     {
       "id": "2026-10-31-cre-coming",

@@ -63,6 +63,15 @@ test('expires retires a headline after its last day; a malformed expiry is rejec
   assert.equal(tk.selectUpdates(list, day(2026, 10, 31))[0].kind, 'research');
 });
 
+test("a new week's research picks replace last week's everywhere", () => {
+  const r = (id, date) => item(id, date, { tag: 'Research', href: 'https://doi.org/10.1000/' + id });
+  const list = [r('w2a', '2026-11-06'), r('w2b', '2026-11-06'), item('lesson', '2026-11-01'), r('w1a', '2026-10-30'), r('w1b', '2026-10-30')];
+  // Thursday: next week's picks are dated Friday, so last week's still show.
+  assert.deepEqual(tk.selectUpdates(list, day(2026, 11, 5)).map(u => u.id), ['lesson', 'w1a', 'w1b']);
+  // Friday: the new picks arrive and last week's are gone; other headlines stay.
+  assert.deepEqual(tk.selectUpdates(list, day(2026, 11, 6)).map(u => u.id), ['w2a', 'w2b', 'lesson']);
+});
+
 test('closing hides the bar only until a newer headline is published', () => {
   const items = tk.selectUpdates([item('new', '2026-10-30'), item('older', '2026-10-20')], day(2026, 10, 31));
   assert.equal(tk.shouldShow(items, { path: '/' }), true);
