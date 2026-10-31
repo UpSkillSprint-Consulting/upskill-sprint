@@ -23,10 +23,10 @@
   // Order matters: the first season whose dates match wins, so Thanksgiving
   // weekend takes over from Halloween for those four days, then Halloween resumes.
   var SEASONS = [
-    // Summer: Canada Day (July 1) then US Independence Day (July 4). The windows
-    // touch but never overlap, so each country gets its own days.
-    { id: 'canadaday', label: 'Happy Canada Day', icon: '\ud83c\udf41', start: [6, 28], end: [7, 2] }, // Jun 28 -> Jul 2
-    { id: 'july4', label: 'Happy 4th of July', icon: '\ud83c\udf86', start: [7, 3], end: [7, 5] },     // Jul 3 -> Jul 5
+    // Summer: each runs 2 days before its holiday through the day itself.
+    // Canada Day (July 1) then US Independence Day (July 4): back to back, never overlapping.
+    { id: 'canadaday', label: 'Happy Canada Day', icon: '\ud83c\udf41', start: [6, 29], end: [7, 1] }, // Jun 29 -> Jul 1
+    { id: 'july4', label: 'Happy 4th of July', icon: '\ud83c\udf86', start: [7, 2], end: [7, 4] },     // Jul 2 -> Jul 4
     // Canadian Thanksgiving is the 2nd Monday of October, so its dates move every
     // year. `range` works them out: Friday through Thanksgiving Monday.
     { id: 'thanksgiving', label: 'Happy Thanksgiving', icon: '\ud83c\udf41', range: thanksgivingWeekend },

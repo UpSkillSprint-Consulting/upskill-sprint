@@ -67,16 +67,16 @@ test('Christmas runs Dec 1 through Jan 4, across the new year, every year', () =
   }
 });
 
-test('Canada Day runs Jun 28 through Jul 2, then the 4th of July runs Jul 3 through Jul 5', () => {
+test('Canada Day and the 4th of July each run 2 days before through the day itself', () => {
   for (const y of [2026, 2027, 2028, 2030]) {
-    assert.equal(seasonOn(at(y, 6, 27, 23, 59)), null, `${y} Jun 27`);
-    assert.equal(seasonOn(at(y, 6, 28, 0, 0)), 'canadaday', `${y} Jun 28`);
-    assert.equal(seasonOn(day(y, 7, 1)), 'canadaday', `${y} Canada Day`);
-    assert.equal(seasonOn(at(y, 7, 2, 23, 59)), 'canadaday', `${y} Jul 2`);
-    assert.equal(seasonOn(at(y, 7, 3, 0, 0)), 'july4', `${y} Jul 3`);
-    assert.equal(seasonOn(day(y, 7, 4)), 'july4', `${y} Independence Day`);
-    assert.equal(seasonOn(at(y, 7, 5, 23, 59)), 'july4', `${y} Jul 5`);
-    assert.equal(seasonOn(at(y, 7, 6, 0, 0)), null, `${y} Jul 6`);
+    assert.equal(seasonOn(at(y, 6, 28, 23, 59)), null, `${y} Jun 28`);
+    assert.equal(seasonOn(at(y, 6, 29, 0, 0)), 'canadaday', `${y} Jun 29 (2 days before)`);
+    assert.equal(seasonOn(day(y, 6, 30)), 'canadaday', `${y} Jun 30`);
+    assert.equal(seasonOn(at(y, 7, 1, 23, 59)), 'canadaday', `${y} Canada Day`);
+    assert.equal(seasonOn(at(y, 7, 2, 0, 0)), 'july4', `${y} Jul 2 (2 days before)`);
+    assert.equal(seasonOn(day(y, 7, 3)), 'july4', `${y} Jul 3`);
+    assert.equal(seasonOn(at(y, 7, 4, 23, 59)), 'july4', `${y} Independence Day`);
+    assert.equal(seasonOn(at(y, 7, 5, 0, 0)), null, `${y} Jul 5`);
   }
   const ca = fx.SEASONS.find(s => s.id === 'canadaday');
   const us = fx.SEASONS.find(s => s.id === 'july4');
@@ -101,7 +101,7 @@ test('no two seasons ever share a day, so the order of SEASONS never hides one',
 });
 
 test('no effect between seasons', () => {
-  for (const [m, d] of [[1, 5], [3, 15], [6, 1], [6, 27], [7, 6], [9, 15], [11, 5], [11, 20]]) {
+  for (const [m, d] of [[1, 5], [3, 15], [6, 1], [6, 28], [7, 5], [9, 15], [11, 5], [11, 20]]) {
     assert.equal(seasonOn(day(2027, m, d)), null, `${m}/${d}`);
   }
 });
