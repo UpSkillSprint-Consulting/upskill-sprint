@@ -1,5 +1,5 @@
 /*!
- * UpSkillSprint -- Site updates ticker (floating "Live" pill at the bottom of every page)
+ * UpSkillSprint -- Site updates ticker (full-width "Live" bar docked to the bottom of every page)
  * Drop-in, zero dependencies.
  *
  * EDIT THE HEADLINES in /site-updates.json -- no code change needed. Newest first.
@@ -122,19 +122,21 @@
     ':root{--utk-bg:#141414;--utk-line:#2f2f2f;--utk-ink:#f2f2f2;--utk-muted:#a3a3a3;--utk-amber:#ffb020;' +
     '--utk-hover:rgba(255,255,255,.08);--utk-shadow:0 14px 34px rgba(0,0,0,.35),0 2px 8px rgba(0,0,0,.22)}' +
 
-    '.utk{position:fixed;z-index:' + Z + ';left:50%;bottom:calc(12px + env(safe-area-inset-bottom,0px));' +
-    'width:min(780px,calc(100% - 24px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)));' +
-    'height:46px;box-sizing:border-box;display:flex;align-items:center;padding:0 5px 0 0;margin:0;' +
-    'border-radius:999px;border:1px solid var(--utk-line);background:var(--utk-bg);color:var(--utk-ink);' +
-    'box-shadow:var(--utk-shadow);font:500 13.5px/1.2 "Work Sans",Arial,sans-serif;' +
-    'opacity:0;transform:translate(-50%,18px);transition:opacity .45s ease,transform .55s cubic-bezier(.2,.8,.2,1)}' +
+    // Docked full-width along the bottom edge, like a trading-site ticker. Safe-area
+    // padding keeps it clear of the home indicator and rounded corners on phones.
+    '.utk{position:fixed;z-index:' + Z + ';left:0;right:0;bottom:0;width:100%;' +
+    'height:calc(42px + env(safe-area-inset-bottom,0px));box-sizing:border-box;display:flex;align-items:center;margin:0;' +
+    'padding:0 calc(6px + env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);' +
+    'border:0;border-top:1px solid var(--utk-line);border-radius:0;background:var(--utk-bg);color:var(--utk-ink);' +
+    'box-shadow:0 -8px 24px rgba(0,0,0,.18);font:500 13.5px/1.2 "Work Sans",Arial,sans-serif;' +
+    'opacity:0;transform:translateY(100%);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.8,.2,1)}' +
     // Smoked glass: near-opaque charcoal with a blur, so text contrast never depends on the page behind it.
     '@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){' +
     '.utk{background:rgba(20,20,20,.9);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px)}}' +
-    '.utk.is-in{opacity:1;transform:translate(-50%,0)}' +
-    '.utk.is-out{opacity:0;transform:translate(-50%,18px)}' +
+    '.utk.is-in{opacity:1;transform:translateY(0)}' +
+    '.utk.is-out{opacity:0;transform:translateY(100%)}' +
 
-    '.utk-live{flex:0 0 auto;display:flex;align-items:center;gap:8px;height:24px;padding:0 13px 0 17px;' +
+    '.utk-live{flex:0 0 auto;display:flex;align-items:center;gap:8px;height:24px;padding:0 16px 0 20px;' +
     'border-right:1px solid var(--utk-line);color:var(--utk-amber);font-size:11.5px;font-weight:700;' +
     'letter-spacing:.1em;text-transform:uppercase}' +
     '.utk-dot{position:relative;width:8px;height:8px;border-radius:50%;background:var(--utk-amber)}' +
@@ -166,18 +168,16 @@
     'transition:opacity .2s ease,transform .25s ease}' +
     '.utk-item:hover .utk-arrow,.utk-item:focus-visible .utk-arrow{opacity:.85;transform:none}' +
 
-    '.utk-btn{all:unset;flex:0 0 auto;box-sizing:border-box;width:36px;height:36px;border-radius:50%;' +
+    '.utk-btn{all:unset;flex:0 0 auto;box-sizing:border-box;width:34px;height:34px;border-radius:50%;' +
     'display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--utk-muted);' +
     'transition:background .2s ease,color .2s ease}' +
     '.utk-btn:hover{background:var(--utk-hover);color:var(--utk-ink)}' +
     '.utk-btn svg{width:14px;height:14px;display:block}' +
     '.utk-sr{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}' +
 
-    // Phones: tighter edges, "Live" keeps just its dot.
-    '@media (max-width:560px){.utk{height:44px;bottom:calc(8px + env(safe-area-inset-bottom,0px));' +
-    'width:calc(100% - 16px - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px));font-size:13px}' +
-    '.utk-live{padding:0 11px 0 15px}.utk-live-text{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}' +
-    '.utk-btn{width:34px;height:34px}}' +
+    // Phones: "Live" keeps just its dot to leave room for headlines.
+    '@media (max-width:560px){.utk{font-size:13px}' +
+    '.utk-live{padding:0 12px 0 15px}.utk-live-text{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}}' +
 
     // Reduced motion: nothing moves; headlines become a swipeable row.
     '@media (prefers-reduced-motion:reduce){.utk,.utk-arrow,.utk-item{transition:none}' +
@@ -312,8 +312,9 @@
     // Space the seasonal badge and the footer need to stay clear of the bar.
     function offset() {
       if (ui.bar.hidden) return;
-      var r = ui.bar.getBoundingClientRect();
-      var gap = Math.max(0, window.innerHeight - r.top) + 8;
+      // Layout height, not the on-screen position, so the value is right even
+      // while the bar is still sliding up into place.
+      var gap = (ui.bar.offsetHeight || 42) + 8;
       html.style.setProperty('--uss-ticker-offset', Math.round(gap) + 'px');
     }
     var raf = window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : function (f) { return setTimeout(f, 16); };

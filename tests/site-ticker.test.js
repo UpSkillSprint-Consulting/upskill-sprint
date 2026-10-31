@@ -149,6 +149,15 @@ test('seasonal badge moves up while the ticker is showing', () => {
   assert.match(src, /\.uss-fx-badge\{[^}]*bottom:calc\(12px \+ var\(--uss-ticker-offset,0px\)/);
 });
 
+test('the bar is docked full width along the bottom edge, not a floating pill', () => {
+  const start = SRC.indexOf("'.utk{position:fixed;");
+  const rule = SRC.slice(start, SRC.indexOf(")}' +", start));
+  for (const part of ['left:0', 'right:0', 'bottom:0', 'width:100%', 'border-radius:0', 'env(safe-area-inset-bottom']) {
+    assert.ok(rule.includes(part), 'bar rule has ' + part);
+  }
+  assert.doesNotMatch(SRC, /width:min\(780px/);
+});
+
 test('charcoal-and-amber palette: every text colour meets WCAG AA on its background', () => {
   const lum = hex => {
     const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
