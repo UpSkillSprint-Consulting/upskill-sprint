@@ -67,8 +67,41 @@ test('Christmas runs Dec 1 through Jan 4, across the new year, every year', () =
   }
 });
 
+test('Canada Day and the 4th of July each run 2 days before through the day itself', () => {
+  for (const y of [2026, 2027, 2028, 2030]) {
+    assert.equal(seasonOn(at(y, 6, 28, 23, 59)), null, `${y} Jun 28`);
+    assert.equal(seasonOn(at(y, 6, 29, 0, 0)), 'canadaday', `${y} Jun 29 (2 days before)`);
+    assert.equal(seasonOn(day(y, 6, 30)), 'canadaday', `${y} Jun 30`);
+    assert.equal(seasonOn(at(y, 7, 1, 23, 59)), 'canadaday', `${y} Canada Day`);
+    assert.equal(seasonOn(at(y, 7, 2, 0, 0)), 'july4', `${y} Jul 2 (2 days before)`);
+    assert.equal(seasonOn(day(y, 7, 3)), 'july4', `${y} Jul 3`);
+    assert.equal(seasonOn(at(y, 7, 4, 23, 59)), 'july4', `${y} Independence Day`);
+    assert.equal(seasonOn(at(y, 7, 5, 0, 0)), null, `${y} Jul 5`);
+  }
+  const ca = fx.SEASONS.find(s => s.id === 'canadaday');
+  const us = fx.SEASONS.find(s => s.id === 'july4');
+  assert.equal(ca.label, 'Happy Canada Day');
+  assert.equal(us.label, 'Happy 4th of July');
+});
+
+test('no two seasons ever share a day, so the order of SEASONS never hides one', () => {
+  for (let t = new Date(2027, 0, 1, 12); t.getFullYear() < 2029; t = new Date(t.getFullYear(), t.getMonth(), t.getDate() + 1, 12)) {
+    const on = fx.SEASONS.filter(s => {
+      for (const y of [t.getFullYear() - 1, t.getFullYear()]) {
+        const r = s.range ? s.range(y) : [new Date(y, s.start[0] - 1, s.start[1]),
+          new Date(s.end[0] < s.start[0] ? y + 1 : y, s.end[0] - 1, s.end[1] + 1)];
+        if (t >= r[0] && t < r[1]) return true;
+      }
+      return false;
+    }).map(s => s.id);
+    // Thanksgiving weekend deliberately sits inside Halloween and wins by order.
+    const allowed = on.length <= 1 || (on.length === 2 && on.includes('thanksgiving') && on.includes('halloween'));
+    assert.ok(allowed, `${t.toDateString()}: ${on.join(', ')}`);
+  }
+});
+
 test('no effect between seasons', () => {
-  for (const [m, d] of [[1, 5], [3, 15], [6, 1], [9, 15], [11, 5], [11, 20]]) {
+  for (const [m, d] of [[1, 5], [3, 15], [6, 1], [6, 28], [7, 5], [9, 15], [11, 5], [11, 20]]) {
     assert.equal(seasonOn(day(2027, m, d)), null, `${m}/${d}`);
   }
 });
@@ -78,6 +111,9 @@ test('?season= preview overrides the date, including inside another season', () 
   assert.equal(seasonOn(day(2026, 12, 10), '?season=halloween'), 'halloween');
   assert.equal(seasonOn(day(2026, 6, 1), '?season=halloween'), 'halloween');
   assert.equal(seasonOn(day(2026, 10, 30), '?season=thanksgiving'), 'thanksgiving');
+  assert.equal(seasonOn(day(2026, 10, 30), '?season=canadaday'), 'canadaday');
+  assert.equal(seasonOn(day(2026, 12, 10), '?season=july4'), 'july4');
+  assert.equal(seasonOn(day(2026, 7, 1), '?season=july4'), 'july4');
   assert.equal(seasonOn(day(2026, 10, 10), '?season=halloween'), 'halloween');
   assert.equal(seasonOn(day(2026, 10, 30), '?season=off'), null);
   assert.equal(fx.pick(day(2026, 6, 1), '?season=christmas').forced, true);
@@ -122,6 +158,20 @@ test('in season, the greeting appears and its close button turns it off for the 
   assert.equal(doc.querySelector('.uss-fx-badge'), null);
   assert.equal(dom.window.localStorage.getItem('uss-fx-off:halloween:2026'), '1');
   dom.window.close();
+});
+
+test('Canada Day and the 4th of July greet visitors and can be turned off for the year', () => {
+  for (const [date, id, text] of [[day(2027, 7, 1), 'canadaday', /Happy Canada Day/], [day(2027, 7, 4), 'july4', /Happy 4th of July/]]) {
+    const dom = browserPage('https://upskillsprint.com/', date);
+    const doc = dom.window.document;
+    const badge = doc.querySelector('.uss-fx-badge');
+    assert.ok(badge, `${id} greeting`);
+    assert.match(badge.textContent, text);
+    badge.querySelector('button').click();
+    assert.equal(doc.querySelector('.uss-fx-badge'), null);
+    assert.equal(dom.window.localStorage.getItem(`uss-fx-off:${id}:2027`), '1');
+    dom.window.close();
+  }
 });
 
 test('nothing renders out of season or on exam pages', () => {
