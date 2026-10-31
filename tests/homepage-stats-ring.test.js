@@ -70,15 +70,25 @@ test('reduced motion: a still grid with every stat reachable, no carousel contro
   assert.equal(c.querySelector('[data-stat-key="lessons"]').textContent, '57');
 });
 
-test('charcoal-and-amber colours meet WCAG AA', () => {
+test('site palette: navy faces with light-teal numbers, legible in both themes', () => {
   const lum = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
     .map(v => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4))
     .reduce((a, v, i) => a + v * [0.2126, 0.7152, 0.0722][i], 0);
   const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
-  assert.match(HTML, /\.trust-face \{[^}]*background: #1b1b1b/);
-  assert.match(HTML, /\.trust-face \.num \{[^}]*color: #ffb020/);
-  assert.match(HTML, /\.trust-face \.lbl \{[^}]*color: #a3a3a3/);
-  assert.ok(ratio('#ffb020', '#1b1b1b') >= 4.5);
-  assert.ok(ratio('#a3a3a3', '#1b1b1b') >= 4.5);
-  assert.ok(ratio('#ffb020', '#141414') >= 4.5, 'card heading');
+  const style = fs.readFileSync(path.join(__dirname, '..', 'style.css'), 'utf8');
+  const navy = style.match(/--navy:\s*(#[0-9a-f]{6})/i)[1];
+  const lightFace = HTML.match(/\.trust-ring-card \{[^}]*--trf-face: (#[0-9a-f]{6})/)[1];
+  assert.equal(lightFace.toLowerCase(), navy.toLowerCase(), 'faces use the site navy');
+  const num = HTML.match(/\.trust-face \.num \{[^}]*color: (#[0-9a-f]{6})/)[1];
+  const lbl = HTML.match(/\.trust-face \.lbl \{[^}]*color: (#[0-9a-f]{6})/)[1];
+  assert.match(HTML, /\.trust-face \.num \{[^}]*'Source Serif 4'/, 'numbers use the site serif');
+  // Navy faces sit on the white card (light theme) and lift off the dark card (dark theme).
+  for (const face of [lightFace]) {
+    assert.ok(ratio(num, face) >= 4.5, 'number on ' + face);
+    assert.ok(ratio(lbl, face) >= 4.5, 'label on ' + face);
+  }
+  // Heading and controls use site tokens on the normal site card.
+  assert.match(HTML, /\.trust-ring-head \{[^}]*color: var\(--teal\)/);
+  assert.match(HTML, /\.trust-ctrl \{[^}]*color: var\(--muted\)/);
+  assert.doesNotMatch(HTML, /#ffb020|#141414/i, 'no leftover charcoal-and-amber colours');
 });
