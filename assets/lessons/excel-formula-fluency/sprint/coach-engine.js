@@ -603,13 +603,23 @@
       const times = arr.filter(e => e.tFirstCorrect && e.tStart).map(e => e.tFirstCorrect - e.tStart);
       return median(times);
     }
-    const on = challengeLog.filter(e => e.coachOn);
-    const off = challengeLog.filter(e => !e.coachOn);
+    const clean = challengeLog.filter(e => !e.crossover && e.event !== "crossover");
+    const crossovers = challengeLog.filter(e => e.crossover || e.event === "crossover");
+    const on = clean.filter(e => e.coachOn);
+    const off = clean.filter(e => !e.coachOn);
+    const med = CoachEngine._median || median;
+    const ft = CoachEngine._firstTry || firstTry;
+    function medTimeClean(arr) {
+      const times = arr.filter(e => e.tFirstCorrect && e.tStart).map(e => e.tFirstCorrect - e.tStart);
+      return med(times);
+    }
     const cohortLines = [
       "",
-      "Cohort comparison (needs real learner data):",
-      `- Coach on: n=${on.length}, first-try correct ${firstTry(on) ?? "n/a"}%, median time-to-first-correct ${medTime(on) ?? "n/a"} ms`,
-      `- Coach off: n=${off.length}, first-try correct ${firstTry(off) ?? "n/a"}%, median time-to-first-correct ${medTime(off) ?? "n/a"} ms`
+      "Cohort comparison (needs real learner data; crossovers excluded):",
+      `- Coach on: n=${on.length}, first-try correct ${ft(on) ?? "n/a"}%, median time-to-first-correct ${medTimeClean(on) ?? "n/a"} ms`,
+      `- Coach off: n=${off.length}, first-try correct ${ft(off) ?? "n/a"}%, median time-to-first-correct ${medTimeClean(off) ?? "n/a"} ms`,
+      `- Crossovers excluded: ${crossovers.length} (switched on; not counted in either cohort)`,
+      "Owner note: excelCoachExperiment is a localStorage convention, not an authenticated control."
     ];
     if (!log.length && !challengeLog.length) {
       return [

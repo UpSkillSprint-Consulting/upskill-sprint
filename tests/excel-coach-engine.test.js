@@ -107,14 +107,33 @@ test("all 50 real challenges: accepted answers clean, broken formula flagged, hi
   }
 });
 
-test("logger stores no formula text and records coachOn/attempts", () => {
-  const entry = { challengeIdx: 1, level: "Beginner", attempts: 1, hintsUsed: 0, revealed: false, correct: true, coachOn: true, tStart: 1, tFirstCorrect: 2 };
-  sandbox.localStorage.setItem("excelCoachChallengeLog", JSON.stringify([entry]));
-  const raw = sandbox.localStorage.getItem("excelCoachChallengeLog");
-  assert.ok(!raw.includes("="), "Log must not contain formula text");
+test("production logger stores no formula body", async () => {
+  sandbox.localStorage.setItem("excelCoachInteractions", "[]");
+  await Engine.localResponse("debug =SUM(E2:E28)+AVERAGE(F2:F28)", "debug", () => ({}), [], {});
+  const raw = sandbox.localStorage.getItem("excelCoachInteractions") || "";
+  assert.ok(!raw.includes("SUM(E2:E28)"), "formula body must not be stored");
+  assert.ok(!raw.includes("AVERAGE(F2:F28)"), "formula body must not be stored");
   const parsed = JSON.parse(raw);
-  assert.equal(parsed[0].coachOn, true);
-  assert.equal(parsed[0].attempts, 1);
+  assert.ok(parsed.length >= 1, "an interaction was logged");
+  assert.equal(parsed[0].hasFormula, true);
+  assert.ok(parsed[0].formulaLen > 0);
+  assert.equal(parsed[0].formula, undefined);
+});
+
+test("controlled review excludes crossovers and reports n/first-try", () => {
+  const fixture = [
+    { challengeIdx: 0, correct: true, attempts: 1, coachOn: true, tStart: 100, tFirstCorrect: 250 },
+    { challengeIdx: 1, correct: false, attempts: 2, coachOn: true },
+    { challengeIdx: 2, correct: true, attempts: 1, coachOn: false, tStart: 100, tFirstCorrect: 400 },
+    { challengeIdx: "crossover", event: "crossover", crossover: true, coachOn: true }
+  ];
+  sandbox.localStorage.setItem("excelCoachChallengeLog", JSON.stringify(fixture));
+  const review = Engine.getControlledReview();
+  assert.match(review, /Coach on: n=2/);
+  assert.match(review, /first-try correct 50%/);
+  assert.match(review, /Coach off: n=1/);
+  assert.match(review, /Crossovers excluded: 1/);
+  assert.match(review, /localStorage convention, not an authenticated/);
 });
 
 test("controlled review does not claim finishing faster", () => {

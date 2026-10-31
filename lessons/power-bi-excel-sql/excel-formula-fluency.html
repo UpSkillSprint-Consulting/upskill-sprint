@@ -1456,6 +1456,7 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
       switchOn() {
         this._cohort = "on";
         try { localStorage.setItem("excelCoachCohort", "on"); localStorage.setItem("excelCoachCrossover", "1"); } catch (e) {}
+        this.log({ challengeIdx: "crossover", event: "crossover", crossover: true });
         this.applyVisibility();
       },
       log(entry) {
@@ -1464,7 +1465,10 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
           const log = JSON.parse(localStorage.getItem(key) || "[]");
           const idx = entry.challengeIdx;
           const existing = log.find(e => e.challengeIdx === idx);
+          const prior = existing && existing.tFirstCorrect;
           const row = Object.assign(existing || {}, { t: Date.now(), coachOn: this.cohort === "on", crossover: !!localStorage.getItem("excelCoachCrossover") }, entry);
+          if (prior) row.tFirstCorrect = prior;
+          else if (entry.correct && !row.tFirstCorrect) row.tFirstCorrect = Date.now();
           if (!existing) log.push(row);
           if (log.length > 500) log.shift();
           localStorage.setItem(key, JSON.stringify(log));
@@ -1487,6 +1491,11 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
         document.querySelectorAll('a[href="#excel-coach"], [data-coach-prompt]').forEach(el => { el.style.display = off ? "none" : ""; });
         const retry = document.querySelector("[data-sprint-action='retry-coaching']");
         if (retry) retry.style.display = off ? "none" : "";
+        const toc = document.getElementById("mobileToc");
+        if (toc) [...toc.options].forEach(o => { if (o.value === "#excel-coach") o.disabled = off; });
+        const section = document.getElementById("excel-coach");
+        if (section) section.style.display = off ? "none" : "";
+        if (off && location.hash === "#excel-coach") history.replaceState(null, "", location.pathname);
         let note = document.getElementById("coachExperimentNote");
         if (off && !note) {
           note = document.createElement("p");
