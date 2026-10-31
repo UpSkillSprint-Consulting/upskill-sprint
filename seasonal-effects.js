@@ -113,7 +113,10 @@
     var css = document.createElement('style');
     css.textContent =
       '.uss-fx-badge{position:fixed;left:calc(12px + env(safe-area-inset-left,0px));' +
-      'bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:' + (Z + 1) + ';display:flex;align-items:center;gap:6px;' +
+      // --uss-ticker-offset is set by site-ticker.js while the updates bar is showing,
+      // so the badge sits just above the bar instead of underneath it.
+      'bottom:calc(12px + var(--uss-ticker-offset,0px) + env(safe-area-inset-bottom,0px));transition:bottom .45s ease;' +
+      'z-index:' + (Z + 1) + ';display:flex;align-items:center;gap:6px;' +
       'padding:2px 2px 2px 10px;border-radius:999px;background:rgba(13,27,48,.9);color:#e6f1f8;' +
       'border:1px solid rgba(63,182,216,.45);font:600 13px/1 system-ui,-apple-system,Segoe UI,sans-serif;' +
       'box-shadow:0 4px 14px rgba(0,0,0,.35)}' +
