@@ -1,9 +1,9 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 56,
-  "contentLessonCount": 55,
-  "sectionCount": 2996,
+  "lessonCount": 57,
+  "contentLessonCount": 56,
+  "sectionCount": 3017,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -24428,6 +24428,319 @@
           ],
           "text": "You now know all seven CUBE functions. Rebuild one of your own recurring reports (a monthly quality pack, a scrap summary or a KPI scorecard) as a CUBE report: model the data once, write the measures in DAX, then let the formulas place every number exactly where you want it.",
           "excerpt": "You now know all seven CUBE functions. Rebuild one of your own recurring reports (a monthly quality pack, a scrap summary or a KPI scorecard) as a CUBE report: model the data once, write the measures in DAX, then let the formulas place every number exactly…",
+          "kinds": [
+            "section"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lean-six-sigma--dmaic-in-10-minutes",
+      "path": "/lessons/lean-six-sigma/dmaic-in-10-minutes",
+      "title": "DMAIC in 10 Minutes",
+      "description": "Understand the five phases of a structured Lean Six Sigma improvement project: what each phase asks, its main tools, and what it delivers.",
+      "topic": "lean-six-sigma",
+      "level": "beginner",
+      "minutes": 10,
+      "interactive": true,
+      "keywords": [
+        "dmaic",
+        "define",
+        "measure",
+        "analyze",
+        "improve",
+        "control",
+        "lean six sigma",
+        "six sigma project",
+        "tollgate",
+        "project charter",
+        "control plan",
+        "green belt",
+        "dmaic define measure analyze improve control lean six sigma six sigma project roadmap phases tollgate project charter sipoc gage r&r root cause pilot control plan green belt beginner interactive"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "dm-title",
+          "heading": "DMAIC in 10 Minutes",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes"
+          ],
+          "text": "DMAIC is the five-step roadmap Lean Six Sigma teams use to fix a problem in a process that already exists. One question per step, answered in order. One project, start to finish",
+          "excerpt": "DMAIC is the five-step roadmap Lean Six Sigma teams use to fix a problem in a process that already exists. One question per step, answered in order. One project, start to finish",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "dm-story-h",
+          "heading": "A DMAIC project in one chart",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "A DMAIC project in one chart"
+          ],
+          "text": "A pipe-cutting line re-cuts too many pipes. Follow the bad-cut rate through the five phases. (A made-up example.) Weekly bad cuts Goal Shaded bands: D, M, A, I, C phases.",
+          "excerpt": "A pipe-cutting line re-cuts too many pipes. Follow the bad-cut rate through the five phases. (A made-up example.) Weekly bad cuts Goal Shaded bands: D, M, A, I, C phases.",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "dm-define-h",
+          "heading": "Define: agree on the problem",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Define: agree on the problem"
+          ],
+          "text": "What's the problem, and what does success look like?",
+          "excerpt": "What's the problem, and what does success look like?",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-tools",
+          "heading": "Tools",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Define: agree on the problem",
+            "Tools"
+          ],
+          "text": "Project charter SIPOC Voice of the customer",
+          "excerpt": "Project charter SIPOC Voice of the customer",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-you-finish-with",
+          "heading": "You finish with",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Define: agree on the problem",
+            "You finish with"
+          ],
+          "text": "A signed-off project charter Project charter: Line 2 re-cuts Problem 6% of pipes re-cut Goal 2% or less in 4 months Scope Line 2, both shifts Out of scope The upstream mill One page that the team and sponsor agree on.",
+          "excerpt": "A signed-off project charter Project charter: Line 2 re-cuts Problem 6% of pipes re-cut Goal 2% or less in 4 months Scope Line 2, both shifts Out of scope The upstream mill One page that the team and sponsor agree on.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "dm-measure-h",
+          "heading": "Measure: trust the data first",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Measure: trust the data first"
+          ],
+          "text": "How big is the problem today, and can we trust our measurements?",
+          "excerpt": "How big is the problem today, and can we trust our measurements?",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-tools-2",
+          "heading": "Tools",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Measure: trust the data first",
+            "Tools"
+          ],
+          "text": "Gage R&R Data collection plan Process map",
+          "excerpt": "Gage R&R Data collection plan Process map",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-you-finish-with-2",
+          "heading": "You finish with",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Measure: trust the data first",
+            "You finish with"
+          ],
+          "text": "A baseline you trust: 5.8% bad cuts The tape can't tell good pipes from bad, so the team switches to the gauge before collecting the baseline.",
+          "excerpt": "A baseline you trust: 5.8% bad cuts The tape can't tell good pipes from bad, so the team switches to the gauge before collecting the baseline.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "dm-analyze-h",
+          "heading": "Analyze: find the root causes",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Analyze: find the root causes"
+          ],
+          "text": "Which causes really drive the problem?",
+          "excerpt": "Which causes really drive the problem?",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-tools-3",
+          "heading": "Tools",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Analyze: find the root causes",
+            "Tools"
+          ],
+          "text": "Pareto chart Fishbone and 5 Whys Hypothesis tests",
+          "excerpt": "Pareto chart Fishbone and 5 Whys Hypothesis tests",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-you-finish-with-3",
+          "heading": "You finish with",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Analyze: find the root causes",
+            "You finish with"
+          ],
+          "text": "Root causes proven with data Two causes, blade wear and stop-block setup, make 75% of the bad cuts. Fix those first.",
+          "excerpt": "Root causes proven with data Two causes, blade wear and stop-block setup, make 75% of the bad cuts. Fix those first.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "dm-improve-h",
+          "heading": "Improve: fix the causes, then prove it",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Improve: fix the causes, then prove it"
+          ],
+          "text": "Which fix removes the root causes, and does it work?",
+          "excerpt": "Which fix removes the root causes, and does it work?",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-tools-4",
+          "heading": "Tools",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Improve: fix the causes, then prove it",
+            "Tools"
+          ],
+          "text": "Solution matrix FMEA Pilot run DOE",
+          "excerpt": "Solution matrix FMEA Pilot run DOE",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-you-finish-with-4",
+          "heading": "You finish with",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Improve: fix the causes, then prove it",
+            "You finish with"
+          ],
+          "text": "A piloted fix that beats the baseline Pilot on one shift: a setup checklist with a reference gauge, plus a fixed blade-change schedule.",
+          "excerpt": "A piloted fix that beats the baseline Pilot on one shift: a setup checklist with a reference gauge, plus a fixed blade-change schedule.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "dm-control-h",
+          "heading": "Control: make the gains stick",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Control: make the gains stick"
+          ],
+          "text": "How do we stop the process sliding back?",
+          "excerpt": "How do we stop the process sliding back?",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-tools-5",
+          "heading": "Tools",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Control: make the gains stick",
+            "Tools"
+          ],
+          "text": "Control chart Control plan Response plan Standard work",
+          "excerpt": "Control chart Control plan Response plan Standard work",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-you-finish-with-5",
+          "heading": "You finish with",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Control: make the gains stick",
+            "You finish with"
+          ],
+          "text": "A control plan handed to the process owner Every week inside the limits: the gains are holding at 1.7%. Tollgates. Each phase ends with a short sponsor review before the next one starts. Try it",
+          "excerpt": "A control plan handed to the process owner Every week inside the limits: the gains are holding at 1.7%. Tollgates. Each phase ends with a short sponsor review before the next one starts. Try it",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "dm-sort-h",
+          "heading": "Which phase? Sort six real project activities",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Which phase? Sort six real project activities"
+          ],
+          "text": "Pick the phase for each activity. One try each. Interactive 1. Write a problem statement and agree the project scope with the sponsor. 2. Run a Gage R&R study to check that inspectors measure the same part the same way. 3. Use a Pareto chart and a hypothesis test to check which suspected causes really matter. 4. Pilot a new setup checklist on one shift and compare the results with the baseline. 5. Give the process owner a control chart and a plan for what to do when it signals. 6. Collect four weeks of data to find out how often parts fail today. 0 of 6 sorted Choosing the right tool",
+          "excerpt": "Pick the phase for each activity. One try each. Interactive 1. Write a problem statement and agree the project scope with the sponsor. 2. Run a Gage R&R study to check that inspectors measure the same part the same way. 3. Use a Pareto chart and a hypothesis…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "dm-when-h",
+          "heading": "Is DMAIC the right tool? Follow the arrows",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Is DMAIC the right tool? Follow the arrows"
+          ],
+          "text": "Does the process already exist? No Design it new with a design approach such as DMADV. Yes: next question Do you already know the cause and the fix? Yes Just do it. No project needed. No: next question Are customers being hurt right now? Yes Contain it first, then start DMAIC. No: next question Otherwise Use DMAIC.",
+          "excerpt": "Does the process already exist? No Design it new with a design approach such as DMADV. Yes: next question Do you already know the cause and the fix? Yes Just do it. No project needed. No: next question Are customers being hurt right now? Yes Contain it first,…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-4-ways-dmaic-projects-go-wrong",
+          "heading": "4 ways DMAIC projects go wrong",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Is DMAIC the right tool? Follow the arrows",
+            "4 ways DMAIC projects go wrong"
+          ],
+          "text": "Jumping to a fix Skipping Measure and Analyze treats symptoms. Trusting bad data Check the gauge before the baseline. Scoping too big One line, one defect, one goal. Skipping Control No owner and no plan, and the gains fade. Exam tip. ASQ's Six Sigma Green Belt and Black Belt bodies of knowledge are organized largely around the DMAIC phases. Expect \"which phase does this tool belong to?\" questions.",
+          "excerpt": "Jumping to a fix Skipping Measure and Analyze treats symptoms. Trusting bad data Check the gauge before the baseline. Scoping too big One line, one defect, one goal. Skipping Control No owner and no plan, and the gains fade. Exam tip. ASQ's Six Sigma Green…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-related-lessons",
+          "heading": "Related lessons",
+          "breadcrumb": [
+            "DMAIC in 10 Minutes",
+            "Related lessons"
+          ],
+          "text": "What Is Lean Six Sigma? — the bigger picture DMAIC sits inside: waste, variation and the belt roles. The 7 Essential Quality Tools — the everyday tools you will reach for in Measure and Analyze. Root Cause Analysis: 5 Whys vs Fishbone Diagram — the two root-cause tools at the heart of Analyze. Gage R&R — how to check your measurement system before you trust the baseline. Control Charts, Explained — the main Control-phase tool for keeping the gains.",
+          "excerpt": "What Is Lean Six Sigma? — the bigger picture DMAIC sits inside: waste, variation and the belt roles. The 7 Essential Quality Tools — the everyday tools you will reach for in Measure and Analyze. Root Cause Analysis: 5 Whys vs Fishbone Diagram — the two…",
           "kinds": [
             "section"
           ]
