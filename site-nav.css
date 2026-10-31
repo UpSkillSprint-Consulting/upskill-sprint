@@ -303,6 +303,7 @@ header.site nav.desktop-nav .nav-foot-solo {
     display: none;
     flex-direction: column;
     overflow: auto;
+    overscroll-behavior: contain; /* scrolling the menu never scrolls the page behind it */
     border-bottom: 0;
     background: var(--paper, #fff);
     color: var(--ink);
@@ -317,6 +318,13 @@ header.site nav.desktop-nav .nav-foot-solo {
      and page content cannot show through above the menu. */
   body.nav-drawer-open header.site,
   body:has(.mnav-check:checked) header.site {
+    /* Pinned while the drawer is open. The scroll lock below (overflow:hidden on
+       body) stops position:sticky from working, so a menu opened after scrolling
+       used to leave the header, and its close button, scrolled out of view. */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 50;
     background: var(--paper, #fff);
   }

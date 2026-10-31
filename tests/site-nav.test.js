@@ -115,3 +115,37 @@ test('lesson menu counts follow the rendered catalog, including Soon for empty t
   assert.equal(doc.querySelector('nav.desktop-nav [data-nav-total-link]').textContent, `View all ${total} lessons →`);
   dom.window.close();
 });
+
+test('mobile menu: a tap does not move focus (no stray focus ring), the keyboard still does', () => {
+  const open = (dom, inputEvent) => {
+    const { window } = dom;
+    const doc = window.document;
+    const check = doc.querySelector('input.mnav-check');
+    doc.body.dispatchEvent(new window.Event(inputEvent, { bubbles: true }));
+    check.checked = true;
+    check.dispatchEvent(new window.Event('change', { bubbles: true }));
+    return doc;
+  };
+  const tapped = pageDom('index.html', 'https://upskillsprint.com/');
+  const tapDoc = open(tapped, 'pointerdown');
+  assert(tapDoc.body.classList.contains('nav-drawer-open'));
+  assert(!tapDoc.activeElement.classList.contains('nav-acc-btn'), 'a tap must not focus the first menu item');
+  tapped.window.close();
+
+  const keyed = pageDom('index.html', 'https://upskillsprint.com/');
+  const keyDoc = open(keyed, 'keydown');
+  assert(keyDoc.activeElement.classList.contains('nav-acc-btn'), 'keyboard users land on the first menu item');
+  keyed.window.close();
+});
+
+test('mobile menu: the header is pinned while the drawer is open, so the close button never scrolls away', () => {
+  const css = read('site-nav.css');
+  const rule = css.match(/body\.nav-drawer-open header\.site,\s*body:has\(\.mnav-check:checked\) header\.site\s*\{([^}]*)\}/);
+  assert(rule, 'open-drawer header rule');
+  const body = rule[1].replace(/\/\*[\s\S]*?\*\//g, '');
+  assert.match(body, /position:\s*fixed/);
+  assert.match(body, /top:\s*0/);
+  assert.match(body, /z-index:\s*50/);
+  // The drawer's own scrolling must not chain into the page behind it.
+  assert.match(css, /nav\.mobile-nav\[data-nav-root="mobile"\]\s*\{[^}]*overscroll-behavior:\s*contain/);
+});
