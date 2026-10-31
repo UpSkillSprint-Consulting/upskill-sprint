@@ -105,6 +105,8 @@ async function continuous(page){
 async function drawingBounds(page){return page.evaluate(()=>Object.entries(window.lessonDrawingBounds).filter(([id,b])=>b.minX < -1 || b.minY < -1 || b.maxX > b.width+1 || b.maxY > b.height+1));}
 async function commonInputs(page){await page.evaluate(()=>{document.getElementById('shiftSlider').value='1.5';document.getElementById('limitSelect').value='3';document.getElementById('cusumShiftSlider').value='0.5';updateBoth();updateCusumPair();});}
 const injected=/<div data-netlify-deploy-id="[a-f0-9]{24}" data-netlify-site-id="82c1a97f-bb8d-4e7b-8367-fe93d7ce1657" data-vcs="github" style="position:fixed">\s*(?:<!-- This div is automatically inserted by Netlify for all Deploy Preview URLs\. -->\s*)?<script async src="\/\.netlify\/scripts\/cdp"><\/script>\s*<\/div>(?:\n(?=<\/body>)|\n?$)/g;
+const seasonal=/<script src="\/seasonal-effects\.js" defer><\/script>\n?/g;
+const reviewed = body => body.replace(injected, '').replace(seasonal, '');
 (async()=>{
  await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;
  const browser=await chromium.launch();
@@ -201,8 +203,8 @@ const injected=/<div data-netlify-deploy-id="[a-f0-9]{24}" data-netlify-site-id=
   });
   const preview=process.env.SIGNAL_NOISE_PREVIEW_URL;
   if(preview)await check('Actual Netlify preview source and desktop/mobile themes',async()=>{
-   let response,body;for(let i=0;i<24;i++){try{response=await fetch(preview+ROUTE,{signal:AbortSignal.timeout(15000)});body=await response.text();if(response.ok&&body.replace(injected,'')===html)break;}catch(e){report.preview={error:e.message};}await new Promise(r=>setTimeout(r,10000));}
-   assert(response?.ok,'Preview did not respond successfully');fs.writeFileSync(path.join(OUT,'preview-response.html'),body);assert.equal(hash(body.replace(injected,'')),hash(html),'Preview does not match the reviewed source');report.preview={url:preview+ROUTE,sourceMatches:true};
+   let response,body;for(let i=0;i<24;i++){try{response=await fetch(preview+ROUTE,{signal:AbortSignal.timeout(15000)});body=await response.text();if(response.ok&&reviewed(body)===html)break;}catch(e){report.preview={error:e.message};}await new Promise(r=>setTimeout(r,10000));}
+   assert(response?.ok,'Preview did not respond successfully');fs.writeFileSync(path.join(OUT,'preview-response.html'),body);assert.equal(hash(reviewed(body)),hash(html),'Preview does not match the reviewed source');report.preview={url:preview+ROUTE,sourceMatches:true};
    for(const theme of ['light','dark'])for(const width of [390,1440]){const {context,page,errors}=await open(browser,width,theme,preview+ROUTE);try{await continuous(page);await part(page,'p3');await page.locator('#nPoints').fill('510');await assertSimulation(page,510);await page.locator('#p3 .card').screenshot({path:path.join(OUT,'preview-simulation-'+theme+'-'+width+'.png')});await part(page,'p2');assert.deepEqual((await layout(page)).outside,[]);await part(page,'p4');await page.locator('#resampleCusum').click();await part(page,'p1');await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(OUT,'preview-'+theme+'-'+width+'.png'),fullPage:true});assert.deepEqual(errors,[]);}finally{await context.close();}}
   });
  }finally{await browser.close();server.close();save();}

@@ -1907,3 +1907,14 @@ PR that Ernest asked for.
 | "Node 22 full suite" check only runs the stateless test-bank tests, despite its name | `.github/workflows/full-test-suite.yml` | Run the lesson set and full-suite comparison locally (§16). |
 | Page wrapper overridden by a prose class on the same element (`class="lz-wrap lz-prose"` with a later `.lz-prose{max-width:none}`), so sections run edge to edge | linearize-data lesson (6 sections) after PR #374; `.bfm-wrap bfm-prose` in the Best-Fit tool (hidden by embed mode) | Fixed by removing `max-width` from `.lz-prose` and `.bfm-prose`. Never repeat it: nest wrapper and prose (§9.9); `tests/layout-wrapper-override.test.js` guards it. |
 | Older lessons have overlong or suffix-less titles, mixed math renderers, `$` delimiters, and missing dark fixes | various | Leave them unless your task is that lesson. Test-locked titles are exempt (§2.1). Math migrates per §22.1. |
+
+## 24. Excel Coach (engineering tool)
+
+When updating the Excel Coach in `assets/lessons/excel-formula-fluency/sprint/coach-engine.js` or the Formula Fluency lesson:
+
+- Replies must be plain strings. Never render an unresolved Promise.
+- Diagnose the mistakes the lesson actually teaches, with a specific next step.
+- Never flag an accepted answer (`c.f` or any `c.a`).
+- Hints must not contain the final formula or any accepted answer.
+- Log per-challenge metrics locally only. Never store formula text.
+- Use Canadian English, but spell it "judgment".
