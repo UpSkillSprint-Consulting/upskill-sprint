@@ -121,12 +121,62 @@
   }
 
   // ─── Deeper structure comparison ─────────────────────────────
+  // Result equality via the lesson's grader (window.ExcelFormulaGrader), if present.
+  // Structured-reference rewrite uses the productionData column map from the lesson.
+  const STRUCTURED_MAP = {
+    "PRODUCTIONDATA[FACILITY]": "B2:B28",
+    "PRODUCTIONDATA[HEAT ID]": "C2:C28",
+    "PRODUCTIONDATA[WEEKNUM]": "D2:D28",
+    "PRODUCTIONDATA[TAP TIME]": "E2:E28",
+    "PRODUCTIONDATA[DELAY TIME]": "F2:F28",
+    "PRODUCTIONDATA[TONNES]": "G2:G28",
+    "PRODUCTIONDATA[STATUS]": "H2:H28",
+    "PRODUCTIONDATA[DATE]": "A2:A28"
+  };
+  function rewriteStructured(s) {
+    let out = String(s || "");
+    for (const [k, v] of Object.entries(STRUCTURED_MAP)) {
+      out = out.replace(new RegExp(k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), v);
+    }
+    return out;
+  }
+  function resultsEqual(learner, target) {
+    const grader = (typeof window !== "undefined" && window.ExcelFormulaGrader) || null;
+    if (!grader) return false;
+    try {
+      const a = grader(rewriteStructured(learner));
+      const b = grader(rewriteStructured(target));
+      if (!a || !b || a.ok === false || b.ok === false) {
+        // If both are GROUPBY (or other modern functions the parser may not implement)
+        // and the rewritten forms normalize to the same text, treat as equivalent.
+        if (norm(rewriteStructured(learner)) === norm(rewriteStructured(target))) return true;
+        return false;
+      }
+      return sameResult(a.value, b.value);
+    } catch (e) {
+      return norm(rewriteStructured(learner)) === norm(rewriteStructured(target));
+    }
+  }
+  function sameResult(a, b) {
+    if (a === b) return true;
+    if (typeof a === "number" && typeof b === "number") return Math.abs(a - b) <= Math.max(1e-7, Math.abs(b) * 1e-7);
+    if (Array.isArray(a) && Array.isArray(b)) {
+      if (a.length !== b.length) return false;
+      return a.every((v, i) => sameResult(v, b[i]));
+    }
+    return String(a) === String(b);
+  }
+
+
   function norm(s) { return String(s || "").replace(/\s+/g, "").toUpperCase(); }
   function compareToChallenge(formula, challenge) {
     if (!challenge || !challenge.f) return null;
     const accepted = [challenge.f, ...(challenge.a || challenge.accepted || [])].map(norm);
     const learnerNorm = norm(formula);
     if (accepted.includes(learnerNorm)) return null; // never flag an accepted answer
+
+    // Result-based acceptance: if the existing lesson grader says the results match, it is correct.
+    if (resultsEqual(formula, challenge.f)) return null;
 
     const learnerTokens = tokenize(formula).tokens || [];
     const expectedTokens = tokenize(challenge.f).tokens || [];
@@ -137,8 +187,8 @@
 
     const missingFns = expectedFns.filter(f => f && !learnerFns.includes(f));
     const extraFns = learnerFns.filter(f => f && !expectedFns.includes(f));
-    if (missingFns.length) notes.push(`The target uses ${missingFns.join(", ")}; your formula does not. If this is an accepted equivalent, it still works.`);
-    if (extraFns.length) notes.push(`The target does not use ${extraFns.join(", ")}; your formula does. If this is an accepted equivalent, it still works.`);
+    if (missingFns.length) notes.push(`The target uses ${missingFns.join(", ")}; your formula does not. Next: use the target function or an equivalent that returns the same result on the sample data.`);
+    if (extraFns.length) notes.push(`The target does not use ${extraFns.join(", ")}; your formula does. Next: remove the extra function or confirm it returns the same result on the sample data.`);
 
     if (challenge.f.includes("FILTER") && learnerFns.includes("FILTER")) {
       const expectedHasWeek = /WeekNum/i.test(challenge.f);

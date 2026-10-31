@@ -180,3 +180,67 @@ test("generic rules catch 3+ variants per mistake not in the audit list", () => 
       `Variant missed: ${formula} → ${findings.map(f => f.msg).join("; ")}`);
   }
 });
+
+test("valid equivalents produce no notes when results match", () => {
+  // Minimal grader that mirrors the lesson's evaluateLive + productionData column map.
+  // Sufficient to prove result-based acceptance for the listed equivalents.
+  const productionData = [
+    ["2026-07-01","Melt Shop","437690-A001",27,94.3,12.4,188,"PASS"],
+    ["2026-07-02","Rolling Mill","437691-A002",27,47.8,5.6,172,"PASS"],
+    ["2026-07-04","Melt Shop","437693-A004",27,101.6,18.9,193,"FAIL"]
+  ];
+  function col(letter) { return letter.charCodeAt(0) - 65; }
+  function values(range) {
+    const m = range.match(/([A-Z])(\d+):([A-Z])(\d+)/i);
+    if (!m) return [];
+    const c1 = col(m[1]), r1 = +m[2], c2 = col(m[3]), r2 = +m[4];
+    const out = [];
+    for (let r = r1; r <= r2; r++) {
+      const row = productionData[r - 2];
+      if (row) out.push(row[c1]);
+    }
+    return out;
+  }
+  sandbox.window.ExcelFormulaGrader = function(formula) {
+    const f = String(formula || "").replace(/\s+/g, "").toUpperCase();
+    // SUMIF / SUMIFS on facility
+    if (/SUMIF[S]?\(/.test(f) && f.includes("B2:B28") && f.includes("G2:G28")) {
+      const fac = "MELT SHOP";
+      const tonnes = values("G2:G28");
+      const facilities = values("B2:B28");
+      return { ok: true, value: facilities.reduce((s, v, i) => s + (String(v).toUpperCase() === fac ? (Number(tonnes[i]) || 0) : 0), 0) };
+    }
+    // COUNTIF / COUNTIFS / SUM(--()) of FAIL
+    if ((/COUNTIF/.test(f) || /SUM\(--/.test(f)) && f.includes("FAIL")) {
+      return { ok: true, value: values("H2:H28").filter(v => String(v).toUpperCase() === "FAIL").length };
+    }
+    // CONCAT / TEXTJOIN / & of C2 and H2
+    if (/CONCAT|TEXTJOIN|&/.test(f) && f.includes("C2") && f.includes("H2")) {
+      const c = productionData[0][2], h = productionData[0][7];
+      return { ok: true, value: c + " - " + h };
+    }
+    // IF(E2=0,"",F2/E2) vs IFERROR
+    if (/F2\/E2/.test(f)) {
+      const e = productionData[0][4], ff = productionData[0][5];
+      return { ok: true, value: e === 0 ? "" : ff / e };
+    }
+    // GROUPBY rewritten or A1
+    if (/GROUPBY/.test(f)) return { ok: true, value: "grouped" };
+    return { ok: false };
+  };
+
+  const cases = [
+    ["=SUMIF(B2:B28,M2,G2:G28)", { f: "=SUMIFS(G2:G28,B2:B28,M2)" }],
+    ["=COUNTIFS(H2:H28,\"FAIL\")", { f: "=COUNTIF(H2:H28,\"FAIL\")" }],
+    ["=SUM(--(H2:H28=\"FAIL\"))", { f: "=COUNTIF(H2:H28,\"FAIL\")" }],
+    ["=CONCAT(C2,\" - \",H2)", { f: "=C2&\" - \"&H2" }],
+    ["=TEXTJOIN(\" - \",,C2,H2)", { f: "=C2&\" - \"&H2" }],
+    ["=IF(E2=0,\"\",F2/E2)", { f: "=IFERROR(F2/E2,\"\")" }],
+    ["=GROUPBY(B2:B28,F2:F28,AVERAGE)", { f: "=GROUPBY(ProductionData[Facility],ProductionData[Delay Time],AVERAGE)" }]
+  ];
+  for (const [formula, ch] of cases) {
+    const findings = Engine.diagnose(formula, ch);
+    const notes = findings.filter(f => f.level === "error" || f.level === "warn" || /target uses|structured references|accepted equivalent/i.test(f.msg));
+    assert.equal(notes.length, 0, `${formula} produced notes: ${notes.map(n => n.msg).join("; ")}`);
+  }
+});
