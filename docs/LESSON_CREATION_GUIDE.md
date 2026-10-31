@@ -53,10 +53,13 @@ When asked to create or update a lesson:
 5. For an **update** to an existing lesson, obey the **Content Preservation Rule** (§14):
    change only what the task requires; never remove or shorten existing lesson content.
    When an update adds content, add it visual-first (§24).
-6. Before opening the PR, complete the **pre-PR checklist** (§18) and paste it, filled in,
+6. Remember that **merging a new lesson to `main` automatically emails every opted-in
+   subscriber** (§12.7). Write the `upskill:email-teaser` line and double-check the catalog
+   entry before the PR is ready.
+7. Before opening the PR, complete the **pre-PR checklist** (§18) and paste it, filled in,
    into the PR body. Any box you cannot tick means the PR is opened as a **draft**, with the
    reason stated.
-7. Never invent product facts, menu paths, formulas, or data. If unsure, state the
+8. Never invent product facts, menu paths, formulas, or data. If unsure, state the
    uncertainty rather than fabricating.
 
 **Definition of "lesson content":** everything the reader learns from: headings, prose,
@@ -1190,6 +1193,47 @@ lesson is easy to miss unless it sits in the right place.
 - **Check it.** Load `/lessons` at 1280px and 390px: the lesson appears in its category (after
   "Show all" if it is not in the first 3), in `?topic=<slug>` results, and in search.
 
+### 12.7 Announcement email — sent automatically when the lesson is merged to main (MUST)
+
+**Every new lesson is emailed to opted-in subscribers automatically, once, right after it is
+merged to `main` and the production deploy succeeds.** Nobody runs a command and nobody
+pushes a button: the merge *is* the send. This is the standing rule for every lesson from
+now on. Full runbook: `docs/LESSON_EMAILS.md`.
+
+How it works: the build publishes `/feeds/lessons.json` from the catalog (§12). After each
+production deploy, `netlify/functions/lesson-email-deploy.mjs` compares it with the lessons
+Supabase has already seen; a catalog path it has never seen is announced to every account
+that ticked "Email me when new lessons are published" (confirmed email, not unsubscribed).
+An hourly run (`lesson-email-sweep.mjs`) catches anything the deploy event missed. Updates
+to existing lessons never trigger an email; only a **new catalog path** does.
+
+What the author MUST do in the lesson's `<head>` (next to the meta description, §2.1):
+
+```html
+<!-- One plain-text sentence, 40–160 characters: what the learner will be able to do. -->
+<meta name="upskill:email-teaser" content="Pick the right control chart in five decisions, then test it on your own data.">
+```
+
+- **Write the teaser.** It is the catchy line under the lesson title in the email and the
+  inbox preview text. Benefit-led, plain language, no hype words, no emojis, no `!`, no
+  links, no HTML. The build fails if it is shorter than 40 or longer than 160 characters,
+  contains `<`/`>` or contains a link (`scripts/build-lesson-email-feed.mjs`).
+- **If you leave it out** the email still goes: an AI-written teaser from the lesson's title,
+  catalog description and headings is used, and if that fails, the catalog description.
+  Author-written is always better, so write one.
+- **Pages that must not be announced** (a moved lesson, a stub, a legacy redirect target)
+  carry `<meta name="upskill:email" content="skip">`. Use it only when Ernest asks for it.
+- **Do not rename or move a published lesson's path** to "re-send" it: path changes are
+  detected (same title) and are not announced. A real re-announcement is Ernest's call
+  (`docs/LESSON_EMAILS.md`, "Owner commands").
+- **Several lessons merged together** go out as one digest email. More than the safety
+  limit (3 by default) at once are held for Ernest instead of sent.
+- **Get the catalog entry right before merge** (§12.1): the email uses the catalog title,
+  level, minutes, interactive flag and category, exactly as `/lessons` shows them. A typo
+  merged to main is a typo in subscribers' inboxes.
+- In the PR body, state the teaser you used (or "no teaser: AI fallback") under the §18
+  checklist item.
+
 ---
 
 ## 13. Downloadable datasets and other lesson assets
@@ -1546,6 +1590,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] Every production lessons/**/*.html file is catalog-registered (or a verified noindex redirect / metadata-free fragment under lessons/assets/).
 - [ ] Search index regenerated with npm run build:lesson-search-index on a clean tree and committed.
 - [ ] sitemap.xml snapshot updated from public-site/sitemap.xml (page added/removed only).
+- [ ] Announcement email (§12.7): `<meta name="upskill:email-teaser">` present (40–160 chars, plain text) — teaser: "…" — understood that merging to main emails every opted-in subscriber automatically.
 **Page structure & head**
 - [ ] No per-lesson `max-width: NNch` caps on prose (short display text of 44ch or less excepted); prose classes set no `max-width`; boxes, cards and callouts fill their container (§9.9).
 - [ ] No element combines a page-wrapper class with a prose class that sets `max-width`. At 1280px and 1600px, every section's text edges line up with the page column; nothing runs edge to edge (§9.9).
