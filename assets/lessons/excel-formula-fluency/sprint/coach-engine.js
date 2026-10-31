@@ -575,6 +575,8 @@
     return `Coach interactions: ${total} total, ${withFormula} with a formula (avg length ${avgLen}), ${reveals} full reveals.`;
   };
 
+  CoachEngine._median = function(arr){ if(!arr.length)return null; const s=arr.slice().sort((a,b)=>a-b); const mid=Math.floor(s.length/2); return s.length%2?s[mid]:(s[mid-1]+s[mid])/2; };
+  CoachEngine._firstTry = function(arr){ const by=new Map(); for(const e of arr){ const k=e.challengeIdx!=null?e.challengeIdx:e; if(!by.has(k))by.set(k,e);} const rows=[...by.values()]; return rows.length?Math.round(rows.filter(e=>e.correct&&e.attempts===1).length/rows.length*100):null; };
   CoachEngine.getControlledReview = function () {
     let challengeLog = [];
     try { challengeLog = JSON.parse(localStorage.getItem("excelCoachChallengeLog") || "[]"); } catch (e) {}
@@ -585,7 +587,18 @@
       const mid = Math.floor(s.length / 2);
       return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
     }
-    function firstTry(arr) { return arr.length ? Math.round(arr.filter(e => e.correct && e.attempts === 1).length / arr.length * 100) : null; }
+    function onePerChallenge(arr) {
+      const by = new Map();
+      for (const e of arr) {
+        const key = e.challengeIdx != null ? e.challengeIdx : e;
+        if (!by.has(key)) by.set(key, e);
+      }
+      return [...by.values()];
+    }
+    function firstTry(arr) {
+      const rows = onePerChallenge(arr);
+      return rows.length ? Math.round(rows.filter(e => e.correct && e.attempts === 1).length / rows.length * 100) : null;
+    }
     function medTime(arr) {
       const times = arr.filter(e => e.tFirstCorrect && e.tStart).map(e => e.tFirstCorrect - e.tStart);
       return median(times);

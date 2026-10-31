@@ -382,3 +382,24 @@ test("coincident zero without sheet refs is not accepted", () => {
   const badSelf = self.filter(x => x.level === "error" || x.level === "warn");
   assert.equal(badSelf.length, 0, "real SUMIFS self must stay clean");
 });
+
+test("median odd/even, n and first-try rate on a fixture log", () => {
+  const median = Engine._median;
+  const firstTry = Engine._firstTry;
+  assert.equal(median([3, 1, 2]), 2, "odd median");
+  assert.equal(median([4, 1, 3, 2]), 2.5, "even median");
+  assert.equal(median([]), null, "empty median");
+  const log = [
+    { challengeIdx: 0, correct: true, attempts: 1, coachOn: true },
+    { challengeIdx: 0, correct: true, attempts: 1, coachOn: true }, // duplicate row, must not double-count
+    { challengeIdx: 1, correct: false, attempts: 2, coachOn: true },
+    { challengeIdx: 2, correct: true, attempts: 1, coachOn: false },
+    { challengeIdx: 3, correct: true, attempts: 3, coachOn: false }
+  ];
+  const on = log.filter(e => e.coachOn);
+  const off = log.filter(e => !e.coachOn);
+  assert.equal(on.length, 3, "raw on count");
+  assert.equal(firstTry(on), 50, "on first-try is 1 of 2 unique challenges");
+  assert.equal(firstTry(off), 50, "off first-try is 1 of 2");
+  assert.equal(firstTry([]), null);
+});

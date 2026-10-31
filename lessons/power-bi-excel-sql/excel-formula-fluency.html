@@ -1432,14 +1432,20 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
       document.getElementById("solutionWhy").textContent=c.w;
       const pos=filteredIndices.indexOf(state.current);
       document.getElementById("challengeCounter").textContent=`${pos+1} of ${filteredIndices.length}`;
+      if (typeof coachMetrics !== "undefined") coachMetrics.start(state.current, c.l);
       renderList(); updateProgress();
     }
     function showFeedback(type,msg){ const el=document.getElementById("feedback"); el.className="feedback show "+type; el.textContent=msg; }
     // Criterion 5: local per-challenge instrumentation (no formula text)
     const coachMetrics = {
       _cohort: null,
+      // Experiment is OFF unless an owner sets excelCoachExperiment=on. Default: coach available to everyone.
+      experimentOn() {
+        try { return localStorage.getItem("excelCoachExperiment") === "on"; } catch (e) { return false; }
+      },
       get cohort() {
         if (this._cohort) return this._cohort;
+        if (!this.experimentOn()) { this._cohort = "on"; return "on"; }
         try {
           let v = localStorage.getItem("excelCoachCohort");
           if (!v) { v = Math.random() < 0.5 ? "off" : "on"; localStorage.setItem("excelCoachCohort", v); }
@@ -1447,11 +1453,19 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
           return v;
         } catch (e) { this._cohort = "on"; return "on"; }
       },
+      switchOn() {
+        this._cohort = "on";
+        try { localStorage.setItem("excelCoachCohort", "on"); localStorage.setItem("excelCoachCrossover", "1"); } catch (e) {}
+        this.applyVisibility();
+      },
       log(entry) {
         try {
           const key = "excelCoachChallengeLog";
           const log = JSON.parse(localStorage.getItem(key) || "[]");
-          log.push(Object.assign({ t: Date.now(), coachOn: this.cohort === "on" }, entry));
+          const idx = entry.challengeIdx;
+          const existing = log.find(e => e.challengeIdx === idx);
+          const row = Object.assign(existing || {}, { t: Date.now(), coachOn: this.cohort === "on", crossover: !!localStorage.getItem("excelCoachCrossover") }, entry);
+          if (!existing) log.push(row);
           if (log.length > 500) log.shift();
           localStorage.setItem(key, JSON.stringify(log));
         } catch (e) {}
@@ -1459,8 +1473,35 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
       start(idx, level) {
         if (!state._coachStart) state._coachStart = {};
         if (!state._coachStart[idx]) state._coachStart[idx] = Date.now();
+      },
+      attempts(idx) {
+        if (!state._coachAttempts) state._coachAttempts = {};
+        state._coachAttempts[idx] = (state._coachAttempts[idx] || 0) + 1;
+        return state._coachAttempts[idx];
+      },
+      applyVisibility() {
+        const off = this.experimentOn() && this.cohort === "off";
+        const hide = el => { if (el) el.style.display = off ? "none" : ""; };
+        hide(document.getElementById("coachFab"));
+        hide(document.getElementById("openCoachSection"));
+        document.querySelectorAll('a[href="#excel-coach"], [data-coach-prompt]').forEach(el => { el.style.display = off ? "none" : ""; });
+        const retry = document.querySelector("[data-sprint-action='retry-coaching']");
+        if (retry) retry.style.display = off ? "none" : "";
+        let note = document.getElementById("coachExperimentNote");
+        if (off && !note) {
+          note = document.createElement("p");
+          note.id = "coachExperimentNote";
+          note.className = "subtle";
+          note.innerHTML = 'This device is in a coach-off comparison so we can measure whether the coach helps. You can <button type="button" id="coachSwitchOn" class="sprint-link-button">switch the coach on</button> at any time. Switching is logged as a crossover.';
+          const fab = document.getElementById("coachFab");
+          if (fab && fab.parentNode) fab.parentNode.insertBefore(note, fab);
+          document.getElementById("coachSwitchOn").onclick = () => this.switchOn();
+        } else if (!off && note) note.remove();
       }
     };
+    // Apply after DOM ready
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => coachMetrics.applyVisibility());
+    else setTimeout(() => coachMetrics.applyVisibility(), 0);
     // Do not touch localStorage during init; cohort is resolved on first log.
     function checkAnswer(){
       const c=challenges[state.current], input=document.getElementById("formulaInput").value;
@@ -1475,10 +1516,10 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
         state.completed[state.current]=true;
         if(state.phase3&&state.phase3.coach&&state.phase3.coach.hintLevels){delete state.phase3.coach.hintLevels[state.current];}
         save();
-        coachMetrics.log({ challengeIdx: state.current, level: c.l, tStart, tFirstCorrect: first ? Date.now() : null, attempts: (state.skillStats&&state.skillStats[c.t]||{}).attempts||1, hintsUsed: (state.skillStats&&state.skillStats[c.t]||{}).hints||0, revealed: !!state.revealed[state.current], correct: true });
+        coachMetrics.log({ challengeIdx: state.current, level: c.l, tStart, tFirstCorrect: first ? Date.now() : null, attempts: coachMetrics.attempts(state.current), hintsUsed: (state.skillStats&&state.skillStats[c.t]||{}).hints||0, revealed: !!state.revealed[state.current], correct: true });
         showFeedback("success","Correct. Your formula uses the intended structure. Explain each component before moving on."); renderList(); updateProgress();
       } else { state.streak=0; save();
-        coachMetrics.log({ challengeIdx: state.current, level: c.l, tStart, attempts: (state.skillStats&&state.skillStats[c.t]||{}).attempts||1, hintsUsed: (state.skillStats&&state.skillStats[c.t]||{}).hints||0, revealed: !!state.revealed[state.current], correct: false });
+        coachMetrics.log({ challengeIdx: state.current, level: c.l, tStart, attempts: coachMetrics.attempts(state.current), hintsUsed: (state.skillStats&&state.skillStats[c.t]||{}).hints||0, revealed: !!state.revealed[state.current], correct: false });
         const diagnosis=typeof window.phase1Diagnose==="function"?window.phase1Diagnose(input,c):"Not quite. Check the references and argument order."; showFeedback("error",diagnosis); updateProgress(); }
     }
     function moveChallenge(delta){ const pos=filteredIndices.indexOf(state.current); const next=Math.max(0,Math.min(filteredIndices.length-1,pos+delta)); state.current=filteredIndices[next]; save(); renderChallenge(); }
