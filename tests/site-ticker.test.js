@@ -158,27 +158,34 @@ test('the bar is docked full width along the bottom edge, not a floating pill', 
   assert.doesNotMatch(SRC, /width:min\(780px/);
 });
 
-test('site palette: navy bar in light, dark card in dark, and every text colour meets WCAG AA', () => {
+test('the ticker changes colour with the light/dark toggle, and every text colour meets WCAG AA in both', () => {
   const lum = hex => {
     const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
       .map(v => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
     return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
   };
   const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
-  const token = name => SRC.match(new RegExp(':root\\{[^}]*--utk-' + name + ':(#[0-9a-f]{6})', 'i'))[1];
-  const light = token('bg'), dark = SRC.match(/html\[data-theme="dark"\]\{[^}]*--utk-bg:(#[0-9a-f]{6})/)[1];
-  // Mirrors style.css: --navy in the light theme, --card in the dark theme.
+  const vars = re => Object.fromEntries([...SRC.match(re)[1].matchAll(/--utk-([\w-]+):(#[0-9a-f]{6})/gi)].map(m => [m[1], m[2].toLowerCase()]));
+  const light = vars(/':root\{([^}]*)\}' \+\s*'([^']*)/) ;
+  Object.assign(light, vars(/':root\{[^}]*?'\s*\+\s*'([^}]*)\}/));
+  const dark = vars(/html\[data-theme="dark"\]\{([^}]*)\}/);
+  Object.assign(dark, vars(/html\[data-theme="dark"\]\{[^}]*?'\s*\+\s*'([^}]*)\}/));
   const style = fs.readFileSync(path.join(ROOT, 'style.css'), 'utf8');
-  assert.equal(light.toLowerCase(), style.match(/--navy:\s*(#[0-9a-f]{6})/i)[1].toLowerCase());
-  assert.equal(dark.toLowerCase(), style.match(/html\[data-theme="dark"\]\s*\{[^}]*--card:\s*(#[0-9a-f]{6})/i)[1].toLowerCase());
-  for (const bar of [light, dark]) {
-    for (const t of ['ink', 'muted', 'accent']) assert.ok(ratio(token(t), bar) >= 4.5, t + ' on ' + bar);
-    const base = SRC.match(/'\.utk-tag\{[^}]*background:(#[0-9a-f]{6});color:(#[0-9a-f]{6})\}/i);
-    assert.ok(ratio(base[2], base[1]) >= 4.5, 'default tag');
-    const kinds = [...SRC.matchAll(/\.utk-tag\[data-kind="(\w+)"\]\{background:(#[0-9a-f]{6}|transparent);[^}]*?color:(#[0-9a-f]{6})\}/gi)];
-    assert.deepEqual(kinds.map(k => k[1]).sort(), ['exam', 'lesson', 'research', 'soon']);
-    for (const [, kind, bg, fg] of kinds) assert.ok(ratio(fg, bg === 'transparent' ? bar : bg) >= 4.5, kind + ' tag on ' + bar);
+  assert.equal(light.bg, style.match(/:root\s*\{[^}]*--card:\s*(#[0-9a-f]{6})/i)[1].toLowerCase(), 'light bar = site card');
+  assert.equal(dark.bg, style.match(/html\[data-theme="dark"\]\s*\{[^}]*--card:\s*(#[0-9a-f]{6})/i)[1].toLowerCase(), 'dark bar = site dark card');
+  for (const k of ['bg', 'ink', 'muted', 'accent', 'tag-bg', 'tag-fg', 'research', 'lesson-bg', 'lesson-fg', 'exam-bg', 'exam-fg', 'soon-fg']) {
+    assert.ok(light[k] && dark[k], k + ' defined in both themes');
+    assert.notEqual(light[k], dark[k], k + ' changes between light and dark');
   }
+  for (const [name, t] of [['light', light], ['dark', dark]]) {
+    for (const k of ['ink', 'muted', 'accent', 'research', 'soon-fg']) assert.ok(ratio(t[k], t.bg) >= 4.5, `${name} ${k} on bar`);
+    assert.ok(ratio(t['tag-fg'], t['tag-bg']) >= 4.5, `${name} default tag`);
+    assert.ok(ratio(t['lesson-fg'], t['lesson-bg']) >= 4.5, `${name} lesson tag`);
+    assert.ok(ratio(t['exam-fg'], t['exam-bg']) >= 4.5, `${name} exam tag`);
+  }
+  // Tags and the bar use only the theme variables, so a toggle recolours everything.
+  const rules = SRC.slice(SRC.indexOf("'.utk-tag{"), SRC.indexOf("'.utk-arrow{"));
+  assert.doesNotMatch(rules, /#[0-9a-f]{6}/i, 'tag rules have no fixed colours');
   assert.doesNotMatch(SRC, /#ffb020|#141414/i, 'no leftover charcoal-and-amber colours');
   assert.match(SRC, /"Work Sans"/);
 });

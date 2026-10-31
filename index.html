@@ -319,14 +319,26 @@
       padding: 7px 14px; font-size: 13px; font-weight: 600; color: var(--ink-soft);
       background: var(--card);
     }
-    /* By-the-numbers card: a rotating 3D box in the site palette (the four stats are its walls). The card is a
+    /* By-the-numbers card: a rotating 3D box (the four stats are its walls) that follows the
+       site's light/dark toggle: a pale slate box in light, a navy box in dark. The card is a
        normal site card (white / dark card); the ring's faces are the site's navy
        with light-teal numbers, so they read like the footer and primary buttons in
        both themes. Front face = one stat, links to its
        section. Auto-rotates; pauses on hover, focus, the pause button, when the tab
        is hidden or the card is off screen. Reduced motion: a still 2x2 grid. */
-    .trust-split > .card.trust-ring-card { overflow: hidden; --trf-face: #1c2430; --trf-line: #2b3b50; justify-content: space-between; padding: 22px 18px 18px; }
+    .trust-split > .card.trust-ring-card { overflow: hidden;
+      /* Light theme: pale slate box with dark-teal numbers. */
+      --trf-face: #eef3f6; --trf-edge: #b9cad4; --trf-lid: #dde7ed; --trf-base: #cbd8e0; --trf-bars: #1f4e5f;
+      --trf-num: #1f4e5f; --trf-lbl: #4a5568; --trf-go: #1c2430; --trf-icon-bg: #d6e4ea; --trf-icon: #1f4e5f;
+      --trf-accent: #1f4e5f; --trf-new-bg: #1f4e5f; --trf-new-fg: #ffffff;
+      justify-content: space-between; padding: 22px 18px 18px; }
     .trust-ring-head { display: flex; align-items: center; gap: 8px; font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--teal); margin: 0; }
+    html[data-theme="dark"] .trust-split > .card.trust-ring-card {
+      /* Dark theme: site-navy box with light-teal numbers. */
+      --trf-face: #1c2430; --trf-edge: rgba(103,212,223,.35); --trf-lid: #24304a; --trf-base: #141c29; --trf-bars: #67d4df;
+      --trf-num: #67d4df; --trf-lbl: #cbd5e1; --trf-go: #f4f7fb; --trf-icon-bg: #163445; --trf-icon: #67d4df;
+      --trf-accent: #67d4df; --trf-new-bg: #67d4df; --trf-new-fg: #0b1220;
+    }
     .trust-ring-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); animation: trust-blink 1.4s ease-in-out infinite; }
     @keyframes trust-blink { 50% { opacity: .25; } }
     .trust-stats { display: flex; flex-direction: column; align-items: center; flex: 1; justify-content: center; }
@@ -334,21 +346,21 @@
     .trust-ring { --face: 150px; --half: calc(var(--face) / 2); width: var(--face); height: var(--face); position: relative; transform-style: preserve-3d; transition: transform 1.1s cubic-bezier(.4,1.2,.5,1); transform: rotateX(-18deg) rotateY(0deg); }
     /* Solid box: the four stats are its walls, closed by a lid and a base. */
     /* Lid and base: regular polygons sized and shaped in JS to match the walls (clip-path). */
-    .trust-cap { position: absolute; background: #24304a; display: flex; align-items: center; justify-content: center; gap: 5px; }
-    .trust-cap.bottom { background: #141c29; }
-    .trust-cap i { display: block; width: 5%; border-radius: 2px; background: #67d4df; opacity: .55; }
+    .trust-cap { position: absolute; background: var(--trf-lid); display: flex; align-items: center; justify-content: center; gap: 5px; }
+    .trust-cap.bottom { background: var(--trf-base); }
+    .trust-cap i { display: block; width: 5%; border-radius: 2px; background: var(--trf-bars); opacity: .55; }
     .trust-cap i:nth-child(1) { height: 18%; } .trust-cap i:nth-child(2) { height: 28%; } .trust-cap i:nth-child(3) { height: 38%; } .trust-cap i:nth-child(4) { height: 48%; }
     .trust-floor { position: absolute; left: 50%; bottom: 8px; width: calc(var(--face, 150px) * 1.25); height: 22px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(closest-side, rgba(11,18,32,.28), rgba(11,18,32,0)); pointer-events: none; }
     html[data-theme="dark"] .trust-floor { background: radial-gradient(closest-side, rgba(0,0,0,.55), rgba(0,0,0,0)); }
-    .trust-face { position: absolute; inset: 0; border-radius: 4px; background: var(--trf-face); border: 1px solid rgba(103,212,223,.35); color: #f4f7fb !important; text-decoration: none !important;
+    .trust-face { position: absolute; inset: 0; border-radius: 4px; background: var(--trf-face); border: 1px solid var(--trf-edge); color: var(--trf-go) !important; text-decoration: none !important;
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center; padding: 10px; backface-visibility: hidden; transition: border-color .25s; }
-    .trust-face:hover, .trust-face:focus-visible { border-color: #67d4df; }
+    .trust-face:hover, .trust-face:focus-visible { border-color: var(--trf-accent); }
     .trust-face:focus-visible, .trust-ctrl:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
-    .trust-face .badge { width: 32px; height: 32px; border-radius: 9px; background: #163445; display: flex; align-items: center; justify-content: center; }
-    .trust-face .badge svg { width: 17px; height: 17px; color: #67d4df; }
-    .trust-face .num { font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; font-size: 44px; line-height: 1.1; color: #67d4df; }
-    .trust-face .lbl { font-size: 12px; font-weight: 600; color: #cbd5e1; text-transform: uppercase; letter-spacing: .04em; line-height: 1.35; margin: 0; }
-    .trust-face .go { font-size: 12px; font-weight: 600; color: #f4f7fb; opacity: .85; }
+    .trust-face .badge { width: 32px; height: 32px; border-radius: 9px; background: var(--trf-icon-bg); display: flex; align-items: center; justify-content: center; }
+    .trust-face .badge svg { width: 17px; height: 17px; color: var(--trf-icon); }
+    .trust-face .num { font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; font-size: 44px; line-height: 1.1; color: var(--trf-num); }
+    .trust-face .lbl { font-size: 12px; font-weight: 600; color: var(--trf-lbl); text-transform: uppercase; letter-spacing: .04em; line-height: 1.35; margin: 0; }
+    .trust-face .go { font-size: 12px; font-weight: 600; color: var(--trf-go); opacity: .85; }
     .trust-controls { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
     .trust-ctrl { all: unset; box-sizing: border-box; width: 34px; height: 34px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: var(--muted); }
     .trust-ctrl:hover { color: var(--ink); background: var(--tint); }
@@ -368,7 +380,7 @@
     .trust-stage.is-dragging { cursor: grabbing; }
     .trust-stage.is-dragging .trust-ring { transition: none; }
     /* "+N new since your last visit" badge (counts remembered in this browser only). */
-    .trust-new { position: absolute; top: 8px; right: 8px; font-size: 11px; font-weight: 700; letter-spacing: .02em; padding: 3px 8px; border-radius: 999px; background: #67d4df; color: #0b1220; }
+    .trust-new { position: absolute; top: 8px; right: 8px; font-size: 11px; font-weight: 700; letter-spacing: .02em; padding: 3px 8px; border-radius: 999px; background: var(--trf-new-bg); color: var(--trf-new-fg); }
     .trust-new[hidden] { display: none; }
     .trust-stats.is-flat .trust-controls { display: none; }
     @media (max-width: 900px) { .trust-split { grid-template-columns: minmax(0,1fr); } }
