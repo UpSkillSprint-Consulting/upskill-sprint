@@ -82,3 +82,41 @@ assert.ok(Engine.getControlledReview().includes("Controlled review"), "getContro
   }
   console.log("All coach-engine tests passed, including Promise regression.");
 })().catch(e => { console.error(e); process.exit(1); });
+
+// Expanded coverage for audit items
+(async () => {
+  // Challenge field normalization (p, n, l, a)
+  const ch = { p: "Add two measurements", n: "Add two", l: "Beginner", a: ["=E2+F2"], f: "=E2+F2" };
+  const r1 = await Engine.localResponse("Give me one hint", "hint", () => ({}), [ch], { current: 0, phase3: { coach: { hintLevels: {} } } });
+  assert.ok(typeof r1 === "string" && r1.length > 0, "Hint with p/n/l/a challenge should return string");
+  assert.ok(!r1.includes("[object Promise]"), "No Promise string");
+
+  // Specific mistake diagnoses
+  const unquoted = Engine.diagnose('=IF(A1=OK,1,0)');
+  assert.ok(unquoted.some(f => /quote|unquoted/i.test(f.msg)), "Should flag unquoted text in IF");
+
+  const andInFilter = Engine.diagnose('=FILTER(A2:A10, AND(B2:B10=1, C2:C10="OK"))');
+  assert.ok(andInFilter.some(f => /AND|OR/i.test(f.msg)), "Should flag AND inside FILTER");
+
+  const badCrit = Engine.diagnose('=SUMIFS(A2:A10, B2:B10, >=M2)');
+  assert.ok(badCrit.some(f => />=/.test(f.msg) || /criteria/i.test(f.msg)), "Should flag >=M2 criteria");
+
+  const vlookupTrue = Engine.diagnose('=VLOOKUP(M2, A2:B10, 2, TRUE)');
+  assert.ok(vlookupTrue.some(f => /TRUE|approximate/i.test(f.msg)), "Should flag VLOOKUP TRUE");
+
+  const pct = Engine.diagnose('=PERCENTILE.INC(A2:A10, 90)');
+  assert.ok(pct.some(f => /0\\.9|fraction/i.test(f.msg)), "Should flag PERCENTILE.INC 90");
+
+  const iferr = Engine.diagnose('=IFERROR(A1/B1, 0)');
+  assert.ok(iferr.some(f => /IFERROR|hides/i.test(f.msg)), "Should note IFERROR hides errors");
+
+  // Intent: IFERROR in hint mode should not force debug-only path
+  const hintIferr = await Engine.localResponse("How do I use IFERROR safely", "hint", () => ({}), [], { current: 0, phase3: { coach: { hintLevels: {} } } });
+  assert.ok(typeof hintIferr === "string" && !hintIferr.includes("[object Promise]"), "IFERROR in hint mode returns string");
+
+  // No unbacked "finishing faster" claim
+  const review = Engine.getControlledReview();
+  assert.ok(!/finishing faster/i.test(review), "Controlled review must not claim finishing faster");
+
+  console.log("Expanded audit coverage passed.");
+})().catch(e => { console.error(e); process.exit(1); });

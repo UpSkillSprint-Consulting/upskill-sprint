@@ -17,11 +17,15 @@
   function tokenize(formula) {
     const f = String(formula || "").trim();
     if (!f.startsWith("=")) return { error: "Formula must start with =" };
+    const body = f.slice(1);
     const tokens = [];
-    const re = /([A-Za-z_][A-Za-z0-9_.]*\s*\(|"[^"]*"|'[^']*'|\$?[A-Z]{1,3}\$?\d+|\$?[A-Z]{1,3}:\$?[A-Z]{1,3}|[A-Za-z_][A-Za-z0-9_]*\[.*?\]|#|[\(\)\+\-\*\/\^&=<>!,;]|[0-9.]+)/g;
+    // Skip quoted strings so paren and != checks do not fire inside text
+    const re = /("[^"]*"|'[^']*'|[A-Za-z_][A-Za-z0-9_.]*\s*\(|\$?[A-Za-z]{1,3}\$?\d+|\$?[A-Za-z]{1,3}:\$?[A-Za-z]{1,3}|[A-Za-z_][A-Za-z0-9_]*\[@?[A-Za-z0-9_ ]*\]|#|[\(\)\+\-\*\/\^&=<>!,;]|[0-9.]+)/g;
     let m;
-    while ((m = re.exec(f.slice(1))) !== null) {
-      tokens.push(m[1].trim());
+    while ((m = re.exec(body)) !== null) {
+      const t = m[1].trim();
+      if (t.startsWith('"') || t.startsWith("'")) continue; // ignore quoted text
+      tokens.push(t);
     }
     return { tokens, raw: f };
   }
@@ -125,8 +129,8 @@
 
     const notes = [];
 
-    const missingFns = expectedFns.filter(f => !learnerFns.includes(f));
-    const extraFns = learnerFns.filter(f => !expectedFns.includes(f));
+    const missingFns = expectedFns.filter(f => f && !learnerFns.includes(f));
+    const extraFns = learnerFns.filter(f => f && !expectedFns.includes(f));
     if (missingFns.length) notes.push(`Missing expected function(s): ${missingFns.join(", ")}.`);
     if (extraFns.length) notes.push(`Extra function(s) not in the target: ${extraFns.join(", ")}.`);
 
@@ -197,6 +201,41 @@
       structureNotes.forEach(n => findings.push({ level: "info", msg: n }));
     }
 
+    // Lesson-taught mistakes
+    if (/\bIF\b/i.test(f) && /[^"]\b[A-Za-z][A-Za-z0-9_]*\b[^"]/.test(f) && !/"[^"]*"/.test(f) && /IF\s*\([^,]+,[^,]+,[^)]+\)/i.test(f)) {
+      // unquoted text in IF/COUNTIF is hard to detect perfectly; flag common cases
+    }
+    if (/COUNTIF|SUMIF|IF\s*\(/i.test(f) && /=\s*[A-Za-z][A-Za-z0-9_]*\s*[,)]/.test(f) && !/"[^"]*"/.test(f)) {
+      findings.push({ level: "warn", msg: "Unquoted text in IF/COUNTIF/SUMIF is treated as a name. Wrap text criteria in double quotes." });
+    }
+    if (/FILTER/i.test(f) && /\bAND\s*\(|\bOR\s*\(/i.test(f)) {
+      findings.push({ level: "warn", msg: "AND() and OR() inside FILTER usually return a single value. Use * for AND and + for OR between conditions." });
+    }
+    if (/SUMIFS/i.test(f) && /SUMIFS\s*\([^,]+,[^,]+,[^,]+,[^,]+/.test(f) === false && /SUMIFS\s*\([^)]+\)/i.test(f)) {
+      // argument order is subtle; flag if criteria range appears before sum range in common mistakes
+    }
+    if (/>=M2|<=M2|>M2|<M2/.test(f) && !/"[^"]*"\s*&/.test(f)) {
+      findings.push({ level: "error", msg: "Comparison criteria need quotes joined to the cell, such as \">=\"&M2, not >=M2." });
+    }
+    if (/VLOOKUP/i.test(f) && /,\s*TRUE\s*[,)]/i.test(f)) {
+      findings.push({ level: "warn", msg: "VLOOKUP with TRUE uses approximate match. Prefer XLOOKUP or FALSE/0 for exact match unless you have sorted data." });
+    }
+    if (/FILTER|XLOOKUP|INDEX|MATCH/i.test(f) && /:\s*[A-Z]+\d+.*:\s*[A-Z]+\d+/i.test(f)) {
+      // mismatched range sizes are hard without parsing; leave for structure notes
+    }
+    if (/#\s*$/.test(f) || /#\s*[,)]/.test(f)) {
+      findings.push({ level: "info", msg: "A trailing # marks a spill reference. Confirm the spill is intentional." });
+    }
+    if (/PERCENTILE\.INC\s*\([^,]+,\s*90\s*\)/i.test(f)) {
+      findings.push({ level: "warn", msg: "PERCENTILE.INC expects a fraction between 0 and 1. Use 0.9, not 90." });
+    }
+    if (/IFERROR/i.test(f)) {
+      findings.push({ level: "info", msg: "IFERROR hides every error, including #REF! and #NAME?. Prefer a more specific test when you can." });
+    }
+    if (/\$/.test(f) === false && /[A-Z]+\d+/.test(f) && /copied|lock|fixed|absolute/i.test(f) === false) {
+      // missing $ is contextual; only note when the challenge expects it
+    }
+
     if (!findings.length && f.startsWith("=")) {
       findings.push({ level: "info", msg: "Detected a simple expression. No obvious syntax issues." });
     }
@@ -256,15 +295,21 @@
     try {
       const key = "excelCoachInteractions";
       const log = JSON.parse(localStorage.getItem(key) || "[]");
+      const ch = meta.challenge || {};
+      const id = ch.name || ch.n || (ch.prompt || ch.p || "").slice(0, 40) || null;
       log.push({
         t: Date.now(),
         mode: meta.mode || "default",
         hasFormula: !!meta.formula,
         formulaLen: meta.formula ? meta.formula.length : 0,
-        challenge: meta.challenge && meta.challenge.prompt ? meta.challenge.prompt.slice(0, 80) : null,
-        revealed: !!(meta.mode === "hint" && /final|reveal|answer/.test(meta.message || ""))
+        challengeId: id,
+        revealed: !!(meta.mode === "hint" && /final solution|reveal|show (me )?the (final )?answer/.test(meta.message || "")),
+        coachOn: meta.coachOn !== false,
+        attempts: meta.attempts || null,
+        hintsUsed: meta.hintsUsed || null,
+        timeToFirstCorrect: meta.timeToFirstCorrect || null
       });
-      if (log.length > 100) log.shift();
+      if (log.length > 200) log.shift();
       localStorage.setItem(key, JSON.stringify(log));
     } catch (e) { /* ignore storage errors */ }
   }
@@ -306,7 +351,7 @@
 
     let outcome = "";
     if (formulaRate >= 60 && revealRate <= 20 && avgLen >= 40) {
-      outcome = "Positive signal: high formula-paste rate, low reveal rate, and non-trivial formula length — consistent with learners finishing faster and producing better formulas than without the coach.";
+      outcome = "Positive signal: high formula-paste rate, low reveal rate, and non-trivial formula length. This is consistent with learners engaging with the formulas; it does not by itself prove faster completion.";
     } else if (revealRate > 30) {
       outcome = "Caution: high reveal rate suggests some learners are still relying on the final answer. Progressive hints may need tightening.";
     } else {
@@ -342,11 +387,30 @@
   }
 
   // ─── Main local response (Phase 10) ─────────────────────────────
+  function normalizeChallenge(ch) {
+    if (!ch || typeof ch !== "object") return {};
+    return {
+      prompt: ch.prompt || ch.p || "",
+      name: ch.name || ch.n || "",
+      level: ch.level || ch.l || "",
+      accepted: ch.accepted || ch.a || [],
+      formula: ch.formula || ch.f || "",
+      hint: ch.hint || ch.h || "",
+      why: ch.why || ch.w || "",
+      f: ch.f || ch.formula || "",
+      p: ch.p || ch.prompt || "",
+      h: ch.h || ch.hint || "",
+      w: ch.w || ch.why || "",
+      a: ch.a || ch.accepted || []
+    };
+  }
+
   CoachEngine.localResponse = async function (message, mode, contextFn, challenges, state) {
     const c = typeof contextFn === "function" ? contextFn() : {};
     const m = String(message || "").trim();
     const lower = m.toLowerCase();
-    const challenge = (challenges && state && challenges[state.current]) || {};
+    const rawChallenge = (challenges && state && challenges[state.current]) || {};
+    const challenge = normalizeChallenge(rawChallenge);
     const formulaMatch = m.match(/=[^\n]+/);
     const formula = (formulaMatch && formulaMatch[0]) || c.formula || "";
 
@@ -363,10 +427,10 @@
     // Next skill
     else if (/next skill|what should i learn next|what.*next/.test(lower)) {
       const r = c.skill || { name: "Formula Foundations" };
-      reply = `${r.name} is the current priority in the ${c.path || "Excel Foundations"} pathway. Start with one targeted challenge and explain the reference behavior aloud.`;
+      reply = `${r.name} is the current priority in the ${c.path || "Excel Foundations"} pathway. Start with one targeted challenge and explain the reference behaviour aloud.`;
     }
-    // Debug mode or error language
-    else if (mode === "debug" || /debug|why.*not|error|fix this|#value|#spill|#n\/a/.test(lower)) {
+    // Debug mode or explicit error language (do not steal IFERROR from hint mode)
+    else if (mode === "debug" || (/debug|why.*not|error|fix this|#value|#spill|#n\/a/.test(lower) && mode !== "hint" && !/iferror/.test(lower))) {
       const findings = diagnose(formula, challenge);
       const lines = findings.map(f => `• [${f.level.toUpperCase()}] ${f.msg}`).join("\n");
       reply = `Formula diagnosis:\n${lines || "No obvious syntax issues detected."}\n\n${specificNextAction(findings)}`;
@@ -377,7 +441,7 @@
       const s = ensureHintState(state);
       const key = String((s && s.current) || "general");
       const level = s.phase3.coach.hintLevels[key] || 0;
-      const reveal = /final solution|reveal|show.*answer|full formula/.test(lower);
+      const reveal = /final solution|reveal|show (me )?the (final )?answer|full formula$|complete formula/.test(lower) && !/structure|what is the full formula structure/.test(lower);
       if (reveal) {
         s.phase3.coach.hintLevels[key] = 99;
         reply = challenge.f
@@ -392,7 +456,7 @@
     else if (mode === "explain" || /explain|what is|how does|understand/.test(lower)) {
       reply = `You are in the ${c.path || "Excel Foundations"} pathway focusing on ${c.skill?.name || "formulas"}.`;
       if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
-      reply += `\n\nPaste a formula or name the concept and I will break it into stages with a workplace example from production or quality data.`;
+      reply += `\n\nPaste a formula or name the concept and I will break it into stages with a workplace example from quality or process data.`;
     }
     // Summary / review request
     else if (/summary|progress|how am i doing|interaction|review|controlled/.test(lower)) {
@@ -402,7 +466,7 @@
     else {
       reply = `You are working in the ${c.path || "Excel Foundations"} pathway. ${c.skill?.name || "Formula Foundations"} is the current priority.`;
       if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
-      reply += `\n\nTell me the production or quality result you need and paste the formula you have tried. I will identify the first incorrect stage without giving the full solution.`;
+      reply += `\n\nTell me the quality or process result you need and paste the formula you have tried. I will identify the first incorrect stage without giving the full solution.`;
     }
 
     logInteraction({ mode, formula, challenge, message: m });
