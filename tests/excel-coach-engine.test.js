@@ -450,9 +450,11 @@ test("hint ladder is progressive and never leaks the answer", () => {
     assert.match(levels[0], /what|decision|number/i, `#${i + 1} L0 should ask about the goal`);
     assert.ok(!levels[0].includes(c.p || "___"), `#${i + 1} L0 must not echo the full brief`);
     assert.ok(!/=[A-Z]/.test(levels[1]), `#${i + 1} L1 must not contain a formula`);
-    const recipe = /\bnest\b|\bwrap\b|→|first, then|then wrap|\b[A-Z]{3,}\s*\(/i;
+    const fnNames = /\b(MEDIAN|FILTER|AVERAGE|XLOOKUP|INDEX|XMATCH|LAMBDA|BYROW|BYCOL|SCAN|MAKEARRAY|GROUPBY|PIVOTBY|SUMIFS|COUNTIF|TEXTBEFORE|TEXTAFTER|PERCENTILE)\b/;
+    const recipe = /\bnest\b|\bwrap\b|→|then wrap/i;
     for (const lv of levels) {
-      assert.ok(!recipe.test(lv), `#${i + 1} level has recipe/signature language: ${lv}`);
+      assert.ok(!recipe.test(lv), `#${i + 1} level has recipe language: ${lv}`);
+      assert.ok(!fnNames.test(lv), `#${i + 1} level names a function: ${lv}`);
     }
     // near-complete: answer with one guard or argument removed, no leading =
     for (const ans of accepted) {

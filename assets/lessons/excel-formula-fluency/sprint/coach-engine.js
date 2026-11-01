@@ -504,17 +504,34 @@
   }
 
   // ─── Progressive-hint ladder ─────────────────────────────────────
+  const concepts = {
+    "Add two measurements": "combine two measured times into one total",
+    "Calculate a delay percentage": "express delay as a share of tap time",
+    "Dynamic weekly median": "a robust centre for skewed tap times, after selecting one week",
+    "Dynamic 90th percentile": "a high delay threshold for the selected week",
+    "Filter with OR logic": "rows that meet either of two status conditions",
+    "Filter with AND logic": "rows that meet both conditions at once",
+    "Return all failures": "only the rows whose status is a failure",
+    "Look up a tap time": "the tap time that belongs to a chosen heat",
+    "Calculate a weighted mean": "an average that gives more weight to larger volumes",
+    "Selector-driven fail rate": "the share of selected rows that failed or were held"
+  };
   function progressiveHint(formula, level, challenge) {
     const ch = challenge || {};
     const name = ch.n || ch.name || "this challenge";
+    const concept = concepts[name] || ch.concept || "";
     const hint = (ch.h || ch.hint || "").replace(/=.*/g, "").trim();
     const lvl = (ch.l || ch.level || "").toLowerCase();
     const tone = lvl === "beginner" ? "Start simply. " : lvl === "advanced" ? "Think about the stages. " : "";
     if (level === 0) {
-      return tone + `Before any syntax: what decision or number should “${name}” leave in the cell?`;
+      return tone + (concept
+        ? `What would “${concept}” look like as a single cell result?`
+        : "What single number or label should this cell show when you are done?");
     }
     if (level === 1) {
-      return tone + `For “${name}”, decide which inputs matter and what kind of result you need. Do not write any syntax yet.`;
+      return tone + (concept
+        ? `Think about ${concept}. Name the inputs that matter. No syntax yet.`
+        : "Name the inputs that matter and the kind of result you need. No syntax yet.");
     }
     return tone + (hint || "Build and test the smallest piece, then add the next.");
   }
