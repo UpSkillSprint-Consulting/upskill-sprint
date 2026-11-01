@@ -422,3 +422,32 @@ test("median odd/even, n and first-try rate on a fixture log", () => {
   assert.equal(firstTry(off), 50, "off first-try is 1 of 2");
   assert.equal(firstTry([]), null);
 });
+
+test("hint ladder is progressive and never leaks the answer", () => {
+  const challenges = loadChallenges();
+  assert.equal(challenges.length, 50);
+  for (const [i, c] of challenges.entries()) {
+    const levels = [0, 1, 2].map(lv => Engine.progressiveHint("", lv, c));
+    assert.equal(new Set(levels).size, 3, `#${i + 1} levels must be distinct`);
+    const hint = (c.h || "").replace(/=.*/g, "").trim();
+    if (hint) {
+      assert.ok(!levels[0].includes(hint), `#${i + 1} L0 must not contain c.h`);
+      assert.ok(!levels[1].includes(hint), `#${i + 1} L1 must not contain c.h`);
+    }
+    const accepted = [c.f, ...(c.a || [])].filter(Boolean);
+    for (const ans of accepted) {
+      const bare = ans.replace(/^=/, "").replace(/\s+/g, "");
+      for (const lv of levels) {
+        const flat = lv.replace(/\s+/g, "");
+        assert.ok(!flat.includes(bare), `#${i + 1} level contains the answer`);
+        // near-complete: answer with the last argument or a guard removed
+        const trimmed = bare.replace(/,[^,]{1,40}\)$/, ")").replace(/\*\([^)]+\)/, "");
+        if (trimmed.length > 12 && trimmed !== bare) {
+          assert.ok(!flat.includes(trimmed), `#${i + 1} level contains a near-complete form`);
+        }
+      }
+    }
+    assert.match(levels[0], /what|result|produce/i, `#${i + 1} L0 should ask about the goal`);
+    assert.ok(!/=[A-Z]/.test(levels[1]), `#${i + 1} L1 must not contain a formula`);
+  }
+});

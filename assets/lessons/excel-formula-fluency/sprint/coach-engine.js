@@ -46,10 +46,10 @@
 
   // ─── Course-specific examples ──────────────────────────────
   const examples = {
-    filterMedian: "For example, median tap time for a given week: =MEDIAN(FILTER(E2:E28, D2:D28=M2)). Median is more robust than the mean for skewed tap times.",
-    xlookup: "For example, look up a heat result: =XLOOKUP(M2, C2:C28, H2:H28, \"Not found\")",
-    multi: "For example, filter by week and status: =FILTER(E2:E28, (D2:D28=M2)*(H2:H28=\"FAIL\"))",
-    spc: "SPC note: a fail/hold rate is a p-chart proportion; a P90 delay is PERCENTILE.INC(...,0.9); a weighted mean uses SUMPRODUCT."
+    filterMedian: "Median is more robust than the mean for skewed tap times. Filter the relevant rows first, then summarise.",
+    xlookup: "A lookup returns a value from another column for a matching key, with a fallback when nothing matches.",
+    multi: "Two conditions can be combined: multiply for AND, add for OR.",
+    spc: "SPC note: a fail/hold rate is a p-chart proportion; a P90 delay is a high percentile; a weighted mean weights each value by its volume."
   };
 
   function naturalize(text) {
@@ -514,17 +514,19 @@
   function progressiveHint(formula, level, challenge) {
     const ch = challenge || {};
     const prompt = ch.p || ch.prompt || "";
-    const hint = ch.h || ch.hint || "";
+    const hint = (ch.h || ch.hint || "").replace(/=.*/g, "").trim();
+    const topic = ch.t || ch.topic || "this skill";
     const lvl = (ch.l || ch.level || "").toLowerCase();
     const tone = lvl === "beginner" ? "Start simply. " : lvl === "advanced" ? "Think about the stages. " : "";
-    const safeHint = hint.replace(/=.*/g, "").trim(); // never include a formula
     if (level === 0) {
-      return tone + (prompt ? `Focus: ${prompt}` : "Name the single result this formula should return.") + (safeHint ? `\n\nHint: ${safeHint}` : "");
+      return tone + (prompt
+        ? `What single result are you trying to produce here? (${prompt})`
+        : "What single result are you trying to produce?");
     }
     if (level === 1) {
-      return tone + (safeHint || "Identify the inputs and the condition, then test the smallest inner expression.");
+      return tone + `This uses the ${topic} family. Name the inputs and the condition before you write any syntax.`;
     }
-    return tone + "Build and test one stage at a time. Use the Reveal button if you need the full formula.";
+    return tone + (hint || "Build and test one stage at a time.");
   }
 
   function ensureHintState(state) {
