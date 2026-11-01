@@ -493,3 +493,42 @@ test("explain-mode text has no formulas or recipes", () => {
   assert.ok(!/wrap the|nest|XLOOKUP\(|FILTER\(/.test(blob), "no recipe in explain-mode");
   assert.ok(!/\b[A-Z]\d+:[A-Z]\d+/.test(blob), "no range in explain-mode");
 });
+
+test("XLOOKUP is checked per call, not only the first", () => {
+  const d = Engine.diagnose;
+  const lookup = { f: '=XLOOKUP(M2,C2:C28,E2:E28,"Not found")' };
+  const last = { f: '=XLOOKUP(M2,C2:C28,H2:H28,"Not found",0,-1)' };
+  // variants not in the prompt
+  const noFb = ["=xlookup(m2,c2:c28,e2:e28)", "=XLOOKUP($M$2, $C$2:$C$28, $E$2:$E$28)", "=XLOOKUP(M2,C2:C28,E2:E28,)", "=SUM(XLOOKUP(M2,C2:C28,E2:E28))", "=IFERROR(XLOOKUP(M2,C2:C28,E2:E28),0)"];
+  for (const v of noFb) {
+    const r = d(v, lookup);
+    assert.ok(r.some(x => /fallback/i.test(x.msg) && /Next:/.test(x.msg)), `${v} should warn on fallback`);
+    assert.equal(r.filter(x => /fallback/i.test(x.msg)).length, 1, `${v} should have one fallback message`);
+  }
+  const noMode = ["=XLOOKUP(M2,C2:C28,H2:H28,\"x\",0,-1)+XLOOKUP(M3,C2:C28,H2:H28,\"x\")", "=xlookup(m2,c2:c28,h2:h28,\"nf\")", "=XLOOKUP($M$2,$C$2:$C$28,$H$2:$H$28,\"x\",0,1)", "=XLOOKUP(M2,C2:C28,H2:H28,\"x\",0,-1)+XLOOKUP(M4,C2:C28,H2:H28,\"y\",0,1)"];
+  for (const v of noMode) {
+    const r = d(v, last);
+    assert.ok(r.some(x => /last-to-first/i.test(x.msg)), `${v} should warn on search_mode`);
+  }
+  const offset = ["=XLOOKUP(M2,C3:C29,E2:E28,\"x\")", "=XLOOKUP(M2,$C$4:$C$30,$E$2:$E$28,\"x\")", "=XLOOKUP(M2,C2:C28,E3:E29,\"x\")"];
+  for (const v of offset) {
+    const r = d(v, lookup);
+    assert.ok(r.some(x => /same rows/i.test(x.msg)), `${v} should flag offset rows`);
+  }
+  const shortRet = ["=XLOOKUP(1,(C2:C28=M2)*(D2:D28=M3),E2:E27,\"x\")", "=XLOOKUP(1,(C2:C28=M2)*(D3:D29=M3),E2:E28,\"x\")", "=XLOOKUP(1,(B2:B28=M2)*(C2:C28=M3),E2:E26,\"x\")"];
+  for (const v of shortRet) {
+    const r = d(v, { f: '=XLOOKUP(1,(C2:C28=M2)*(D2:D28=M3),E2:E28,"x")' });
+    assert.ok(r.some(x => /same rows/i.test(x.msg)), `${v} should flag short return`);
+  }
+  // negatives: aligned, with fallback, with -1
+  const clean = [
+    ['=XLOOKUP(M2,C2:C28,E2:E28,"Not found")', lookup],
+    ['=XLOOKUP(M2,C2:C28,E2:E28,"x")+XLOOKUP(M3,C2:C28,E2:E28,"x")', lookup],
+    ['=XLOOKUP(1,(C2:C28=M2)*(D2:D28=M3),E2:E28,"x")', { f: '=XLOOKUP(1,(C2:C28=M2)*(D2:D28=M3),E2:E28,"x")' }],
+    ['=XLOOKUP(M2,C2:C28,H2:H28,"Not found",0,-1)', last]
+  ];
+  for (const [v, t] of clean) {
+    const r = d(v, t);
+    assert.ok(!r.some(x => x.level === "error" || x.level === "warn"), `${v} should be clean: ${JSON.stringify(r)}`);
+  }
+});

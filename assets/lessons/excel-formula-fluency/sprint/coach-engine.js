@@ -224,27 +224,6 @@
       notes.push("The target aggregates with MEDIAN (typical for tap-time stability). Your formula does not.");
     }
 
-    if (learnerFns.includes("XLOOKUP") && challenge.f.includes("XLOOKUP")) {
-      function topLevelArgs(s, fn) {
-        const re = new RegExp(fn + "\\s*\\(", "i");
-        const m = re.exec(s);
-        if (!m) return 0;
-        let depth = 1, args = 1, i = m.index + m[0].length;
-        while (i < s.length && depth > 0) {
-          if (s[i] === "(") depth++;
-          else if (s[i] === ")") depth--;
-          else if (s[i] === "," && depth === 1) args++;
-          i++;
-        }
-        return args;
-      }
-      const expectedArgs = topLevelArgs(challenge.f, "XLOOKUP");
-      const learnerArgs = topLevelArgs(formula, "XLOOKUP");
-      if (expectedArgs >= 4 && learnerArgs < 4) {
-        notes.push({ level: "warn", msg: "The target XLOOKUP includes a fallback for missing values. Your XLOOKUP does not." });
-      }
-    }
-
     if (/\[.*\]/.test(challenge.f) && !/\[.*\]/.test(formula)) {
       notes.push("The target uses structured references (e.g. ProductionData[Tap Time]). Your formula does not.");
     }
@@ -409,34 +388,73 @@
       });
     });
 
-    // XLOOKUP: every call — compare start and end rows, strip $
+    // XLOOKUP: one per-call check. Parse by argument position.
+    function splitArgs(body) {
+      const out = []; let depth = 0, cur = "";
+      for (const ch of body) {
+        if (ch === "(") depth++;
+        else if (ch === ")") depth--;
+        if (ch === "," && depth === 0) { out.push(cur); cur = ""; }
+        else cur += ch;
+      }
+      out.push(cur);
+      return out;
+    }
+    function rangeEnds(r) {
+      const clean = r.replace(/\$/g, "");
+      const m = clean.match(/[A-Z]+(\d+):[A-Z]+(\d+)/i);
+      return m ? [parseInt(m[1], 10), parseInt(m[2], 10)] : null;
+    }
+    function rangesIn(s) { return s.match(/\$?[A-Z]+\$?\d+:\$?[A-Z]+\$?\d+/gi) || []; }
     callArgs(f, "XLOOKUP").forEach(c => {
-      const ranges = c.body.match(/\$?[A-Z]+\$?\d+:\$?[A-Z]+\$?\d+/gi) || [];
-      if (ranges.length >= 2) {
-        const heights = ranges.slice(0, 2).map(r => {
-          const clean = r.replace(/\$/g, "");
-          const m = clean.match(/(\d+):[A-Z]*(\d+)/i);
-          return m ? Math.abs(parseInt(m[2], 10) - parseInt(m[1], 10)) : null;
-        });
-        if (heights[0] != null && heights[1] != null && heights[0] !== heights[1]) {
-          findings.push({ level: "error", msg: "XLOOKUP lookup and return ranges have different heights. Next: make both ranges the same size." });
+      const args = splitArgs(c.body);
+      const lookup = args[1] || "";
+      const ret = args[2] || "";
+      const lookupRanges = rangesIn(lookup);
+      const retRanges = rangesIn(ret);
+      const retEnds = retRanges.length ? rangeEnds(retRanges[0]) : null;
+      for (const lr of lookupRanges) {
+        const le = rangeEnds(lr);
+        if (le && retEnds && (le[0] !== retEnds[0] || le[1] !== retEnds[1])) {
+          findings.push({ level: "error", msg: "XLOOKUP lookup and return ranges do not cover the same rows (different height or offset). Next: align the start and end rows so both ranges are the same size." });
+          break;
         }
       }
     });
 
-    // Every XLOOKUP call: missing fallback when the target has one
+    // Fallback: empty fourth argument does not count (Excel treats it as omitted → #N/A)
     if (challenge && /XLOOKUP/i.test(challenge.f || "") && /XLOOKUP/i.test(f)) {
       const tCalls = callArgs(challenge.f, "XLOOKUP");
       const lCalls = callArgs(f, "XLOOKUP");
-      if (tCalls.some(c => c.args >= 4) && lCalls.some(c => c.args < 4)) {
-        findings.push({ level: "warn", msg: "The target XLOOKUP includes a fallback. Next: add a fourth argument to every XLOOKUP that needs one." });
+      const targetHasFallback = tCalls.some(c => {
+        const a = splitArgs(c.body);
+        return a.length >= 4 && a[3].trim() !== "";
+      });
+      if (targetHasFallback) {
+        lCalls.forEach(c => {
+          const a = splitArgs(c.body);
+          if (a.length < 4 || a[3].trim() === "") {
+            findings.push({ level: "warn", msg: "This XLOOKUP has no fallback for a missing match. Next: add a non-empty fourth argument, or confirm you want #N/A." });
+          }
+        });
       }
     }
 
-    // XLOOKUP missing search_mode -1 when the target uses it (any call)
-    if (challenge && /-1\s*\)/.test(challenge.f || "") && /XLOOKUP/i.test(f)) {
-      const hasMode = callArgs(f, "XLOOKUP").some(c => /,-1\s*$|,-1\s*,/.test(c.body));
-      if (!hasMode) findings.push({ level: "warn", msg: "The target searches last-to-first. Next: add search_mode -1 as the final argument." });
+    // search_mode -1: every call that the target uses it for
+    if (challenge && /XLOOKUP/i.test(challenge.f || "") && /XLOOKUP/i.test(f)) {
+      const tCalls = callArgs(challenge.f, "XLOOKUP");
+      const targetNeedsLast = tCalls.some(c => {
+        const a = splitArgs(c.body);
+        return a.length >= 6 && a[5].trim() === "-1";
+      });
+      if (targetNeedsLast) {
+        callArgs(f, "XLOOKUP").forEach(c => {
+          const a = splitArgs(c.body);
+          if (a.length < 6 || a[5].trim() !== "-1") {
+            findings.push({ level: "warn", msg: "This XLOOKUP does not search last-to-first. Next: add search_mode -1 as the sixth argument." });
+          }
+        });
+      }
     }
 
     // SUMIFS wrong order: second argument is a single cell (criteria before sum range)
