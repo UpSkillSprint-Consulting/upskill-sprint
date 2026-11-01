@@ -274,12 +274,14 @@
       const results = [];
       let m;
       while ((m = re.exec(s)) !== null) {
-        let depth = 1, args = 1, i = m.index + m[0].length;
+        let depth = 1, args = 1, i = m.index + m[0].length, inQ = false;
         const start = i;
         while (i < s.length && depth > 0) {
-          if (s[i] === "(") depth++;
-          else if (s[i] === ")") depth--;
-          else if (s[i] === "," && depth === 1) args++;
+          if (s[i] === '"' && s[i + 1] === '"') { i += 2; continue; }
+          if (s[i] === '"') { inQ = !inQ; i++; continue; }
+          if (!inQ && s[i] === "(") depth++;
+          else if (!inQ && s[i] === ")") depth--;
+          else if (!inQ && s[i] === "," && depth === 1) args++;
           i++;
         }
         results.push({ args, body: s.slice(start, i - 1) });
@@ -389,6 +391,12 @@
     });
 
     // XLOOKUP: one per-call check. Parse by argument position.
+    function whichCalls(missing, total) {
+      if (total === 1) return "This XLOOKUP";
+      if (missing.length === total) return `All ${total} XLOOKUPs`;
+      const ords = missing.map(n => `${n}${n===1?"st":n===2?"nd":n===3?"rd":"th"}`);
+      return `The ${ords.join(" and ")} XLOOKUP${missing.length > 1 ? "s" : ""}`;
+    }
     function splitArgs(body) {
       const out = []; let depth = 0, cur = "", inQ = false;
       for (let i = 0; i < body.length; i++) {
@@ -423,7 +431,8 @@
         const mismatch = (le === "whole" && retEnds !== "whole") || (le !== "whole" && retEnds === "whole") ||
           (Array.isArray(le) && Array.isArray(retEnds) && (le[0] !== retEnds[0] || le[1] !== retEnds[1]));
         if (mismatch) {
-          findings.push({ level: "error", msg: `The ${idx + 1}${["st","nd","rd"][idx] || "th"} XLOOKUP lookup and return ranges do not cover the same rows (different height or offset). Next: align the start and end rows so both ranges are the same size.` });
+          const who = callArgs(f, "XLOOKUP").length === 1 ? "This XLOOKUP" : `The ${idx + 1}${idx===0?"st":idx===1?"nd":idx===2?"rd":"th"} XLOOKUP`;
+          findings.push({ level: "error", msg: `${who} lookup and return ranges do not cover the same rows (different height or offset). Next: align the start and end rows so both ranges are the same size.` });
           break;
         }
       }
@@ -444,8 +453,9 @@
           if (a.length < 4 || a[3].trim() === "") missing.push(idx + 1);
         });
         if (missing.length) {
-          const which = missing.length === lCalls.length ? `all ${missing.length}` : missing.map(n => `${n}${["st","nd","rd"][n-1]||"th"}`).join(" and ");
-          findings.push({ level: "warn", msg: `The ${which} XLOOKUP has no fallback for a missing match. Next: add a non-empty fourth argument, or confirm you want #N/A.` });
+          const which = whichCalls(missing, lCalls.length);
+          const verb = /XLOOKUPs$/.test(which) ? "have" : "has";
+          findings.push({ level: "warn", msg: `${which} ${verb} no fallback for a missing match. Next: add a non-empty fourth argument, or confirm you want #N/A.` });
         }
       }
     }
@@ -464,8 +474,9 @@
           if (a.length < 6 || a[5].trim() !== "-1") missing.push(idx + 1);
         });
         if (missing.length) {
-          const which = missing.map(n => `${n}${["st","nd","rd"][n-1]||"th"}`).join(" and ");
-          findings.push({ level: "warn", msg: `The ${which} XLOOKUP does not search last-to-first. Next: add search_mode -1 as the sixth argument.` });
+          const which = whichCalls(missing, callArgs(f, "XLOOKUP").length);
+          const verb = /XLOOKUPs$/.test(which) ? "do" : "does";
+          findings.push({ level: "warn", msg: `${which} ${verb} not search last-to-first. Next: add search_mode -1 as the sixth argument.` });
         }
       }
     }

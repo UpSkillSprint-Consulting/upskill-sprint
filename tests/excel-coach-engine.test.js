@@ -544,10 +544,24 @@ test("XLOOKUP split ignores commas inside quotes and names the call", () => {
   const two = d('=XLOOKUP(M2,C2:C28,E2:E28)+XLOOKUP(M3,C2:C28,E2:E28)', { f: '=XLOOKUP(M2,C2:C28,E2:E28,"Not found")' });
   const fb = two.filter(x => /fallback/i.test(x.msg));
   assert.equal(fb.length, 1, "one fallback message");
-  assert.ok(/1st and 2nd|all 2/.test(fb[0].msg), "names the calls");
+  assert.ok(/All 2 XLOOKUPs/.test(fb[0].msg), "names all calls");
   const whole = ["=XLOOKUP(M2,C:C,E2:E28,\"x\")", "=XLOOKUP(M2,C:C,E:E,\"x\")", "=XLOOKUP(M2,$C:$C,$E$2:$E$28,\"x\")"];
   const first = d(whole[0], { f: '=XLOOKUP(M2,C2:C28,E2:E28,"x")' });
   assert.ok(first.some(x => /same rows|height/i.test(x.msg)), "whole column vs bounded is misaligned");
   const bothWhole = d(whole[1], { f: '=XLOOKUP(M2,C:C,E:E,"x")' });
   assert.ok(!bothWhole.some(x => /same rows/i.test(x.msg)), "two whole columns are aligned");
+});
+
+test("XLOOKUP wording names one, all, or a subset", () => {
+  const d = Engine.diagnose;
+  const t = { f: '=XLOOKUP(M2,C2:C28,E2:E28,"Not found")' };
+  const one = d("=xlookup(m2,c2:c28,e2:e28)", t);
+  assert.ok(one.some(x => /^This XLOOKUP has no fallback/.test(x.msg)), "one call: This XLOOKUP");
+  assert.ok(!one.some(x => /all 1|1st/.test(x.msg)), "one call never says all 1 or 1st");
+  const two = d("=XLOOKUP(A1,B2:B10,C2:C10)+XLOOKUP(A2,B2:B10,C2:C10)", t);
+  assert.ok(two.some(x => /^All 2 XLOOKUPs have no fallback/.test(x.msg)), "all missing: All 2");
+  const three = d('=XLOOKUP(A1,B2:B10,C2:C10,"x")+XLOOKUP(A2,B2:B10,C2:C10)+XLOOKUP(A3,B2:B10,C2:C10)', t);
+  assert.ok(three.some(x => /^The 2nd and 3rd XLOOKUPs have no fallback/.test(x.msg)), "subset: 2nd and 3rd");
+  const quiet = d('=XLOOKUP(M2,C2:C28,H2:H28,")(,",0,-1)', { f: '=XLOOKUP(M2,C2:C28,H2:H28,"Not found",0,-1)' });
+  assert.ok(!quiet.some(x => /last-to-first/i.test(x.msg)), "parens inside quotes stay quiet");
 });
