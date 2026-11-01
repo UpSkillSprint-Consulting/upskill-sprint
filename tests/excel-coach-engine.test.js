@@ -532,3 +532,22 @@ test("XLOOKUP is checked per call, not only the first", () => {
     assert.ok(!r.some(x => x.level === "error" || x.level === "warn"), `${v} should be clean: ${JSON.stringify(r)}`);
   }
 });
+
+test("XLOOKUP split ignores commas inside quotes and names the call", () => {
+  const d = Engine.diagnose;
+  const last = { f: '=XLOOKUP(M2,C2:C28,H2:H28,"Not found",0,-1)' };
+  const ok = ["=XLOOKUP(M2,C2:C28,H2:H28,\"Not, found\",0,-1)", "=XLOOKUP(M2,C2:C28,H2:H28,\"No; match\",0,-1)", "=xlookup($m$2,$c$2:$c$28,$h$2:$h$28,\"n/a\",0,-1)"];
+  for (const v of ok) {
+    const r = d(v, last);
+    assert.ok(!r.some(x => /last-to-first/i.test(x.msg)), `${v} should stay quiet: ${JSON.stringify(r)}`);
+  }
+  const two = d('=XLOOKUP(M2,C2:C28,E2:E28)+XLOOKUP(M3,C2:C28,E2:E28)', { f: '=XLOOKUP(M2,C2:C28,E2:E28,"Not found")' });
+  const fb = two.filter(x => /fallback/i.test(x.msg));
+  assert.equal(fb.length, 1, "one fallback message");
+  assert.ok(/1st and 2nd|all 2/.test(fb[0].msg), "names the calls");
+  const whole = ["=XLOOKUP(M2,C:C,E2:E28,\"x\")", "=XLOOKUP(M2,C:C,E:E,\"x\")", "=XLOOKUP(M2,$C:$C,$E$2:$E$28,\"x\")"];
+  const first = d(whole[0], { f: '=XLOOKUP(M2,C2:C28,E2:E28,"x")' });
+  assert.ok(first.some(x => /same rows|height/i.test(x.msg)), "whole column vs bounded is misaligned");
+  const bothWhole = d(whole[1], { f: '=XLOOKUP(M2,C:C,E:E,"x")' });
+  assert.ok(!bothWhole.some(x => /same rows/i.test(x.msg)), "two whole columns are aligned");
+});

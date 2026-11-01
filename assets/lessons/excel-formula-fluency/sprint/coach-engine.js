@@ -390,11 +390,14 @@
 
     // XLOOKUP: one per-call check. Parse by argument position.
     function splitArgs(body) {
-      const out = []; let depth = 0, cur = "";
-      for (const ch of body) {
-        if (ch === "(") depth++;
-        else if (ch === ")") depth--;
-        if (ch === "," && depth === 0) { out.push(cur); cur = ""; }
+      const out = []; let depth = 0, cur = "", inQ = false;
+      for (let i = 0; i < body.length; i++) {
+        const ch = body[i];
+        if (ch === '"' && body[i + 1] === '"') { cur += '""'; i++; continue; }
+        if (ch === '"') { inQ = !inQ; cur += ch; continue; }
+        if (!inQ && ch === "(") depth++;
+        else if (!inQ && ch === ")") depth--;
+        if (!inQ && ch === "," && depth === 0) { out.push(cur); cur = ""; }
         else cur += ch;
       }
       out.push(cur);
@@ -402,11 +405,13 @@
     }
     function rangeEnds(r) {
       const clean = r.replace(/\$/g, "");
+      const whole = clean.match(/^([A-Z]+):([A-Z]+)$/i);
+      if (whole) return "whole";
       const m = clean.match(/[A-Z]+(\d+):[A-Z]+(\d+)/i);
       return m ? [parseInt(m[1], 10), parseInt(m[2], 10)] : null;
     }
-    function rangesIn(s) { return s.match(/\$?[A-Z]+\$?\d+:\$?[A-Z]+\$?\d+/gi) || []; }
-    callArgs(f, "XLOOKUP").forEach(c => {
+    function rangesIn(s) { return s.match(/\$?[A-Z]+\$?\d*:\$?[A-Z]+\$?\d*/gi) || []; }
+    callArgs(f, "XLOOKUP").forEach((c, idx) => {
       const args = splitArgs(c.body);
       const lookup = args[1] || "";
       const ret = args[2] || "";
@@ -415,8 +420,10 @@
       const retEnds = retRanges.length ? rangeEnds(retRanges[0]) : null;
       for (const lr of lookupRanges) {
         const le = rangeEnds(lr);
-        if (le && retEnds && (le[0] !== retEnds[0] || le[1] !== retEnds[1])) {
-          findings.push({ level: "error", msg: "XLOOKUP lookup and return ranges do not cover the same rows (different height or offset). Next: align the start and end rows so both ranges are the same size." });
+        const mismatch = (le === "whole" && retEnds !== "whole") || (le !== "whole" && retEnds === "whole") ||
+          (Array.isArray(le) && Array.isArray(retEnds) && (le[0] !== retEnds[0] || le[1] !== retEnds[1]));
+        if (mismatch) {
+          findings.push({ level: "error", msg: `The ${idx + 1}${["st","nd","rd"][idx] || "th"} XLOOKUP lookup and return ranges do not cover the same rows (different height or offset). Next: align the start and end rows so both ranges are the same size.` });
           break;
         }
       }
@@ -431,12 +438,15 @@
         return a.length >= 4 && a[3].trim() !== "";
       });
       if (targetHasFallback) {
-        lCalls.forEach(c => {
+        const missing = [];
+        lCalls.forEach((c, idx) => {
           const a = splitArgs(c.body);
-          if (a.length < 4 || a[3].trim() === "") {
-            findings.push({ level: "warn", msg: "This XLOOKUP has no fallback for a missing match. Next: add a non-empty fourth argument, or confirm you want #N/A." });
-          }
+          if (a.length < 4 || a[3].trim() === "") missing.push(idx + 1);
         });
+        if (missing.length) {
+          const which = missing.length === lCalls.length ? `all ${missing.length}` : missing.map(n => `${n}${["st","nd","rd"][n-1]||"th"}`).join(" and ");
+          findings.push({ level: "warn", msg: `The ${which} XLOOKUP has no fallback for a missing match. Next: add a non-empty fourth argument, or confirm you want #N/A.` });
+        }
       }
     }
 
@@ -448,12 +458,15 @@
         return a.length >= 6 && a[5].trim() === "-1";
       });
       if (targetNeedsLast) {
-        callArgs(f, "XLOOKUP").forEach(c => {
+        const missing = [];
+        callArgs(f, "XLOOKUP").forEach((c, idx) => {
           const a = splitArgs(c.body);
-          if (a.length < 6 || a[5].trim() !== "-1") {
-            findings.push({ level: "warn", msg: "This XLOOKUP does not search last-to-first. Next: add search_mode -1 as the sixth argument." });
-          }
+          if (a.length < 6 || a[5].trim() !== "-1") missing.push(idx + 1);
         });
+        if (missing.length) {
+          const which = missing.map(n => `${n}${["st","nd","rd"][n-1]||"th"}`).join(" and ");
+          findings.push({ level: "warn", msg: `The ${which} XLOOKUP does not search last-to-first. Next: add search_mode -1 as the sixth argument.` });
+        }
       }
     }
 
