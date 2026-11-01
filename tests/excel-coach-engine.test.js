@@ -447,7 +447,22 @@ test("hint ladder is progressive and never leaks the answer", () => {
         }
       }
     }
-    assert.match(levels[0], /what|result|produce/i, `#${i + 1} L0 should ask about the goal`);
+    assert.match(levels[0], /what|decision|number/i, `#${i + 1} L0 should ask about the goal`);
+    assert.ok(!levels[0].includes(c.p || "___"), `#${i + 1} L0 must not echo the full brief`);
     assert.ok(!/=[A-Z]/.test(levels[1]), `#${i + 1} L1 must not contain a formula`);
+    const recipe = /\bnest\b|\bwrap\b|→|first, then|then wrap|\b[A-Z]{3,}\s*\(/i;
+    for (const lv of levels) {
+      assert.ok(!recipe.test(lv), `#${i + 1} level has recipe/signature language: ${lv}`);
+    }
+    // near-complete: answer with one guard or argument removed, no leading =
+    for (const ans of accepted) {
+      const bare = ans.replace(/^=/, "").replace(/\s+/g, "");
+      const near = bare.replace(/\*\([^)]{0,30}\)/, "").replace(/,[^,]{1,30}\)$/, ")");
+      if (near.length > 14 && near !== bare) {
+        for (const lv of levels) {
+          assert.ok(!lv.replace(/\s+/g, "").includes(near), `#${i + 1} near-complete form leaked`);
+        }
+      }
+    }
   }
 });

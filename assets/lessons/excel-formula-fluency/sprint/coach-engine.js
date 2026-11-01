@@ -45,13 +45,6 @@
   }
 
   // ─── Course-specific examples ──────────────────────────────
-  const examples = {
-    filterMedian: "Median is more robust than the mean for skewed tap times. Filter the relevant rows first, then summarise.",
-    xlookup: "A lookup returns a value from another column for a matching key, with a fallback when nothing matches.",
-    multi: "Two conditions can be combined: multiply for AND, add for OR.",
-    spc: "SPC note: a fail/hold rate is a p-chart proportion; a P90 delay is a high percentile; a weighted mean weights each value by its volume."
-  };
-
   function naturalize(text) {
     if (!text) return text;
     return text
@@ -513,20 +506,17 @@
   // ─── Progressive-hint ladder ─────────────────────────────────────
   function progressiveHint(formula, level, challenge) {
     const ch = challenge || {};
-    const prompt = ch.p || ch.prompt || "";
+    const name = ch.n || ch.name || "this challenge";
     const hint = (ch.h || ch.hint || "").replace(/=.*/g, "").trim();
-    const topic = ch.t || ch.topic || "this skill";
     const lvl = (ch.l || ch.level || "").toLowerCase();
     const tone = lvl === "beginner" ? "Start simply. " : lvl === "advanced" ? "Think about the stages. " : "";
     if (level === 0) {
-      return tone + (prompt
-        ? `What single result are you trying to produce here? (${prompt})`
-        : "What single result are you trying to produce?");
+      return tone + `Before any syntax: what decision or number should “${name}” leave in the cell?`;
     }
     if (level === 1) {
-      return tone + `This uses the ${topic} family. Name the inputs and the condition before you write any syntax.`;
+      return tone + `For “${name}”, decide which inputs matter and what kind of result you need. Do not write any syntax yet.`;
     }
-    return tone + (hint || "Build and test one stage at a time.");
+    return tone + (hint || "Build and test the smallest piece, then add the next.");
   }
 
   function ensureHintState(state) {
