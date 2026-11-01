@@ -518,7 +518,7 @@
     }
     if (level === 1) {
       return tone + (concept
-        ? `Think about ${concept}. Name the inputs that matter. No syntax yet.`
+        ? `The idea: ${concept}. Name the inputs that matter. No syntax yet.`
         : "Name the inputs that matter and the kind of result you need. No syntax yet.");
     }
     return tone + (hint || "Build and test the smallest piece, then add the next.");

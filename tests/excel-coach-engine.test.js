@@ -453,10 +453,14 @@ test("hint ladder is progressive and never leaks the answer", () => {
     const fnNames = /\b(use|using|with|after|before|inside)\s+(median|filter|average|xlookup|index|xmatch|lambda|byrow|bycol|scan|makearray|groupby|pivotby|sumifs|countif|textbefore|textafter|percentile)\b/i;
     const recipe = /\bnest\b|\bwrap\b|→|then wrap|\b[A-Z]{2,}\s*\(/i;
     const opLeak = /[A-Z]\d+\s*[+\-*/]\s*[A-Z]\d+|\$\$?[A-Z]\$?\d+|<>|\b@\b|#\d/;
+    const rangeLeak = /\b[A-Z]{1,3}\d+:[A-Z]{1,3}\d+\b/;
+    const ofFn = /\b(MEDIAN|FILTER|AVERAGE|XLOOKUP)\s+of\s+(MEDIAN|FILTER|AVERAGE|XLOOKUP)\b/i;
     const topic = (c.t || "").toLowerCase();
     for (const [li, lv] of levels.entries()) {
       assert.ok(!recipe.test(lv), `#${i + 1} L${li} has recipe language: ${lv}`);
       assert.ok(!opLeak.test(lv), `#${i + 1} L${li} has an operator leak: ${lv}`);
+      assert.ok(!rangeLeak.test(lv), `#${i + 1} L${li} has a range: ${lv}`);
+      assert.ok(!ofFn.test(lv), `#${i + 1} L${li} has function-of-function: ${lv}`);
       if (fnNames.test(lv) && li < 2) {
         assert.fail(`#${i + 1} L${li} names a function: ${lv}`);
       }
@@ -475,4 +479,15 @@ test("hint ladder is progressive and never leaks the answer", () => {
       }
     }
   }
+});
+
+test("explain-mode text has no formulas or recipes", () => {
+  const html = fs.readFileSync(path.join(__dirname, "../lessons/power-bi-excel-sql/excel-formula-fluency.html"), "utf8");
+  const se = html.match(/const skillExamples=\{([\s\S]*?)\};/);
+  const cr = html.match(/function conceptReply[\s\S]*?\n  \}/);
+  assert.ok(se && cr, "explain-mode surfaces found");
+  const blob = se[1] + cr[0];
+  assert.ok(!/=[A-Z]{2,}\(/.test(blob) && !/=[A-Z]\d+/.test(blob), "no formula in explain-mode");
+  assert.ok(!/wrap the|nest|XLOOKUP\(|FILTER\(/.test(blob), "no recipe in explain-mode");
+  assert.ok(!/\b[A-Z]\d+:[A-Z]\d+/.test(blob), "no range in explain-mode");
 });
