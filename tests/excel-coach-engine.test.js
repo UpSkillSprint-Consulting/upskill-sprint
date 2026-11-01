@@ -484,7 +484,7 @@ test("hint ladder is progressive and never leaks the answer", () => {
 test("explain-mode text has no formulas or recipes", () => {
   const html = fs.readFileSync(path.join(__dirname, "../lessons/power-bi-excel-sql/excel-formula-fluency.html"), "utf8");
   const se = html.match(/const skillExamples=\{([\s\S]*?)\};/);
-  const cr = html.match(/function conceptReply[\s\S]*?\n  \}/);
+  const cr = html.match(/function conceptReply\(m,c\)\{[\s\S]*?\}/);
   assert.ok(se && cr, "explain-mode surfaces found");
   const blob = se[1] + cr[0];
   assert.ok(!/=[A-Z]{2,}\(/.test(blob) && !/=[A-Z]\d+/.test(blob), "no formula in explain-mode");
