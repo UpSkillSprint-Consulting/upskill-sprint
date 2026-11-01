@@ -504,22 +504,10 @@
   }
 
   // ─── Progressive-hint ladder ─────────────────────────────────────
-  const concepts = {
-    "Add two measurements": "combine two measured times into one total",
-    "Calculate a delay percentage": "express delay as a share of tap time",
-    "Dynamic weekly median": "a robust centre for skewed tap times, after selecting one week",
-    "Dynamic 90th percentile": "a high delay threshold for the selected week",
-    "Filter with OR logic": "rows that meet either of two status conditions",
-    "Filter with AND logic": "rows that meet both conditions at once",
-    "Return all failures": "only the rows whose status is a failure",
-    "Look up a tap time": "the tap time that belongs to a chosen heat",
-    "Calculate a weighted mean": "an average that gives more weight to larger volumes",
-    "Selector-driven fail rate": "the share of selected rows that failed or were held"
-  };
   function progressiveHint(formula, level, challenge) {
     const ch = challenge || {};
     const name = ch.n || ch.name || "this challenge";
-    const concept = concepts[name] || ch.concept || "";
+    const concept = ch.concept || "";
     const hint = (ch.h || ch.hint || "").replace(/=.*/g, "").trim();
     const lvl = (ch.l || ch.level || "").toLowerCase();
     const tone = lvl === "beginner" ? "Start simply. " : lvl === "advanced" ? "Think about the stages. " : "";

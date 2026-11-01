@@ -450,11 +450,19 @@ test("hint ladder is progressive and never leaks the answer", () => {
     assert.match(levels[0], /what|decision|number/i, `#${i + 1} L0 should ask about the goal`);
     assert.ok(!levels[0].includes(c.p || "___"), `#${i + 1} L0 must not echo the full brief`);
     assert.ok(!/=[A-Z]/.test(levels[1]), `#${i + 1} L1 must not contain a formula`);
-    const fnNames = /\b(MEDIAN|FILTER|AVERAGE|XLOOKUP|INDEX|XMATCH|LAMBDA|BYROW|BYCOL|SCAN|MAKEARRAY|GROUPBY|PIVOTBY|SUMIFS|COUNTIF|TEXTBEFORE|TEXTAFTER|PERCENTILE)\b/;
-    const recipe = /\bnest\b|\bwrap\b|→|then wrap/i;
-    for (const lv of levels) {
-      assert.ok(!recipe.test(lv), `#${i + 1} level has recipe language: ${lv}`);
-      assert.ok(!fnNames.test(lv), `#${i + 1} level names a function: ${lv}`);
+    const fnNames = /\b(use|using|with|after|before|inside)\s+(median|filter|average|xlookup|index|xmatch|lambda|byrow|bycol|scan|makearray|groupby|pivotby|sumifs|countif|textbefore|textafter|percentile)\b/i;
+    const recipe = /\bnest\b|\bwrap\b|→|then wrap|\b[A-Z]{2,}\s*\(/i;
+    const opLeak = /[A-Z]\d+\s*[+\-*/]\s*[A-Z]\d+|\$\$?[A-Z]\$?\d+|<>|\b@\b|#\d/;
+    const topic = (c.t || "").toLowerCase();
+    for (const [li, lv] of levels.entries()) {
+      assert.ok(!recipe.test(lv), `#${i + 1} L${li} has recipe language: ${lv}`);
+      assert.ok(!opLeak.test(lv), `#${i + 1} L${li} has an operator leak: ${lv}`);
+      if (fnNames.test(lv) && li < 2) {
+        assert.fail(`#${i + 1} L${li} names a function: ${lv}`);
+      }
+      if (li === 2 && fnNames.test(lv) && !topic.split(/\W+/).some(w => w && lv.toLowerCase().includes(w))) {
+        assert.fail(`#${i + 1} L2 names a function the topic does not: ${lv}`);
+      }
     }
     // near-complete: answer with one guard or argument removed, no leading =
     for (const ans of accepted) {
