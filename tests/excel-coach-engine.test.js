@@ -544,7 +544,7 @@ test("XLOOKUP split ignores commas inside quotes and names the call", () => {
   const two = d('=XLOOKUP(M2,C2:C28,E2:E28)+XLOOKUP(M3,C2:C28,E2:E28)', { f: '=XLOOKUP(M2,C2:C28,E2:E28,"Not found")' });
   const fb = two.filter(x => /fallback/i.test(x.msg));
   assert.equal(fb.length, 1, "one fallback message");
-  assert.ok(/All 2 XLOOKUPs/.test(fb[0].msg), "names all calls");
+  assert.ok(/Both XLOOKUPs/.test(fb[0].msg), "says Both for two");
   const whole = ["=XLOOKUP(M2,C:C,E2:E28,\"x\")", "=XLOOKUP(M2,C:C,E:E,\"x\")", "=XLOOKUP(M2,$C:$C,$E$2:$E$28,\"x\")"];
   const first = d(whole[0], { f: '=XLOOKUP(M2,C2:C28,E2:E28,"x")' });
   assert.ok(first.some(x => /same rows|height/i.test(x.msg)), "whole column vs bounded is misaligned");
@@ -559,9 +559,24 @@ test("XLOOKUP wording names one, all, or a subset", () => {
   assert.ok(one.some(x => /^This XLOOKUP has no fallback/.test(x.msg)), "one call: This XLOOKUP");
   assert.ok(!one.some(x => /all 1|1st/.test(x.msg)), "one call never says all 1 or 1st");
   const two = d("=XLOOKUP(A1,B2:B10,C2:C10)+XLOOKUP(A2,B2:B10,C2:C10)", t);
-  assert.ok(two.some(x => /^All 2 XLOOKUPs have no fallback/.test(x.msg)), "all missing: All 2");
+  assert.ok(two.some(x => /^Both XLOOKUPs have no fallback/.test(x.msg)), "all missing: Both");
   const three = d('=XLOOKUP(A1,B2:B10,C2:C10,"x")+XLOOKUP(A2,B2:B10,C2:C10)+XLOOKUP(A3,B2:B10,C2:C10)', t);
   assert.ok(three.some(x => /^The 2nd and 3rd XLOOKUPs have no fallback/.test(x.msg)), "subset: 2nd and 3rd");
   const quiet = d('=XLOOKUP(M2,C2:C28,H2:H28,")(,",0,-1)', { f: '=XLOOKUP(M2,C2:C28,H2:H28,"Not found",0,-1)' });
   assert.ok(!quiet.some(x => /last-to-first/i.test(x.msg)), "parens inside quotes stay quiet");
+});
+
+test("XLOOKUP wording polish: possessive, Both, list join", () => {
+  const d = Engine.diagnose;
+  const t = { f: '=XLOOKUP(M2,C2:C28,E2:E28,"Not found")' };
+  const oneRange = d("=XLOOKUP(A1,B3:B20,C2:C20)", { f: "=XLOOKUP(A1,B2:B20,C2:C20)" });
+  assert.ok(oneRange.some(x => /^This XLOOKUP's lookup and return ranges/.test(x.msg)), "one range: possessive");
+  const twoRange = d("=XLOOKUP(A1,B2:B10,C2:C10)+XLOOKUP(A2,B3:B12,C2:C10)", t);
+  assert.ok(twoRange.some(x => /The 2nd XLOOKUP's lookup and return ranges/.test(x.msg)), "two ranges: possessive");
+  const both = d("=XLOOKUP(A1,B2:B10,C2:C10)+XLOOKUP(A2,B2:B10,C2:C10)", t);
+  assert.ok(both.some(x => /^Both XLOOKUPs have no fallback/.test(x.msg)), "Both for two");
+  const subset = d('=XLOOKUP(A1,B2:B10,C2:C10)+XLOOKUP(A2,B2:B10,C2:C10)+XLOOKUP(A3,B2:B10,C2:C10,"x")+XLOOKUP(A4,B2:B10,C2:C10)', t);
+  assert.ok(subset.some(x => /^The 1st, 2nd and 4th XLOOKUPs have no fallback/.test(x.msg)), "comma-and list");
+  const quoted = d('=XLOOKUP(M2,C2:C28,E2:E28,"XLOOKUP(")', t);
+  assert.ok(!quoted.some(x => /2nd/.test(x.msg)), "XLOOKUP( inside quotes is not a call");
 });

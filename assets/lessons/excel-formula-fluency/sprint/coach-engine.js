@@ -274,6 +274,9 @@
       const results = [];
       let m;
       while ((m = re.exec(s)) !== null) {
+        const before = s.slice(0, m.index);
+        const quotes = (before.match(/"/g) || []).length;
+        if (quotes % 2 === 1) continue;
         let depth = 1, args = 1, i = m.index + m[0].length, inQ = false;
         const start = i;
         while (i < s.length && depth > 0) {
@@ -393,9 +396,10 @@
     // XLOOKUP: one per-call check. Parse by argument position.
     function whichCalls(missing, total) {
       if (total === 1) return "This XLOOKUP";
-      if (missing.length === total) return `All ${total} XLOOKUPs`;
+      if (missing.length === total) return total === 2 ? "Both XLOOKUPs" : `All ${total} XLOOKUPs`;
       const ords = missing.map(n => `${n}${n===1?"st":n===2?"nd":n===3?"rd":"th"}`);
-      return `The ${ords.join(" and ")} XLOOKUP${missing.length > 1 ? "s" : ""}`;
+      const list = ords.length === 1 ? ords[0] : ords.slice(0, -1).join(", ") + " and " + ords.at(-1);
+      return `The ${list} XLOOKUP${missing.length > 1 ? "s" : ""}`;
     }
     function splitArgs(body) {
       const out = []; let depth = 0, cur = "", inQ = false;
@@ -431,7 +435,7 @@
         const mismatch = (le === "whole" && retEnds !== "whole") || (le !== "whole" && retEnds === "whole") ||
           (Array.isArray(le) && Array.isArray(retEnds) && (le[0] !== retEnds[0] || le[1] !== retEnds[1]));
         if (mismatch) {
-          const who = callArgs(f, "XLOOKUP").length === 1 ? "This XLOOKUP" : `The ${idx + 1}${idx===0?"st":idx===1?"nd":idx===2?"rd":"th"} XLOOKUP`;
+          const who = callArgs(f, "XLOOKUP").length === 1 ? "This XLOOKUP's" : `The ${idx + 1}${idx===0?"st":idx===1?"nd":idx===2?"rd":"th"} XLOOKUP's`;
           findings.push({ level: "error", msg: `${who} lookup and return ranges do not cover the same rows (different height or offset). Next: align the start and end rows so both ranges are the same size.` });
           break;
         }
