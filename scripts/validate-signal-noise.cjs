@@ -108,7 +108,10 @@ const injected=/<div data-netlify-deploy-id="[a-f0-9]{24}" data-netlify-site-id=
 // The site build (scripts/inject-seasonal-effects.mjs and scripts/inject-site-ticker.mjs, the last steps of build:site) adds exactly
 // these site-wide tags before </body> on every public page. It is site-wide, not lesson content.
 const seasonalTag=/(?:<script src="\/(?:seasonal-effects|site-ticker)\.js" defer><\/script>\n?)+(?=\s*<\/body>)/;
-const reviewed=body=>body.replace(injected,'').replace(seasonalTag,'');
+// scripts/inject-skip-link.mjs (also in build:site) adds exactly one "Skip to main content" link right after
+// <body> and its <style> right before </head> on pages that have no skip link. It is site-wide chrome, not lesson content.
+const skipLinkTags=/<style id="uss-skip-link-style">[^<]*<\/style>\n(?=<\/head>)|(?<=<body\b[^>]*>)\n<a class="uss-skip-link" href="#[^"]+">Skip to main content<\/a>/g;
+const reviewed=body=>body.replace(injected,'').replace(seasonalTag,'').replace(skipLinkTags,'');
 (async()=>{
  await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;
  const browser=await chromium.launch();

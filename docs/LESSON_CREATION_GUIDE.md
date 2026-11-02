@@ -371,6 +371,15 @@ does not include that link in lesson chrome (asserted by
 `tests/permutations-combinations-lesson.test.js`). Older pages that still have a skip link
 point it at `#lesson-content`, which is why that `<main>` id is mandatory.
 
+The build adds the skip link for you. `scripts/inject-skip-link.mjs`, the last step of
+`npm run build:site`, puts one "Skip to main content" link first in `<body>` on every
+public page that has none, pointing at the page's single `<main>` (it adds
+`id="main-content"` only when a non-lesson `<main>` has no id). It is hidden until it
+receives keyboard focus. Pages that already carry their own skip link are left alone, so no
+page gets two. `tests/skip-link.test.js` checks that every staged page has exactly one skip
+link with a matching target. Do not hand-add a second one, and do not rename
+`#lesson-content`.
+
 
 ```html
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">

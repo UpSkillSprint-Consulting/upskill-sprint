@@ -370,7 +370,9 @@
     mobileNav.setAttribute('data-nav-root', 'mobile');
     mobileNav.innerHTML = navLinksMarkup('mobile');
 
-    const first = document.body.firstChild;
+    // Keep the build-time skip link (scripts/inject-skip-link.mjs) the first thing on the page.
+    const skip = document.body.firstElementChild && document.body.firstElementChild.matches('a.uss-skip-link') ? document.body.firstElementChild : null;
+    const first = skip ? skip.nextSibling : document.body.firstChild;
     document.body.insertBefore(mobileNav, first);
     document.body.insertBefore(siteHeader, mobileNav);
     document.body.insertBefore(toggle, siteHeader);
