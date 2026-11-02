@@ -623,3 +623,26 @@ test("whole-column and pattern leftovers", () => {
   assert.ok(!d("=AVERAGE(E2:E28)", {}).some(x => /whole-column/i.test(x.msg)), "bounded stays quiet");
   const p = Engine.detectPattern ? null : null;
 });
+
+test("wildcard, p-chart, time strings, and patterns", () => {
+  const d = Engine.diagnose;
+  const c20 = { f: '=FILTER(A2:H28,(B2:B28="Rolling Mill")*(H2:H28="FAIL"))' };
+  for (const v of ['=COUNTIF(H2:H28,"FAIL")', '=countif($h$2:$h$28,"FAIL")', '=COUNTIFS(H2:H28,"HOLD")']) {
+    assert.ok(!d(v, c20).some(x => /wildcard/i.test(x.msg)), `${v} on #20 is not a wildcard`);
+  }
+  const c11 = { f: '=COUNTIF(C2:C28,"*A00*")' };
+  assert.ok(d('=COUNTIF(C2:C28,"A00")', c11).some(x => /wildcard/i.test(x.msg)), "real wildcard still flagged");
+  const c21 = { f: '=FILTER(A2:H28,(H2:H28="FAIL")+(H2:H28="HOLD"))' };
+  assert.ok(!d('=COUNTIF(H2:H28,"FAIL")+COUNTIF(H2:H28,"HOLD")', c21).some(x => /p-chart/i.test(x.msg)), "#21 is not a rate");
+  const c49 = { f: '=SUM((H2:H28="FAIL")+(H2:H28="HOLD"))/COUNTA(H2:H28)' };
+  assert.ok(d('=COUNTIF(H2:H28,"FAIL")', c49).some(x => /p-chart/i.test(x.msg)), "#49 still gets the note");
+  for (const v of ['=IF(A2="10:30","x","y")', '=IF(A2="0:15","x","y")', '=IF(A2="09:45","ok","no")']) {
+    assert.ok(!d(v, {}).some(x => /whole-column|whole-row/i.test(x.msg)), `${v} is a time, not a row ref`);
+  }
+  const pct = Engine.detectPattern(["PERCENTILE.INC(", "FILTER(", ")"]);
+  assert.ok(pct && /FILTER \+ aggregate/.test(pct.name), "PERCENTILE over FILTER is aggregate");
+  const scalar = Engine.detectPattern(["SUMIFS(", ")", "*", "2"]);
+  assert.ok(!scalar || !/Multi-criteria/.test(scalar.name || ""), "scalar multiply is not multi-criteria");
+  const and = Engine.detectPattern(["FILTER(", "*", ")"]);
+  assert.ok(and && /Multi-criteria/.test(and.name), "FILTER with * is multi-criteria");
+});

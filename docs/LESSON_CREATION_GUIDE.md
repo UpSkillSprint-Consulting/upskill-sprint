@@ -1574,7 +1574,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] npm run build:site exits 0; side effects restored; git status clean apart from intended files.
 - [ ] Local axe scan: 0 violations in light/dark × 1280/390 (except §23 chrome item).
 - [ ] All GitHub checks pass; Netlify deploy preview verified (URL: …) in both themes at desktop and mobile.
-- [ ] If the lesson uses the Excel Coach, the changes follow §24 Excel Coach (diagnosis plus Next:, no answer leaks, local-only logging).
+- [ ] If the lesson uses the Excel Coach, the changes follow [§24 Excel Coach](#24-excel-coach) (diagnosis plus Next:, no answer leaks, local-only logging).
 ```
 
 ---
