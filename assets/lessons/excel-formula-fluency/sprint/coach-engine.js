@@ -588,7 +588,9 @@
     }
     // ProductionData text columns (B Facility, C Heat ID, H Status): + between two of them is a text join.
     const textCellPlus = /(?<![A-Z0-9_.$])\$?[BCH]\$?(?:[2-9]|1\d|2[0-8])(?!\d)\s*\+\s*\$?[BCH]\$?(?:[2-9]|1\d|2[0-8])(?![\d(:])/i;
-    const textPlus = textCellPlus.test(stripQuoted(f)) && !(challenge && /LAMBDA|MAP\s*\(/i.test(challenge.f || ""));
+    // Some challenges use B and C as numbers (a rate table, YS/UTS); skip those.
+    const numericBC = t => /(?<![A-Z0-9_.$])\$?[BC]\$?\d+(?![\d:(])\s*[*\/+\-]|[*\/+\-]\s*\$?[BC]\$?\d+(?![\d:(])/i.test(stripQuoted(t)) || /\b(LAMBDA|MAP)\s*\(|\bLET\s*\([^,]+,\s*\$?[BC]\$?\d+\s*,/i.test(t);
+    const textPlus = textCellPlus.test(stripQuoted(f)) && !(challenge && challenge.f && numericBC(challenge.f));
     if ((/\+\s*"|\"\s*\+/i.test(f) || textPlus || (challenge && isTextJoinTarget(challenge.f) && /\$?[A-Z]+\$?\d+\s*\+\s*\$?[A-Z]+\$?\d+/i.test(f))) && !/&/.test(f)) {
       findings.push({ level: "error", msg: "Use & to join text, not +. Next: rewrite the concatenation with &." });
     }

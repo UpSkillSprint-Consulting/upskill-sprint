@@ -899,6 +899,10 @@ test("gap 1: + between text cells is flagged with or without spaces", () => {
   assert.ok(gapHit(d("=H2 + C2", cc), /Use & to join text/), "missed =H2 + C2 on the join challenge");
   // numeric columns stay quiet
   for (const f of ["=E2+F2", "=F2 + G2", "=E2+F2+G2"]) assert.ok(gapQuiet(d(f, {}), /Use & to join/), `false warn on ${f}`);
+  // challenges that use B and C as numbers stay quiet
+  for (const t of ["=B4*C$2", '=LET(YS,B2,UTS,C2,YT,YS/UTS,IF(YT<0.78,"Review","Accept"))', '=MAP(B2:B20,C2:C20,LAMBDA(YS,UTS,IFERROR(YS/UTS,"")))']) {
+    assert.ok(gapQuiet(d("=B2+C2", gapCh(t)), /Use & to join/), `false warn on numeric B/C challenge ${t}`);
+  }
   // no leak: message must not contain the target formula
   const msg = d("=H2 + C2", cc).find(f => /Use & to join/.test(f.msg)).msg;
   assert.ok(!msg.includes('" - "'), "must not leak the separator");
@@ -926,6 +930,7 @@ test("gap 2: wrong XLOOKUP lookup value is flagged per call", () => {
     assert.ok(gapQuiet(d(f, x), /lookup value/i), `false warn on ${f}`);
   }
   assert.ok(gapQuiet(d('=XLOOKUP(M2,C2:C28,E2:E28)&XLOOKUP(M2,C2:C28,H2:H28)', {}), /lookup value/i), "same key twice is fine");
+  assert.ok(gapHit(d('=XLOOKUP($M$3,C2:C28,E2:E28,"Not found")', x), /lookup value/i), "absolute wrong key is still wrong");
   const multi = gapCh('=XLOOKUP(1,(C2:C28=M2)*(D2:D28=M3),E2:E28,"Not found")');
   assert.ok(gapQuiet(d('=XLOOKUP(TRUE,(C2:C28=M2)*(D2:D28=M3),E2:E28,"Not found")', multi), /lookup value/i));
 });
@@ -952,6 +957,8 @@ test("gap 3: a typed literal in place of the input cell is flagged", () => {
   const dr = gapCh('=SUMIFS(G2:G28,A2:A28,">="&M2,A2:A28,"<="&M3)');
   assert.ok(d('=SUMIFS(G2:G28,A2:A28,">=2026-07-01",A2:A28,"<=2026-07-07")', dr).some(x => /input cells M2 and M3/.test(x.msg)), "plural wording");
   assert.ok(gapQuiet(d("=0", dr), /typed in/i), "a bare constant is not a typed criterion");
+  // operators the target also types (">=", "<=") are not hard-coded inputs
+  assert.ok(gapQuiet(d('=SUMIFS(G2:G28,A2:A28,">="&M2,A2:A28,"<="&M2)', dr), /typed in/i), "target's own literals are not typed inputs");
   // quiet on the right answers and $ variants
   assert.ok(gapQuiet(d("=SUMIFS(G2:G28,B2:B28,$M$2)", s), /typed in|hard-coded/i));
   assert.ok(gapQuiet(d('=SUMIFS(G2:G28,B2:B28,M2,H2:H28,"<>")', s), /typed in|hard-coded/i));
