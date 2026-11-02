@@ -94,7 +94,7 @@ test("all 50 real challenges: accepted answers clean, broken formula flagged, hi
       2: ["=E2/M2", /locks|\$M/i],
       3: ["=B4*C2", /locks/i],
       4: ["=IF(E2>100,REVIEW,ACCEPT)", /quote|unquoted/i],
-      5: ["=H2<>", /Next:/],
+      5: ["=H2=\"\"", /Next:/],
       6: ["=C2+\" - \"+H2", /&/],
       7: ["=AVERAGE(E2,E6)", /range|E2:E6/i],
       8: ["=Production Data!E2", /apostrophe|quoted/i],
