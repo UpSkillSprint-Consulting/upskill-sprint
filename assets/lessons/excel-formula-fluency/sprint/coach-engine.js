@@ -244,10 +244,40 @@
     const learnerNorm = norm(formula);
     if (accepted.includes(learnerNorm)) return null; // never flag an accepted answer
 
+    // Targeted checks that must run even when the sample results happen to match.
+    const pre = [];
+    // Input cell replaced by a typed value: the target reads M2/M3…, the learner drops it and types a literal.
+    {
+      const cellsOf = s => (stripQuoted(s).match(/(?<![A-Za-z0-9_.$])\$?M\$?\d+(?![\d:(])/gi) || []).map(x => x.replace(/\$/g, "").toUpperCase());
+      const litsOf = s => {
+        const src = String(s || "");
+        const strs = (src.match(/"(?:[^"]|"")*"/g) || []).map(x => x.toUpperCase());
+        const nums = (stripQuoted(src).replace(/\$?[A-Z]{1,3}\$?\d+(?::\$?[A-Z]{1,3}\$?\d+)?/gi, "").match(/(?<![A-Za-z0-9_.])\d+(?:\.\d+)?(?![A-Za-z0-9_(])/g) || []);
+        return [...strs, ...nums];
+      };
+      const tCellsM = [...new Set(cellsOf(challenge.f))];
+      const lCellsM = cellsOf(formula);
+      const dropped = tCellsM.filter(c => !lCellsM.includes(c));
+      const tLits = litsOf(challenge.f);
+      const typed = litsOf(formula).filter(x => !tLits.includes(x) && x !== '""');
+      if (dropped.length && typed.length) {
+        const cells = dropped.join(" and ");
+        pre.push({ level: "warn", msg: `The criterion is typed in as a value instead of reading the input cell ${cells}. Next: refer to ${cells} so the formula updates when the input changes.` });
+      }
+    }
+    // Row-returning FILTER target answered with COUNTIF/COUNTIFS: a count, not the rows.
+    {
+      const tTop = String(challenge.f).replace(/^=\s*/, "");
+      if (/^FILTER\s*\(/i.test(tTop) && /\bCOUNTIFS?\s*\(/i.test(formula) && !/\bFILTER\s*\(/i.test(formula)) {
+        const fnName = /\bCOUNTIFS\s*\(/i.test(formula) ? "COUNTIFS" : "COUNTIF";
+        pre.push({ level: "warn", msg: `${fnName} counts the matching rows; it does not return them. This challenge asks for the rows themselves. Next: use a function that returns every row meeting the conditions, with a message for when none match.` });
+      }
+    }
+
     // Result-based acceptance: if the existing lesson grader says the results match, it is correct.
-    if (resultsEqual(formula, challenge.f)) return null;
+    if (resultsEqual(formula, challenge.f)) return pre.length ? pre : null;
     if (resultsDiffer(formula, challenge.f)) {
-      return [{ level: "warn", msg: "The result differs from the target on the sample data. Next: check the ranges, criteria and function so both formulas return the same value." }];
+      return [...pre, { level: "warn", msg: "The result differs from the target on the sample data. Next: check the ranges, criteria and function so both formulas return the same value." }];
     }
 
     const learnerTokens = tokenize(formula).tokens || [];
@@ -255,7 +285,7 @@
     const learnerFns = extractFunctions(learnerTokens);
     const expectedFns = extractFunctions(expectedTokens);
 
-    const notes = [];
+    const notes = [...pre];
 
     const missingFns = expectedFns.filter(f => f && !learnerFns.includes(f));
     const extraFns = learnerFns.filter(f => f && !expectedFns.includes(f));
