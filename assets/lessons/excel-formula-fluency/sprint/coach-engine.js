@@ -248,7 +248,7 @@
     }
 
     // Order of operations: multiplication binds tighter
-    if (/\([^)]+\+[^)]+\)\s*\*/.test(challenge.f || "") && /\+.*\*/.test(formula) && !/\(/.test(formula.split("*")[0] || "")) {
+    if (/\([^)]+\+[^)]+\)\s*\*/.test(challenge.f || "") && /^\s*=\s*[A-Z]+\d+\s*\+\s*[A-Z]+\d+\s*\*\s*[A-Z]+\d+\s*$/i.test(formula)) {
       notes.push({ level: "warn", msg: "Multiplication binds tighter than addition. Next: add parentheses so the addition happens first." });
     }
     // Opposite comparison
@@ -264,12 +264,13 @@
       notes.push({ level: "warn", msg: "The target uses # for a spilled range. Your formula does not. Next: append # to the spill anchor." });
     }
     // Wrong column/row on a simple reference
-    function refs(s) { return (String(s).replace(/"([^"]|"")*"/g, "").match(/\$?[A-Z]{1,3}\$?\d+/gi) || []).map(r => r.replace(/\$/g, "").toUpperCase()); }
+    function refs(s) { return (String(s).replace(/"([^"]|"")*"/g, "").replace(/[A-Za-z0-9 ]+!/g, "").match(/\$?[A-Z]{1,3}\$?\d+/gi) || []).map(r => r.replace(/\$/g, "").toUpperCase()); }
     const tRefs = refs(challenge.f);
     const lRefs = refs(formula);
-    if (tRefs.length && lRefs.length && tRefs.some(r => !lRefs.includes(r))) {
+    if (tRefs.length && lRefs.length && tRefs.some(r => !lRefs.includes(r)) && !/\[|TapTimeRange|[A-Z][a-z]+Range/.test(formula)) {
       const extra = lRefs.filter(r => !tRefs.includes(r));
-      notes.push({ level: "warn", msg: `The references do not match the target${extra.length ? " (" + extra.slice(0, 2).join(", ") + " isn't used here)" : ""}. Next: check the column and row against the challenge.` });
+      const verb = extra.length > 1 ? "aren't" : "isn't";
+      notes.push({ level: "warn", msg: `The references do not match the target${extra.length ? " (" + extra.slice(0, 2).join(", ") + " " + verb + " used here)" : ""}. Next: check the column and row against the challenge.` });
     }
 
     return notes.length ? notes : null;

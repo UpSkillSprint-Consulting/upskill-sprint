@@ -113,38 +113,38 @@ test("all 50 real challenges: accepted answers clean, broken formula flagged, hi
       20: ["=FILTER(A:A,H2:H28=\"FAIL\")", /whole-column|Next:/i],
       21: ["=AVERAGE(E2:E28)", /skew|median/i],
       22: ["=MAX(F2:F28)", /P90|percentile/i],
-      23: ["=COUNT(UNIQUE(B2:B28))", /Next:/],
-      24: ["=UNIQUE(B2:B28)", /Next:/],
+      23: ["=COUNT(B:B)", /whole-column|Next:/i],
+      24: ["=UNIQUE(B:B)", /whole-column|Next:/i],
       25: ["=AVERAGE(E2:E6)", /Next:/],
       26: ["=SUMIFS(B2:B28,M2,G2:G28)", /sum range|first/i],
       27: ["=SUMIFS(G2:G28,A2:A28,M2)", /Next:/],
       28: ["=AVERAGE(E2:E28)", /weighted|tonnage/i],
-      29: ["=LEFT(C2,3)", /Next:/],
-      30: ["=RIGHT(C2,3)", /Next:/],
+      29: ["=LEFT(C:C,3)", /whole-column|Next:/i],
+      30: ["=RIGHT(C:C,3)", /whole-column|Next:/i],
       31: ["=COUNTA(D2)", /#|spill/i],
       32: ["=CHOOSECOLS(A:H,2,3,8)", /whole-column|Next:/i],
       33: ["=A:INDEX(A:A,XMATCH(TRUE,A:A<>\"\",0,-1))", /whole-column|Next:/i],
       34: ["=AVERAGE(E:E)", /whole-column|Next:/i],
-      35: ["=IF(B2/C2<0.78,\"Review\",\"Accept\")", /Next:/],
+      35: ["=IF(B:B/C:C<0.78,\"Review\",\"Accept\")", /whole-column|Next:/i],
       36: ["=MEDIAN(E2:E28)", /Next:/],
-      37: ["=MEDIAN(FILTER(E2:E28,D2:D28=M2))", /Next:/],
-      38: ["=LAMBDA(YS,UTS,YS/UTS)", /Next:/],
-      39: ["=MAP(B2:B20,C2:C20,LAMBDA(YS,UTS,YS/UTS))", /Next:/],
-      40: ["=BYROW(B2:F10,AVERAGE)", /Next:/],
-      41: ["=BYCOL(B2:F10,MAX)", /Next:/],
-      42: ["=SCAN(0,G2:G28,total+x)", /Next:/],
-      43: ["=REDUCE(0,E2:E28,count+1)", /Next:/],
-      44: ["=MAKEARRAY(5,5,r*c)", /Next:/],
+      37: ["=MEDIAN(FILTER(E:E,D:D=M2))", /whole-column|Next:/i],
+      38: ["=LAMBDA(YS,UTS,YS/E:E)", /whole-column|Next:/i],
+      39: ["=MAP(B:B,C:C,LAMBDA(YS,UTS,YS/UTS))", /whole-column|Next:/i],
+      40: ["=BYROW(B:F,LAMBDA(r,AVERAGE(r)))", /whole-column|Next:/i],
+      41: ["=BYCOL(B:F,LAMBDA(c,MAX(c)))", /whole-column|Next:/i],
+      42: ["=SCAN(0,G:G,LAMBDA(total,x,total+x))", /whole-column|Next:/i],
+      43: ["=REDUCE(0,E:E,LAMBDA(count,x,count+1))", /whole-column|Next:/i],
+      44: ["=MAKEARRAY(5,5,LAMBDA(r,c,r*c))", /Next:/],
       45: ["=GROUPBY(B2:B28,F2:F28,SUM)", /structured|Next:/i],
       46: ["=PIVOTBY(B2:B28,D2:D28,F2:F28,SUM)", /structured|Next:/i],
-      47: ["=A1:H1000", /Next:/],
+      47: ["=A:H", /whole-column|Next:/i],
       48: ['=COUNTIF(H2:H28,"FAIL")', /proportion|p-chart/i],
       49: ["=AVERAGE(E2:E28)", /Next:/]
     };
     if (brokenTable[i]) {
       const [bf, re] = brokenTable[i];
       const findings = Engine.diagnose(bf, c);
-      const ok = findings.some(f => re.test(f.msg) && /Next:/.test(f.msg));
+      const ok = findings.some(f => (f.level === "error" || f.level === "warn") && re.test(f.msg) && /Next:/.test(f.msg));
       if (!ok) fails.push(`Challenge ${i} broken ${bf}: ${findings.map(f=>f.level+":"+f.msg).join(" | ") || "(none)"}`);
     }
     // Non-literal equivalent: $-anchored or spaced version of c.f, if not already in c.a
@@ -714,3 +714,17 @@ test("wildcard, p-chart, time strings, and patterns", () => {
   }
 });
 
+test("wrong-reference rule strips quotes and names the ref", () => {
+  const d = Engine.diagnose;
+  const c11 = { f: '=COUNTIF(C2:C28,"*A00*")' };
+  const quoted = d('=COUNTIF(C2:C28,"*A001*")', c11);
+  assert.ok(!quoted.some(x => /references do not match/i.test(x.msg)), "quoted text is not a ref");
+  const sheet = d("=Sheet2!C2", { f: "=E2" });
+  assert.ok(!sheet.some(x => /EET2/.test(x.msg)), "sheet prefix stripped");
+  const two = d("=E3+E29", { f: "=E2+F2" });
+  assert.ok(two.some(x => /aren't/.test(x.msg)), "plural aren't");
+  const structured = d('=XLOOKUP(M2,ProductionData[Heat ID],ProductionData[Tap Time],"x")', { f: '=XLOOKUP(M2,C2:C28,E2:E28,"Not found")' });
+  assert.ok(!structured.some(x => /references do not match/i.test(x.msg)), "structured refs skip the rule");
+  const distributive = d("=E2*G2+F2*G2", { f: "=(E2+F2)*G2" });
+  assert.ok(!distributive.some(x => /binds tighter/i.test(x.msg)), "distributive is correct");
+});
