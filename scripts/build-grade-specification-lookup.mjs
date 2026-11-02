@@ -182,7 +182,9 @@ const guideOpenGraph = [
 function prepareGuide(originalHtml, guideNotice) {
   let guide = renameTool(originalHtml)
     .replace('<title>How to Use — Material Specification Lookup</title>', '<title>Material Specification Lookup Guide | UpSkill Sprint</title>')
-    .replaceAll('href="grade_spec_lookup.html#compliance"', 'href="../#compliance"')
+    // The tool runs inside an access-checked iframe, so a "#compliance" fragment on the
+    // parent URL never reaches it. The Compliance Check panel is the tool's default tab.
+    .replaceAll('href="grade_spec_lookup.html#compliance"', 'href="../"')
     .replaceAll('href="grade_spec_lookup.html"', 'href="../"')
     .replace('>← Back to Tool<', '>Back to Tool<')
     .replace('>↑</button>', '>Top</button>')
