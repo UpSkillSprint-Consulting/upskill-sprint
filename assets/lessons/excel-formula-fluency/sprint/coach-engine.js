@@ -213,7 +213,7 @@
 
     const missingFns = expectedFns.filter(f => f && !learnerFns.includes(f));
     const extraFns = learnerFns.filter(f => f && !expectedFns.includes(f));
-    if (missingFns.length) notes.push({ level: "warn", msg: `The target uses ${missingFns.join(", ")}; your formula does not. Next: use the target function or an equivalent that returns the same result on the sample data.` });
+    if (missingFns.length) notes.push(`The target uses ${missingFns.join(", ")}; your formula does not. Next: use the target function or an equivalent that returns the same result on the sample data.`);
     if (extraFns.length) notes.push(`The target does not use ${extraFns.join(", ")}; your formula does. Next: remove the extra function or confirm it returns the same result on the sample data.`);
 
     if (challenge.f.includes("FILTER") && learnerFns.includes("FILTER")) {
@@ -259,6 +259,18 @@
     if (/\*\s*\(/.test(challenge.f || "") && /FILTER|XLOOKUP/i.test(formula) && !/\*/.test(formula)) {
       notes.push({ level: "warn", msg: "The target combines two conditions. Your formula has one. Next: add the second condition." });
     }
+    // Fixed-width vs delimiter
+    if (/TEXTBEFORE|TEXTAFTER/i.test(challenge.f || "") && /LEFT|RIGHT/i.test(formula)) {
+      notes.push({ level: "warn", msg: "A fixed-width cut misses a variable-length piece. Next: split on the delimiter instead." });
+    }
+    // COUNT vs ROWS for unique count
+    if (/ROWS/i.test(challenge.f || "") && /UNIQUE/i.test(challenge.f || "") && /COUNT\s*\(/i.test(formula) && !/ROWS/i.test(formula)) {
+      notes.push({ level: "warn", msg: "COUNT ignores text. Next: use ROWS to count the unique list." });
+    }
+    // Missing guard
+    if (/IF\s*\(\s*COUNT/i.test(challenge.f || "") && !/IF\s*\(\s*COUNT/i.test(formula)) {
+      notes.push({ level: "warn", msg: "The target guards against no matching rows. Next: add a check for an empty result." });
+    }
     // Missing LAMBDA in a lambda-helper
     if (/LAMBDA/i.test(challenge.f || "") && /BYROW|BYCOL|SCAN|REDUCE|MAKEARRAY|MAP/i.test(formula) && !/LAMBDA/i.test(formula)) {
       notes.push({ level: "warn", msg: "This function needs a LAMBDA to describe one step. Next: wrap the per-item logic in LAMBDA." });
@@ -279,14 +291,16 @@
     function refs(s) { return (String(s).replace(/"([^"]|"")*"/g, "").replace(/[A-Za-z0-9 ]+!/g, "").match(/\$?[A-Z]{1,3}\$?\d+/gi) || []).map(r => r.replace(/\$/g, "").toUpperCase()); }
     const tRefs = refs(challenge.f);
     const lRefs = refs(formula);
-    if (tRefs.length && lRefs.length && tRefs.some(r => !lRefs.includes(r)) && !/\[/.test(formula) && !/[A-Za-z_][A-Za-z0-9_]*(?!\d)/.test(formula.replace(/[A-Z]{1,3}\d+/gi, ""))) {
+    const stripped = formula.replace(/"[^"]*"/g, "").replace(/[A-Z]{1,3}\d+/gi, "").replace(/\[[^\]]*\]/g, "");
+    const hasName = /[A-Za-z_][A-Za-z0-9_]*\b(?!\s*\()/.test(stripped);
+    if (tRefs.length && lRefs.length && tRefs.some(r => !lRefs.includes(r)) && !/\[/.test(formula) && !hasName) {
       const extra = lRefs.filter(r => !tRefs.includes(r));
       const missing = tRefs.filter(r => !lRefs.includes(r));
       if (extra.length) {
         const verb = extra.length > 1 ? "aren't" : "isn't";
         notes.push({ level: "warn", msg: `The references do not match the target (${extra.slice(0, 2).join(", ")} ${verb} used here). Next: check the column and row against the challenge.` });
       } else if (missing.length) {
-        notes.push({ level: "warn", msg: "The formula is missing a reference the challenge needs. Next: filter to the rows the challenge asks about." });
+        notes.push({ level: "warn", msg: "The formula is missing a reference the challenge needs. Next: check which input the challenge asks for." });
       }
     }
 
