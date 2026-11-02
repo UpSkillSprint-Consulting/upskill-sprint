@@ -880,3 +880,95 @@ test("item 8 message fixes on the real challenges", () => {
   // The generic "target uses X" note stays info.
   assert.ok(d("=SUM(E2:E6)/COUNT(E2:E6)", cs[7]).filter(x => /The target uses/.test(x.msg)).every(x => x.level === "info"), "generic note stays info");
 });
+
+// ─── PR #378 remaining gaps (Nov 2) ───────────────────────────
+function gapHit(findings, re) {
+  return findings.some(f => (f.level === "error" || f.level === "warn") && re.test(f.msg) && /Next:/.test(f.msg));
+}
+function gapQuiet(findings, re) {
+  return !findings.some(f => (f.level === "error" || f.level === "warn") && re.test(f.msg));
+}
+const gapCh = f => loadChallenges().find(c => c.f === f);
+
+test("gap 1: + between text cells is flagged with or without spaces", () => {
+  const d = Engine.diagnose;
+  for (const f of ["=H2 + C2", "=H2+C2", "=C2 +H2", "=B2+H2", "=$C$2 + $H2"]) {
+    assert.ok(gapHit(d(f, {}), /Use & to join text/), `missed ${f}`);
+  }
+  const cc = gapCh('=C2&" - "&H2');
+  assert.ok(gapHit(d("=H2 + C2", cc), /Use & to join text/), "missed =H2 + C2 on the join challenge");
+  // numeric columns stay quiet
+  for (const f of ["=E2+F2", "=F2 + G2", "=E2+F2+G2"]) assert.ok(gapQuiet(d(f, {}), /Use & to join/), `false warn on ${f}`);
+  // no leak: message must not contain the target formula
+  const msg = d("=H2 + C2", cc).find(f => /Use & to join/.test(f.msg)).msg;
+  assert.ok(!msg.includes('" - "'), "must not leak the separator");
+});
+
+test("gap 2: wrong XLOOKUP lookup value is flagged per call", () => {
+  const d = Engine.diagnose;
+  const ctxFree = d("=XLOOKUP(M2,C2:C28,E2:E28)+XLOOKUP(M3,C2:C28,F2:F28)", {});
+  assert.ok(gapHit(ctxFree, /2nd XLOOKUP.*lookup value/i), "missed context-free mismatched lookup value");
+  const x = gapCh('=XLOOKUP(M2,C2:C28,E2:E28,"Not found")');
+  assert.ok(gapHit(d('=XLOOKUP(M3,C2:C28,E2:E28,"Not found")', x), /This XLOOKUP.*lookup value/i), "missed wrong lookup value vs target");
+  assert.ok(gapHit(d('=XLOOKUP(C2,C2:C28,E2:E28,"Not found")', x), /lookup value/i), "missed C2 as lookup value");
+  const two = d('=XLOOKUP(M2,C2:C28,E2:E28,"Not found")&XLOOKUP(M3,C2:C28,H2:H28,"Not found")', x);
+  assert.ok(gapHit(two, /The 2nd XLOOKUP.*lookup value/i), "per-call naming");
+  assert.ok(!two.some(f => /1st XLOOKUP.*lookup value/i.test(f.msg)), "1st call is fine");
+  const msg = two.find(f => /lookup value/i.test(f.msg)).msg;
+  assert.ok(!/=XLOOKUP|C2:C28|E2:E28/.test(msg), "must not leak the answer ranges");
+  // valid equivalents stay quiet
+  for (const f of ['=XLOOKUP($M$2,C2:C28,E2:E28,"Not found")', '=XLOOKUP(M$2,$C$2:$C$28,$E$2:$E$28,"Not found")',
+    '=XLOOKUP(HeatID,C2:C28,E2:E28,"Not found")', '=XLOOKUP(M2,ProductionData[Heat ID],ProductionData[Tap Time],"Not found")',
+    '=XLOOKUP(M2,C2:C30,E2:E30,"Not found")', '=XLOOKUP( M2 , C2:C28 , E2:E28 , "Not found" )']) {
+    assert.ok(gapQuiet(d(f, x), /lookup value/i), `false warn on ${f}`);
+  }
+  assert.ok(gapQuiet(d('=XLOOKUP(M2,C2:C28,E2:E28)&XLOOKUP(M2,C2:C28,H2:H28)', {}), /lookup value/i), "same key twice is fine");
+  const multi = gapCh('=XLOOKUP(1,(C2:C28=M2)*(D2:D28=M3),E2:E28,"Not found")');
+  assert.ok(gapQuiet(d('=XLOOKUP(TRUE,(C2:C28=M2)*(D2:D28=M3),E2:E28,"Not found")', multi), /lookup value/i));
+});
+
+test("gap 3: a typed literal in place of the input cell is flagged", () => {
+  const d = Engine.diagnose;
+  const s = gapCh("=SUMIFS(G2:G28,B2:B28,M2)");
+  for (const f of ['=SUMIF(B2:B28,"Melt Shop",G2:G28)', '=SUMIFS(G2:G28,B2:B28,"Melt Shop")']) {
+    const r = d(f, s);
+    assert.ok(gapHit(r, /typed in|hard-coded/i), `missed ${f}`);
+    assert.ok(r.some(x => /M2/.test(x.msg) && /updates|changes/i.test(x.msg)), "should point to M2");
+  }
+  // every challenge with an input cell: replacing the input with a literal is flagged
+  const ch = loadChallenges();
+  let n = 0;
+  ch.forEach((c, i) => {
+    if (!/(?<![A-Z$])\$?M\$?\d+/.test(c.f)) return;
+    const lit = c.f.replace(/(?<![A-Za-z$])M2(?!\d)/g, '"Melt Shop"').replace(/(?<![A-Za-z$])M3(?!\d)/g, "27");
+    if (lit === c.f) return;
+    n++;
+    assert.ok(gapHit(d(lit, c), /typed in|hard-coded/i), `challenge ${i + 1}: missed literal ${lit}`);
+  });
+  assert.ok(n >= 10, `expected at least 10 input-cell challenges, saw ${n}`);
+  // quiet on the right answers and $ variants
+  assert.ok(gapQuiet(d("=SUMIFS(G2:G28,B2:B28,$M$2)", s), /typed in|hard-coded/i));
+  assert.ok(gapQuiet(d('=SUMIFS(G2:G28,B2:B28,M2,H2:H28,"<>")', s), /typed in|hard-coded/i));
+});
+
+test("gap 3: grading does not count a typed literal as correct", () => {
+  const html = fs.readFileSync(path.join(__dirname, "../lessons/power-bi-excel-sql/excel-formula-fluency.html"), "utf8");
+  assert.ok(/const ok=c\.a\.map\(normalize\)\.includes\(normalize\(input\)\)/.test(html), "checkAnswer must stay exact-match");
+  for (const c of loadChallenges()) {
+    if (!/M\d/.test(c.f)) continue;
+    for (const a of c.a) assert.ok(/M\d/.test(a), `accepted answer ${a} drops the input cell`);
+  }
+});
+
+test("gap 4: COUNTIF on a row-returning FILTER challenge gets a targeted warn", () => {
+  const d = Engine.diagnose;
+  const and = gapCh('=FILTER(A2:H28,(B2:B28="Rolling Mill")*(H2:H28="FAIL"),"No records")');
+  const or = gapCh('=FILTER(A2:H28,(H2:H28="FAIL")+(H2:H28="HOLD"),"No records")');
+  for (const [f, c] of [['=COUNTIFS(B2:B28,"Rolling Mill",H2:H28,"FAIL")', and], ['=COUNTIF(H2:H28,"FAIL")+COUNTIF(H2:H28,"HOLD")', or], ['=COUNTIFS(H2:H28,"FAIL")', or]]) {
+    const r = d(f, c);
+    assert.ok(gapHit(r, /COUNTIF.*counts.*rows/i), `missed ${f}`);
+    assert.ok(!r.find(x => /COUNTIF.*counts/i.test(x.msg)).msg.includes("A2:H28"), "no range leak");
+  }
+  const cf = gapCh('=COUNTIF(H2:H28,"FAIL")');
+  assert.ok(gapQuiet(d('=COUNTIF(H2:H28,"FAIL")', cf), /counts.*rows/i), "COUNTIF challenge stays quiet");
+});
