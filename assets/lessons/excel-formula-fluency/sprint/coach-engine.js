@@ -20,7 +20,7 @@
     const body = f.slice(1);
     const tokens = [];
     // Skip quoted strings so paren and != checks do not fire inside text
-    const re = /("[^"]*"|'[^']*'|[A-Za-z_][A-Za-z0-9_.]*\s*\(|\$?[A-Za-z]{1,3}\$?\d+|\$?[A-Za-z]{1,3}:\$?[A-Za-z]{1,3}|[A-Za-z_][A-Za-z0-9_]*\[@?[A-Za-z0-9_ ]*\]|#|[\(\)\+\-\*\/\^&=<>!,;]|[0-9.]+)/g;
+    const re = /("[^"]*"|'[^']*'|[A-Za-z_][A-Za-z0-9_.]*\s*\(|\$?[A-Za-z]{1,3}\$?\d+|\$?[A-Za-z]{1,3}:\$?[A-Za-z]{1,3}(?![A-Za-z0-9_(])|[A-Za-z_][A-Za-z0-9_]*\[@?[A-Za-z0-9_ ]*\]|#|[\(\)\+\-\*\/\^&=<>!,;]|[0-9.]+)/g;
     let m;
     while ((m = re.exec(body)) !== null) {
       const t = m[1].trim();
@@ -191,6 +191,52 @@
   }
 
 
+  // String-aware call finder: returns the top-level argument list of every fnName( call.
+  function calls(s, fnName) {
+    const src = String(s || "");
+    const re = new RegExp("(^|[^A-Za-z0-9_.])" + fnName + "\\s*\\(", "gi");
+    const out = [];
+    let m;
+    while ((m = re.exec(src)) !== null) {
+      const before = src.slice(0, m.index + m[1].length);
+      if ((before.match(/"/g) || []).length % 2 === 1) continue;
+      let depth = 1, i = m.index + m[0].length, inQ = false, cur = "";
+      const args = [];
+      while (i < src.length && depth > 0) {
+        const ch = src[i];
+        if (ch === '"') { inQ = !inQ; cur += ch; i++; continue; }
+        if (!inQ && ch === "(") depth++;
+        else if (!inQ && ch === ")") { depth--; if (depth === 0) break; }
+        if (!inQ && ch === "," && depth === 1) { args.push(cur.trim()); cur = ""; }
+        else cur += ch;
+        i++;
+      }
+      args.push(cur.trim());
+      out.push(args);
+    }
+    return out;
+  }
+  function stripQuoted(s) { return String(s || "").replace(/"([^"]|"")*"/g, '""'); }
+  // Does the expression use the identifier as a whole word (outside quotes)?
+  function usesName(expr, name) {
+    return new RegExp("(^|[^A-Za-z0-9_.])" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?![A-Za-z0-9_.(])", "i").test(stripQuoted(expr));
+  }
+  // Rectangles for cell refs and ranges, after quotes and sheet prefixes are removed.
+  function colNum(c) { let n = 0; for (const ch of c.toUpperCase()) n = n * 26 + ch.charCodeAt(0) - 64; return n; }
+  function rects(s) {
+    const clean = String(s || "").replace(/"([^"]|"")*"/g, "").replace(/'[^']*'!|[A-Za-z0-9_.]+!/g, "");
+    const out = [];
+    const re = /(?<![A-Za-z0-9_.])\$?([A-Z]{1,3})\$?(\d+)(?::\$?([A-Z]{1,3})\$?(\d+))?(?![A-Za-z0-9_(])/gi;
+    let m;
+    while ((m = re.exec(clean)) !== null) {
+      const c1 = colNum(m[1]), r1 = +m[2];
+      const c2 = m[3] ? colNum(m[3]) : c1, r2 = m[4] ? +m[4] : r1;
+      out.push({ text: m[0].replace(/\$/g, "").toUpperCase(), c1: Math.min(c1, c2), c2: Math.max(c1, c2), r1: Math.min(r1, r2), r2: Math.max(r1, r2) });
+    }
+    return out;
+  }
+  function inside(a, b) { return a.c1 >= b.c1 && a.c2 <= b.c2 && a.r1 >= b.r1 && a.r2 <= b.r2; }
+
   function norm(s) { return String(s || "").replace(/\s+/g, "").toUpperCase(); }
   function compareToChallenge(formula, challenge) {
     if (!challenge || !challenge.f) return null;
@@ -256,11 +302,11 @@
       notes.push({ level: "warn", msg: "Unquoted text in a FILTER criterion is treated as a name. Next: wrap the text in double quotes." });
     }
     // Missing second criterion in a two-condition target
-    if (/\*\s*\(/.test(challenge.f || "") && /FILTER|XLOOKUP/i.test(formula) && !/\*/.test(formula)) {
+    if (/\*\s*\(/.test(challenge.f || "") && /FILTER|XLOOKUP/i.test(formula) && !/\*/.test(formula) && !/\bIF\s*\(/i.test(formula)) {
       notes.push({ level: "warn", msg: "The target combines two conditions. Your formula has one. Next: add the second condition." });
     }
     // Fixed-width vs delimiter
-    if (/TEXTBEFORE|TEXTAFTER/i.test(challenge.f || "") && /LEFT|RIGHT/i.test(formula)) {
+    if (/TEXTBEFORE|TEXTAFTER/i.test(challenge.f || "") && [...calls(formula, "LEFT"), ...calls(formula, "RIGHT")].some(a => /^\d+$/.test(a[1] || ""))) {
       notes.push({ level: "warn", msg: "A fixed-width cut misses a variable-length piece. Next: split on the delimiter instead." });
     }
     // COUNT vs ROWS for unique count
@@ -272,7 +318,9 @@
       notes.push({ level: "warn", msg: "The target guards against no matching rows. Next: add a check for an empty result." });
     }
     // Missing LAMBDA in a lambda-helper
-    if (/LAMBDA/i.test(challenge.f || "") && /BYROW|BYCOL|SCAN|REDUCE|MAKEARRAY|MAP/i.test(formula) && !/LAMBDA/i.test(formula)) {
+    const helperCalls = ["BYROW", "BYCOL", "SCAN", "REDUCE", "MAKEARRAY", "MAP"].flatMap(fn => calls(formula, fn));
+    const etaOnly = helperCalls.length && helperCalls.every(a => /^[A-Z][A-Z0-9.]*$/i.test(a[a.length - 1] || "") && !/^[A-Z]{1,3}\d+$/i.test(a[a.length - 1]));
+    if (/LAMBDA/i.test(challenge.f || "") && helperCalls.length && !/LAMBDA/i.test(formula) && !etaOnly) {
       notes.push({ level: "warn", msg: "This function needs a LAMBDA to describe one step. Next: wrap the per-item logic in LAMBDA." });
     }
     // Opposite comparison
@@ -287,21 +335,139 @@
     if (/#/.test(challenge.f || "") && !/#/.test(formula) && /COUNTA|INDEX|ROWS/i.test(formula)) {
       notes.push({ level: "warn", msg: "The target uses # for a spilled range. Your formula does not. Next: append # to the spill anchor." });
     }
-    // Wrong column/row on a simple reference
-    function refs(s) { return (String(s).replace(/"([^"]|"")*"/g, "").replace(/[A-Za-z0-9 ]+!/g, "").match(/\$?[A-Z]{1,3}\$?\d+/gi) || []).map(r => r.replace(/\$/g, "").toUpperCase()); }
-    const tRefs = refs(challenge.f);
-    const lRefs = refs(formula);
-    const stripped = formula.replace(/"[^"]*"/g, "").replace(/[A-Z]{1,3}\d+/gi, "").replace(/\[[^\]]*\]/g, "");
-    const hasName = /[A-Za-z_][A-Za-z0-9_]*\b(?!\s*\()/.test(stripped);
-    if (tRefs.length && lRefs.length && tRefs.some(r => !lRefs.includes(r)) && !/\[/.test(formula) && !hasName) {
-      const extra = lRefs.filter(r => !tRefs.includes(r));
-      const missing = tRefs.filter(r => !lRefs.includes(r));
+    // Wrong column/row: a learner reference outside every target cell/range is a stray.
+    // Skipped when the learner uses a Table reference or a named range (a bare name that is
+    // not a function call, LET/LAMBDA name, or TRUE/FALSE), since names cannot be checked here.
+    const tR = rects(challenge.f);
+    const lR = rects(formula);
+    const strippedNames = stripQuoted(formula).replace(/'[^']*'!|[A-Za-z0-9_.]+!/g, "").replace(/\$?[A-Z]{1,3}\$?\d+/gi, "").replace(/\[[^\]]*\]/g, "");
+    const hasName = /(^|[^A-Za-z0-9_.])[A-Za-z_][A-Za-z0-9_.]*(?![A-Za-z0-9_.]|\s*\()/.test(strippedNames.replace(/\b(TRUE|FALSE)\b/gi, ""));
+    // Fires only when some target reference is not written as-is (a superset such as a
+    // second XLOOKUP on M3 that keeps every target reference stays quiet).
+    // Selection functions (INDEX, OFFSET, TAKE…) legitimately pass a wider range than the cell they return.
+    const selects = /\b(INDEX|OFFSET|INDIRECT|CHOOSEROWS|TAKE|DROP)\s*\(/i;
+    if (tR.length && lR.length && !/\[/.test(formula) && !hasName && !(selects.test(formula) && !selects.test(challenge.f)) && tR.some(t => !lR.some(r => r.text === t.text))) {
+      const extra = lR.filter(r => !tR.some(t => inside(r, t)));
+      const missing = tR.filter(t => !lR.some(r => inside(t, r) || inside(r, t)));
       if (extra.length) {
-        const verb = extra.length > 1 ? "aren't" : "isn't";
-        notes.push({ level: "warn", msg: `The references do not match the target (${extra.slice(0, 2).join(", ")} ${verb} used here). Next: check the column and row against the challenge.` });
+        const names = [...new Set(extra.map(r => r.text))];
+        const verb = names.length > 1 ? "aren't" : "isn't";
+        notes.push({ level: "warn", msg: `The references do not match the target (${names.slice(0, 2).join(", ")} ${verb} used here). Next: check the column and row against the challenge.` });
       } else if (missing.length) {
-        notes.push({ level: "warn", msg: "The formula is missing a reference the challenge needs. Next: check which input the challenge asks for." });
+        notes.push({ level: "warn", msg: "The formula leaves out an input the challenge mentions. Next: reread the challenge and check which input is not used yet." });
       }
+    }
+
+    // ─── Challenge-specific mistakes (item 8). Each is a diagnosis plus a Next: action
+    // that never names the answer formula.
+    const fU = stripQuoted(formula);
+    const tU = stripQuoted(challenge.f);
+    // Swapped division: the target divides a by b; the learner divides b by a.
+    const divPairs = [...tU.matchAll(/(\$?[A-Z]{1,3}\$?\d+)\s*\/\s*(\$?[A-Z]{1,3}\$?\d+)/gi)].map(m => [m[1], m[2]].map(r => r.replace(/\$/g, "").toUpperCase()));
+    const lDiv = [...fU.matchAll(/(\$?[A-Z]{1,3}\$?\d+)\s*\/\s*(\$?[A-Z]{1,3}\$?\d+)/gi)].map(m => [m[1], m[2]].map(r => r.replace(/\$/g, "").toUpperCase()));
+    if (divPairs.some(([a, b]) => lDiv.some(([x, y]) => x === b && y === a) && !lDiv.some(([x, y]) => x === a && y === b))) {
+      notes.push({ level: "warn", msg: "The numerator and denominator look swapped. Next: reread which value the challenge divides by which." });
+    }
+    // OR written with *: the target joins conditions with +, the learner multiplies them.
+    if (/\)\s*\+\s*\(/.test(tU) && /FILTER/i.test(tU) && /\)\s*\*\s*\(/.test(fU) && !/\)\s*\+\s*\(/.test(fU)) {
+      notes.push({ level: "warn", msg: "Multiplying the conditions means AND, so a row would have to meet both at once. Next: combine either-or conditions with + instead." });
+    }
+    // Unsorted selector list.
+    if (/\bSORT\s*\(/i.test(tU) && /\bUNIQUE\s*\(/i.test(fU) && !/\bSORT(BY)?\s*\(/i.test(fU)) {
+      notes.push({ level: "warn", msg: "The unique list is not sorted, so the selector shows values in source order. Next: sort the unique result." });
+    }
+    // TAKE from the wrong end.
+    const tTake = calls(tU, "TAKE")[0], lTake = calls(fU, "TAKE")[0];
+    if (tTake && lTake && /^-\d+$/.test(tTake[1] || "") && /^\d+$/.test(lTake[1] || "")) {
+      notes.push({ level: "warn", msg: "A positive count in TAKE returns the first rows, not the last. Next: use a negative count to take from the end." });
+    }
+    // CHOOSECOLS positions that are not column numbers, or the wrong numbers.
+    const tCC = calls(tU, "CHOOSECOLS")[0], lCC = calls(fU, "CHOOSECOLS")[0];
+    if (tCC && lCC) {
+      const lPos = lCC.slice(1);
+      const notNumbers = lPos.some(a => !/^-?\d+$/.test(a));
+      if (notNumbers || lPos.join(",") !== tCC.slice(1).join(",")) {
+        notes.push({ level: "warn", msg: notNumbers
+          ? "CHOOSECOLS takes column positions as numbers, not column letters. Next: count each column's position from the first column of the range, starting at 1."
+          : "The column positions do not pick the columns the challenge names. Next: count each column's position from the first column of the range, starting at 1." });
+      }
+    }
+    // XMATCH without the last-to-first search mode.
+    const tXM = calls(tU, "XMATCH")[0];
+    if (tXM && tXM[3] === "-1" && calls(fU, "XMATCH").some(a => (a[3] || "") !== "-1")) {
+      notes.push({ level: "warn", msg: "XMATCH searches first-to-last by default, so this finds the first nonblank cell, not the last. Next: set the search mode so it searches from the end." });
+    }
+    // A defined name written inside quotes.
+    const tNames = (tU.match(/(?<![A-Za-z0-9_.])[A-Za-z_][A-Za-z0-9_.]*(?![A-Za-z0-9_.]|\s*\()/g) || []).filter(n => !/^\$?[A-Z]{1,3}\$?\d+$/i.test(n) && !/^(TRUE|FALSE)$/i.test(n));
+    const quoted = [...String(formula).matchAll(/"([^"]*)"/g)].map(m => m[1].trim());
+    const qName = tNames.find(n => quoted.some(q => q.toUpperCase() === n.toUpperCase()));
+    if (qName && !/\bLET\s*\(|\bLAMBDA\s*\(/i.test(challenge.f)) {
+      notes.push({ level: "warn", msg: `A name in quotes is text, not the range, so "${qName}" will not average the values. Next: remove the quotes around the range name.` });
+    }
+    // LET: a name used before it is defined, or no final calculation.
+    calls(fU, "LET").forEach(a => {
+      if (a.length % 2 === 0) {
+        notes.push({ level: "warn", msg: "LET needs a final calculation after the name and value pairs. Next: add a last argument that uses the names to return the result." });
+        return;
+      }
+      const names = [];
+      for (let k = 0; k + 1 < a.length - 1; k += 2) names.push(a[k]);
+      for (let k = 0; k + 1 < a.length - 1; k += 2) {
+        const later = names.slice(k / 2).find(n => usesName(a[k + 1], n));
+        if (later) {
+          notes.push({ level: "warn", msg: `LET names are defined left to right; ${names[k / 2]} uses ${later} before it is defined. Next: define each name before a later name uses it.` });
+          break;
+        }
+      }
+    });
+    // A division with no error handling when the target returns a blank on error.
+    if (/\bIFERROR\s*\(/i.test(tU) && /""\s*\)/.test(tU) && /\/\s*[A-Za-z]/.test(fU) && !/\bIFERROR\s*\(|\bISERR(OR)?\s*\(|\bIFNA\s*\(|\bIF\s*\(/i.test(fU)) {
+      notes.push({ level: "warn", msg: "A zero or blank divisor returns #DIV/0!, but the challenge asks for a blank on error. Next: wrap the division so an error returns blank." });
+    }
+    // LAMBDA helpers: per-item parameter or accumulator not used.
+    ["BYROW", "BYCOL", "MAP", "MAKEARRAY", "SCAN", "REDUCE"].forEach(fn => {
+      calls(fU, fn).forEach(args => {
+        const lam = calls(args[args.length - 1] || "", "LAMBDA")[0];
+        if (!lam || lam.length < 2) return;
+        const params = lam.slice(0, -1), body = lam[lam.length - 1];
+        if (/^(SCAN|REDUCE)$/.test(fn)) {
+          if (params[0] && !usesName(body, params[0])) {
+            notes.push({ level: "warn", msg: `The ${fn} step does not use the accumulator (${params[0]}), so each value replaces the running result. Next: build each step from the accumulator.` });
+          }
+        } else if (!params.some(p => usesName(body, p))) {
+          notes.push({ level: "warn", msg: `The LAMBDA does not use its parameter, so every item gets the same result. Next: use ${params[0]} in the calculation.` });
+        }
+      });
+    });
+    // BYROW vs BYCOL, and REDUCE vs SCAN.
+    const swaps = [["BYCOL", "BYROW", "BYROW returns one result per row, but the challenge wants one per column. Next: step through the columns instead."],
+      ["BYROW", "BYCOL", "BYCOL returns one result per column, but the challenge wants one per row. Next: step through the rows instead."],
+      ["SCAN", "REDUCE", "REDUCE returns only the final value, not every step along the way. Next: use the helper that keeps each intermediate result."]];
+    for (const [want, got, msg] of swaps) {
+      if (new RegExp("\\b" + want + "\\s*\\(", "i").test(tU) && new RegExp("\\b" + got + "\\s*\\(", "i").test(fU) && !new RegExp("\\b" + want + "\\s*\\(", "i").test(fU)) {
+        notes.push({ level: "warn", msg });
+      }
+    }
+    // GROUPBY / PIVOTBY: aggregation and row/column order.
+    ["GROUPBY", "PIVOTBY"].forEach(fn => {
+      const t = calls(challenge.f, fn)[0], l = calls(formula, fn)[0];
+      if (!t || !l) return;
+      const aggIdx = fn === "GROUPBY" ? 2 : 3;
+      const tAgg = (t[aggIdx] || "").toUpperCase(), lAgg = (l[aggIdx] || "").toUpperCase();
+      if (tAgg && lAgg && lAgg !== tAgg && !new RegExp("(^|[^A-Z0-9_.])" + tAgg.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "([^A-Z0-9_.]|$)").test(lAgg)) {
+        notes.push({ level: "warn", msg: `The aggregation (${l[aggIdx]}) does not match what the challenge asks for. Next: reread the challenge and pick the matching aggregation.` });
+      }
+      if (fn === "PIVOTBY" && norm(l[0]) === norm(t[1]) && norm(l[1]) === norm(t[0])) {
+        notes.push({ level: "warn", msg: "The row and column fields look swapped. Next: put the field the challenge wants down the side first." });
+      }
+    });
+    // TRIMRANGE: a plain range keeps the blank edges.
+    if (/\bTRIMRANGE\s*\(/i.test(tU) && !/\bTRIMRANGE\s*\(|\.:|:\./i.test(fU) && lR.length) {
+      notes.push({ level: "warn", msg: "A plain range keeps the empty outer rows and columns. Next: trim the range so blank edges are dropped." });
+    }
+    // Rounding asked for but missing.
+    if (/\bROUND\s*\(/i.test(tU) && /\bMEDIAN\s*\(/i.test(tU) && /\bMEDIAN\s*\(/i.test(fU) && !/\bROUND(UP|DOWN)?\s*\(|\bFIXED\s*\(|\bTEXT\s*\(/i.test(fU)) {
+      notes.push({ level: "warn", msg: "The median is not rounded, so the label can show many decimal places. Next: round the median to the places the challenge asks for before joining it to the text." });
     }
 
     return notes.length ? notes : null;
@@ -376,7 +542,8 @@
     // Unquoted bare words in criteria or after = (IF, COUNTIF, COUNTIFS, SUMIF, SUMIFS)
     if (/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*(?:=|<>|,)\s*[A-Z][A-Z_]*\s*(?:,|\))/i.test(f)) {
       const bare = f.match(/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*(?:=|<>|,)\s*([A-Z][A-Z_]*)/i);
-      if (bare && !/[A-Z]+\d+/.test(bare[1]) && !/^(TRUE|FALSE|AND|OR|NOT)$/i.test(bare[1])) {
+      const boundNames = [...calls(f, "LAMBDA").flatMap(a => a.slice(0, -1)), ...calls(f, "LET").flatMap(a => a.filter((_, k) => k % 2 === 0 && k < a.length - 1))].map(n => n.toUpperCase());
+      if (bare && !/[A-Z]+\d+/.test(bare[1]) && !/^(TRUE|FALSE|AND|OR|NOT)$/i.test(bare[1]) && !boundNames.includes(bare[1].toUpperCase())) {
         findings.push({ level: "error", msg: "Unquoted text is treated as a name and returns #NAME?. Wrap it in double quotes. Next: change the bare word to a quoted string." });
       }
     }
@@ -452,8 +619,9 @@
     }
     // Partial or mismatched wildcards: learner criterion has * or ? but does not match the target's pattern
     if (challenge && quotedWild(challenge.f)) {
-      const tCrit = (challenge.f.match(/COUNTIF[S]?\s*\([^,]+,\s*"([^"]*)"/i) || [])[1];
-      const lCrit = (f.match(/COUNTIF[S]?\s*\([^,]+,\s*"([^"]*)"/i) || [])[1];
+      const joinLit = s => String(s || "").replace(/"\s*&\s*"/g, "");
+      const tCrit = (joinLit(challenge.f).match(/COUNTIF[S]?\s*\([^,]+,\s*"([^"]*)"/i) || [])[1];
+      const lCrit = (joinLit(f).match(/COUNTIF[S]?\s*\([^,]+,\s*"([^"]*)"/i) || [])[1];
       if (tCrit && lCrit && /[*?]/.test(lCrit) && lCrit !== tCrit) {
         findings.push({ level: "warn", msg: "The criterion uses only a partial wildcard. Next: match the target's wildcard pattern." });
       }
