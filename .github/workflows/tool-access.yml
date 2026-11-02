@@ -42,7 +42,8 @@ jobs:
       - run: npm run build:site
   browser:
     name: Tools (${{ matrix.browser }})
-    runs-on: ubuntu-latest
+    # ubuntu-latest is now 26.04, where Playwright cannot install chromium or webkit (same pin as 63aca75c).
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     strategy:
       fail-fast: false
