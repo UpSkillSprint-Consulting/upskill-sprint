@@ -737,3 +737,15 @@ test('generated guide provides landmarks, keyboard scroll regions and working gu
   assert.equal(printed, true);
   guideDom.window.close();
 });
+
+test('guide links never point at a fragment the tool page cannot reach', () => {
+  const d = new JSDOM(readFileSync(guidePath, 'utf8')).window.document;
+  const links = [...d.querySelectorAll('a[href]')].map((a) => a.getAttribute('href'));
+  // The tool loads inside an access-checked iframe, so "../#id" never scrolls it.
+  assert.deepEqual(links.filter((href) => /^\.\.\/?#/.test(href)), []);
+  assert.ok(links.includes('../'), 'the guide still opens the tool');
+  assert.ok([...d.querySelectorAll('a[href="../"]')].some((a) => a.textContent.trim() === 'Open Compliance Check'));
+  for (const href of links.filter((h) => h.startsWith('#') && h.length > 1)) {
+    assert.ok(d.getElementById(decodeURIComponent(href.slice(1))), `in-page link ${href} has a target`);
+  }
+});
