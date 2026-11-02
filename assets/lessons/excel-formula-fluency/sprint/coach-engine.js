@@ -213,7 +213,7 @@
 
     const missingFns = expectedFns.filter(f => f && !learnerFns.includes(f));
     const extraFns = learnerFns.filter(f => f && !expectedFns.includes(f));
-    if (missingFns.length) notes.push(`The target uses ${missingFns.join(", ")}; your formula does not. Next: use the target function or an equivalent that returns the same result on the sample data.`);
+    if (missingFns.length) notes.push({ level: "warn", msg: `The target uses ${missingFns.join(", ")}; your formula does not. Next: use the target function or an equivalent that returns the same result on the sample data.` });
     if (extraFns.length) notes.push(`The target does not use ${extraFns.join(", ")}; your formula does. Next: remove the extra function or confirm it returns the same result on the sample data.`);
 
     if (challenge.f.includes("FILTER") && learnerFns.includes("FILTER")) {
@@ -248,8 +248,20 @@
     }
 
     // Order of operations: multiplication binds tighter
-    if (/\([^)]+\+[^)]+\)\s*\*/.test(challenge.f || "") && /^\s*=\s*[A-Z]+\d+\s*\+\s*[A-Z]+\d+\s*\*\s*[A-Z]+\d+\s*$/i.test(formula)) {
+    if (/\([^)]+\+[^)]+\)\s*\*/.test(challenge.f || "") && /^\s*=\s*[A-Z]+\d+\s*\+\s*[A-Z]+\d+\s*\*\s*[A-Z]+\d+\s*$/i.test(formula.replace(/\$/g, ""))) {
       notes.push({ level: "warn", msg: "Multiplication binds tighter than addition. Next: add parentheses so the addition happens first." });
+    }
+    // Unquoted text in FILTER
+    if (/FILTER/i.test(formula) && /=\s*[A-Z][A-Z_]+\s*[,)]/.test(formula)) {
+      notes.push({ level: "warn", msg: "Unquoted text in a FILTER criterion is treated as a name. Next: wrap the text in double quotes." });
+    }
+    // Missing second criterion in a two-condition target
+    if (/\*\s*\(/.test(challenge.f || "") && /FILTER|XLOOKUP/i.test(formula) && !/\*/.test(formula)) {
+      notes.push({ level: "warn", msg: "The target combines two conditions. Your formula has one. Next: add the second condition." });
+    }
+    // Missing LAMBDA in a lambda-helper
+    if (/LAMBDA/i.test(challenge.f || "") && /BYROW|BYCOL|SCAN|REDUCE|MAKEARRAY|MAP/i.test(formula) && !/LAMBDA/i.test(formula)) {
+      notes.push({ level: "warn", msg: "This function needs a LAMBDA to describe one step. Next: wrap the per-item logic in LAMBDA." });
     }
     // Opposite comparison
     if (/<>\s*""/.test(challenge.f || "") && /=\s*""/.test(formula)) {
@@ -267,10 +279,15 @@
     function refs(s) { return (String(s).replace(/"([^"]|"")*"/g, "").replace(/[A-Za-z0-9 ]+!/g, "").match(/\$?[A-Z]{1,3}\$?\d+/gi) || []).map(r => r.replace(/\$/g, "").toUpperCase()); }
     const tRefs = refs(challenge.f);
     const lRefs = refs(formula);
-    if (tRefs.length && lRefs.length && tRefs.some(r => !lRefs.includes(r)) && !/\[|TapTimeRange|[A-Z][a-z]+Range/.test(formula)) {
+    if (tRefs.length && lRefs.length && tRefs.some(r => !lRefs.includes(r)) && !/\[/.test(formula) && !/[A-Za-z_][A-Za-z0-9_]*(?!\d)/.test(formula.replace(/[A-Z]{1,3}\d+/gi, ""))) {
       const extra = lRefs.filter(r => !tRefs.includes(r));
-      const verb = extra.length > 1 ? "aren't" : "isn't";
-      notes.push({ level: "warn", msg: `The references do not match the target${extra.length ? " (" + extra.slice(0, 2).join(", ") + " " + verb + " used here)" : ""}. Next: check the column and row against the challenge.` });
+      const missing = tRefs.filter(r => !lRefs.includes(r));
+      if (extra.length) {
+        const verb = extra.length > 1 ? "aren't" : "isn't";
+        notes.push({ level: "warn", msg: `The references do not match the target (${extra.slice(0, 2).join(", ")} ${verb} used here). Next: check the column and row against the challenge.` });
+      } else if (missing.length) {
+        notes.push({ level: "warn", msg: "The formula is missing a reference the challenge needs. Next: filter to the rows the challenge asks about." });
+      }
     }
 
     return notes.length ? notes : null;

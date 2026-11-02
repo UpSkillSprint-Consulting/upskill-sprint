@@ -108,36 +108,36 @@ test("all 50 real challenges: accepted answers clean, broken formula flagged, hi
       15: ["=XLOOKUP(M2,C2:C28,E2:E28)", /fallback/i],
       16: ["=XLOOKUP(M2,C2:C28,H2:H28,\"Not found\")", /last-to-first/i],
       17: ["=XLOOKUP(1,C2:C28=M2,E2:E28,\"x\")", /Next:/],
-      18: ["=FILTER(A:A,H2:H28=\"FAIL\")", /whole-column|Next:/i],
+      18: ["=FILTER(A2:H28,H2:H28=FAIL)", /unquoted|Next:/i],
       19: ["=FILTER(A2:H28,B2:B28=\"Rolling Mill\")", /Next:/],
       20: ["=FILTER(A:A,H2:H28=\"FAIL\")", /whole-column|Next:/i],
       21: ["=AVERAGE(E2:E28)", /skew|median/i],
       22: ["=MAX(F2:F28)", /P90|percentile/i],
-      23: ["=COUNT(B:B)", /whole-column|Next:/i],
-      24: ["=UNIQUE(B:B)", /whole-column|Next:/i],
+      23: ["=COUNT(UNIQUE(B2:B28))", /ROWS|Next:/i],
+      24: ["=UNIQUE(B2:B28)", /SORT|Next:/i],
       25: ["=AVERAGE(E2:E6)", /Next:/],
       26: ["=SUMIFS(B2:B28,M2,G2:G28)", /sum range|first/i],
-      27: ["=SUMIFS(G2:G28,A2:A28,M2)", /Next:/],
+      27: ["=SUMIFS(G:G,A2:A28,M2)", /whole-column|Next:/i],
       28: ["=AVERAGE(E2:E28)", /weighted|tonnage/i],
-      29: ["=LEFT(C:C,3)", /whole-column|Next:/i],
-      30: ["=RIGHT(C:C,3)", /whole-column|Next:/i],
+      29: ["=LEFT(C2,3)", /TEXTBEFORE|Next:/i],
+      30: ["=RIGHT(C2,3)", /TEXTAFTER|Next:/i],
       31: ["=COUNTA(D2)", /#|spill/i],
       32: ["=CHOOSECOLS(A:H,2,3,8)", /whole-column|Next:/i],
       33: ["=A:INDEX(A:A,XMATCH(TRUE,A:A<>\"\",0,-1))", /whole-column|Next:/i],
       34: ["=AVERAGE(E:E)", /whole-column|Next:/i],
-      35: ["=IF(B:B/C:C<0.78,\"Review\",\"Accept\")", /whole-column|Next:/i],
+      35: ["=IF(B2/C2<0.78,\"Review\",\"Accept\")", /LET|Next:/i],
       36: ["=MEDIAN(E2:E28)", /Next:/],
-      37: ["=MEDIAN(FILTER(E:E,D:D=M2))", /whole-column|Next:/i],
-      38: ["=LAMBDA(YS,UTS,YS/E:E)", /whole-column|Next:/i],
-      39: ["=MAP(B:B,C:C,LAMBDA(YS,UTS,YS/UTS))", /whole-column|Next:/i],
-      40: ["=BYROW(B:F,LAMBDA(r,AVERAGE(r)))", /whole-column|Next:/i],
-      41: ["=BYCOL(B:F,LAMBDA(c,MAX(c)))", /whole-column|Next:/i],
-      42: ["=SCAN(0,G:G,LAMBDA(total,x,total+x))", /whole-column|Next:/i],
-      43: ["=REDUCE(0,E:E,LAMBDA(count,x,count+1))", /whole-column|Next:/i],
+      37: ["=MEDIAN(FILTER(E2:E28,D2:D28=M2))", /LET|Next:/i],
+      38: ["=LAMBDA(YS,UTS,YS/UTS)", /IFERROR|Next:/i],
+      39: ["=MAP(B2:B20,C2:C20,LAMBDA(YS,UTS,YS/UTS))", /IFERROR|Next:/i],
+      40: ["=BYROW(B2:F10,AVERAGE)", /LAMBDA|Next:/i],
+      41: ["=BYCOL(B2:F10,MAX)", /LAMBDA|Next:/i],
+      42: ["=SCAN(0,G2:G28,total+x)", /LAMBDA|Next:/i],
+      43: ["=REDUCE(0,E2:E28,count+1)", /LAMBDA|Next:/i],
       44: ["=MAKEARRAY(5,5,r*c)", /LAMBDA|Next:/i],
       45: ["=GROUPBY(B2:B28,F2:F28,SUM)", /structured|Next:/i],
       46: ["=PIVOTBY(B2:B28,D2:D28,F2:F28,SUM)", /structured|Next:/i],
-      47: ["=A:H", /whole-column|Next:/i],
+      47: ["=A1:H1000", /TRIMRANGE|Next:/i],
       48: ['=COUNTIF(H2:H28,"FAIL")', /proportion|p-chart/i],
       49: ["=AVERAGE(E2:E28)", /Next:/]
     };
@@ -727,4 +727,14 @@ test("wrong-reference rule strips quotes and names the ref", () => {
   assert.ok(!structured.some(x => /references do not match/i.test(x.msg)), "structured refs skip the rule");
   const distributive = d("=E2*G2+F2*G2", { f: "=(E2+F2)*G2" });
   assert.ok(!distributive.some(x => /binds tighter/i.test(x.msg)), "distributive is correct");
+});
+
+test("named ranges skip wrong-ref and $ is stripped", () => {
+  const d = Engine.diagnose;
+  const named = d('=XLOOKUP(M2,HeatIDs,TapTimes,"x")', { f: '=XLOOKUP(M2,C2:C28,E2:E28,"Not found")' });
+  assert.ok(!named.some(x => /references do not match/i.test(x.msg)), "named ranges skip");
+  const dollars = d("=$E$2+$F$2*$G$2", { f: "=(E2+F2)*G2" });
+  assert.ok(dollars.some(x => /binds tighter/i.test(x.msg)), "$ stripped in order check");
+  const bare = d("=MEDIAN(E2:E28)", { f: "=MEDIAN(FILTER(E2:E28,D2:D28=M2))" });
+  assert.ok(bare.some(x => /filter to the rows/i.test(x.msg)), "missing ref points to the rows");
 });
