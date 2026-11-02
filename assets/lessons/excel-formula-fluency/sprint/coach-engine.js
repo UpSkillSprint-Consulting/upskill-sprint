@@ -247,6 +247,14 @@
       notes.push("The target uses structured references (e.g. ProductionData[Tap Time]). Your formula does not.");
     }
 
+    // Wrong column/row on a simple reference
+    function refs(s) { return (String(s).match(/\$?[A-Z]{1,3}\$?\d+/gi) || []).map(r => r.replace(/\$/g, "").toUpperCase()); }
+    const tRefs = refs(challenge.f);
+    const lRefs = refs(formula);
+    if (tRefs.length && lRefs.length && tRefs.some(r => !lRefs.includes(r))) {
+      notes.push({ level: "warn", msg: "The references do not match the target. Next: check the column and row against the challenge." });
+    }
+
     return notes.length ? notes : null;
   }
 
