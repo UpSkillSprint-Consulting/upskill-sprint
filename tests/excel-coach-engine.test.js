@@ -89,62 +89,78 @@ test("all 50 real challenges: accepted answers clean, broken formula flagged, hi
       const bad = findings.filter(f => f.level === "error" || f.level === "warn" || /Missing expected/i.test(f.msg));
       assert.equal(bad.length, 0, `Challenge ${i} accepted answer flagged: ${ans}`);
     }
+    // Strict per-challenge table (item 8). Each row is that challenge's realistic learner
+    // mistake and a regex for the TARGETED diagnosis. A row passes only if a warn or error
+    // matches the regex, includes "Next:", and does not contain c.f or any c.a. Generic
+    // regexes (bare /Next:/, or OR'ed with /Next:/ or /whole-column/) are rejected below.
     const brokenTable = {
-      0: ["=E:E+F2", /whole-column|Next:/],
-      1: ["=F2/M2", /references|column|Next:/i],
-      2: ["=E2/M2", /locks|\$M/i],
-      3: ["=B4*C2", /locks/i],
-      4: ["=IF(E2>100,REVIEW,ACCEPT)", /quote|unquoted/i],
-      5: ["=H2=\"\"", /nonblank|<>/i],
-      6: ["=C2+\" - \"+H2", /&/],
-      7: ["=AVERAGE(E2,E6)", /range|E2:E6/i],
-      8: ["=Production Data!E2", /apostrophe|quoted/i],
-      9: ["=COUNTIF(H2:H28,FAIL)", /quote|unquoted/i],
-      10: ["=COUNTIF(C2:C28,\"A00\")", /wildcard/i],
-      11: ["=IFERROR(F2/E2)", /value_if_error|second argument/i],
-      12: ["=E2+F2*G2", /order|parenthes/i],
-      13: ["=ROUND(AVERAGE(E2:E6))", /num_digits|second argument/i],
-      14: ["=[Tonnes]*[Rate]", /@|this row/i],
-      15: ["=XLOOKUP(M2,C2:C28,E2:E28)", /fallback/i],
-      16: ["=XLOOKUP(M2,C2:C28,H2:H28,\"Not found\")", /last-to-first/i],
-      17: ["=XLOOKUP(1,C2:C28=M2,E2:E28,\"x\")", /Next:/],
-      18: ["=FILTER(A2:H28,H2:H28=FAIL)", /unquoted|Next:/i],
-      19: ["=FILTER(A2:H28,B2:B28=\"Rolling Mill\")", /Next:/],
-      20: ["=FILTER(A:A,H2:H28=\"FAIL\")", /whole-column|Next:/i],
-      21: ["=AVERAGE(E2:E28)", /skew|median/i],
-      22: ["=MAX(F2:F28)", /P90|percentile/i],
-      23: ["=COUNT(UNIQUE(B2:B28))", /ROWS|COUNT ignores/i],
-      24: ["=UNIQUE(B:B)", /whole-column|Next:/i],
-      25: ["=AVERAGE(E2:E6)", /Next:/],
-      26: ["=SUMIFS(B2:B28,M2,G2:G28)", /sum range|first/i],
-      27: ["=SUMIFS(G:G,A2:A28,M2)", /whole-column|Next:/i],
-      28: ["=AVERAGE(E2:E28)", /weighted|tonnage/i],
-      29: ["=LEFT(C2,3)", /fixed-width|delimiter/i],
-      30: ["=RIGHT(C2,3)", /fixed-width|delimiter/i],
-      31: ["=COUNTA(D2)", /#|spill/i],
-      32: ["=CHOOSECOLS(A:H,2,3,8)", /whole-column|Next:/i],
-      33: ["=A:INDEX(A:A,XMATCH(TRUE,A:A<>\"\",0,-1))", /whole-column|Next:/i],
-      34: ["=AVERAGE(E:E)", /whole-column|Next:/i],
-      35: ["=IF(B:B/C:C<0.78,\"Review\",\"Accept\")", /whole-column|Next:/i],
-      36: ["=MEDIAN(E2:E28)", /Next:/],
-      37: ["=MEDIAN(FILTER(E2:E28,D2:D28=M2))", /LET|Next:/i],
-      38: ["=LAMBDA(YS,UTS,YS/E:E)", /whole-column|Next:/i],
-      39: ["=MAP(B:B,C:C,LAMBDA(YS,UTS,YS/UTS))", /whole-column|Next:/i],
-      40: ["=BYROW(B2:F10,AVERAGE)", /LAMBDA|Next:/i],
-      41: ["=BYCOL(B2:F10,MAX)", /LAMBDA|Next:/i],
-      42: ["=SCAN(0,G2:G28,total+x)", /LAMBDA|Next:/i],
-      43: ["=REDUCE(0,E2:E28,count+1)", /LAMBDA|Next:/i],
-      44: ["=MAKEARRAY(5,5,r*c)", /LAMBDA|Next:/i],
-      45: ["=GROUPBY(B2:B28,F2:F28,SUM)", /structured|Next:/i],
-      46: ["=PIVOTBY(B2:B28,D2:D28,F2:F28,SUM)", /structured|Next:/i],
-      47: ["=A:H", /whole-column|Next:/i],
-      48: ['=COUNTIF(H2:H28,"FAIL")', /proportion|p-chart/i],
-      49: ["=AVERAGE(E2:E28)", /Next:/]
+      0: ["=E2+F3", /references do not match.*F3 isn't used/],
+      1: ["=E2/F2", /numerator and denominator look swapped/],
+      2: ["=E2/M2", /locks \$M\$2/],
+      3: ["=B4*$C$2", /locks C\$2/],
+      4: ["=IF(E2>100,REVIEW,ACCEPT)", /Unquoted text is treated as a name/],
+      5: ["=H2=\"\"", /tests for blank/],
+      6: ["=C2+\" - \"+H2", /Use & to join text/],
+      7: ["=AVERAGE(E2,E6)", /two separate cells/],
+      8: ["=Production Data!E2", /need apostrophes/],
+      9: ["=COUNTIF(H2:H28,FAIL)", /Unquoted text is treated as a name/],
+      10: ["=COUNTIF(C2:C28,\"A00\")", /target uses a wildcard/],
+      11: ["=IFERROR(F2/E2)", /needs a value_if_error/],
+      12: ["=E2+F2*G2", /Multiplication binds tighter/],
+      13: ["=ROUND(AVERAGE(E2:E6))", /needs num_digits/],
+      14: ["=[Tonnes]*[Rate]", /uses @ for this row/],
+      15: ["=XLOOKUP(M2,C2:C28,E2:E28)", /no fallback for a missing match/],
+      16: ["=XLOOKUP(M2,C2:C28,H2:H28,\"Not found\")", /not search last-to-first/],
+      17: ["=XLOOKUP(M2,C2:C28,E2:E28,\"Not found\")", /combines two conditions/],
+      18: ["=FILTER(A2:H28,H2:H28=FAIL,\"No failures\")", /Unquoted text in a FILTER criterion/],
+      19: ["=FILTER(A2:H28,AND(B2:B28=\"Rolling Mill\",H2:H28=\"FAIL\"),\"No records\")", /AND\(\) and OR\(\) inside FILTER/],
+      20: ["=FILTER(A2:H28,(H2:H28=\"FAIL\")*(H2:H28=\"HOLD\"),\"No records\")", /Multiplying the conditions means AND/],
+      21: ["=AVERAGE(FILTER(E2:E28,D2:D28=M2))", /Right-skewed tap times/],
+      22: ["=MAX(FILTER(F2:F28,D2:D28=M2))", /P90 is the delay/],
+      23: ["=COUNT(UNIQUE(B2:B28))", /COUNT ignores text/],
+      24: ["=UNIQUE(FILTER(B2:B28,B2:B28<>\"\"))", /unique list is not sorted/],
+      25: ["=AVERAGE(TAKE(FILTER(E2:E28,E2:E28<>\"\"),5))", /positive count in TAKE/],
+      26: ["=SUMIFS(B2:B28,M2,G2:G28)", /sum range first/],
+      27: ["=SUMIFS(G2:G28,A2:A28,>=M2,A2:A28,<=M3)", /Comparison criteria need quotes/],
+      28: ["=AVERAGE(E2:E28)", /weighted mean/],
+      29: ["=LEFT(C2,6)", /fixed-width cut/],
+      30: ["=RIGHT(C2,4)", /fixed-width cut/],
+      31: ["=COUNTA(D2)", /uses # for a spilled range/],
+      32: ["=CHOOSECOLS(A2:H28,B,C,H)", /column positions/],
+      33: ["=A2:INDEX(A2:A10000,XMATCH(TRUE,A2:A10000<>\"\"))", /first nonblank cell/],
+      34: ["=AVERAGE(\"TapTimeRange\")", /name in quotes is text/],
+      35: ["=LET(YT,YS/UTS,YS,B2,UTS,C2,IF(YT<0.78,\"Review\",\"Accept\"))", /before it is defined/],
+      36: ["=LET(values,E2:E28,weeks,D2:D28,selectedWeek,M2)", /LET needs a final calculation/],
+      37: ["=LET(values,E2:E28,weeks,D2:D28,selectedWeek,M2,matching,FILTER(values,weeks=selectedWeek,\"\"),MEDIAN(matching))", /guards against no matching rows/],
+      38: ["=LAMBDA(YS,UTS,YS/UTS)", /blank on error/],
+      39: ["=MAP(B2:B20,C2:C20,LAMBDA(YS,UTS,YS/UTS))", /blank on error/],
+      40: ["=BYROW(B2:F10,LAMBDA(r,AVERAGE(B2:F10)))", /does not use its parameter/],
+      41: ["=BYROW(B2:F10,LAMBDA(c,MAX(c)))", /one result per row/],
+      42: ["=REDUCE(0,G2:G28,LAMBDA(total,x,total+x))", /returns only the final value/],
+      43: ["=REDUCE(0,E2:E28,LAMBDA(count,x,x>100))", /does not use the accumulator/],
+      44: ["=MAKEARRAY(5,5,r*c)", /needs a LAMBDA/],
+      45: ["=GROUPBY(ProductionData[Facility],ProductionData[Delay Time],SUM)", /aggregation .* does not match/],
+      46: ["=PIVOTBY(ProductionData[WeekNum],ProductionData[Facility],ProductionData[Tap Time],AVERAGE)", /row and column fields look swapped/],
+      47: ["=A1:H1000", /keeps the empty outer rows/],
+      48: ['=COUNTIF(H2:H28,"FAIL")', /proportion nonconforming/],
+      49: ["=LET(facility,B2:B28,week,D2:D28,tap,E2:E28,matching,FILTER(tap,(facility=M2)*(week=M3),\"\"),IF(COUNT(matching)=0,\"No records\",\"Median tap: \"&MEDIAN(matching)))", /median is not rounded/]
     };
+    // Whole-column is allowed only where it really is the likely mistake (none today).
+    const WHOLE_COLUMN_OK = new Set();
+    if (i === 0) {
+      assert.equal(Object.keys(brokenTable).length, 50, "one broken row per challenge");
+      for (const [k, [, re]] of Object.entries(brokenTable)) {
+        const alts = re.source.split("|");
+        assert.ok(!alts.some(a => /^\(?Next:\)?$/.test(a)), `row ${k} regex is a bare /Next:/`);
+        if (!WHOLE_COLUMN_OK.has(Number(k))) assert.ok(!/whole-column/i.test(re.source), `row ${k} leans on the generic whole-column check`);
+      }
+    }
     if (brokenTable[i]) {
       const [bf, re] = brokenTable[i];
       const findings = Engine.diagnose(bf, c);
-      const ok = findings.some(f => (f.level === "error" || f.level === "warn") && re.test(f.msg) && /Next:/.test(f.msg));
+      const answers = [c.f, ...(c.a || [])];
+      const ok = findings.some(f => (f.level === "error" || f.level === "warn") && re.test(f.msg) && /Next:/.test(f.msg) &&
+        !answers.some(a => f.msg.toUpperCase().includes(a.toUpperCase())));
       if (!ok) fails.push(`Challenge ${i} broken ${bf}: ${findings.map(f=>f.level+":"+f.msg).join(" | ") || "(none)"}`);
     }
     // Non-literal equivalent: $-anchored or spaced version of c.f, if not already in c.a
