@@ -1514,6 +1514,8 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => coachMetrics.applyVisibility());
     else setTimeout(() => coachMetrics.applyVisibility(), 0);
     // Do not touch localStorage during init; cohort is resolved on first log.
+    // One hint ladder per challenge, shared by the Hint button and the coach chat (state.phase3.coach.hintLevels).
+    function sharedHintLadder(){if(!state.phase3)state.phase3={};if(!state.phase3.coach)state.phase3.coach={history:[],hintLevels:{}};if(!state.phase3.coach.hintLevels)state.phase3.coach.hintLevels={};return state.phase3.coach.hintLevels;}
     function checkAnswer(){
       const c=challenges[state.current], input=document.getElementById("formulaInput").value;
       if(!input.trim().startsWith("=")){showFeedback("error","Start the formula with an equals sign (=).");return;}
@@ -1559,7 +1561,7 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
     document.getElementById("facilityFilter").onchange=renderFilter; document.getElementById("statusFilter").onchange=renderFilter;
     document.getElementById("checkAnswer").onclick=checkAnswer;
     document.getElementById("formulaInput").addEventListener("keydown",e=>{if(e.key==="Enter")checkAnswer();});
-    document.getElementById("showHint").onclick=()=>{const c=challenges[state.current];if(typeof window.phase1RecordHint==="function")window.phase1RecordHint(c);if(!state._hintStep)state._hintStep={};const step=state._hintStep[state.current]||0;state._hintStep[state.current]=Math.min(step+1,2);const text=(window.ExcelCoachEngine&&window.ExcelCoachEngine.progressiveHint)?window.ExcelCoachEngine.progressiveHint("",step,c):c.h;coachMetrics.log({ challengeIdx: state.current, level: c.l, hintsUsed: 1, revealed: false });showFeedback("info",text);};
+    document.getElementById("showHint").onclick=()=>{const c=challenges[state.current];if(typeof window.phase1RecordHint==="function")window.phase1RecordHint(c);const ladder=sharedHintLadder(),key=String(state.current),step=ladder[key]||0;ladder[key]=Math.min(step+1,2);save();const text=(window.ExcelCoachEngine&&window.ExcelCoachEngine.progressiveHint)?window.ExcelCoachEngine.progressiveHint("",step,c):c.h;coachMetrics.log({ challengeIdx: state.current, level: c.l, hintsUsed: 1, revealed: false });showFeedback("info",text);};
     document.getElementById("revealAnswer").onclick=()=>{const c=challenges[state.current];state.revealed[state.current]=true;state.streak=0;if(typeof window.phase1RecordReveal==="function")window.phase1RecordReveal(c);coachMetrics.log({ challengeIdx: state.current, level: c.l, revealed: true });save();document.getElementById("answerPanel").className="answer-panel show";showFeedback("info","This solution has been added to your spaced review queue. Study it, then re-type it from memory.");renderList();updateProgress();};
     document.getElementById("prevChallenge").onclick=()=>moveChallenge(-1); document.getElementById("nextChallenge").onclick=()=>moveChallenge(1);
     document.getElementById("levelFilter").onchange=e=>{filteredIndices=challenges.map((c,i)=>c.l===e.target.value||e.target.value==="all"?i:null).filter(i=>i!==null);state.current=filteredIndices[0]??0;renderChallenge();};

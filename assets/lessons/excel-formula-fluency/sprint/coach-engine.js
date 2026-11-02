@@ -985,7 +985,11 @@
       p: ch.p || ch.prompt || "",
       h: ch.h || ch.hint || "",
       w: ch.w || ch.why || "",
-      a: ch.a || ch.accepted || []
+      a: ch.a || ch.accepted || [],
+      // Keep the fields progressiveHint reads, so the chat and the Hint button give the same step.
+      n: ch.n || ch.name || "",
+      l: ch.l || ch.level || "",
+      concept: ch.concept || ""
     };
   }
 
@@ -1023,7 +1027,7 @@
     // Progressive hint
     else if (mode === "hint" || /one hint|hint|help me.*challenge|current challenge/.test(lower)) {
       const s = ensureHintState(state);
-      const key = String((s && s.current) || "general");
+      const key = s && s.current !== undefined && s.current !== null ? String(s.current) : "general";
       const level = s.phase3.coach.hintLevels[key] || 0;
       const reveal = /final solution|reveal|show (me )?the (final )?answer|full formula$|complete formula/.test(lower) && !/structure|what is the full formula structure/.test(lower);
       const confirmed = /confirm reveal|yes,? reveal|i confirm/.test(lower);
@@ -1035,7 +1039,7 @@
           ? `Final formula: ${challenge.f}\n\nWhy it works: ${challenge.w || "Each stage feeds the next."}`
           : "No stored final formula for this activity. I can still help you test stages.";
       } else {
-        s.phase3.coach.hintLevels[key] = Math.min(level + 1, 3);
+        s.phase3.coach.hintLevels[key] = Math.min(level + 1, 2);
         reply = progressiveHint(formula, level, challenge);
       }
     }
