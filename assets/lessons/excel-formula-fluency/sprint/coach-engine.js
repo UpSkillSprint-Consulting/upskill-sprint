@@ -691,6 +691,35 @@
       }
     });
 
+    // Lookup value: a plain cell ref that is not the one the target looks up (or, without a target,
+    // differs from another call that searches the same lookup range). Names and Table refs are skipped.
+    {
+      const cellOnly = a => { const m = String(a || "").trim().match(/^\$?([A-Z]{1,3})\$?(\d+)$/i); return m ? (m[1] + m[2]).toUpperCase() : null; };
+      const lCalls = callArgs(f, "XLOOKUP").map(c => splitArgs(c.body));
+      const ord = n => `${n}${n===1?"st":n===2?"nd":n===3?"rd":"th"}`;
+      const tCells = challenge && /XLOOKUP/i.test(challenge.f || "")
+        ? callArgs(challenge.f, "XLOOKUP").map(c => cellOnly(splitArgs(c.body)[0])).filter(Boolean) : [];
+      const wrong = [];
+      if (tCells.length && !lCalls.some(a => tCells.includes(cellOnly(a[0])))) {
+        lCalls.forEach((a, i) => { const v = cellOnly(a[0]); if (v && !tCells.includes(v)) wrong.push(i + 1); });
+      } else if (!challenge || !challenge.f) {
+        const seen = {};
+        lCalls.forEach((a, i) => {
+          const v = cellOnly(a[0]); const arr = String(a[1] || "").replace(/[\s$]/g, "").toUpperCase();
+          if (!v || !arr) return;
+          if (seen[arr] && seen[arr].v !== v) wrong.push({ i: i + 1, first: seen[arr].i });
+          else if (!seen[arr]) seen[arr] = { v, i: i + 1 };
+        });
+      }
+      if (wrong.length && typeof wrong[0] === "number") {
+        const which = whichCalls(wrong, lCalls.length);
+        const verb = /XLOOKUPs$/.test(which) ? "look up" : "looks up";
+        findings.push({ level: "warn", msg: `${which} ${verb} a different lookup value cell from the one the challenge names. Next: reread the prompt and point the first argument at the input cell that holds the key.` });
+      } else if (wrong.length) {
+        wrong.forEach(w => findings.push({ level: "warn", msg: `The ${ord(w.i)} XLOOKUP uses a different lookup value from the ${ord(w.first)} one while searching the same range. Next: check that each call's first argument is the input cell you meant.` }));
+      }
+    }
+
     // Fallback: empty fourth argument does not count (Excel treats it as omitted → #N/A)
     if (challenge && /XLOOKUP/i.test(challenge.f || "") && /XLOOKUP/i.test(f)) {
       const tCalls = callArgs(challenge.f, "XLOOKUP");

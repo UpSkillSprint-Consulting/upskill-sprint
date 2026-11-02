@@ -911,7 +911,10 @@ test("gap 2: wrong XLOOKUP lookup value is flagged per call", () => {
   const x = gapCh('=XLOOKUP(M2,C2:C28,E2:E28,"Not found")');
   assert.ok(gapHit(d('=XLOOKUP(M3,C2:C28,E2:E28,"Not found")', x), /This XLOOKUP.*lookup value/i), "missed wrong lookup value vs target");
   assert.ok(gapHit(d('=XLOOKUP(C2,C2:C28,E2:E28,"Not found")', x), /lookup value/i), "missed C2 as lookup value");
-  const two = d('=XLOOKUP(M2,C2:C28,E2:E28,"Not found")&XLOOKUP(M3,C2:C28,H2:H28,"Not found")', x);
+  // With a target, a call on the target key plus an extra call stays quiet (existing superset rule);
+  // when no call uses the target key, every call is named.
+  assert.ok(gapHit(d('=XLOOKUP(M3,C2:C28,E2:E28,"Not found")&XLOOKUP(M3,C2:C28,H2:H28,"Not found")', x), /Both XLOOKUPs.*lookup value/i), "Both wording");
+  const two = d('=XLOOKUP(M2,C2:C28,E2:E28,"Not found")&XLOOKUP(M3,C2:C28,H2:H28,"Not found")', {});
   assert.ok(gapHit(two, /The 2nd XLOOKUP.*lookup value/i), "per-call naming");
   assert.ok(!two.some(f => /1st XLOOKUP.*lookup value/i.test(f.msg)), "1st call is fine");
   const msg = two.find(f => /lookup value/i.test(f.msg)).msg;
