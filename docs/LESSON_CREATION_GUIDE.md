@@ -11,8 +11,15 @@ This guide is written to be executed literally. Where it says **MUST**, it is a 
 requirement. Where it says **MUST NOT**, doing it is a defect. Do not "improve",
 reinterpret, or substitute equivalents unless this guide explicitly allows a choice.
 
-**Quick map:** governance rules §20 · page skeleton §2 · head/SEO §2.1 · chrome §4 ·
-engineering-tool theme §9.8 ·
+> **Visual-first is mandatory (Ernest's standard, Oct 2026).** UpSkill Sprint learners learn
+> best from visuals. Every new lesson MUST teach mainly through **interactive visuals**,
+> **bold, poster-style infographics** and **SVG diagrams and charts**, with short supporting
+> text. A lesson that is mostly paragraphs is not ready for review, however accurate it is.
+> All visuals MUST be original. See **§24**.
+
+**Quick map:** **visual-first lessons §24 (read it before you design anything)** ·
+governance rules §20 · page skeleton §2 · head/SEO §2.1 · chrome §4 ·
+engineering-tool theme §9.8 · Excel Coach §25 ·
 catalog §12 · access rules (Supabase) §12.4 · sitemap §12.5 · learning paths §12.6 · images §13.2 ·
 accessibility §21 · math notation §22 · commands §16 · PR workflow §17 ·
 PR checklist §18 · known site-wide defects §23.
@@ -40,13 +47,19 @@ When asked to create or update a lesson:
    (PR #228), `lessons/statistics/understanding-dot-notation.html` (PR #235, an update), and
    PR #255 (Minitab symmetry/variability/multi-vari lesson). Where those PRs break a rule in
    this guide, the guide wins. §17.1 lists their known deviations.
-4. For a **new** lesson, follow sections 1–13 and 21–22, then validate (§16) and open a PR (§17).
+4. For a **new** lesson, design the visuals first (§24), then follow sections 1–13 and 21–22,
+   validate (§16) and open a PR (§17). Plan the infographic, the interactive visual and the
+   SVG charts before you write any prose; write only the text the visuals still need.
 5. For an **update** to an existing lesson, obey the **Content Preservation Rule** (§14):
    change only what the task requires; never remove or shorten existing lesson content.
-6. Before opening the PR, complete the **pre-PR checklist** (§18) and paste it, filled in,
+   When an update adds content, add it visual-first (§24).
+6. Remember that **merging a new lesson to `main` automatically emails every opted-in
+   subscriber** (§12.7). Write the `upskill:email-teaser` line and double-check the catalog
+   entry before the PR is ready.
+7. Before opening the PR, complete the **pre-PR checklist** (§18) and paste it, filled in,
    into the PR body. Any box you cannot tick means the PR is opened as a **draft**, with the
    reason stated.
-7. Never invent product facts, menu paths, formulas, or data. If unsure, state the
+8. Never invent product facts, menu paths, formulas, or data. If unsure, state the
    uncertainty rather than fabricating.
 
 **Definition of "lesson content":** everything the reader learns from: headings, prose,
@@ -1180,6 +1193,47 @@ lesson is easy to miss unless it sits in the right place.
 - **Check it.** Load `/lessons` at 1280px and 390px: the lesson appears in its category (after
   "Show all" if it is not in the first 3), in `?topic=<slug>` results, and in search.
 
+### 12.7 Announcement email — sent automatically when the lesson is merged to main (MUST)
+
+**Every new lesson is emailed to opted-in subscribers automatically, once, right after it is
+merged to `main` and the production deploy succeeds.** Nobody runs a command and nobody
+pushes a button: the merge *is* the send. This is the standing rule for every lesson from
+now on. Full runbook: `docs/LESSON_EMAILS.md`.
+
+How it works: the build publishes `/feeds/lessons.json` from the catalog (§12). After each
+production deploy, `netlify/functions/lesson-email-deploy.mjs` compares it with the lessons
+Supabase has already seen; a catalog path it has never seen is announced to every account
+that ticked "Email me when new lessons are published" (confirmed email, not unsubscribed).
+An hourly run (`lesson-email-sweep.mjs`) catches anything the deploy event missed. Updates
+to existing lessons never trigger an email; only a **new catalog path** does.
+
+What the author MUST do in the lesson's `<head>` (next to the meta description, §2.1):
+
+```html
+<!-- One plain-text sentence, 40–160 characters: what the learner will be able to do. -->
+<meta name="upskill:email-teaser" content="Pick the right control chart in five decisions, then test it on your own data.">
+```
+
+- **Write the teaser.** It is the catchy line under the lesson title in the email and the
+  inbox preview text. Benefit-led, plain language, no hype words, no emojis, no `!`, no
+  links, no HTML. The build fails if it is shorter than 40 or longer than 160 characters,
+  contains `<`/`>` or contains a link (`scripts/build-lesson-email-feed.mjs`).
+- **If you leave it out** the email still goes: an AI-written teaser from the lesson's title,
+  catalog description and headings is used, and if that fails, the catalog description.
+  Author-written is always better, so write one.
+- **Pages that must not be announced** (a moved lesson, a stub, a legacy redirect target)
+  carry `<meta name="upskill:email" content="skip">`. Use it only when Ernest asks for it.
+- **Do not rename or move a published lesson's path** to "re-send" it: path changes are
+  detected (same title) and are not announced. A real re-announcement is Ernest's call
+  (`docs/LESSON_EMAILS.md`, "Owner commands").
+- **Several lessons merged together** go out as one digest email. More than the safety
+  limit (3 by default) at once are held for Ernest instead of sent.
+- **Get the catalog entry right before merge** (§12.1): the email uses the catalog title,
+  level, minutes, interactive flag and category, exactly as `/lessons` shows them. A typo
+  merged to main is a typo in subscribers' inboxes.
+- In the PR body, state the teaser you used (or "no teaser: AI fallback") under the §18
+  checklist item.
+
 ---
 
 ## 13. Downloadable datasets and other lesson assets
@@ -1536,6 +1590,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] Every production lessons/**/*.html file is catalog-registered (or a verified noindex redirect / metadata-free fragment under lessons/assets/).
 - [ ] Search index regenerated with npm run build:lesson-search-index on a clean tree and committed.
 - [ ] sitemap.xml snapshot updated from public-site/sitemap.xml (page added/removed only).
+- [ ] Announcement email (§12.7): `<meta name="upskill:email-teaser">` present (40–160 chars, plain text) — teaser: "…" — understood that merging to main emails every opted-in subscriber automatically.
 **Page structure & head**
 - [ ] No per-lesson `max-width: NNch` caps on prose (short display text of 44ch or less excepted); prose classes set no `max-width`; boxes, cards and callouts fill their container (§9.9).
 - [ ] No element combines a page-wrapper class with a prose class that sets `max-width`. At 1280px and 1600px, every section's text edges line up with the page column; nothing runs edge to edge (§9.9).
@@ -1557,6 +1612,13 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] Listed on the right page (lessons.html via catalog / exam-practice.html / engineering-tools.html); sitemap.xml updated; lesson-search-index.json regenerated when lesson sources changed.
 - [ ] §7 quiz markup + grader copied exactly; dispatches upskill-quiz-result; dark kicker fix added.
 - [ ] Left-aligned "Back to <Category> lessons" link to /lessons#<category-slug>, with its dark-mode colour fix.
+**Visual-first (§24)**
+- [ ] At least one original poster-style infographic (bold colour blocks, giant letters or numbers, a few words per block).
+- [ ] At least one interactive visual the learner acts on and sees change (the quiz does not count).
+- [ ] Diagrams and charts are inline SVG (or HTML/CSS shapes); every number shown comes from one dataset and is test-checked.
+- [ ] Text budget met: about 50 words of reading per estimated minute; no paragraph over about 60 words; no wall of text.
+- [ ] Every visual is original (no copied, traced or downloaded third-party infographics, posters, icons or stock art) and its text is real text, not an image.
+- [ ] Every visual checked at 1280 and 390 in light and dark: readable (chart text about 10px or larger on phones), no overlaps, no horizontal scroll, focus rings visible.
 **Accessibility & quality (§9, §10, §13.2, §21)**
 - [ ] Light + dark verified at desktop + mobile; all interactive states checked by mouse and keyboard.
 - [ ] WCAG AA contrast met in both themes; any component with its own background sets its text colour in both themes.
@@ -1574,7 +1636,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] npm run build:site exits 0; side effects restored; git status clean apart from intended files.
 - [ ] Local axe scan: 0 violations in light/dark × 1280/390 (except §23 chrome item).
 - [ ] All GitHub checks pass; Netlify deploy preview verified (URL: …) in both themes at desktop and mobile.
-- [ ] If the lesson uses the Excel Coach, the changes follow [§24 Excel Coach](#24-excel-coach) (diagnosis plus Next:, no answer leaks, local-only logging).
+- [ ] If the lesson uses the Excel Coach, the changes follow [§25 Excel Coach](#25-excel-coach-engineering-tool) (diagnosis plus Next:, no answer leaks, local-only logging).
 ```
 
 ---
@@ -1616,6 +1678,13 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - ❌ Committing multi-megabyte screenshots, or committing binaries and deleting them later
   (they stay in git history forever).
 - ❌ Referencing a "practice dataset" that does not exist as a downloadable file.
+- ❌ A wall of text: a lesson taught mainly through paragraphs, with visuals as decoration (§24).
+- ❌ A lesson with no poster-style infographic, or whose only interactivity is the quiz (§24).
+- ❌ Copying, tracing or embedding a third-party infographic, poster, chart or stock illustration,
+  including ones a user shares as an example of the style they want. Use them for the idea of the
+  style only, then design an original (§24.3).
+- ❌ Infographics or diagrams shipped as PNG/JPG screenshots, or any text that only exists inside
+  an image (§24.4).
 
 ---
 
@@ -1909,7 +1978,129 @@ PR that Ernest asked for.
 | Page wrapper overridden by a prose class on the same element (`class="lz-wrap lz-prose"` with a later `.lz-prose{max-width:none}`), so sections run edge to edge | linearize-data lesson (6 sections) after PR #374; `.bfm-wrap bfm-prose` in the Best-Fit tool (hidden by embed mode) | Fixed by removing `max-width` from `.lz-prose` and `.bfm-prose`. Never repeat it: nest wrapper and prose (§9.9); `tests/layout-wrapper-override.test.js` guards it. |
 | Older lessons have overlong or suffix-less titles, mixed math renderers, `$` delimiters, and missing dark fixes | various | Leave them unless your task is that lesson. Test-locked titles are exempt (§2.1). Math migrates per §22.1. |
 
-## 24. Excel Coach (engineering tool)
+---
+
+## 24. Visual-first lessons: interactive visuals, poster-style infographics and SVG (MUST)
+
+**Standard set by Ernest, Oct 2026.** UpSkill Sprint learners are visual learners. A lesson
+teaches mainly through pictures the learner can read at a glance and visuals they can
+interact with. Text explains what the visuals cannot. This section applies to every new
+lesson, and to any content added to an existing one. It sits on top of the theme (§9),
+mobile (§10), image (§13.2) and accessibility (§21) rules. It does not replace them.
+
+### 24.1 What every new lesson must have
+
+1. **At least one poster-style infographic.** A bold, designed graphic that sums up the big
+   idea: solid colour blocks, giant letters or numbers, three to six words per block, strong
+   shapes such as arrows, chevrons, badges and panels. Typical uses: the process roadmap
+   (steps as arrow blocks), the framework at a glance, the "N mistakes to avoid" panel,
+   a key-numbers poster, a one-page cheat sheet. Put the main one near the top, usually in
+   the hero.
+2. **At least one interactive visual.** Something the learner does and then sees change:
+   a sorter ("which phase/tool/category?"), a slider that redraws a chart, a simulator, a
+   click-to-reveal diagram, a before/after toggle. The comprehension quiz (§7) does not count.
+3. **SVG diagrams and charts for the ideas.** Processes become flowcharts or arrows,
+   comparisons become side-by-side visuals, numbers become charts, lists become cards or
+   chips. When the lesson has a worked example, show it as a chart that tells the story,
+   e.g. the defect rate across the project's phases.
+4. **Short text.** One idea per paragraph and no wall of text. Card and caption text stays
+   under about 30 words. Budget about **50 words of reading per estimated minute**
+   (a 10-minute lesson has about 500 words of body text, not counting the quiz). Time
+   beyond that goes to visuals and interaction.
+
+Design the visuals **before** writing the prose: sketch the infographic, the interactive and
+the charts, then write only what the visuals still need.
+
+### 24.2 Turn text into visuals
+
+| If the content is… | Show it as… |
+|---|---|
+| A sequence of steps or phases | Poster roadmap of arrow/chevron blocks; flowchart |
+| A decision ("when should I use X?") | Yes/no flowchart with the exits labelled |
+| A list of tools, inputs or outputs | Chips, cards or a labelled diagram |
+| A comparison of options | Side-by-side panels or a grid, the same rows in each |
+| Numbers or a worked example | SVG chart (line, bar, Pareto, control chart, dot plot) with the takeaway annotated on it |
+| Mistakes, warnings, rules of thumb | A poster panel of bold tiles with a short title and one line each |
+| A cause-and-effect idea | Diagram with arrows, or an interactive "what if" slider |
+
+### 24.3 Originality and IP (MUST)
+
+- Every infographic, diagram, icon and chart MUST be an original design made for the lesson.
+- Never copy, trace, re-colour or embed a third-party infographic, poster, slide, chart, stock
+  illustration or icon. That includes images found online, "free" downloads, and images a
+  user shares as an example of the style they want. Treat those as proprietary: take the
+  idea of the style (bold blocks, giant letters, arrows), never the layout or artwork.
+- Icons follow §13.1 (the Vector Library). Do not draw a logo or brand mark.
+- Worked-example data is either real and sourced, or clearly labelled as made up
+  (e.g. "A made-up example."). Never present invented numbers as real.
+
+### 24.4 How to build them
+
+- **Inline SVG or HTML/CSS only.** Never ship an infographic or diagram as a PNG/JPG, and never
+  put text only inside an image. Real text stays searchable, crisp at every size, readable by
+  screen readers and themeable. No chart libraries or CDN scripts without Ernest's OK (§5).
+- **Colours through lesson tokens** (`--lesson-<slug>-*`, §9.1), defined for light and dark.
+  SVG elements get their colours from classes, never from `fill="#…"` or `stroke="#…"`
+  attributes, so dark mode just works.
+- **Poster panels** may be dark in both themes (define their tokens in both the light and the
+  dark-override blocks). White text on a colour block needs at least 4.5:1. These block
+  fills pass with white text: `#0f6b78` teal, `#2d5b8a` blue, `#8a5300` amber, `#1e7a46`
+  green, `#b42318` red.
+- **Shaped blocks** (arrows, chevrons) use `clip-path` on a `::before` layer behind the link or
+  card, never on the focusable element itself, so keyboard focus rings are never clipped.
+- **Charts are data-driven.** Generate the chart geometry from one small dataset (a script, or
+  literal arrays in the page). Put the data on the SVG (`data-series`, `data-counts`, …) so the
+  lesson test can check that every number in the chart, its caption and the text agree.
+- **Accessible charts.** A static chart is `role="img"` with `aria-labelledby` pointing at a
+  `<title>` and a `<desc>` that states the takeaway in words. A chart containing controls is
+  `role="group"` instead (§21). Every chart has a `<figcaption>` with its one-line takeaway.
+  Colour is never the only signal: add labels, line styles or ✓/✗ text.
+- **Interactive visuals** use native `<button>`/`<input>` controls, work by keyboard, announce
+  results in an `aria-live` region, give text feedback as well as colour, and have a reset.
+  Touch targets are at least 44×44px.
+
+### 24.5 Phones and desktop (both, always)
+
+- At 390px wide, chart text MUST stay readable: about 10px or larger once scaled. Design
+  in-card charts on a viewBox about 360 units wide, trim padding around charts on phones,
+  and raise SVG font sizes inside a `@media (max-width:640px)` block when needed.
+- Horizontal arrows and roadmaps stack and point downward on phones. Grids reflow
+  (`repeat(auto-fit, minmax(…))`). Nothing scrolls sideways (§10).
+- Desktop: cap wide charts (about 680px) so their text does not grow huge, and keep every
+  visual inside the page column (§9.9).
+
+### 24.6 Reference implementation
+
+`lessons/lean-six-sigma/dmaic-in-10-minutes.html` (PR #379) is the worked example. Copy the
+patterns, not the content:
+
+| Pattern | Class / id | What it shows |
+|---|---|---|
+| Poster roadmap | `.dm-poster` + `.dm-chev` | Five colour arrow blocks: giant letter, phase, action, output tag; stacks downward on phones |
+| Story chart | `#dm-story` | One SVG line chart carrying the whole worked example across shaded phase bands |
+| Visual phase cards | `.dm-phase` | Question, tool chips, "You finish with" deliverable, and a chart or card per phase |
+| Decision flowchart | `.dm-flow` | Yes/no questions with labelled exits, stacked on phones |
+| Warning poster | `.dm-warn-poster` | Dark panel of bold "mistakes to avoid" tiles |
+| Interactive sorter | `#dm-sort` | One try per item, ✓/✗ text feedback, score, reset |
+| Tested charts | `tests/dmaic-in-10-minutes-lesson.test.js` | Chart labels checked against `data-*` values; text-budget cap |
+
+`lessons/hypothesis-testing-for-beginners.html` has good slider-driven interactive labs.
+
+### 24.7 Validation and PR evidence
+
+- Review every visual at 1280px and 390px in light and dark mode (§9.5): no overlapping
+  labels, readable chart text, visible focus rings, no sideways scroll. Fix what you find
+  before asking for review.
+- The lesson test asserts the visual structure: the infographic is present, the expected
+  number of `svg[role="img"]` charts each have a title and description, the interactive
+  visual works, chart numbers match their data, and the text budget holds (e.g. no paragraph
+  inside visual cards over 30 words).
+- In the PR body, list the infographic(s), interactive visual(s) and charts, and give the
+  body-text word count against the estimated minutes.
+
+---
+
+## 25. Excel Coach (engineering tool)
 
 When updating the Excel Coach in `assets/lessons/excel-formula-fluency/sprint/coach-engine.js` or the Formula Fluency lesson:
 

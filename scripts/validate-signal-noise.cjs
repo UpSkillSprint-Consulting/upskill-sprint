@@ -105,8 +105,10 @@ async function continuous(page){
 async function drawingBounds(page){return page.evaluate(()=>Object.entries(window.lessonDrawingBounds).filter(([id,b])=>b.minX < -1 || b.minY < -1 || b.maxX > b.width+1 || b.maxY > b.height+1));}
 async function commonInputs(page){await page.evaluate(()=>{document.getElementById('shiftSlider').value='1.5';document.getElementById('limitSelect').value='3';document.getElementById('cusumShiftSlider').value='0.5';updateBoth();updateCusumPair();});}
 const injected=/<div data-netlify-deploy-id="[a-f0-9]{24}" data-netlify-site-id="82c1a97f-bb8d-4e7b-8367-fe93d7ce1657" data-vcs="github" style="position:fixed">\s*(?:<!-- This div is automatically inserted by Netlify for all Deploy Preview URLs\. -->\s*)?<script async src="\/\.netlify\/scripts\/cdp"><\/script>\s*<\/div>(?:\n(?=<\/body>)|\n?$)/g;
-const seasonal=/<script src="\/seasonal-effects\.js" defer><\/script>\n?/g;
-const reviewed = body => body.replace(injected, '').replace(seasonal, '');
+// The site build (scripts/inject-seasonal-effects.mjs and scripts/inject-site-ticker.mjs, the last steps of build:site) adds exactly
+// these site-wide tags before </body> on every public page. It is site-wide, not lesson content.
+const seasonalTag=/(?:<script src="\/(?:seasonal-effects|site-ticker)\.js" defer><\/script>\n?)+(?=\s*<\/body>)/;
+const reviewed=body=>body.replace(injected,'').replace(seasonalTag,'');
 (async()=>{
  await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;
  const browser=await chromium.launch();

@@ -33,6 +33,14 @@
     Cache-Control = "private, no-store"
     X-Robots-Tag = "noindex"
 
+# New-lesson email feed (scripts/build-lesson-email-feed.mjs): read by the
+# lesson-email functions right after each deploy, so it must never be stale.
+[[headers]]
+  for = "/feeds/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Robots-Tag = "noindex"
+
 [[headers]]
   for = "/assets/*"
   [headers.values]

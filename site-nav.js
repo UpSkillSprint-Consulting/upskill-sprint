@@ -21,6 +21,7 @@
   var TABS = [
     {
       id: 'start', label: 'Start Here', href: '/start-here', head: 'Learning paths',
+      sub: 'Pick a learning path', unit: ['path', 'paths'], layout: 'steps',
       items: [
         ['Quality Improvement Basics', '/start-here#quality-improvement-basics'],
         ['Data Analysis Basics', '/start-here#data-analysis-basics'],
@@ -32,6 +33,7 @@
     },
     {
       id: 'lessons', label: 'Lessons', href: '/lessons', head: 'Lesson library', count: true, wide: false,
+      sub: 'Free and practical', unit: ['topic', 'topics'], layout: 'tiles',
       items: [
         ['Data Analytics', '/lessons#data-analytics', 'data-analytics'],
         ['Quality Engineering', '/lessons#quality-engineering', 'quality-engineering'],
@@ -46,6 +48,7 @@
     },
     {
       id: 'exam', label: 'Exam Practice', href: '/exam-practice', head: 'Certifications', wide: true,
+      unit: ['exam', 'exams'], layout: 'tiles',
       items: [
         ['CSSBB', 'Six Sigma Black Belt', '/exam-practice#exam-cssbb'],
         ['CQE', 'Quality Engineer', '/exam-practice#exam-cqe'],
@@ -61,6 +64,7 @@
     },
     {
       id: 'tools', label: 'Engineering Tools', href: '/engineering-tools', head: 'Tools',
+      sub: 'Calculators and lookups', unit: ['tool', 'tools'],
       items: [
         ['Engineering & Statistics Calculator', '/tools/engineering-statistics-calculator'],
         ['Unit Converter', '/tools/unit-converter'],
@@ -72,6 +76,7 @@
     },
     {
       id: 'services', label: 'Services', href: '/services', head: 'Services', wide: true,
+      sub: 'Training, coaching, consulting',
       items: [
         ['Corporate Training', '/services#corporate-training', 'Team workshops on Lean Six Sigma and quality tools'],
         ['One-on-One Coaching', '/services#one-on-one-coaching', 'Excel, Power BI, Minitab, statistics'],
@@ -83,6 +88,7 @@
     },
     {
       id: 'about', label: 'About', href: '/about', head: 'About',
+      sub: 'FAQ, contact, request a topic',
       items: [
         ['About UpSkill Sprint', '/about', 'Who builds the lessons and why'],
         ['FAQ', '/faq', 'Free lessons, accounts, exams'],
@@ -133,25 +139,66 @@
     return head + rows + '<div class="' + footClass + '">' + footHtml(tab, false) + '</div>';
   }
 
+  /* Mobile section card subtitle. Exam Practice is derived from its first
+     two exams so it can never drift from the list. */
+  function subline(tab) {
+    if (tab.sub) return tab.sub;
+    if (tab.id === 'exam') return tab.items.slice(0, 2).map(function (item) { return item[0]; }).join(', ') + ' and more';
+    return '';
+  }
+
+  /* "5 paths", "9 exams"... counted from TABS, never typed by hand. Lessons
+     starts as "8 topics" and lessonCounts() swaps in the live lesson total. */
+  function metaHtml(tab) {
+    if (!tab.unit) return '';
+    var n = tab.items.filter(function (item) { return tab.id === 'exam' ? item[2] : item[1]; }).length;
+    var attr = tab.count ? ' data-nav-total-meta' : '';
+    return '<span class="nav-acc-meta"' + attr + '>' + n + ' ' + (n === 1 ? tab.unit[0] : tab.unit[1]) + '</span>';
+  }
+
+  /* One shared sprite (assets/nav-icons.svg) keeps the 88 stamped pages small. */
+  function badge(tab) {
+    return '<span class="nav-badge" data-badge="' + tab.id + '" aria-hidden="true">' +
+      '<svg width="22" height="22" focusable="false"><use href="/assets/nav-icons.svg#nav-i-' + tab.id + '"></use></svg></span>';
+  }
+
+  /* Poster at the end of the drawer. Replaces the old Account / Browse bar:
+     Account already sits in the header, so it was shown twice. */
+  function posterHtml() {
+    /* data-contrast-ignore: contrast-fix.js cannot read gradients and would
+       repaint this white text dark. Contrast is checked by hand: white on
+       #0f6b78 is 6.1:1 and on #2d5b8a 6.9:1. */
+    return '<div class="nav-poster" data-nav-poster data-contrast-ignore>' +
+      '<p class="nav-poster-kicker">New here?</p>' +
+      '<p class="nav-poster-title">Learn one skill in 10 minutes</p>' +
+      '<ol class="nav-poster-steps"><li>Pick a topic</li><li>Read &amp; try</li><li>Quiz</li></ol>' +
+      '<a class="nav-poster-cta" href="/lessons">Start a free lesson</a></div>';
+  }
+
   function markup(kind, current) {
     var mobile = kind === 'mobile';
     return TABS.map(function (tab) {
       var on = tab.id === current ? ' aria-current="page"' : '';
       if (mobile) {
+        /* The button holds only the label, so its accessible name stays
+           "Lessons" etc.; the subtitle is its description. A stretched
+           ::after makes the whole card the tap target. */
+        var sub = subline(tab);
         return '<div class="nav-acc" data-nav-acc="' + tab.id + '">' +
-          '<button type="button" class="nav-acc-btn" data-nav-tab="' + tab.id + '"' + on + ' aria-expanded="false" aria-controls="nav-m-' + tab.id + '">' +
-          '<span>' + esc(tab.label) + '</span>' + chevron() + '</button>' +
-          '<div class="nav-acc-panel" id="nav-m-' + tab.id + '" hidden>' +
+          '<div class="nav-acc-head">' + badge(tab) +
+          '<button type="button" class="nav-acc-btn" data-nav-tab="' + tab.id + '"' + on + ' aria-expanded="false" aria-controls="nav-m-' + tab.id + '"' +
+          (sub ? ' aria-describedby="nav-s-' + tab.id + '"' : '') + '>' + esc(tab.label) + '</button>' +
+          (sub ? '<span class="nav-acc-sub" id="nav-s-' + tab.id + '">' + esc(sub) + '</span>' : '') +
+          metaHtml(tab) + '<span class="nav-acc-chev" aria-hidden="true">' + chevron() + '</span></div>' +
+          '<div class="nav-acc-panel" id="nav-m-' + tab.id + '" data-layout="' + (tab.layout || 'list') + '" hidden>' +
           tab.items.map(function (item) { return rowHtml(tab, item); }).join('') +
-          footHtml(tab, true) + '</div></div>';
+          '<div class="nav-acc-foot">' + footHtml(tab, true) + '</div></div></div>';
       }
       return '<div class="nav-item' + (tab.wide ? ' nav-item-wide' : '') + '" data-nav-item="' + tab.id + '">' +
         '<a class="nav-tab-link" data-nav-tab="' + tab.id + '" href="' + tab.href + '"' + on + '>' + esc(tab.label) + '</a>' +
         '<button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-' + tab.id + '" aria-label="Show ' + esc(tab.label) + ' menu">' + chevron() + '</button>' +
         '<div class="nav-panel" id="nav-d-' + tab.id + '" hidden>' + panelInner(tab) + '</div></div>';
-    }).join('') + (mobile
-      ? '<div class="nav-drawer-footer"><a class="nav-drawer-account" href="/sign-in">Account</a><a class="nav-drawer-browse" href="/lessons">Browse lessons</a></div>'
-      : '');
+    }).join('') + (mobile ? posterHtml() : '');
   }
 
   function hrefs() {
@@ -276,6 +323,9 @@
     document.querySelectorAll('[data-nav-total-link]').forEach(function (el) {
       el.textContent = 'View all ' + total + (total === 1 ? ' lesson' : ' lessons') + ' →';
     });
+    document.querySelectorAll('[data-nav-total-meta]').forEach(function (el) {
+      el.textContent = total + (total === 1 ? ' lesson' : ' lessons');
+    });
   }
 
   function trapTab(event) {
@@ -332,7 +382,7 @@
         else openAcc(acc);
         return;
       }
-      if (target.closest('.nav-panel a, .nav-acc-panel a, .nav-drawer-footer a')) {
+      if (target.closest('.nav-panel a, .nav-acc-panel a, .nav-poster a, .nav-drawer-footer a')) {
         closeDesktop();
         document.querySelectorAll('.nav-acc.is-open').forEach(closeAcc);
         closeDrawer();
@@ -392,13 +442,19 @@
         else focusMenuButton();
       }
     });
+    /* Remember whether the last input was a keyboard or a pointer (tap/click).
+       Keyboard users get focus moved into the drawer; a tap does not, because
+       phones then draw the focus ring around the first item. */
+    var keyboardInput = false;
+    doc.addEventListener('keydown', function () { keyboardInput = true; }, true);
+    doc.addEventListener('pointerdown', function () { keyboardInput = false; }, true);
     doc.addEventListener('change', function (event) {
       if (!event.target.classList || !event.target.classList.contains('mnav-check')) return;
       doc.body.classList.toggle('nav-drawer-open', event.target.checked);
       if (event.target.checked) {
         drawerOpener = doc.activeElement;
         var firstBtn = doc.querySelector('nav.mobile-nav .nav-acc-btn');
-        if (firstBtn) firstBtn.focus();
+        if (firstBtn && keyboardInput) firstBtn.focus();
       }
     });
     doc.addEventListener('upskill:lesson-catalog-ready', lessonCounts);

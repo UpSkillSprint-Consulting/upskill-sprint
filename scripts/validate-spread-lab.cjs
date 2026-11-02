@@ -19,9 +19,10 @@ try { baseline = cp.execFileSync('git', ['show', '0aeded7ce7739838bbb1ed370f68f2
 // Netlify adds this verified deployment-only block immediately before </body>.
 // Nothing inside the lesson, its styles, or its scripts is normalized or ignored.
 const NETLIFY_DEPLOYMENT_BLOCK = /<div data-netlify-deploy-id="[a-f0-9]{24}" data-netlify-site-id="82c1a97f-bb8d-4e7b-8367-fe93d7ce1657" data-vcs="github" style="position:fixed">\s*(?:<!-- This div is automatically inserted by Netlify for all Deploy Preview URLs\. -->\s*)?<script async src="\/\.netlify\/scripts\/cdp"><\/script>\s*<\/div>(?:\n(?=<\/body>)|\n?$)/g;
-// Build-time seasonal effects tag injected by scripts/inject-seasonal-effects.mjs (verified separately).
-const SEASONAL_TAG = /<script src="\/seasonal-effects\.js" defer><\/script>\n?/g;
-const reviewedSource = body => body.replace(NETLIFY_DEPLOYMENT_BLOCK, '').replace(SEASONAL_TAG, '');
+// The site build (scripts/inject-seasonal-effects.mjs and scripts/inject-site-ticker.mjs, the last steps of build:site) adds exactly
+// these site-wide tags before </body> on every public page. It is site-wide, not lesson content.
+const SEASONAL_EFFECTS_TAG = /(?:<script src="\/(?:seasonal-effects|site-ticker)\.js" defer><\/script>\n?)+(?=\s*<\/body>)/;
+const reviewedSource = body => body.replace(NETLIFY_DEPLOYMENT_BLOCK, '').replace(SEASONAL_EFFECTS_TAG, '');
 const report = { cases: [], baseline: [], matrix: [], preview: null, failures: [] };
 function save() {
   fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(report, null, 2));
