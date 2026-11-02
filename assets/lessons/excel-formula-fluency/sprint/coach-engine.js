@@ -555,7 +555,10 @@
       const noCrit = s.replace(/"[<>]=?"\s*&\s*\$?[A-Z]+\d+/gi, "");
       return /\$?[A-Z]+\d+\s*&/.test(noCrit) || /&\s*\$?[A-Z]+\d+/.test(noCrit);
     }
-    if ((/\+\s*"|\"\s*\+/i.test(f) || (challenge && isTextJoinTarget(challenge.f) && /[A-Z]+\d+\s*\+\s*[A-Z]+\d+/i.test(f))) && !/&/.test(f)) {
+    // ProductionData text columns (B Facility, C Heat ID, H Status): + between two of them is a text join.
+    const textCellPlus = /(?<![A-Z0-9_.$])\$?[BCH]\$?(?:[2-9]|1\d|2[0-8])(?!\d)\s*\+\s*\$?[BCH]\$?(?:[2-9]|1\d|2[0-8])(?![\d(:])/i;
+    const textPlus = textCellPlus.test(stripQuoted(f)) && !(challenge && /LAMBDA|MAP\s*\(/i.test(challenge.f || ""));
+    if ((/\+\s*"|\"\s*\+/i.test(f) || textPlus || (challenge && isTextJoinTarget(challenge.f) && /\$?[A-Z]+\$?\d+\s*\+\s*\$?[A-Z]+\$?\d+/i.test(f))) && !/&/.test(f)) {
       findings.push({ level: "error", msg: "Use & to join text, not +. Next: rewrite the concatenation with &." });
     }
 
