@@ -639,10 +639,15 @@ test("wildcard, p-chart, time strings, and patterns", () => {
   for (const v of ['=IF(A2="10:30","x","y")', '=IF(A2="0:15","x","y")', '=IF(A2="09:45","ok","no")']) {
     assert.ok(!d(v, {}).some(x => /whole-column|whole-row/i.test(x.msg)), `${v} is a time, not a row ref`);
   }
-  const pct = Engine.detectPattern(["PERCENTILE.INC(", "FILTER(", ")"]);
+  const tok = Engine.tokenize;
+  const pct = Engine.detectPattern(tok("=PERCENTILE.INC(FILTER(E2:E28,D2:D28=M2),0.9)").tokens);
   assert.ok(pct && /FILTER \+ aggregate/.test(pct.name), "PERCENTILE over FILTER is aggregate");
-  const scalar = Engine.detectPattern(["SUMIFS(", ")", "*", "2"]);
-  assert.ok(!scalar || !/Multi-criteria/.test(scalar.name || ""), "scalar multiply is not multi-criteria");
-  const and = Engine.detectPattern(["FILTER(", "*", ")"]);
-  assert.ok(and && /Multi-criteria/.test(and.name), "FILTER with * is multi-criteria");
+  for (const v of ["=SUMIFS(G2:G28,D2:D28,1)*2", "=SUMIFS(G2:G28,D2:D28,1)/2", "=COUNTIFS(H2:H28,\"FAIL\")+1", "=XLOOKUP(M2,C2:C28,E2:E28,\"x\")*1.1"]) {
+    const r = Engine.detectPattern(tok(v).tokens);
+    assert.ok(!r || !/Multi-criteria/.test(r.name || ""), `${v} is scalar, not multi-criteria`);
+  }
+  for (const v of ["=FILTER(A2:A10,(B2:B10=1)*(C2:C10=2))", "=FILTER(A2:A10,(B2:B10=1)+(C2:C10=2))", "=SUMPRODUCT((A2:A10=1)*(B2:B10))"]) {
+    const r = Engine.detectPattern(tok(v).tokens);
+    assert.ok(r && /Multi-criteria/.test(r.name), `${v} is multi-criteria`);
+  }
 });

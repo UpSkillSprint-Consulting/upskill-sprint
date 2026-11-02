@@ -74,7 +74,16 @@
       ]
     },
     multiCriteria: {
-      detect: (fns, tokens) => { const t = tokens || []; const star = t.indexOf("*"); const plus = t.indexOf("+"); const op = star >= 0 ? star : plus; return op > 0 && op < t.length - 1 && (fns || []).some(x => /FILTER|XLOOKUP|SUMIFS/.test(x)); },
+      detect: (fns, tokens) => {
+        const t = tokens || [];
+        let depth = 0, inside = false;
+        for (const tok of t) {
+          if (/\($/.test(tok)) { depth++; if (/FILTER|SUMPRODUCT|SUMIFS/i.test(tok)) inside = true; }
+          else if (tok === ")") { depth--; if (depth === 0) inside = false; }
+          else if (inside && depth > 0 && (tok === "*" || tok === "+")) return true;
+        }
+        return false;
+      },
       name: "Multi-criteria (AND with *, OR with +)",
       hints: [
         "Each condition must return a Boolean array of the same length. Multiply (*) for AND, add (+) for OR.",
@@ -828,6 +837,7 @@
 
   CoachEngine.diagnose = diagnose;
   CoachEngine.detectPattern = detectPattern;
+  CoachEngine.tokenize = tokenize;
   CoachEngine.progressiveHint = progressiveHint;
 
   global.ExcelCoachEngine = CoachEngine;
