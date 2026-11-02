@@ -219,6 +219,18 @@
       description: 'See how CI, PI and TI differ with live sliders, a width-vs-sample-size chart, a coverage simulator, every formula, and Excel and Minitab steps.'
     },
     {
+      marker: 'data-binomial-poisson-exponential-distributions',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/binomial-poisson-exponential-distributions',
+      topic: 'statistics',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'binomial poisson exponential distributions probability event count yes no trials waiting time poisson process rare event approximation pmf cdf survival c chart u chart p chart np chart excel minitab quality engineering statistics beginner interactive simulator calculator',
+      meta: '<span>Beginner</span><span>Interactive</span><span>50 min</span><span>Excel + Minitab</span>',
+      title: 'Binomial vs. Poisson vs. Exponential',
+      description: 'Choose the right event model, calculate exact and cumulative probabilities, and explore simulations, waiting times, assumptions, and c/u charts.'
+    },
+    {
       marker: 'data-beyond-the-bell',
       sectionId: 'statistics',
       path: '/lessons/statistics/beyond-the-bell-the-normal-distribution-and-its-relatives',
