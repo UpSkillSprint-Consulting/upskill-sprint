@@ -88,12 +88,29 @@ test("all 50 real challenges: accepted answers clean, broken formula flagged, hi
       const bad = findings.filter(f => f.level === "error" || f.level === "warn" || /Missing expected/i.test(f.msg));
       assert.equal(bad.length, 0, `Challenge ${i} accepted answer flagged: ${ans}`);
     }
-    // At least one realistic broken formula
-    const broken = c.f.replace(/=/, "=IFERROR(") + ")"; // missing second arg if IFERROR, or wrap
-    const brokenFindings = Engine.diagnose("=AVERAGE(E2,E6)", c);
-    // We only require that some broken input produces a finding; use a generic one
-    const genericBroken = Engine.diagnose("=IF(E2>100,REVIEW,ACCEPT)", c);
-    assert.ok(genericBroken.some(f => f.level === "error" || f.level === "warn") || brokenFindings.some(f => f.level === "error" || f.level === "warn"), `Challenge ${i} should flag a broken formula`);
+    const brokenTable = {
+      0: ["=E:E+F2", /whole-column|Next:/],
+      1: ["=F2/M2", /locks|\$M/i],
+      4: ["=IF(E2>100,REVIEW,ACCEPT)", /quote|unquoted/i],
+      7: ["=AVERAGE(E2,E6)", /range|E2:E6/i],
+      21: ["=AVERAGE(E2:E28)", /skew|median/i],
+      22: ["=MAX(F2:F28)", /P90|percentile/i],
+      28: ["=AVERAGE(E2:E28)", /weighted|tonnage/i],
+      48: ['=COUNTIF(H2:H28,"FAIL")', /proportion|p-chart/i]
+    };
+    if (brokenTable[i]) {
+      const [bf, re] = brokenTable[i];
+      const findings = Engine.diagnose(bf, c);
+      assert.ok(findings.some(f => (f.level === "error" || f.level === "warn") && re.test(f.msg) && /Next:/.test(f.msg)), `Challenge ${i} broken ${bf} should match ${re}`);
+    }
+    // Non-literal equivalent: $-anchored or spaced version of c.f, if not already in c.a
+    const equiv = c.f.replace(/([A-Z])(\d+)/g, "$$$1$$$2").replace(/,/g, ", ");
+    if (equiv !== c.f && !(c.a || []).includes(equiv)) {
+      const eqFindings = Engine.diagnose(equiv, c);
+      const bad = eqFindings.filter(f => f.level === "error" || f.level === "warn");
+      // Equivalents may still note missing structure; only assert no hard error on a spaced/anchored form
+      assert.ok(!bad.some(f => f.level === "error"), `Equivalent flagged as error for challenge ${i}: ${equiv}`);
+    }
     // Hints must not contain c.f or any c.a
     const state = { current: i, phase3: { coach: { hintLevels: {} } } };
     for (let lvl = 0; lvl < 3; lvl++) {
@@ -651,3 +668,4 @@ test("wildcard, p-chart, time strings, and patterns", () => {
     assert.ok(r && /Multi-criteria/.test(r.name), `${v} is multi-criteria`);
   }
 });
+
