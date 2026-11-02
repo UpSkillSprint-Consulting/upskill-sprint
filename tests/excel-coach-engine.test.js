@@ -949,6 +949,9 @@ test("gap 3: a typed literal in place of the input cell is flagged", () => {
     assert.ok(gapHit(d(lit, c), /typed in|hard-coded/i), `challenge ${i + 1}: missed literal ${lit}`);
   });
   assert.ok(n >= 10, `expected at least 10 input-cell challenges, saw ${n}`);
+  const dr = gapCh('=SUMIFS(G2:G28,A2:A28,">="&M2,A2:A28,"<="&M3)');
+  assert.ok(d('=SUMIFS(G2:G28,A2:A28,">=2026-07-01",A2:A28,"<=2026-07-07")', dr).some(x => /input cells M2 and M3/.test(x.msg)), "plural wording");
+  assert.ok(gapQuiet(d("=0", dr), /typed in/i), "a bare constant is not a typed criterion");
   // quiet on the right answers and $ variants
   assert.ok(gapQuiet(d("=SUMIFS(G2:G28,B2:B28,$M$2)", s), /typed in|hard-coded/i));
   assert.ok(gapQuiet(d('=SUMIFS(G2:G28,B2:B28,M2,H2:H28,"<>")', s), /typed in|hard-coded/i));

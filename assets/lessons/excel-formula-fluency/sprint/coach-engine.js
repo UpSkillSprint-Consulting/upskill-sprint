@@ -260,9 +260,10 @@
       const dropped = tCellsM.filter(c => !lCellsM.includes(c));
       const tLits = litsOf(challenge.f);
       const typed = litsOf(formula).filter(x => !tLits.includes(x) && x !== '""');
-      if (dropped.length && typed.length) {
+      if (dropped.length && typed.length && rects(formula).length) {
         const cells = dropped.join(" and ");
-        pre.push({ level: "warn", msg: `The criterion is typed in as a value instead of reading the input cell ${cells}. Next: refer to ${cells} so the formula updates when the input changes.` });
+        const noun = dropped.length > 1 ? "input cells" : "input cell";
+        pre.push({ level: "warn", msg: `The criterion is typed in as a value instead of reading the ${noun} ${cells}. Next: refer to ${cells} so the formula updates when the input changes.` });
       }
     }
     // Row-returning FILTER target answered with COUNTIF/COUNTIFS: a count, not the rows.
