@@ -978,3 +978,21 @@ test("gap 4: COUNTIF on a row-returning FILTER challenge gets a targeted warn", 
   const cf = gapCh('=COUNTIF(H2:H28,"FAIL")');
   assert.ok(gapQuiet(d('=COUNTIF(H2:H28,"FAIL")', cf), /counts.*rows/i), "COUNTIF challenge stays quiet");
 });
+
+test("gaps 3 and 4: targeted warns survive the grader's result checks", () => {
+  const d = Engine.diagnose;
+  const s = gapCh("=SUMIFS(G2:G28,B2:B28,M2)");
+  const or = gapCh('=FILTER(A2:H28,(H2:H28="FAIL")+(H2:H28="HOLD"),"No records")');
+  const prev = sandbox.window.ExcelFormulaGrader;
+  try {
+    sandbox.window.ExcelFormulaGrader = () => ({ ok: true, value: 1762 }); // results match
+    assert.ok(gapHit(d('=SUMIF(B2:B28,"Melt Shop",G2:G28)', s), /typed in/i), "literal hidden by equal results");
+    assert.ok(gapQuiet(d("=SUMIF(B2:B28,M2,G2:G28)", s), /typed in/i), "equal-result equivalent stays quiet");
+    let n = 0;
+    sandbox.window.ExcelFormulaGrader = () => ({ ok: true, value: n++ }); // results differ
+    const r = d('=COUNTIF(H2:H28,"FAIL")+COUNTIF(H2:H28,"HOLD")', or);
+    assert.ok(gapHit(r, /COUNTIF counts/i), "COUNTIF warn hidden by differing results");
+  } finally {
+    if (prev === undefined) delete sandbox.window.ExcelFormulaGrader; else sandbox.window.ExcelFormulaGrader = prev;
+  }
+});
