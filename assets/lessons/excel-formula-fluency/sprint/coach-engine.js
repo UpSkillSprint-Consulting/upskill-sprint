@@ -56,7 +56,7 @@
   // ─── Pattern library ───────────────────────────────────
   const patterns = {
     filterAggregate: {
-      detect: (fns) => fns.includes("FILTER") && (fns.includes("MEDIAN") || fns.includes("AVERAGE") || fns.includes("SUM") || fns.includes("COUNT")),
+      detect: (fns) => fns.includes("FILTER") && fns.some(fn => ["MEDIAN","AVERAGE","SUM","COUNT","PERCENTILE.INC","PERCENTILE","COUNTA","ROWS","MAX","MIN"].includes(fn)),
       name: "FILTER + aggregate",
       hints: [
         "Name the three parts: the production values such as Tap Time, the condition that selects rows such as WeekNum, and the final calculation.",
@@ -74,7 +74,7 @@
       ]
     },
     multiCriteria: {
-      detect: (tokens) => tokens.some(t => t === "*" || t === "+") && tokens.some(t => /FILTER|XLOOKUP|SUMIFS/.test(t)),
+      detect: (fns, tokens) => (tokens || []).some(t => t === "*" || t === "+") && (fns || []).some(t => /FILTER|XLOOKUP|SUMIFS/.test(t)),
       name: "Multi-criteria (AND with *, OR with +)",
       hints: [
         "Each condition must return a Boolean array of the same length. Multiply (*) for AND, add (+) for OR.",
@@ -220,8 +220,18 @@
       }
     }
 
-    if (challenge.f.includes("MEDIAN") && !learnerFns.includes("MEDIAN")) {
-      notes.push("The target aggregates with MEDIAN (typical for tap-time stability). Your formula does not.");
+    // SPC notes: only when the attempt shows the misconception
+    if (challenge && /MEDIAN/i.test(challenge.f || "") && /AVERAGE/i.test(formula) && !/MEDIAN/i.test(formula)) {
+      notes.push({ level: "warn", msg: "Right-skewed tap times pull the mean above the median. The median is the typical value. Next: summarise with the median, not the mean." });
+    }
+    if (challenge && /PERCENTILE/i.test(challenge.f || "") && /MAX\s*\(/i.test(formula)) {
+      notes.push({ level: "warn", msg: "P90 is the delay that 90% of heats stay at or below. MAX is one extreme heat. Next: use a percentile, not the maximum." });
+    }
+    if (challenge && /SUMPRODUCT/i.test(challenge.f || "") && /AVERAGE\s*\(/i.test(formula) && !/SUMPRODUCT/i.test(formula)) {
+      notes.push({ level: "warn", msg: "A weighted mean is Σ(w·x)/Σw, so heavier tonnage counts more. A plain AVERAGE weights every heat equally. Next: weight each value by its tonnage." });
+    }
+    if (challenge && /FAIL/i.test(challenge.f || "") && /HOLD/i.test(challenge.f || "") && /COUNTIF|ROWS/i.test(formula) && !/SUM\s*\(/i.test(formula)) {
+      notes.push({ level: "warn", msg: "(FAIL+HOLD)/non-blank rows is a proportion nonconforming p. On a p-chart the centre is p̄ and the limits are p̄ ± 3·√(p̄(1−p̄)/n); with varying n the limits vary, and the lower limit floors at 0. Next: count the nonconforming rows and divide by the non-blank count." });
     }
 
     if (/\[.*\]/.test(challenge.f) && !/\[.*\]/.test(formula)) {
@@ -252,8 +262,8 @@
     if (/#DIV\/0!/i.test(f)) findings.push({ level: "error", msg: "#DIV/0! — division by zero. Check the denominator." });
     if (/\/\s*0(?![\d.])/.test(stripped)) findings.push({ level: "error", msg: "#DIV/0! — division by zero. Check the denominator." });
     if (/#NAME\?/i.test(f)) findings.push({ level: "error", msg: "#NAME? — unrecognised function or named range." });
-    if (/\$?[A-Z]{1,3}:\$?[A-Z]{1,3}/i.test(f) && /FILTER|SUMPRODUCT|XLOOKUP|MATCH|SUMIFS/i.test(f)) {
-      findings.push({ level: "warn", msg: "Whole-column reference detected. Prefer a Table or limited range for performance and clarity." });
+    if (/\$?[A-Z]{1,3}:\$?[A-Z]{1,3}|\d+:\d+/i.test(f)) {
+      findings.push({ level: "warn", msg: "Whole-column or whole-row references can be slow and include unintended cells. Next: use a bounded range or an Excel Table." });
     }
     const parsed = tokenize(f);
     if (parsed.tokens) {
@@ -369,11 +379,11 @@
     }
 
     // COUNTIF / COUNTIFS with exact text that target uses a wildcard for
-    if (challenge && /[*?]/.test(challenge.f || "") && /COUNTIF[S]?\s*\([^,]+,\s*"[^*?]*"\s*\)/i.test(f)) {
+    if (challenge && /"[^"]*[*?][^"]*"/.test(challenge.f || "") && /COUNTIF[S]?\s*\([^,]+,\s*"[^*?]*"\s*\)/i.test(f)) {
       findings.push({ level: "warn", msg: "The target uses a wildcard. Next: add * or ? so the criterion matches the intended codes." });
     }
     // Partial or mismatched wildcards: learner criterion has * or ? but does not match the target's pattern
-    if (challenge && /[*?]/.test(challenge.f || "")) {
+    if (challenge && /"[^"]*[*?][^"]*"/.test(challenge.f || "")) {
       const tCrit = (challenge.f.match(/COUNTIF[S]?\s*\([^,]+,\s*"([^"]*)"/i) || [])[1];
       const lCrit = (f.match(/COUNTIF[S]?\s*\([^,]+,\s*"([^"]*)"/i) || [])[1];
       if (tCrit && lCrit && /[*?]/.test(lCrit) && lCrit !== tCrit) {

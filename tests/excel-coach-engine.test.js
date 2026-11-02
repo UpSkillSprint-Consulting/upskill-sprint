@@ -580,3 +580,46 @@ test("XLOOKUP wording polish: possessive, Both, list join", () => {
   const quoted = d('=XLOOKUP(M2,C2:C28,E2:E28,"XLOOKUP(")', t);
   assert.ok(!quoted.some(x => /2nd/.test(x.msg)), "XLOOKUP( inside quotes is not a call");
 });
+
+test("build scripts never delete coach-engine.js", () => {
+  const fs = require("fs");
+  const path = require("path");
+  for (const name of ["generate-excel-sprint.mjs", "generate-excel-sprint-learning.mjs"]) {
+    const src = fs.readFileSync(path.join(__dirname, "../scripts", name), "utf8");
+    assert.ok(!/coach-engine/.test(src), `${name} must not mention coach-engine`);
+    assert.ok(!/unlink|rmSync|rmdir/.test(src), `${name} must not delete files`);
+  }
+});
+
+test("SPC notes fire only on the misconception", () => {
+  const d = Engine.diagnose;
+  const c22 = { f: "=MEDIAN(FILTER(E2:E28,(E2:E28<>\"\")*(D2:D28=M2)))" };
+  const c23 = { f: "=PERCENTILE.INC(FILTER(F2:F28,D2:D28=M2),0.9)" };
+  const c29 = { f: "=SUMPRODUCT(E2:E28,G2:G28)/SUM(G2:G28)" };
+  const c49 = { f: '=SUM((H2:H28="FAIL")+(H2:H28="HOLD"))/COUNTA(H2:H28)' };
+  for (const v of ["=AVERAGE(E2:E28)", "=average($e$2:$e$28)", "=AVERAGE(FILTER(E2:E28,D2:D28=M2))"]) {
+    assert.ok(d(v, c22).some(x => /skew|median/i.test(x.msg) && /Next:/.test(x.msg)), `${v} should note skew`);
+  }
+  for (const v of ["=MAX(F2:F28)", "=max($f$2:$f$28)", "=MAX(FILTER(F2:F28,D2:D28=M2))"]) {
+    assert.ok(d(v, c23).some(x => /P90|percentile/i.test(x.msg)), `${v} should note P90`);
+  }
+  for (const v of ["=AVERAGE(E2:E28)", "=average($e$2:$e$28)", "=AVERAGE(LET(x,E2:E28,x))"]) {
+    assert.ok(d(v, c29).some(x => /weighted|tonnage/i.test(x.msg)), `${v} should note weighted mean`);
+  }
+  for (const v of ['=COUNTIF(H2:H28,"FAIL")', '=ROWS(H2:H28)', '=countif($h$2:$h$28,"FAIL")']) {
+    assert.ok(d(v, c49).some(x => /proportion|p-chart/i.test(x.msg)), `${v} should note p-chart`);
+  }
+  // negatives
+  assert.ok(!d(c22.f, c22).some(x => /skew/i.test(x.msg)), "correct #22 stays quiet");
+  assert.ok(!d("=SUM(A2:A10)", c22).some(x => /skew/i.test(x.msg)), "unrelated stays quiet");
+  assert.ok(!d('=COUNTIF(H2:H28,"FAIL")', c49).some(x => /wildcard/i.test(x.msg)), "multiplication is not a wildcard");
+});
+
+test("whole-column and pattern leftovers", () => {
+  const d = Engine.diagnose;
+  for (const v of ["=AVERAGE(E:E)", "=MEDIAN($E:$E)", "=SUM(G:G)", "=COUNTIFS(D:D,1)", "=PERCENTILE.INC(F:F,0.9)", "=MAX(2:2)"]) {
+    assert.ok(d(v, {}).some(x => /whole-column|whole-row/i.test(x.msg) && /Next:/.test(x.msg)), `${v} should warn`);
+  }
+  assert.ok(!d("=AVERAGE(E2:E28)", {}).some(x => /whole-column/i.test(x.msg)), "bounded stays quiet");
+  const p = Engine.detectPattern ? null : null;
+});
