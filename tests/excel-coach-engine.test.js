@@ -134,7 +134,7 @@ test("all 50 real challenges: accepted answers clean, broken formula flagged, hi
       41: ["=BYCOL(B:F,LAMBDA(c,MAX(c)))", /whole-column|Next:/i],
       42: ["=SCAN(0,G:G,LAMBDA(total,x,total+x))", /whole-column|Next:/i],
       43: ["=REDUCE(0,E:E,LAMBDA(count,x,count+1))", /whole-column|Next:/i],
-      44: ["=MAKEARRAY(5,5,LAMBDA(r,c,r*c))", /Next:/],
+      44: ["=MAKEARRAY(5,5,r*c)", /LAMBDA|Next:/i],
       45: ["=GROUPBY(B2:B28,F2:F28,SUM)", /structured|Next:/i],
       46: ["=PIVOTBY(B2:B28,D2:D28,F2:F28,SUM)", /structured|Next:/i],
       47: ["=A:H", /whole-column|Next:/i],
