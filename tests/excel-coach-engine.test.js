@@ -855,6 +855,9 @@ test("item 8 message fixes on the real challenges", () => {
   }
   assert.ok(!wrongRef(d('=COUNTIF(C2:C28,"*A001*")', cs[10])), "quoted text is not a ref");
   assert.ok(!d("=Sheet2!C2", { f: "=E2" }).some(x => /EET2|SHEET2/i.test(x.msg)), "Sheet2! prefix is not a ref");
+  assert.ok(!wrongRef(d("=Q3Data!E2", { f: "=E2" })), "Q3Data! prefix is not the cell Q3");
+  assert.ok(d("='Q3'!E2+F3", cs[0]).some(x => /\(F3 isn't used here\)/.test(x.msg)), "a quoted sheet named like a cell is not named as a stray ref");
+  assert.ok(!wrongRef(d("='Week 12'!E2", { f: "=E2" })), "quoted sheet prefix with a space is not a ref");
   assert.ok(!d("='Week 12'!E2", cs[8]).some(x => /WEEK|K12/i.test(x.msg)), "'Week 12'! prefix is not a ref");
   // Plural grammar.
   assert.ok(d("=E3+E29", cs[0]).some(x => /\(E3, E29 aren't used here\)/.test(x.msg)), "plural aren't");
