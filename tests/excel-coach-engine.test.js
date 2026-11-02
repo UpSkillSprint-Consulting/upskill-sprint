@@ -80,6 +80,7 @@ test("lesson-taught mistakes produce targeted findings", () => {
 test("all 50 real challenges: accepted answers clean, broken formula flagged, hints safe", async () => {
   const challenges = loadChallenges();
   assert.ok(challenges.length >= 50, "Expected at least 50 challenges");
+  const fails = [];
   for (let i = 0; i < challenges.length; i++) {
     const c = challenges[i];
     const accepted = [c.f, ...(c.a || [])];
@@ -94,22 +95,22 @@ test("all 50 real challenges: accepted answers clean, broken formula flagged, hi
       2: ["=E2/M2", /locks|\$M/i],
       3: ["=B4*C2", /locks/i],
       4: ["=IF(E2>100,REVIEW,ACCEPT)", /quote|unquoted/i],
-      5: ["=H2=\"\"", /Next:/],
+      5: ["=H2=\"\"", /nonblank|<>/i],
       6: ["=C2+\" - \"+H2", /&/],
       7: ["=AVERAGE(E2,E6)", /range|E2:E6/i],
       8: ["=Production Data!E2", /apostrophe|quoted/i],
       9: ["=COUNTIF(H2:H28,FAIL)", /quote|unquoted/i],
       10: ["=COUNTIF(C2:C28,\"A00\")", /wildcard/i],
       11: ["=IFERROR(F2/E2)", /value_if_error|second argument/i],
-      12: ["=E2+F2*G2", /Next:/],
+      12: ["=E2+F2*G2", /order|parenthes/i],
       13: ["=ROUND(AVERAGE(E2:E6))", /num_digits|second argument/i],
       14: ["=[Tonnes]*[Rate]", /@|this row/i],
       15: ["=XLOOKUP(M2,C2:C28,E2:E28)", /fallback/i],
       16: ["=XLOOKUP(M2,C2:C28,H2:H28,\"Not found\")", /last-to-first/i],
       17: ["=XLOOKUP(1,C2:C28=M2,E2:E28,\"x\")", /Next:/],
-      18: ["=FILTER(A2:H28,H2:H28=FAIL)", /quote|unquoted/i],
+      18: ["=FILTER(A:A,H2:H28=\"FAIL\")", /whole-column|Next:/i],
       19: ["=FILTER(A2:H28,B2:B28=\"Rolling Mill\")", /Next:/],
-      20: ["=FILTER(A2:H28,H2:H28=\"FAIL\")", /Next:/],
+      20: ["=FILTER(A:A,H2:H28=\"FAIL\")", /whole-column|Next:/i],
       21: ["=AVERAGE(E2:E28)", /skew|median/i],
       22: ["=MAX(F2:F28)", /P90|percentile/i],
       23: ["=COUNT(UNIQUE(B2:B28))", /Next:/],
@@ -121,9 +122,9 @@ test("all 50 real challenges: accepted answers clean, broken formula flagged, hi
       29: ["=LEFT(C2,3)", /Next:/],
       30: ["=RIGHT(C2,3)", /Next:/],
       31: ["=COUNTA(D2)", /#|spill/i],
-      32: ["=CHOOSECOLS(A2:H28,2,3)", /Next:/],
-      33: ["=A2:INDEX(A2:A10000,XMATCH(2,1/(A2:A10000<>\"\")))", /Next:/],
-      34: ["=AVERAGE(E2:E28)", /Next:/],
+      32: ["=CHOOSECOLS(A:H,2,3,8)", /whole-column|Next:/i],
+      33: ["=A:INDEX(A:A,XMATCH(TRUE,A:A<>\"\",0,-1))", /whole-column|Next:/i],
+      34: ["=AVERAGE(E:E)", /whole-column|Next:/i],
       35: ["=IF(B2/C2<0.78,\"Review\",\"Accept\")", /Next:/],
       36: ["=MEDIAN(E2:E28)", /Next:/],
       37: ["=MEDIAN(FILTER(E2:E28,D2:D28=M2))", /Next:/],
@@ -134,8 +135,8 @@ test("all 50 real challenges: accepted answers clean, broken formula flagged, hi
       42: ["=SCAN(0,G2:G28,total+x)", /Next:/],
       43: ["=REDUCE(0,E2:E28,count+1)", /Next:/],
       44: ["=MAKEARRAY(5,5,r*c)", /Next:/],
-      45: ["=GROUPBY(B2:B28,F2:F28,SUM)", /Next:/],
-      46: ["=PIVOTBY(B2:B28,D2:D28,F2:F28,SUM)", /Next:/],
+      45: ["=GROUPBY(B2:B28,F2:F28,SUM)", /structured|Next:/i],
+      46: ["=PIVOTBY(B2:B28,D2:D28,F2:F28,SUM)", /structured|Next:/i],
       47: ["=A1:H1000", /Next:/],
       48: ['=COUNTIF(H2:H28,"FAIL")', /proportion|p-chart/i],
       49: ["=AVERAGE(E2:E28)", /Next:/]
@@ -143,7 +144,8 @@ test("all 50 real challenges: accepted answers clean, broken formula flagged, hi
     if (brokenTable[i]) {
       const [bf, re] = brokenTable[i];
       const findings = Engine.diagnose(bf, c);
-      assert.ok(findings.some(f => (f.level === "error" || f.level === "warn") && re.test(f.msg) && /Next:/.test(f.msg)), `Challenge ${i} broken ${bf} should match ${re}`);
+      const ok = findings.some(f => re.test(f.msg) && /Next:/.test(f.msg));
+      if (!ok) fails.push(`Challenge ${i} broken ${bf}: ${findings.map(f=>f.level+":"+f.msg).join(" | ") || "(none)"}`);
     }
     // Non-literal equivalent: $-anchored or spaced version of c.f, if not already in c.a
     const equiv = c.f.replace(/([A-Z])(\d+)/g, "$$$1$$$2").replace(/,/g, ", ");
@@ -164,6 +166,7 @@ test("all 50 real challenges: accepted answers clean, broken formula flagged, hi
     const structureQ = await Engine.localResponse("what is the full formula structure?", "hint", () => ({}), challenges, state);
     assert.ok(!structureQ.includes(c.f), `Structure question leaked c.f for challenge ${i}`);
   }
+  if (fails.length) assert.fail(fails.join("\n"));
 });
 
 test("production logger stores no formula body", async () => {

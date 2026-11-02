@@ -244,15 +244,32 @@
     }
 
     if (/\[.*\]/.test(challenge.f) && !/\[.*\]/.test(formula)) {
-      notes.push("The target uses structured references (e.g. ProductionData[Tap Time]). Your formula does not.");
+      notes.push({ level: "warn", msg: "The target uses structured references (e.g. ProductionData[Tap Time]). Your formula does not. Next: use the table column names." });
     }
 
+    // Order of operations: multiplication binds tighter
+    if (/\([^)]+\+[^)]+\)\s*\*/.test(challenge.f || "") && /\+.*\*/.test(formula) && !/\(/.test(formula.split("*")[0] || "")) {
+      notes.push({ level: "warn", msg: "Multiplication binds tighter than addition. Next: add parentheses so the addition happens first." });
+    }
+    // Opposite comparison
+    if (/<>\s*""/.test(challenge.f || "") && /=\s*""/.test(formula)) {
+      notes.push({ level: "warn", msg: "The target tests for nonblank (<>). Your formula tests for blank (=). Next: use <> for nonblank." });
+    }
+    // Missing @ on a table row
+    if (/\[@/.test(challenge.f || "") && /\[[^@]/.test(formula) && !/\[@/.test(formula)) {
+      notes.push({ level: "warn", msg: "The target uses @ for this row. Your formula does not. Next: add @ before the column name." });
+    }
+    // Missing spill #
+    if (/#/.test(challenge.f || "") && !/#/.test(formula) && /COUNTA|INDEX|ROWS/i.test(formula)) {
+      notes.push({ level: "warn", msg: "The target uses # for a spilled range. Your formula does not. Next: append # to the spill anchor." });
+    }
     // Wrong column/row on a simple reference
-    function refs(s) { return (String(s).match(/\$?[A-Z]{1,3}\$?\d+/gi) || []).map(r => r.replace(/\$/g, "").toUpperCase()); }
+    function refs(s) { return (String(s).replace(/"([^"]|"")*"/g, "").match(/\$?[A-Z]{1,3}\$?\d+/gi) || []).map(r => r.replace(/\$/g, "").toUpperCase()); }
     const tRefs = refs(challenge.f);
     const lRefs = refs(formula);
     if (tRefs.length && lRefs.length && tRefs.some(r => !lRefs.includes(r))) {
-      notes.push({ level: "warn", msg: "The references do not match the target. Next: check the column and row against the challenge." });
+      const extra = lRefs.filter(r => !tRefs.includes(r));
+      notes.push({ level: "warn", msg: `The references do not match the target${extra.length ? " (" + extra.slice(0, 2).join(", ") + " isn't used here)" : ""}. Next: check the column and row against the challenge.` });
     }
 
     return notes.length ? notes : null;
