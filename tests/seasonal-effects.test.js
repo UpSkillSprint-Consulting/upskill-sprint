@@ -237,3 +237,27 @@ test('build injector adds the tag once, before </body>, and skips exams and frag
   assert.equal(injectTag(read('index.html')), null);
   fs.rmSync(dir, { recursive: true, force: true });
 });
+
+test('every season\'s greeting sits in a labelled landmark region (axe "region")', () => {
+  const cases = [
+    [day(2027, 7, 1), /Happy Canada Day/],
+    [day(2027, 7, 4), /Happy 4th of July/],
+    [day(2027, 10, 11), /Happy Thanksgiving/],
+    [day(2026, 10, 31), /Happy Halloween/],
+    [day(2026, 12, 1), /Merry Christmas/],
+    [day(2027, 1, 4), /Merry Christmas/]
+  ];
+  for (const [date, text] of cases) {
+    const dom = browserPage('https://upskillsprint.com/', date);
+    const doc = dom.window.document;
+    const badges = doc.querySelectorAll('.uss-fx-badge');
+    assert.equal(badges.length, 1, `one greeting on ${date.toDateString()}`);
+    const badge = badges[0];
+    assert.match(badge.textContent, text);
+    assert.equal(badge.getAttribute('role'), 'region', `${text} badge is a landmark`);
+    assert.equal(badge.getAttribute('aria-label'), 'Seasonal greeting');
+    assert.equal(badges[0].parentElement, doc.body, 'still appended to <body>, outside <main>');
+    assert.equal(doc.querySelectorAll('[role="region"][aria-label="Seasonal greeting"]').length, 1, 'label stays unique');
+    dom.window.close();
+  }
+});
