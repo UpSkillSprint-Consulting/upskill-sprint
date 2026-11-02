@@ -1,6 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const path = require('node:path');
 const { JSDOM } = require('jsdom');
 
 const html = fs.readFileSync('lessons/power-bi-excel-sql/excel-formula-fluency.html', 'utf8');
@@ -79,6 +80,12 @@ test('last-row practice rejects the old XMATCH idiom and accepts the displayed r
     assert.ok(h.el('answerPanel').classList.contains('show'));
     assert.equal(h.el('solutionFormula').textContent, correct);
     assert.equal(h.el('indexPanel').querySelector('.formula').textContent, correct);
+    const engine = fs.readFileSync(path.join(__dirname, '../assets/lessons/excel-formula-fluency/sprint/coach-engine.js'), 'utf8');
+    h.w.eval(engine);
+    h.el('showHint').click();
+    assert.doesNotMatch(h.el('feedback').textContent, /last-to-first.*TRUE/);
+    h.el('showHint').click();
+    assert.doesNotMatch(h.el('feedback').textContent, /last-to-first.*TRUE/);
     h.el('showHint').click();
     assert.match(h.el('feedback').textContent, /last-to-first.*TRUE/);
   } finally { h.dom.window.close(); }
