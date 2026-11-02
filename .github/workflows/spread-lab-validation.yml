@@ -65,7 +65,7 @@ jobs:
   # Match the command Netlify executes in netlify.toml. The full test suite is a
   # separate concern and may legitimately include tests for retired runtimes.
   production-build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v5
