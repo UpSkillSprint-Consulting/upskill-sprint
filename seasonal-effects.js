@@ -136,6 +136,10 @@
 
     var b = document.createElement('div');
     b.className = 'uss-fx-badge';
+    // A labelled region keeps the greeting inside a landmark (axe "region"), since it is
+    // appended straight to <body> outside the page's header, main and footer.
+    b.setAttribute('role', 'region');
+    b.setAttribute('aria-label', 'Seasonal greeting');
     b.innerHTML = '<span aria-hidden="true">' + s.icon + '</span><span class="t">' + s.label + '</span>' +
       '<button type="button" aria-label="Turn off seasonal effects" title="Turn off seasonal effects">\u2715</button>';
     b.querySelector('button').addEventListener('click', function () { b.remove(); onOff(); });
