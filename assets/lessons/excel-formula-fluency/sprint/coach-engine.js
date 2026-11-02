@@ -1,0 +1,1073 @@
+/**
+ * Excel Coach Phase 10 – Final academic closure
+ * Builds on Phases 1–9.
+ *
+ * Adds:
+ * - Clearer controlled-review outcome interpretation ready for real learner data
+ * - Explicit guidance on how to confirm the “faster / better formulas” claim
+ *
+ * Fully offline. Enhancement hook remains optional.
+ */
+(function (global) {
+  "use strict";
+
+  const CoachEngine = {};
+
+  // ─── Lightweight formula parser ────────────────────────────────
+  function tokenize(formula) {
+    const f = String(formula || "").trim();
+    if (!f.startsWith("=")) return { error: "Formula must start with =" };
+    const body = f.slice(1);
+    const tokens = [];
+    // Skip quoted strings so paren and != checks do not fire inside text
+    const re = /("[^"]*"|'[^']*'|[A-Za-z_][A-Za-z0-9_.]*\s*\(|\$?[A-Za-z]{1,3}\$?\d+|\$?[A-Za-z]{1,3}:\$?[A-Za-z]{1,3}(?![A-Za-z0-9_(])|[A-Za-z_][A-Za-z0-9_]*\[@?[A-Za-z0-9_ ]*\]|#|[\(\)\+\-\*\/\^&=<>!,;]|[0-9.]+)/g;
+    let m;
+    while ((m = re.exec(body)) !== null) {
+      const t = m[1].trim();
+      if (t.startsWith('"') || t.startsWith("'")) continue; // ignore quoted text
+      tokens.push(t);
+    }
+    return { tokens, raw: f };
+  }
+
+  function extractFunctions(tokens) {
+    return tokens.filter(t => t.endsWith("(")).map(t => t.slice(0, -1).toUpperCase());
+  }
+
+  function hasStructuredRef(tokens) {
+    return tokens.some(t => /\[.*\]/.test(t));
+  }
+
+  function parenBalance(formula) {
+    const open = (formula.match(/\(/g) || []).length;
+    const close = (formula.match(/\)/g) || []).length;
+    return open - close;
+  }
+
+  // ─── Course-specific examples ──────────────────────────────
+  function naturalize(text) {
+    if (!text) return text;
+    return text
+      .replace(/the production values \(e\.g\. Tap Time\)/g, "the production values such as Tap Time")
+      .replace(/the filter condition \(e\.g\. WeekNum or Heat ID\)/g, "the filter condition such as WeekNum or Heat ID")
+      .replace(/FILTER on the production table/g, "FILTER on the ProductionData table");
+  }
+
+  // ─── Pattern library ───────────────────────────────────
+  const patterns = {
+    filterAggregate: {
+      detect: (fns) => fns.includes("FILTER") && fns.some(fn => ["MEDIAN","AVERAGE","SUM","COUNT","PERCENTILE.INC","PERCENTILE","COUNTA","ROWS","MAX","MIN"].includes(fn)),
+      name: "FILTER + aggregate",
+      hints: [
+        "Name the three parts: the production values such as Tap Time, the condition that selects rows such as WeekNum, and the final calculation.",
+        "Build and test the FILTER on ProductionData by itself first. Confirm it returns the expected rows before wrapping it.",
+        "Wrap the FILTER result with the aggregate (MEDIAN, AVERAGE, etc.). Handle the case when FILTER returns nothing."
+      ]
+    },
+    xlookup: {
+      detect: (fns) => fns.includes("XLOOKUP"),
+      name: "XLOOKUP",
+      hints: [
+        "Confirm the lookup value, lookup array, and return array have matching dimensions on the production table.",
+        "Add a fallback (the 4th argument) so missing Heat IDs return a clear message instead of #N/A.",
+        "Use structured references so the lookup stays correct when new production rows are added."
+      ]
+    },
+    multiCriteria: {
+      detect: (fns, tokens) => {
+        const t = tokens || [];
+        let depth = 0, inside = false;
+        for (const tok of t) {
+          if (/\($/.test(tok)) { depth++; if (/FILTER|SUMPRODUCT|SUMIFS/i.test(tok)) inside = true; }
+          else if (tok === ")") { depth--; if (depth === 0) inside = false; }
+          else if (inside && depth > 0 && (tok === "*" || tok === "+")) return true;
+        }
+        return false;
+      },
+      name: "Multi-criteria (AND with *, OR with +)",
+      hints: [
+        "Each condition must return a Boolean array of the same length. Multiply (*) for AND, add (+) for OR.",
+        "Test each Boolean condition alone before combining them.",
+        "Watch for text vs number mismatches in the criteria (common with WeekNum or Result)."
+      ]
+    },
+    let: {
+      detect: (fns) => fns.includes("LET"),
+      name: "LET named calculation",
+      hints: [
+        "List the names and values first, then the final expression that uses those names.",
+        "Name intermediate results so the formula reads like a short process method.",
+        "Confirm each named piece works by evaluating it alone."
+      ]
+    },
+    dynamicArray: {
+      detect: (fns) => fns.some(f => ["FILTER","SORT","UNIQUE","TAKE","CHOOSECOLS","GROUPBY","PIVOTBY"].includes(f)),
+      name: "Dynamic array",
+      hints: [
+        "Dynamic arrays spill. Make sure there is space for the result and reference the spill with # when needed.",
+        "Prefer Excel Tables + structured references so the production source grows automatically.",
+        "Test the spilling function alone before nesting it."
+      ]
+    }
+  };
+
+  function detectPattern(tokens) {
+    if (!tokens || !tokens.length) return null;
+    const fns = extractFunctions(tokens);
+    for (const key of Object.keys(patterns)) {
+      try {
+        if (patterns[key].detect(fns, tokens)) return { key, ...patterns[key] };
+      } catch (e) { /* ignore pattern errors */ }
+    }
+    return null;
+  }
+
+  // ─── Deeper structure comparison ─────────────────────────────
+  // Result equality via the lesson's grader (window.ExcelFormulaGrader), if present.
+  // Structured-reference rewrite uses the productionData column map from the lesson.
+  const STRUCTURED_MAP = {
+    "PRODUCTIONDATA[FACILITY]": "B2:B28",
+    "PRODUCTIONDATA[HEAT ID]": "C2:C28",
+    "PRODUCTIONDATA[WEEKNUM]": "D2:D28",
+    "PRODUCTIONDATA[TAP TIME]": "E2:E28",
+    "PRODUCTIONDATA[DELAY TIME]": "F2:F28",
+    "PRODUCTIONDATA[TONNES]": "G2:G28",
+    "PRODUCTIONDATA[STATUS]": "H2:H28",
+    "PRODUCTIONDATA[DATE]": "A2:A28"
+  };
+  function rewriteStructured(s) {
+    let out = String(s || "");
+    for (const [k, v] of Object.entries(STRUCTURED_MAP)) {
+      out = out.replace(new RegExp(k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"), v);
+    }
+    return out;
+  }
+  function resultsEqual(learner, target) {
+    const grader = (typeof window !== "undefined" && window.ExcelFormulaGrader) || null;
+    if (!grader) return false; // offline / Node without grader: do not pretend a match
+    try {
+      const a = grader(rewriteStructured(learner));
+      const b = grader(rewriteStructured(target));
+      // Refuse on failure, throw, undefined, NaN, or missing result. Never accept because both failed.
+      if (!a || !b || a.ok === false || b.ok === false) return false;
+      if (a.value === undefined || b.value === undefined) return false;
+      if (typeof a.value === "number" && Number.isNaN(a.value)) return false;
+      if (typeof b.value === "number" && Number.isNaN(b.value)) return false;
+      // Refuse constant stubs
+      if (a.value === "grouped" || b.value === "grouped") return false;
+      // Literal =0 / ="" / ="0" must not pass via result equality (coincident zeros).
+      const learnerTrim = String(learner || "").replace(/\s+/g, "").toUpperCase();
+      if (learnerTrim === "=0" || learnerTrim === "=\"\"" || learnerTrim === "=\"0\"") return false;
+      // No sheet refs and a zero/empty result: cannot be computing the challenge.
+      const hasRef = /\$?[A-Z]{1,3}\$?\d+/.test(learner || "");
+      if (!hasRef && (a.value === 0 || a.value === "")) return false;
+      return sameResult(a.value, b.value);
+    } catch (e) {
+      return false;
+    }
+  }
+  function resultsDiffer(learner, target) {
+    const grader = (typeof window !== "undefined" && window.ExcelFormulaGrader) || null;
+    if (!grader) return false;
+    try {
+      const a = grader(rewriteStructured(learner));
+      const b = grader(rewriteStructured(target));
+      if (!a || !b || a.ok === false || b.ok === false) return false;
+      if (a.value === undefined || b.value === undefined) return false;
+      return !sameResult(a.value, b.value);
+    } catch (e) { return false; }
+  }
+  function sameResult(a, b) {
+    if (a === b) return true;
+    // Numbers only match numbers (epsilon). No cross-type coercion.
+    if (typeof a === "number" && typeof b === "number") return Math.abs(a - b) <= Math.max(1e-7, Math.abs(b) * 1e-7);
+    if (Array.isArray(a) && Array.isArray(b)) {
+      if (a.length !== b.length) return false;
+      return a.every((v, i) => sameResult(v, b[i]));
+    }
+    // Strings match strings only. TRUE vs 1, "1762" vs 1762, "0" vs 0 are not equal.
+    if (typeof a === "string" && typeof b === "string") return a === b;
+    return false;
+  }
+
+
+  // String-aware call finder: returns the top-level argument list of every fnName( call.
+  function calls(s, fnName) {
+    const src = String(s || "");
+    const re = new RegExp("(^|[^A-Za-z0-9_.])" + fnName + "\\s*\\(", "gi");
+    const out = [];
+    let m;
+    while ((m = re.exec(src)) !== null) {
+      const before = src.slice(0, m.index + m[1].length);
+      if ((before.match(/"/g) || []).length % 2 === 1) continue;
+      let depth = 1, i = m.index + m[0].length, inQ = false, cur = "";
+      const args = [];
+      while (i < src.length && depth > 0) {
+        const ch = src[i];
+        if (ch === '"') { inQ = !inQ; cur += ch; i++; continue; }
+        if (!inQ && ch === "(") depth++;
+        else if (!inQ && ch === ")") { depth--; if (depth === 0) break; }
+        if (!inQ && ch === "," && depth === 1) { args.push(cur.trim()); cur = ""; }
+        else cur += ch;
+        i++;
+      }
+      args.push(cur.trim());
+      out.push(args);
+    }
+    return out;
+  }
+  function stripQuoted(s) { return String(s || "").replace(/"([^"]|"")*"/g, '""'); }
+  // Does the expression use the identifier as a whole word (outside quotes)?
+  function usesName(expr, name) {
+    return new RegExp("(^|[^A-Za-z0-9_.])" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?![A-Za-z0-9_.(])", "i").test(stripQuoted(expr));
+  }
+  // Rectangles for cell refs and ranges, after quotes and sheet prefixes are removed.
+  function colNum(c) { let n = 0; for (const ch of c.toUpperCase()) n = n * 26 + ch.charCodeAt(0) - 64; return n; }
+  function rects(s) {
+    const clean = String(s || "").replace(/"([^"]|"")*"/g, "").replace(/'[^']*'!|[A-Za-z0-9_.]+!/g, "");
+    const out = [];
+    const re = /(?<![A-Za-z0-9_.])\$?([A-Z]{1,3})\$?(\d+)(?::\$?([A-Z]{1,3})\$?(\d+))?(?![A-Za-z0-9_(])/gi;
+    let m;
+    while ((m = re.exec(clean)) !== null) {
+      const c1 = colNum(m[1]), r1 = +m[2];
+      const c2 = m[3] ? colNum(m[3]) : c1, r2 = m[4] ? +m[4] : r1;
+      out.push({ text: m[0].replace(/\$/g, "").toUpperCase(), c1: Math.min(c1, c2), c2: Math.max(c1, c2), r1: Math.min(r1, r2), r2: Math.max(r1, r2) });
+    }
+    return out;
+  }
+  function inside(a, b) { return a.c1 >= b.c1 && a.c2 <= b.c2 && a.r1 >= b.r1 && a.r2 <= b.r2; }
+
+  function norm(s) { return String(s || "").replace(/\s+/g, "").toUpperCase(); }
+  function compareToChallenge(formula, challenge) {
+    if (!challenge || !challenge.f) return null;
+    const accepted = [challenge.f, ...(challenge.a || challenge.accepted || [])].map(norm);
+    const learnerNorm = norm(formula);
+    if (accepted.includes(learnerNorm)) return null; // never flag an accepted answer
+
+    // Result-based acceptance: if the existing lesson grader says the results match, it is correct.
+    if (resultsEqual(formula, challenge.f)) return null;
+    if (resultsDiffer(formula, challenge.f)) {
+      return [{ level: "warn", msg: "The result differs from the target on the sample data. Next: check the ranges, criteria and function so both formulas return the same value." }];
+    }
+
+    const learnerTokens = tokenize(formula).tokens || [];
+    const expectedTokens = tokenize(challenge.f).tokens || [];
+    const learnerFns = extractFunctions(learnerTokens);
+    const expectedFns = extractFunctions(expectedTokens);
+
+    const notes = [];
+
+    const missingFns = expectedFns.filter(f => f && !learnerFns.includes(f));
+    const extraFns = learnerFns.filter(f => f && !expectedFns.includes(f));
+    if (missingFns.length) notes.push(`The target uses ${missingFns.join(", ")}; your formula does not. Next: use the target function or an equivalent that returns the same result on the sample data.`);
+    if (extraFns.length) notes.push(`The target does not use ${extraFns.join(", ")}; your formula does. Next: remove the extra function or confirm it returns the same result on the sample data.`);
+
+    if (challenge.f.includes("FILTER") && learnerFns.includes("FILTER")) {
+      const expectedHasWeek = /WeekNum/i.test(challenge.f);
+      const learnerHasWeek = /WeekNum/i.test(formula);
+      if (expectedHasWeek && !learnerHasWeek) {
+        notes.push("The target FILTER selects rows by WeekNum. Your FILTER is missing the WeekNum criterion.");
+      }
+      const expectedHasHeat = /Heat ID/i.test(challenge.f);
+      const learnerHasHeat = /Heat ID/i.test(formula);
+      if (expectedHasHeat && !learnerHasHeat) {
+        notes.push("The target uses Heat ID in the lookup or filter. Your formula does not.");
+      }
+    }
+
+    // SPC notes: only when the attempt shows the misconception
+    if (challenge && /MEDIAN/i.test(challenge.f || "") && /AVERAGE/i.test(formula) && !/MEDIAN/i.test(formula)) {
+      notes.push({ level: "warn", msg: "Right-skewed tap times pull the mean above the median. The median is the typical value. Next: summarise with the median, not the mean." });
+    }
+    if (challenge && /PERCENTILE/i.test(challenge.f || "") && /MAX\s*\(/i.test(formula)) {
+      notes.push({ level: "warn", msg: "P90 is the delay that 90% of heats stay at or below. MAX is one extreme heat. Next: use a percentile, not the maximum." });
+    }
+    if (challenge && /SUMPRODUCT/i.test(challenge.f || "") && /AVERAGE\s*\(/i.test(formula) && !/SUMPRODUCT/i.test(formula)) {
+      notes.push({ level: "warn", msg: "A weighted mean is Σ(w·x)/Σw, so heavier tonnage counts more. A plain AVERAGE weights every heat equally. Next: weight each value by its tonnage." });
+    }
+    if (challenge && /\//.test(challenge.f || "") && /FAIL/i.test(challenge.f || "") && /HOLD/i.test(challenge.f || "") && /COUNTIF|ROWS/i.test(formula) && !/SUM\s*\(/i.test(formula)) {
+      notes.push({ level: "warn", msg: "(FAIL+HOLD)/non-blank rows is a proportion nonconforming p. On a p-chart the centre is p̄ and the limits are p̄ ± 3·√(p̄(1−p̄)/n); with varying n the limits vary, and the lower limit floors at 0. Next: count the nonconforming rows and divide by the non-blank count." });
+    }
+
+    if (/\[.*\]/.test(challenge.f) && !/\[.*\]/.test(formula)) {
+      notes.push({ level: "warn", msg: "The target uses structured references (e.g. ProductionData[Tap Time]). Your formula does not. Next: use the table column names." });
+    }
+
+    // Order of operations: multiplication binds tighter
+    if (/\([^)]+\+[^)]+\)\s*\*/.test(challenge.f || "") && /^\s*=\s*[A-Z]+\d+\s*\+\s*[A-Z]+\d+\s*\*\s*[A-Z]+\d+\s*$/i.test(formula.replace(/\$/g, ""))) {
+      notes.push({ level: "warn", msg: "Multiplication binds tighter than addition. Next: add parentheses so the addition happens first." });
+    }
+    // Unquoted text in FILTER
+    if (/FILTER/i.test(formula) && /=\s*[A-Z][A-Z_]+\s*[,)]/.test(formula)) {
+      notes.push({ level: "warn", msg: "Unquoted text in a FILTER criterion is treated as a name. Next: wrap the text in double quotes." });
+    }
+    // Missing second criterion in a two-condition target
+    if (/\*\s*\(/.test(challenge.f || "") && /FILTER|XLOOKUP/i.test(formula) && !/\*/.test(formula) && !/\bIF\s*\(/i.test(formula)) {
+      notes.push({ level: "warn", msg: "The target combines two conditions. Your formula has one. Next: add the second condition." });
+    }
+    // Fixed-width vs delimiter
+    if (/TEXTBEFORE|TEXTAFTER/i.test(challenge.f || "") && [...calls(formula, "LEFT"), ...calls(formula, "RIGHT")].some(a => /^\d+$/.test(a[1] || ""))) {
+      notes.push({ level: "warn", msg: "A fixed-width cut misses a variable-length piece. Next: split on the delimiter instead." });
+    }
+    // COUNT vs ROWS for unique count
+    if (/ROWS/i.test(challenge.f || "") && /UNIQUE/i.test(challenge.f || "") && /COUNT\s*\(/i.test(formula) && !/ROWS/i.test(formula)) {
+      notes.push({ level: "warn", msg: "COUNT ignores text. Next: use ROWS to count the unique list." });
+    }
+    // Missing guard
+    if (/IF\s*\(\s*COUNT/i.test(challenge.f || "") && !/IF\s*\(\s*COUNT/i.test(formula)) {
+      notes.push({ level: "warn", msg: "The target guards against no matching rows. Next: add a check for an empty result." });
+    }
+    // Missing LAMBDA in a lambda-helper
+    const helperCalls = ["BYROW", "BYCOL", "SCAN", "REDUCE", "MAKEARRAY", "MAP"].flatMap(fn => calls(formula, fn));
+    const etaOnly = helperCalls.length && helperCalls.every(a => /^[A-Z][A-Z0-9.]*$/i.test(a[a.length - 1] || "") && !/^[A-Z]{1,3}\d+$/i.test(a[a.length - 1]));
+    if (/LAMBDA/i.test(challenge.f || "") && helperCalls.length && !/LAMBDA/i.test(formula) && !etaOnly) {
+      notes.push({ level: "warn", msg: "This function needs a LAMBDA to describe one step. Next: wrap the per-item logic in LAMBDA." });
+    }
+    // Opposite comparison
+    if (/<>\s*""/.test(challenge.f || "") && /=\s*""/.test(formula)) {
+      notes.push({ level: "warn", msg: "The target tests for nonblank (<>). Your formula tests for blank (=). Next: use <> for nonblank." });
+    }
+    // Missing @ on a table row
+    if (/\[@/.test(challenge.f || "") && /\[[^@]/.test(formula) && !/\[@/.test(formula)) {
+      notes.push({ level: "warn", msg: "The target uses @ for this row. Your formula does not. Next: add @ before the column name." });
+    }
+    // Missing spill #
+    if (/#/.test(challenge.f || "") && !/#/.test(formula) && /COUNTA|INDEX|ROWS/i.test(formula)) {
+      notes.push({ level: "warn", msg: "The target uses # for a spilled range. Your formula does not. Next: append # to the spill anchor." });
+    }
+    // Wrong column/row: a learner reference outside every target cell/range is a stray.
+    // Skipped when the learner uses a Table reference or a named range (a bare name that is
+    // not a function call, LET/LAMBDA name, or TRUE/FALSE), since names cannot be checked here.
+    const tR = rects(challenge.f);
+    const lR = rects(formula);
+    const strippedNames = stripQuoted(formula).replace(/'[^']*'!|[A-Za-z0-9_.]+!/g, "").replace(/\$?[A-Z]{1,3}\$?\d+/gi, "").replace(/\[[^\]]*\]/g, "");
+    const hasName = /(^|[^A-Za-z0-9_.])[A-Za-z_][A-Za-z0-9_.]*(?![A-Za-z0-9_.]|\s*\()/.test(strippedNames.replace(/\b(TRUE|FALSE)\b/gi, ""));
+    // Fires only when some target reference is not written as-is (a superset such as a
+    // second XLOOKUP on M3 that keeps every target reference stays quiet).
+    // Selection functions (INDEX, OFFSET, TAKE…) legitimately pass a wider range than the cell they return.
+    const selects = /\b(INDEX|OFFSET|INDIRECT|CHOOSEROWS|TAKE|DROP)\s*\(/i;
+    if (tR.length && lR.length && !/\[/.test(formula) && !hasName && !(selects.test(formula) && !selects.test(challenge.f)) && tR.some(t => !lR.some(r => r.text === t.text))) {
+      const extra = lR.filter(r => !tR.some(t => inside(r, t)));
+      const missing = tR.filter(t => !lR.some(r => inside(t, r) || inside(r, t)));
+      if (extra.length) {
+        const names = [...new Set(extra.map(r => r.text))];
+        const verb = names.length > 1 ? "aren't" : "isn't";
+        notes.push({ level: "warn", msg: `The references do not match the target (${names.slice(0, 2).join(", ")} ${verb} used here). Next: check the column and row against the challenge.` });
+      } else if (missing.length) {
+        notes.push({ level: "warn", msg: "The formula leaves out an input the challenge mentions. Next: reread the challenge and check which input is not used yet." });
+      }
+    }
+
+    // ─── Challenge-specific mistakes (item 8). Each is a diagnosis plus a Next: action
+    // that never names the answer formula.
+    const fU = stripQuoted(formula);
+    const tU = stripQuoted(challenge.f);
+    // Swapped division: the target divides a by b; the learner divides b by a.
+    const divPairs = [...tU.matchAll(/(\$?[A-Z]{1,3}\$?\d+)\s*\/\s*(\$?[A-Z]{1,3}\$?\d+)/gi)].map(m => [m[1], m[2]].map(r => r.replace(/\$/g, "").toUpperCase()));
+    const lDiv = [...fU.matchAll(/(\$?[A-Z]{1,3}\$?\d+)\s*\/\s*(\$?[A-Z]{1,3}\$?\d+)/gi)].map(m => [m[1], m[2]].map(r => r.replace(/\$/g, "").toUpperCase()));
+    if (divPairs.some(([a, b]) => lDiv.some(([x, y]) => x === b && y === a) && !lDiv.some(([x, y]) => x === a && y === b))) {
+      notes.push({ level: "warn", msg: "The numerator and denominator look swapped. Next: reread which value the challenge divides by which." });
+    }
+    // OR written with *: the target joins conditions with +, the learner multiplies them.
+    if (/\)\s*\+\s*\(/.test(tU) && /FILTER/i.test(tU) && /\)\s*\*\s*\(/.test(fU) && !/\)\s*\+\s*\(/.test(fU)) {
+      notes.push({ level: "warn", msg: "Multiplying the conditions means AND, so a row would have to meet both at once. Next: combine either-or conditions with + instead." });
+    }
+    // Unsorted selector list.
+    if (/\bSORT\s*\(/i.test(tU) && /\bUNIQUE\s*\(/i.test(fU) && !/\bSORT(BY)?\s*\(/i.test(fU)) {
+      notes.push({ level: "warn", msg: "The unique list is not sorted, so the selector shows values in source order. Next: sort the unique result." });
+    }
+    // TAKE from the wrong end.
+    const tTake = calls(tU, "TAKE")[0], lTake = calls(fU, "TAKE")[0];
+    if (tTake && lTake && /^-\d+$/.test(tTake[1] || "") && /^\d+$/.test(lTake[1] || "")) {
+      notes.push({ level: "warn", msg: "A positive count in TAKE returns the first rows, not the last. Next: use a negative count to take from the end." });
+    }
+    // CHOOSECOLS positions that are not column numbers, or the wrong numbers.
+    const tCC = calls(tU, "CHOOSECOLS")[0], lCC = calls(fU, "CHOOSECOLS")[0];
+    if (tCC && lCC) {
+      const lPos = lCC.slice(1);
+      const notNumbers = lPos.some(a => !/^-?\d+$/.test(a));
+      if (notNumbers || lPos.join(",") !== tCC.slice(1).join(",")) {
+        notes.push({ level: "warn", msg: notNumbers
+          ? "CHOOSECOLS takes column positions as numbers, not column letters. Next: count each column's position from the first column of the range, starting at 1."
+          : "The column positions do not pick the columns the challenge names. Next: count each column's position from the first column of the range, starting at 1." });
+      }
+    }
+    // XMATCH without the last-to-first search mode.
+    const tXM = calls(tU, "XMATCH")[0];
+    if (tXM && tXM[3] === "-1" && calls(fU, "XMATCH").some(a => (a[3] || "") !== "-1")) {
+      notes.push({ level: "warn", msg: "XMATCH searches first-to-last by default, so this finds the first nonblank cell, not the last. Next: set the search mode so it searches from the end." });
+    }
+    // A defined name written inside quotes.
+    const tNames = (tU.match(/(?<![A-Za-z0-9_.])[A-Za-z_][A-Za-z0-9_.]*(?![A-Za-z0-9_.]|\s*\()/g) || []).filter(n => !/^\$?[A-Z]{1,3}\$?\d+$/i.test(n) && !/^(TRUE|FALSE)$/i.test(n));
+    const quoted = [...String(formula).matchAll(/"([^"]*)"/g)].map(m => m[1].trim());
+    const qName = tNames.find(n => quoted.some(q => q.toUpperCase() === n.toUpperCase()));
+    if (qName && !/\bLET\s*\(|\bLAMBDA\s*\(/i.test(challenge.f)) {
+      notes.push({ level: "warn", msg: `A name in quotes is text, not the range, so "${qName}" will not average the values. Next: remove the quotes around the range name.` });
+    }
+    // LET: a name used before it is defined, or no final calculation.
+    calls(fU, "LET").forEach(a => {
+      if (a.length % 2 === 0) {
+        notes.push({ level: "warn", msg: "LET needs a final calculation after the name and value pairs. Next: add a last argument that uses the names to return the result." });
+        return;
+      }
+      const names = [];
+      for (let k = 0; k + 1 < a.length - 1; k += 2) names.push(a[k]);
+      for (let k = 0; k + 1 < a.length - 1; k += 2) {
+        const later = names.slice(k / 2).find(n => usesName(a[k + 1], n));
+        if (later) {
+          notes.push({ level: "warn", msg: `LET names are defined left to right; ${names[k / 2]} uses ${later} before it is defined. Next: define each name before a later name uses it.` });
+          break;
+        }
+      }
+    });
+    // A division with no error handling when the target returns a blank on error.
+    if (/\bIFERROR\s*\(/i.test(tU) && /""\s*\)/.test(tU) && /\/\s*[A-Za-z]/.test(fU) && !/\bIFERROR\s*\(|\bISERR(OR)?\s*\(|\bIFNA\s*\(|\bIF\s*\(/i.test(fU)) {
+      notes.push({ level: "warn", msg: "A zero or blank divisor returns #DIV/0!, but the challenge asks for a blank on error. Next: wrap the division so an error returns blank." });
+    }
+    // LAMBDA helpers: per-item parameter or accumulator not used.
+    ["BYROW", "BYCOL", "MAP", "MAKEARRAY", "SCAN", "REDUCE"].forEach(fn => {
+      calls(fU, fn).forEach(args => {
+        const lam = calls(args[args.length - 1] || "", "LAMBDA")[0];
+        if (!lam || lam.length < 2) return;
+        const params = lam.slice(0, -1), body = lam[lam.length - 1];
+        if (/^(SCAN|REDUCE)$/.test(fn)) {
+          if (params[0] && !usesName(body, params[0])) {
+            notes.push({ level: "warn", msg: `The ${fn} step does not use the accumulator (${params[0]}), so each value replaces the running result. Next: build each step from the accumulator.` });
+          }
+        } else if (!params.some(p => usesName(body, p))) {
+          notes.push({ level: "warn", msg: `The LAMBDA does not use its parameter, so every item gets the same result. Next: use ${params[0]} in the calculation.` });
+        }
+      });
+    });
+    // BYROW vs BYCOL, and REDUCE vs SCAN.
+    const swaps = [["BYCOL", "BYROW", "BYROW returns one result per row, but the challenge wants one per column. Next: step through the columns instead."],
+      ["BYROW", "BYCOL", "BYCOL returns one result per column, but the challenge wants one per row. Next: step through the rows instead."],
+      ["SCAN", "REDUCE", "REDUCE returns only the final value, not every step along the way. Next: use the helper that keeps each intermediate result."]];
+    for (const [want, got, msg] of swaps) {
+      if (new RegExp("\\b" + want + "\\s*\\(", "i").test(tU) && new RegExp("\\b" + got + "\\s*\\(", "i").test(fU) && !new RegExp("\\b" + want + "\\s*\\(", "i").test(fU)) {
+        notes.push({ level: "warn", msg });
+      }
+    }
+    // GROUPBY / PIVOTBY: aggregation and row/column order.
+    ["GROUPBY", "PIVOTBY"].forEach(fn => {
+      const t = calls(challenge.f, fn)[0], l = calls(formula, fn)[0];
+      if (!t || !l) return;
+      const aggIdx = fn === "GROUPBY" ? 2 : 3;
+      const tAgg = (t[aggIdx] || "").toUpperCase(), lAgg = (l[aggIdx] || "").toUpperCase();
+      if (tAgg && lAgg && lAgg !== tAgg && !new RegExp("(^|[^A-Z0-9_.])" + tAgg.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "([^A-Z0-9_.]|$)").test(lAgg)) {
+        notes.push({ level: "warn", msg: `The aggregation (${l[aggIdx]}) does not match what the challenge asks for. Next: reread the challenge and pick the matching aggregation.` });
+      }
+      if (fn === "PIVOTBY" && norm(l[0]) === norm(t[1]) && norm(l[1]) === norm(t[0])) {
+        notes.push({ level: "warn", msg: "The row and column fields look swapped. Next: put the field the challenge wants down the side first." });
+      }
+    });
+    // TRIMRANGE: a plain range keeps the blank edges.
+    if (/\bTRIMRANGE\s*\(/i.test(tU) && !/\bTRIMRANGE\s*\(|\.:|:\./i.test(fU) && lR.length) {
+      notes.push({ level: "warn", msg: "A plain range keeps the empty outer rows and columns. Next: trim the range so blank edges are dropped." });
+    }
+    // Rounding asked for but missing.
+    if (/\bROUND\s*\(/i.test(tU) && /\bMEDIAN\s*\(/i.test(tU) && /\bMEDIAN\s*\(/i.test(fU) && !/\bROUND(UP|DOWN)?\s*\(|\bFIXED\s*\(|\bTEXT\s*\(/i.test(fU)) {
+      notes.push({ level: "warn", msg: "The median is not rounded, so the label can show many decimal places. Next: round the median to the places the challenge asks for before joining it to the text." });
+    }
+
+    return notes.length ? notes : null;
+  }
+
+  // ─── Diagnostic engine ────────────────────────────────
+  function diagnose(formula, challenge) {
+    const findings = [];
+    const f = String(formula || "").trim();
+    if (!f) {
+      findings.push({ level: "info", msg: "Paste the formula so I can inspect it." });
+      return findings;
+    }
+    const stripped = f.replace(/"[^"]*"|'[^']*'/g, "");
+    if (!f.startsWith("=") && !f.startsWith("+")) findings.push({ level: "error", msg: "Formula must start with =." });
+    const bal = parenBalance(stripped);
+    if (bal !== 0) findings.push({ level: "error", msg: `Parentheses unbalanced (${bal > 0 ? "missing closing" : "extra closing"}).` });
+    if ((f.match(/"/g) || []).length % 2) findings.push({ level: "error", msg: "Unpaired double quote." });
+    if (/!=/.test(stripped)) findings.push({ level: "error", msg: "Use <> for not-equal, not !=." });
+    if (/#REF!/i.test(f)) findings.push({ level: "error", msg: "#REF! — a referenced cell or range no longer exists." });
+    if (/#SPILL!/i.test(f)) findings.push({ level: "error", msg: "#SPILL! — the dynamic array result is blocked. Clear the cells below or to the right." });
+    if (/#VALUE!/i.test(f)) findings.push({ level: "error", msg: "#VALUE! — usually a text/number mismatch or an invalid operation." });
+    if (/#N\/A/i.test(f)) findings.push({ level: "error", msg: "#N/A — lookup value not found. Add a fallback argument if using XLOOKUP." });
+    if (/#DIV\/0!/i.test(f)) findings.push({ level: "error", msg: "#DIV/0! — division by zero. Check the denominator." });
+    if (/\/\s*0(?![\d.])/.test(stripped)) findings.push({ level: "error", msg: "#DIV/0! — division by zero. Check the denominator." });
+    if (/#NAME\?/i.test(f)) findings.push({ level: "error", msg: "#NAME? — unrecognised function or named range." });
+    const noStrings = f.replace(/"([^"]|"")*"/g, "");
+    if (/\$?[A-Z]{1,3}:\$?[A-Z]{1,3}|\d+:\d+/i.test(noStrings)) {
+      findings.push({ level: "warn", msg: "Whole-column or whole-row references can be slow and include unintended cells. Next: use a bounded range or an Excel Table." });
+    }
+    const parsed = tokenize(f);
+    if (parsed.tokens) {
+      const pattern = detectPattern(parsed.tokens);
+      if (pattern) findings.push({ level: "info", msg: `Detected pattern: ${pattern.name}.` });
+      if (hasStructuredRef(parsed.tokens)) findings.push({ level: "good", msg: "Uses structured references (good for maintainability)." });
+    }
+
+    const structureNotes = compareToChallenge(f, challenge);
+    if (structureNotes) {
+      structureNotes.forEach(n => findings.push(typeof n === "string" ? { level: "info", msg: n } : n));
+    }
+
+    // Lesson-taught mistakes — generic rules (not exact checklist strings)
+    // Helpers: per-call arg count, ref normalization
+    function callArgs(s, fnName) {
+      const re = new RegExp(fnName + "\\s*\\(", "gi");
+      const results = [];
+      let m;
+      while ((m = re.exec(s)) !== null) {
+        const before = s.slice(0, m.index);
+        const quotes = (before.match(/"/g) || []).length;
+        if (quotes % 2 === 1) continue;
+        let depth = 1, args = 1, i = m.index + m[0].length, inQ = false;
+        const start = i;
+        while (i < s.length && depth > 0) {
+          if (s[i] === '"' && s[i + 1] === '"') { i += 2; continue; }
+          if (s[i] === '"') { inQ = !inQ; i++; continue; }
+          if (!inQ && s[i] === "(") depth++;
+          else if (!inQ && s[i] === ")") depth--;
+          else if (!inQ && s[i] === "," && depth === 1) args++;
+          i++;
+        }
+        results.push({ args, body: s.slice(start, i - 1) });
+      }
+      return results;
+    }
+    function normRef(r) { return String(r || "").replace(/\$/g, "").replace(/\s+/g, "").toUpperCase(); }
+    function extractRefs(s) {
+      return (s.match(/\$?[A-Z]{1,3}\$?\d+/gi) || []).map(normRef);
+    }
+
+    // Unquoted bare words in criteria or after = (IF, COUNTIF, COUNTIFS, SUMIF, SUMIFS)
+    if (/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*(?:=|<>|,)\s*[A-Z][A-Z_]*\s*(?:,|\))/i.test(f)) {
+      const bare = f.match(/(?:IF|COUNTIF|COUNTIFS|SUMIF|SUMIFS)\s*\([^)]*(?:=|<>|,)\s*([A-Z][A-Z_]*)/i);
+      const boundNames = [...calls(f, "LAMBDA").flatMap(a => a.slice(0, -1)), ...calls(f, "LET").flatMap(a => a.filter((_, k) => k % 2 === 0 && k < a.length - 1))].map(n => n.toUpperCase());
+      if (bare && !/[A-Z]+\d+/.test(bare[1]) && !/^(TRUE|FALSE|AND|OR|NOT)$/i.test(bare[1]) && !boundNames.includes(bare[1].toUpperCase())) {
+        findings.push({ level: "error", msg: "Unquoted text is treated as a name and returns #NAME?. Wrap it in double quotes. Next: change the bare word to a quoted string." });
+      }
+    }
+
+    // + used to join text: quote adjacent, or target truly concatenates with & (not criteria joins, not & inside quotes)
+    function isTextJoinTarget(s) {
+      if (!s) return false;
+      // True text-join: & between cell refs (or ref & literal & ref), not criteria joins and not string&function
+      const noCrit = s.replace(/"[<>]=?"\s*&\s*\$?[A-Z]+\d+/gi, "");
+      return /\$?[A-Z]+\d+\s*&/.test(noCrit) || /&\s*\$?[A-Z]+\d+/.test(noCrit);
+    }
+    if ((/\+\s*"|\"\s*\+/i.test(f) || (challenge && isTextJoinTarget(challenge.f) && /[A-Z]+\d+\s*\+\s*[A-Z]+\d+/i.test(f))) && !/&/.test(f)) {
+      findings.push({ level: "error", msg: "Use & to join text, not +. Next: rewrite the concatenation with &." });
+    }
+
+    // AVERAGE of two cells, semicolon, or incomplete range
+    if (/AVERAGE\s*\(\s*\$?[A-Z]+\d+\s*[,;]\s*\$?[A-Z]+\d+\s*\)/i.test(f)) {
+      findings.push({ level: "warn", msg: "AVERAGE of two separate cells (or a semicolon) averages only those cells. Next: use a continuous range such as E2:E6." });
+    }
+    // Range shorter than the target's simple AVERAGE range
+    if (challenge && /AVERAGE\s*\(\s*\$?[A-Z]+\d+:\$?[A-Z]+\d+\s*\)/i.test(challenge.f || "") &&
+        /AVERAGE\s*\(\s*\$?[A-Z]+\d+:\$?[A-Z]+\d+\s*\)/i.test(f)) {
+      const t = (challenge.f.match(/AVERAGE\s*\(\s*(\$?[A-Z]+\d+:\$?[A-Z]+\d+)/i) || [])[1];
+      const l = (f.match(/AVERAGE\s*\(\s*(\$?[A-Z]+\d+:\$?[A-Z]+\d+)/i) || [])[1];
+      if (t && l && normRef(t) !== normRef(l)) {
+        const tEnd = parseInt((t.match(/\d+$/) || ["0"])[0], 10);
+        const lEnd = parseInt((l.match(/\d+$/) || ["0"])[0], 10);
+        if (lEnd < tEnd) findings.push({ level: "warn", msg: `The target averages ${t}. Next: extend the range to match.` });
+      }
+    }
+
+    // Absolute / mixed anchors: compare learner refs to target's locked refs
+    if (challenge && challenge.f) {
+      const targetLocked = (challenge.f.match(/\$?[A-Z]{1,3}\$?\d+/gi) || []).filter(r => r.includes("$"));
+      const learnerRefs = f.match(/\$?[A-Z]{1,3}\$?\d+/gi) || [];
+      for (const t of targetLocked) {
+        const base = normRef(t);
+        const learnerMatch = learnerRefs.find(r => normRef(r) === base);
+        if (learnerMatch && learnerMatch.replace(/\$/g, "") === t.replace(/\$/g, "") && learnerMatch !== t) {
+          findings.push({ level: "warn", msg: `The target locks ${t}. Next: change the matching reference to ${t}.` });
+          break;
+        }
+        // Obvious column/row drift on a locked target cell
+        if (!learnerMatch) {
+          const tCol = t.replace(/\$/g, "").replace(/\d+/, "");
+          const tRow = (t.match(/\d+/) || [])[0];
+          const drift = learnerRefs.find(r => {
+            const rc = r.replace(/\$/g, "");
+            const c = rc.replace(/\d+/, ""), row = (rc.match(/\d+/) || [])[0];
+            return (c === tCol && row !== tRow) || (row === tRow && c !== tCol);
+          });
+          if (drift) {
+            findings.push({ level: "warn", msg: `The target locks ${t}. Next: change ${drift} to ${t}.` });
+            break;
+          }
+        }
+      }
+    }
+
+    // Sheet name with space but no apostrophes (or unquoted multi-word)
+    if (/[A-Za-z][A-Za-z0-9]*\s+[A-Za-z0-9]+!/.test(f) && !/'[^']+'!/.test(f)) {
+      findings.push({ level: "error", msg: "Sheet names with spaces need apostrophes. Next: wrap the sheet name in single quotes, e.g. 'Production Data'!E2." });
+    }
+    // ProductionData without space is fine; flag only if target has quotes and learner does not
+    if (challenge && /'[^']+'!/.test(challenge.f || "") && /[A-Za-z]+!/.test(f) && !/'[^']+'!/.test(f)) {
+      findings.push({ level: "error", msg: "The target uses a quoted sheet name. Next: add the single quotes around the sheet name." });
+    }
+
+    // COUNTIF / COUNTIFS with exact text that target uses a wildcard for
+    function quotedWild(s) { return [...String(s || "").matchAll(/"([^"]*)"/g)].some(m => /[*?]/.test(m[1])); }
+    if (challenge && quotedWild(challenge.f) && /COUNTIF[S]?\s*\([^,]+,\s*"[^*?]*"\s*\)/i.test(f)) {
+      findings.push({ level: "warn", msg: "The target uses a wildcard. Next: add * or ? so the criterion matches the intended codes." });
+    }
+    // Partial or mismatched wildcards: learner criterion has * or ? but does not match the target's pattern
+    if (challenge && quotedWild(challenge.f)) {
+      const joinLit = s => String(s || "").replace(/"\s*&\s*"/g, "");
+      const tCrit = (joinLit(challenge.f).match(/COUNTIF[S]?\s*\([^,]+,\s*"([^"]*)"/i) || [])[1];
+      const lCrit = (joinLit(f).match(/COUNTIF[S]?\s*\([^,]+,\s*"([^"]*)"/i) || [])[1];
+      if (tCrit && lCrit && /[*?]/.test(lCrit) && lCrit !== tCrit) {
+        findings.push({ level: "warn", msg: "The criterion uses only a partial wildcard. Next: match the target's wildcard pattern." });
+      }
+    }
+
+    // IFERROR missing the second argument (per call)
+    callArgs(f, "IFERROR").forEach(c => {
+      if (c.args < 2) findings.push({ level: "error", msg: "IFERROR needs a value_if_error. Next: add a second argument, such as IFERROR(F2/E2,0)." });
+    });
+
+    // ROUND / ROUNDUP arity
+    ["ROUND", "ROUNDUP", "ROUNDDOWN"].forEach(fn => {
+      callArgs(f, fn).forEach(c => {
+        if (c.args < 2 || /,\s*$/.test(c.body)) findings.push({ level: "error", msg: `${fn} needs num_digits. Next: add a second argument, such as ${fn}(AVERAGE(E2:E6),1).` });
+      });
+    });
+
+    // XLOOKUP: one per-call check. Parse by argument position.
+    function whichCalls(missing, total) {
+      if (total === 1) return "This XLOOKUP";
+      if (missing.length === total) return total === 2 ? "Both XLOOKUPs" : `All ${total} XLOOKUPs`;
+      const ords = missing.map(n => `${n}${n===1?"st":n===2?"nd":n===3?"rd":"th"}`);
+      const list = ords.length === 1 ? ords[0] : ords.slice(0, -1).join(", ") + " and " + ords.at(-1);
+      return `The ${list} XLOOKUP${missing.length > 1 ? "s" : ""}`;
+    }
+    function splitArgs(body) {
+      const out = []; let depth = 0, cur = "", inQ = false;
+      for (let i = 0; i < body.length; i++) {
+        const ch = body[i];
+        if (ch === '"' && body[i + 1] === '"') { cur += '""'; i++; continue; }
+        if (ch === '"') { inQ = !inQ; cur += ch; continue; }
+        if (!inQ && ch === "(") depth++;
+        else if (!inQ && ch === ")") depth--;
+        if (!inQ && ch === "," && depth === 0) { out.push(cur); cur = ""; }
+        else cur += ch;
+      }
+      out.push(cur);
+      return out;
+    }
+    function rangeEnds(r) {
+      const clean = r.replace(/\$/g, "");
+      const whole = clean.match(/^([A-Z]+):([A-Z]+)$/i);
+      if (whole) return "whole";
+      const m = clean.match(/[A-Z]+(\d+):[A-Z]+(\d+)/i);
+      return m ? [parseInt(m[1], 10), parseInt(m[2], 10)] : null;
+    }
+    function rangesIn(s) { return s.match(/\$?[A-Z]+\$?\d*:\$?[A-Z]+\$?\d*/gi) || []; }
+    callArgs(f, "XLOOKUP").forEach((c, idx) => {
+      const args = splitArgs(c.body);
+      const lookup = args[1] || "";
+      const ret = args[2] || "";
+      const lookupRanges = rangesIn(lookup);
+      const retRanges = rangesIn(ret);
+      const retEnds = retRanges.length ? rangeEnds(retRanges[0]) : null;
+      for (const lr of lookupRanges) {
+        const le = rangeEnds(lr);
+        const mismatch = (le === "whole" && retEnds !== "whole") || (le !== "whole" && retEnds === "whole") ||
+          (Array.isArray(le) && Array.isArray(retEnds) && (le[0] !== retEnds[0] || le[1] !== retEnds[1]));
+        if (mismatch) {
+          const who = callArgs(f, "XLOOKUP").length === 1 ? "This XLOOKUP's" : `The ${idx + 1}${idx===0?"st":idx===1?"nd":idx===2?"rd":"th"} XLOOKUP's`;
+          findings.push({ level: "error", msg: `${who} lookup and return ranges do not cover the same rows (different height or offset). Next: align the start and end rows so both ranges are the same size.` });
+          break;
+        }
+      }
+    });
+
+    // Fallback: empty fourth argument does not count (Excel treats it as omitted → #N/A)
+    if (challenge && /XLOOKUP/i.test(challenge.f || "") && /XLOOKUP/i.test(f)) {
+      const tCalls = callArgs(challenge.f, "XLOOKUP");
+      const lCalls = callArgs(f, "XLOOKUP");
+      const targetHasFallback = tCalls.some(c => {
+        const a = splitArgs(c.body);
+        return a.length >= 4 && a[3].trim() !== "";
+      });
+      if (targetHasFallback) {
+        const missing = [];
+        lCalls.forEach((c, idx) => {
+          const a = splitArgs(c.body);
+          if (a.length < 4 || a[3].trim() === "") missing.push(idx + 1);
+        });
+        if (missing.length) {
+          const which = whichCalls(missing, lCalls.length);
+          const verb = /XLOOKUPs$/.test(which) ? "have" : "has";
+          findings.push({ level: "warn", msg: `${which} ${verb} no fallback for a missing match. Next: add a non-empty fourth argument, or confirm you want #N/A.` });
+        }
+      }
+    }
+
+    // search_mode -1: every call that the target uses it for
+    if (challenge && /XLOOKUP/i.test(challenge.f || "") && /XLOOKUP/i.test(f)) {
+      const tCalls = callArgs(challenge.f, "XLOOKUP");
+      const targetNeedsLast = tCalls.some(c => {
+        const a = splitArgs(c.body);
+        return a.length >= 6 && a[5].trim() === "-1";
+      });
+      if (targetNeedsLast) {
+        const missing = [];
+        callArgs(f, "XLOOKUP").forEach((c, idx) => {
+          const a = splitArgs(c.body);
+          if (a.length < 6 || a[5].trim() !== "-1") missing.push(idx + 1);
+        });
+        if (missing.length) {
+          const which = whichCalls(missing, callArgs(f, "XLOOKUP").length);
+          const verb = /XLOOKUPs$/.test(which) ? "do" : "does";
+          findings.push({ level: "warn", msg: `${which} ${verb} not search last-to-first. Next: add search_mode -1 as the sixth argument.` });
+        }
+      }
+    }
+
+    // SUMIFS wrong order: second argument is a single cell (criteria before sum range)
+    if (/SUMIFS\s*\(\s*\$?[A-Z]+\d+:\$?[A-Z]+\d+\s*,\s*\$?[A-Z]+\d+\s*,/i.test(f)) {
+      findings.push({ level: "error", msg: "SUMIFS expects the sum range first, then criteria ranges and criteria. Next: put the sum range first." });
+    }
+
+    // SUMIFS: sum range should match the target's sum range (first arg)
+    if (challenge && /SUMIFS/i.test(challenge.f || "") && /SUMIFS/i.test(f)) {
+      const tArgs = callArgs(challenge.f, "SUMIFS")[0];
+      const lArgs = callArgs(f, "SUMIFS")[0];
+      if (tArgs && lArgs) {
+        const tSum = (tArgs.body.match(/\$?[A-Z]+\$?\d+:\$?[A-Z]+\$?\d+/i) || [])[0];
+        const lSum = (lArgs.body.match(/\$?[A-Z]+\$?\d+:\$?[A-Z]+\$?\d+/i) || [])[0];
+        if (tSum && lSum && normRef(tSum) !== normRef(lSum)) {
+          findings.push({ level: "error", msg: "SUMIFS expects the sum range first. Next: put the target's sum range first." });
+        }
+      }
+    }
+
+    // Criteria written as >=M3 without quotes and &
+    if ((/(?:>=|<=|>|<)\s*\$?[A-Z]+\d+/.test(f) || /"[^"]*"\s*[A-Z]+\d+/.test(f)) && !/"[^"]*"\s*&/.test(f)) {
+      findings.push({ level: "error", msg: "Comparison criteria need quotes joined to the cell. Next: use \">=\"&M2, not >=M2." });
+    }
+
+    // PERCENTILE.INC / PERCENTILE with 90 (handles nested commas by arg parse)
+    callArgs(f, "PERCENTILE(?:\\.INC|\\.EXC)?").forEach(c => {
+      if (/,\s*(?:[2-9]|[1-9]\d+)\s*$/.test(c.body) || /,\s*(?:[2-9]|[1-9]\d+)\s*,/.test(c.body)) {
+        findings.push({ level: "warn", msg: "PERCENTILE expects a fraction between 0 and 1. Next: use 0.9 (or 0.5 / 0.75 / 0.95), not a whole percent." });
+      }
+    });
+
+    if (/FILTER/i.test(f) && /\bAND\s*\(|\bOR\s*\(/i.test(f)) {
+      findings.push({ level: "warn", msg: "AND() and OR() inside FILTER usually return a single value. Next: use * for AND and + for OR between conditions." });
+    }
+    if (/>=M2|<=M2|>M2|<M2/.test(f) && !/"[^"]*"\s*&/.test(f)) {
+      findings.push({ level: "error", msg: "Comparison criteria need quotes joined to the cell. Next: use \">=\"&M2, not >=M2." });
+    }
+    if (/VLOOKUP/i.test(f) && /,\s*TRUE\s*[,)]/i.test(f)) {
+      findings.push({ level: "warn", msg: "VLOOKUP with TRUE uses approximate match. Next: use FALSE or 0, or switch to XLOOKUP, unless the data is sorted." });
+    }
+    if (/#\s*$/.test(f) || /#\s*[,)]/.test(f)) {
+      findings.push({ level: "info", msg: "A trailing # marks a spill reference. Confirm the spill is intentional." });
+    }
+    if (/PERCENTILE\.INC\s*\([^,]+,\s*90\s*\)/i.test(f)) {
+      findings.push({ level: "warn", msg: "PERCENTILE.INC expects a fraction between 0 and 1. Next: use 0.9, not 90." });
+    }
+    if (/IFERROR/i.test(f) && !/IFERROR\s*\([^,)]+\)/i.test(f)) {
+      findings.push({ level: "info", msg: "IFERROR hides every error, including #REF! and #NAME?. Prefer a more specific test when you can." });
+    }
+
+    if (!findings.length && f.startsWith("=")) {
+      findings.push({ level: "info", msg: "Detected a simple expression. No obvious syntax issues." });
+    }
+
+    return findings;
+  }
+
+  function specificNextAction(findings) {
+    const structure = findings.find(f => f.msg && /WeekNum|Heat ID|Missing expected function|fallback|structured references/.test(f.msg));
+    if (structure) {
+      return `Next: address the structure note above (“${structure.msg.split(".")[0]}”) before rebuilding the full formula.`;
+    }
+    return "Next: evaluate the innermost function or Boolean test alone before rebuilding the full formula.";
+  }
+
+  // ─── Progressive-hint ladder ─────────────────────────────────────
+  function progressiveHint(formula, level, challenge) {
+    const ch = challenge || {};
+    const name = ch.n || ch.name || "this challenge";
+    const concept = ch.concept || "";
+    const hint = (ch.h || ch.hint || "").replace(/=.*/g, "").trim();
+    const lvl = (ch.l || ch.level || "").toLowerCase();
+    const tone = lvl === "beginner" ? "Start simply. " : lvl === "advanced" ? "Think about the stages. " : "";
+    if (level === 0) {
+      return tone + (concept
+        ? `What would “${concept}” look like as a single cell result?`
+        : "What single number or label should this cell show when you are done?");
+    }
+    if (level === 1) {
+      return tone + (concept
+        ? `The idea: ${concept}. Name the inputs that matter. No syntax yet.`
+        : "Name the inputs that matter and the kind of result you need. No syntax yet.");
+    }
+    return tone + (hint || "Build and test the smallest piece, then add the next.");
+  }
+
+  function ensureHintState(state) {
+    if (!state) return { phase3: { coach: { hintLevels: {} } } };
+    if (!state.phase3) state.phase3 = { coach: { hintLevels: {} } };
+    if (!state.phase3.coach) state.phase3.coach = { hintLevels: {} };
+    if (!state.phase3.coach.hintLevels) state.phase3.coach.hintLevels = {};
+    return state;
+  }
+
+  // ─── Instrumentation + structured review ──────────────────────
+  function logInteraction(meta) {
+    try {
+      const key = "excelCoachInteractions";
+      const log = JSON.parse(localStorage.getItem(key) || "[]");
+      const ch = meta.challenge || {};
+      const id = ch.name || ch.n || (ch.prompt || ch.p || "").slice(0, 40) || null;
+      log.push({
+        t: Date.now(),
+        mode: meta.mode || "default",
+        hasFormula: !!meta.formula,
+        formulaLen: meta.formula ? meta.formula.length : 0,
+        challengeId: id,
+        revealed: !!(meta.mode === "hint" && /final solution|reveal|show (me )?the (final )?answer/.test(meta.message || "")),
+        coachOn: meta.coachOn !== false,
+        attempts: meta.attempts || null,
+        hintsUsed: meta.hintsUsed || null,
+        timeToFirstCorrect: meta.timeToFirstCorrect || null
+      });
+      if (log.length > 200) log.shift();
+      localStorage.setItem(key, JSON.stringify(log));
+    } catch (e) { /* ignore storage errors */ }
+  }
+
+  CoachEngine.getInteractionLog = function () {
+    try {
+      return JSON.parse(localStorage.getItem("excelCoachInteractions") || "[]");
+    } catch (e) { return []; }
+  };
+
+  CoachEngine.getInteractionSummary = function () {
+    const log = CoachEngine.getInteractionLog();
+    if (!log.length) return "No coach interactions recorded yet.";
+    const total = log.length;
+    const withFormula = log.filter(e => e.hasFormula).length;
+    const reveals = log.filter(e => e.revealed).length;
+    const avgLen = Math.round(log.filter(e => e.formulaLen).reduce((s, e) => s + e.formulaLen, 0) / (withFormula || 1));
+    return `Coach interactions: ${total} total, ${withFormula} with a formula (avg length ${avgLen}), ${reveals} full reveals.`;
+  };
+
+  CoachEngine._median = function(arr){ if(!arr.length)return null; const s=arr.slice().sort((a,b)=>a-b); const mid=Math.floor(s.length/2); return s.length%2?s[mid]:(s[mid-1]+s[mid])/2; };
+  CoachEngine._firstTry = function(arr){ const by=new Map(); for(const e of arr){ const k=e.challengeIdx!=null?e.challengeIdx:e; if(!by.has(k))by.set(k,e);} const rows=[...by.values()]; return rows.length?Math.round(rows.filter(e=>e.correct&&e.attempts===1).length/rows.length*100):null; };
+  CoachEngine.getControlledReview = function () {
+    let challengeLog = [];
+    try { challengeLog = JSON.parse(localStorage.getItem("excelCoachChallengeLog") || "[]"); } catch (e) {}
+    const log = CoachEngine.getInteractionLog();
+    function median(arr) {
+      if (!arr.length) return null;
+      const s = arr.slice().sort((a, b) => a - b);
+      const mid = Math.floor(s.length / 2);
+      return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+    }
+    function onePerChallenge(arr) {
+      const by = new Map();
+      for (const e of arr) {
+        const key = e.challengeIdx != null ? e.challengeIdx : e;
+        if (!by.has(key)) by.set(key, e);
+      }
+      return [...by.values()];
+    }
+    function firstTry(arr) {
+      const rows = onePerChallenge(arr);
+      return rows.length ? Math.round(rows.filter(e => e.correct && e.attempts === 1).length / rows.length * 100) : null;
+    }
+    function medTime(arr) {
+      const times = arr.filter(e => e.tFirstCorrect && e.tStart).map(e => e.tFirstCorrect - e.tStart);
+      return median(times);
+    }
+    const clean = challengeLog.filter(e => !e.crossover && e.event !== "crossover");
+    const crossovers = challengeLog.filter(e => e.crossover || e.event === "crossover");
+    const on = clean.filter(e => e.coachOn);
+    const off = clean.filter(e => !e.coachOn);
+    const med = CoachEngine._median || median;
+    const ft = CoachEngine._firstTry || firstTry;
+    function medTimeClean(arr) {
+      const times = arr.filter(e => e.tFirstCorrect && e.tStart).map(e => e.tFirstCorrect - e.tStart);
+      return med(times);
+    }
+    const cohortLines = [
+      "",
+      "Cohort comparison (needs real learner data; crossovers excluded):",
+      `- Coach on: n=${on.length}, first-try correct ${ft(on) ?? "n/a"}%, median time-to-first-correct ${medTimeClean(on) ?? "n/a"} ms`,
+      `- Coach off: n=${off.length}, first-try correct ${ft(off) ?? "n/a"}%, median time-to-first-correct ${medTimeClean(off) ?? "n/a"} ms`,
+      `- Crossovers excluded: ${crossovers.length} (switched on; not counted in either cohort)`,
+      "Owner note: excelCoachExperiment is a localStorage convention, not an authenticated control."
+    ];
+    if (!log.length && !challengeLog.length) {
+      return [
+        "Controlled review: no interactions recorded yet.",
+        "",
+        "To confirm the outcome in practice:",
+        "1. Have a handful of real learners complete challenges using the Excel Coach.",
+        "2. Ask the coach for “review” (or call ExcelCoachEngine.getControlledReview()).",
+        "3. Look for a positive signal (high formula-paste rate, low reveal rate, non-trivial formula length).",
+        ...cohortLines
+      ].join("\n");
+    }
+    if (!log.length) {
+      return ["Controlled review (challenge log only):", ...cohortLines, "", "This report needs real learner data before any conclusion about the coach."].join("\n");
+    }
+    const total = log.length;
+    const withFormula = log.filter(e => e.hasFormula).length;
+    const reveals = log.filter(e => e.revealed).length;
+    const formulaRate = Math.round((withFormula / total) * 100);
+    const revealRate = Math.round((reveals / total) * 100);
+    const avgLen = Math.round(log.filter(e => e.formulaLen).reduce((s, e) => s + e.formulaLen, 0) / (withFormula || 1));
+
+    let outcome = "";
+    if (formulaRate >= 60 && revealRate <= 20 && avgLen >= 40) {
+      outcome = "Positive signal: high formula-paste rate, low reveal rate, and non-trivial formula length. This is consistent with learners engaging with the formulas; it does not by itself prove faster completion.";
+    } else if (revealRate > 30) {
+      outcome = "Caution: high reveal rate suggests some learners are still relying on the final answer. Progressive hints may need tightening.";
+    } else {
+      outcome = "Inconclusive with current sample size. More learner interactions are needed to confirm the outcome.";
+    }
+
+    return [
+      "Controlled review (from real interaction log):",
+      `- Sample size: ${total} interactions`,
+      `- Formula paste rate: ${formulaRate}%`,
+      `- Full-reveal rate: ${revealRate}%`,
+      `- Average formula length: ${avgLen} characters`,
+      "",
+      outcome,
+      ...cohortLines,
+      "",
+      "This report needs real learner data before any conclusion about the coach."
+    ].join("\n");
+  };
+
+  // ─── Optional enhancement layer ───────────────────────────────────
+  // Optional external enhancer. Set to an async function(reply, meta) to enrich offline replies. Leave null for pure local mode.
+  CoachEngine.enhance = null;
+
+  async function maybeEnhance(reply, meta) {
+    if (typeof CoachEngine.enhance === "function") {
+      try {
+        const enriched = await CoachEngine.enhance(reply, meta);
+        if (enriched && typeof enriched === "string") return enriched;
+      } catch (e) {
+        console.warn("CoachEngine.enhance failed, using offline reply", e);
+      }
+    }
+    return reply;
+  }
+
+  // ─── Main local response (Phase 10) ─────────────────────────────
+  function normalizeChallenge(ch) {
+    if (!ch || typeof ch !== "object") return {};
+    return {
+      prompt: ch.prompt || ch.p || "",
+      name: ch.name || ch.n || "",
+      level: ch.level || ch.l || "",
+      accepted: ch.accepted || ch.a || [],
+      formula: ch.formula || ch.f || "",
+      hint: ch.hint || ch.h || "",
+      why: ch.why || ch.w || "",
+      f: ch.f || ch.formula || "",
+      p: ch.p || ch.prompt || "",
+      h: ch.h || ch.hint || "",
+      w: ch.w || ch.why || "",
+      a: ch.a || ch.accepted || [],
+      // Keep the fields progressiveHint reads, so the chat and the Hint button give the same step.
+      n: ch.n || ch.name || "",
+      l: ch.l || ch.level || "",
+      concept: ch.concept || ""
+    };
+  }
+
+  CoachEngine.localResponse = async function (message, mode, contextFn, challenges, state) {
+    const c = typeof contextFn === "function" ? contextFn() : {};
+    const m = String(message || "").trim();
+    const lower = m.toLowerCase();
+    const rawChallenge = (challenges && state && challenges[state.current]) || {};
+    const challenge = normalizeChallenge(rawChallenge);
+    const formulaMatch = m.match(/=[^\n]+/);
+    const formula = (formulaMatch && formulaMatch[0]) || c.formula || "";
+
+    if (!m) return "Ask a specific question or paste a formula and I will guide the next step.";
+
+    let reply = "";
+
+    // Audit
+    if (/workbook audit|audit finding/.test(lower)) {
+      if (!c.audit) return "No workbook audit yet. Upload a workbook in the Inspector first.";
+      const top = (c.audit.issues || []).slice(0, 3);
+      reply = `Latest audit: ${c.audit.score}% (${c.audit.grade}).\n${top.map((x, i) => `${i + 1}. ${x.title}: ${x.detail}`).join("\n") || "No high-priority issues."}\nStart with the first item.`;
+    }
+    // Next skill — only when no formula is present
+    else if (/\bnext skill\b|what should i learn next/.test(lower) && !formula) {
+      const r = c.skill || { name: "Formula Foundations" };
+      reply = `${r.name} is the current priority in the ${c.path || "Excel Foundations"} pathway. Start with one targeted challenge and explain the reference behaviour aloud.`;
+    }
+    // Debug / why wrong / review+formula / next-with-formula
+    else if (mode === "debug" || (/\b(debug|error|fix)\b|why\b.*\b(wrong|not)\b|#value|#spill|#n\/a/.test(lower) && mode !== "hint" && !/\biferror\b/.test(lower)) || (/\breview\b/.test(lower) && formula) || (/\bnext\b/.test(lower) && formula)) {
+      const findings = diagnose(formula, challenge);
+      const lines = findings.map(f => `• ${f.level === "error" ? "Problem" : f.level === "warn" ? "Check" : "Note"}: ${f.msg}`).join("\n");
+      reply = `Formula diagnosis:\n${lines || "No obvious syntax issues detected."}\n\n${specificNextAction(findings)}`;
+      if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
+    }
+    // Progressive hint
+    else if (mode === "hint" || /one hint|hint|help me.*challenge|current challenge/.test(lower)) {
+      const s = ensureHintState(state);
+      const key = s && s.current !== undefined && s.current !== null ? String(s.current) : "general";
+      const level = s.phase3.coach.hintLevels[key] || 0;
+      const reveal = /final solution|reveal|show (me )?the (final )?answer|full formula$|complete formula/.test(lower) && !/structure|what is the full formula structure/.test(lower);
+      const confirmed = /confirm reveal|yes,? reveal|i confirm/.test(lower);
+      if (reveal && !confirmed) {
+        reply = "To see the full formula, use the Reveal button, or reply “confirm reveal”. This will be logged.";
+      } else if (reveal && confirmed) {
+        s.phase3.coach.hintLevels[key] = 99;
+        reply = challenge.f
+          ? `Final formula: ${challenge.f}\n\nWhy it works: ${challenge.w || "Each stage feeds the next."}`
+          : "No stored final formula for this activity. I can still help you test stages.";
+      } else {
+        s.phase3.coach.hintLevels[key] = Math.min(level + 1, 2);
+        reply = progressiveHint(formula, level, challenge);
+      }
+    }
+    // Explain
+    else if (mode === "explain" || /explain|what is|how does|understand/.test(lower)) {
+      reply = `You are in the ${c.path || "Excel Foundations"} pathway focusing on ${c.skill?.name || "formulas"}.`;
+      if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
+      reply += `\n\nPaste a formula or name the concept and I will break it into stages with a workplace example from quality or process data.`;
+    }
+    // Summary / progress only — "review" with a formula is handled above
+    else if (/\b(summary|progress)\b|how am i doing|\bcontrolled\b/.test(lower)) {
+      reply = CoachEngine.getInteractionSummary() + "\n\n" + CoachEngine.getControlledReview();
+    }
+    // Default Socratic
+    else {
+      reply = `You are working in the ${c.path || "Excel Foundations"} pathway. ${c.skill?.name || "Formula Foundations"} is the current priority.`;
+      if (challenge.prompt) reply += `\n\nCurrent challenge: ${challenge.prompt}`;
+      reply += `\n\nTell me the quality or process result you need and paste the formula you have tried. I will identify the first incorrect stage without giving the full solution.`;
+    }
+
+    logInteraction({ mode, formula, challenge, message: m });
+    return maybeEnhance(reply, { message: m, mode, formula, challenge, context: c });
+  };
+
+  CoachEngine.diagnose = diagnose;
+  CoachEngine.detectPattern = detectPattern;
+  CoachEngine.tokenize = tokenize;
+  CoachEngine.progressiveHint = progressiveHint;
+
+  global.ExcelCoachEngine = CoachEngine;
+})(typeof window !== "undefined" ? window : globalThis);

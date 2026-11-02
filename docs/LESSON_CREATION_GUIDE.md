@@ -19,7 +19,7 @@ reinterpret, or substitute equivalents unless this guide explicitly allows a cho
 
 **Quick map:** **visual-first lessons §24 (read it before you design anything)** ·
 governance rules §20 · page skeleton §2 · head/SEO §2.1 · chrome §4 ·
-engineering-tool theme §9.8 ·
+engineering-tool theme §9.8 · Excel Coach §25 ·
 catalog §12 · access rules (Supabase) §12.4 · sitemap §12.5 · learning paths §12.6 · images §13.2 ·
 accessibility §21 · math notation §22 · commands §16 · PR workflow §17 ·
 PR checklist §18 · known site-wide defects §23.
@@ -1636,6 +1636,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] npm run build:site exits 0; side effects restored; git status clean apart from intended files.
 - [ ] Local axe scan: 0 violations in light/dark × 1280/390 (except §23 chrome item).
 - [ ] All GitHub checks pass; Netlify deploy preview verified (URL: …) in both themes at desktop and mobile.
+- [ ] If the lesson uses the Excel Coach, the changes follow [§25 Excel Coach](#25-excel-coach-engineering-tool) (diagnosis plus Next:, no answer leaks, local-only logging).
 ```
 
 ---
@@ -2096,3 +2097,16 @@ patterns, not the content:
   inside visual cards over 30 words).
 - In the PR body, list the infographic(s), interactive visual(s) and charts, and give the
   body-text word count against the estimated minutes.
+
+---
+
+## 25. Excel Coach (engineering tool)
+
+When updating the Excel Coach in `assets/lessons/excel-formula-fluency/sprint/coach-engine.js` or the Formula Fluency lesson:
+
+- Replies must be plain strings. Never render an unresolved Promise.
+- Diagnose the mistakes the lesson actually teaches, with a specific next step.
+- Never flag an accepted answer (`c.f` or any `c.a`).
+- Hints must not contain the final formula or any accepted answer.
+- Log per-challenge metrics locally only. Never store formula text.
+- Use Canadian English, but spell it "judgment".
