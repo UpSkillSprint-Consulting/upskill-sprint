@@ -22,7 +22,10 @@ const NETLIFY_DEPLOYMENT_BLOCK = /<div data-netlify-deploy-id="[a-f0-9]{24}" dat
 // The site build (scripts/inject-seasonal-effects.mjs and scripts/inject-site-ticker.mjs, the last steps of build:site) adds exactly
 // these site-wide tags before </body> on every public page. It is site-wide, not lesson content.
 const SEASONAL_EFFECTS_TAG = /(?:<script src="\/(?:seasonal-effects|site-ticker)\.js" defer><\/script>\n?)+(?=\s*<\/body>)/;
-const reviewedSource = body => body.replace(NETLIFY_DEPLOYMENT_BLOCK, '').replace(SEASONAL_EFFECTS_TAG, '');
+// scripts/inject-skip-link.mjs (also in build:site) adds exactly one "Skip to main content" link right after
+// <body> and its <style> right before </head> on pages that have no skip link. It is site-wide chrome, not lesson content.
+const SKIP_LINK_TAGS=/<style id="uss-skip-link-style">[^<]*<\/style>\n(?=<\/head>)|(?<=<body\b[^>]*>)\n<a class="uss-skip-link" href="#[^"]+">Skip to main content<\/a>/g;
+const reviewedSource = body => body.replace(NETLIFY_DEPLOYMENT_BLOCK, '').replace(SEASONAL_EFFECTS_TAG, '').replace(SKIP_LINK_TAGS, '');
 const report = { cases: [], baseline: [], matrix: [], preview: null, failures: [] };
 function save() {
   fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(report, null, 2));
