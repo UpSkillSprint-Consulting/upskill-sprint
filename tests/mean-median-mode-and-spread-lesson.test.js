@@ -124,12 +124,28 @@ test('lesson-owned CSS is namespaced and never restyles site chrome', () => {
   }
 });
 
-test('visual-first: poster infographic, concept cards, decision flow and short text', () => {
-  const halves = [...doc.querySelectorAll('.mms-hero .mms-poster .mms-half')];
-  assert.deepEqual(halves.map(h => h.querySelector('.mms-big').textContent), ['Center', 'Spread']);
-  assert.deepEqual([...halves[0].querySelectorAll('.mms-tile-name')].map(t => t.textContent), ['Mean', 'Median', 'Mode']);
-  assert.deepEqual([...halves[1].querySelectorAll('.mms-tile-name')].map(t => t.textContent), ['Range', 'Std dev', 'IQR', 'CV']);
-  for (const tile of doc.querySelectorAll('.mms-poster .mms-tile-do')) assert(words(tile) <= 6, 'poster tiles stay short');
+test('visual-first: key-numbers poster, character cards, decision flow and short text', () => {
+  const poster = doc.querySelector('.mms-hero #mms-poster');
+  const vals = nums(poster.dataset.values), r = stats(vals);
+  // The sorted data as chips, with the mode, the middle value and the outlier named in text, not colour alone.
+  const chips = [...poster.querySelectorAll('.mms-chips li')];
+  assert.deepEqual(chips.map(li => Number(li.querySelector('.mms-chip-v').textContent)), [...vals].sort((x, y) => x - y));
+  assert.deepEqual(chips.map(li => (li.querySelector('.mms-chip-tag') || { textContent: '' }).textContent), ['', 'mode', 'mode', 'middle', '', '', 'outlier']);
+  // Giant numbers: every one matches the data.
+  const tiles = sel => [...poster.querySelectorAll(`${sel} li`)].map(li => [li.querySelector('.mms-num-name').textContent, li.querySelector('.mms-num').textContent.replace(/\s+/g, '')]);
+  assert.deepEqual(tiles('.mms-bignums.is-center'), [['Mode', '15h'], ['Median', `${r.median}h`], ['Mean', `${r.mean}h`]]);
+  const cv = (r.sd / r.mean * 100).toFixed(1);
+  assert.deepEqual(tiles('.mms-bignums.is-spread'), [['Range', `${Math.max(...vals) - Math.min(...vals)}h`], ['Std dev', `${r.sd.toFixed(1)}h`], ['IQR', `${r.q3 - r.q1}h`], ['CV', `${cv}%`]]);
+  for (const t of poster.querySelectorAll('.mms-num-do')) assert(words(t) <= 6, 'poster tiles stay short');
+  // Each measure of center is a character card with a face, a nickname and a one-line quote.
+  const cards = [...doc.querySelectorAll('#mms-center .mms-card')];
+  assert.deepEqual(cards.map(c => c.querySelector('.mms-card-kicker').textContent), ['The people-pleaser', 'The diplomat', 'The popular kid']);
+  for (const c of cards) {
+    assert.equal(c.querySelector('svg.mms-face').getAttribute('aria-hidden'), 'true');
+    assert(c.querySelector('.mms-quote').textContent.trim());
+  }
+  // Spread cards carry their giant number from the same data.
+  assert.deepEqual([...doc.querySelectorAll('#mms-spread .mms-card-big')].map(p => p.textContent.replace(/\s+/g, '')), ['33h', `${r.sd.toFixed(1)}h`, `${r.q3 - r.q1}h`, `${cv}%`]);
   assert.equal(doc.querySelectorAll('#mms-center .mms-card').length, 3);
   assert.equal(doc.querySelectorAll('#mms-spread .mms-card').length, 4);
   for (const p of doc.querySelectorAll('.mms-card p')) assert(words(p) <= 30, `too wordy: ${text(p).slice(0, 60)}`);
@@ -145,9 +161,9 @@ test('visual-first: poster infographic, concept cards, decision flow and short t
   }
   assert.match(doc.querySelector('.mms-flow-end').textContent, /mean and standard deviation/);
   assert.equal(doc.querySelectorAll('.mms-warn-poster .mms-mistakes li').length, 4);
-  // Text budget: about 50 words per estimated minute, counting prose outside tables, charts and the quiz.
+  // Text budget: about 50 words per estimated minute, counting prose outside tables, charts, display formulas and the quiz.
   const main = doc.querySelector('main').cloneNode(true);
-  main.querySelectorAll('table, svg, .quiz-section, .related-lessons, script, style').forEach(n => n.remove());
+  main.querySelectorAll('table, svg, .mms-math, .quiz-section, .related-lessons, script, style').forEach(n => n.remove());
   const prose = main.textContent.trim().split(/\s+/).length;
   assert(prose <= meta.estimated_minutes * 55, `prose words ${prose}`);
 });
@@ -168,15 +184,16 @@ test('every chart is an accessible image whose text matches its data', () => {
   const [lsl, usl] = nums(why.dataset.spec);
   assert.equal(a.mean.toFixed(1), '10.0');
   assert.equal(b.mean.toFixed(1), '10.0');
-  assert.match(text(why), new RegExp(`SD ${a.sd.toFixed(2)} mm`));
-  assert.match(text(why), new RegExp(`SD ${b.sd.toFixed(2)} mm`));
+  assert.match(text(why), new RegExp(`SD ${a.sd.toFixed(2)}`));
+  assert.match(text(why), new RegExp(`SD ${b.sd.toFixed(2)}`));
   const outB = nums(why.dataset.lineB).filter(v => v < lsl || v > usl).length;
   assert.equal(outB, 2);
   assert.equal(nums(why.dataset.lineA).filter(v => v < lsl || v > usl).length, 0);
-  assert.match(text(why), /2 of 6 out/);
+  const versus = [...doc.querySelectorAll('#mms-why .mms-vs-card')].map(c => [c.querySelector('.mms-vs-big').textContent, c.querySelector('.mms-vs-sd').textContent]);
+  assert.deepEqual(versus, [['0 of 6', `SD ${a.sd.toFixed(2)} mm`], ['2 of 6', `SD ${b.sd.toFixed(2)} mm`]]);
   assert.equal(why.querySelectorAll('rect.is-bad').length, outB);
   // Center: the repair times give mean 21, median 18, mode 15.
-  const center = doc.querySelector('#mms-center svg');
+  const center = doc.querySelector('#mms-center svg.mms-svg');
   const repairs = nums(center.dataset.values);
   assert.deepEqual(repairs, [12, 15, 15, 18, 20, 22, 45]);
   const r = stats(repairs);
@@ -184,13 +201,22 @@ test('every chart is an accessible image whose text matches its data', () => {
   assert.equal(r.median, 18);
   for (const label of ['Mean 21', 'Median 18', 'Mode 15', 'Outlier 45']) assert(text(center).includes(label), label);
   assert.equal(repairs.reduce((s, v) => s + v, 0), 147);
-  // Where the variance comes from.
-  const share = doc.querySelector('#mms-spread svg[aria-labelledby^="mms-share"]');
-  assert.equal(Number(share.dataset.sumSquares), r.ss);
+  // Variance drawn as squares: each square's area is that value's squared distance from the mean.
+  const sq = doc.querySelector('#mms-spread svg[aria-labelledby^="mms-sq"]');
+  assert.equal(Number(sq.dataset.sumSquares), r.ss);
   assert.equal(r.ss, 740);
+  const squares = [...sq.querySelectorAll('rect.mms-vsq')];
+  assert.equal(squares.length, new Set(repairs).size);
+  for (const rect of squares) {
+    const v = Number(rect.dataset.value), side = Number(rect.getAttribute('width'));
+    assert.equal(Number(rect.dataset.area), (v - r.mean) ** 2);
+    assert.equal(rect.getAttribute('width'), rect.getAttribute('height'), 'drawn as true squares');
+    assert(Math.abs(side - Math.abs(v - r.mean) * 7.6) < 0.01, 'side is to scale');
+  }
+  assert.equal(sq.querySelectorAll('rect.is-hot').length, 1);
+  assert.match(text(sq), /576/);
   const top = (45 - r.mean) ** 2 / r.ss * 100;
-  assert.match(text(share), new RegExp(`${top.toFixed(1)}%`));
-  assert.match(text(share.closest('figure').querySelector('figcaption')), new RegExp(`${top.toFixed(1)}%`));
+  assert.match(text(sq.closest('figure').querySelector('figcaption')), new RegExp(`${top.toFixed(1)}%`));
   // Box plot: Q1, Q3, IQR and the fence.
   const box = doc.querySelector('#mms-spread svg[aria-labelledby^="mms-box"]');
   const iqr = r.q3 - r.q1, fence = r.q3 + 1.5 * iqr;
@@ -276,8 +302,15 @@ test('the drag-the-outlier lab recomputes center and spread and says which pair 
   assert.deepEqual(['mean', 'median', 'mode', 'sd', 'iqr'].map(read), ['21', '18', '15', '11.1', '7']);
   assert.equal(verdict(), 'The 45 is an outlier. The mean sits 3 hours above the median. Report the median and IQR.');
   const svg = document.getElementById('mms-lab-svg');
-  assert.equal(svg.querySelectorAll('circle').length, 7);
-  assert.equal(svg.querySelectorAll('circle.mms-ring').length, 1);
+  // The seesaw holds 7 weights with the fulcrum at the mean; the line-up crowns the middle value; the tally stacks the mode.
+  assert.equal(svg.querySelectorAll('circle.mms-w').length, 7);
+  assert.equal(svg.querySelectorAll('circle.mms-w.is-out').length, 1);
+  assert(svg.querySelector('polygon.mms-fulcrum'));
+  assert.equal(svg.querySelector('polygon.mms-fulcrum').getAttribute('points').split(' ')[0].split(',')[0], String(24 + 21 / 100 * 312));
+  const toks = [...svg.querySelectorAll('.mms-tok-t')].map(t => t.textContent);
+  assert.deepEqual(toks, ['12', '15', '15', '18', '20', '22', '45']);
+  assert.equal(svg.querySelector('.mms-tok-t.is-mid').textContent, '18');
+  assert.equal(svg.querySelectorAll('rect.mms-blk.is-mode').length, 2);
 
   // Pull the outlier in: no outlier left, mean and median nearly agree, two modes.
   set(22);
@@ -288,7 +321,8 @@ test('the drag-the-outlier lab recomputes center and spread and says which pair 
   assert.equal(read('median'), '18');
   assert.equal(read('mode'), '15, 22');
   assert.equal(read('sd'), String(Math.round(s22.sd * 10) / 10));
-  assert.equal(svg.querySelectorAll('circle.mms-ring').length, 0);
+  assert.equal(svg.querySelectorAll('circle.mms-w.is-out').length, 0);
+  assert.equal(svg.querySelectorAll('rect.mms-blk.is-mode').length, 4, 'two values tie for mode');
   assert.match(verdict(), /below the median\. The mean and standard deviation are fine here\.$/);
 
   // Push it far out: the median holds, the mean and SD jump.

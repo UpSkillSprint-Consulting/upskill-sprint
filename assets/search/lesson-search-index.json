@@ -10115,10 +10115,11 @@
           "breadcrumb": [
             "Mean, Median, Mode and Spread in 15 Minutes"
           ],
-          "text": "The mean, median and mode tell you where your data sits. Spread tells you how far it wanders. Every dataset needs one of each. Two numbers describe any dataset Report one of each, every time Center Where is the typical value? \\(\\bar{x}\\) Mean Balance point \\(\\tilde{x}\\) Median Middle value Mode Most common Spread How far do values wander? \\(R\\) Range Largest minus smallest \\(s\\) Std dev Typical distance IQR Middle 50% CV Spread per unit of mean The big idea",
-          "excerpt": "The mean, median and mode tell you where your data sits. Spread tells you how far it wanders. Every dataset needs one of each. Two numbers describe any dataset Report one of each, every time Center Where is the typical value? \\(\\bar{x}\\) Mean Balance point…",
+          "text": "The mean, median and mode tell you where your data sits. Spread tells you how far it wanders. Every dataset needs one of each. One dataset, every key number Seven repair times in hours, sorted (a made-up example) 12 15 mode 15 mode 18 middle 20 22 45 outlier Center: where is the typical value? 15 h Mode Most common 18 h Median Middle value 21 h Mean Balance point Spread: how far do values wander? 33 h Range Largest minus smallest 11.1 h Std dev Typical distance 7 h IQR Middle 50% 52.9 % CV Spread per unit of mean Report a center and a spread. Every time. The big idea",
+          "excerpt": "The mean, median and mode tell you where your data sits. Spread tells you how far it wanders. Every dataset needs one of each. One dataset, every key number Seven repair times in hours, sorted (a made-up example) 12 15 mode 15 mode 18 middle 20 22 45 outlier…",
           "kinds": [
-            "section"
+            "section",
+            "example"
           ]
         },
         {
@@ -10128,8 +10129,8 @@
             "Mean, Median, Mode and Spread in 15 Minutes",
             "Why the average alone can fool you"
           ],
-          "text": "Two pipe lines both average 10.0 mm wall thickness. The spec is 9.5 to 10.5 mm. Only one line ships good pipe. (A made-up example.) Mean Spec band Square = out of spec Same center, very different spread. Part 1: center",
-          "excerpt": "Two pipe lines both average 10.0 mm wall thickness. The spec is 9.5 to 10.5 mm. Only one line ships good pipe. (A made-up example.) Mean Spec band Square = out of spec Same center, very different spread. Part 1: center",
+          "text": "Two pipe lines both average 10.0 mm wall thickness. The spec is 9.5 to 10.5 mm. Only one line ships good pipe. (A made-up example.) Line A 0 of 6 pipes out of spec SD 0.07 mm Line B 2 of 6 pipes out of spec SD 0.72 mm Spec band Square = out of spec Same center, very different spread. Part 1: center",
+          "excerpt": "Two pipe lines both average 10.0 mm wall thickness. The spec is 9.5 to 10.5 mm. Only one line ships good pipe. (A made-up example.) Line A 0 of 6 pipes out of spec SD 0.07 mm Line B 2 of 6 pipes out of spec SD 0.72 mm Spec band Square = out of spec Same…",
           "kinds": [
             "section",
             "example",
@@ -10143,8 +10144,8 @@
             "Mean, Median, Mode and Spread in 15 Minutes",
             "Mean, median and mode: three ways to find the middle"
           ],
-          "text": "Seven repair times, in hours: 12, 15, 15, 18, 20, 22, 45. (A made-up example.)",
-          "excerpt": "Seven repair times, in hours: 12, 15, 15, 18, 20, 22, 45. (A made-up example.)",
+          "text": "Seven repair times, in hours: 12, 15, 15, 18, 20, 22, 45. (A made-up example.) The people-pleaser",
+          "excerpt": "Seven repair times, in hours: 12, 15, 15, 18, 20, 22, 45. (A made-up example.) The people-pleaser",
           "kinds": [
             "section",
             "example"
@@ -10158,8 +10159,8 @@
             "Mean, median and mode: three ways to find the middle",
             "Mean: the balance point"
           ],
-          "text": "Add every value, then divide by how many there are. \\[ \\bar{x} = \\frac{\\sum x_i}{n} = \\frac{147}{7} = 21 \\] where \\(x_i\\) is each value and \\(n\\) is the number of values. =AVERAGE()",
-          "excerpt": "Add every value, then divide by how many there are. \\[ \\bar{x} = \\frac{\\sum x_i}{n} = \\frac{147}{7} = 21 \\] where \\(x_i\\) is each value and \\(n\\) is the number of values. =AVERAGE()",
+          "text": "“One outlier walks in and I change my whole answer.” Add every value, then divide by how many there are. \\[ \\bar{x} = \\frac{\\sum x_i}{n} = \\frac{147}{7} = 21 \\] where \\(x_i\\) is each value and \\(n\\) is the number of values. =AVERAGE() The diplomat",
+          "excerpt": "“One outlier walks in and I change my whole answer.” Add every value, then divide by how many there are. \\[ \\bar{x} = \\frac{\\sum x_i}{n} = \\frac{147}{7} = 21 \\] where \\(x_i\\) is each value and \\(n\\) is the number of values. =AVERAGE() The diplomat",
           "kinds": [
             "section",
             "formula"
@@ -10173,8 +10174,8 @@
             "Mean, median and mode: three ways to find the middle",
             "Median: the middle value"
           ],
-          "text": "Sort the values and take the middle one. With an even count, average the two middle values. \\[ \\tilde{x} = 18 \\] The 4th of 7 sorted values. =MEDIAN()",
-          "excerpt": "Sort the values and take the middle one. With an even count, average the two middle values. \\[ \\tilde{x} = 18 \\] The 4th of 7 sorted values. =MEDIAN()",
+          "text": "“Sort it, split it, done. Your outlier is not my problem.” Sort the values and take the middle one. With an even count, average the two middle values. \\[ \\tilde{x} = 18 \\] The 4th of 7 sorted values. =MEDIAN() The popular kid",
+          "excerpt": "“Sort it, split it, done. Your outlier is not my problem.” Sort the values and take the middle one. With an even count, average the two middle values. \\[ \\tilde{x} = 18 \\] The 4th of 7 sorted values. =MEDIAN() The popular kid",
           "kinds": [
             "section",
             "formula"
@@ -10188,8 +10189,8 @@
             "Mean, median and mode: three ways to find the middle",
             "Mode: the most common value"
           ],
-          "text": "Count which value appears most often. It works for categories too. \\[ \\text{Mode} = 15 \\] 15 appears twice; every other value once. =MODE.SNGL() Mean Median Hollow = outlier Six of seven repairs took less than the mean of 21 hours. Try it",
-          "excerpt": "Count which value appears most often. It works for categories too. \\[ \\text{Mode} = 15 \\] 15 appears twice; every other value once. =MODE.SNGL() Mean Median Hollow = outlier Six of seven repairs took less than the mean of 21 hours. Try it",
+          "text": "“I don't do math. I do headcounts.” Count which value appears most often. It works for categories too. \\[ \\text{Mode} = 15 \\] 15 appears twice; every other value once. =MODE.SNGL() Hollow ring = outlier Six of seven repairs took less than the mean of 21 hours. Try it",
+          "excerpt": "“I don't do math. I do headcounts.” Count which value appears most often. It works for categories too. \\[ \\text{Mode} = 15 \\] 15 appears twice; every other value once. =MODE.SNGL() Hollow ring = outlier Six of seven repairs took less than the mean of 21…",
           "kinds": [
             "section",
             "formula"
@@ -10202,8 +10203,8 @@
             "Mean, Median, Mode and Spread in 15 Minutes",
             "Drag the outlier and watch the numbers move"
           ],
-          "text": "Move the last repair time. Which measures jump, and which hold still? Interactive Last repair time: 45 hours Mean 21 Median 18 Mode 15 Std dev 11.1 IQR 7 The 45 is an outlier. The mean sits 3 hours above the median. Report the median and IQR. Part 2: choosing",
-          "excerpt": "Move the last repair time. Which measures jump, and which hold still? Interactive Last repair time: 45 hours Mean 21 Median 18 Mode 15 Std dev 11.1 IQR 7 The 45 is an outlier. The mean sits 3 hours above the median. Report the median and IQR. Part 2: choosing",
+          "text": "Drag the last repair time. Which numbers jump, and which hold still? Interactive Last repair time: 45 hours Mean 21 Median 18 Mode 15 Std dev 11.1 IQR 7 The 45 is an outlier. The mean sits 3 hours above the median. Report the median and IQR. Part 2: choosing",
+          "excerpt": "Drag the last repair time. Which numbers jump, and which hold still? Interactive Last repair time: 45 hours Mean 21 Median 18 Mode 15 Std dev 11.1 IQR 7 The 45 is an outlier. The mean sits 3 hours above the median. Report the median and IQR. Part 2: choosing",
           "kinds": [
             "section"
           ]
@@ -10229,8 +10230,8 @@
             "Mean, Median, Mode and Spread in 15 Minutes",
             "Range, standard deviation, IQR and CV: measuring spread"
           ],
-          "text": "",
-          "excerpt": "Range, standard deviation, IQR and CV: measuring spread",
+          "text": "The drama queen",
+          "excerpt": "The drama queen",
           "kinds": [
             "section"
           ]
@@ -10243,8 +10244,8 @@
             "Range, standard deviation, IQR and CV: measuring spread",
             "Range"
           ],
-          "text": "Largest minus smallest. Fast, but one extreme value controls it. \\[ R = 45 - 12 = 33 \\]",
-          "excerpt": "Largest minus smallest. Fast, but one extreme value controls it. \\[ R = 45 - 12 = 33 \\]",
+          "text": "33 h Largest minus smallest. Fast, but one extreme value controls it. \\[ R = 45 - 12 = 33 \\] The typical wanderer",
+          "excerpt": "33 h Largest minus smallest. Fast, but one extreme value controls it. \\[ R = 45 - 12 = 33 \\] The typical wanderer",
           "kinds": [
             "section",
             "formula"
@@ -10258,8 +10259,8 @@
             "Range, standard deviation, IQR and CV: measuring spread",
             "Standard deviation"
           ],
-          "text": "The typical distance from the mean, in the data's own units. \\[ s = 11.1 \\]",
-          "excerpt": "The typical distance from the mean, in the data's own units. \\[ s = 11.1 \\]",
+          "text": "11.1 h The typical distance from the mean, in the data's own units. \\[ s = 11.1 \\] The bouncer",
+          "excerpt": "11.1 h The typical distance from the mean, in the data's own units. \\[ s = 11.1 \\] The bouncer",
           "kinds": [
             "section",
             "formula"
@@ -10273,8 +10274,8 @@
             "Range, standard deviation, IQR and CV: measuring spread",
             "Interquartile range"
           ],
-          "text": "The spread of the middle 50%. Outliers cannot move it. \\[ Q_3 - Q_1 = 22 - 15 = 7 \\]",
-          "excerpt": "The spread of the middle 50%. Outliers cannot move it. \\[ Q_3 - Q_1 = 22 - 15 = 7 \\]",
+          "text": "7 h The spread of the middle 50%. Outliers cannot move it. \\[ Q_3 - Q_1 = 22 - 15 = 7 \\] The translator",
+          "excerpt": "7 h The spread of the middle 50%. Outliers cannot move it. \\[ Q_3 - Q_1 = 22 - 15 = 7 \\] The translator",
           "kinds": [
             "section",
             "formula"
@@ -10288,8 +10289,8 @@
             "Range, standard deviation, IQR and CV: measuring spread",
             "Coefficient of variation"
           ],
-          "text": "Standard deviation as a percentage of the mean. Compares spread across scales. \\[ \\frac{s}{\\bar{x}} \\times 100\\% = 52.9\\% \\]",
-          "excerpt": "Standard deviation as a percentage of the mean. Compares spread across scales. \\[ \\frac{s}{\\bar{x}} \\times 100\\% = 52.9\\% \\]",
+          "text": "52.9 % Standard deviation as a percentage of the mean. Compares spread across scales. \\[ \\frac{s}{\\bar{x}} \\times 100\\% = 52.9\\% \\]",
+          "excerpt": "52.9 % Standard deviation as a percentage of the mean. Compares spread across scales. \\[ \\frac{s}{\\bar{x}} \\times 100\\% = 52.9\\% \\]",
           "kinds": [
             "section",
             "formula"
@@ -10303,7 +10304,7 @@
             "Range, standard deviation, IQR and CV: measuring spread",
             "Standard deviation, step by step"
           ],
-          "text": "Value \\(x_i\\) Distance \\(x_i - \\bar{x}\\) Squared \\((x_i - \\bar{x})^2\\) 12 −9 81 15 −6 36 15 −6 36 18 −3 9 20 −1 1 22 1 1 45 24 576 Total 0 740 \\[ \\begin{aligned} s^2 &= \\frac{\\sum (x_i - \\bar{x})^2}{n - 1} = \\frac{740}{6} = 123.3 \\\\ s &= \\sqrt{123.3} = 11.1 \\end{aligned} \\] where \\(s^2\\) is the sample variance and \\(s\\) the sample standard deviation. Divide by \\(n - 1\\) for a sample; use \\(n\\) only for a whole population. One value supplies 77.8% of the total. Standard deviation feels outliers too.",
+          "text": "Value \\(x_i\\) Distance \\(x_i - \\bar{x}\\) Squared \\((x_i - \\bar{x})^2\\) 12 −9 81 15 −6 36 15 −6 36 18 −3 9 20 −1 1 22 1 1 45 24 576 Total 0 740 \\[ \\begin{aligned} s^2 &= \\frac{\\sum (x_i - \\bar{x})^2}{n - 1} = \\frac{740}{6} = 123.3 \\\\ s &= \\sqrt{123.3} = 11.1 \\end{aligned} \\] where \\(s^2\\) is the sample variance and \\(s\\) the sample standard deviation. Divide by \\(n - 1\\) for a sample; use \\(n\\) only for a whole population. The 45-hour repair Its square is 576 of the 740 total: 77.8% of all the area. The squares for 20 and 22 are just 1 each.",
           "excerpt": "Value \\(x_i\\) Distance \\(x_i - \\bar{x}\\) Squared \\((x_i - \\bar{x})^2\\) 12 −9 81 15 −6 36 15 −6 36 18 −3 9 20 −1 1 22 1 1 45 24 576 Total 0 740 \\[ \\begin{aligned} s^2 &= \\frac{\\sum (x_i - \\bar{x})^2}{n - 1} = \\frac{740}{6} = 123.3 \\\\ s &= \\sqrt{123.3} = 11.1…",
           "kinds": [
             "section",
@@ -10318,8 +10319,8 @@
             "Range, standard deviation, IQR and CV: measuring spread",
             "The IQR on a box plot"
           ],
-          "text": "Box = IQR Outlier fence Anything past the fence gets flagged. \\[ \\text{Upper fence} = Q_3 + 1.5 \\times \\text{IQR} = 22 + 1.5 \\times 7 = 32.5 \\]",
-          "excerpt": "Box = IQR Outlier fence Anything past the fence gets flagged. \\[ \\text{Upper fence} = Q_3 + 1.5 \\times \\text{IQR} = 22 + 1.5 \\times 7 = 32.5 \\]",
+          "text": "Box = IQR, the middle 50% Fence The bouncer lets the middle in and flags anything past the fence. \\[ \\text{Upper fence} = Q_3 + 1.5 \\times \\text{IQR} = 22 + 1.5 \\times 7 = 32.5 \\]",
+          "excerpt": "Box = IQR, the middle 50% Fence The bouncer lets the middle in and flags anything past the fence. \\[ \\text{Upper fence} = Q_3 + 1.5 \\times \\text{IQR} = 22 + 1.5 \\times 7 = 32.5 \\]",
           "kinds": [
             "section",
             "formula"
