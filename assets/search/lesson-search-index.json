@@ -1,9 +1,9 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 57,
-  "contentLessonCount": 56,
-  "sectionCount": 3017,
+  "lessonCount": 58,
+  "contentLessonCount": 57,
+  "sectionCount": 3039,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -10071,6 +10071,354 @@
           ],
           "text": "NIST/SEMATECH, Grubbs' test for outliers , e-Handbook of Statistical Methods. NIST/SEMATECH, Detection of outliers , e-Handbook of Statistical Methods. Iglewicz, B. and Hoaglin, D., How to Detect and Handle Outliers , ASQC Quality Press. Microsoft Support, T.INV.2T function . Minitab Support, Outlier Test overview .",
           "excerpt": "NIST/SEMATECH, Grubbs' test for outliers , e-Handbook of Statistical Methods. NIST/SEMATECH, Detection of outliers , e-Handbook of Statistical Methods. Iglewicz, B. and Hoaglin, D., How to Detect and Handle Outliers , ASQC Quality Press. Microsoft Support,…",
+          "kinds": [
+            "section"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "statistics--mean-median-mode-and-spread",
+      "path": "/lessons/statistics/mean-median-mode-and-spread",
+      "title": "Mean, Median, Mode and Spread in 15 Minutes",
+      "description": "Find the center and the spread of any dataset: mean, median, mode, range, standard deviation, IQR and CV, with a drag-the-outlier lab.",
+      "topic": "statistics",
+      "level": "beginner",
+      "minutes": 15,
+      "interactive": true,
+      "keywords": [
+        "mean",
+        "median",
+        "mode",
+        "central tendency",
+        "dispersion",
+        "spread",
+        "range",
+        "standard deviation",
+        "variance",
+        "interquartile range",
+        "iqr",
+        "coefficient of variation",
+        "skewness",
+        "box plot",
+        "descriptive statistics",
+        "excel",
+        "minitab",
+        "mean median mode central tendency dispersion spread range standard deviation variance interquartile range iqr coefficient of variation skewness box plot outlier descriptive statistics excel minitab statistics beginner interactive"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "mms-title",
+          "heading": "Mean, Median, Mode and Spread in 15 Minutes",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes"
+          ],
+          "text": "The mean, median and mode tell you where your data sits. Spread tells you how far it wanders. Every dataset needs one of each. Two numbers describe any dataset Report one of each, every time Center Where is the typical value? \\(\\bar{x}\\) Mean Balance point \\(\\tilde{x}\\) Median Middle value Mode Most common Spread How far do values wander? \\(R\\) Range Largest minus smallest \\(s\\) Std dev Typical distance IQR Middle 50% CV Spread per unit of mean The big idea",
+          "excerpt": "The mean, median and mode tell you where your data sits. Spread tells you how far it wanders. Every dataset needs one of each. Two numbers describe any dataset Report one of each, every time Center Where is the typical value? \\(\\bar{x}\\) Mean Balance point…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "mms-why-h",
+          "heading": "Why the average alone can fool you",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Why the average alone can fool you"
+          ],
+          "text": "Two pipe lines both average 10.0 mm wall thickness. The spec is 9.5 to 10.5 mm. Only one line ships good pipe. (A made-up example.) Mean Spec band Square = out of spec Same center, very different spread. Part 1: center",
+          "excerpt": "Two pipe lines both average 10.0 mm wall thickness. The spec is 9.5 to 10.5 mm. Only one line ships good pipe. (A made-up example.) Mean Spec band Square = out of spec Same center, very different spread. Part 1: center",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "mms-center-h",
+          "heading": "Mean, median and mode: three ways to find the middle",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Mean, median and mode: three ways to find the middle"
+          ],
+          "text": "Seven repair times, in hours: 12, 15, 15, 18, 20, 22, 45. (A made-up example.)",
+          "excerpt": "Seven repair times, in hours: 12, 15, 15, 18, 20, 22, 45. (A made-up example.)",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-mean-the-balance-point",
+          "heading": "Mean: the balance point",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Mean, median and mode: three ways to find the middle",
+            "Mean: the balance point"
+          ],
+          "text": "Add every value, then divide by how many there are. \\[ \\bar{x} = \\frac{\\sum x_i}{n} = \\frac{147}{7} = 21 \\] where \\(x_i\\) is each value and \\(n\\) is the number of values. =AVERAGE()",
+          "excerpt": "Add every value, then divide by how many there are. \\[ \\bar{x} = \\frac{\\sum x_i}{n} = \\frac{147}{7} = 21 \\] where \\(x_i\\) is each value and \\(n\\) is the number of values. =AVERAGE()",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-median-the-middle-value",
+          "heading": "Median: the middle value",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Mean, median and mode: three ways to find the middle",
+            "Median: the middle value"
+          ],
+          "text": "Sort the values and take the middle one. With an even count, average the two middle values. \\[ \\tilde{x} = 18 \\] The 4th of 7 sorted values. =MEDIAN()",
+          "excerpt": "Sort the values and take the middle one. With an even count, average the two middle values. \\[ \\tilde{x} = 18 \\] The 4th of 7 sorted values. =MEDIAN()",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-mode-the-most-common-value",
+          "heading": "Mode: the most common value",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Mean, median and mode: three ways to find the middle",
+            "Mode: the most common value"
+          ],
+          "text": "Count which value appears most often. It works for categories too. \\[ \\text{Mode} = 15 \\] 15 appears twice; every other value once. =MODE.SNGL() Mean Median Hollow = outlier Six of seven repairs took less than the mean of 21 hours. Try it",
+          "excerpt": "Count which value appears most often. It works for categories too. \\[ \\text{Mode} = 15 \\] 15 appears twice; every other value once. =MODE.SNGL() Mean Median Hollow = outlier Six of seven repairs took less than the mean of 21 hours. Try it",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "mms-lab-h",
+          "heading": "Drag the outlier and watch the numbers move",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Drag the outlier and watch the numbers move"
+          ],
+          "text": "Move the last repair time. Which measures jump, and which hold still? Interactive Last repair time: 45 hours Mean 21 Median 18 Mode 15 Std dev 11.1 IQR 7 The 45 is an outlier. The mean sits 3 hours above the median. Report the median and IQR. Part 2: choosing",
+          "excerpt": "Move the last repair time. Which measures jump, and which hold still? Interactive Last repair time: 45 hours Mean 21 Median 18 Mode 15 Std dev 11.1 IQR 7 The 45 is an outlier. The mean sits 3 hours above the median. Report the median and IQR. Part 2: choosing",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "mms-choose-h",
+          "heading": "Which center should you report?",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Which center should you report?"
+          ],
+          "text": "The mean always sits closest to the tail. Are the values categories, such as defect types or 1 to 5 ratings? Yes Use the mode . Ratings can also use the median. No: next question Is the data skewed, or does it have outliers? Yes Use the median and IQR . No: next question Otherwise Use the mean and standard deviation. Not sure if it's skewed? Calculate both the mean and the median. A big gap between them means skew. Part 3: spread",
+          "excerpt": "The mean always sits closest to the tail. Are the values categories, such as defect types or 1 to 5 ratings? Yes Use the mode . Ratings can also use the median. No: next question Is the data skewed, or does it have outliers? Yes Use the median and IQR . No:…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "mms-spread-h",
+          "heading": "Range, standard deviation, IQR and CV: measuring spread",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Range, standard deviation, IQR and CV: measuring spread"
+          ],
+          "text": "",
+          "excerpt": "Range, standard deviation, IQR and CV: measuring spread",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-range",
+          "heading": "Range",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Range, standard deviation, IQR and CV: measuring spread",
+            "Range"
+          ],
+          "text": "Largest minus smallest. Fast, but one extreme value controls it. \\[ R = 45 - 12 = 33 \\]",
+          "excerpt": "Largest minus smallest. Fast, but one extreme value controls it. \\[ R = 45 - 12 = 33 \\]",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-standard-deviation",
+          "heading": "Standard deviation",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Range, standard deviation, IQR and CV: measuring spread",
+            "Standard deviation"
+          ],
+          "text": "The typical distance from the mean, in the data's own units. \\[ s = 11.1 \\]",
+          "excerpt": "The typical distance from the mean, in the data's own units. \\[ s = 11.1 \\]",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-interquartile-range",
+          "heading": "Interquartile range",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Range, standard deviation, IQR and CV: measuring spread",
+            "Interquartile range"
+          ],
+          "text": "The spread of the middle 50%. Outliers cannot move it. \\[ Q_3 - Q_1 = 22 - 15 = 7 \\]",
+          "excerpt": "The spread of the middle 50%. Outliers cannot move it. \\[ Q_3 - Q_1 = 22 - 15 = 7 \\]",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-coefficient-of-variation",
+          "heading": "Coefficient of variation",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Range, standard deviation, IQR and CV: measuring spread",
+            "Coefficient of variation"
+          ],
+          "text": "Standard deviation as a percentage of the mean. Compares spread across scales. \\[ \\frac{s}{\\bar{x}} \\times 100\\% = 52.9\\% \\]",
+          "excerpt": "Standard deviation as a percentage of the mean. Compares spread across scales. \\[ \\frac{s}{\\bar{x}} \\times 100\\% = 52.9\\% \\]",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "mms-sd-steps",
+          "heading": "Standard deviation, step by step",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Range, standard deviation, IQR and CV: measuring spread",
+            "Standard deviation, step by step"
+          ],
+          "text": "Value \\(x_i\\) Distance \\(x_i - \\bar{x}\\) Squared \\((x_i - \\bar{x})^2\\) 12 −9 81 15 −6 36 15 −6 36 18 −3 9 20 −1 1 22 1 1 45 24 576 Total 0 740 \\[ \\begin{aligned} s^2 &= \\frac{\\sum (x_i - \\bar{x})^2}{n - 1} = \\frac{740}{6} = 123.3 \\\\ s &= \\sqrt{123.3} = 11.1 \\end{aligned} \\] where \\(s^2\\) is the sample variance and \\(s\\) the sample standard deviation. Divide by \\(n - 1\\) for a sample; use \\(n\\) only for a whole population. One value supplies 77.8% of the total. Standard deviation feels outliers too.",
+          "excerpt": "Value \\(x_i\\) Distance \\(x_i - \\bar{x}\\) Squared \\((x_i - \\bar{x})^2\\) 12 −9 81 15 −6 36 15 −6 36 18 −3 9 20 −1 1 22 1 1 45 24 576 Total 0 740 \\[ \\begin{aligned} s^2 &= \\frac{\\sum (x_i - \\bar{x})^2}{n - 1} = \\frac{740}{6} = 123.3 \\\\ s &= \\sqrt{123.3} = 11.1…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "mms-iqr-box",
+          "heading": "The IQR on a box plot",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Range, standard deviation, IQR and CV: measuring spread",
+            "The IQR on a box plot"
+          ],
+          "text": "Box = IQR Outlier fence Anything past the fence gets flagged. \\[ \\text{Upper fence} = Q_3 + 1.5 \\times \\text{IQR} = 22 + 1.5 \\times 7 = 32.5 \\]",
+          "excerpt": "Box = IQR Outlier fence Anything past the fence gets flagged. \\[ \\text{Upper fence} = Q_3 + 1.5 \\times \\text{IQR} = 22 + 1.5 \\times 7 = 32.5 \\]",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "mms-mistakes-h",
+          "heading": "4 mistakes to avoid",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "4 mistakes to avoid"
+          ],
+          "text": "Mean of skewed data A long tail drags it. Report the median. Averaging ratings 1 to 5 scores are ordinal. Use the median or mode. Adding standard deviations Add variances, then take the square root. STDEV.P on a sample Samples divide by \\(n - 1\\): use STDEV.S. Do it in software",
+          "excerpt": "Mean of skewed data A long tail drags it. Report the median. Averaging ratings 1 to 5 scores are ordinal. Use the median or mode. Adding standard deviations Add variances, then take the square root. STDEV.P on a sample Samples divide by \\(n - 1\\): use…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "mms-implementation-h",
+          "heading": "Statistics Implementation",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Statistics Implementation"
+          ],
+          "text": "",
+          "excerpt": "Statistics Implementation",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "mms-excel-functions",
+          "heading": "Excel functions",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Statistics Implementation",
+            "Excel functions"
+          ],
+          "text": "Function Syntax Purpose When to use it AVERAGE =AVERAGE(range) Mean Symmetric data, or when you need totals AVERAGEIFS =AVERAGEIFS(range, criteria_range, criteria) Mean of a subset Mean by shift, line or grade MEDIAN =MEDIAN(range) Median Skewed data or outliers MODE.SNGL =MODE.SNGL(range) Most frequent value One clear mode MODE.MULT =MODE.MULT(range) All modes (array result) Two or more modes TRIMMEAN =TRIMMEAN(range, percent) Mean after trimming both ends Mild outliers; percent is the total trimmed MAX, MIN =MAX(range)-MIN(range) Range Quick spread check VAR.S =VAR.S(range) Sample variance Default for sample data VAR.P =VAR.P(range) Population variance Only for a complete population STDEV.S =STDEV.S(range) Sample standard deviation Default for sample data STDEV.P =STDEV.P(range) Population standard deviation Only for a complete population QUARTILE.EXC =QUARTILE.EXC(range, quart) Quartile by the \\((n+1)p\\) method Matches Minitab; use for the IQR QUARTILE.INC =QUARTILE.INC(range, quart) Quartile, inclusive method Matches older QUARTILE results PERCENTILE.EXC =PERCENTILE.EXC(range, k) Any percentile P90 or P95 targets SKEW =SKEW(range) Skewness Beyond about ±1 means strong skew Older names such as STDEV , VAR and MODE still work. Use the newer names.",
+          "excerpt": "Function Syntax Purpose When to use it AVERAGE =AVERAGE(range) Mean Symmetric data, or when you need totals AVERAGEIFS =AVERAGEIFS(range, criteria_range, criteria) Mean of a subset Mean by shift, line or grade MEDIAN =MEDIAN(range) Median Skewed data or…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "mms-excel-uses",
+          "heading": "Excel use cases",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Statistics Implementation",
+            "Excel use cases"
+          ],
+          "text": "Put the seven repair times in cells A2:A8. Task Formula Result Mean =AVERAGE(A2:A8) 21 Median =MEDIAN(A2:A8) 18 Mode =MODE.SNGL(A2:A8) 15 Range =MAX(A2:A8)-MIN(A2:A8) 33 Sample variance =VAR.S(A2:A8) 123.33 Sample standard deviation =STDEV.S(A2:A8) 11.11 Population standard deviation =STDEV.P(A2:A8) 10.28 IQR =QUARTILE.EXC(A2:A8,3)-QUARTILE.EXC(A2:A8,1) 7 CV =STDEV.S(A2:A8)/AVERAGE(A2:A8) 52.9% (format as %) Skewness =SKEW(A2:A8) Positive: right-skewed QUARTILE.INC gives an IQR of 6 for the same data. Both are valid methods, so say which one you used.",
+          "excerpt": "Put the seven repair times in cells A2:A8. Task Formula Result Mean =AVERAGE(A2:A8) 21 Median =MEDIAN(A2:A8) 18 Mode =MODE.SNGL(A2:A8) 15 Range =MAX(A2:A8)-MIN(A2:A8) 33 Sample variance =VAR.S(A2:A8) 123.33 Sample standard deviation =STDEV.S(A2:A8) 11.11…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "mms-minitab",
+          "heading": "Minitab navigation",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Statistics Implementation",
+            "Minitab navigation"
+          ],
+          "text": "Need Menu path Why this one Full table of statistics Stat → Basic Statistics → Display Descriptive Statistics Click Statistics to add variance, CV, IQR, range and mode. Use By variables to split by group. Center, spread and shape in one view Stat → Basic Statistics → Graphical Summary Best first look: histogram, box plot, normality test and confidence intervals for the mean and median. Save results to the worksheet Stat → Basic Statistics → Store Descriptive Statistics When later calculations need the numbers. One statistic for one column Calc → Column Statistics A quick single answer, stored as a constant. Box plot only Graph → Boxplot Shows the IQR and flags outliers with an asterisk. Minitab reports the sample standard deviation, and its quartiles match QUARTILE.EXC .",
+          "excerpt": "Need Menu path Why this one Full table of statistics Stat → Basic Statistics → Display Descriptive Statistics Click Statistics to add variance, CV, IQR, range and mode. Use By variables to split by group. Center, spread and shape in one view Stat → Basic…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "mms-exam-tips",
+          "heading": "Exam tips",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Statistics Implementation",
+            "Exam tips"
+          ],
+          "text": "Sample or population? Unless the question says population, divide by \\(n - 1\\). Skew questions Given mean, median and mode, the mean points to the tail. Combining sources Add variances: \\(\\sigma_{\\text{total}} = \\sqrt{\\sigma_1^2 + \\sigma_2^2}\\). Control charts Estimate sigma from ranges: \\(\\hat{\\sigma} = \\bar{R} / d_2\\). Different units Compare variability with CV, not standard deviation. Real data Excel and Minitab quartiles differ? Check .INC versus .EXC.",
+          "excerpt": "Sample or population? Unless the question says population, divide by \\(n - 1\\). Skew questions Given mean, median and mode, the mean points to the tail. Combining sources Add variances: \\(\\sigma_{\\text{total}} = \\sqrt{\\sigma_1^2 + \\sigma_2^2}\\). Control…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-related-lessons",
+          "heading": "Related lessons",
+          "breadcrumb": [
+            "Mean, Median, Mode and Spread in 15 Minutes",
+            "Related lessons"
+          ],
+          "text": "Variance, Covariance, Correlation & CV — go deeper on spread and how two variables move together. Dealing with Outliers — what to do once the box-plot fence flags a value. The Normal Distribution: Meet the Bell Curve — the symmetric shape where mean, median and mode agree. Chebyshev vs. the Empirical Rule — how many values fall within a few standard deviations. Hypothesis Testing for Beginners — the next step: testing whether two means really differ.",
+          "excerpt": "Variance, Covariance, Correlation & CV — go deeper on spread and how two variables move together. Dealing with Outliers — what to do once the box-plot fence flags a value. The Normal Distribution: Meet the Bell Curve — the symmetric shape where mean, median…",
           "kinds": [
             "section"
           ]

@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Mean, Median, Mode and Spread in 15 Minutes",
+  "slug": "mean-median-mode-and-spread",
+  "category": "Statistics",
+  "category_slug": "statistics",
+  "level": "Beginner",
+  "lesson_type": "General",
+  "estimated_minutes": 15,
+  "interactive": true,
+  "card_title": "Mean, Median, Mode and Spread in 15 Minutes",
+  "card_description": "Find the center and the spread of any dataset: mean, median, mode, range, standard deviation, IQR and CV, with a drag-the-outlier lab.",
+  "search_keywords": ["mean","median","mode","central tendency","dispersion","spread","range","standard deviation","variance","interquartile range","iqr","coefficient of variation","skewness","box plot","descriptive statistics","excel","minitab"],
+  "suggested_github_path": "lessons/statistics/mean-median-mode-and-spread.html",
+  "access_level": "public"
+}
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mean, Median, Mode and Spread in 15 Minutes | UpSkill Sprint</title>
+<meta name="description" content="Learn the mean, median and mode, plus range, standard deviation, IQR and CV, with interactive charts, a drag-the-outlier lab, and Excel and Minitab steps.">
+<!-- One plain-text sentence, 40–160 characters: what the learner will be able to do. -->
+<meta name="upskill:email-teaser" content="Find the typical value and the spread of any dataset, and know when the median beats the mean.">
+<link rel="canonical" href="https://upskillsprint.com/lessons/statistics/mean-median-mode-and-spread">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mean, Median, Mode and Spread in 15 Minutes | UpSkill Sprint">
+<meta property="og:description" content="Learn the mean, median and mode, plus range, standard deviation, IQR and CV, with interactive charts, a drag-the-outlier lab, and Excel and Minitab steps.">
+<meta property="og:image" content="https://upskillsprint.com/assets/logo-og.png">
+<meta property="og:url" content="https://upskillsprint.com/lessons/statistics/mean-median-mode-and-spread">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/lessons-theme.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/site-nav.css">
+<script src="/site-nav.js" defer></script>
+<script src="/site-sections.js"></script>
+<script defer src="/assets/js/math.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {"@type": "BreadcrumbList", "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://upskillsprint.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Lessons", "item": "https://upskillsprint.com/lessons"},
+      {"@type": "ListItem", "position": 3, "name": "Mean, Median, Mode and Spread in 15 Minutes", "item": "https://upskillsprint.com/lessons/statistics/mean-median-mode-and-spread"}
+    ]},
+    {"@type": "LearningResource", "name": "Mean, Median, Mode and Spread in 15 Minutes", "description": "Learn the mean, median and mode, plus range, standard deviation, IQR and CV, with interactive charts, a drag-the-outlier lab, and Excel and Minitab steps.", "url": "https://upskillsprint.com/lessons/statistics/mean-median-mode-and-spread", "learningResourceType": "Lesson", "educationalLevel": "Beginner", "provider": {"@type": "Organization", "name": "UpSkill Sprint Consulting", "url": "https://upskillsprint.com/"}}
+  ]
+}
+</script>
+<style id="mms-style">
+/* Mean, Median, Mode and Spread in 15 Minutes. Every lesson-owned token is prefixed --lesson-mms-
+   and every selector is scoped to #lesson-content, so site chrome is untouched. */
+#lesson-content{
+  color-scheme: light dark;
+  --lesson-mms-page:#f6f8fb;
+  --lesson-mms-surface:#ffffff;
+  --lesson-mms-surface-2:#eef3f8;
+  --lesson-mms-text:#1c2430;
+  --lesson-mms-text-2:#3d4a5c;
+  --lesson-mms-border:#cbd5e1;
+  --lesson-mms-control:#5f7189;
+  --lesson-mms-teal:#0f6b78;
+  --lesson-mms-teal-bg:#e3f3f5;
+  --lesson-mms-on-accent:#ffffff;
+  --lesson-mms-mean:#2d5b8a;
+  --lesson-mms-mean-bg:#e5eef8;
+  --lesson-mms-median:#8a5300;
+  --lesson-mms-median-bg:#fff3d6;
+  --lesson-mms-mode:#0f6b78;
+  --lesson-mms-mode-bg:#e3f3f5;
+  --lesson-mms-red:#b42318;
+  --lesson-mms-green:#1e7a46;
+  --lesson-mms-green-bg:#e6f5ec;
+  --lesson-mms-band:#e6f5ec;
+  --lesson-mms-curve:#e7edf4;
+  --lesson-mms-focus:#0b63c5;
+  --lesson-mms-poster-bg:#0f1d33;
+  --lesson-mms-poster-text:#ffffff;
+  --lesson-mms-poster-text-2:#c9d4e3;
+  --lesson-mms-poster-line:rgba(255,255,255,.18);
+  --lesson-mms-shadow:0 1px 2px rgba(15,23,42,.06),0 6px 18px rgba(15,23,42,.06);
+  color:var(--lesson-mms-text);
+  background:var(--lesson-mms-page);
+  font-family:'Work Sans',Arial,sans-serif;
+  padding-bottom:24px;
+}
+#lesson-content .mms-wrap{max-width:900px;margin:0 auto;padding:0 20px}
+#lesson-content .mms-hero{background:linear-gradient(135deg,var(--lesson-mms-teal-bg),var(--lesson-mms-surface-2));border-bottom:1px solid var(--lesson-mms-border);padding:40px 0 30px;color:var(--lesson-mms-text)}
+#lesson-content .mms-kicker{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:0;list-style:none}
+#lesson-content .mms-kicker li{font-size:13px;font-weight:600;letter-spacing:.02em;padding:4px 10px;border-radius:999px;background:var(--lesson-mms-surface);color:var(--lesson-mms-teal);border:1px solid var(--lesson-mms-border)}
+#lesson-content h1{font-size:clamp(30px,5vw,42px);line-height:1.12;margin:0 0 14px;color:var(--lesson-mms-text);text-wrap:balance}
+#lesson-content .mms-lede{font-size:18px;line-height:1.65;margin:0 0 18px;color:var(--lesson-mms-text-2)}
+#lesson-content h2{font-size:clamp(24px,3.4vw,30px);line-height:1.2;margin:0 0 14px;color:var(--lesson-mms-text);text-wrap:balance}
+#lesson-content h3{font-size:19px;line-height:1.3;margin:26px 0 10px;color:var(--lesson-mms-text)}
+#lesson-content p, #lesson-content li{font-size:16.5px;line-height:1.7;color:var(--lesson-mms-text)}
+#lesson-content .mms-section{padding:38px 0 6px;scroll-margin-top:84px}
+#lesson-content .mms-step{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lesson-mms-teal);margin:0 0 6px}
+#lesson-content a{color:var(--lesson-mms-teal)}
+#lesson-content a:focus-visible, #lesson-content button:focus-visible, #lesson-content input:focus-visible, #lesson-content [tabindex="0"]:focus-visible{outline:3px solid var(--lesson-mms-focus);outline-offset:2px}
+#lesson-content .mms-muted{color:var(--lesson-mms-text-2)}
+#lesson-content code{font-size:.92em;background:var(--lesson-mms-surface-2);color:var(--lesson-mms-text);border-radius:5px;padding:1px 5px}
+#lesson-content .mms-toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+#lesson-content .mms-toc a{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid var(--lesson-mms-border);background:var(--lesson-mms-surface);color:var(--lesson-mms-text);text-decoration:none;font-size:14.5px;font-weight:600;min-height:24px}
+#lesson-content .mms-toc a:hover{border-color:var(--lesson-mms-teal);color:var(--lesson-mms-teal)}
+#lesson-content .mms-callout{border-radius:12px;padding:14px 16px;margin:18px 0;border-left:5px solid var(--lesson-mms-teal);background:var(--lesson-mms-teal-bg);color:var(--lesson-mms-text)}
+#lesson-content .mms-callout p{margin:0}
+#lesson-content .mms-note-p{font-size:15px;color:var(--lesson-mms-text-2)}
+
+/* poster-style infographics: a dark panel with bold colour blocks, the same in both themes */
+#lesson-content .mms-poster{background:var(--lesson-mms-poster-bg);color:var(--lesson-mms-poster-text);border:1px solid var(--lesson-mms-poster-line);border-radius:18px;padding:18px 18px 20px;margin:22px 0 6px}
+#lesson-content .mms-poster-title{font-family:'Work Sans',Arial,sans-serif;font-size:15px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--lesson-mms-poster-text);margin:0 0 14px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;line-height:1.3}
+#lesson-content .mms-poster-title span{font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:none;color:var(--lesson-mms-poster-text-2)}
+#lesson-content .mms-duo{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,4fr);gap:10px}
+#lesson-content .mms-half{border-radius:14px;padding:16px;color:#ffffff;min-width:0}
+#lesson-content .mms-half.is-center{background:#0f6b78}
+#lesson-content .mms-half.is-spread{background:#2d5b8a}
+#lesson-content .mms-big{font-family:'Source Serif 4',Georgia,serif;font-size:clamp(40px,7vw,58px);font-weight:700;line-height:1;margin:0;color:#ffffff;letter-spacing:-.01em}
+#lesson-content .mms-half-q{font-size:15.5px;font-weight:600;margin:6px 0 14px;color:#ffffff}
+#lesson-content .mms-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px;margin:0;padding:0;list-style:none}
+#lesson-content .mms-tiles li{display:flex;flex-direction:column;gap:2px;background:rgba(0,0,0,.24);border-radius:10px;padding:10px 12px;color:#ffffff}
+#lesson-content .mms-sym{font-family:'Source Serif 4',Georgia,serif;font-size:30px;font-weight:700;line-height:1.1;color:#ffffff;min-height:36px}
+#lesson-content .mms-tile-name{font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#ffffff}
+#lesson-content .mms-tile-do{font-size:14px;line-height:1.35;color:#ffffff}
+#lesson-content .mms-warn-poster .mms-poster-title{font-size:15px}
+#lesson-content .mms-mistakes{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:0;padding:0;list-style:none}
+#lesson-content .mms-mistakes li{display:flex;flex-direction:column;gap:6px;background:rgba(255,255,255,.06);border:1px solid var(--lesson-mms-poster-line);border-radius:12px;padding:14px;font-size:15px;line-height:1.45;color:var(--lesson-mms-poster-text)}
+#lesson-content .mms-mistakes strong{font-size:17px;color:var(--lesson-mms-poster-text)}
+#lesson-content .mms-mistakes li > span:last-child{color:var(--lesson-mms-poster-text-2)}
+#lesson-content .mms-x{display:grid;place-items:center;width:38px;height:38px;border-radius:999px;background:#b42318;color:#ffffff;font-weight:800;font-size:18px}
+
+/* concept cards with a giant symbol badge */
+#lesson-content .mms-cards{display:grid;gap:12px;margin:18px 0}
+#lesson-content .mms-cards.is-three{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+#lesson-content .mms-cards.is-four{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+#lesson-content .mms-card{background:var(--lesson-mms-surface);color:var(--lesson-mms-text);border:1px solid var(--lesson-mms-border);border-top:6px solid var(--lesson-mms-control);border-radius:14px;padding:16px;box-shadow:var(--lesson-mms-shadow);display:flex;flex-direction:column;gap:6px;min-width:0}
+#lesson-content .mms-card.is-mean{border-top-color:var(--lesson-mms-mean)}
+#lesson-content .mms-card.is-median{border-top-color:var(--lesson-mms-median)}
+#lesson-content .mms-card.is-mode{border-top-color:var(--lesson-mms-mode)}
+#lesson-content .mms-card h3{margin:2px 0 0;font-size:18px}
+#lesson-content .mms-card p{margin:0;font-size:15.5px;line-height:1.55}
+#lesson-content .mms-badge{display:grid;place-items:center;width:52px;height:52px;border-radius:12px;background:var(--lesson-mms-surface-2);color:var(--lesson-mms-text);font-family:'Source Serif 4',Georgia,serif;font-size:24px;font-weight:700}
+#lesson-content .mms-card.is-mean .mms-badge{background:var(--lesson-mms-mean-bg)}
+#lesson-content .mms-card.is-median .mms-badge{background:var(--lesson-mms-median-bg)}
+#lesson-content .mms-card.is-mode .mms-badge{background:var(--lesson-mms-mode-bg)}
+#lesson-content .mms-math{color:var(--lesson-mms-text);overflow-x:auto;max-width:100%}
+#lesson-content .mms-card .mms-math{background:var(--lesson-mms-surface-2);border-radius:8px;padding:2px 8px}
+#lesson-content .mms-where{font-size:14.5px;color:var(--lesson-mms-text-2)}
+#lesson-content .mms-card p.mms-where{font-size:14.5px;color:var(--lesson-mms-text-2)}
+#lesson-content .mms-fn{margin-top:auto}
+
+/* charts: every colour is a lesson token, so they follow light and dark mode */
+#lesson-content .mms-figure{margin:18px 0 0;background:var(--lesson-mms-surface);color:var(--lesson-mms-text);border:1px solid var(--lesson-mms-border);border-radius:14px;padding:14px}
+#lesson-content .mms-figure.is-wide{box-shadow:var(--lesson-mms-shadow)}
+#lesson-content .mms-figure svg{display:block;width:100%;height:auto;max-width:680px;margin:0 auto}
+#lesson-content .mms-figure figcaption{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font-size:14.5px;line-height:1.5;color:var(--lesson-mms-text-2);margin-top:8px}
+#lesson-content .mms-key{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--lesson-mms-text)}
+#lesson-content .mms-swatch{display:inline-block;width:22px;height:0;border-top:3px solid var(--lesson-mms-mean)}
+#lesson-content .mms-swatch.is-median{border-top:3px dashed var(--lesson-mms-median)}
+#lesson-content .mms-swatch.is-band{height:12px;border:1px solid var(--lesson-mms-green);background:var(--lesson-mms-band)}
+#lesson-content .mms-swatch.is-box{height:12px;border:2px solid var(--lesson-mms-mean);background:var(--lesson-mms-mean-bg)}
+#lesson-content .mms-swatch.is-limit{border-top:3px dashed var(--lesson-mms-red)}
+#lesson-content .mms-sq{display:inline-block;width:10px;height:10px;background:var(--lesson-mms-red)}
+#lesson-content .mms-ring-key{display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid var(--lesson-mms-text)}
+#lesson-content .mms-svg text{font-family:'Work Sans',Arial,sans-serif;font-size:10.5px;fill:var(--lesson-mms-text)}
+#lesson-content .mms-svg .mms-tick{font-size:10px;fill:var(--lesson-mms-text-2)}
+#lesson-content .mms-svg .mms-note{font-weight:700;fill:var(--lesson-mms-text)}
+#lesson-content .mms-svg .mms-row-l{font-weight:700;font-size:11px}
+#lesson-content .mms-svg .mms-ax{stroke:var(--lesson-mms-text-2);stroke-width:1}
+#lesson-content .mms-svg .mms-grid{stroke:var(--lesson-mms-border);stroke-width:1}
+#lesson-content .mms-svg .mms-band{fill:var(--lesson-mms-band)}
+#lesson-content .mms-svg .mms-limit{stroke:var(--lesson-mms-red);stroke-width:1.5;stroke-dasharray:5 4}
+#lesson-content .mms-svg .mms-mean{stroke:var(--lesson-mms-mean);stroke-width:2.5}
+#lesson-content .mms-svg .mms-median{stroke:var(--lesson-mms-median);stroke-width:2;stroke-dasharray:6 4}
+#lesson-content .mms-svg .mms-mode{stroke:var(--lesson-mms-mode);stroke-width:2.5;stroke-dasharray:2 4}
+#lesson-content .mms-svg .mms-dot{fill:var(--lesson-mms-control)}
+#lesson-content .mms-svg .mms-dot.is-bad{fill:var(--lesson-mms-red)}
+#lesson-content .mms-svg .mms-ring{fill:var(--lesson-mms-surface);stroke:var(--lesson-mms-text);stroke-width:2}
+#lesson-content .mms-svg .mms-arrow{stroke:var(--lesson-mms-text-2);stroke-width:1.25}
+#lesson-content .mms-svg .mms-arrowhead{fill:var(--lesson-mms-text-2)}
+#lesson-content .mms-svg .mms-curve{fill:var(--lesson-mms-curve);stroke:var(--lesson-mms-text-2);stroke-width:1.25}
+#lesson-content .mms-svg .mms-bar{fill:var(--lesson-mms-control)}
+#lesson-content .mms-svg .mms-bar.is-top{fill:var(--lesson-mms-median)}
+#lesson-content .mms-svg .mms-box{fill:var(--lesson-mms-mean-bg);stroke:var(--lesson-mms-mean);stroke-width:2}
+#lesson-content .mms-svg .mms-whisk{fill:none;stroke:var(--lesson-mms-text-2);stroke-width:1.5}
+
+/* the drag-the-outlier lab */
+#lesson-content .mms-lab{background:var(--lesson-mms-surface);color:var(--lesson-mms-text);border:1px solid var(--lesson-mms-border);border-radius:16px;padding:18px;margin:16px 0;box-shadow:var(--lesson-mms-shadow);display:flex;flex-direction:column;gap:12px}
+#lesson-content .mms-lab-badge{align-self:flex-start;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--lesson-mms-teal);color:var(--lesson-mms-on-accent);border-radius:999px;padding:3px 9px}
+#lesson-content .mms-slider{display:flex;flex-direction:column;gap:6px}
+#lesson-content .mms-slider label{font-weight:700;font-size:16px;color:var(--lesson-mms-text)}
+#lesson-content .mms-slider output{font-variant-numeric:tabular-nums;color:var(--lesson-mms-median)}
+#lesson-content .mms-slider input[type="range"]{width:100%;min-height:44px;accent-color:var(--lesson-mms-median)}
+#lesson-content .mms-plot{background:var(--lesson-mms-page);border-radius:12px;padding:8px}
+#lesson-content .mms-plot svg{display:block;width:100%;height:auto;max-width:680px;margin:0 auto}
+#lesson-content .mms-reads{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:0}
+#lesson-content .mms-reads > div{border:1px solid var(--lesson-mms-border);border-radius:10px;padding:8px 12px;background:var(--lesson-mms-surface);color:var(--lesson-mms-text)}
+#lesson-content .mms-reads > div.is-mean{border-top:4px solid var(--lesson-mms-mean)}
+#lesson-content .mms-reads > div.is-median{border-top:4px solid var(--lesson-mms-median)}
+#lesson-content .mms-reads dt{font-size:13px;font-weight:600;color:var(--lesson-mms-text-2)}
+#lesson-content .mms-reads dd{margin:0;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--lesson-mms-text)}
+#lesson-content .mms-verdict{margin:0;padding:12px 14px;border-radius:10px;border-left:5px solid var(--lesson-mms-median);background:var(--lesson-mms-median-bg);color:var(--lesson-mms-text);font-weight:600}
+#lesson-content .mms-lab-foot{display:flex;flex-wrap:wrap;gap:12px}
+#lesson-content .mms-btn{font:inherit;font-size:15px;font-weight:600;border-radius:10px;padding:10px 16px;min-height:44px;cursor:pointer;border:1px solid var(--lesson-mms-teal);background:var(--lesson-mms-surface);color:var(--lesson-mms-teal)}
+
+/* decision flowchart: question on the left, the way out on the right */
+#lesson-content .mms-flow{list-style:none;margin:20px 0;padding:0}
+#lesson-content .mms-flow-step{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:28px;row-gap:6px;align-items:center;margin-bottom:10px}
+#lesson-content .mms-flow-next{grid-column:1;justify-self:center;margin:0;font-weight:700;font-size:15px;color:var(--lesson-mms-teal)}
+#lesson-content .mms-flow-q{margin:0;padding:14px 16px;border:2px solid var(--lesson-mms-mean);border-radius:12px;background:var(--lesson-mms-surface);color:var(--lesson-mms-text);font-weight:700;font-size:16.5px;line-height:1.4;position:relative}
+#lesson-content .mms-flow-q::after{content:"\2192";position:absolute;right:-22px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--lesson-mms-median)}
+#lesson-content .mms-flow-out{margin:0;padding:12px 14px;border-left:5px solid var(--lesson-mms-median);border-radius:10px;background:var(--lesson-mms-median-bg);color:var(--lesson-mms-text);font-size:15.5px;line-height:1.45}
+#lesson-content .mms-flow-tag{display:inline-block;margin-right:8px;padding:2px 9px;border-radius:999px;font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--lesson-mms-mean);color:var(--lesson-mms-on-accent)}
+#lesson-content .mms-flow-tag.is-go{background:var(--lesson-mms-green)}
+#lesson-content .mms-flow-end{display:flex;flex-wrap:wrap;align-items:center;gap:6px;width:calc(50% - 14px);padding:14px 16px;border:2px solid var(--lesson-mms-green);border-radius:12px;background:var(--lesson-mms-green-bg);color:var(--lesson-mms-text);font-size:17px}
+
+/* tables and exam tips */
+#lesson-content .table-scroll{margin:12px 0;border:1px solid var(--lesson-mms-border);border-radius:12px;background:var(--lesson-mms-surface)}
+#lesson-content .mms-table{width:100%;border-collapse:collapse;font-size:15px;color:var(--lesson-mms-text);background:var(--lesson-mms-surface)}
+#lesson-content .mms-table th, #lesson-content .mms-table td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--lesson-mms-border);vertical-align:top;color:var(--lesson-mms-text)}
+#lesson-content .mms-table thead th{background:var(--lesson-mms-surface-2);font-size:13.5px;font-weight:700}
+#lesson-content .mms-table code{white-space:nowrap}
+#lesson-content .mms-table tr.is-total th, #lesson-content .mms-table tr.is-total td{font-weight:700;background:var(--lesson-mms-surface-2)}
+#lesson-content .mms-tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;padding:0;list-style:none}
+#lesson-content .mms-tips li{display:flex;flex-direction:column;gap:4px;background:var(--lesson-mms-surface);color:var(--lesson-mms-text);border:1px solid var(--lesson-mms-border);border-left:5px solid var(--lesson-mms-teal);border-radius:10px;padding:12px 14px;font-size:15px;line-height:1.5}
+#lesson-content .mms-tips strong{font-size:15.5px;color:var(--lesson-mms-text)}
+
+/* related lessons sit in the same page column as everything else */
+#lesson-content .related-lessons{max-width:900px;margin-left:auto !important;margin-right:auto !important;padding-left:20px;padding-right:20px}
+#lesson-content .related-lessons h2{font-size:24px}
+
+@media (max-width:760px){
+  #lesson-content .mms-duo{grid-template-columns:1fr}
+  #lesson-content .mms-flow-step{grid-template-columns:1fr;row-gap:8px}
+  #lesson-content .mms-flow-q::after{content:none}
+  #lesson-content .mms-flow-next{justify-self:start;padding-left:14px}
+  #lesson-content .mms-flow-end{width:auto}
+}
+@media (max-width:640px){
+  #lesson-content .mms-hero{padding:28px 0 22px}
+  /* phones: give charts the full card width and larger text so labels stay readable (about 10px or more) */
+  #lesson-content .mms-figure{padding:8px}
+  #lesson-content .mms-plot{padding:4px}
+  #lesson-content .mms-svg text{font-size:11.5px}
+  #lesson-content .mms-svg .mms-tick{font-size:11px}
+  #lesson-content .mms-svg .mms-row-l{font-size:12px}
+}
+</style>
+<style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+</head>
+<body data-lesson-page="true" data-category="statistics" data-level="beginner" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img class="logo-wordmark" src="/assets/logo-wordmark.png" data-logo-light="/assets/logo-wordmark.png" data-logo-dark="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></a>
+  <nav data-nav-root="desktop" class="desktop-nav" aria-label="Main"><div class="nav-item" data-nav-item="start"><a class="nav-tab-link" data-nav-tab="start" href="/start-here">Start Here</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-start" aria-label="Show Start Here menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-start" hidden><div class="nav-panel-head"><span>Learning paths</span></div><div class="nav-rows"><a class="nav-row" href="/start-here#quality-improvement-basics"><span class="nav-name">Quality Improvement Basics</span></a><a class="nav-row" href="/start-here#data-analysis-basics"><span class="nav-name">Data Analysis Basics</span></a><a class="nav-row" href="/start-here#lean-six-sigma-tools"><span class="nav-name">Lean Six Sigma Tools</span></a><a class="nav-row" href="/start-here#excel-and-power-bi-skills"><span class="nav-name">Excel and Power BI Skills</span></a><a class="nav-row" href="/start-here#statistics-for-decision-making"><span class="nav-name">Statistics for Decision-Making</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/start-here">See all learning paths →</a></div></div></div><div class="nav-item" data-nav-item="lessons"><a class="nav-tab-link" data-nav-tab="lessons" href="/lessons" aria-current="page">Lessons</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-lessons" aria-label="Show Lessons menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-lessons" hidden><div class="nav-panel-head"><span>Lesson library</span><span data-nav-total hidden></span></div><div class="nav-rows"><a class="nav-row" href="/lessons#data-analytics"><span class="nav-name">Data Analytics</span><span class="nav-count" data-nav-count="data-analytics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#quality-engineering"><span class="nav-name">Quality Engineering</span><span class="nav-count" data-nav-count="quality-engineering" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#lean-six-sigma"><span class="nav-name">Lean Six Sigma</span><span class="nav-count" data-nav-count="lean-six-sigma" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#statistics"><span class="nav-name">Statistics</span><span class="nav-count" data-nav-count="statistics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#power-bi-excel-sql"><span class="nav-name">Power BI, Excel &amp; SQL</span><span class="nav-count" data-nav-count="power-bi-excel-sql" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#project-management"><span class="nav-name">Project Management</span><span class="nav-count" data-nav-count="project-management" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#business-decision-making"><span class="nav-name">Business Decision-Making</span><span class="nav-count" data-nav-count="business-decision-making" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#ai-for-work"><span class="nav-name">AI for Work</span><span class="nav-count" data-nav-count="ai-for-work" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/lessons" data-nav-total-link>View all lessons →</a><a class="nav-foot-secondary" href="/request-topic">Request a topic</a></div></div></div><div class="nav-item nav-item-wide" data-nav-item="exam"><a class="nav-tab-link" data-nav-tab="exam" href="/exam-practice">Exam Practice</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-exam" aria-label="Show Exam Practice menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-exam" hidden><div class="nav-panel-head"><span>Certifications</span></div><div class="nav-rows"><a class="nav-row nav-exam" href="/exam-practice#exam-cssbb"><span class="nav-acronym">CSSBB</span><span class="nav-name">Six Sigma Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqe"><span class="nav-acronym">CQE</span><span class="nav-name">Quality Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-mbb"><span class="nav-acronym">CMBB</span><span class="nav-name">Six Sigma Master Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cssgb"><span class="nav-acronym">CSSGB</span><span class="nav-name">Six Sigma Green Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cmq"><span class="nav-acronym">CMQ/OE</span><span class="nav-name">Manager of Quality / Org. Excellence</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cre"><span class="nav-acronym">CRE</span><span class="nav-name">Reliability Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-pmp"><span class="nav-acronym">PMP</span><span class="nav-name">Project Management Professional</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-nppe"><span class="nav-acronym">NPPE</span><span class="nav-name">National Professional Practice Exam</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqa"><span class="nav-acronym">CQA</span><span class="nav-name">Quality Auditor</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/exam-practice">All exams →</a><a class="nav-foot-secondary" href="/exam-practice#my-exams">My exams</a></div></div></div><div class="nav-item" data-nav-item="tools"><a class="nav-tab-link" data-nav-tab="tools" href="/engineering-tools">Engineering Tools</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-tools" aria-label="Show Engineering Tools menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-tools" hidden><div class="nav-panel-head"><span>Tools</span></div><div class="nav-rows"><a class="nav-row" href="/tools/engineering-statistics-calculator"><span class="nav-name">Engineering &amp; Statistics Calculator</span></a><a class="nav-row" href="/tools/unit-converter"><span class="nav-name">Unit Converter</span></a><a class="nav-row" href="/engineering-tools/grade-specification-lookup/"><span class="nav-name">Material Specification Lookup</span></a><a class="nav-row" href="/tools/material-specification-compliance-checker"><span class="nav-name">Material Specification Compliance Checker</span></a><a class="nav-row" href="/tools/steel-phase-explorer"><span class="nav-name">Steel Phase &amp; Transformation Explorer</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/engineering-tools">All tools →</a><a class="nav-foot-secondary" href="/engineering-tools#suggest-a-tool">Suggest a tool</a></div></div></div><div class="nav-item nav-item-wide" data-nav-item="services"><a class="nav-tab-link" data-nav-tab="services" href="/services">Services</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-services" aria-label="Show Services menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-services" hidden><div class="nav-panel-head"><span>Services</span></div><div class="nav-rows"><a class="nav-row nav-rich" href="/services#corporate-training"><span class="nav-name">Corporate Training</span><span class="nav-desc">Team workshops on Lean Six Sigma and quality tools</span></a><a class="nav-row nav-rich" href="/services#one-on-one-coaching"><span class="nav-name">One-on-One Coaching</span><span class="nav-desc">Excel, Power BI, Minitab, statistics</span></a><a class="nav-row nav-rich" href="/services#consulting-support"><span class="nav-name">Consulting Support</span><span class="nav-desc">Root cause analysis, KPIs, quality investigations</span></a><a class="nav-row nav-rich" href="/services#custom-lessons"><span class="nav-name">Custom Lessons</span><span class="nav-desc">Training built around your team's needs</span></a><a class="nav-row nav-rich" href="/services#data-dashboard-support"><span class="nav-name">Data &amp; Dashboard Support</span><span class="nav-desc">Excel, Power BI and SQL help</span></a></div><div class="nav-foot nav-foot-solo"><a class="nav-book" href="/contact">Book a consultation</a></div></div></div><div class="nav-item" data-nav-item="about"><a class="nav-tab-link" data-nav-tab="about" href="/about">About</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-about" aria-label="Show About menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-about" hidden><div class="nav-panel-head"><span>About</span></div><div class="nav-rows"><a class="nav-row nav-rich" href="/about"><span class="nav-name">About UpSkill Sprint</span><span class="nav-desc">Who builds the lessons and why</span></a><a class="nav-row nav-rich" href="/faq"><span class="nav-name">FAQ</span><span class="nav-desc">Free lessons, accounts, exams</span></a><a class="nav-row nav-rich" href="/request-topic"><span class="nav-name">Request a Topic</span><span class="nav-desc">Tell us the lesson you need</span></a><a class="nav-row nav-rich" href="/contact"><span class="nav-name">Contact</span><span class="nav-desc">Questions and partnerships</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a></div></div></div></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<nav class="mobile-nav" data-nav-root="mobile" aria-label="Main"><div class="nav-acc" data-nav-acc="start"><div class="nav-acc-head"><span class="nav-badge" data-badge="start" aria-hidden="true"><svg width="22" height="22" focusable="false"><use href="/assets/nav-icons.svg#nav-i-start"></use></svg></span><button type="button" class="nav-acc-btn" data-nav-tab="start" aria-expanded="false" aria-controls="nav-m-start" aria-describedby="nav-s-start">Start Here</button><span class="nav-acc-sub" id="nav-s-start">Pick a learning path</span><span class="nav-acc-meta">5 paths</span><span class="nav-acc-chev" aria-hidden="true"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></div><div class="nav-acc-panel" id="nav-m-start" data-layout="steps" hidden><a class="nav-row" href="/start-here#quality-improvement-basics"><span class="nav-name">Quality Improvement Basics</span></a><a class="nav-row" href="/start-here#data-analysis-basics"><span class="nav-name">Data Analysis Basics</span></a><a class="nav-row" href="/start-here#lean-six-sigma-tools"><span class="nav-name">Lean Six Sigma Tools</span></a><a class="nav-row" href="/start-here#excel-and-power-bi-skills"><span class="nav-name">Excel and Power BI Skills</span></a><a class="nav-row" href="/start-here#statistics-for-decision-making"><span class="nav-name">Statistics for Decision-Making</span></a><div class="nav-acc-foot"><a class="nav-foot-primary nav-acc-all" href="/start-here">See all learning paths →</a></div></div></div><div class="nav-acc" data-nav-acc="lessons"><div class="nav-acc-head"><span class="nav-badge" data-badge="lessons" aria-hidden="true"><svg width="22" height="22" focusable="false"><use href="/assets/nav-icons.svg#nav-i-lessons"></use></svg></span><button type="button" class="nav-acc-btn" data-nav-tab="lessons" aria-current="page" aria-expanded="false" aria-controls="nav-m-lessons" aria-describedby="nav-s-lessons">Lessons</button><span class="nav-acc-sub" id="nav-s-lessons">Free and practical</span><span class="nav-acc-meta" data-nav-total-meta>8 topics</span><span class="nav-acc-chev" aria-hidden="true"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></div><div class="nav-acc-panel" id="nav-m-lessons" data-layout="tiles" hidden><a class="nav-row" href="/lessons#data-analytics"><span class="nav-name">Data Analytics</span><span class="nav-count" data-nav-count="data-analytics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#quality-engineering"><span class="nav-name">Quality Engineering</span><span class="nav-count" data-nav-count="quality-engineering" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#lean-six-sigma"><span class="nav-name">Lean Six Sigma</span><span class="nav-count" data-nav-count="lean-six-sigma" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#statistics"><span class="nav-name">Statistics</span><span class="nav-count" data-nav-count="statistics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#power-bi-excel-sql"><span class="nav-name">Power BI, Excel &amp; SQL</span><span class="nav-count" data-nav-count="power-bi-excel-sql" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#project-management"><span class="nav-name">Project Management</span><span class="nav-count" data-nav-count="project-management" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#business-decision-making"><span class="nav-name">Business Decision-Making</span><span class="nav-count" data-nav-count="business-decision-making" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#ai-for-work"><span class="nav-name">AI for Work</span><span class="nav-count" data-nav-count="ai-for-work" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><div class="nav-acc-foot"><a class="nav-foot-primary nav-acc-all" href="/lessons" data-nav-total-link>View all lessons →</a><a class="nav-foot-secondary" href="/request-topic">Request a topic</a></div></div></div><div class="nav-acc" data-nav-acc="exam"><div class="nav-acc-head"><span class="nav-badge" data-badge="exam" aria-hidden="true"><svg width="22" height="22" focusable="false"><use href="/assets/nav-icons.svg#nav-i-exam"></use></svg></span><button type="button" class="nav-acc-btn" data-nav-tab="exam" aria-expanded="false" aria-controls="nav-m-exam" aria-describedby="nav-s-exam">Exam Practice</button><span class="nav-acc-sub" id="nav-s-exam">CSSBB, CQE and more</span><span class="nav-acc-meta">9 exams</span><span class="nav-acc-chev" aria-hidden="true"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></div><div class="nav-acc-panel" id="nav-m-exam" data-layout="tiles" hidden><a class="nav-row nav-exam" href="/exam-practice#exam-cssbb"><span class="nav-acronym">CSSBB</span><span class="nav-name">Six Sigma Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqe"><span class="nav-acronym">CQE</span><span class="nav-name">Quality Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-mbb"><span class="nav-acronym">CMBB</span><span class="nav-name">Six Sigma Master Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cssgb"><span class="nav-acronym">CSSGB</span><span class="nav-name">Six Sigma Green Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cmq"><span class="nav-acronym">CMQ/OE</span><span class="nav-name">Manager of Quality / Org. Excellence</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cre"><span class="nav-acronym">CRE</span><span class="nav-name">Reliability Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-pmp"><span class="nav-acronym">PMP</span><span class="nav-name">Project Management Professional</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-nppe"><span class="nav-acronym">NPPE</span><span class="nav-name">National Professional Practice Exam</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqa"><span class="nav-acronym">CQA</span><span class="nav-name">Quality Auditor</span></a><div class="nav-acc-foot"><a class="nav-foot-primary nav-acc-all" href="/exam-practice">All exams →</a><a class="nav-foot-secondary" href="/exam-practice#my-exams">My exams</a></div></div></div><div class="nav-acc" data-nav-acc="tools"><div class="nav-acc-head"><span class="nav-badge" data-badge="tools" aria-hidden="true"><svg width="22" height="22" focusable="false"><use href="/assets/nav-icons.svg#nav-i-tools"></use></svg></span><button type="button" class="nav-acc-btn" data-nav-tab="tools" aria-expanded="false" aria-controls="nav-m-tools" aria-describedby="nav-s-tools">Engineering Tools</button><span class="nav-acc-sub" id="nav-s-tools">Calculators and lookups</span><span class="nav-acc-meta">5 tools</span><span class="nav-acc-chev" aria-hidden="true"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></div><div class="nav-acc-panel" id="nav-m-tools" data-layout="list" hidden><a class="nav-row" href="/tools/engineering-statistics-calculator"><span class="nav-name">Engineering &amp; Statistics Calculator</span></a><a class="nav-row" href="/tools/unit-converter"><span class="nav-name">Unit Converter</span></a><a class="nav-row" href="/engineering-tools/grade-specification-lookup/"><span class="nav-name">Material Specification Lookup</span></a><a class="nav-row" href="/tools/material-specification-compliance-checker"><span class="nav-name">Material Specification Compliance Checker</span></a><a class="nav-row" href="/tools/steel-phase-explorer"><span class="nav-name">Steel Phase &amp; Transformation Explorer</span></a><div class="nav-acc-foot"><a class="nav-foot-primary nav-acc-all" href="/engineering-tools">All tools →</a><a class="nav-foot-secondary" href="/engineering-tools#suggest-a-tool">Suggest a tool</a></div></div></div><div class="nav-acc" data-nav-acc="services"><div class="nav-acc-head"><span class="nav-badge" data-badge="services" aria-hidden="true"><svg width="22" height="22" focusable="false"><use href="/assets/nav-icons.svg#nav-i-services"></use></svg></span><button type="button" class="nav-acc-btn" data-nav-tab="services" aria-expanded="false" aria-controls="nav-m-services" aria-describedby="nav-s-services">Services</button><span class="nav-acc-sub" id="nav-s-services">Training, coaching, consulting</span><span class="nav-acc-chev" aria-hidden="true"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></div><div class="nav-acc-panel" id="nav-m-services" data-layout="list" hidden><a class="nav-row nav-rich" href="/services#corporate-training"><span class="nav-name">Corporate Training</span><span class="nav-desc">Team workshops on Lean Six Sigma and quality tools</span></a><a class="nav-row nav-rich" href="/services#one-on-one-coaching"><span class="nav-name">One-on-One Coaching</span><span class="nav-desc">Excel, Power BI, Minitab, statistics</span></a><a class="nav-row nav-rich" href="/services#consulting-support"><span class="nav-name">Consulting Support</span><span class="nav-desc">Root cause analysis, KPIs, quality investigations</span></a><a class="nav-row nav-rich" href="/services#custom-lessons"><span class="nav-name">Custom Lessons</span><span class="nav-desc">Training built around your team's needs</span></a><a class="nav-row nav-rich" href="/services#data-dashboard-support"><span class="nav-name">Data &amp; Dashboard Support</span><span class="nav-desc">Excel, Power BI and SQL help</span></a><div class="nav-acc-foot"><a class="nav-book nav-acc-all" href="/contact">Book a consultation</a></div></div></div><div class="nav-acc" data-nav-acc="about"><div class="nav-acc-head"><span class="nav-badge" data-badge="about" aria-hidden="true"><svg width="22" height="22" focusable="false"><use href="/assets/nav-icons.svg#nav-i-about"></use></svg></span><button type="button" class="nav-acc-btn" data-nav-tab="about" aria-expanded="false" aria-controls="nav-m-about" aria-describedby="nav-s-about">About</button><span class="nav-acc-sub" id="nav-s-about">FAQ, contact, request a topic</span><span class="nav-acc-chev" aria-hidden="true"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span></div><div class="nav-acc-panel" id="nav-m-about" data-layout="list" hidden><a class="nav-row nav-rich" href="/about"><span class="nav-name">About UpSkill Sprint</span><span class="nav-desc">Who builds the lessons and why</span></a><a class="nav-row nav-rich" href="/faq"><span class="nav-name">FAQ</span><span class="nav-desc">Free lessons, accounts, exams</span></a><a class="nav-row nav-rich" href="/request-topic"><span class="nav-name">Request a Topic</span><span class="nav-desc">Tell us the lesson you need</span></a><a class="nav-row nav-rich" href="/contact"><span class="nav-name">Contact</span><span class="nav-desc">Questions and partnerships</span></a><div class="nav-acc-foot"><a class="nav-foot-primary nav-acc-all" href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a></div></div></div><div class="nav-poster" data-nav-poster data-contrast-ignore><p class="nav-poster-kicker">New here?</p><p class="nav-poster-title">Learn one skill in 10 minutes</p><ol class="nav-poster-steps"><li>Pick a topic</li><li>Read &amp; try</li><li>Quiz</li></ol><a class="nav-poster-cta" href="/lessons">Start a free lesson</a></div></nav>
+<main id="lesson-content">
+
+<section class="mms-hero" aria-labelledby="mms-title">
+  <div class="mms-wrap">
+    <ul class="mms-kicker" aria-label="Lesson details">
+      <li>Statistics</li><li>Beginner</li><li>15 min</li><li>Interactive</li>
+    </ul>
+    <h1 id="mms-title">Mean, Median, Mode and Spread in 15 Minutes</h1>
+    <p class="mms-lede">The <strong>mean, median and mode</strong> tell you where your data sits. <strong>Spread</strong> tells you how far it wanders. Every dataset needs one of each.</p>
+    <div class="mms-poster" id="mms-poster">
+      <p class="mms-poster-title">Two numbers describe any dataset <span>Report one of each, every time</span></p>
+      <div class="mms-duo">
+        <div class="mms-half is-center">
+          <p class="mms-big">Center</p>
+          <p class="mms-half-q">Where is the typical value?</p>
+          <ul class="mms-tiles">
+            <li><span class="mms-sym">\(\bar{x}\)</span><span class="mms-tile-name">Mean</span><span class="mms-tile-do">Balance point</span></li>
+            <li><span class="mms-sym">\(\tilde{x}\)</span><span class="mms-tile-name">Median</span><span class="mms-tile-do">Middle value</span></li>
+            <li><span class="mms-sym" aria-hidden="true">Mo</span><span class="mms-tile-name">Mode</span><span class="mms-tile-do">Most common</span></li>
+          </ul>
+        </div>
+        <div class="mms-half is-spread">
+          <p class="mms-big">Spread</p>
+          <p class="mms-half-q">How far do values wander?</p>
+          <ul class="mms-tiles">
+            <li><span class="mms-sym">\(R\)</span><span class="mms-tile-name">Range</span><span class="mms-tile-do">Largest minus smallest</span></li>
+            <li><span class="mms-sym">\(s\)</span><span class="mms-tile-name">Std dev</span><span class="mms-tile-do">Typical distance</span></li>
+            <li><span class="mms-sym" aria-hidden="true">IQR</span><span class="mms-tile-name">IQR</span><span class="mms-tile-do">Middle 50%</span></li>
+            <li><span class="mms-sym" aria-hidden="true">CV</span><span class="mms-tile-name">CV</span><span class="mms-tile-do">Spread per unit of mean</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <nav aria-label="Lesson sections">
+      <ul class="mms-toc">
+        <li><a href="#mms-why">Why both</a></li>
+        <li><a href="#mms-center">Center</a></li>
+        <li><a href="#mms-lab">Drag the outlier</a></li>
+        <li><a href="#mms-choose">Which to report</a></li>
+        <li><a href="#mms-spread">Spread</a></li>
+        <li><a href="#mms-implementation">Excel and Minitab</a></li>
+        <li><a href="#quiz">Quiz</a></li>
+      </ul>
+    </nav>
+  </div>
+</section>
+
+<section class="mms-section" id="mms-why" aria-labelledby="mms-why-h">
+  <div class="mms-wrap">
+    <span class="mms-step">The big idea</span>
+    <h2 id="mms-why-h">Why the average alone can fool you</h2>
+    <p>Two pipe lines both average 10.0 mm wall thickness. The spec is 9.5 to 10.5 mm. Only one line ships good pipe. <span class="mms-muted">(A made-up example.)</span></p>
+    <figure class="mms-figure is-wide">
+      <svg class="mms-svg" viewBox="0 0 360 202" role="img" aria-labelledby="mms-why-t mms-why-d" data-line-a="9.9,9.95,10,10,10.05,10.1" data-line-b="9,9.5,9.8,10.2,10.5,11" data-spec="9.5,10.5">
+<title id="mms-why-t">Same mean, different spread</title>
+<desc id="mms-why-d">Wall thickness of six pipes from each line. Both lines average 10.0 mm. Line A has a standard deviation of 0.07 mm and every pipe is inside the 9.5 to 10.5 mm spec. Line B has a standard deviation of 0.72 mm and 2 of its 6 pipes are out of spec.</desc>
+<rect class="mms-band" x="156.42" y="40" width="109.17" height="125"/>
+<line class="mms-limit" x1="156.42" y1="40" x2="156.42" y2="165"/>
+<text class="mms-note" x="156.42" y="33" text-anchor="middle">LSL 9.5</text>
+<line class="mms-limit" x1="265.58" y1="40" x2="265.58" y2="165"/>
+<text class="mms-note" x="265.58" y="33" text-anchor="middle">USL 10.5</text>
+<line class="mms-mean" x1="211" y1="40" x2="211" y2="165"/>
+<line class="mms-grid" x1="80" y1="70" x2="342" y2="70"/>
+<text class="mms-row-l" x="4" y="64">Line A</text>
+<circle class="mms-dot" cx="200.08" cy="70" r="3"/>
+<circle class="mms-dot" cx="205.54" cy="70" r="3"/>
+<circle class="mms-dot" cx="211" cy="70" r="3"/>
+<circle class="mms-dot" cx="211" cy="62" r="3"/>
+<circle class="mms-dot" cx="216.46" cy="70" r="3"/>
+<circle class="mms-dot" cx="221.92" cy="70" r="3"/>
+<text class="mms-tick" x="4" y="78">SD 0.07 mm</text>
+<text class="mms-tick" x="4" y="91">0 of 6 out</text>
+<line class="mms-grid" x1="80" y1="135" x2="342" y2="135"/>
+<text class="mms-row-l" x="4" y="129">Line B</text>
+<rect class="mms-dot is-bad" x="97.83" y="131" width="8" height="8"/>
+<circle class="mms-dot" cx="156.42" cy="135" r="3"/>
+<circle class="mms-dot" cx="189.17" cy="135" r="3"/>
+<circle class="mms-dot" cx="232.83" cy="135" r="3"/>
+<circle class="mms-dot" cx="265.58" cy="135" r="3"/>
+<rect class="mms-dot is-bad" x="316.17" y="131" width="8" height="8"/>
+<text class="mms-tick" x="4" y="143">SD 0.72 mm</text>
+<text class="mms-tick" x="4" y="156">2 of 6 out</text>
+<line class="mms-ax" x1="80" y1="165" x2="342" y2="165"/>
+<text class="mms-tick" x="101.83" y="180" text-anchor="middle">9.0</text>
+<text class="mms-tick" x="156.42" y="180" text-anchor="middle">9.5</text>
+<text class="mms-tick" x="211" y="180" text-anchor="middle">10.0</text>
+<text class="mms-tick" x="265.58" y="180" text-anchor="middle">10.5</text>
+<text class="mms-tick" x="320.17" y="180" text-anchor="middle">11.0</text>
+<text class="mms-tick" x="356" y="180" text-anchor="end">mm</text>
+<text class="mms-note" x="211" y="196" text-anchor="middle">Both means 10.0 mm</text>
+</svg>
+      <figcaption><span class="mms-key"><span class="mms-swatch is-mean"></span>Mean</span><span class="mms-key"><span class="mms-swatch is-band"></span>Spec band</span><span class="mms-key"><span class="mms-sq" aria-hidden="true"></span>Square = out of spec</span>Same center, very different spread.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="mms-section" id="mms-center" aria-labelledby="mms-center-h">
+  <div class="mms-wrap">
+    <span class="mms-step">Part 1: center</span>
+    <h2 id="mms-center-h">Mean, median and mode: three ways to find the middle</h2>
+    <p>Seven repair times, in hours: 12, 15, 15, 18, 20, 22, 45. <span class="mms-muted">(A made-up example.)</span></p>
+    <div class="mms-cards is-three">
+      <article class="mms-card is-mean">
+        <span class="mms-badge" aria-hidden="true">\(\bar{x}\)</span>
+        <h3>Mean: the balance point</h3>
+        <p>Add every value, then divide by how many there are.</p>
+        <div class="mms-math">\[ \bar{x} = \frac{\sum x_i}{n} = \frac{147}{7} = 21 \]</div>
+        <p class="mms-where">where \(x_i\) is each value and \(n\) is the number of values.</p>
+        <p class="mms-fn"><code>=AVERAGE()</code></p>
+      </article>
+      <article class="mms-card is-median">
+        <span class="mms-badge" aria-hidden="true">\(\tilde{x}\)</span>
+        <h3>Median: the middle value</h3>
+        <p>Sort the values and take the middle one. With an even count, average the two middle values.</p>
+        <div class="mms-math">\[ \tilde{x} = 18 \]</div>
+        <p class="mms-where">The 4th of 7 sorted values.</p>
+        <p class="mms-fn"><code>=MEDIAN()</code></p>
+      </article>
+      <article class="mms-card is-mode">
+        <span class="mms-badge" aria-hidden="true">Mo</span>
+        <h3>Mode: the most common value</h3>
+        <p>Count which value appears most often. It works for categories too.</p>
+        <div class="mms-math">\[ \text{Mode} = 15 \]</div>
+        <p class="mms-where">15 appears twice; every other value once.</p>
+        <p class="mms-fn"><code>=MODE.SNGL()</code></p>
+      </article>
+    </div>
+    <figure class="mms-figure is-wide">
+      <svg class="mms-svg" viewBox="0 0 360 180" role="img" aria-labelledby="mms-center-t mms-center-d" data-values="12,15,15,18,20,22,45">
+<title id="mms-center-t">Mean, median and mode of seven repair times</title>
+<desc id="mms-center-d">Dot plot of repair times 12, 15, 15, 18, 20, 22 and 45 hours. The mode is 15, the median is 18 and the mean is 21. The single long repair of 45 hours pulls the mean above the median.</desc>
+<defs><marker id="mms-arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="mms-arrowhead" d="M0 0L10 5L0 10z"/></marker></defs>
+<line class="mms-median" x1="102" y1="42" x2="102" y2="150"/>
+<line class="mms-mean" x1="125.25" y1="42" x2="125.25" y2="150"/>
+<text class="mms-note" x="98" y="34" text-anchor="end">Median 18</text>
+<text class="mms-note" x="129.25" y="34">Mean 21</text>
+<circle class="mms-dot" cx="55.5" cy="140" r="5"/>
+<circle class="mms-dot" cx="78.75" cy="140" r="5"/>
+<circle class="mms-dot" cx="78.75" cy="127" r="5"/>
+<circle class="mms-dot" cx="102" cy="140" r="5"/>
+<circle class="mms-dot" cx="117.5" cy="140" r="5"/>
+<circle class="mms-dot" cx="133" cy="140" r="5"/>
+<circle class="mms-ring" cx="311.25" cy="140" r="5"/>
+<text class="mms-note" x="70" y="131" text-anchor="end">Mode 15</text>
+<text class="mms-note" x="311.25" y="124" text-anchor="middle">Outlier 45</text>
+<line class="mms-arrow" x1="296" y1="96" x2="133.25" y2="96" marker-end="url(#mms-arrowhead)"/>
+<text class="mms-tick" x="222" y="88" text-anchor="middle">The outlier drags the mean right</text>
+<line class="mms-ax" x1="40" y1="150" x2="350" y2="150"/>
+<text class="mms-tick" x="40" y="166" text-anchor="middle">10</text>
+<text class="mms-tick" x="78.75" y="166" text-anchor="middle">15</text>
+<text class="mms-tick" x="117.5" y="166" text-anchor="middle">20</text>
+<text class="mms-tick" x="156.25" y="166" text-anchor="middle">25</text>
+<text class="mms-tick" x="195" y="166" text-anchor="middle">30</text>
+<text class="mms-tick" x="233.75" y="166" text-anchor="middle">35</text>
+<text class="mms-tick" x="272.5" y="166" text-anchor="middle">40</text>
+<text class="mms-tick" x="311.25" y="166" text-anchor="middle">45</text>
+<text class="mms-tick" x="356" y="166" text-anchor="end">hours</text>
+</svg>
+      <figcaption><span class="mms-key"><span class="mms-swatch is-mean"></span>Mean</span><span class="mms-key"><span class="mms-swatch is-median"></span>Median</span><span class="mms-key"><span class="mms-ring-key" aria-hidden="true"></span>Hollow = outlier</span>Six of seven repairs took less than the mean of 21 hours.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="mms-section" id="mms-lab" aria-labelledby="mms-lab-h">
+  <div class="mms-wrap">
+    <span class="mms-step">Try it</span>
+    <h2 id="mms-lab-h">Drag the outlier and watch the numbers move</h2>
+    <p>Move the last repair time. Which measures jump, and which hold still?</p>
+    <div class="mms-lab" role="group" aria-labelledby="mms-lab-h" data-base="12,15,15,18,20,22" data-start="45">
+      <span class="mms-lab-badge">Interactive</span>
+      <div class="mms-slider">
+        <label for="mms-wild">Last repair time: <output id="mms-wild-out" for="mms-wild">45</output> hours</label>
+        <input type="range" id="mms-wild" min="0" max="100" step="1" value="45">
+      </div>
+      <div class="mms-plot">
+        <svg class="mms-svg mms-lab-svg" id="mms-lab-svg" viewBox="0 0 360 150" aria-hidden="true" focusable="false"></svg>
+      </div>
+      <dl class="mms-reads">
+        <div class="is-mean"><dt>Mean</dt><dd id="mms-out-mean">21</dd></div>
+        <div class="is-median"><dt>Median</dt><dd id="mms-out-median">18</dd></div>
+        <div><dt>Mode</dt><dd id="mms-out-mode">15</dd></div>
+        <div><dt>Std dev</dt><dd id="mms-out-sd">11.1</dd></div>
+        <div><dt>IQR</dt><dd id="mms-out-iqr">7</dd></div>
+      </dl>
+      <p class="mms-verdict" id="mms-verdict" role="status" aria-live="polite">The 45 is an outlier. The mean sits 3 hours above the median. Report the median and IQR.</p>
+      <div class="mms-lab-foot">
+        <button type="button" class="mms-btn" id="mms-reset">Reset to 45 hours</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mms-section" id="mms-choose" aria-labelledby="mms-choose-h">
+  <div class="mms-wrap">
+    <span class="mms-step">Part 2: choosing</span>
+    <h2 id="mms-choose-h">Which center should you report?</h2>
+    <figure class="mms-figure is-wide">
+      <svg class="mms-svg" viewBox="0 0 360 290" role="img" aria-labelledby="mms-skew-t mms-skew-d">
+<title id="mms-skew-t">Skew decides the order of mean, median and mode</title>
+<desc id="mms-skew-d">Three distribution shapes. Left skew: mean less than median less than mode. Symmetric: all three equal. Right skew: mode less than median less than mean. The mean always sits closest to the tail.</desc>
+<line class="mms-mean" x1="10" y1="16" x2="32" y2="16"/><text class="mms-tick" x="37" y="20">Mean</text>
+<line class="mms-median" x1="88" y1="16" x2="110" y2="16"/><text class="mms-tick" x="115" y="20">Median</text>
+<line class="mms-mode" x1="174" y1="16" x2="196" y2="16"/><text class="mms-tick" x="201" y="20">Mode</text>
+<g data-shape="left">
+<path class="mms-curve" d="M10 107 C106 94 128 58 152 58 C168 58 180 108 200 110 L10 110 Z"/>
+<line class="mms-ax" x1="6" y1="110" x2="204" y2="110"/>
+<line class="mms-mode" x1="152" y1="50" x2="152" y2="110"/>
+<line class="mms-median" x1="138" y1="50" x2="138" y2="110"/>
+<line class="mms-mean" x1="122" y1="50" x2="122" y2="110"/>
+<text class="mms-row-l" x="214" y="70">Left skew</text>
+<text class="mms-note" x="214" y="88">Mean &lt; Median &lt; Mode</text>
+<text class="mms-tick" x="214" y="104">Tail points left</text>
+</g>
+<g data-shape="sym">
+<path class="mms-curve" d="M10 195 C50 195 70 143 105 143 C140 143 160 195 200 195 Z"/>
+<line class="mms-ax" x1="6" y1="195" x2="204" y2="195"/>
+<line class="mms-mode" x1="105" y1="135" x2="105" y2="195"/>
+<line class="mms-median" x1="105" y1="135" x2="105" y2="195"/>
+<line class="mms-mean" x1="105" y1="135" x2="105" y2="195"/>
+<text class="mms-row-l" x="214" y="155">Symmetric</text>
+<text class="mms-note" x="214" y="173">Mean = Median = Mode</text>
+<text class="mms-tick" x="214" y="189">No long tail</text>
+</g>
+<g data-shape="right">
+<path class="mms-curve" d="M10 280 C30 278 42 228 58 228 C82 228 104 264 200 277 L200 280 Z"/>
+<line class="mms-ax" x1="6" y1="280" x2="204" y2="280"/>
+<line class="mms-mode" x1="58" y1="220" x2="58" y2="280"/>
+<line class="mms-median" x1="72" y1="220" x2="72" y2="280"/>
+<line class="mms-mean" x1="88" y1="220" x2="88" y2="280"/>
+<text class="mms-row-l" x="214" y="240">Right skew</text>
+<text class="mms-note" x="214" y="258">Mode &lt; Median &lt; Mean</text>
+<text class="mms-tick" x="214" y="274">Tail points right</text>
+</g>
+</svg>
+      <figcaption>The mean always sits closest to the tail.</figcaption>
+    </figure>
+    <ol class="mms-flow" aria-label="Decision steps for choosing a measure of center">
+      <li class="mms-flow-step">
+        <p class="mms-flow-q">Are the values categories, such as defect types or 1 to 5 ratings?</p>
+        <p class="mms-flow-out"><span class="mms-flow-tag">Yes</span>Use the <strong>mode</strong>. Ratings can also use the median.</p>
+        <p class="mms-flow-next"><span aria-hidden="true">&darr; </span>No: next question</p>
+      </li>
+      <li class="mms-flow-step">
+        <p class="mms-flow-q">Is the data skewed, or does it have outliers?</p>
+        <p class="mms-flow-out"><span class="mms-flow-tag">Yes</span>Use the <strong>median and IQR</strong>.</p>
+        <p class="mms-flow-next"><span aria-hidden="true">&darr; </span>No: next question</p>
+      </li>
+      <li class="mms-flow-end"><span class="mms-flow-tag is-go">Otherwise</span><strong>Use the mean and standard deviation.</strong></li>
+    </ol>
+    <div class="mms-callout">
+      <p><strong>Not sure if it's skewed?</strong> Calculate both the mean and the median. A big gap between them means skew.</p>
+    </div>
+  </div>
+</section>
+
+<section class="mms-section" id="mms-spread" aria-labelledby="mms-spread-h">
+  <div class="mms-wrap">
+    <span class="mms-step">Part 3: spread</span>
+    <h2 id="mms-spread-h">Range, standard deviation, IQR and CV: measuring spread</h2>
+    <div class="mms-cards is-four">
+      <article class="mms-card">
+        <span class="mms-badge" aria-hidden="true">\(R\)</span>
+        <h3>Range</h3>
+        <p>Largest minus smallest. Fast, but one extreme value controls it.</p>
+        <div class="mms-math">\[ R = 45 - 12 = 33 \]</div>
+      </article>
+      <article class="mms-card">
+        <span class="mms-badge" aria-hidden="true">\(s\)</span>
+        <h3>Standard deviation</h3>
+        <p>The typical distance from the mean, in the data's own units.</p>
+        <div class="mms-math">\[ s = 11.1 \]</div>
+      </article>
+      <article class="mms-card">
+        <span class="mms-badge" aria-hidden="true">IQR</span>
+        <h3>Interquartile range</h3>
+        <p>The spread of the middle 50%. Outliers cannot move it.</p>
+        <div class="mms-math">\[ Q_3 - Q_1 = 22 - 15 = 7 \]</div>
+      </article>
+      <article class="mms-card">
+        <span class="mms-badge" aria-hidden="true">CV</span>
+        <h3>Coefficient of variation</h3>
+        <p>Standard deviation as a percentage of the mean. Compares spread across scales.</p>
+        <div class="mms-math">\[ \frac{s}{\bar{x}} \times 100\% = 52.9\% \]</div>
+      </article>
+    </div>
+
+    <h3 id="mms-sd-steps">Standard deviation, step by step</h3>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Standard deviation worked example" style="overflow-x:auto">
+      <table class="mms-table" id="mms-sd-table">
+        <thead><tr><th scope="col">Value \(x_i\)</th><th scope="col">Distance \(x_i - \bar{x}\)</th><th scope="col">Squared \((x_i - \bar{x})^2\)</th></tr></thead>
+        <tbody>
+          <tr><td>12</td><td>&minus;9</td><td>81</td></tr>
+          <tr><td>15</td><td>&minus;6</td><td>36</td></tr>
+          <tr><td>15</td><td>&minus;6</td><td>36</td></tr>
+          <tr><td>18</td><td>&minus;3</td><td>9</td></tr>
+          <tr><td>20</td><td>&minus;1</td><td>1</td></tr>
+          <tr><td>22</td><td>1</td><td>1</td></tr>
+          <tr><td>45</td><td>24</td><td>576</td></tr>
+          <tr class="is-total"><th scope="row">Total</th><td>0</td><td>740</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="mms-math">\[
+\begin{aligned}
+s^2 &= \frac{\sum (x_i - \bar{x})^2}{n - 1} = \frac{740}{6} = 123.3 \\
+s &= \sqrt{123.3} = 11.1
+\end{aligned}
+\]</div>
+    <p>where \(s^2\) is the sample variance and \(s\) the sample standard deviation. Divide by \(n - 1\) for a sample; use \(n\) only for a whole population.</p>
+    <figure class="mms-figure is-wide">
+      <svg class="mms-svg" viewBox="0 0 360 176" role="img" aria-labelledby="mms-share-t mms-share-d" data-values="12,15,15,18,20,22,45" data-sum-squares="740">
+<title id="mms-share-t">Each repair time's share of the squared distances</title>
+<desc id="mms-share-d">Share of the total squared distance from the mean, 740, for each repair time. The 45-hour repair alone supplies 77.8%. The other six values supply the rest.</desc>
+<text class="mms-tick" x="44" y="27" text-anchor="end">12 h</text>
+<rect class="mms-bar" x="52" y="18" width="27.36" height="12" rx="2"/>
+<text class="mms-tick" x="84.36" y="28">10.9%</text>
+<text class="mms-tick" x="44" y="49" text-anchor="end">15 h</text>
+<rect class="mms-bar" x="52" y="40" width="12.16" height="12" rx="2"/>
+<text class="mms-tick" x="69.16" y="50">4.9%</text>
+<text class="mms-tick" x="44" y="71" text-anchor="end">15 h</text>
+<rect class="mms-bar" x="52" y="62" width="12.16" height="12" rx="2"/>
+<text class="mms-tick" x="69.16" y="72">4.9%</text>
+<text class="mms-tick" x="44" y="93" text-anchor="end">18 h</text>
+<rect class="mms-bar" x="52" y="84" width="3.04" height="12" rx="2"/>
+<text class="mms-tick" x="60.04" y="94">1.2%</text>
+<text class="mms-tick" x="44" y="115" text-anchor="end">20 h</text>
+<rect class="mms-bar" x="52" y="106" width="1.5" height="12" rx="2"/>
+<text class="mms-tick" x="58.5" y="116">0.1%</text>
+<text class="mms-tick" x="44" y="137" text-anchor="end">22 h</text>
+<rect class="mms-bar" x="52" y="128" width="1.5" height="12" rx="2"/>
+<text class="mms-tick" x="58.5" y="138">0.1%</text>
+<text class="mms-tick" x="44" y="159" text-anchor="end">45 h</text>
+<rect class="mms-bar is-top" x="52" y="150" width="194.59" height="12" rx="2"/>
+<text class="mms-note" x="251.59" y="160">77.8%</text>
+</svg>
+      <figcaption>One value supplies 77.8% of the total. Standard deviation feels outliers too.</figcaption>
+    </figure>
+
+    <h3 id="mms-iqr-box">The IQR on a box plot</h3>
+    <figure class="mms-figure is-wide">
+      <svg class="mms-svg" viewBox="0 0 360 178" role="img" aria-labelledby="mms-box-t mms-box-d" data-values="12,15,15,18,20,22,45" data-q1="15" data-q3="22" data-fence="32.5">
+<title id="mms-box-t">Box plot of the seven repair times</title>
+<desc id="mms-box-d">The box runs from Q1 = 15 to Q3 = 22 hours, so the IQR is 7 hours. The median is 18. The upper fence is Q3 plus 1.5 times the IQR, 32.5 hours, so the 45-hour repair is flagged as an outlier.</desc>
+<line class="mms-whisk" x1="55.5" y1="78" x2="78.75" y2="78"/>
+<line class="mms-whisk" x1="55.5" y1="68" x2="55.5" y2="88"/>
+<rect class="mms-box" x="78.75" y="60" width="54.25" height="36" rx="3"/>
+<line class="mms-median" x1="102" y1="60" x2="102" y2="96"/>
+<text class="mms-note" x="78.75" y="52" text-anchor="middle">Q1 15</text>
+<text class="mms-note" x="133" y="52" text-anchor="middle">Q3 22</text>
+<text class="mms-tick" x="102" y="110" text-anchor="middle">Median 18</text>
+<path class="mms-whisk" d="M78.75 118v6H133v-6"/>
+<text class="mms-note" x="105.88" y="138" text-anchor="middle">IQR 7 h</text>
+<line class="mms-limit" x1="214.38" y1="30" x2="214.38" y2="128"/>
+<text class="mms-tick" x="219.38" y="38">Fence 32.5</text>
+<circle class="mms-ring" cx="311.25" cy="78" r="5"/>
+<text class="mms-note" x="311.25" y="64" text-anchor="middle">Outlier 45</text>
+<line class="mms-ax" x1="40" y1="150" x2="350" y2="150"/>
+<text class="mms-tick" x="40" y="166" text-anchor="middle">10</text>
+<text class="mms-tick" x="78.75" y="166" text-anchor="middle">15</text>
+<text class="mms-tick" x="117.5" y="166" text-anchor="middle">20</text>
+<text class="mms-tick" x="156.25" y="166" text-anchor="middle">25</text>
+<text class="mms-tick" x="195" y="166" text-anchor="middle">30</text>
+<text class="mms-tick" x="233.75" y="166" text-anchor="middle">35</text>
+<text class="mms-tick" x="272.5" y="166" text-anchor="middle">40</text>
+<text class="mms-tick" x="311.25" y="166" text-anchor="middle">45</text>
+<text class="mms-tick" x="356" y="166" text-anchor="end">hours</text>
+</svg>
+      <figcaption><span class="mms-key"><span class="mms-swatch is-box"></span>Box = IQR</span><span class="mms-key"><span class="mms-swatch is-limit"></span>Outlier fence</span>Anything past the fence gets flagged.</figcaption>
+    </figure>
+    <div class="mms-math">\[ \text{Upper fence} = Q_3 + 1.5 \times \text{IQR} = 22 + 1.5 \times 7 = 32.5 \]</div>
+  </div>
+</section>
+
+<section class="mms-section" id="mms-mistakes" aria-labelledby="mms-mistakes-h">
+  <div class="mms-wrap">
+    <div class="mms-poster mms-warn-poster">
+      <h2 class="mms-poster-title" id="mms-mistakes-h">4 mistakes to avoid</h2>
+      <ul class="mms-mistakes">
+        <li><span class="mms-x" aria-hidden="true">&#x2715;</span><strong>Mean of skewed data</strong><span>A long tail drags it. Report the median.</span></li>
+        <li><span class="mms-x" aria-hidden="true">&#x2715;</span><strong>Averaging ratings</strong><span>1 to 5 scores are ordinal. Use the median or mode.</span></li>
+        <li><span class="mms-x" aria-hidden="true">&#x2715;</span><strong>Adding standard deviations</strong><span>Add variances, then take the square root.</span></li>
+        <li><span class="mms-x" aria-hidden="true">&#x2715;</span><strong>STDEV.P on a sample</strong><span>Samples divide by \(n - 1\): use STDEV.S.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="mms-section" id="mms-implementation" aria-labelledby="mms-implementation-h">
+  <div class="mms-wrap">
+    <span class="mms-step">Do it in software</span>
+    <h2 id="mms-implementation-h">Statistics Implementation</h2>
+
+    <h3 id="mms-excel-functions">Excel functions</h3>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Excel functions for center and spread" style="overflow-x:auto">
+      <table class="mms-table">
+        <thead><tr><th scope="col">Function</th><th scope="col">Syntax</th><th scope="col">Purpose</th><th scope="col">When to use it</th></tr></thead>
+        <tbody>
+          <tr><td>AVERAGE</td><td><code>=AVERAGE(range)</code></td><td>Mean</td><td>Symmetric data, or when you need totals</td></tr>
+          <tr><td>AVERAGEIFS</td><td><code>=AVERAGEIFS(range, criteria_range, criteria)</code></td><td>Mean of a subset</td><td>Mean by shift, line or grade</td></tr>
+          <tr><td>MEDIAN</td><td><code>=MEDIAN(range)</code></td><td>Median</td><td>Skewed data or outliers</td></tr>
+          <tr><td>MODE.SNGL</td><td><code>=MODE.SNGL(range)</code></td><td>Most frequent value</td><td>One clear mode</td></tr>
+          <tr><td>MODE.MULT</td><td><code>=MODE.MULT(range)</code></td><td>All modes (array result)</td><td>Two or more modes</td></tr>
+          <tr><td>TRIMMEAN</td><td><code>=TRIMMEAN(range, percent)</code></td><td>Mean after trimming both ends</td><td>Mild outliers; <code>percent</code> is the total trimmed</td></tr>
+          <tr><td>MAX, MIN</td><td><code>=MAX(range)-MIN(range)</code></td><td>Range</td><td>Quick spread check</td></tr>
+          <tr><td>VAR.S</td><td><code>=VAR.S(range)</code></td><td>Sample variance</td><td>Default for sample data</td></tr>
+          <tr><td>VAR.P</td><td><code>=VAR.P(range)</code></td><td>Population variance</td><td>Only for a complete population</td></tr>
+          <tr><td>STDEV.S</td><td><code>=STDEV.S(range)</code></td><td>Sample standard deviation</td><td>Default for sample data</td></tr>
+          <tr><td>STDEV.P</td><td><code>=STDEV.P(range)</code></td><td>Population standard deviation</td><td>Only for a complete population</td></tr>
+          <tr><td>QUARTILE.EXC</td><td><code>=QUARTILE.EXC(range, quart)</code></td><td>Quartile by the \((n+1)p\) method</td><td>Matches Minitab; use for the IQR</td></tr>
+          <tr><td>QUARTILE.INC</td><td><code>=QUARTILE.INC(range, quart)</code></td><td>Quartile, inclusive method</td><td>Matches older <code>QUARTILE</code> results</td></tr>
+          <tr><td>PERCENTILE.EXC</td><td><code>=PERCENTILE.EXC(range, k)</code></td><td>Any percentile</td><td>P90 or P95 targets</td></tr>
+          <tr><td>SKEW</td><td><code>=SKEW(range)</code></td><td>Skewness</td><td>Beyond about &plusmn;1 means strong skew</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mms-note-p">Older names such as <code>STDEV</code>, <code>VAR</code> and <code>MODE</code> still work. Use the newer names.</p>
+
+    <h3 id="mms-excel-uses">Excel use cases</h3>
+    <p>Put the seven repair times in cells A2:A8.</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Excel formulas for the repair-time example" style="overflow-x:auto">
+      <table class="mms-table" id="mms-excel-results">
+        <thead><tr><th scope="col">Task</th><th scope="col">Formula</th><th scope="col">Result</th></tr></thead>
+        <tbody>
+          <tr><td>Mean</td><td><code>=AVERAGE(A2:A8)</code></td><td>21</td></tr>
+          <tr><td>Median</td><td><code>=MEDIAN(A2:A8)</code></td><td>18</td></tr>
+          <tr><td>Mode</td><td><code>=MODE.SNGL(A2:A8)</code></td><td>15</td></tr>
+          <tr><td>Range</td><td><code>=MAX(A2:A8)-MIN(A2:A8)</code></td><td>33</td></tr>
+          <tr><td>Sample variance</td><td><code>=VAR.S(A2:A8)</code></td><td>123.33</td></tr>
+          <tr><td>Sample standard deviation</td><td><code>=STDEV.S(A2:A8)</code></td><td>11.11</td></tr>
+          <tr><td>Population standard deviation</td><td><code>=STDEV.P(A2:A8)</code></td><td>10.28</td></tr>
+          <tr><td>IQR</td><td><code>=QUARTILE.EXC(A2:A8,3)-QUARTILE.EXC(A2:A8,1)</code></td><td>7</td></tr>
+          <tr><td>CV</td><td><code>=STDEV.S(A2:A8)/AVERAGE(A2:A8)</code></td><td>52.9% (format as %)</td></tr>
+          <tr><td>Skewness</td><td><code>=SKEW(A2:A8)</code></td><td>Positive: right-skewed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mms-note-p"><code>QUARTILE.INC</code> gives an IQR of 6 for the same data. Both are valid methods, so say which one you used.</p>
+
+    <h3 id="mms-minitab">Minitab navigation</h3>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Minitab menu paths" style="overflow-x:auto">
+      <table class="mms-table">
+        <thead><tr><th scope="col">Need</th><th scope="col">Menu path</th><th scope="col">Why this one</th></tr></thead>
+        <tbody>
+          <tr><td>Full table of statistics</td><td><code>Stat → Basic Statistics → Display Descriptive Statistics</code></td><td>Click <strong>Statistics</strong> to add variance, CV, IQR, range and mode. Use <strong>By variables</strong> to split by group.</td></tr>
+          <tr><td>Center, spread and shape in one view</td><td><code>Stat → Basic Statistics → Graphical Summary</code></td><td>Best first look: histogram, box plot, normality test and confidence intervals for the mean and median.</td></tr>
+          <tr><td>Save results to the worksheet</td><td><code>Stat → Basic Statistics → Store Descriptive Statistics</code></td><td>When later calculations need the numbers.</td></tr>
+          <tr><td>One statistic for one column</td><td><code>Calc → Column Statistics</code></td><td>A quick single answer, stored as a constant.</td></tr>
+          <tr><td>Box plot only</td><td><code>Graph → Boxplot</code></td><td>Shows the IQR and flags outliers with an asterisk.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="mms-note-p">Minitab reports the sample standard deviation, and its quartiles match <code>QUARTILE.EXC</code>.</p>
+
+    <h3 id="mms-exam-tips">Exam tips</h3>
+    <ul class="mms-tips">
+      <li><strong>Sample or population?</strong><span>Unless the question says population, divide by \(n - 1\).</span></li>
+      <li><strong>Skew questions</strong><span>Given mean, median and mode, the mean points to the tail.</span></li>
+      <li><strong>Combining sources</strong><span>Add variances: \(\sigma_{\text{total}} = \sqrt{\sigma_1^2 + \sigma_2^2}\).</span></li>
+      <li><strong>Control charts</strong><span>Estimate sigma from ranges: \(\hat{\sigma} = \bar{R} / d_2\).</span></li>
+      <li><strong>Different units</strong><span>Compare variability with CV, not standard deviation.</span></li>
+      <li><strong>Real data</strong><span>Excel and Minitab quartiles differ? Check .INC versus .EXC.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="The 30-minute value drags the mean up to 10 minutes, but the median stays at 5 minutes, which is where most of the values sit.">
+        <legend>1. Cycle times are 4, 5, 5, 6 and 30 minutes. Which is the better typical value?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> The mean, 10 minutes</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> The median, 5 minutes</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> The range, 26 minutes</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="The mode is smallest and the mean is largest, so the mean has been pulled to the right by a long right tail.">
+        <legend>2. A dataset has a mean of 50, a median of 45 and a mode of 42. How is it skewed?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> Left-skewed</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> Symmetric</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> Right-skewed</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="The IQR only looks at the middle 50 percent of the data, so an extreme value at either end cannot change it.">
+        <legend>3. Which measure of spread ignores outliers?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> Interquartile range</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> Range</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Standard deviation</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Compare the coefficients of variation: 2 divided by 100 is 2 percent for Machine A, and 0.5 divided by 10 is 5 percent for Machine B.">
+        <legend>4. Machine A fills 100 g bags with a standard deviation of 2 g. Machine B fills 10 g bags with a standard deviation of 0.5 g. Which is relatively more variable?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> Machine A</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> Machine B</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> They are the same</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="STDEV.S divides by n minus 1, which is right for a sample. STDEV.P is only for a complete population.">
+        <legend>5. Which Excel function gives the standard deviation of a sample?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> STDEV.S</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> STDEV.P</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> VAR.P</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Variances of independent sources add. Standard deviations do not, so add the variances first and then take the square root.">
+        <legend>6. How do you combine two independent sources of variation?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> Add their standard deviations</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> Average their standard deviations</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> Add their variances, then take the square root</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section class="related-lessons" style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);">
+  <h2>Related lessons</h2>
+  <ul>
+    <li><a href="/lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation">Variance, Covariance, Correlation &amp; CV</a> — go deeper on spread and how two variables move together.</li>
+    <li><a href="/lessons/data-analytics/dealing-with-outliers">Dealing with Outliers</a> — what to do once the box-plot fence flags a value.</li>
+    <li><a href="/lessons/statistics/the-normal-distribution-meet-the-bell-curve">The Normal Distribution: Meet the Bell Curve</a> — the symmetric shape where mean, median and mode agree.</li>
+    <li><a href="/lessons/statistics/chebyshev-inequality-vs-empirical-rule">Chebyshev vs. the Empirical Rule</a> — how many values fall within a few standard deviations.</li>
+    <li><a href="/lessons/hypothesis-testing-for-beginners">Hypothesis Testing for Beginners</a> — the next step: testing whether two means really differ.</li>
+  </ul>
+</section>
+
+</main>
+
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#statistics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Statistics lessons</a>
+</section>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img class="logo-wordmark" src="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<script id="mms-lab-logic">
+/* "Drag the outlier" lab: six fixed repair times plus one the learner moves.
+   Recomputes center and spread, redraws the dot plot and says which pair to report. */
+(function () {
+  'use strict';
+  var lab = document.querySelector('.mms-lab');
+  if (!lab) return;
+  var NS = 'http://www.w3.org/2000/svg';
+  var base = lab.getAttribute('data-base').split(',').map(Number);
+  var start = Number(lab.getAttribute('data-start'));
+  var slider = document.getElementById('mms-wild');
+  var outVal = document.getElementById('mms-wild-out');
+  var svg = document.getElementById('mms-lab-svg');
+  var verdict = document.getElementById('mms-verdict');
+  var reads = {
+    mean: document.getElementById('mms-out-mean'),
+    median: document.getElementById('mms-out-median'),
+    mode: document.getElementById('mms-out-mode'),
+    sd: document.getElementById('mms-out-sd'),
+    iqr: document.getElementById('mms-out-iqr')
+  };
+
+  function fmt(v) { return String(Math.round(v * 10) / 10); }
+
+  function calc(vals) {
+    var n = vals.length;
+    var s = vals.slice().sort(function (a, b) { return a - b; });
+    var mean = vals.reduce(function (a, b) { return a + b; }, 0) / n;
+    var median = n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2;
+    var counts = {};
+    vals.forEach(function (v) { counts[v] = (counts[v] || 0) + 1; });
+    var maxc = Math.max.apply(null, Object.keys(counts).map(function (k) { return counts[k]; }));
+    var modes = maxc > 1 ? Object.keys(counts).filter(function (k) { return counts[k] === maxc; }).map(Number).sort(function (a, b) { return a - b; }) : [];
+    var ss = vals.reduce(function (a, v) { return a + (v - mean) * (v - mean); }, 0);
+    var sd = Math.sqrt(ss / (n - 1));
+    function q(p) { var pos = (n + 1) * p, lo = Math.floor(pos), f = pos - lo; return s[lo - 1] + (lo < n ? f * (s[lo] - s[lo - 1]) : 0); }
+    var q1 = q(0.25), q3 = q(0.75), iqr = q3 - q1;
+    var outliers = s.filter(function (v) { return v > q3 + 1.5 * iqr || v < q1 - 1.5 * iqr; });
+    return { sorted: s, mean: mean, median: median, modes: modes, sd: sd, iqr: iqr, outliers: outliers };
+  }
+
+  function el(name, attrs, text) {
+    var e = document.createElementNS(NS, name);
+    Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+    if (text !== undefined) e.textContent = text;
+    svg.appendChild(e);
+    return e;
+  }
+
+  function draw(r) {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var X = function (v) { return 20 + v / 100 * 320; };
+    el('line', { 'class': 'mms-ax', x1: 20, y1: 124, x2: 340, y2: 124 });
+    for (var t = 0; t <= 100; t += 20) el('text', { 'class': 'mms-tick', x: X(t), y: 140, 'text-anchor': 'middle' }, String(t));
+    el('line', { 'class': 'mms-median', x1: X(r.median), y1: 34, x2: X(r.median), y2: 124 });
+    el('line', { 'class': 'mms-mean', x1: X(r.mean), y1: 34, x2: X(r.mean), y2: 124 });
+    var stacks = {};
+    r.sorted.forEach(function (v) {
+      var key = Math.round(X(v) / 10), k = stacks[key] || 0;
+      stacks[key] = k + 1;
+      var isOut = r.outliers.indexOf(v) !== -1;
+      el('circle', { 'class': isOut ? 'mms-ring' : 'mms-dot', cx: X(v), cy: 112 - Math.min(k, 5) * 12, r: 5 });
+    });
+    function label(x, txt, right) {
+      var anchor = right ? 'start' : 'end', lx = right ? x + 4 : x - 4;
+      if (right && lx > 290) { anchor = 'end'; lx = x - 4; }
+      if (!right && lx < 70) { anchor = 'start'; lx = x + 4; }
+      el('text', { 'class': 'mms-note', x: lx, y: 26, 'text-anchor': anchor }, txt);
+    }
+    if (Math.abs(r.mean - r.median) < 0.05) {
+      label(X(r.mean), 'Mean = median ' + fmt(r.mean), true);
+    } else {
+      var meanRight = r.mean > r.median;
+      label(X(r.median), 'Median ' + fmt(r.median), !meanRight);
+      label(X(r.mean), 'Mean ' + fmt(r.mean), meanRight);
+    }
+  }
+
+  function message(r, wild) {
+    var parts = [];
+    if (r.outliers.length) parts.push('The ' + r.outliers.join(' and ') + (r.outliers.length > 1 ? ' are outliers.' : ' is an outlier.'));
+    var gap = r.mean - r.median;
+    parts.push(Math.abs(gap) < 0.05 ? 'The mean equals the median.' : 'The mean sits ' + fmt(Math.abs(gap)) + ' hours ' + (gap > 0 ? 'above' : 'below') + ' the median.');
+    var skewed = r.outliers.length > 0 || Math.abs(gap) > 0.25 * r.sd;
+    parts.push(skewed ? 'Report the median and IQR.' : 'The mean and standard deviation are fine here.');
+    return parts.join(' ');
+  }
+
+  function update() {
+    var wild = Number(slider.value);
+    outVal.textContent = String(wild);
+    var r = calc(base.concat([wild]));
+    reads.mean.textContent = fmt(r.mean);
+    reads.median.textContent = fmt(r.median);
+    reads.mode.textContent = r.modes.length ? r.modes.join(', ') : 'None';
+    reads.sd.textContent = fmt(r.sd);
+    reads.iqr.textContent = fmt(r.iqr);
+    verdict.textContent = message(r, wild);
+    draw(r);
+  }
+
+  slider.addEventListener('input', update);
+  document.getElementById('mms-reset').addEventListener('click', function () {
+    slider.value = String(start);
+    update();
+  });
+  update();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+<style id="mean-median-mode-and-spread-dark-overrides">
+html[data-theme="dark"] #lesson-content{
+  --lesson-mms-page:#0d1726;
+  --lesson-mms-surface:#132134;
+  --lesson-mms-surface-2:#1a2b42;
+  --lesson-mms-text:#eef3f9;
+  --lesson-mms-text-2:#c3cfdd;
+  --lesson-mms-border:#34465e;
+  --lesson-mms-control:#8597ae;
+  --lesson-mms-teal:#5fd0dc;
+  --lesson-mms-teal-bg:#123241;
+  --lesson-mms-on-accent:#08141f;
+  --lesson-mms-mean:#9cc2ec;
+  --lesson-mms-mean-bg:#18304d;
+  --lesson-mms-median:#f2b84b;
+  --lesson-mms-median-bg:#332811;
+  --lesson-mms-mode:#5fd0dc;
+  --lesson-mms-mode-bg:#123241;
+  --lesson-mms-red:#ff9b91;
+  --lesson-mms-green:#63d59a;
+  --lesson-mms-green-bg:#123224;
+  --lesson-mms-band:#123224;
+  --lesson-mms-curve:#1a2b42;
+  --lesson-mms-focus:#7dd3fc;
+  --lesson-mms-poster-bg:#07101f;
+  --lesson-mms-poster-text:#ffffff;
+  --lesson-mms-poster-text-2:#c9d4e3;
+  --lesson-mms-poster-line:rgba(255,255,255,.22);
+  --lesson-mms-shadow:none;
+}
+</style>
+</body>
+</html>

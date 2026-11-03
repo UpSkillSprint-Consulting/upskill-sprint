@@ -87,6 +87,18 @@
       description: 'Hunt down rogue data points with Z-scores, Modified Z-scores, Tukey fences, and Grubbs\u2019 test using a live steel-mill and mine-site investigation lab with switchable chart views.'
     },
     {
+      marker: 'data-mean-median-mode-and-spread',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/mean-median-mode-and-spread',
+      topic: 'statistics',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'mean median mode central tendency dispersion spread range standard deviation variance interquartile range iqr coefficient of variation skewness box plot outlier descriptive statistics excel minitab statistics beginner interactive',
+      meta: '<span>Beginner</span><span>Interactive</span><span>15 min</span><span>Excel + Minitab</span>',
+      title: 'Mean, Median, Mode and Spread in 15 Minutes',
+      description: 'Find the center and the spread of any dataset: mean, median, mode, range, standard deviation, IQR and CV, with a drag-the-outlier lab.'
+    },
+    {
       marker: 'data-the-lean-a-field-guide-to-bias',
       sectionId: 'statistics',
       path: '/lessons/statistics/the-lean-a-field-guide-to-bias',
