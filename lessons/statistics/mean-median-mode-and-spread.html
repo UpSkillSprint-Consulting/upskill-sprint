@@ -71,8 +71,8 @@
   --lesson-mms-teal:#0f6b78;
   --lesson-mms-teal-bg:#e3f3f5;
   --lesson-mms-on-accent:#ffffff;
-  --lesson-mms-mean:#2d5b8a;
-  --lesson-mms-mean-bg:#e5eef8;
+  --lesson-mms-mean:#17405a;
+  --lesson-mms-mean-bg:#e2ebf1;
   --lesson-mms-median:#8a5300;
   --lesson-mms-median-bg:#fff3d6;
   --lesson-mms-mode:#0f6b78;
@@ -80,14 +80,12 @@
   --lesson-mms-red:#b42318;
   --lesson-mms-hot:#b42318;
   --lesson-mms-hot-bg:#fdecea;
-  --lesson-mms-spread:#5b3f99;
-  --lesson-mms-spread-bg:#efe9fb;
-  --lesson-mms-green:#1e7a46;
-  --lesson-mms-green-bg:#e6f5ec;
-  --lesson-mms-band:#e6f5ec;
+  --lesson-mms-spread:#4e6a12;
+  --lesson-mms-spread-bg:#edf2e1;
+  --lesson-mms-band:#e3f3f5;
   --lesson-mms-curve:#e7edf4;
   --lesson-mms-focus:#0b63c5;
-  --lesson-mms-poster-bg:#0f1d33;
+  --lesson-mms-poster-bg:#0b2330;
   --lesson-mms-poster-text:#ffffff;
   --lesson-mms-poster-text-2:#c9d4e3;
   --lesson-mms-poster-line:rgba(255,255,255,.18);
@@ -134,6 +132,10 @@
 #lesson-content .mms-sym{font-family:'Source Serif 4',Georgia,serif;font-size:30px;font-weight:700;line-height:1.1;color:#ffffff;min-height:36px}
 #lesson-content .mms-tile-name{font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#ffffff}
 #lesson-content .mms-tile-do{font-size:14px;line-height:1.35;color:#ffffff}
+/* hero poster: a light panel, colour lives in the tiles (4-colour palette) */
+#lesson-content .mms-hero-poster{background:var(--lesson-mms-surface);color:var(--lesson-mms-text);border:1px solid var(--lesson-mms-border);box-shadow:var(--lesson-mms-shadow)}
+#lesson-content .mms-hero-poster .mms-poster-title{color:var(--lesson-mms-text)}
+#lesson-content .mms-hero-poster .mms-poster-title span{color:var(--lesson-mms-text-2)}
 #lesson-content .mms-warn-poster .mms-poster-title{font-size:15px}
 #lesson-content .mms-mistakes{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:0;padding:0;list-style:none}
 #lesson-content .mms-mistakes li{display:flex;flex-direction:column;gap:6px;background:rgba(255,255,255,.06);border:1px solid var(--lesson-mms-poster-line);border-radius:12px;padding:14px;font-size:15px;line-height:1.45;color:var(--lesson-mms-poster-text)}
@@ -169,7 +171,7 @@
 #lesson-content .mms-key{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--lesson-mms-text)}
 #lesson-content .mms-swatch{display:inline-block;width:22px;height:0;border-top:3px solid var(--lesson-mms-mean)}
 #lesson-content .mms-swatch.is-median{border-top:3px dashed var(--lesson-mms-median)}
-#lesson-content .mms-swatch.is-band{height:12px;border:1px solid var(--lesson-mms-green);background:var(--lesson-mms-band)}
+#lesson-content .mms-swatch.is-band{height:12px;border:1px solid var(--lesson-mms-mode);background:var(--lesson-mms-band)}
 #lesson-content .mms-swatch.is-box{height:12px;border:2px solid var(--lesson-mms-mean);background:var(--lesson-mms-mean-bg)}
 #lesson-content .mms-swatch.is-limit{border-top:3px dashed var(--lesson-mms-red)}
 #lesson-content .mms-sq{display:inline-block;width:10px;height:10px;background:var(--lesson-mms-red)}
@@ -223,8 +225,8 @@
 #lesson-content .mms-flow-q::after{content:"\2192";position:absolute;right:-22px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--lesson-mms-median)}
 #lesson-content .mms-flow-out{margin:0;padding:12px 14px;border-left:5px solid var(--lesson-mms-median);border-radius:10px;background:var(--lesson-mms-median-bg);color:var(--lesson-mms-text);font-size:15.5px;line-height:1.45}
 #lesson-content .mms-flow-tag{display:inline-block;margin-right:8px;padding:2px 9px;border-radius:999px;font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--lesson-mms-mean);color:var(--lesson-mms-on-accent)}
-#lesson-content .mms-flow-tag.is-go{background:var(--lesson-mms-green)}
-#lesson-content .mms-flow-end{display:flex;flex-wrap:wrap;align-items:center;gap:6px;width:calc(50% - 14px);padding:14px 16px;border:2px solid var(--lesson-mms-green);border-radius:12px;background:var(--lesson-mms-green-bg);color:var(--lesson-mms-text);font-size:17px}
+#lesson-content .mms-flow-tag.is-go{background:var(--lesson-mms-mode)}
+#lesson-content .mms-flow-end{display:flex;flex-wrap:wrap;align-items:center;gap:6px;width:calc(50% - 14px);padding:14px 16px;border:2px solid var(--lesson-mms-mode);border-radius:12px;background:var(--lesson-mms-mode-bg);color:var(--lesson-mms-text);font-size:17px}
 
 /* tables and exam tips */
 #lesson-content .table-scroll{margin:12px 0;border:1px solid var(--lesson-mms-border);border-radius:12px;background:var(--lesson-mms-surface)}
@@ -261,35 +263,35 @@
 /* ===== bold visual layer ===== */
 /* hero poster: the sorted data as chips, then giant numbers for center and spread */
 #lesson-content .mms-chips{display:flex;gap:6px;margin:0;padding:0;list-style:none}
-#lesson-content .mms-chips li{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:5px;color:#ffffff}
-#lesson-content .mms-chip-v{display:block;text-align:center;font-family:'Source Serif 4',Georgia,serif;font-size:26px;font-weight:700;line-height:1;padding:12px 0;border-radius:12px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.28);color:#ffffff}
-#lesson-content .mms-chips li.is-mode .mms-chip-v{background:#0f6b78;border-color:#5fd0dc}
-#lesson-content .mms-chips li.is-median .mms-chip-v{background:#8a5300;border-color:#f2b84b}
-#lesson-content .mms-chips li.is-outlier .mms-chip-v{background:#b42318;border-color:#ff9b91}
-#lesson-content .mms-chip-tag{text-align:center;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#e6edf6}
-#lesson-content .mms-band-l{margin:18px 0 8px;font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--lesson-mms-poster-text-2)}
+#lesson-content .mms-chips li{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:stretch;gap:5px;color:var(--lesson-mms-text)}
+#lesson-content .mms-chip-v{display:block;text-align:center;font-family:'Source Serif 4',Georgia,serif;font-size:26px;font-weight:700;line-height:1;padding:12px 0;border-radius:12px;background:var(--lesson-mms-surface-2);border:2px solid var(--lesson-mms-border);color:var(--lesson-mms-text)}
+#lesson-content .mms-chips li.is-mode .mms-chip-v{background:#0f6b78;border-color:#0f6b78;color:#ffffff}
+#lesson-content .mms-chips li.is-median .mms-chip-v{background:#8a5300;border-color:#8a5300;color:#ffffff}
+#lesson-content .mms-chips li.is-outlier .mms-chip-v{background:#b42318;border-color:#b42318;color:#ffffff}
+#lesson-content .mms-chip-tag{text-align:center;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--lesson-mms-text-2)}
+#lesson-content .mms-band-l{margin:18px 0 8px;font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--lesson-mms-text-2)}
 #lesson-content .mms-bignums{display:grid;gap:8px;margin:0;padding:0;list-style:none}
 #lesson-content .mms-bignums.is-center{grid-template-columns:repeat(3,minmax(0,1fr))}
 #lesson-content .mms-bignums.is-spread{grid-template-columns:repeat(4,minmax(0,1fr))}
-#lesson-content .mms-bignums li{display:flex;flex-direction:column;gap:2px;border-radius:14px;padding:14px 14px 16px;color:#ffffff;min-width:0}
+#lesson-content .mms-bignums li{position:relative;display:flex;flex-direction:column;gap:2px;border-radius:14px;padding:14px 14px 16px;color:#ffffff;min-width:0}
 #lesson-content .mms-bignums li.is-mode{background:#0f6b78}
 #lesson-content .mms-bignums li.is-median{background:#8a5300}
-#lesson-content .mms-bignums li.is-mean{background:#2d5b8a}
-#lesson-content .mms-bignums li.is-spread{background:#5b3f99}
+#lesson-content .mms-bignums li.is-mean{background:#17405a}
+#lesson-content .mms-bignums li.is-spread{background:#4e6a12}
 #lesson-content .mms-num{font-family:'Source Serif 4',Georgia,serif;font-size:clamp(40px,8vw,64px);font-weight:700;line-height:1;color:#ffffff;font-variant-numeric:tabular-nums}
 #lesson-content .mms-bignums.is-spread .mms-num{font-size:clamp(30px,5.4vw,44px)}
 #lesson-content .mms-num small{font-size:.38em;font-weight:600;margin-left:2px}
 #lesson-content .mms-num-name{margin-top:6px;font-size:13.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#ffffff}
 #lesson-content .mms-num-do{font-size:14px;line-height:1.35;color:#ffffff}
-#lesson-content .mms-poster-foot{margin:16px 0 0;font-size:17px;font-weight:800;text-align:center;color:#ffffff}
-#lesson-content .mms-poster-foot em{font-style:normal;color:#f2b84b}
+#lesson-content .mms-poster-foot{margin:16px 0 0;font-size:17px;font-weight:800;text-align:center;color:var(--lesson-mms-text)}
+#lesson-content .mms-poster-foot em{font-style:normal;color:var(--lesson-mms-median)}
 
 /* versus cards: the verdict before the chart */
 #lesson-content .mms-versus{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:10px;margin:18px 0 0}
-#lesson-content .mms-vs-card{display:flex;flex-direction:column;gap:2px;border-radius:14px;padding:14px 16px;border:2px solid var(--lesson-mms-green);background:var(--lesson-mms-green-bg);color:var(--lesson-mms-text)}
-#lesson-content .mms-vs-card.is-b{border-color:var(--lesson-mms-hot);background:var(--lesson-mms-hot-bg)}
+#lesson-content .mms-vs-card{display:flex;flex-direction:column;gap:4px;border-radius:14px;padding:14px 16px;border:2px solid var(--lesson-mms-mode);background:var(--lesson-mms-surface);color:var(--lesson-mms-text)}
+#lesson-content .mms-vs-card.is-b{border-color:var(--lesson-mms-hot)}
 #lesson-content .mms-vs-name{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--lesson-mms-text)}
-#lesson-content .mms-vs-big{font-family:'Source Serif 4',Georgia,serif;font-size:clamp(32px,6vw,46px);font-weight:700;line-height:1.05;color:var(--lesson-mms-green)}
+#lesson-content .mms-vs-big{font-family:'Source Serif 4',Georgia,serif;font-size:clamp(32px,6vw,46px);font-weight:700;line-height:1.05;color:var(--lesson-mms-mode)}
 #lesson-content .mms-vs-card.is-b .mms-vs-big{color:var(--lesson-mms-hot)}
 #lesson-content .mms-vs-sub{font-size:14.5px;color:var(--lesson-mms-text-2)}
 #lesson-content .mms-vs-sd{font-size:15px;font-weight:700;color:var(--lesson-mms-text)}
@@ -324,11 +326,11 @@
 #lesson-content .mms-svg .mms-pill-bad{fill:var(--lesson-mms-hot)}
 #lesson-content .mms-svg .mms-pill-t{font-weight:700;font-size:10.5px;fill:var(--lesson-mms-on-accent)}
 #lesson-content .mms-svg .mms-dot-a{fill:var(--lesson-mms-teal)}
-#lesson-content .mms-svg .mms-dot-b{fill:var(--lesson-mms-spread)}
+#lesson-content .mms-svg .mms-dot-b{fill:var(--lesson-mms-mean)}
 #lesson-content .mms-svg .mms-dot-mode{fill:var(--lesson-mms-mode)}
 #lesson-content .mms-svg .mms-dot-median{fill:var(--lesson-mms-median)}
 #lesson-content .mms-svg .mms-bad-l{font-size:9.5px;font-weight:700;fill:var(--lesson-mms-hot)}
-#lesson-content .mms-svg .mms-band-t{font-size:9.5px;font-weight:800;letter-spacing:.12em;fill:var(--lesson-mms-green)}
+#lesson-content .mms-svg .mms-band-t{font-size:9.5px;font-weight:800;letter-spacing:.12em;fill:var(--lesson-mms-mode)}
 #lesson-content .mms-svg .mms-lead{stroke:var(--lesson-mms-text-2);stroke-width:1.25}
 #lesson-content .mms-svg .mms-key-t{font-weight:700;font-size:11px}
 #lesson-content .mms-svg tspan.is-mean{fill:var(--lesson-mms-mean)}
@@ -382,6 +384,67 @@
   #lesson-content .mms-svg .mms-bad-l, #lesson-content .mms-svg .mms-band-t, #lesson-content .mms-svg .mms-zone-t{font-size:10.5px}
   #lesson-content .mms-reads dd{font-size:19px}
 }
+
+/* ===== infographic toolkit (LESSON_CREATION_GUIDE §24.8) ===== */
+/* pictogram row */
+#lesson-content .mms-picto-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:12px 0 0;padding:12px 14px;border-radius:12px;background:var(--lesson-mms-surface-2);color:var(--lesson-mms-text)}
+#lesson-content .mms-picto-row p{margin:0;font-size:15px;line-height:1.4;flex:1 1 220px;min-width:0}
+#lesson-content .mms-picto{width:190px;max-width:100%;height:auto;flex-shrink:0}
+#lesson-content .mms-picto-big{font-family:'Source Serif 4',Georgia,serif;font-size:30px;line-height:1;color:var(--lesson-mms-mean);margin-right:4px}
+#lesson-content .mms-pic.is-on{fill:var(--lesson-mms-mean)}
+#lesson-content .mms-pic.is-off{fill:none;stroke:var(--lesson-mms-control);stroke-width:2}
+#lesson-content .mms-pic.is-bad{fill:var(--lesson-mms-hot)}
+#lesson-content .mms-pic-x{fill:none;stroke:#ffffff;stroke-width:2.6;stroke-linecap:round}
+/* segmented bar and donut gauge inside the coloured spread tiles */
+#lesson-content .mms-segbar{display:block;width:100%;height:10px;margin-top:10px}
+#lesson-content .mms-seg{fill:rgba(255,255,255,.28)}
+#lesson-content .mms-seg.is-on{fill:#ffffff}
+#lesson-content .mms-bignums li.has-gauge{padding-right:72px}
+#lesson-content .mms-bignums li.has-gauge .mms-gauge{position:absolute;right:12px;top:14px;width:52px;height:52px}
+#lesson-content .mms-gauge .mms-g-track{fill:none;stroke-width:6;stroke:rgba(255,255,255,.28)}
+#lesson-content .mms-gauge .mms-g-arc{fill:none;stroke-width:6;stroke:#ffffff;stroke-linecap:round}
+#lesson-content .mms-gauge.is-share .mms-g-track{stroke:var(--lesson-mms-surface-2)}
+#lesson-content .mms-gauge.is-share .mms-g-arc{stroke:var(--lesson-mms-hot)}
+/* stat strip: big number + gauge */
+#lesson-content .mms-stat{display:flex;align-items:center;gap:16px;margin:18px 0 0;padding:14px 16px;border-radius:14px;border:1px solid var(--lesson-mms-border);background:var(--lesson-mms-surface);color:var(--lesson-mms-text)}
+#lesson-content .mms-stat .mms-gauge{width:72px;height:72px;flex-shrink:0}
+#lesson-content .mms-stat p{margin:0;font-size:15.5px;line-height:1.45}
+#lesson-content .mms-stat-big{display:block;font-family:'Source Serif 4',Georgia,serif;font-size:40px;line-height:1;color:var(--lesson-mms-hot)}
+/* pipe pictograms */
+#lesson-content .mms-pipes{display:block;width:100%;max-width:240px;height:auto;margin:6px 0 2px}
+#lesson-content .mms-pipe circle{fill:var(--lesson-mms-mode)}
+#lesson-content .mms-pipe circle.mms-pipe-bore{fill:var(--lesson-mms-surface)}
+#lesson-content .mms-pipe.is-bad circle{fill:var(--lesson-mms-hot)}
+#lesson-content .mms-pipe.is-bad circle.mms-pipe-bore{fill:var(--lesson-mms-surface)}
+#lesson-content .mms-pipe .mms-pic-x{stroke:var(--lesson-mms-hot);stroke-width:3}
+/* step-by-step reveal */
+#lesson-content .mms-stepper{margin:14px 0 6px;border:1px solid var(--lesson-mms-border);border-radius:16px;background:var(--lesson-mms-surface);color:var(--lesson-mms-text);padding:14px;box-shadow:var(--lesson-mms-shadow)}
+#lesson-content .mms-steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin:0 0 12px;padding:0;list-style:none}
+#lesson-content .mms-stepbtn{position:relative;z-index:0;width:100%;min-height:76px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:10px 22px 10px 14px;border:0;background:transparent;color:var(--lesson-mms-on-accent);font:inherit;text-align:left;cursor:pointer}
+#lesson-content .mms-stepbtn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--lesson-mms-mean);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,0 100%,14px 50%)}
+#lesson-content .mms-steps li:first-child .mms-stepbtn::before{clip-path:polygon(0 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,0 100%);border-radius:10px 0 0 10px}
+#lesson-content .mms-stepper.is-live .mms-stepbtn[aria-pressed="false"]::before{background:var(--lesson-mms-surface-2)}
+#lesson-content .mms-stepper.is-live .mms-stepbtn[aria-pressed="false"]{color:var(--lesson-mms-text-2)}
+#lesson-content .mms-stepper.is-live .mms-stepbtn.is-done::before{background:var(--lesson-mms-mean-bg)}
+#lesson-content .mms-stepper.is-live .mms-stepbtn.is-done{color:var(--lesson-mms-text)}
+#lesson-content .mms-stepbtn:focus-visible{outline:3px solid var(--lesson-mms-focus);outline-offset:2px}
+#lesson-content .mms-stepnum{font-family:'Source Serif 4',Georgia,serif;font-size:24px;font-weight:700;line-height:1}
+#lesson-content .mms-steptitle{font-size:13px;font-weight:700;line-height:1.25}
+#lesson-content .mms-steppanels{display:grid;gap:10px}
+#lesson-content .mms-steppanel{border-radius:12px;padding:12px 16px;background:var(--lesson-mms-mean-bg);color:var(--lesson-mms-text)}
+#lesson-content .mms-steppanel p{margin:0}
+#lesson-content p.mms-steppanel-k{font-size:12.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--lesson-mms-text-2)}
+#lesson-content p.mms-steppanel-big{font-family:'Source Serif 4',Georgia,serif;font-size:clamp(36px,7vw,52px);font-weight:700;line-height:1.1;color:var(--lesson-mms-mean);font-variant-numeric:tabular-nums}
+#lesson-content p.mms-steppanel-line{font-size:15.5px;line-height:1.45}
+#lesson-content .mms-table th.is-lit, #lesson-content .mms-table td.is-lit{background:var(--lesson-mms-median-bg);color:var(--lesson-mms-text);font-weight:700}
+@media (max-width:640px){
+  #lesson-content .mms-steps{grid-template-columns:1fr;gap:2px}
+  #lesson-content .mms-stepbtn{min-height:48px;flex-direction:row;align-items:center;gap:12px;padding:10px 14px 18px}
+  #lesson-content .mms-stepbtn::before, #lesson-content .mms-steps li:first-child .mms-stepbtn::before{clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),50% 100%,0 calc(100% - 8px));border-radius:8px 8px 0 0}
+  #lesson-content .mms-stat{flex-direction:column;align-items:flex-start}
+  #lesson-content .mms-bignums li.has-gauge .mms-gauge{width:44px;height:44px;right:8px;top:10px}
+  #lesson-content .mms-bignums li.has-gauge{padding-right:56px}
+}
 </style>
 <style id="uss-quiz-style">
 .quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
@@ -432,7 +495,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <li>Statistics</li><li>Beginner</li><li>15 min</li><li>Interactive</li>
     </ul>
     <h1 id="mms-title">Mean, Median, Mode and Spread in 15 Minutes</h1>
-    <p class="mms-lede">The <strong>mean, median and mode</strong> tell you where your data sits. <strong>Spread</strong> tells you how far it wanders. Every dataset needs one of each.</p>
+    <p class="mms-lede">The <strong>mean, median and mode</strong> tell you where your data sits. <strong>Spread</strong> tells you how far it wanders.</p>
     <div class="mms-poster mms-hero-poster" id="mms-poster" data-values="12,15,15,18,20,22,45">
       <p class="mms-poster-title">One dataset, every key number <span>Seven repair times in hours, sorted (a made-up example)</span></p>
       <ol class="mms-chips" aria-label="The seven repair times, sorted"><li class="" data-value="12"><span class="mms-chip-v">12</span></li><li class="is-mode" data-value="15"><span class="mms-chip-v">15</span><span class="mms-chip-tag">mode</span></li><li class="is-mode" data-value="15"><span class="mms-chip-v">15</span><span class="mms-chip-tag">mode</span></li><li class="is-median" data-value="18"><span class="mms-chip-v">18</span><span class="mms-chip-tag">middle</span></li><li class="" data-value="20"><span class="mms-chip-v">20</span></li><li class="" data-value="22"><span class="mms-chip-v">22</span></li><li class="is-outlier" data-value="45"><span class="mms-chip-v">45</span><span class="mms-chip-tag">outlier</span></li></ol>
@@ -442,12 +505,16 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <li class="is-median"><span class="mms-num">18<small> h</small></span><span class="mms-num-name">Median</span><span class="mms-num-do">Middle value</span></li>
         <li class="is-mean"><span class="mms-num">21<small> h</small></span><span class="mms-num-name">Mean</span><span class="mms-num-do">Balance point</span></li>
       </ul>
+      <div class="mms-picto-row" data-below="5" data-n="7">
+        <svg class="mms-picto is-poster" viewBox="0 0 178 22" aria-hidden="true" focusable="false" data-count="7"><rect class="mms-pic is-on" x="0" y="0" width="22" height="22" rx="5"/><rect class="mms-pic is-on" x="26" y="0" width="22" height="22" rx="5"/><rect class="mms-pic is-on" x="52" y="0" width="22" height="22" rx="5"/><rect class="mms-pic is-on" x="78" y="0" width="22" height="22" rx="5"/><rect class="mms-pic is-on" x="104" y="0" width="22" height="22" rx="5"/><rect class="mms-pic is-off" x="130" y="0" width="22" height="22" rx="5"/><rect class="mms-pic is-bad" x="156" y="0" width="22" height="22" rx="5"/><path class="mms-pic-x" d="M163 7l8 8M171 7l-8 8"/></svg>
+        <p><strong class="mms-picto-big">5 of 7</strong> repairs took less than the mean.</p>
+      </div>
       <p class="mms-band-l">Spread: how far do values wander?</p>
       <ul class="mms-bignums is-spread">
-        <li class="is-spread"><span class="mms-num">33<small> h</small></span><span class="mms-num-name">Range</span><span class="mms-num-do">Largest minus smallest</span></li>
-        <li class="is-spread"><span class="mms-num">11.1<small> h</small></span><span class="mms-num-name">Std dev</span><span class="mms-num-do">Typical distance</span></li>
-        <li class="is-spread"><span class="mms-num">7<small> h</small></span><span class="mms-num-name">IQR</span><span class="mms-num-do">Middle 50%</span></li>
-        <li class="is-spread"><span class="mms-num">52.9<small>%</small></span><span class="mms-num-name">CV</span><span class="mms-num-do">Spread per unit of mean</span></li>
+        <li class="is-spread"><span class="mms-num">33<small> h</small></span><span class="mms-num-name">Range</span><span class="mms-num-do">Largest minus smallest</span><svg class="mms-segbar is-range" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true" focusable="false" data-segments="4" data-on="0,1,2,3"><rect class="mms-seg is-on" x="0.8" y="0" width="23.4" height="10" rx="2"/><rect class="mms-seg is-on" x="25.8" y="0" width="23.4" height="10" rx="2"/><rect class="mms-seg is-on" x="50.8" y="0" width="23.4" height="10" rx="2"/><rect class="mms-seg is-on" x="75.8" y="0" width="23.4" height="10" rx="2"/></svg></li>
+        <li class="is-spread"><span class="mms-num">11.1<small> h</small></span><span class="mms-num-name">Std dev</span><span class="mms-num-do">Typical distance from the mean</span></li>
+        <li class="is-spread"><span class="mms-num">7<small> h</small></span><span class="mms-num-name">IQR</span><span class="mms-num-do">Middle 50% only</span><svg class="mms-segbar is-iqr" viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true" focusable="false" data-segments="4" data-on="1,2"><rect class="mms-seg" x="0.8" y="0" width="23.4" height="10" rx="2"/><rect class="mms-seg is-on" x="25.8" y="0" width="23.4" height="10" rx="2"/><rect class="mms-seg is-on" x="50.8" y="0" width="23.4" height="10" rx="2"/><rect class="mms-seg" x="75.8" y="0" width="23.4" height="10" rx="2"/></svg></li>
+        <li class="is-spread has-gauge"><span class="mms-num">52.9<small>%</small></span><span class="mms-num-name">CV</span><span class="mms-num-do">Std dev ÷ mean</span><svg class="mms-gauge is-poster" viewBox="0 0 44 44" aria-hidden="true" focusable="false" data-pct="52.9"><circle class="mms-g-track" cx="22" cy="22" r="17"/><circle class="mms-g-arc" cx="22" cy="22" r="17" pathLength="100" stroke-dasharray="52.9 100" transform="rotate(-90 22 22)"/></svg></li>
       </ul>
       <p class="mms-poster-foot">Report a center <em>and</em> a spread. Every time.</p>
     </div>
@@ -469,8 +536,8 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   <div class="mms-wrap">
     <span class="mms-step">The big idea</span>
     <h2 id="mms-why-h">Why the average alone can fool you</h2>
-    <p>Two pipe lines both average 10.0 mm wall thickness. The spec is 9.5 to 10.5 mm. Only one line ships good pipe. <span class="mms-muted">(A made-up example.)</span></p>
-    <div class="mms-versus"><div class="mms-vs-card is-a"><span class="mms-vs-name">Line A</span><span class="mms-vs-big">0 of 6</span><span class="mms-vs-sub">pipes out of spec</span><span class="mms-vs-sd">SD 0.07 mm</span></div><span class="mms-vs-mid" aria-hidden="true">vs</span><div class="mms-vs-card is-b"><span class="mms-vs-name">Line B</span><span class="mms-vs-big">2 of 6</span><span class="mms-vs-sub">pipes out of spec</span><span class="mms-vs-sd">SD 0.72 mm</span></div></div>
+    <p>Both pipe lines average 10.0 mm wall. The spec is 9.5 to 10.5 mm. <span class="mms-muted">(A made-up example.)</span></p>
+    <div class="mms-versus"><div class="mms-vs-card is-a" data-in-spec="6"><span class="mms-vs-name">Line A</span><span class="mms-vs-big">6 of 6</span><span class="mms-vs-sub">pipes in spec</span><svg class="mms-pipes is-a" viewBox="0 0 220 30" aria-hidden="true" focusable="false"><g class="mms-pipe" data-mm="9.9"><circle cx="15" cy="15" r="13"/><circle class="mms-pipe-bore" cx="15" cy="15" r="7"/></g><g class="mms-pipe" data-mm="9.95"><circle cx="53" cy="15" r="13"/><circle class="mms-pipe-bore" cx="53" cy="15" r="7"/></g><g class="mms-pipe" data-mm="10"><circle cx="91" cy="15" r="13"/><circle class="mms-pipe-bore" cx="91" cy="15" r="7"/></g><g class="mms-pipe" data-mm="10"><circle cx="129" cy="15" r="13"/><circle class="mms-pipe-bore" cx="129" cy="15" r="7"/></g><g class="mms-pipe" data-mm="10.05"><circle cx="167" cy="15" r="13"/><circle class="mms-pipe-bore" cx="167" cy="15" r="7"/></g><g class="mms-pipe" data-mm="10.1"><circle cx="205" cy="15" r="13"/><circle class="mms-pipe-bore" cx="205" cy="15" r="7"/></g></svg><span class="mms-vs-sd">SD 0.07 mm</span></div><span class="mms-vs-mid" aria-hidden="true">vs</span><div class="mms-vs-card is-b" data-in-spec="4"><span class="mms-vs-name">Line B</span><span class="mms-vs-big">4 of 6</span><span class="mms-vs-sub">pipes in spec</span><svg class="mms-pipes is-b" viewBox="0 0 220 30" aria-hidden="true" focusable="false"><g class="mms-pipe is-bad" data-mm="9"><circle cx="15" cy="15" r="13"/><circle class="mms-pipe-bore" cx="15" cy="15" r="7"/><path class="mms-pic-x" d="M5 5l20 20"/></g><g class="mms-pipe" data-mm="9.5"><circle cx="53" cy="15" r="13"/><circle class="mms-pipe-bore" cx="53" cy="15" r="7"/></g><g class="mms-pipe" data-mm="9.8"><circle cx="91" cy="15" r="13"/><circle class="mms-pipe-bore" cx="91" cy="15" r="7"/></g><g class="mms-pipe" data-mm="10.2"><circle cx="129" cy="15" r="13"/><circle class="mms-pipe-bore" cx="129" cy="15" r="7"/></g><g class="mms-pipe" data-mm="10.5"><circle cx="167" cy="15" r="13"/><circle class="mms-pipe-bore" cx="167" cy="15" r="7"/></g><g class="mms-pipe is-bad" data-mm="11"><circle cx="205" cy="15" r="13"/><circle class="mms-pipe-bore" cx="205" cy="15" r="7"/><path class="mms-pic-x" d="M195 5l20 20"/></g></svg><span class="mms-vs-sd">SD 0.72 mm</span></div></div>
     <figure class="mms-figure is-wide">
       <svg class="mms-svg" viewBox="0 0 360 228" role="img" aria-labelledby="mms-why-t mms-why-d" data-line-a="9.9,9.95,10,10,10.05,10.1" data-line-b="9,9.5,9.8,10.2,10.5,11" data-spec="9.5,10.5">
 <title id="mms-why-t">Same mean, different spread</title>
@@ -521,7 +588,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   <div class="mms-wrap">
     <span class="mms-step">Part 1: center</span>
     <h2 id="mms-center-h">Mean, median and mode: three ways to find the middle</h2>
-    <p>Seven repair times, in hours: 12, 15, 15, 18, 20, 22, 45. <span class="mms-muted">(A made-up example.)</span></p>
+    <p>The same seven repair times as the poster above.</p>
     <div class="mms-cards is-three">
       <article class="mms-card is-mean">
         <div class="mms-card-head">
@@ -593,7 +660,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 <text class="mms-tick" x="306.5" y="176" text-anchor="middle">45</text>
 <text class="mms-tick" x="356" y="176" text-anchor="end">hours</text>
 </svg>
-      <figcaption><span class="mms-key"><span class="mms-ring-key" aria-hidden="true"></span>Hollow ring = outlier</span>Six of seven repairs took less than the mean of 21 hours.</figcaption>
+      <figcaption><span class="mms-key"><span class="mms-ring-key" aria-hidden="true"></span>Hollow ring = outlier</span>Only 5 of 7 repairs took less than the mean of 21 hours.</figcaption>
     </figure>
   </div>
 </section>
@@ -690,7 +757,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <li class="mms-flow-end"><span class="mms-flow-tag is-go">Otherwise</span><strong>Use the mean and standard deviation.</strong></li>
     </ol>
     <div class="mms-callout">
-      <p><strong>Not sure if it's skewed?</strong> Calculate both the mean and the median. A big gap between them means skew.</p>
+      <p><strong>Not sure?</strong> A big gap between the mean and the median means skew.</p>
     </div>
   </div>
 </section>
@@ -731,6 +798,11 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     </div>
 
     <h3 id="mms-sd-steps">Standard deviation, step by step</h3>
+    <p>Click a step to light up its column in the table.</p>
+    <div class="mms-stepper" id="mms-stepper" role="group" aria-labelledby="mms-sd-steps">
+      <ol class="mms-steps"><li><button type="button" class="mms-stepbtn" id="mms-step-btn-1" data-step="1" aria-pressed="true" aria-controls="mms-step-1"><span class="mms-stepnum">1</span><span class="mms-steptitle">Find the mean</span></button></li><li><button type="button" class="mms-stepbtn" id="mms-step-btn-2" data-step="2" aria-pressed="false" aria-controls="mms-step-2"><span class="mms-stepnum">2</span><span class="mms-steptitle">Find each distance</span></button></li><li><button type="button" class="mms-stepbtn" id="mms-step-btn-3" data-step="3" aria-pressed="false" aria-controls="mms-step-3"><span class="mms-stepnum">3</span><span class="mms-steptitle">Square and add</span></button></li><li><button type="button" class="mms-stepbtn" id="mms-step-btn-4" data-step="4" aria-pressed="false" aria-controls="mms-step-4"><span class="mms-stepnum">4</span><span class="mms-steptitle">Find the variance</span></button></li><li><button type="button" class="mms-stepbtn" id="mms-step-btn-5" data-step="5" aria-pressed="false" aria-controls="mms-step-5"><span class="mms-stepnum">5</span><span class="mms-steptitle">Take the square root</span></button></li></ol>
+      <div class="mms-steppanels" aria-live="polite"><div class="mms-steppanel" id="mms-step-1" data-step="1"><p class="mms-steppanel-k">Step 1 of 5</p><p class="mms-steppanel-big">21 h</p><p class="mms-steppanel-line">Add the 7 values (147) and divide by 7.</p></div><div class="mms-steppanel" id="mms-step-2" data-step="2" data-col="2"><p class="mms-steppanel-k">Step 2 of 5</p><p class="mms-steppanel-big">-9 to +24</p><p class="mms-steppanel-line">Subtract the mean from every value. They sum to 0.</p></div><div class="mms-steppanel" id="mms-step-3" data-step="3" data-col="3"><p class="mms-steppanel-k">Step 3 of 5</p><p class="mms-steppanel-big">740</p><p class="mms-steppanel-line">Square each distance, then add them up.</p></div><div class="mms-steppanel" id="mms-step-4" data-step="4"><p class="mms-steppanel-k">Step 4 of 5</p><p class="mms-steppanel-big">123.3 h²</p><p class="mms-steppanel-line">A sample divides by \(n - 1 = 6\), not \(n\).</p></div><div class="mms-steppanel" id="mms-step-5" data-step="5"><p class="mms-steppanel-k">Step 5 of 5</p><p class="mms-steppanel-big">11.1 h</p><p class="mms-steppanel-line">Back in hours: the standard deviation.</p></div></div>
+    </div>
     <div class="table-scroll" tabindex="0" role="region" aria-label="Standard deviation worked example" style="overflow-x:auto">
       <table class="mms-table" id="mms-sd-table">
         <thead><tr><th scope="col">Value \(x_i\)</th><th scope="col">Distance \(x_i - \bar{x}\)</th><th scope="col">Squared \((x_i - \bar{x})^2\)</th></tr></thead>
@@ -752,7 +824,11 @@ s^2 &= \frac{\sum (x_i - \bar{x})^2}{n - 1} = \frac{740}{6} = 123.3 \\
 s &= \sqrt{123.3} = 11.1
 \end{aligned}
 \]</div>
-    <p>where \(s^2\) is the sample variance and \(s\) the sample standard deviation. Divide by \(n - 1\) for a sample; use \(n\) only for a whole population.</p>
+    <p>where \(s^2\) is the sample variance and \(s\) the sample standard deviation.</p>
+    <div class="mms-stat" id="mms-share-stat" data-pct="77.8">
+      <svg class="mms-gauge is-share" viewBox="0 0 44 44" aria-hidden="true" focusable="false" data-pct="77.8"><circle class="mms-g-track" cx="22" cy="22" r="17"/><circle class="mms-g-arc" cx="22" cy="22" r="17" pathLength="100" stroke-dasharray="77.8 100" transform="rotate(-90 22 22)"/></svg>
+      <p><strong class="mms-stat-big">77.8%</strong> of the squared distance comes from the 45-hour repair.</p>
+    </div>
     <figure class="mms-figure is-wide">
       <svg class="mms-svg" viewBox="0 0 360 252" role="img" aria-labelledby="mms-sq-t mms-sq-d" data-values="12,15,15,18,20,22,45" data-sum-squares="740">
 <title id="mms-sq-t">Variance is the average area of these squares</title>
@@ -782,7 +858,7 @@ s &= \sqrt{123.3} = 11.1
 <text class="mms-tick" x="292" y="246" text-anchor="middle">45</text>
 <text class="mms-tick" x="330" y="246" text-anchor="middle">50</text>
 </svg>
-      <figcaption><span class="mms-key"><span class="mms-sq is-hot" aria-hidden="true"></span>The 45-hour repair</span>Its square is 576 of the 740 total: 77.8% of all the area. The squares for 20 and 22 are just 1 each.</figcaption>
+      <figcaption><span class="mms-key"><span class="mms-sq is-hot" aria-hidden="true"></span>The 45-hour repair</span>Each square's area is that value's squared distance from the mean.</figcaption>
     </figure>
 
     <h3 id="mms-iqr-box">The IQR on a box plot</h3>
@@ -817,7 +893,7 @@ s &= \sqrt{123.3} = 11.1
 <text class="mms-tick" x="306.5" y="176" text-anchor="middle">45</text>
 <text class="mms-tick" x="356" y="176" text-anchor="end">hours</text>
 </svg>
-      <figcaption><span class="mms-key"><span class="mms-swatch is-box"></span>Box = IQR, the middle 50%</span><span class="mms-key"><span class="mms-swatch is-limit"></span>Fence</span>The bouncer lets the middle in and flags anything past the fence.</figcaption>
+      <figcaption><span class="mms-key"><span class="mms-swatch is-box"></span>Box = IQR, the middle 50%</span><span class="mms-key"><span class="mms-swatch is-limit"></span>Fence</span>Past the fence means outlier.</figcaption>
     </figure>
     <div class="mms-math">\[ \text{Upper fence} = Q_3 + 1.5 \times \text{IQR} = 22 + 1.5 \times 7 = 32.5 \]</div>
   </div>
@@ -865,7 +941,7 @@ s &= \sqrt{123.3} = 11.1
         </tbody>
       </table>
     </div>
-    <p class="mms-note-p">Older names such as <code>STDEV</code>, <code>VAR</code> and <code>MODE</code> still work. Use the newer names.</p>
+    <p class="mms-note-p">Older names (<code>STDEV</code>, <code>VAR</code>, <code>MODE</code>) still work; use the new ones.</p>
 
     <h3 id="mms-excel-uses">Excel use cases</h3>
     <p>Put the seven repair times in cells A2:A8.</p>
@@ -886,7 +962,7 @@ s &= \sqrt{123.3} = 11.1
         </tbody>
       </table>
     </div>
-    <p class="mms-note-p"><code>QUARTILE.INC</code> gives an IQR of 6 for the same data. Both are valid methods, so say which one you used.</p>
+    <p class="mms-note-p"><code>QUARTILE.INC</code> gives an IQR of 6 instead. Say which method you used.</p>
 
     <h3 id="mms-minitab">Minitab navigation</h3>
     <div class="table-scroll" tabindex="0" role="region" aria-label="Minitab menu paths" style="overflow-x:auto">
@@ -910,7 +986,6 @@ s &= \sqrt{123.3} = 11.1
       <li><strong>Combining sources</strong><span>Add variances: \(\sigma_{\text{total}} = \sqrt{\sigma_1^2 + \sigma_2^2}\).</span></li>
       <li><strong>Control charts</strong><span>Estimate sigma from ranges: \(\hat{\sigma} = \bar{R} / d_2\).</span></li>
       <li><strong>Different units</strong><span>Compare variability with CV, not standard deviation.</span></li>
-      <li><strong>Real data</strong><span>Excel and Minitab quartiles differ? Check .INC versus .EXC.</span></li>
     </ul>
   </div>
 </section>
@@ -1115,6 +1190,41 @@ s &= \sqrt{123.3} = 11.1
   });
   update();
 })();
+
+/* Standard deviation stepper: one step lit at a time, the rest faded; the worked table
+   highlights the column that step works on. Without JavaScript every step stays visible. */
+(function () {
+  'use strict';
+  var root = document.getElementById('mms-stepper');
+  if (!root) return;
+  var buttons = Array.prototype.slice.call(root.querySelectorAll('.mms-stepbtn'));
+  var panels = Array.prototype.slice.call(root.querySelectorAll('.mms-steppanel'));
+  var table = document.getElementById('mms-sd-table');
+  root.classList.add('is-live');
+  function show(n) {
+    buttons.forEach(function (b) {
+      var on = Number(b.getAttribute('data-step')) === n;
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      b.classList.toggle('is-done', Number(b.getAttribute('data-step')) < n);
+    });
+    var col = '';
+    panels.forEach(function (p) {
+      var on = Number(p.getAttribute('data-step')) === n;
+      p.hidden = !on;
+      if (on) col = p.getAttribute('data-col') || '';
+    });
+    if (table) {
+      Array.prototype.forEach.call(table.querySelectorAll('th, td'), function (cell) { cell.classList.remove('is-lit'); });
+      if (col) {
+        Array.prototype.forEach.call(table.querySelectorAll('tr > :nth-child(' + col + ')'), function (cell) { cell.classList.add('is-lit'); });
+      }
+    }
+  }
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { show(Number(b.getAttribute('data-step'))); });
+  });
+  show(1);
+})();
 </script>
 <script>
 (function () {
@@ -1154,8 +1264,8 @@ html[data-theme="dark"] #lesson-content{
   --lesson-mms-teal:#5fd0dc;
   --lesson-mms-teal-bg:#123241;
   --lesson-mms-on-accent:#08141f;
-  --lesson-mms-mean:#9cc2ec;
-  --lesson-mms-mean-bg:#18304d;
+  --lesson-mms-mean:#9fc4de;
+  --lesson-mms-mean-bg:#16314a;
   --lesson-mms-median:#f2b84b;
   --lesson-mms-median-bg:#332811;
   --lesson-mms-mode:#5fd0dc;
@@ -1163,19 +1273,19 @@ html[data-theme="dark"] #lesson-content{
   --lesson-mms-red:#ff9b91;
   --lesson-mms-hot:#ff9b91;
   --lesson-mms-hot-bg:#3a1b1b;
-  --lesson-mms-spread:#c3a6ff;
-  --lesson-mms-spread-bg:#2a1f45;
-  --lesson-mms-green:#63d59a;
-  --lesson-mms-green-bg:#123224;
-  --lesson-mms-band:#123224;
+  --lesson-mms-spread:#b7d36a;
+  --lesson-mms-spread-bg:#25301a;
+  --lesson-mms-band:#123241;
   --lesson-mms-curve:#1a2b42;
   --lesson-mms-focus:#7dd3fc;
-  --lesson-mms-poster-bg:#07101f;
+  --lesson-mms-poster-bg:#07141c;
   --lesson-mms-poster-text:#ffffff;
   --lesson-mms-poster-text-2:#c9d4e3;
   --lesson-mms-poster-line:rgba(255,255,255,.22);
   --lesson-mms-shadow:none;
 }
+/* the coloured tiles keep their light-mode fills; a hairline keeps the deep navy tile distinct on the dark panel */
+html[data-theme="dark"] #lesson-content .mms-bignums li{box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
 </style>
 </body>
 </html>

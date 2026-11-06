@@ -112,6 +112,17 @@ test('canonical chrome, one main and h1, body attributes, no hardcoded progress 
   for (const th of doc.querySelectorAll('main th')) assert(th.textContent.trim(), 'no empty th');
 });
 
+test('a tight 4-colour palette: mode, median, mean and spread, plus status red and neutrals (guide §24.8)', () => {
+  const css = doc.getElementById('mms-style').textContent;
+  const hex = name => (css.match(new RegExp(`--lesson-mms-${name}:(#[0-9a-f]{6})`)) || [])[1];
+  const palette = ['mode', 'median', 'mean', 'spread'].map(hex);
+  assert.deepEqual(palette, ['#0f6b78', '#8a5300', '#17405a', '#4e6a12']);
+  assert(!/--lesson-mms-green/.test(css), 'no fifth accent colour');
+  // The poster tiles use exactly those four fills.
+  const tileFills = [...css.matchAll(/\.mms-bignums li\.is-[a-z]+\{background:(#[0-9a-f]{6})\}/g)].map(m => m[1]);
+  assert.deepEqual([...new Set(tileFills)].sort(), [...palette].sort());
+});
+
 test('lesson-owned CSS is namespaced and never restyles site chrome', () => {
   const css = doc.getElementById('mms-style').textContent + doc.getElementById(`${SLUG}-dark-overrides`).textContent;
   const declared = [...css.matchAll(/(--[\w-]+)\s*:/g)].map(m => m[1]);
@@ -134,9 +145,25 @@ test('visual-first: key-numbers poster, character cards, decision flow and short
   // Giant numbers: every one matches the data.
   const tiles = sel => [...poster.querySelectorAll(`${sel} li`)].map(li => [li.querySelector('.mms-num-name').textContent, li.querySelector('.mms-num').textContent.replace(/\s+/g, '')]);
   assert.deepEqual(tiles('.mms-bignums.is-center'), [['Mode', '15h'], ['Median', `${r.median}h`], ['Mean', `${r.mean}h`]]);
-  const cv = (r.sd / r.mean * 100).toFixed(1);
+  const cv = (Math.round(r.sd / r.mean * 1000) / 10).toString();
   assert.deepEqual(tiles('.mms-bignums.is-spread'), [['Range', `${Math.max(...vals) - Math.min(...vals)}h`], ['Std dev', `${r.sd.toFixed(1)}h`], ['IQR', `${r.q3 - r.q1}h`], ['CV', `${cv}%`]]);
   for (const t of poster.querySelectorAll('.mms-num-do')) assert(words(t) <= 6, 'poster tiles stay short');
+  // Pictogram row: one block per repair, filled when below the mean, crossed out for the outlier; the count is text.
+  const row = poster.querySelector('.mms-picto-row');
+  const below = vals.filter(v => v < r.mean).length;
+  assert.equal(below, 5);
+  assert.equal(row.querySelectorAll('rect.mms-pic').length, vals.length);
+  assert.equal(row.querySelectorAll('rect.mms-pic.is-on').length, below);
+  assert.equal(row.querySelectorAll('rect.mms-pic.is-bad').length, 1);
+  assert.equal(row.querySelector('.mms-picto-big').textContent, `${below} of ${vals.length}`);
+  // Donut gauge on CV and segmented bars on Range and IQR, drawn from the data.
+  assert.equal(poster.querySelector('.has-gauge .mms-gauge').dataset.pct, cv);
+  assert.equal(poster.querySelector('.has-gauge .mms-g-arc').getAttribute('stroke-dasharray'), `${cv} 100`);
+  const iqrBar = poster.querySelector('.mms-segbar.is-iqr');
+  assert.equal(iqrBar.dataset.on, '1,2', 'IQR lights the middle two quarters');
+  assert.equal(iqrBar.querySelectorAll('rect.is-on').length, 2);
+  assert.equal(poster.querySelector('.mms-segbar.is-range').querySelectorAll('rect.is-on').length, 4);
+  for (const g of doc.querySelectorAll('svg.mms-gauge, svg.mms-segbar, svg.mms-picto, svg.mms-pipes')) assert.equal(g.getAttribute('aria-hidden'), 'true', 'decorative marks carry no text of their own');
   // Each measure of center is a character card with a face, a nickname and a one-line quote.
   const cards = [...doc.querySelectorAll('#mms-center .mms-card')];
   assert.deepEqual(cards.map(c => c.querySelector('.mms-card-kicker').textContent), ['The people-pleaser', 'The diplomat', 'The popular kid']);
@@ -179,18 +206,18 @@ test('every chart is an accessible image whose text matches its data', () => {
     assert(svg.closest('figure').querySelector('figcaption').textContent.trim());
   }
   // Why both: identical means, very different spread, two pipes out of spec on Line B.
-  const why = doc.querySelector('#mms-why svg');
+  const why = doc.querySelector('#mms-why svg.mms-svg');
   const a = stats(nums(why.dataset.lineA)), b = stats(nums(why.dataset.lineB));
   const [lsl, usl] = nums(why.dataset.spec);
+  const outB = nums(why.dataset.lineB).filter(v => v < lsl || v > usl).length;
+  assert.equal(outB, 2);
   assert.equal(a.mean.toFixed(1), '10.0');
   assert.equal(b.mean.toFixed(1), '10.0');
   assert.match(text(why), new RegExp(`SD ${a.sd.toFixed(2)}`));
   assert.match(text(why), new RegExp(`SD ${b.sd.toFixed(2)}`));
-  const outB = nums(why.dataset.lineB).filter(v => v < lsl || v > usl).length;
-  assert.equal(outB, 2);
-  assert.equal(nums(why.dataset.lineA).filter(v => v < lsl || v > usl).length, 0);
-  const versus = [...doc.querySelectorAll('#mms-why .mms-vs-card')].map(c => [c.querySelector('.mms-vs-big').textContent, c.querySelector('.mms-vs-sd').textContent]);
-  assert.deepEqual(versus, [['0 of 6', `SD ${a.sd.toFixed(2)} mm`], ['2 of 6', `SD ${b.sd.toFixed(2)} mm`]]);
+    assert.equal(nums(why.dataset.lineA).filter(v => v < lsl || v > usl).length, 0);
+  const versus = [...doc.querySelectorAll('#mms-why .mms-vs-card')].map(c => [c.querySelector('.mms-vs-big').textContent, c.querySelector('.mms-vs-sd').textContent, c.querySelectorAll('.mms-pipe').length, c.querySelectorAll('.mms-pipe.is-bad').length]);
+  assert.deepEqual(versus, [['6 of 6', `SD ${a.sd.toFixed(2)} mm`, 6, 0], ['4 of 6', `SD ${b.sd.toFixed(2)} mm`, 6, outB]]);
   assert.equal(why.querySelectorAll('rect.is-bad').length, outB);
   // Center: the repair times give mean 21, median 18, mode 15.
   const center = doc.querySelector('#mms-center svg.mms-svg');
@@ -200,6 +227,8 @@ test('every chart is an accessible image whose text matches its data', () => {
   assert.equal(r.mean, 21);
   assert.equal(r.median, 18);
   for (const label of ['Mean 21', 'Median 18', 'Mode 15', 'Outlier 45']) assert(text(center).includes(label), label);
+  assert.match(text(center.closest('figure').querySelector('figcaption')), new RegExp(`${repairs.filter(v => v < 21).length} of ${repairs.length} repairs took less than the mean`));
+  assert.equal(doc.querySelector('#mms-share-stat .mms-gauge').dataset.pct, (576 / 740 * 100).toFixed(1));
   assert.equal(repairs.reduce((s, v) => s + v, 0), 147);
   // Variance drawn as squares: each square's area is that value's squared distance from the mean.
   const sq = doc.querySelector('#mms-spread svg[aria-labelledby^="mms-sq"]');
@@ -216,7 +245,7 @@ test('every chart is an accessible image whose text matches its data', () => {
   assert.equal(sq.querySelectorAll('rect.is-hot').length, 1);
   assert.match(text(sq), /576/);
   const top = (45 - r.mean) ** 2 / r.ss * 100;
-  assert.match(text(sq.closest('figure').querySelector('figcaption')), new RegExp(`${top.toFixed(1)}%`));
+  assert.match(text(doc.getElementById('mms-share-stat')), new RegExp(`${top.toFixed(1)}%`));
   // Box plot: Q1, Q3, IQR and the fence.
   const box = doc.querySelector('#mms-spread svg[aria-labelledby^="mms-box"]');
   const iqr = r.q3 - r.q1, fence = r.q3 + 1.5 * iqr;
@@ -337,6 +366,36 @@ test('the drag-the-outlier lab recomputes center and spread and says which pair 
   document.getElementById('mms-reset').click();
   assert.equal(slider.value, '45');
   assert.equal(read('mean'), '21');
+  assert.deepEqual(errors, []);
+  window.close();
+});
+
+test('the standard deviation stepper reveals one step at a time and lights the table column', () => {
+  const { window, document, errors } = liveLesson();
+  const root = document.getElementById('mms-stepper');
+  assert(root.classList.contains('is-live'));
+  const btns = [...root.querySelectorAll('.mms-stepbtn')];
+  const panels = [...root.querySelectorAll('.mms-steppanel')];
+  assert.equal(btns.length, 5);
+  assert(btns.every(b => b.getAttribute('type') === 'button'));
+  const visible = () => panels.filter(p => !p.hidden).map(p => p.querySelector('.mms-steppanel-big').textContent);
+  assert.deepEqual(visible(), ['21 h']);
+  assert.equal(btns[0].getAttribute('aria-pressed'), 'true');
+  const lit = () => [...document.querySelectorAll('#mms-sd-table .is-lit')].map(c => c.textContent);
+  assert.deepEqual(lit(), []);
+  btns[2].click();
+  assert.deepEqual(visible(), ['740']);
+  assert.deepEqual(btns.map(b => b.getAttribute('aria-pressed')), ['false', 'false', 'true', 'false', 'false']);
+  assert(btns[0].classList.contains('is-done') && btns[1].classList.contains('is-done') && !btns[3].classList.contains('is-done'));
+  assert.equal(lit().at(-1), '740', 'the squared column, total included, is lit');
+  assert.equal(lit().length, 9);
+  btns[1].click();
+  assert.match(visible()[0], /^-9 to \+24$/);
+  btns[3].click();
+  assert.deepEqual(visible(), ['123.3 h²']);
+  assert.deepEqual(lit(), []);
+  btns[4].click();
+  assert.deepEqual(visible(), ['11.1 h']);
   assert.deepEqual(errors, []);
   window.close();
 });
