@@ -94,9 +94,9 @@
       level: 'beginner',
       interactive: 'true',
       search: 'mean median mode central tendency dispersion spread range standard deviation variance interquartile range iqr coefficient of variation skewness box plot outlier descriptive statistics excel minitab statistics beginner interactive',
-      meta: '<span>Beginner</span><span>Interactive</span><span>15 min</span><span>Excel + Minitab</span>',
-      title: 'Mean, Median, Mode and Spread in 15 Minutes',
-      description: 'Find the center and the spread of any dataset: mean, median, mode, range, standard deviation, IQR and CV, with a drag-the-outlier lab.'
+      meta: '<span>Beginner</span><span>Interactive</span><span>30 min</span><span>Excel + Minitab</span>',
+      title: 'Mean, Median, Mode and Spread',
+      description: 'Find the center and the spread of any dataset, explained step by step: mean, median, mode, range, IQR, standard deviation and CV.'
     },
     {
       marker: 'data-the-lean-a-field-guide-to-bias',

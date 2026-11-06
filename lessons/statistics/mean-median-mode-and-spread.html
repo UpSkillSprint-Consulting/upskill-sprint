@@ -2,16 +2,16 @@
 <html lang="en">
 <!-- UPSKILLSPRINT_LESSON_META
 {
-  "title": "Mean, Median, Mode and Spread in 15 Minutes",
+  "title": "Mean, Median, Mode and Spread",
   "slug": "mean-median-mode-and-spread",
   "category": "Statistics",
   "category_slug": "statistics",
   "level": "Beginner",
   "lesson_type": "General",
-  "estimated_minutes": 15,
+  "estimated_minutes": 30,
   "interactive": true,
-  "card_title": "Mean, Median, Mode and Spread in 15 Minutes",
-  "card_description": "Find the center and the spread of any dataset: mean, median, mode, range, standard deviation, IQR and CV, with a drag-the-outlier lab.",
+  "card_title": "Mean, Median, Mode and Spread",
+  "card_description": "Find the center and the spread of any dataset, explained step by step: mean, median, mode, range, IQR, standard deviation and CV.",
   "search_keywords": ["mean","median","mode","central tendency","dispersion","spread","range","standard deviation","variance","interquartile range","iqr","coefficient of variation","skewness","box plot","descriptive statistics","excel","minitab"],
   "suggested_github_path": "lessons/statistics/mean-median-mode-and-spread.html",
   "access_level": "public"
@@ -20,14 +20,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mean, Median, Mode and Spread in 15 Minutes | UpSkill Sprint</title>
-<meta name="description" content="Learn the mean, median and mode, plus range, standard deviation, IQR and CV, with interactive charts, a drag-the-outlier lab, and Excel and Minitab steps.">
+<title>Mean, Median, Mode and Spread | UpSkill Sprint</title>
+<meta name="description" content="Learn the mean, median and mode, plus range, IQR, standard deviation and CV, explained step by step with worked examples, interactive charts and Excel.">
 <!-- One plain-text sentence, 40–160 characters: what the learner will be able to do. -->
 <meta name="upskill:email-teaser" content="Find the typical value and the spread of any dataset, and know when the median beats the mean.">
 <link rel="canonical" href="https://upskillsprint.com/lessons/statistics/mean-median-mode-and-spread">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mean, Median, Mode and Spread in 15 Minutes | UpSkill Sprint">
-<meta property="og:description" content="Learn the mean, median and mode, plus range, standard deviation, IQR and CV, with interactive charts, a drag-the-outlier lab, and Excel and Minitab steps.">
+<meta property="og:title" content="Mean, Median, Mode and Spread | UpSkill Sprint">
+<meta property="og:description" content="Learn the mean, median and mode, plus range, IQR, standard deviation and CV, explained step by step with worked examples, interactive charts and Excel.">
 <meta property="og:image" content="https://upskillsprint.com/assets/logo-og.png">
 <meta property="og:url" content="https://upskillsprint.com/lessons/statistics/mean-median-mode-and-spread">
 <meta name="twitter:card" content="summary">
@@ -50,9 +50,9 @@
     {"@type": "BreadcrumbList", "itemListElement": [
       {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://upskillsprint.com/"},
       {"@type": "ListItem", "position": 2, "name": "Lessons", "item": "https://upskillsprint.com/lessons"},
-      {"@type": "ListItem", "position": 3, "name": "Mean, Median, Mode and Spread in 15 Minutes", "item": "https://upskillsprint.com/lessons/statistics/mean-median-mode-and-spread"}
+      {"@type": "ListItem", "position": 3, "name": "Mean, Median, Mode and Spread", "item": "https://upskillsprint.com/lessons/statistics/mean-median-mode-and-spread"}
     ]},
-    {"@type": "LearningResource", "name": "Mean, Median, Mode and Spread in 15 Minutes", "description": "Learn the mean, median and mode, plus range, standard deviation, IQR and CV, with interactive charts, a drag-the-outlier lab, and Excel and Minitab steps.", "url": "https://upskillsprint.com/lessons/statistics/mean-median-mode-and-spread", "learningResourceType": "Lesson", "educationalLevel": "Beginner", "provider": {"@type": "Organization", "name": "UpSkill Sprint Consulting", "url": "https://upskillsprint.com/"}}
+    {"@type": "LearningResource", "name": "Mean, Median, Mode and Spread", "description": "Learn the mean, median and mode, plus range, IQR, standard deviation and CV, explained step by step with worked examples, interactive charts and Excel.", "url": "https://upskillsprint.com/lessons/statistics/mean-median-mode-and-spread", "learningResourceType": "Lesson", "educationalLevel": "Beginner", "provider": {"@type": "Organization", "name": "UpSkill Sprint Consulting", "url": "https://upskillsprint.com/"}}
   ]
 }
 </script>
@@ -445,6 +445,65 @@
   #lesson-content .mms-bignums li.has-gauge .mms-gauge{width:44px;height:44px;right:8px;top:10px}
   #lesson-content .mms-bignums li.has-gauge{padding-right:56px}
 }
+
+/* ===== explanation-first layout (Grade 12 reading level) ===== */
+#lesson-content .mms-goals{margin:0 0 18px;padding:14px 18px;border-radius:14px;background:var(--lesson-mms-surface);border:1px solid var(--lesson-mms-border);color:var(--lesson-mms-text)}
+#lesson-content .mms-goals-h{margin:0 0 6px;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--lesson-mms-teal)}
+#lesson-content .mms-goals ul{margin:0;padding-left:20px}
+#lesson-content .mms-goals li{margin:2px 0}
+#lesson-content .mms-two{list-style:none;margin:12px 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+#lesson-content .mms-two li{margin:0;padding:12px 14px;border-radius:12px;background:var(--lesson-mms-surface);border:1px solid var(--lesson-mms-border);border-left:5px solid var(--lesson-mms-mode);color:var(--lesson-mms-text)}
+#lesson-content .mms-two li + li{border-left-color:var(--lesson-mms-spread)}
+#lesson-content .mms-data{font-family:'Source Serif 4',Georgia,serif;font-size:24px;font-weight:700;letter-spacing:.02em;color:var(--lesson-mms-text);margin:4px 0 14px}
+#lesson-content .mms-notice{margin:14px 0 0;padding:12px 16px;border-radius:12px;background:var(--lesson-mms-surface-2);color:var(--lesson-mms-text);font-size:16px}
+#lesson-content .mms-concept{margin:18px 0;padding:18px 20px;border-radius:16px;background:var(--lesson-mms-surface);color:var(--lesson-mms-text);border:1px solid var(--lesson-mms-border);border-top:6px solid var(--lesson-mms-control);box-shadow:var(--lesson-mms-shadow)}
+#lesson-content .mms-concept.is-mean{border-top-color:var(--lesson-mms-mean)}
+#lesson-content .mms-concept.is-median{border-top-color:var(--lesson-mms-median)}
+#lesson-content .mms-concept.is-mode{border-top-color:var(--lesson-mms-mode)}
+#lesson-content .mms-concept.is-spread{border-top-color:var(--lesson-mms-spread)}
+#lesson-content .mms-concept h3{margin:2px 0 8px;font-size:21px}
+#lesson-content .mms-concept-head{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+#lesson-content .mms-concept-head h3{margin:2px 0 0}
+#lesson-content .mms-concept-head .mms-face{width:62px;height:62px;flex-shrink:0}
+#lesson-content .mms-concept.is-mean .mms-card-kicker{color:var(--lesson-mms-mean)}
+#lesson-content .mms-concept.is-median .mms-card-kicker{color:var(--lesson-mms-median)}
+#lesson-content .mms-concept.is-mode .mms-card-kicker{color:var(--lesson-mms-mode)}
+#lesson-content .mms-concept p{margin:10px 0}
+#lesson-content .mms-concept .mms-math{background:var(--lesson-mms-surface-2);border-radius:10px;padding:4px 12px;margin:10px 0}
+#lesson-content p.mms-how-h, #lesson-content p.mms-line-h{margin:14px 0 4px;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--lesson-mms-text-2)}
+#lesson-content .mms-how{margin:0;padding-left:22px}
+#lesson-content .mms-how li{margin:4px 0}
+#lesson-content p.mms-watch{padding:10px 14px;border-radius:10px;border-left:5px solid var(--lesson-mms-hot);background:var(--lesson-mms-hot-bg);color:var(--lesson-mms-text)}
+#lesson-content .mms-check{margin:12px 0 0;border:1px solid var(--lesson-mms-border);border-radius:12px;background:var(--lesson-mms-surface-2);color:var(--lesson-mms-text)}
+#lesson-content .mms-check summary{cursor:pointer;padding:12px 14px;font-weight:700;font-size:16px;min-height:24px}
+#lesson-content .mms-check summary:focus-visible{outline:3px solid var(--lesson-mms-focus);outline-offset:2px;border-radius:12px}
+#lesson-content .mms-check-tag{display:inline-block;margin-right:8px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;background:var(--lesson-mms-teal);color:var(--lesson-mms-on-accent)}
+#lesson-content .mms-check-a{padding:0 14px 12px;font-size:16px;line-height:1.6}
+#lesson-content .mms-check-a::before{content:"Answer: ";font-weight:800}
+#lesson-content .mms-line{display:flex;gap:6px;margin:4px 0 10px;padding:0;list-style:none}
+#lesson-content .mms-line li{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px}
+#lesson-content .mms-line-pos{font-size:11.5px;font-weight:700;color:var(--lesson-mms-text-2)}
+#lesson-content .mms-line-v{display:block;width:100%;text-align:center;font-family:'Source Serif 4',Georgia,serif;font-size:22px;font-weight:700;padding:9px 0;border-radius:10px;border:2px solid var(--lesson-mms-border);background:var(--lesson-mms-surface-2);color:var(--lesson-mms-text)}
+#lesson-content .mms-line-tag{min-height:16px;font-size:11.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--lesson-mms-text-2);text-align:center}
+#lesson-content .mms-line li.is-mid .mms-line-v, #lesson-content .mms-line li.is-pair .mms-line-v, #lesson-content .mms-line li.is-med .mms-line-v{background:#8a5300;border-color:#8a5300;color:#ffffff}
+#lesson-content .mms-line li.is-q1 .mms-line-v, #lesson-content .mms-line li.is-q3 .mms-line-v{background:#4e6a12;border-color:#4e6a12;color:#ffffff}
+#lesson-content .mms-line li.is-mid .mms-line-tag, #lesson-content .mms-line li.is-pair .mms-line-tag, #lesson-content .mms-line li.is-med .mms-line-tag{color:var(--lesson-mms-median)}
+#lesson-content .mms-line li.is-q1 .mms-line-tag, #lesson-content .mms-line li.is-q3 .mms-line-tag{color:var(--lesson-mms-spread)}
+#lesson-content p.mms-answer{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:12px 0;font-size:15.5px;color:var(--lesson-mms-text-2)}
+#lesson-content .mms-answer-big{font-family:'Source Serif 4',Georgia,serif;font-size:40px;font-weight:700;line-height:1;color:var(--lesson-mms-spread)}
+#lesson-content .mms-try{margin:14px 0 0;padding:14px 18px 14px 36px;border-radius:12px;background:var(--lesson-mms-surface-2);color:var(--lesson-mms-text)}
+#lesson-content .mms-try li{margin:4px 0}
+#lesson-content .mms-terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;margin:12px 0 0}
+#lesson-content .mms-terms > div{padding:10px 14px;border-radius:10px;border:1px solid var(--lesson-mms-border);background:var(--lesson-mms-surface);color:var(--lesson-mms-text)}
+#lesson-content .mms-terms dt{font-weight:800;font-size:15.5px;color:var(--lesson-mms-text)}
+#lesson-content .mms-terms dd{margin:2px 0 0;font-size:15px;line-height:1.5;color:var(--lesson-mms-text-2)}
+@media (max-width:640px){
+  #lesson-content .mms-concept{padding:14px 12px}
+  #lesson-content .mms-line{gap:3px}
+  #lesson-content .mms-line-v{font-size:17px;padding:7px 0}
+  #lesson-content .mms-line-tag{font-size:9.5px;letter-spacing:0}
+  #lesson-content .mms-data{font-size:20px}
+}
 </style>
 <style id="uss-quiz-style">
 .quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
@@ -492,10 +551,19 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 <section class="mms-hero" aria-labelledby="mms-title">
   <div class="mms-wrap">
     <ul class="mms-kicker" aria-label="Lesson details">
-      <li>Statistics</li><li>Beginner</li><li>15 min</li><li>Interactive</li>
+      <li>Statistics</li><li>Beginner</li><li>30 min</li><li>Interactive</li>
     </ul>
-    <h1 id="mms-title">Mean, Median, Mode and Spread in 15 Minutes</h1>
-    <p class="mms-lede">The <strong>mean, median and mode</strong> tell you where your data sits. <strong>Spread</strong> tells you how far it wanders.</p>
+    <h1 id="mms-title">Mean, Median, Mode and Spread</h1>
+    <p class="mms-lede">The <strong>mean, median and mode</strong> tell you where the middle of your data is. <strong>Spread</strong> tells you how far the values wander from that middle.</p>
+    <div class="mms-goals">
+      <p class="mms-goals-h">By the end you will be able to</p>
+      <ul>
+        <li>work out the mean, median and mode, and say what each means</li>
+        <li>pick the right one when data has outliers</li>
+        <li>measure spread: range, IQR and standard deviation</li>
+        <li>do it in Excel and Minitab</li>
+      </ul>
+    </div>
     <div class="mms-poster mms-hero-poster" id="mms-poster" data-values="12,15,15,18,20,22,45">
       <p class="mms-poster-title">One dataset, every key number <span>Seven repair times in hours, sorted (a made-up example)</span></p>
       <ol class="mms-chips" aria-label="The seven repair times, sorted"><li class="" data-value="12"><span class="mms-chip-v">12</span></li><li class="is-mode" data-value="15"><span class="mms-chip-v">15</span><span class="mms-chip-tag">mode</span></li><li class="is-mode" data-value="15"><span class="mms-chip-v">15</span><span class="mms-chip-tag">mode</span></li><li class="is-median" data-value="18"><span class="mms-chip-v">18</span><span class="mms-chip-tag">middle</span></li><li class="" data-value="20"><span class="mms-chip-v">20</span></li><li class="" data-value="22"><span class="mms-chip-v">22</span></li><li class="is-outlier" data-value="45"><span class="mms-chip-v">45</span><span class="mms-chip-tag">outlier</span></li></ol>
@@ -520,11 +588,12 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     </div>
     <nav aria-label="Lesson sections">
       <ul class="mms-toc">
-        <li><a href="#mms-why">Why both</a></li>
-        <li><a href="#mms-center">Center</a></li>
+        <li><a href="#mms-why">Why two numbers</a></li>
+        <li><a href="#mms-center">Mean, median, mode</a></li>
         <li><a href="#mms-lab">Drag the outlier</a></li>
-        <li><a href="#mms-choose">Which to report</a></li>
+        <li><a href="#mms-choose">Which one to use</a></li>
         <li><a href="#mms-spread">Spread</a></li>
+        <li><a href="#mms-terms">Key terms</a></li>
         <li><a href="#mms-implementation">Excel and Minitab</a></li>
         <li><a href="#quiz">Quiz</a></li>
       </ul>
@@ -535,8 +604,13 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 <section class="mms-section" id="mms-why" aria-labelledby="mms-why-h">
   <div class="mms-wrap">
     <span class="mms-step">The big idea</span>
-    <h2 id="mms-why-h">Why the average alone can fool you</h2>
-    <p>Both pipe lines average 10.0 mm wall. The spec is 9.5 to 10.5 mm. <span class="mms-muted">(A made-up example.)</span></p>
+    <h2 id="mms-why-h">Why one number is never enough</h2>
+    <p>A <strong>dataset</strong> is a list of measurements, like test marks or pipe thicknesses. We summarize it with two kinds of number.</p>
+    <ul class="mms-two">
+      <li><strong>Center:</strong> a typical value, where the data sits.</li>
+      <li><strong>Spread:</strong> how far the values wander. How consistent is it?</li>
+    </ul>
+    <p>Why both? Two lines make pipe walls that must be 9.5 to 10.5 mm thick. Both <em>average</em> exactly 10.0 mm. <span class="mms-muted">(A made-up example.)</span></p>
     <div class="mms-versus"><div class="mms-vs-card is-a" data-in-spec="6"><span class="mms-vs-name">Line A</span><span class="mms-vs-big">6 of 6</span><span class="mms-vs-sub">pipes in spec</span><svg class="mms-pipes is-a" viewBox="0 0 220 30" aria-hidden="true" focusable="false"><g class="mms-pipe" data-mm="9.9"><circle cx="15" cy="15" r="13"/><circle class="mms-pipe-bore" cx="15" cy="15" r="7"/></g><g class="mms-pipe" data-mm="9.95"><circle cx="53" cy="15" r="13"/><circle class="mms-pipe-bore" cx="53" cy="15" r="7"/></g><g class="mms-pipe" data-mm="10"><circle cx="91" cy="15" r="13"/><circle class="mms-pipe-bore" cx="91" cy="15" r="7"/></g><g class="mms-pipe" data-mm="10"><circle cx="129" cy="15" r="13"/><circle class="mms-pipe-bore" cx="129" cy="15" r="7"/></g><g class="mms-pipe" data-mm="10.05"><circle cx="167" cy="15" r="13"/><circle class="mms-pipe-bore" cx="167" cy="15" r="7"/></g><g class="mms-pipe" data-mm="10.1"><circle cx="205" cy="15" r="13"/><circle class="mms-pipe-bore" cx="205" cy="15" r="7"/></g></svg><span class="mms-vs-sd">SD 0.07 mm</span></div><span class="mms-vs-mid" aria-hidden="true">vs</span><div class="mms-vs-card is-b" data-in-spec="4"><span class="mms-vs-name">Line B</span><span class="mms-vs-big">4 of 6</span><span class="mms-vs-sub">pipes in spec</span><svg class="mms-pipes is-b" viewBox="0 0 220 30" aria-hidden="true" focusable="false"><g class="mms-pipe is-bad" data-mm="9"><circle cx="15" cy="15" r="13"/><circle class="mms-pipe-bore" cx="15" cy="15" r="7"/><path class="mms-pic-x" d="M5 5l20 20"/></g><g class="mms-pipe" data-mm="9.5"><circle cx="53" cy="15" r="13"/><circle class="mms-pipe-bore" cx="53" cy="15" r="7"/></g><g class="mms-pipe" data-mm="9.8"><circle cx="91" cy="15" r="13"/><circle class="mms-pipe-bore" cx="91" cy="15" r="7"/></g><g class="mms-pipe" data-mm="10.2"><circle cx="129" cy="15" r="13"/><circle class="mms-pipe-bore" cx="129" cy="15" r="7"/></g><g class="mms-pipe" data-mm="10.5"><circle cx="167" cy="15" r="13"/><circle class="mms-pipe-bore" cx="167" cy="15" r="7"/></g><g class="mms-pipe is-bad" data-mm="11"><circle cx="205" cy="15" r="13"/><circle class="mms-pipe-bore" cx="205" cy="15" r="7"/><path class="mms-pic-x" d="M195 5l20 20"/></g></svg><span class="mms-vs-sd">SD 0.72 mm</span></div></div>
     <figure class="mms-figure is-wide">
       <svg class="mms-svg" viewBox="0 0 360 228" role="img" aria-labelledby="mms-why-t mms-why-d" data-line-a="9.9,9.95,10,10,10.05,10.1" data-line-b="9,9.5,9.8,10.2,10.5,11" data-spec="9.5,10.5">
@@ -581,49 +655,82 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 </svg>
       <figcaption><span class="mms-key"><span class="mms-swatch is-band"></span>Spec band</span><span class="mms-key"><span class="mms-sq" aria-hidden="true"></span>Square = out of spec</span>Same center, very different spread.</figcaption>
     </figure>
+    <p class="mms-notice"><strong>What to notice:</strong> Line A huddles near 10.0 mm; Line B scatters, with two pipes out of spec. The average alone calls them equal.</p>
   </div>
 </section>
 
 <section class="mms-section" id="mms-center" aria-labelledby="mms-center-h">
   <div class="mms-wrap">
-    <span class="mms-step">Part 1: center</span>
+    <span class="mms-step">Part 1: the center</span>
     <h2 id="mms-center-h">Mean, median and mode: three ways to find the middle</h2>
-    <p>The same seven repair times as the poster above.</p>
-    <div class="mms-cards is-three">
-      <article class="mms-card is-mean">
-        <div class="mms-card-head">
-          <svg class="mms-face" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle class="mms-face-skin is-mean" cx="32" cy="34" r="26"/><circle class="mms-face-eye" cx="24" cy="30" r="6.5"/><circle class="mms-face-eye" cx="41" cy="30" r="6.5"/><circle class="mms-face-ink-f" cx="27" cy="30" r="3"/><circle class="mms-face-ink-f" cx="44" cy="30" r="3"/><path class="mms-face-ink" d="M22 46q4-4 8 0t8 0t8 0"/><path class="mms-face-drop" d="M55 10q4 7 0 10q-4-3 0-10z"/></svg>
-          <div><p class="mms-card-kicker">The people-pleaser</p><h3>Mean: the balance point</h3></div>
-        </div>
-        <p class="mms-quote">&ldquo;One outlier walks in and I change my whole answer.&rdquo;</p>
-        <p>Add every value, then divide by how many there are.</p>
-        <div class="mms-math">\[ \bar{x} = \frac{\sum x_i}{n} = \frac{147}{7} = 21 \]</div>
-        <p class="mms-where">where \(x_i\) is each value and \(n\) is the number of values.</p>
-        <p class="mms-fn"><code>=AVERAGE()</code></p>
-      </article>
-      <article class="mms-card is-median">
-        <div class="mms-card-head">
-          <svg class="mms-face" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle class="mms-face-skin is-median" cx="32" cy="34" r="26"/><path class="mms-face-ink" d="M18 31q5-6 10 0M36 31q5-6 10 0"/><path class="mms-face-ink" d="M23 43q9 7 18 0"/><path class="mms-face-ink" d="M32 2v6"/><circle class="mms-face-ink-f" cx="32" cy="3" r="2.5"/></svg>
-          <div><p class="mms-card-kicker">The diplomat</p><h3>Median: the middle value</h3></div>
-        </div>
-        <p class="mms-quote">&ldquo;Sort it, split it, done. Your outlier is not my problem.&rdquo;</p>
-        <p>Sort the values and take the middle one. With an even count, average the two middle values.</p>
-        <div class="mms-math">\[ \tilde{x} = 18 \]</div>
-        <p class="mms-where">The 4th of 7 sorted values.</p>
-        <p class="mms-fn"><code>=MEDIAN()</code></p>
-      </article>
-      <article class="mms-card is-mode">
-        <div class="mms-card-head">
-          <svg class="mms-face" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle class="mms-face-skin is-mode" cx="32" cy="36" r="25"/><path class="mms-face-crown" d="M15 15l5-12 12 9 12-9 5 12z"/><path class="mms-face-ink" d="M20 33h10M36 33h10"/><circle class="mms-face-ink-f" cx="26" cy="37" r="2.6"/><circle class="mms-face-ink-f" cx="42" cy="37" r="2.6"/><path class="mms-face-ink" d="M25 48q10 5 17-4"/></svg>
-          <div><p class="mms-card-kicker">The popular kid</p><h3>Mode: the most common value</h3></div>
-        </div>
-        <p class="mms-quote">&ldquo;I don't do math. I do headcounts.&rdquo;</p>
-        <p>Count which value appears most often. It works for categories too.</p>
-        <div class="mms-math">\[ \text{Mode} = 15 \]</div>
-        <p class="mms-where">15 appears twice; every other value once.</p>
-        <p class="mms-fn"><code>=MODE.SNGL()</code></p>
-      </article>
-    </div>
+    <p>There are three ways to pick a typical value, and they don't always agree. We'll use these seven repair times, in hours:</p>
+    <p class="mms-data">12, 15, 15, 18, 20, 22, 45</p>
+
+    <article class="mms-concept is-mean" aria-labelledby="mms-mean-h">
+      <div class="mms-concept-head">
+        <svg class="mms-face" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle class="mms-face-skin is-mean" cx="32" cy="34" r="26"/><circle class="mms-face-eye" cx="24" cy="30" r="6.5"/><circle class="mms-face-eye" cx="41" cy="30" r="6.5"/><circle class="mms-face-ink-f" cx="27" cy="30" r="3"/><circle class="mms-face-ink-f" cx="44" cy="30" r="3"/><path class="mms-face-ink" d="M22 46q4-4 8 0t8 0t8 0"/><path class="mms-face-drop" d="M55 10q4 7 0 10q-4-3 0-10z"/></svg>
+        <div><p class="mms-card-kicker">The people-pleaser</p><h3 id="mms-mean-h">The mean: share it out equally</h3></div>
+      </div>
+      <p class="mms-plain"><strong>In plain words:</strong> pour all the hours into one pot and share it equally between the seven repairs. Each share is the <strong>mean</strong>, what most people call "the average."</p>
+      <p class="mms-how-h">How to find it</p>
+      <ol class="mms-how">
+        <li>Add up every value: \(12 + 15 + 15 + 18 + 20 + 22 + 45 = 147\).</li>
+        <li>Count the values: there are \(n = 7\).</li>
+        <li>Divide the total by the count.</li>
+      </ol>
+      <div class="mms-math">\[ \bar{x} = \frac{\sum x_i}{n} = \frac{147}{7} = 21 \]</div>
+      <p class="mms-where">where \(\bar{x}\) ("x-bar") is the mean, \(x_i\) is each value, \(\sum\) means "add them all up" and \(n\) is how many values there are.</p>
+      <p class="mms-watch"><strong>Watch out:</strong> the mean listens to every value, even strange ones. The 45-hour repair drags it up to 21, though most repairs took less. Excel: <code>=AVERAGE()</code>.</p>
+      <details class="mms-check">
+        <summary><span class="mms-check-tag">Quick check</span> Test marks are 6, 7, 8, 9 and 20. What is the mean?</summary>
+        <div class="mms-check-a">\(50 / 5 = 10\). Four of the five marks are below 10, because the 20 pulls the mean up.</div>
+      </details>
+    </article>
+
+    <article class="mms-concept is-median" aria-labelledby="mms-median-h">
+      <div class="mms-concept-head">
+        <svg class="mms-face" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle class="mms-face-skin is-median" cx="32" cy="34" r="26"/><path class="mms-face-ink" d="M18 31q5-6 10 0M36 31q5-6 10 0"/><path class="mms-face-ink" d="M23 43q9 7 18 0"/><path class="mms-face-ink" d="M32 2v6"/><circle class="mms-face-ink-f" cx="32" cy="3" r="2.5"/></svg>
+        <div><p class="mms-card-kicker">The diplomat</p><h3 id="mms-median-h">The median: the middle of the line-up</h3></div>
+      </div>
+      <p class="mms-plain"><strong>In plain words:</strong> line the class up from shortest to tallest. The person in the exact middle is the <strong>median</strong>: half are below, half above.</p>
+      <p class="mms-how-h">How to find it</p>
+      <ol class="mms-how">
+        <li>Sort the values from smallest to largest (the step people forget).</li>
+        <li>Find the middle position: \((n + 1) / 2\). With 7 values, that's position 4.</li>
+        <li>With an even count there are two middle values: average them.</li>
+      </ol>
+      <p class="mms-line-h">Odd count (7 values): the 4th value is the median.</p>
+      <ol class="mms-line" id="mms-line-odd" aria-label="Seven sorted repair times with the 4th one, 18, marked as the middle" data-values="12,15,15,18,20,22,45"><li class="" data-value="12"><span class="mms-line-pos">1</span><span class="mms-line-v">12</span><span class="mms-line-tag"></span></li><li class="" data-value="15"><span class="mms-line-pos">2</span><span class="mms-line-v">15</span><span class="mms-line-tag"></span></li><li class="" data-value="15"><span class="mms-line-pos">3</span><span class="mms-line-v">15</span><span class="mms-line-tag"></span></li><li class="is-mid" data-value="18"><span class="mms-line-pos">4</span><span class="mms-line-v">18</span><span class="mms-line-tag">middle</span></li><li class="" data-value="20"><span class="mms-line-pos">5</span><span class="mms-line-v">20</span><span class="mms-line-tag"></span></li><li class="" data-value="22"><span class="mms-line-pos">6</span><span class="mms-line-v">22</span><span class="mms-line-tag"></span></li><li class="" data-value="45"><span class="mms-line-pos">7</span><span class="mms-line-v">45</span><span class="mms-line-tag"></span></li></ol>
+      <p class="mms-line-h">Even count (drop the 45, leaving 6 values): average the 3rd and 4th.</p>
+      <ol class="mms-line" id="mms-line-even" aria-label="Six sorted repair times with the 3rd and 4th, 15 and 18, marked as the middle pair" data-values="12,15,15,18,20,22"><li class="" data-value="12"><span class="mms-line-pos">1</span><span class="mms-line-v">12</span><span class="mms-line-tag"></span></li><li class="" data-value="15"><span class="mms-line-pos">2</span><span class="mms-line-v">15</span><span class="mms-line-tag"></span></li><li class="is-pair" data-value="15"><span class="mms-line-pos">3</span><span class="mms-line-v">15</span><span class="mms-line-tag">middle pair</span></li><li class="is-pair" data-value="18"><span class="mms-line-pos">4</span><span class="mms-line-v">18</span><span class="mms-line-tag">middle pair</span></li><li class="" data-value="20"><span class="mms-line-pos">5</span><span class="mms-line-v">20</span><span class="mms-line-tag"></span></li><li class="" data-value="22"><span class="mms-line-pos">6</span><span class="mms-line-v">22</span><span class="mms-line-tag"></span></li></ol>
+      <div class="mms-math">\[ \text{Median} = \frac{15 + 18}{2} = 16.5 \]</div>
+      <p class="mms-watch"><strong>Watch out:</strong> the median cares about position, not size. Make the 45 into 450 and the median is still 18, so it's the safer choice when data has outliers. Excel: <code>=MEDIAN()</code>.</p>
+      <details class="mms-check">
+        <summary><span class="mms-check-tag">Quick check</span> Find the median of 4, 9, 2 and 7.</summary>
+        <div class="mms-check-a">Sort first: 2, 4, 7, 9. There are four values, so average the middle two: \((4 + 7) / 2 = 5.5\).</div>
+      </details>
+    </article>
+
+    <article class="mms-concept is-mode" aria-labelledby="mms-mode-h">
+      <div class="mms-concept-head">
+        <svg class="mms-face" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle class="mms-face-skin is-mode" cx="32" cy="36" r="25"/><path class="mms-face-crown" d="M15 15l5-12 12 9 12-9 5 12z"/><path class="mms-face-ink" d="M20 33h10M36 33h10"/><circle class="mms-face-ink-f" cx="26" cy="37" r="2.6"/><circle class="mms-face-ink-f" cx="42" cy="37" r="2.6"/><path class="mms-face-ink" d="M25 48q10 5 17-4"/></svg>
+        <div><p class="mms-card-kicker">The popular kid</p><h3 id="mms-mode-h">The mode: the most popular value</h3></div>
+      </div>
+      <p class="mms-plain"><strong>In plain words:</strong> the <strong>mode</strong> is the value that appears most often, like the most common shoe size in a room. Here 15 appears twice, so the mode is 15.</p>
+      <p class="mms-how-h">How to find it</p>
+      <ol class="mms-how">
+        <li>Count how many times each value appears.</li>
+        <li>The value with the highest count is the mode.</li>
+        <li>A tie means two modes ("bimodal"). If nothing repeats, there is no mode.</li>
+      </ol>
+      <p class="mms-watch"><strong>Watch out:</strong> only the mode works for categories, like defect types or colours. You can't average colours. Excel: <code>=MODE.SNGL()</code>.</p>
+      <details class="mms-check">
+        <summary><span class="mms-check-tag">Quick check</span> Car colours in a lot: red, blue, red, green, blue, red. What is the mode?</summary>
+        <div class="mms-check-a">Red appears 3 times, more than any other colour, so the mode is red.</div>
+      </details>
+    </article>
+
+    <h3 id="mms-all-three">All three on one picture</h3>
     <figure class="mms-figure is-wide">
       <svg class="mms-svg" viewBox="0 0 360 186" role="img" aria-labelledby="mms-center-t mms-center-d" data-values="12,15,15,18,20,22,45">
 <title id="mms-center-t">Mean, median and mode of seven repair times</title>
@@ -662,6 +769,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 </svg>
       <figcaption><span class="mms-key"><span class="mms-ring-key" aria-hidden="true"></span>Hollow ring = outlier</span>Only 5 of 7 repairs took less than the mean of 21 hours.</figcaption>
     </figure>
+    <p class="mms-notice"><strong>What to notice:</strong> the mode (15) sits where values bunch up, the median (18) in the middle, and the mean (21) is pulled right by the 45. A value far from the rest like that is an <strong>outlier</strong>.</p>
   </div>
 </section>
 
@@ -669,7 +777,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   <div class="mms-wrap">
     <span class="mms-step">Try it</span>
     <h2 id="mms-lab-h">Drag the outlier and watch the numbers move</h2>
-    <p>Drag the last repair time. Which numbers jump, and which hold still?</p>
+    <p>The slider sets the last repair time. Watch the seesaw (mean), the line-up (median) and the tally (mode).</p>
     <div class="mms-lab" role="group" aria-labelledby="mms-lab-h" data-base="12,15,15,18,20,22" data-start="45">
       <span class="mms-lab-badge">Interactive</span>
       <div class="mms-slider">
@@ -691,6 +799,11 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <button type="button" class="mms-btn" id="mms-reset">Reset to 45 hours</button>
       </div>
     </div>
+    <ul class="mms-try">
+      <li>Drag it to 100. The median and IQR stay put; the mean and standard deviation jump.</li>
+      <li>Drag it to 22. The mean and median nearly agree.</li>
+      <li>Drag it to 15. Now 15 appears three times.</li>
+    </ul>
   </div>
 </section>
 
@@ -698,6 +811,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   <div class="mms-wrap">
     <span class="mms-step">Part 2: choosing</span>
     <h2 id="mms-choose-h">Which center should you report?</h2>
+    <p>It depends on the data's <strong>shape</strong>. <strong>Skewed</strong> data bunches up, with a long "tail" of unusual values on one side. House prices and repair times usually tail off to the right; marks on an easy test tail off to the left.</p>
     <figure class="mms-figure is-wide">
       <svg class="mms-svg" viewBox="0 0 360 304" role="img" aria-labelledby="mms-skew-t mms-skew-d">
 <title id="mms-skew-t">Skew decides the order of mean, median and mode</title>
@@ -743,6 +857,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 </svg>
       <figcaption>The mean always sits closest to the tail.</figcaption>
     </figure>
+    <p class="mms-notice"><strong>What to notice:</strong> the mean is dragged toward the tail, the mode stays at the peak, and the median sits between. Mean bigger than median? The tail points right.</p>
     <ol class="mms-flow" aria-label="Decision steps for choosing a measure of center">
       <li class="mms-flow-step">
         <p class="mms-flow-q">Are the values categories, such as defect types or 1 to 5 ratings?</p>
@@ -757,7 +872,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <li class="mms-flow-end"><span class="mms-flow-tag is-go">Otherwise</span><strong>Use the mean and standard deviation.</strong></li>
     </ol>
     <div class="mms-callout">
-      <p><strong>Not sure?</strong> A big gap between the mean and the median means skew.</p>
+      <p><strong>Not sure?</strong> If the mean and median are far apart, the data is skewed: report the median.</p>
     </div>
   </div>
 </section>
@@ -765,105 +880,32 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 <section class="mms-section" id="mms-spread" aria-labelledby="mms-spread-h">
   <div class="mms-wrap">
     <span class="mms-step">Part 3: spread</span>
-    <h2 id="mms-spread-h">Range, standard deviation, IQR and CV: measuring spread</h2>
-    <div class="mms-cards is-four">
-      <article class="mms-card is-spread">
-        <p class="mms-card-kicker">The drama queen</p>
-        <h3>Range</h3>
-        <p class="mms-card-big">33<small> h</small></p>
-        <p>Largest minus smallest. Fast, but one extreme value controls it.</p>
-        <div class="mms-math">\[ R = 45 - 12 = 33 \]</div>
-      </article>
-      <article class="mms-card is-spread">
-        <p class="mms-card-kicker">The typical wanderer</p>
-        <h3>Standard deviation</h3>
-        <p class="mms-card-big">11.1<small> h</small></p>
-        <p>The typical distance from the mean, in the data's own units.</p>
-        <div class="mms-math">\[ s = 11.1 \]</div>
-      </article>
-      <article class="mms-card is-spread">
-        <p class="mms-card-kicker">The bouncer</p>
-        <h3>Interquartile range</h3>
-        <p class="mms-card-big">7<small> h</small></p>
-        <p>The spread of the middle 50%. Outliers cannot move it.</p>
-        <div class="mms-math">\[ Q_3 - Q_1 = 22 - 15 = 7 \]</div>
-      </article>
-      <article class="mms-card is-spread">
-        <p class="mms-card-kicker">The translator</p>
-        <h3>Coefficient of variation</h3>
-        <p class="mms-card-big">52.9<small>%</small></p>
-        <p>Standard deviation as a percentage of the mean. Compares spread across scales.</p>
-        <div class="mms-math">\[ \frac{s}{\bar{x}} \times 100\% = 52.9\% \]</div>
-      </article>
-    </div>
+    <h2 id="mms-spread-h">Range, IQR and standard deviation: measuring spread</h2>
+    <p>Spread answers what the average couldn't: <em>how consistent is the data?</em> Small spread means predictable values; big spread means they're all over the place, like Line B's pipes. Here are three measures, simplest first.</p>
 
-    <h3 id="mms-sd-steps">Standard deviation, step by step</h3>
-    <p>Click a step to light up its column in the table.</p>
-    <div class="mms-stepper" id="mms-stepper" role="group" aria-labelledby="mms-sd-steps">
-      <ol class="mms-steps"><li><button type="button" class="mms-stepbtn" id="mms-step-btn-1" data-step="1" aria-pressed="true" aria-controls="mms-step-1"><span class="mms-stepnum">1</span><span class="mms-steptitle">Find the mean</span></button></li><li><button type="button" class="mms-stepbtn" id="mms-step-btn-2" data-step="2" aria-pressed="false" aria-controls="mms-step-2"><span class="mms-stepnum">2</span><span class="mms-steptitle">Find each distance</span></button></li><li><button type="button" class="mms-stepbtn" id="mms-step-btn-3" data-step="3" aria-pressed="false" aria-controls="mms-step-3"><span class="mms-stepnum">3</span><span class="mms-steptitle">Square and add</span></button></li><li><button type="button" class="mms-stepbtn" id="mms-step-btn-4" data-step="4" aria-pressed="false" aria-controls="mms-step-4"><span class="mms-stepnum">4</span><span class="mms-steptitle">Find the variance</span></button></li><li><button type="button" class="mms-stepbtn" id="mms-step-btn-5" data-step="5" aria-pressed="false" aria-controls="mms-step-5"><span class="mms-stepnum">5</span><span class="mms-steptitle">Take the square root</span></button></li></ol>
-      <div class="mms-steppanels" aria-live="polite"><div class="mms-steppanel" id="mms-step-1" data-step="1"><p class="mms-steppanel-k">Step 1 of 5</p><p class="mms-steppanel-big">21 h</p><p class="mms-steppanel-line">Add the 7 values (147) and divide by 7.</p></div><div class="mms-steppanel" id="mms-step-2" data-step="2" data-col="2"><p class="mms-steppanel-k">Step 2 of 5</p><p class="mms-steppanel-big">-9 to +24</p><p class="mms-steppanel-line">Subtract the mean from every value. They sum to 0.</p></div><div class="mms-steppanel" id="mms-step-3" data-step="3" data-col="3"><p class="mms-steppanel-k">Step 3 of 5</p><p class="mms-steppanel-big">740</p><p class="mms-steppanel-line">Square each distance, then add them up.</p></div><div class="mms-steppanel" id="mms-step-4" data-step="4"><p class="mms-steppanel-k">Step 4 of 5</p><p class="mms-steppanel-big">123.3 h²</p><p class="mms-steppanel-line">A sample divides by \(n - 1 = 6\), not \(n\).</p></div><div class="mms-steppanel" id="mms-step-5" data-step="5"><p class="mms-steppanel-k">Step 5 of 5</p><p class="mms-steppanel-big">11.1 h</p><p class="mms-steppanel-line">Back in hours: the standard deviation.</p></div></div>
-    </div>
-    <div class="table-scroll" tabindex="0" role="region" aria-label="Standard deviation worked example" style="overflow-x:auto">
-      <table class="mms-table" id="mms-sd-table">
-        <thead><tr><th scope="col">Value \(x_i\)</th><th scope="col">Distance \(x_i - \bar{x}\)</th><th scope="col">Squared \((x_i - \bar{x})^2\)</th></tr></thead>
-        <tbody>
-          <tr><td>12</td><td>&minus;9</td><td>81</td></tr>
-          <tr><td>15</td><td>&minus;6</td><td>36</td></tr>
-          <tr><td>15</td><td>&minus;6</td><td>36</td></tr>
-          <tr><td>18</td><td>&minus;3</td><td>9</td></tr>
-          <tr><td>20</td><td>&minus;1</td><td>1</td></tr>
-          <tr><td>22</td><td>1</td><td>1</td></tr>
-          <tr><td>45</td><td>24</td><td>576</td></tr>
-          <tr class="is-total"><th scope="row">Total</th><td>0</td><td>740</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="mms-math">\[
-\begin{aligned}
-s^2 &= \frac{\sum (x_i - \bar{x})^2}{n - 1} = \frac{740}{6} = 123.3 \\
-s &= \sqrt{123.3} = 11.1
-\end{aligned}
-\]</div>
-    <p>where \(s^2\) is the sample variance and \(s\) the sample standard deviation.</p>
-    <div class="mms-stat" id="mms-share-stat" data-pct="77.8">
-      <svg class="mms-gauge is-share" viewBox="0 0 44 44" aria-hidden="true" focusable="false" data-pct="77.8"><circle class="mms-g-track" cx="22" cy="22" r="17"/><circle class="mms-g-arc" cx="22" cy="22" r="17" pathLength="100" stroke-dasharray="77.8 100" transform="rotate(-90 22 22)"/></svg>
-      <p><strong class="mms-stat-big">77.8%</strong> of the squared distance comes from the 45-hour repair.</p>
-    </div>
-    <figure class="mms-figure is-wide">
-      <svg class="mms-svg" viewBox="0 0 360 252" role="img" aria-labelledby="mms-sq-t mms-sq-d" data-values="12,15,15,18,20,22,45" data-sum-squares="740">
-<title id="mms-sq-t">Variance is the average area of these squares</title>
-<desc id="mms-sq-d">Each repair time's distance from the mean of 21 hours, drawn as a square. The areas are 81, 36 twice, 9, 1, 1 and 576, which sum to 740. The 45-hour repair's square alone is 77.8% of the total area.</desc>
-<rect class="mms-vsq is-hot" x="109.6" y="47.6" width="182.4" height="182.4" data-value="45" data-area="576"/>
-<rect class="mms-vsq is-left" x="41.2" y="161.6" width="68.4" height="68.4" data-value="12" data-area="81"/>
-<rect class="mms-vsq is-left" x="64" y="184.4" width="45.6" height="45.6" data-value="15" data-area="36"/>
-<rect class="mms-vsq is-left" x="86.8" y="207.2" width="22.8" height="22.8" data-value="18" data-area="9"/>
-<rect class="mms-vsq is-left" x="102" y="222.4" width="7.6" height="7.6" data-value="20" data-area="1"/>
-<rect class="mms-vsq is-right" x="109.6" y="222.4" width="7.6" height="7.6" data-value="22" data-area="1"/>
-<line class="mms-mean" x1="109.6" y1="30" x2="109.6" y2="236"/>
-<rect class="mms-pill-mean" x="37.6" y="26" width="66" height="20" rx="10"/>
-<text class="mms-pill-t" x="70.6" y="40" text-anchor="middle">Mean 21</text>
-<text class="mms-sq-l" x="45.2" y="174.6">81</text>
-<text class="mms-sq-l" x="68" y="197.4">36 ×2</text>
-<text class="mms-sq-l" x="89.8" y="219.2">9</text>
-<text class="mms-sq-big" x="200.8" y="134.8" text-anchor="middle">576</text>
-<text class="mms-sq-l is-hot" x="200.8" y="154.8" text-anchor="middle">45 h is 24 h from the mean</text>
-<line class="mms-ax" x1="20" y1="230" x2="346" y2="230"/>
-<text class="mms-tick" x="26" y="246" text-anchor="middle">10</text>
-<text class="mms-tick" x="64" y="246" text-anchor="middle">15</text>
-<text class="mms-tick" x="102" y="246" text-anchor="middle">20</text>
-<text class="mms-tick" x="140" y="246" text-anchor="middle">25</text>
-<text class="mms-tick" x="178" y="246" text-anchor="middle">30</text>
-<text class="mms-tick" x="216" y="246" text-anchor="middle">35</text>
-<text class="mms-tick" x="254" y="246" text-anchor="middle">40</text>
-<text class="mms-tick" x="292" y="246" text-anchor="middle">45</text>
-<text class="mms-tick" x="330" y="246" text-anchor="middle">50</text>
-</svg>
-      <figcaption><span class="mms-key"><span class="mms-sq is-hot" aria-hidden="true"></span>The 45-hour repair</span>Each square's area is that value's squared distance from the mean.</figcaption>
-    </figure>
+    <article class="mms-concept is-spread" aria-labelledby="mms-range-h">
+      <h3 id="mms-range-h">The range: largest minus smallest</h3>
+      <p class="mms-plain"><strong>In plain words:</strong> the gap between the two most extreme values. For the repair times, the longest is 45 and the shortest is 12.</p>
+      <div class="mms-math">\[ R = \text{largest} - \text{smallest} = 45 - 12 = 33 \]</div>
+      <p class="mms-answer"><span class="mms-answer-big">33 h</span> range for the repair times</p>
+      <p class="mms-watch"><strong>Watch out:</strong> it uses only two values, so one outlier makes it huge.</p>
+    </article>
 
-    <h3 id="mms-iqr-box">The IQR on a box plot</h3>
-    <figure class="mms-figure is-wide">
-      <svg class="mms-svg" viewBox="0 0 360 186" role="img" aria-labelledby="mms-box-t mms-box-d" data-values="12,15,15,18,20,22,45" data-q1="15" data-q3="22" data-fence="32.5">
+    <article class="mms-concept is-spread" aria-labelledby="mms-iqr-h">
+      <h3 id="mms-iqr-h">Quartiles and the IQR: the spread of the middle half</h3>
+      <p class="mms-plain"><strong>In plain words:</strong> the median cuts sorted data in half; <strong>quartiles</strong> cut it into four equal groups. A quarter of the values sit below \(Q_1\) and three quarters below \(Q_3\). The <strong>interquartile range (IQR)</strong> is the gap from \(Q_1\) to \(Q_3\): the spread of the middle 50%.</p>
+      <p class="mms-how-h">How to find it (the method Minitab uses)</p>
+      <ol class="mms-how">
+        <li>Sort the values. With \(n = 7\), \(Q_1\) is at position \((n + 1) / 4 = 2\), so \(Q_1 = 15\).</li>
+        <li>\(Q_3\) is at position \(3(n + 1) / 4 = 6\), so \(Q_3 = 22\).</li>
+        <li>Subtract: \(\text{IQR} = Q_3 - Q_1\).</li>
+      </ol>
+      <ol class="mms-line" id="mms-line-quart" aria-label="Seven sorted repair times with Q1 = 15 at position 2, the median 18 at position 4 and Q3 = 22 at position 6" data-values="12,15,15,18,20,22,45"><li class="" data-value="12"><span class="mms-line-pos">1</span><span class="mms-line-v">12</span><span class="mms-line-tag"></span></li><li class="is-q1" data-value="15"><span class="mms-line-pos">2</span><span class="mms-line-v">15</span><span class="mms-line-tag">Q1</span></li><li class="" data-value="15"><span class="mms-line-pos">3</span><span class="mms-line-v">15</span><span class="mms-line-tag"></span></li><li class="is-med" data-value="18"><span class="mms-line-pos">4</span><span class="mms-line-v">18</span><span class="mms-line-tag">median</span></li><li class="" data-value="20"><span class="mms-line-pos">5</span><span class="mms-line-v">20</span><span class="mms-line-tag"></span></li><li class="is-q3" data-value="22"><span class="mms-line-pos">6</span><span class="mms-line-v">22</span><span class="mms-line-tag">Q3</span></li><li class="" data-value="45"><span class="mms-line-pos">7</span><span class="mms-line-v">45</span><span class="mms-line-tag"></span></li></ol>
+      <div class="mms-math">\[ \text{IQR} = Q_3 - Q_1 = 22 - 15 = 7 \]</div>
+      <p class="mms-answer"><span class="mms-answer-big">7 h</span> IQR for the repair times</p>
+      <p>A <strong>box plot</strong> draws this: the box runs from \(Q_1\) to \(Q_3\), the line inside is the median, and anything past the "fence" is an outlier.</p>
+      <figure class="mms-figure is-wide">
+        <svg class="mms-svg" viewBox="0 0 360 186" role="img" aria-labelledby="mms-box-t mms-box-d" data-values="12,15,15,18,20,22,45" data-q1="15" data-q3="22" data-fence="32.5">
 <title id="mms-box-t">Box plot of the seven repair times</title>
 <desc id="mms-box-d">The box runs from Q1 = 15 to Q3 = 22 hours, so the IQR is 7 hours. The median is 18. The upper fence is Q3 plus 1.5 times the IQR, 32.5 hours, so the 45-hour repair lands in the outlier zone.</desc>
 <rect class="mms-zone" x="207.75" y="40" width="138.25" height="104"/>
@@ -893,9 +935,118 @@ s &= \sqrt{123.3} = 11.1
 <text class="mms-tick" x="306.5" y="176" text-anchor="middle">45</text>
 <text class="mms-tick" x="356" y="176" text-anchor="end">hours</text>
 </svg>
-      <figcaption><span class="mms-key"><span class="mms-swatch is-box"></span>Box = IQR, the middle 50%</span><span class="mms-key"><span class="mms-swatch is-limit"></span>Fence</span>Past the fence means outlier.</figcaption>
-    </figure>
-    <div class="mms-math">\[ \text{Upper fence} = Q_3 + 1.5 \times \text{IQR} = 22 + 1.5 \times 7 = 32.5 \]</div>
+        <figcaption><span class="mms-key"><span class="mms-swatch is-box"></span>Box = IQR, the middle 50%</span><span class="mms-key"><span class="mms-swatch is-limit"></span>Fence</span>Past the fence means outlier.</figcaption>
+      </figure>
+      <div class="mms-math">\[ \text{Upper fence} = Q_3 + 1.5 \times \text{IQR} = 22 + 1.5 \times 7 = 32.5 \]</div>
+      <p class="mms-watch"><strong>Watch out:</strong> an outlier can't stretch the IQR, so pair it with the median for skewed data.</p>
+      <details class="mms-check">
+        <summary><span class="mms-check-tag">Quick check</span> Sorted data: 3, 5, 6, 8, 9, 11, 14. What are \(Q_1\), \(Q_3\) and the IQR?</summary>
+        <div class="mms-check-a">With 7 values, \(Q_1\) is the 2nd value (5) and \(Q_3\) is the 6th value (11). The IQR is \(11 - 5 = 6\).</div>
+      </details>
+    </article>
+
+    <article class="mms-concept is-spread" aria-labelledby="mms-sd-steps">
+      <h3 id="mms-sd-steps">Standard deviation: the typical distance from the mean</h3>
+      <p class="mms-plain"><strong>In plain words:</strong> the <strong>standard deviation</strong> is roughly how far a typical value sits from the mean, in the data's own units. Here, 11.1 hours means repairs usually land about 11 hours from the 21-hour mean.</p>
+      <p><strong>Why five steps?</strong> Why not just average the distances from the mean? Negative and positive distances cancel out to 0. Squaring makes them all positive, and the final square root puts the answer back in hours.</p>
+      <p>Click each step to light up its column.</p>
+      <div class="mms-stepper" id="mms-stepper" role="group" aria-labelledby="mms-sd-steps">
+      <ol class="mms-steps"><li><button type="button" class="mms-stepbtn" id="mms-step-btn-1" data-step="1" aria-pressed="true" aria-controls="mms-step-1"><span class="mms-stepnum">1</span><span class="mms-steptitle">Find the mean</span></button></li><li><button type="button" class="mms-stepbtn" id="mms-step-btn-2" data-step="2" aria-pressed="false" aria-controls="mms-step-2"><span class="mms-stepnum">2</span><span class="mms-steptitle">Find each distance</span></button></li><li><button type="button" class="mms-stepbtn" id="mms-step-btn-3" data-step="3" aria-pressed="false" aria-controls="mms-step-3"><span class="mms-stepnum">3</span><span class="mms-steptitle">Square and add</span></button></li><li><button type="button" class="mms-stepbtn" id="mms-step-btn-4" data-step="4" aria-pressed="false" aria-controls="mms-step-4"><span class="mms-stepnum">4</span><span class="mms-steptitle">Find the variance</span></button></li><li><button type="button" class="mms-stepbtn" id="mms-step-btn-5" data-step="5" aria-pressed="false" aria-controls="mms-step-5"><span class="mms-stepnum">5</span><span class="mms-steptitle">Take the square root</span></button></li></ol>
+      <div class="mms-steppanels" aria-live="polite"><div class="mms-steppanel" id="mms-step-1" data-step="1"><p class="mms-steppanel-k">Step 1 of 5</p><p class="mms-steppanel-big">21 h</p><p class="mms-steppanel-line">Add the 7 values (147) and divide by 7.</p></div><div class="mms-steppanel" id="mms-step-2" data-step="2" data-col="2"><p class="mms-steppanel-k">Step 2 of 5</p><p class="mms-steppanel-big">-9 to +24</p><p class="mms-steppanel-line">Subtract the mean from every value. They sum to 0.</p></div><div class="mms-steppanel" id="mms-step-3" data-step="3" data-col="3"><p class="mms-steppanel-k">Step 3 of 5</p><p class="mms-steppanel-big">740</p><p class="mms-steppanel-line">Square each distance, then add them up.</p></div><div class="mms-steppanel" id="mms-step-4" data-step="4"><p class="mms-steppanel-k">Step 4 of 5</p><p class="mms-steppanel-big">123.3 h²</p><p class="mms-steppanel-line">A sample divides by \(n - 1 = 6\), not \(n\).</p></div><div class="mms-steppanel" id="mms-step-5" data-step="5"><p class="mms-steppanel-k">Step 5 of 5</p><p class="mms-steppanel-big">11.1 h</p><p class="mms-steppanel-line">Back in hours: the standard deviation.</p></div></div>
+    </div>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Standard deviation worked example" style="overflow-x:auto">
+      <table class="mms-table" id="mms-sd-table">
+        <thead><tr><th scope="col">Value \(x_i\)</th><th scope="col">Distance \(x_i - \bar{x}\)</th><th scope="col">Squared \((x_i - \bar{x})^2\)</th></tr></thead>
+        <tbody>
+          <tr><td>12</td><td>&minus;9</td><td>81</td></tr>
+          <tr><td>15</td><td>&minus;6</td><td>36</td></tr>
+          <tr><td>15</td><td>&minus;6</td><td>36</td></tr>
+          <tr><td>18</td><td>&minus;3</td><td>9</td></tr>
+          <tr><td>20</td><td>&minus;1</td><td>1</td></tr>
+          <tr><td>22</td><td>1</td><td>1</td></tr>
+          <tr><td>45</td><td>24</td><td>576</td></tr>
+          <tr class="is-total"><th scope="row">Total</th><td>0</td><td>740</td></tr>
+        </tbody>
+      </table>
+    </div>
+      <div class="mms-math">\[
+\begin{aligned}
+s^2 &= \frac{\sum (x_i - \bar{x})^2}{n - 1} = \frac{740}{6} = 123.3 \\
+s &= \sqrt{123.3} = 11.1
+\end{aligned}
+\]</div>
+      <p class="mms-where">where \(s\) is the standard deviation, \(s^2\) is the variance, and \(x_i - \bar{x}\) is each value's distance from the mean.</p>
+      <p><strong>Why divide by \(n - 1\) and not \(n\)?</strong> Our seven repairs are a <strong>sample</strong>, a few out of all repairs ever. Samples tend to look a little less spread out than the whole <strong>population</strong>, so dividing by one less than the count corrects for that. Divide by \(n\) only when you have every value.</p>
+      <div class="mms-stat" id="mms-share-stat" data-pct="77.8">
+        <svg class="mms-gauge is-share" viewBox="0 0 44 44" aria-hidden="true" focusable="false" data-pct="77.8"><circle class="mms-g-track" cx="22" cy="22" r="17"/><circle class="mms-g-arc" cx="22" cy="22" r="17" pathLength="100" stroke-dasharray="77.8 100" transform="rotate(-90 22 22)"/></svg>
+        <p><strong class="mms-stat-big">77.8%</strong> of the squared distance comes from the 45-hour repair.</p>
+      </div>
+      <figure class="mms-figure is-wide">
+        <svg class="mms-svg" viewBox="0 0 360 252" role="img" aria-labelledby="mms-sq-t mms-sq-d" data-values="12,15,15,18,20,22,45" data-sum-squares="740">
+<title id="mms-sq-t">Variance is the average area of these squares</title>
+<desc id="mms-sq-d">Each repair time's distance from the mean of 21 hours, drawn as a square. The areas are 81, 36 twice, 9, 1, 1 and 576, which sum to 740. The 45-hour repair's square alone is 77.8% of the total area.</desc>
+<rect class="mms-vsq is-hot" x="109.6" y="47.6" width="182.4" height="182.4" data-value="45" data-area="576"/>
+<rect class="mms-vsq is-left" x="41.2" y="161.6" width="68.4" height="68.4" data-value="12" data-area="81"/>
+<rect class="mms-vsq is-left" x="64" y="184.4" width="45.6" height="45.6" data-value="15" data-area="36"/>
+<rect class="mms-vsq is-left" x="86.8" y="207.2" width="22.8" height="22.8" data-value="18" data-area="9"/>
+<rect class="mms-vsq is-left" x="102" y="222.4" width="7.6" height="7.6" data-value="20" data-area="1"/>
+<rect class="mms-vsq is-right" x="109.6" y="222.4" width="7.6" height="7.6" data-value="22" data-area="1"/>
+<line class="mms-mean" x1="109.6" y1="30" x2="109.6" y2="236"/>
+<rect class="mms-pill-mean" x="37.6" y="26" width="66" height="20" rx="10"/>
+<text class="mms-pill-t" x="70.6" y="40" text-anchor="middle">Mean 21</text>
+<text class="mms-sq-l" x="45.2" y="174.6">81</text>
+<text class="mms-sq-l" x="68" y="197.4">36 ×2</text>
+<text class="mms-sq-l" x="89.8" y="219.2">9</text>
+<text class="mms-sq-big" x="200.8" y="134.8" text-anchor="middle">576</text>
+<text class="mms-sq-l is-hot" x="200.8" y="154.8" text-anchor="middle">45 h is 24 h from the mean</text>
+<line class="mms-ax" x1="20" y1="230" x2="346" y2="230"/>
+<text class="mms-tick" x="26" y="246" text-anchor="middle">10</text>
+<text class="mms-tick" x="64" y="246" text-anchor="middle">15</text>
+<text class="mms-tick" x="102" y="246" text-anchor="middle">20</text>
+<text class="mms-tick" x="140" y="246" text-anchor="middle">25</text>
+<text class="mms-tick" x="178" y="246" text-anchor="middle">30</text>
+<text class="mms-tick" x="216" y="246" text-anchor="middle">35</text>
+<text class="mms-tick" x="254" y="246" text-anchor="middle">40</text>
+<text class="mms-tick" x="292" y="246" text-anchor="middle">45</text>
+<text class="mms-tick" x="330" y="246" text-anchor="middle">50</text>
+</svg>
+        <figcaption><span class="mms-key"><span class="mms-sq is-hot" aria-hidden="true"></span>The 45-hour repair</span>Each square's area is that value's squared distance from the mean.</figcaption>
+      </figure>
+      <p class="mms-watch"><strong>Watch out:</strong> squaring makes big distances count far more, so one outlier inflates the standard deviation. Excel: <code>=STDEV.S()</code>.</p>
+      <details class="mms-check">
+        <summary><span class="mms-check-tag">Quick check</span> Find the standard deviation of 2, 4 and 6.</summary>
+        <div class="mms-check-a">The mean is 4. The distances are −2, 0 and 2. The squares are 4, 0 and 4, which add to 8. Divide by \(n - 1 = 2\) to get a variance of 4. The square root gives a standard deviation of 2.</div>
+      </details>
+    </article>
+
+    <article class="mms-concept is-spread" aria-labelledby="mms-var-cv-h">
+      <h3 id="mms-var-cv-h">Two relatives: variance and CV</h3>
+      <p class="mms-plain"><strong>Variance</strong> is the standard deviation before the square root: 123.3 "hours squared" for the repairs. It's hard to picture, but variances from independent sources add up, and standard deviations don't.</p>
+      <p class="mms-plain">The <strong>coefficient of variation (CV)</strong> is the standard deviation as a percentage of the mean, for comparing different scales. A 10 mm pipe wall with a standard deviation of 0.5 mm varies far more, for its size, than a 12,000 mm pipe length with a standard deviation of 30 mm.</p>
+      <div class="mms-math">\[ \text{CV} = \frac{s}{\bar{x}} \times 100\% \qquad \frac{0.5}{10} \times 100\% = 5\% \qquad \frac{30}{12000} \times 100\% = 0.25\% \]</div>
+      <p class="mms-answer"><span class="mms-answer-big">52.9%</span> CV for the repair times: very spread out for their size</p>
+    </article>
+  </div>
+</section>
+
+<section class="mms-section" id="mms-terms" aria-labelledby="mms-terms-h">
+  <div class="mms-wrap">
+    <span class="mms-step">Look it up</span>
+    <h2 id="mms-terms-h">Key terms</h2>
+    <dl class="mms-terms">
+      <div><dt>Dataset</dt><dd>A list of measurements of the same thing.</dd></div>
+      <div><dt>Mean</dt><dd>The total shared out equally: add the values, divide by the count.</dd></div>
+      <div><dt>Median</dt><dd>The middle value once the data is sorted.</dd></div>
+      <div><dt>Mode</dt><dd>The value that appears most often.</dd></div>
+      <div><dt>Outlier</dt><dd>A value far away from the rest of the data.</dd></div>
+      <div><dt>Skewed</dt><dd>Data with a long tail of unusual values on one side.</dd></div>
+      <div><dt>Range</dt><dd>Largest value minus smallest value.</dd></div>
+      <div><dt>Quartiles</dt><dd>The three values that cut sorted data into four equal groups.</dd></div>
+      <div><dt>IQR</dt><dd>The spread of the middle half: \(Q_3 - Q_1\).</dd></div>
+      <div><dt>Standard deviation</dt><dd>The typical distance of a value from the mean.</dd></div>
+      <div><dt>Variance</dt><dd>The standard deviation squared.</dd></div>
+      <div><dt>Sample</dt><dd>Some of the data, not all of it. Divide by \(n - 1\).</dd></div>
+    </dl>
   </div>
 </section>
 
@@ -984,7 +1135,7 @@ s &= \sqrt{123.3} = 11.1
       <li><strong>Sample or population?</strong><span>Unless the question says population, divide by \(n - 1\).</span></li>
       <li><strong>Skew questions</strong><span>Given mean, median and mode, the mean points to the tail.</span></li>
       <li><strong>Combining sources</strong><span>Add variances: \(\sigma_{\text{total}} = \sqrt{\sigma_1^2 + \sigma_2^2}\).</span></li>
-      <li><strong>Control charts</strong><span>Estimate sigma from ranges: \(\hat{\sigma} = \bar{R} / d_2\).</span></li>
+      <li><strong>Control charts</strong><span>Estimate \(\sigma\) from ranges: \(\hat{\sigma} = \bar{R} / d_2\).</span></li>
       <li><strong>Different units</strong><span>Compare variability with CV, not standard deviation.</span></li>
     </ul>
   </div>
@@ -1036,6 +1187,20 @@ s &= \sqrt{123.3} = 11.1
         <label class="quiz-option"><input type="radio" name="q6" value="a"> Add their standard deviations</label>
         <label class="quiz-option"><input type="radio" name="q6" value="b"> Average their standard deviations</label>
         <label class="quiz-option"><input type="radio" name="q6" value="c"> Add their variances, then take the square root</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Sort first: 1, 3, 6, 8. With four values there are two middle values, 3 and 6, so the median is their average, 4.5.">
+        <legend>7. What is the median of 3, 8, 1 and 6?</legend>
+        <label class="quiz-option"><input type="radio" name="q7" value="a"> 4</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="b"> 4.5</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="c"> 7</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Defect types are categories, not numbers, so you cannot add or sort them. The mode, the most common category, is the only measure of center that works.">
+        <legend>8. Which measure of center can you use for defect types such as scratch, dent and crack?</legend>
+        <label class="quiz-option"><input type="radio" name="q8" value="a"> The mean</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="b"> The median</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="c"> The mode</label>
         <div class="quiz-feedback"></div>
       </fieldset>
       <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>

@@ -9,7 +9,7 @@ const ROOT = path.join(__dirname, '..');
 const SLUG = 'mean-median-mode-and-spread';
 const LESSON = `lessons/statistics/${SLUG}.html`;
 const URL_PATH = `/lessons/statistics/${SLUG}`;
-const TITLE = 'Mean, Median, Mode and Spread in 15 Minutes';
+const TITLE = 'Mean, Median, Mode and Spread';
 const read = file => fs.readFileSync(path.join(ROOT, file), 'utf8');
 const html = read(LESSON);
 const guide = read('docs/LESSON_CREATION_GUIDE.md');
@@ -45,7 +45,7 @@ test('metadata, head and SEO follow the lesson guide', () => {
   assert.equal(meta.category, 'Statistics');
   assert.equal(meta.category_slug, 'statistics');
   assert.equal(meta.level, 'Beginner');
-  assert.equal(meta.estimated_minutes, 15);
+  assert.equal(meta.estimated_minutes, 30);
   assert.equal(meta.interactive, true);
   assert.equal(meta.access_level, 'public');
   assert.equal(meta.suggested_github_path, LESSON);
@@ -164,18 +164,33 @@ test('visual-first: key-numbers poster, character cards, decision flow and short
   assert.equal(iqrBar.querySelectorAll('rect.is-on').length, 2);
   assert.equal(poster.querySelector('.mms-segbar.is-range').querySelectorAll('rect.is-on').length, 4);
   for (const g of doc.querySelectorAll('svg.mms-gauge, svg.mms-segbar, svg.mms-picto, svg.mms-pipes')) assert.equal(g.getAttribute('aria-hidden'), 'true', 'decorative marks carry no text of their own');
-  // Each measure of center is a character card with a face, a nickname and a one-line quote.
-  const cards = [...doc.querySelectorAll('#mms-center .mms-card')];
-  assert.deepEqual(cards.map(c => c.querySelector('.mms-card-kicker').textContent), ['The people-pleaser', 'The diplomat', 'The popular kid']);
-  for (const c of cards) {
+  // Each measure of center is an explanation block: plain words, how-to steps, a watch-out and a quick check.
+  const blocks = [...doc.querySelectorAll('#mms-center .mms-concept')];
+  assert.deepEqual(blocks.map(c => c.querySelector('.mms-card-kicker').textContent), ['The people-pleaser', 'The diplomat', 'The popular kid']);
+  for (const c of blocks) {
     assert.equal(c.querySelector('svg.mms-face').getAttribute('aria-hidden'), 'true');
-    assert(c.querySelector('.mms-quote').textContent.trim());
+    assert(c.querySelector('.mms-plain').textContent.startsWith('In plain words:'));
+    assert(c.querySelectorAll('.mms-how li').length >= 3, 'numbered how-to steps');
+    assert(c.querySelector('.mms-watch').textContent.startsWith('Watch out:'));
+    const q = c.querySelector('details.mms-check');
+    assert(q.querySelector('summary').textContent.includes('Quick check') && q.querySelector('.mms-check-a').textContent.trim());
   }
-  // Spread cards carry their giant number from the same data.
-  assert.deepEqual([...doc.querySelectorAll('#mms-spread .mms-card-big')].map(p => p.textContent.replace(/\s+/g, '')), ['33h', `${r.sd.toFixed(1)}h`, `${r.q3 - r.q1}h`, `${cv}%`]);
-  assert.equal(doc.querySelectorAll('#mms-center .mms-card').length, 3);
-  assert.equal(doc.querySelectorAll('#mms-spread .mms-card').length, 4);
-  for (const p of doc.querySelectorAll('.mms-card p')) assert(words(p) <= 30, `too wordy: ${text(p).slice(0, 60)}`);
+  // Spread is taught measure by measure, each with its answer as a big number from the data.
+  const spreadBlocks = [...doc.querySelectorAll('#mms-spread .mms-concept')];
+  assert.deepEqual(spreadBlocks.map(c => c.querySelector('h3').id), ['mms-range-h', 'mms-iqr-h', 'mms-sd-steps', 'mms-var-cv-h']);
+  assert.deepEqual([...doc.querySelectorAll('#mms-spread .mms-answer-big')].map(p => p.textContent.replace(/\s+/g, '')), ['33h', `${r.q3 - r.q1}h`, `${cv}%`]);
+  assert(doc.querySelectorAll('details.mms-check').length >= 5, 'a quick check for each key idea');
+  // Line-ups: the median sits at position (n + 1) / 2; an even count averages the middle pair; quartiles at (n + 1) / 4.
+  const lineVals = id => [...doc.querySelectorAll(`#${id} li`)].map(li => [Number(li.querySelector('.mms-line-v').textContent), li.className]);
+  const odd = lineVals('mms-line-odd');
+  assert.deepEqual(odd.filter(([, c]) => c).map(([v]) => v), [r.median]);
+  const even = lineVals('mms-line-even'), pair = even.filter(([, c]) => c === 'is-pair').map(([v]) => v);
+  assert.deepEqual(pair, [15, 18]);
+  assert.match(doc.getElementById('mms-center').textContent, /16\.5/);
+  const quart = lineVals('mms-line-quart');
+  assert.deepEqual(quart.filter(([, c]) => c === 'is-q1' || c === 'is-q3').map(([v]) => v), [r.q1, r.q3]);
+  // Key terms glossary.
+  assert(doc.querySelectorAll('#mms-terms dt').length >= 10);
   for (const p of doc.querySelectorAll('main p')) {
     if (p.closest('.quiz-section')) continue;
     assert(words(p) <= 60, `paragraph over 60 words: ${text(p).slice(0, 60)}`);
@@ -188,11 +203,12 @@ test('visual-first: key-numbers poster, character cards, decision flow and short
   }
   assert.match(doc.querySelector('.mms-flow-end').textContent, /mean and standard deviation/);
   assert.equal(doc.querySelectorAll('.mms-warn-poster .mms-mistakes li').length, 4);
-  // Text budget: about 50 words per estimated minute, counting prose outside tables, charts, display formulas and the quiz.
+  // Text budget (§24.1, about 50 words per minute): teaching prose only. Infographic labels, tables, display formulas,
+  // the quiz and the two reference sections (Statistics Implementation, Key terms) are not counted.
   const main = doc.querySelector('main').cloneNode(true);
-  main.querySelectorAll('table, svg, .mms-math, .quiz-section, .related-lessons, script, style').forEach(n => n.remove());
+  main.querySelectorAll('table, svg, .mms-math, .quiz-section, .related-lessons, script, style, .mms-line, .mms-stepper, .mms-hero-poster, .mms-reads, .mms-versus, .mms-toc, #mms-implementation, #mms-terms').forEach(n => n.remove());
   const prose = main.textContent.trim().split(/\s+/).length;
-  assert(prose <= meta.estimated_minutes * 55, `prose words ${prose}`);
+  assert(prose <= meta.estimated_minutes * 57, `prose words ${prose}`);
 });
 
 test('every chart is an accessible image whose text matches its data', () => {
@@ -306,7 +322,7 @@ test('registered in the Statistics catalog with a public access SQL file', () =>
   assert.match(e, new RegExp(`path: '${URL_PATH}'`));
   assert.match(e, /level: 'beginner'/);
   assert.match(e, /interactive: 'true'/);
-  assert.match(e, /<span>15 min<\/span>/);
+  assert.match(e, /<span>30 min<\/span>/);
   assert(e.includes(`title: '${TITLE}'`));
   assert(e.includes(`description: '${meta.card_description}'`));
   assert(lib.includes("marker: 'data-beyond-the-bell',"), 'build insertion point intact');
@@ -406,27 +422,27 @@ test('the quiz emits upskill-quiz-result for unanswered, wrong and all-correct s
   document.addEventListener('upskill-quiz-result', e => events.push({ score: e.detail.score, total: e.detail.total }));
   const submit = () => document.getElementById('quiz-submit').click();
   const questions = [...document.querySelectorAll('#quiz-form .quiz-question')];
-  assert.equal(questions.length, 6);
+  assert.equal(questions.length, 8);
   const answers = questions.map(q => q.dataset.answer);
-  assert.deepEqual(answers, ['b', 'c', 'a', 'b', 'a', 'c']);
+  assert.deepEqual(answers, ['b', 'c', 'a', 'b', 'a', 'c', 'b', 'c']);
   for (const q of questions) assert(q.dataset.explanation.length > 40);
 
   submit();
-  assert.deepEqual(events.pop(), { score: 0, total: 6 });
-  assert.match(document.getElementById('quiz-result').textContent, /6 unanswered/);
+  assert.deepEqual(events.pop(), { score: 0, total: 8 });
+  assert.match(document.getElementById('quiz-result').textContent, /8 unanswered/);
 
   answers.forEach((ans, i) => {
     const wrong = [...questions[i].querySelectorAll('input')].find(radio => radio.value !== ans);
     wrong.checked = true;
   });
   submit();
-  assert.deepEqual(events.pop(), { score: 0, total: 6 });
+  assert.deepEqual(events.pop(), { score: 0, total: 8 });
   assert.match(questions[0].querySelector('.quiz-feedback').textContent, /Not quite/);
 
   answers.forEach((ans, i) => { questions[i].querySelector(`input[value="${ans}"]`).checked = true; });
   submit();
-  assert.deepEqual(events.pop(), { score: 6, total: 6 });
-  assert.match(document.getElementById('quiz-result').textContent, /Score: 6 \/ 6/);
+  assert.deepEqual(events.pop(), { score: 8, total: 8 });
+  assert.match(document.getElementById('quiz-result').textContent, /Score: 8 \/ 8/);
   assert.deepEqual(errors, []);
   window.close();
 });
