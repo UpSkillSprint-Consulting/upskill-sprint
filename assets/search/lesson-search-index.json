@@ -10080,7 +10080,7 @@
     {
       "id": "statistics--mean-median-mode-and-spread",
       "path": "/lessons/statistics/mean-median-mode-and-spread",
-      "title": "Mean, Median, Mode and Spread",
+      "title": "Introduction to Mean, Median, Mode, and Spread",
       "description": "Find the center and the spread of any dataset, explained step by step: mean, median, mode, range, IQR, standard deviation and CV.",
       "topic": "statistics",
       "level": "beginner",
@@ -10111,9 +10111,9 @@
       "sections": [
         {
           "id": "mms-title",
-          "heading": "Mean, Median, Mode and Spread",
+          "heading": "Introduction to Mean, Median, Mode, and Spread",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread"
+            "Introduction to Mean, Median, Mode, and Spread"
           ],
           "text": "The mean, median and mode tell you where the middle of your data is. Spread tells you how far the values wander from that middle. By the end you will be able to work out the mean, median and mode, and say what each means pick the right one when data has outliers measure spread: range, IQR and standard deviation do it in Excel and Minitab One dataset, every key number Seven repair times in hours, sorted (a made-up example) 12 15 mode 15 mode 18 middle 20 22 45 outlier Center: where is the typical value? 15 h Mode Most common 18 h Median Middle value 21 h Mean Balance point 5 of 7 repairs took less than the mean. Spread: how far do values wander? 33 h Range Largest minus smallest 11.1 h Std dev Typical distance from the mean 7 h IQR Middle 50% only 52.9 % CV Std dev ÷ mean Report a center and a spread. Every time. The big idea",
           "excerpt": "The mean, median and mode tell you where the middle of your data is. Spread tells you how far the values wander from that middle. By the end you will be able to work out the mean, median and mode, and say what each means pick the right one when data has…",
@@ -10127,7 +10127,7 @@
           "id": "mms-why-h",
           "heading": "Why one number is never enough",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Why one number is never enough"
           ],
           "text": "A dataset is a list of measurements, like test marks or pipe thicknesses. We summarize it with two kinds of number. Center: a typical value, where the data sits. Spread: how far the values wander. How consistent is it? Why both? Two lines make pipe walls that must be 9.5 to 10.5 mm thick. Both average exactly 10.0 mm. (A made-up example.) Line A 6 of 6 pipes in spec SD 0.07 mm Line B 4 of 6 pipes in spec SD 0.72 mm Spec band Square = out of spec Same center, very different spread. What to notice: Line A huddles near 10.0 mm; Line B scatters, with two pipes out of spec. The average alone calls them equal. Part 1: the center",
@@ -10142,7 +10142,7 @@
           "id": "mms-center-h",
           "heading": "Mean, median and mode: three ways to find the middle",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Mean, median and mode: three ways to find the middle"
           ],
           "text": "There are three ways to pick a typical value, and they don't always agree. We'll use these seven repair times, in hours: 12, 15, 15, 18, 20, 22, 45 The people-pleaser",
@@ -10155,7 +10155,7 @@
           "id": "mms-mean-h",
           "heading": "The mean: share it out equally",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Mean, median and mode: three ways to find the middle",
             "The mean: share it out equally"
           ],
@@ -10170,7 +10170,7 @@
           "id": "mms-median-h",
           "heading": "The median: the middle of the line-up",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Mean, median and mode: three ways to find the middle",
             "The median: the middle of the line-up"
           ],
@@ -10185,7 +10185,7 @@
           "id": "mms-mode-h",
           "heading": "The mode: the most popular value",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Mean, median and mode: three ways to find the middle",
             "The mode: the most popular value"
           ],
@@ -10200,7 +10200,7 @@
           "id": "mms-all-three",
           "heading": "All three on one picture",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Mean, median and mode: three ways to find the middle",
             "All three on one picture"
           ],
@@ -10215,7 +10215,7 @@
           "id": "mms-lab-h",
           "heading": "Drag the outlier and watch the numbers move",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Drag the outlier and watch the numbers move"
           ],
           "text": "The slider sets the last repair time. Watch the seesaw (mean), the line-up (median) and the tally (mode). Interactive Last repair time: 45 hours Mean 21 Median 18 Mode 15 Std dev 11.1 IQR 7 The 45 is an outlier. The mean sits 3 hours above the median. Report the median and IQR. Drag it to 100. The median and IQR stay put; the mean and standard deviation jump. Drag it to 22. The mean and median nearly agree. Drag it to 15. Now 15 appears three times. Part 2: choosing",
@@ -10228,7 +10228,7 @@
           "id": "mms-choose-h",
           "heading": "Which center should you report?",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Which center should you report?"
           ],
           "text": "It depends on the data's shape . Skewed data bunches up, with a long \"tail\" of unusual values on one side. House prices and repair times usually tail off to the right; marks on an easy test tail off to the left. The mean always sits closest to the tail. What to notice: the mean is dragged toward the tail, the mode stays at the peak, and the median sits between. Mean bigger than median? The tail points right. Are the values categories, such as defect types or 1 to 5 ratings? Yes Use the mode . Ratings can also use the median. No: next question Is the data skewed, or does it have outliers? Yes Use the median and IQR . No: next question Otherwise Use the mean and standard deviation. Not sure? If the mean and median are far apart, the data is skewed: report the median. Part 3: spread",
@@ -10241,7 +10241,7 @@
           "id": "mms-spread-h",
           "heading": "Range, IQR and standard deviation: measuring spread",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Range, IQR and standard deviation: measuring spread"
           ],
           "text": "Spread answers what the average couldn't: how consistent is the data? Small spread means predictable values; big spread means they're all over the place, like Line B's pipes. Here are three measures, simplest first.",
@@ -10254,7 +10254,7 @@
           "id": "mms-range-h",
           "heading": "The range: largest minus smallest",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Range, IQR and standard deviation: measuring spread",
             "The range: largest minus smallest"
           ],
@@ -10269,7 +10269,7 @@
           "id": "mms-iqr-h",
           "heading": "Quartiles and the IQR: the spread of the middle half",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Range, IQR and standard deviation: measuring spread",
             "Quartiles and the IQR: the spread of the middle half"
           ],
@@ -10284,7 +10284,7 @@
           "id": "mms-sd-steps",
           "heading": "Standard deviation: the typical distance from the mean",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Range, IQR and standard deviation: measuring spread",
             "Standard deviation: the typical distance from the mean"
           ],
@@ -10299,7 +10299,7 @@
           "id": "mms-var-cv-h",
           "heading": "Two relatives: variance and CV",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Range, IQR and standard deviation: measuring spread",
             "Two relatives: variance and CV"
           ],
@@ -10314,7 +10314,7 @@
           "id": "mms-terms-h",
           "heading": "Key terms",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Key terms"
           ],
           "text": "Dataset A list of measurements of the same thing. Mean The total shared out equally: add the values, divide by the count. Median The middle value once the data is sorted. Mode The value that appears most often. Outlier A value far away from the rest of the data. Skewed Data with a long tail of unusual values on one side. Range Largest value minus smallest value. Quartiles The three values that cut sorted data into four equal groups. IQR The spread of the middle half: \\(Q_3 - Q_1\\). Standard deviation The typical distance of a value from the mean. Variance The standard deviation squared. Sample Some of the data, not all of it. Divide by \\(n - 1\\).",
@@ -10327,7 +10327,7 @@
           "id": "mms-mistakes-h",
           "heading": "4 mistakes to avoid",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "4 mistakes to avoid"
           ],
           "text": "Mean of skewed data A long tail drags it. Report the median. Averaging ratings 1 to 5 scores are ordinal. Use the median or mode. Adding standard deviations Add variances, then take the square root. STDEV.P on a sample Samples divide by \\(n - 1\\): use STDEV.S. Do it in software",
@@ -10340,7 +10340,7 @@
           "id": "mms-implementation-h",
           "heading": "Statistics Implementation",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Statistics Implementation"
           ],
           "text": "",
@@ -10353,7 +10353,7 @@
           "id": "mms-excel-functions",
           "heading": "Excel functions",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Statistics Implementation",
             "Excel functions"
           ],
@@ -10368,7 +10368,7 @@
           "id": "mms-excel-uses",
           "heading": "Excel use cases",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Statistics Implementation",
             "Excel use cases"
           ],
@@ -10383,7 +10383,7 @@
           "id": "mms-minitab",
           "heading": "Minitab navigation",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Statistics Implementation",
             "Minitab navigation"
           ],
@@ -10397,7 +10397,7 @@
           "id": "mms-exam-tips",
           "heading": "Exam tips",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Statistics Implementation",
             "Exam tips"
           ],
@@ -10412,7 +10412,7 @@
           "id": "lesson-section-related-lessons",
           "heading": "Related lessons",
           "breadcrumb": [
-            "Mean, Median, Mode and Spread",
+            "Introduction to Mean, Median, Mode, and Spread",
             "Related lessons"
           ],
           "text": "Variance, Covariance, Correlation & CV — go deeper on spread and how two variables move together. Dealing with Outliers — what to do once the box-plot fence flags a value. The Normal Distribution: Meet the Bell Curve — the symmetric shape where mean, median and mode agree. Chebyshev vs. the Empirical Rule — how many values fall within a few standard deviations. Hypothesis Testing for Beginners — the next step: testing whether two means really differ.",

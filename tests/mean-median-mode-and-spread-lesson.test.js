@@ -9,7 +9,7 @@ const ROOT = path.join(__dirname, '..');
 const SLUG = 'mean-median-mode-and-spread';
 const LESSON = `lessons/statistics/${SLUG}.html`;
 const URL_PATH = `/lessons/statistics/${SLUG}`;
-const TITLE = 'Mean, Median, Mode and Spread';
+const TITLE = 'Introduction to Mean, Median, Mode, and Spread';
 const read = file => fs.readFileSync(path.join(ROOT, file), 'utf8');
 const html = read(LESSON);
 const guide = read('docs/LESSON_CREATION_GUIDE.md');
