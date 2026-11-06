@@ -17,7 +17,7 @@ reinterpret, or substitute equivalents unless this guide explicitly allows a cho
 > text. A lesson that is mostly paragraphs is not ready for review, however accurate it is.
 > All visuals MUST be original. See **§24**.
 
-**Quick map:** **visual-first lessons §24 (read it before you design anything)** ·
+**Quick map:** **visual-first lessons §24 (read it before you design anything; style patterns §24.8)** ·
 governance rules §20 · page skeleton §2 · head/SEO §2.1 · chrome §4 ·
 engineering-tool theme §9.8 · Excel Coach §25 ·
 catalog §12 · access rules (Supabase) §12.4 · sitemap §12.5 · learning paths §12.6 · images §13.2 ·
@@ -2106,6 +2106,26 @@ patterns, not the content:
   inside visual cards over 30 words).
 - In the PR body, list the infographic(s), interactive visual(s) and charts, and give the
   body-text word count against the estimated minutes.
+
+### 24.8 Style patterns to use (from Ernest's template library, Nov 2026)
+
+Ernest keeps a licensed library of commercial infographic templates as a style reference (ask
+him for access). The six patterns below are the ones worth carrying into UpSkill Sprint
+lessons. They are **ideas only**: §24.3 still applies in full, so never copy, trace, re-colour
+or embed a template slide. Draw every visual from scratch in inline SVG or HTML/CSS (§24.4).
+
+| Pattern | How to use it in a lesson |
+|---|---|
+| **Big numbers carry the slide** | Lead with one huge figure (`75%`, `3.2 M`, "4 out of 10") and a short label under it. The number is the headline; the label is 2–6 words. Use it for key-numbers posters and stat tiles. |
+| **A tight palette** | Pick **3–4 harmonious colours per lesson** (e.g. teal, dark teal, olive, mustard; or orange, navy, sky blue, slate) and keep to them. Status red/green and neutrals do not count towards the four. Define them as `--lesson-<slug>-*` tokens in both themes (§9.1). |
+| **Step-by-step reveal** | Repeat one diagram (e.g. five DMAIC arches) and highlight one step at a time while the others fade to grey. Make it interactive ("click a phase"): native `<button>`s, `aria-pressed`, the selected step named in text, not colour alone. |
+| **Pictogram rows** | Show proportions as a row of icons, part filled ("4 out of 10 parts in spec"). Generate the icons from the data, label the count in text, and keep each row to 10 or 20 icons so it reads at a glance. Icons come from the Vector Library (§13.1). |
+| **Segmented bars and donut gauges** | For percentages and capability-style figures, use segmented progress bars or donut gauges instead of plain bars. Print the value on or beside the mark, and keep the geometry to scale (§24.4: data-driven, test-checked). |
+| **Fishbone variety** | For root cause analysis, pick the fishbone layout that fits the content: fish-shaped, chevron spine, or numbered bones. Keep the 6M (or other) category labels as real text. |
+
+The mean/median/mode lesson (`lessons/statistics/mean-median-mode-and-spread.html`, PR #391)
+uses the big-numbers poster. Treat these patterns as the default toolkit when planning a
+lesson's visuals (§0 step 4), and name the ones you used in the PR body (§24.7).
 
 ---
 
