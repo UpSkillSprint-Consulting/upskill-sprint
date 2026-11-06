@@ -2,20 +2,19 @@
   "_howto": "Headlines for the scrolling updates bar (site-ticker.js). Add new items at the top. Fields: id (unique, never reuse), date (YYYY-MM-DD), tag (Lesson | Exam | Tool | Research | Update | Soon), text (your own words, under ~60 characters), href (a site path starting with /, or a direct https:// link to the source for Research items; those open in a new tab), expires (optional YYYY-MM-DD; shows through that day). Research items are weekly: only the newest dated batch shows, so a new Friday's picks replace the previous week's automatically. Items older than 90 days drop off automatically; at most 8 show. A new top item brings the bar back for visitors who closed it.",
   "updates": [
     {
-      "id": "2026-10-31-research-cpk-approval-margin",
-      "date": "2026-10-31",
+      "id": "2026-11-06-research-streaming-virtual-metrology",
+      "date": "2026-11-06",
       "tag": "Research",
-      "text": "Cpk approval: add a margin for small samples",
-      "href": "https://arxiv.org/abs/2603.14479",
-      "expires": "2026-11-14"
+      "text": "Virtual metrology that keeps up as equipment drifts",
+      "href": "https://arxiv.org/abs/2611.00806",
+      "expires": "2026-11-20"
     },
     {
-      "id": "2026-10-31-research-spc-p-values",
-      "date": "2026-10-31",
-      "tag": "Research",
-      "text": "Control charts via p-values, no model needed",
-      "href": "https://arxiv.org/abs/2601.17319",
-      "expires": "2026-11-14"
+      "id": "2026-11-05-mean-median-mode-spread",
+      "date": "2026-11-05",
+      "tag": "Lesson",
+      "text": "New lesson: mean, median, mode and spread",
+      "href": "/lessons/statistics/mean-median-mode-and-spread"
     },
     {
       "id": "2026-10-31-cre-coming",
@@ -23,6 +22,20 @@
       "tag": "Soon",
       "text": "CRE practice questions are in the works",
       "href": "/exam-practice#exam-cre"
+    },
+    {
+      "id": "2026-10-31-home-stats-box",
+      "date": "2026-10-31",
+      "tag": "Update",
+      "text": "Homepage stats box: spin it to see what's new",
+      "href": "/#trust-stats"
+    },
+    {
+      "id": "2026-10-31-mobile-menu-redesign",
+      "date": "2026-10-31",
+      "tag": "Update",
+      "text": "A clearer phone menu with a quick-start guide",
+      "href": "/"
     },
     {
       "id": "2026-10-30-dmaic-10-minutes",
