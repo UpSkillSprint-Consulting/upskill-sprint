@@ -266,14 +266,23 @@
         window.UpskillAuth.onChange(loadForUser);
         detectFeatures();
         loadProgressSummary();
-        if (client) {
-          client.from('account_deletion_requests').select('status').eq('user_id', user.id).eq('status', 'pending').then(function (result) {
-            if (result && result.data && result.data.length) {
-              dataStatus.textContent = 'You already have a deletion request pending. Nothing has been deleted.';
-              deleteBtn.disabled = true;
-            }
-          }).catch(function () {});
+        function checkPendingDeletion() {
+          try {
+            var currentUser = window.UpskillAuth && window.UpskillAuth.getUser();
+            var currentClient = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
+            if (!currentUser || !currentClient || !deleteBtn) return;
+            currentClient.from('account_deletion_requests').select('status').eq('user_id', currentUser.id).eq('status', 'pending').then(function (result) {
+              if (result && result.data && result.data.length) {
+                dataStatus.textContent = 'You already have a deletion request pending. Nothing has been deleted.';
+                deleteBtn.disabled = true;
+              } else {
+                deleteBtn.disabled = false;
+              }
+            }).catch(function () {});
+          } catch (error) { /* table may not exist yet */ }
         }
+        checkPendingDeletion();
+        window.UpskillAuth.onChange(checkPendingDeletion);
 
       }
 
