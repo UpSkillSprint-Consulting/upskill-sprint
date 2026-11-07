@@ -215,6 +215,30 @@
         });
       }
 
+
+      function detectFeatures() {
+        var learning = document.getElementById('profile-learning');
+        var learningNote = document.getElementById('profile-learning-note');
+        var client = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
+        if (!learning || !client) return;
+        try {
+          var query = client.from('profiles').select('role');
+          var probe = query.limit ? query.limit(0) : query;
+          Promise.resolve(probe).then(function (result) {
+            if (result && result.error) {
+              learning.querySelectorAll('label').forEach(function (el) { el.hidden = true; });
+              if (learningNote) learningNote.hidden = false;
+            }
+          }).catch(function () {
+            learning.querySelectorAll('label').forEach(function (el) { el.hidden = true; });
+            if (learningNote) learningNote.hidden = false;
+          });
+        } catch (error) {
+          learning.querySelectorAll('label').forEach(function (el) { el.hidden = true; });
+          if (learningNote) learningNote.hidden = false;
+        }
+      }
+
       function initialize() {
         if (!window.UpskillAuth || !window.UpskillProfile) return;
         clearForm(window.UpskillAuth.getUser(), 'Loading your profile\u2026');
@@ -227,6 +251,7 @@
           if (fill(profile)) setStatus('', false);
         });
         window.UpskillAuth.onChange(loadForUser);
+        detectFeatures();
         loadProgressSummary();
       }
 
@@ -250,25 +275,6 @@
             changePassword.disabled = false;
           });
         });
-      }
-
-
-      // Feature-detect learning fields. Hide them if the columns are not yet available.
-      var learning = document.getElementById('profile-learning');
-      var learningNote = document.getElementById('profile-learning-note');
-      if (learning && window.UpskillAuth && window.UpskillAuth.getClient) {
-        var client = window.UpskillAuth.getClient();
-        if (client) {
-          client.from('profiles').select('role').limit(0).then(function (result) {
-            if (result.error) {
-              learning.querySelectorAll('label').forEach(function (el) { el.hidden = true; });
-              if (learningNote) learningNote.hidden = false;
-            }
-          }).catch(function () {
-            learning.querySelectorAll('label').forEach(function (el) { el.hidden = true; });
-            if (learningNote) learningNote.hidden = false;
-          });
-        }
       }
 
 
