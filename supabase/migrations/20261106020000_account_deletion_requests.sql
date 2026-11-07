@@ -19,7 +19,7 @@ grant select, insert on table public.account_deletion_requests to authenticated;
 create policy "Users read own deletion requests" on public.account_deletion_requests
   for select to authenticated using ((select auth.uid()) = user_id);
 create policy "Users insert own deletion requests" on public.account_deletion_requests
-  for insert to authenticated with check ((select auth.uid()) = user_id);
+  for insert to authenticated with check ((select auth.uid()) = user_id and status = 'pending');
 
 create unique index if not exists account_deletion_one_pending
   on public.account_deletion_requests (user_id) where status = 'pending';
