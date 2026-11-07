@@ -117,7 +117,7 @@ Netlify → Site configuration → Environment variables. Scope: **Functions**. 
 | `NEWSLETTER_POSTAL_ADDRESS` | Business mailing address (PO box is fine), e.g. `PO Box 123, Regina SK S4P 0A0, Canada` | no |
 | `NEWSLETTER_TEST_RECIPIENTS` | Your address(es), comma-separated, max 5 | no |
 | `NEWSLETTER_ADMIN_EMAIL` | Where alerts and send summaries go | no |
-| `NEWSLETTER_REPLY_TO` | Optional, e.g. `skillsprintconsulting@gmail.com` (replies reach a person) | no |
+| `NEWSLETTER_REPLY_TO` | Optional, e.g. `lessons@upskillsprint.com` (replies reach the lesson inbox) | no |
 
 Optional: `NEWSLETTER_FROM` (default `UpSkill Sprint <noreply@upskillsprint.com>`; must be
 `@upskillsprint.com`), `NEWSLETTER_MAX_LESSONS` (3), `NEWSLETTER_SEND_WINDOW` (`7-20`),
