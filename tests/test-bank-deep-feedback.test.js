@@ -190,7 +190,7 @@ test('question issue reporting prepares a traceable email with the stored answer
   click(window, box.querySelector('[data-prepare-report]'));
   const link = box.querySelector('[data-report-link]');
   assert.equal(link.hidden, false);
-  assert.ok(link.href.startsWith('mailto:skillsprintconsulting@gmail.com'));
+  assert.ok(link.href.startsWith('mailto:hello@upskillsprint.com'));
   assert.ok(decodeURIComponent(link.href).includes(question.stem));
   assert.ok(decodeURIComponent(link.href).includes(question.options[question.answer]));
 });
