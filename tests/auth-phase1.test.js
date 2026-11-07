@@ -108,3 +108,12 @@ test('profile page is gated and supports name and consent updates', () => {
   assert.match(profile, /id="profile-newsletter"/);
   assert.match(profile, /UpskillProfile\.save/);
 });
+
+test('profile change-password button reuses the reset flow', () => {
+  const html = read('profile.html');
+  assert.match(html, /id="profile-change-password"/);
+  assert.match(html, /id="profile-password-status"[^>]*aria-live="polite"/);
+  assert.match(html, /UpskillAuth\.resetPassword\(user\.email\)/);
+  assert.match(html, /changePassword\.disabled = true/);
+  assert.match(html, /class="skip-link"/);
+});

@@ -16,6 +16,7 @@
 <script src="/site-sections.js"></script>
 </head>
 <body data-require-auth>
+  <a class="skip-link" href="#account-profile">Skip to content</a>
   <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
   <header class="site">
     <a href="index.html" class="brand">
@@ -75,8 +76,14 @@
           <button type="submit" class="btn btn-teal" id="profile-submit">Save changes</button>
           <span id="profile-status" role="status" aria-live="polite"></span>
         </div>
+        <section class="profile-section" aria-labelledby="profile-security-heading">
+          <h2 id="profile-security-heading">Security</h2>
+          <p class="profile-help">We'll email you a link to choose a new password. The link opens the same secure page used for password resets.</p>
+          <button type="button" class="btn" id="profile-change-password">Change password</button>
+          <span id="profile-password-status" role="status" aria-live="polite"></span>
+        </section>
+
         <div class="profile-links">
-          <a href="/reset-password.html">Change password</a>
           <a href="/privacy.html">Privacy Policy</a>
           <a href="/terms.html">Terms of Use</a>
         </div>
@@ -164,6 +171,28 @@
           if (fill(profile)) setStatus('', false);
         });
         window.UpskillAuth.onChange(loadForUser);
+      }
+
+
+      var changePassword = document.getElementById('profile-change-password');
+      var passwordStatus = document.getElementById('profile-password-status');
+      if (changePassword) {
+        changePassword.addEventListener('click', function () {
+          var user = window.UpskillAuth && window.UpskillAuth.getUser();
+          if (!user || !user.email) {
+            passwordStatus.textContent = 'Sign in to change your password.';
+            return;
+          }
+          changePassword.disabled = true;
+          passwordStatus.textContent = 'Sending reset link…';
+          window.UpskillAuth.resetPassword(user.email).then(function () {
+            passwordStatus.textContent = 'Check your email for a link to choose a new password.';
+          }).catch(function (error) {
+            passwordStatus.textContent = error && error.message ? error.message : 'The reset link could not be sent. Try again.';
+          }).then(function () {
+            changePassword.disabled = false;
+          });
+        });
       }
 
       form.addEventListener('submit', function (event) {
