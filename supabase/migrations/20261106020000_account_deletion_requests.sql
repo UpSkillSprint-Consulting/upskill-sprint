@@ -20,3 +20,6 @@ create policy "Users read own deletion requests" on public.account_deletion_requ
   for select to authenticated using ((select auth.uid()) = user_id);
 create policy "Users insert own deletion requests" on public.account_deletion_requests
   for insert to authenticated with check ((select auth.uid()) = user_id);
+
+create unique index if not exists account_deletion_one_pending
+  on public.account_deletion_requests (user_id) where status = 'pending';

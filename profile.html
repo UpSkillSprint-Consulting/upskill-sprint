@@ -335,8 +335,9 @@
       }
       if (deleteBtn) {
         deleteBtn.addEventListener('click', function () {
-          if (!confirm('Request account deletion? Nothing is deleted until an administrator reviews the request.')) return;
           var user = window.UpskillAuth && window.UpskillAuth.getUser();
+          if (!user) { dataStatus.textContent = 'Sign in to request deletion.'; return; }
+          if (!confirm('Request account deletion? Nothing is deleted until an administrator reviews the request.')) return;
           var client = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
           if (!user || !client) { dataStatus.textContent = 'Sign in to request deletion.'; return; }
           client.from('account_deletion_requests').insert({ user_id: user.id, reason: 'User requested from profile page' }).then(function (result) {
