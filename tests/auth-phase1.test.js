@@ -137,3 +137,15 @@ test('profile progress summary is compact and links the certificate', () => {
   assert.match(html, /excel-sprint-certificate\.html/);
   assert.doesNotMatch(html, /every answer|answer_text/i);
 });
+
+test('email preferences keep newsletter_opt_in as new lessons', () => {
+  const html = read('profile.html');
+  const sql = read('supabase/migrations/20261106010000_profile_email_preferences.sql');
+  assert.match(html, /id="profile-newsletter"/);
+  assert.match(html, /id="profile-exam-email"/);
+  assert.match(html, /id="profile-digest"/);
+  assert.match(html, /privacy\.html/);
+  assert.match(sql, /newsletter_opt_in stays/);
+  assert.match(sql, /exam_practice_opt_in/);
+  assert.match(sql, /monthly_digest_opt_in/);
+});
