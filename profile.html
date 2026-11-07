@@ -63,7 +63,9 @@
           <label class="field">Name<input type="text" id="profile-display-name" name="display_name" required minlength="2" maxlength="100" autocomplete="name"></label>
           <label class="field">Email<input type="email" id="profile-email" name="email" readonly autocomplete="email" aria-describedby="profile-email-help"></label>
           <p id="profile-email-help" class="profile-help" style="margin-top:-8px;">Email changes will be added in a later account-security phase.</p>
-          <input type="hidden" id="profile-timezone" name="timezone" value="UTC">
+          <label class="field">Time zone
+            <select id="profile-timezone" name="timezone"></select>
+          </label>
         </section>
 
 
@@ -321,6 +323,21 @@
             dataStatus.textContent = 'Deletion requests are not available yet. Nothing has been deleted.';
           });
         });
+      }
+
+
+      var timezoneSelect = document.getElementById('profile-timezone');
+      if (timezoneSelect) {
+        var zones = [];
+        try { zones = Intl.supportedValuesOf('timeZone'); } catch (e) { zones = ['UTC', 'America/Regina', 'America/Toronto', 'America/Vancouver', 'Europe/London']; }
+        zones.forEach(function (zone) {
+          var option = document.createElement('option');
+          option.value = zone;
+          option.textContent = zone;
+          timezoneSelect.appendChild(option);
+        });
+        var saved = window.UpskillProfile && window.UpskillProfile.getCurrent && window.UpskillProfile.getCurrent();
+        timezoneSelect.value = (saved && saved.timezone) || (window.UpskillProfile && window.UpskillProfile.browserTimezone()) || 'UTC';
       }
 
       form.addEventListener('submit', function (event) {

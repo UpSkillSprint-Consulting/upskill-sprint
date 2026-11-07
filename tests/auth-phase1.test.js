@@ -160,3 +160,11 @@ test('data download is local and deletion is a request only', () => {
   assert.match(sql, /Nothing deletes live data/);
   assert.match(sql, /using \(\(select auth\.uid\(\)\) = user_id\)/);
 });
+
+test('timezone select is visible and prefills from saved or browser', () => {
+  const html = read('profile.html');
+  assert.match(html, /<select id="profile-timezone"/);
+  assert.match(html, /Intl\.supportedValuesOf\('timeZone'\)/);
+  assert.match(html, /browserTimezone/);
+  assert.doesNotMatch(html, /type="hidden"[^>]*id="profile-timezone"/);
+});
