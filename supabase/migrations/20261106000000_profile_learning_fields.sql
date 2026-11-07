@@ -7,4 +7,6 @@ alter table public.profiles
   add column if not exists industry text check (industry is null or char_length(industry) <= 100),
   add column if not exists target_certification text check (target_certification in ('CQA', 'CQE', 'CSSBB', 'CSSGB', 'MBB', 'NPPE', 'PMP') or target_certification is null);
 
+grant select (role, industry, target_certification) on table public.profiles to authenticated;
+grant insert (role, industry, target_certification) on table public.profiles to authenticated;
 grant update (role, industry, target_certification) on table public.profiles to authenticated;
