@@ -308,15 +308,29 @@
           var user = window.UpskillAuth && window.UpskillAuth.getUser();
           var profile = window.UpskillProfile && window.UpskillProfile.getCurrent();
           if (!user) { dataStatus.textContent = 'Sign in to download your data.'; return; }
-          var payload = { profile: profile || {}, email: user.email, exported_at: new Date().toISOString() };
+          var lessons = document.getElementById('profile-lessons-completed');
+          var practice = document.getElementById('profile-practice-sets');
+          var payload = {
+            profile: profile || {},
+            email: user.email,
+            progress: {
+              lessons_completed: lessons ? lessons.textContent : null,
+              practice_sets: practice ? practice.textContent : null
+            },
+            deletion_request: dataStatus && /recorded|pending/i.test(dataStatus.textContent) ? 'pending' : null,
+            exported_at: new Date().toISOString()
+          };
           var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
           var url = URL.createObjectURL(blob);
-          var a = document.createElement('a');
-          a.href = url;
-          a.download = 'upskillsprint-data.json';
-          a.click();
-          URL.revokeObjectURL(url);
-          dataStatus.textContent = 'Your data file has been downloaded.';
+          try {
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'upskillsprint-data.json';
+            a.click();
+            dataStatus.textContent = 'Your data file has been downloaded.';
+          } finally {
+            URL.revokeObjectURL(url);
+          }
         });
       }
       if (deleteBtn) {

@@ -168,3 +168,11 @@ test('timezone select is visible and prefills from saved or browser', () => {
   assert.match(html, /browserTimezone/);
   assert.doesNotMatch(html, /type="hidden"[^>]*id="profile-timezone"/);
 });
+
+test('data export includes profile, progress and revokes the URL', () => {
+  const html = read('profile.html');
+  assert.match(html, /lessons_completed/);
+  assert.match(html, /practice_sets/);
+  assert.match(html, /deletion_request/);
+  assert.match(html, /finally[\s\S]*revokeObjectURL/);
+});
