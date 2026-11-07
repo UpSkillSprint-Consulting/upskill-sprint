@@ -176,3 +176,14 @@ test('data export includes profile, progress and revokes the URL', () => {
   assert.match(html, /deletion_request/);
   assert.match(html, /finally[\s\S]*revokeObjectURL/);
 });
+
+test('certification dropdown matches exam-practice', () => {
+  const profile = read('profile.html');
+  const exams = read('exam-practice.html');
+  for (const code of ['cmq', 'cqa', 'cqe', 'cre', 'cssbb', 'cssgb', 'mbb', 'nppe', 'pmp']) {
+    assert.match(exams, new RegExp('data-exam="' + code + '"'));
+  }
+  for (const label of ['CMQ/OE', 'CQA', 'CQE', 'CRE', 'CSSBB', 'CSSGB', 'MBB', 'NPPE', 'PMP']) {
+    assert.match(profile, new RegExp('<option>' + label + '</option>'));
+  }
+});
