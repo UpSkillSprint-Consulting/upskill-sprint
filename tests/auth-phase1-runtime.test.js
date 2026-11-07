@@ -917,7 +917,7 @@ test('missing columns hide learning and email sections', async () => {
     getClient: () => ({ from: () => ({ select: () => ({ limit: () => Promise.resolve({ error: { message: 'column role does not exist' } }) }) }) }),
     onChange: () => {}
   };
-  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC' };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC', load: () => Promise.resolve(null) };
   w.eval(profilePageSource);
   await flush(); await flush();
   const learning = w.document.getElementById('profile-learning');
@@ -961,7 +961,7 @@ test('deletion 23505 shows the pending message', async () => {
     getClient: () => ({ from: () => ({ insert: () => Promise.resolve({ error: { code: '23505' } }) }) }),
     onChange: () => {}
   };
-  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC' };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC', load: () => Promise.resolve(null) };
   w.eval(profilePageSource);
   const btn = w.document.getElementById('profile-delete-request');
   btn.click();
@@ -991,7 +991,7 @@ test('pending status clears when the account switches', async () => {
     }) }),
     onChange: (fn) => listeners.push(fn)
   };
-  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC' };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC', load: () => Promise.resolve(null) };
   w.eval(profilePageSource);
   await flush(); await flush();
   const btn = w.document.getElementById('profile-delete-request');
