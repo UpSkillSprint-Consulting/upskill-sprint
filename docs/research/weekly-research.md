@@ -57,6 +57,8 @@ data: real
 sample_size: "3 field datasets, 5–12 failures each"
 evidence: High
 evidence_why: "Peer reviewed; tested on real field-failure data, not only simulation."
+limitations: "Assumes a single failure mode; no comparison with Bayesian methods."
+readiness: Worth piloting
 topic: reliability
 what_it_is: "Two plain sentences on what the method does."
 plant_problem: "One or two sentences on the plant problem it solves."
@@ -89,6 +91,8 @@ status: Proposed
 | `sample_size` | Short, in quotes, or `"not stated"` | — |
 | `evidence` | `High`, `Medium` or `Low` (see the scale below) | Only High and Medium can go on the ticker |
 | `evidence_why` | One sentence | PR description |
+| `limitations` | Key assumptions and weaknesses, in quotes. Flag any data leakage, post-hoc thresholds, random train/test splits on time-ordered data, unverified distribution assumptions, unstable measurement systems, or claims based only on point estimates. Use `"none found"` only if you looked. | Brief to Ernest |
+| `readiness` | `Ready to apply`, `Worth piloting` or `Worth watching` | Brief to Ernest; ranking |
 | `topic` | One of: `capability`, `regression`, `doe`, `msa`, `anomaly`, `spc-charts`, `reliability`, `predictive-quality`, `root-cause`, `sampling`, `robust`, `data-quality` | Used for ranking and variety |
 | `what_it_is` | Two plain sentences | Brief to Ernest |
 | `plant_problem` | One or two sentences | Brief to Ernest |
@@ -155,6 +159,8 @@ data: real
 sample_size: "2 semiconductor production datasets; sizes not stated"
 evidence: Medium
 evidence_why: "Conference peer review and real production data with chronological blind tests, but no sample sizes and no public code."
+limitations: "Semiconductor data only; no sample sizes or code, so results can't be reproduced; gains reported as point estimates."
+readiness: Worth piloting
 topic: predictive-quality
 what_it_is: "Predicts slow or costly lab measurements from in-line sensor data. One stable regression model does the main prediction, and two small online correctors adjust it as equipment wears, gets maintained or is re-tuned."
 plant_problem: "Prediction models (soft sensors) that quietly lose accuracy between recalibrations."
@@ -182,6 +188,8 @@ data: "not stated"
 sample_size: "not stated"
 evidence: Low
 evidence_why: "Unverified: the abstract couldn't be opened (arXiv rate limit)."
+limitations: "not stated"
+readiness: Worth watching
 topic: reliability
 what_it_is: "A meta-analysis method that combines interval-monitored step-stress accelerated life tests to predict reliability."
 plant_problem: "Reliability prediction when several small accelerated tests exist but none is large enough on its own."
