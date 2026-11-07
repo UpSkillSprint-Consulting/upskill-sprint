@@ -364,7 +364,14 @@
           timezoneSelect.appendChild(option);
         });
         var saved = window.UpskillProfile && window.UpskillProfile.getCurrent && window.UpskillProfile.getCurrent();
-        timezoneSelect.value = (saved && saved.timezone) || (window.UpskillProfile && window.UpskillProfile.browserTimezone()) || 'UTC';
+        var preferred = (saved && saved.timezone) || (window.UpskillProfile && window.UpskillProfile.browserTimezone()) || 'UTC';
+        if (preferred && !timezoneSelect.querySelector('option[value="' + preferred.replace(/"/g, '') + '"]')) {
+          var extra = document.createElement('option');
+          extra.value = preferred;
+          extra.textContent = preferred;
+          timezoneSelect.appendChild(extra);
+        }
+        timezoneSelect.value = preferred;
       }
 
       form.addEventListener('submit', function (event) {
