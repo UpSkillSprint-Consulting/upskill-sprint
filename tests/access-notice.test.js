@@ -25,7 +25,7 @@ for (const [key, label] of [['premium','Premium member or higher'], ['administra
     assert.ok(notice);
     assert.match(notice.children[1].textContent, /doesn’t have access/);
     assert.ok(notice.children[1].textContent.includes(label));
-    assert.match(notice.children[2].href, /^mailto:skillsprintconsulting@gmail.com\?subject=/);
+    assert.match(notice.children[2].href, /^mailto:hello@upskillsprint.com\?subject=/);
     assert.equal(notice['aria-labelledby'], 'access-notice-title');
     assert.equal(notice.focused, true);
     assert.equal(notice.scrolled, true);
