@@ -1006,3 +1006,29 @@ test('pending status clears when the account switches', async () => {
   assert.equal(btn.disabled, false);
   dom.window.close();
 });
+
+test('base schema loads and saves without the new columns', async () => {
+  const dom = new JSDOM('<!doctype html><html><body><span id="name"></span></body></html>', { url: 'https://sprint.example/', runScripts: 'outside-only' });
+  const w = dom.window;
+  const selected = [];
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c', user_metadata: { display_name: 'Ada' } }),
+    getClient: () => ({
+      from: () => ({
+        select: (cols) => {
+          selected.push(cols);
+          if (/role|industry|target_certification|exam_practice|monthly_digest/.test(cols)) {
+            return { eq: () => ({ single: () => Promise.resolve({ error: { code: '42703', message: 'column does not exist' } }) }) };
+          }
+          return { eq: () => ({ single: () => Promise.resolve({ data: { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: false }, error: null }) }) };
+        }
+      })
+    }),
+    onChange: (fn) => fn({ id: 'u1' })
+  };
+  w.eval(profileSource);
+  await flush(); await flush();
+  assert.ok(selected.every(c => !/role|industry|target_certification|exam_practice|monthly_digest/.test(c)), 'no new columns requested');
+  assert.equal(w.UpskillProfile.getCurrent().display_name, 'Ada');
+  dom.window.close();
+});

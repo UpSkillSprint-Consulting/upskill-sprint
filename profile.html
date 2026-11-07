@@ -247,7 +247,7 @@
           var probe = query.limit ? query.limit(0) : query;
           Promise.resolve(probe).then(function (result) {
             if (result && result.error) hideLearningAndEmail();
-            else featuresAvailable = true;
+            else { featuresAvailable = true; if (window.UpskillProfile && window.UpskillProfile.setExtraColumns) window.UpskillProfile.setExtraColumns(true); }
           }).catch(hideLearningAndEmail);
         } catch (error) { hideLearningAndEmail(); }
       }
@@ -419,11 +419,13 @@
           display_name: name.value,
           timezone: timezone.value || window.UpskillProfile.browserTimezone(),
           newsletter_opt_in: newsletter.checked,
-          role: (document.getElementById('profile-role') || {}).value || null,
-          industry: (document.getElementById('profile-industry') || {}).value || null,
-          target_certification: (document.getElementById('profile-certification') || {}).value || null,
-          exam_practice_opt_in: Boolean((document.getElementById('profile-exam-email') || {}).checked),
-          monthly_digest_opt_in: Boolean((document.getElementById('profile-digest') || {}).checked)
+          ...(window.UpskillProfile && window.UpskillProfile.hasExtraColumns && window.UpskillProfile.hasExtraColumns() ? {
+            role: (document.getElementById('profile-role') || {}).value || null,
+            industry: (document.getElementById('profile-industry') || {}).value || null,
+            target_certification: (document.getElementById('profile-certification') || {}).value || null,
+            exam_practice_opt_in: Boolean((document.getElementById('profile-exam-email') || {}).checked),
+            monthly_digest_opt_in: Boolean((document.getElementById('profile-digest') || {}).checked)
+          } : {})
         }).then(function () {
           var currentUser = window.UpskillAuth && window.UpskillAuth.getUser();
           if (!currentUser || currentUser.id !== saveUserId || loadRevision !== saveRevision) return;
