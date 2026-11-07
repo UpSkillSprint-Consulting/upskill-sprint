@@ -270,6 +270,8 @@
           try {
             var currentUser = window.UpskillAuth && window.UpskillAuth.getUser();
             var currentClient = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
+            if (dataStatus) dataStatus.textContent = '';
+            if (deleteBtn) deleteBtn.disabled = false;
             if (!currentUser || !currentClient || !deleteBtn) return;
             currentClient.from('account_deletion_requests').select('status').eq('user_id', currentUser.id).eq('status', 'pending').then(function (result) {
               if (result && result.data && result.data.length) {

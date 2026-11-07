@@ -971,3 +971,30 @@ test('deletion 23505 shows the pending message', async () => {
   assert.equal(btn.disabled, true);
   dom.window.close();
 });
+
+test('pending status clears when the account switches', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  let user = { id: 'a', email: 'a@b.c' };
+  let pending = true;
+  const listeners = [];
+  w.UpskillAuth = {
+    getUser: () => user,
+    getClient: () => ({ from: () => ({ select: () => ({ eq: () => ({ eq: () => Promise.resolve({ data: pending ? [{ status: 'pending' }] : [] }) }) }) }) }),
+    onChange: (fn) => listeners.push(fn)
+  };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC' };
+  w.eval(profilePageSource);
+  await flush(); await flush();
+  const btn = w.document.getElementById('profile-delete-request');
+  const status = w.document.getElementById('profile-data-status');
+  assert.match(status.textContent, /pending/);
+  assert.equal(btn.disabled, true);
+  user = { id: 'b', email: 'b@b.c' };
+  pending = false;
+  listeners.forEach(fn => fn(user));
+  await flush(); await flush();
+  assert.equal(status.textContent, '');
+  assert.equal(btn.disabled, false);
+  dom.window.close();
+});
