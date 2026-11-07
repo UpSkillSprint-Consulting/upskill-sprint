@@ -910,21 +910,64 @@ test('change password disables the button and shows a status', async () => {
 });
 
 test('missing columns hide learning and email sections', async () => {
-  const html = profilePageHtml;
-  assert.match(html, /hideLearningAndEmail/);
-  assert.match(html, /profile-exam-email/);
-  assert.match(html, /profile-learning-note/);
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({ from: () => ({ select: () => ({ limit: () => Promise.resolve({ error: { message: 'column role does not exist' } }) }) }) }),
+    onChange: () => {}
+  };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC' };
+  w.eval(profilePageSource);
+  await flush(); await flush();
+  const learning = w.document.getElementById('profile-learning');
+  const note = w.document.getElementById('profile-learning-note');
+  assert.equal(learning.querySelector('label').hidden, true);
+  assert.equal(note.hidden, false);
+  dom.window.close();
 });
 
 test('download builds JSON from data', async () => {
-  const html = profilePageHtml;
-  assert.match(html, /lessons_completed: null/);
-  assert.match(html, /requested_at/);
-  assert.doesNotMatch(html, /textContent.*lessons_completed|deletion_request: dataStatus/);
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  let captured = null;
+  w.URL.createObjectURL = (blob) => { captured = blob; return 'blob:test'; };
+  w.URL.revokeObjectURL = () => {};
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({ from: () => ({ select: () => ({ eq: () => ({ eq: () => Promise.resolve({ data: [{ status: 'pending', requested_at: '2026-01-01' }] }) }) }) }) }),
+    onChange: () => {}
+  };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => ({ display_name: 'Ada' }), browserTimezone: () => 'UTC' };
+  w.eval(profilePageSource);
+  w.document.getElementById('profile-download').click();
+  await flush(); await flush();
+  assert.ok(captured, 'blob captured');
+  const json = JSON.parse(await captured.text());
+  assert.equal(json.email, 'a@b.c');
+  assert.equal(json.profile.display_name, 'Ada');
+  assert.equal(json.progress.lessons_completed, null);
+  assert.match(json.progress.note, /not tracked/);
+  assert.equal(json.deletion_request.status, 'pending');
+  dom.window.close();
 });
 
 test('deletion 23505 shows the pending message', async () => {
-  const html = profilePageHtml;
-  assert.match(html, /error\.code === '23505'/);
-  assert.match(html, /already have a deletion request pending/);
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  w.confirm = () => true;
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({ from: () => ({ insert: () => Promise.resolve({ error: { code: '23505' } }) }) }),
+    onChange: () => {}
+  };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC' };
+  w.eval(profilePageSource);
+  const btn = w.document.getElementById('profile-delete-request');
+  btn.click();
+  await flush();
+  const status = w.document.getElementById('profile-data-status');
+  assert.match(status.textContent, /already have a deletion request pending/);
+  assert.equal(btn.disabled, true);
+  dom.window.close();
 });
