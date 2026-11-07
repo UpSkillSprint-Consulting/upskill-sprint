@@ -4,7 +4,7 @@
 import { createHash } from 'node:crypto';
 
 const RESEND_ENDPOINT = 'https://api.resend.com/emails';
-const EMAIL = /^[^\\s@<>]+@[^\\s@<>]+\\.[a-z]{2,}$/i;
+const EMAIL = /^[^\s@<>]+@[^\s@<>]+\.[a-z]{2,}$/i;
 const MAX_FIELDS = 40;
 const MAX_VALUE_LENGTH = 2000;
 
@@ -27,7 +27,7 @@ function escapeHtml(value) {
 
 function fieldValue(value) {
   const text = Array.isArray(value) ? value.map(String).join(', ') : String(value ?? '');
-  return text.replace(/[\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F\\u007F]/g, '').slice(0, MAX_VALUE_LENGTH);
+  return text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').slice(0, MAX_VALUE_LENGTH);
 }
 
 function eventDetails(event = {}) {
@@ -42,7 +42,7 @@ function eventDetails(event = {}) {
 
   const replyTo = fields.find(([name]) => /^email$/i.test(name))?.[1] || '';
   return {
-    formName: fieldValue(formName).replace(/[\\r\\n]/g, ' ').slice(0, 100),
+    formName: fieldValue(formName).replace(/[\r\n]/g, ' ').slice(0, 100),
     fields,
     replyTo: EMAIL.test(replyTo) ? replyTo : '',
     submissionId: event.submission?.id || event.submissionId || event.id || ''
@@ -57,8 +57,8 @@ export function renderNotification(details) {
     '',
     ...details.fields.map(([name, value]) => `${name}: ${value}`)
   ];
-  const html = `<!doctype html><html><body><h2>New form submission</h2><p><strong>Form:</strong> ${escapeHtml(details.formName)}</p>${details.submissionId ? `<p><strong>Submission ID:</strong> ${escapeHtml(details.submissionId)}</p>` : ''}<dl>${details.fields.map(([name, value]) => `<dt><strong>${escapeHtml(name)}</strong></dt><dd>${escapeHtml(value).replace(/\\n/g, '<br>')}</dd>`).join('')}</dl></body></html>`;
-  return { subject, text: lines.join('\\n'), html };
+  const html = `<!doctype html><html><body><h2>New form submission</h2><p><strong>Form:</strong> ${escapeHtml(details.formName)}</p>${details.submissionId ? `<p><strong>Submission ID:</strong> ${escapeHtml(details.submissionId)}</p>` : ''}<dl>${details.fields.map(([name, value]) => `<dt><strong>${escapeHtml(name)}</strong></dt><dd>${escapeHtml(value).replace(/\n/g, '<br>')}</dd>`).join('')}</dl></body></html>`;
+  return { subject, text: lines.join('\n'), html };
 }
 
 export async function handleFormSubmitted(event, {
