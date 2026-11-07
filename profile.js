@@ -8,6 +8,11 @@
     'display_name',
     'timezone',
     'newsletter_opt_in',
+    'role',
+    'industry',
+    'target_certification',
+    'exam_practice_opt_in',
+    'monthly_digest_opt_in',
     'newsletter_consent_at',
     'terms_accepted_at',
     'onboarding_completed',
@@ -151,6 +156,11 @@
         timezone: timezone,
         newsletter_opt_in: optedIn
       };
+      if (fields && fields.role !== undefined) payload.role = fields.role || null;
+      if (fields && fields.industry !== undefined) payload.industry = fields.industry || null;
+      if (fields && fields.target_certification !== undefined) payload.target_certification = fields.target_certification || null;
+      if (fields && fields.exam_practice_opt_in !== undefined) payload.exam_practice_opt_in = Boolean(fields.exam_practice_opt_in);
+      if (fields && fields.monthly_digest_opt_in !== undefined) payload.monthly_digest_opt_in = Boolean(fields.monthly_digest_opt_in);
       return authClient.from('profiles')
         .update(payload)
         .eq('user_id', user.id)

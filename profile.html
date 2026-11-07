@@ -192,6 +192,16 @@
         email.value = user.email || '';
         timezone.value = profile.timezone || window.UpskillProfile.browserTimezone();
         newsletter.checked = Boolean(profile.newsletter_opt_in);
+        var role = document.getElementById('profile-role');
+        if (role && profile.role) role.value = profile.role;
+        var industry = document.getElementById('profile-industry');
+        if (industry && profile.industry) industry.value = profile.industry;
+        var cert = document.getElementById('profile-certification');
+        if (cert && profile.target_certification) cert.value = profile.target_certification;
+        var examEmail = document.getElementById('profile-exam-email');
+        if (examEmail) examEmail.checked = Boolean(profile.exam_practice_opt_in);
+        var digest = document.getElementById('profile-digest');
+        if (digest) digest.checked = Boolean(profile.monthly_digest_opt_in);
         activeUserId = user.id;
         loadedUserId = user.id;
         setEditable(true);
@@ -216,27 +226,30 @@
       }
 
 
-      function detectFeatures() {
+      var featuresAvailable = false;
+      function hideLearningAndEmail() {
         var learning = document.getElementById('profile-learning');
         var learningNote = document.getElementById('profile-learning-note');
+        var emailNote = document.getElementById('profile-email-prefs-note');
+        if (learning) learning.querySelectorAll('label').forEach(function (el) { el.hidden = true; });
+        if (learningNote) learningNote.hidden = false;
+        ['profile-exam-email', 'profile-digest'].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el && el.parentElement) el.parentElement.hidden = true;
+        });
+        if (emailNote) emailNote.hidden = false;
+      }
+      function detectFeatures() {
         var client = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
-        if (!learning || !client) return;
+        if (!client) { hideLearningAndEmail(); return; }
         try {
           var query = client.from('profiles').select('role');
           var probe = query.limit ? query.limit(0) : query;
           Promise.resolve(probe).then(function (result) {
-            if (result && result.error) {
-              learning.querySelectorAll('label').forEach(function (el) { el.hidden = true; });
-              if (learningNote) learningNote.hidden = false;
-            }
-          }).catch(function () {
-            learning.querySelectorAll('label').forEach(function (el) { el.hidden = true; });
-            if (learningNote) learningNote.hidden = false;
-          });
-        } catch (error) {
-          learning.querySelectorAll('label').forEach(function (el) { el.hidden = true; });
-          if (learningNote) learningNote.hidden = false;
-        }
+            if (result && result.error) hideLearningAndEmail();
+            else featuresAvailable = true;
+          }).catch(hideLearningAndEmail);
+        } catch (error) { hideLearningAndEmail(); }
       }
 
       function initialize() {
@@ -361,7 +374,12 @@
         window.UpskillProfile.save({
           display_name: name.value,
           timezone: timezone.value || window.UpskillProfile.browserTimezone(),
-          newsletter_opt_in: newsletter.checked
+          newsletter_opt_in: newsletter.checked,
+          role: (document.getElementById('profile-role') || {}).value || null,
+          industry: (document.getElementById('profile-industry') || {}).value || null,
+          target_certification: (document.getElementById('profile-certification') || {}).value || null,
+          exam_practice_opt_in: Boolean((document.getElementById('profile-exam-email') || {}).checked),
+          monthly_digest_opt_in: Boolean((document.getElementById('profile-digest') || {}).checked)
         }).then(function () {
           var currentUser = window.UpskillAuth && window.UpskillAuth.getUser();
           if (!currentUser || currentUser.id !== saveUserId || loadRevision !== saveRevision) return;
