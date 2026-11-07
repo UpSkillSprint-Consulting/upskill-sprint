@@ -293,17 +293,10 @@
 
       // Progress summary from existing tables. Compact: counts only.
       function loadProgressSummary() {
-        var user = window.UpskillAuth && window.UpskillAuth.getUser();
-        var client = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
-        if (!user || !client) return;
-        client.from('lesson_progress').select('status').eq('user_id', user.id).eq('status', 'completed').then(function (result) {
-          var el = document.getElementById('profile-lessons-completed');
-          if (el) el.textContent = result && result.data ? String(result.data.length) : '0';
-        }).catch(function () {});
-        client.from('test_bank_progress_devices').select('device_id').eq('user_id', user.id).then(function (result) {
-          var el = document.getElementById('profile-practice-sets');
-          if (el) el.textContent = result && result.data ? String(result.data.length) : '0';
-        }).catch(function () {});
+        var lessons = document.getElementById('profile-lessons-completed');
+        var practice = document.getElementById('profile-practice-sets');
+        if (lessons) lessons.textContent = 'Not available yet';
+        if (practice) practice.textContent = 'Not available yet';
       }
 
 
