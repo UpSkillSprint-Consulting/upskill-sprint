@@ -149,3 +149,14 @@ test('email preferences keep newsletter_opt_in as new lessons', () => {
   assert.match(sql, /exam_practice_opt_in/);
   assert.match(sql, /monthly_digest_opt_in/);
 });
+
+test('data download is local and deletion is a request only', () => {
+  const html = read('profile.html');
+  const sql = read('supabase/migrations/20261106020000_account_deletion_requests.sql');
+  assert.match(html, /id="profile-download"/);
+  assert.match(html, /Blob/);
+  assert.doesNotMatch(html, /supabase.*delete|from\('profiles'\)\.delete/i);
+  assert.match(sql, /account_deletion_requests/);
+  assert.match(sql, /Nothing deletes live data/);
+  assert.match(sql, /using \(\(select auth\.uid\(\)\) = user_id\)/);
+});

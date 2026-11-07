@@ -117,6 +117,15 @@
           <p id="profile-email-prefs-note" class="profile-help" hidden>Extra email choices will appear once your account is updated.</p>
         </section>
 
+
+        <section class="profile-section" id="profile-data" aria-labelledby="profile-data-heading">
+          <h2 id="profile-data-heading">Your data</h2>
+          <p class="profile-help">Download a copy of your profile and progress, or request account deletion.</p>
+          <button type="button" class="btn" id="profile-download">Download my data</button>
+          <button type="button" class="btn" id="profile-delete-request">Delete my account</button>
+          <span id="profile-data-status" role="status" aria-live="polite"></span>
+        </section>
+
         <div class="profile-actions">
           <button type="submit" class="btn btn-teal" id="profile-submit">Save changes</button>
           <span id="profile-status" role="status" aria-live="polite"></span>
@@ -274,6 +283,44 @@
           var el = document.getElementById('profile-practice-sets');
           if (el) el.textContent = result && result.data ? String(result.data.length) : '0';
         }).catch(function () {});
+      }
+
+
+      var downloadBtn = document.getElementById('profile-download');
+      var deleteBtn = document.getElementById('profile-delete-request');
+      var dataStatus = document.getElementById('profile-data-status');
+      if (downloadBtn) {
+        downloadBtn.addEventListener('click', function () {
+          var user = window.UpskillAuth && window.UpskillAuth.getUser();
+          var profile = window.UpskillProfile && window.UpskillProfile.getCurrent();
+          if (!user) { dataStatus.textContent = 'Sign in to download your data.'; return; }
+          var payload = { profile: profile || {}, email: user.email, exported_at: new Date().toISOString() };
+          var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = 'upskillsprint-data.json';
+          a.click();
+          URL.revokeObjectURL(url);
+          dataStatus.textContent = 'Your data file has been downloaded.';
+        });
+      }
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', function () {
+          if (!confirm('Request account deletion? Nothing is deleted until an administrator reviews the request.')) return;
+          var user = window.UpskillAuth && window.UpskillAuth.getUser();
+          var client = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
+          if (!user || !client) { dataStatus.textContent = 'Sign in to request deletion.'; return; }
+          client.from('account_deletion_requests').insert({ user_id: user.id, reason: 'User requested from profile page' }).then(function (result) {
+            if (result.error) {
+              dataStatus.textContent = 'Deletion requests are not available yet. Nothing has been deleted.';
+              return;
+            }
+            dataStatus.textContent = 'Your deletion request has been recorded. Nothing is deleted until it is reviewed.';
+          }).catch(function () {
+            dataStatus.textContent = 'Deletion requests are not available yet. Nothing has been deleted.';
+          });
+        });
       }
 
       form.addEventListener('submit', function (event) {
