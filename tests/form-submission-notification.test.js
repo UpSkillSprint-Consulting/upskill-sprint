@@ -25,7 +25,8 @@ function fakeDeps(response = { ok: true, status: 200 }) {
   };
 }
 
-test('sends a verified signup notification to the configured mailbox with safe content', async () => {\n  const { handleFormSubmitted } = await load();
+test('sends a verified signup notification to the configured mailbox with safe content', async () => {
+  const { handleFormSubmitted } = await load();
   const { calls, deps } = fakeDeps();
   const result = await handleFormSubmitted({
     form: { name: 'signup' },
@@ -55,7 +56,8 @@ test('sends a verified signup notification to the configured mailbox with safe c
   assert.match(payload.html, /&lt;script&gt;/);
 });
 
-test('skips delivery when the email configuration is incomplete', async () => {\n  const { handleFormSubmitted } = await load();
+test('skips delivery when the email configuration is incomplete', async () => {
+  const { handleFormSubmitted } = await load();
   const { calls, deps } = fakeDeps();
   const result = await handleFormSubmitted({ form: { name: 'contact' }, data: { email: 'learner@example.com' } }, {
     env: { NEWSLETTER_ADMIN_EMAIL: ENV.NEWSLETTER_ADMIN_EMAIL },
@@ -66,7 +68,8 @@ test('skips delivery when the email configuration is incomplete', async () => {\
   assert.equal(calls.length, 0);
 });
 
-test('skips empty and honeypot-only form events', async () => {\n  const { handleFormSubmitted } = await load();
+test('skips empty and honeypot-only form events', async () => {
+  const { handleFormSubmitted } = await load();
   const { calls, deps } = fakeDeps();
   const empty = await handleFormSubmitted({ form: { name: 'contact' }, data: {} }, { env: ENV, deps });
   const honeypot = await handleFormSubmitted({ form_name: 'signup', data: { 'bot-field': 'filled' } }, { env: ENV, deps });
@@ -76,7 +79,8 @@ test('skips empty and honeypot-only form events', async () => {\n  const { handl
   assert.equal(calls.length, 0);
 });
 
-test('reports a provider failure without exposing submitted field values in logs', async () => {\n  const { handleFormSubmitted } = await load();
+test('reports a provider failure without exposing submitted field values in logs', async () => {
+  const { handleFormSubmitted } = await load();
   const { calls, logs, deps } = fakeDeps({ ok: false, status: 422 });
   const result = await handleFormSubmitted({
     formName: 'contact',
@@ -88,7 +92,8 @@ test('reports a provider failure without exposing submitted field values in logs
   assert.doesNotMatch(JSON.stringify(logs), /learner@example.com|private submission text/);
 });
 
-test('escapes submitted values in HTML and renders useful text', async () => {\n  const { renderNotification } = await load();
+test('escapes submitted values in HTML and renders useful text', async () => {
+  const { renderNotification } = await load();
   const rendered = renderNotification({
     formName: 'contact',
     submissionId: 'submission-456',
