@@ -887,3 +887,44 @@ test('feature detection hides learning fields when columns are missing', async (
   assert.match(html, /profile-learning-note/);
   assert.match(html, /profile-email-prefs-note/);
 });
+
+test('change password disables the button and shows a status', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  let resetCalled = false;
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({}),
+    resetPassword: () => { resetCalled = true; return Promise.resolve(); },
+    onChange: () => {}
+  };
+  w.eval(profilePageSource);
+  const btn = w.document.getElementById('profile-change-password');
+  const status = w.document.getElementById('profile-password-status');
+  btn.click();
+  assert.equal(btn.disabled, true);
+  await flush();
+  assert.equal(resetCalled, true);
+  assert.match(status.textContent, /Check your email/);
+  dom.window.close();
+});
+
+test('missing columns hide learning and email sections', async () => {
+  const html = profilePageHtml;
+  assert.match(html, /hideLearningAndEmail/);
+  assert.match(html, /profile-exam-email/);
+  assert.match(html, /profile-learning-note/);
+});
+
+test('download builds JSON from data', async () => {
+  const html = profilePageHtml;
+  assert.match(html, /lessons_completed: null/);
+  assert.match(html, /requested_at/);
+  assert.doesNotMatch(html, /textContent.*lessons_completed|deletion_request: dataStatus/);
+});
+
+test('deletion 23505 shows the pending message', async () => {
+  const html = profilePageHtml;
+  assert.match(html, /error\.code === '23505'/);
+  assert.match(html, /already have a deletion request pending/);
+});
