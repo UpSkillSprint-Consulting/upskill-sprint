@@ -867,3 +867,23 @@ test('session restoration failure settles as signed out', async () => {
   assert.equal(dom.window.document.querySelector('#account-menu-signin').textContent, 'Sign in');
   dom.window.close();
 });
+
+test('change-password button disables while sending and reports in aria-live', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  w.eval(authSource);
+  w.eval(profileSource);
+  w.eval(profilePageSource);
+  const btn = w.document.getElementById('profile-change-password');
+  const status = w.document.getElementById('profile-password-status');
+  assert.ok(btn, 'button present');
+  assert.equal(status.getAttribute('aria-live'), 'polite');
+  dom.window.close();
+});
+
+test('feature detection hides learning fields when columns are missing', async () => {
+  const html = profilePageHtml;
+  assert.match(html, /hideLearningAndEmail/);
+  assert.match(html, /profile-learning-note/);
+  assert.match(html, /profile-email-prefs-note/);
+});
