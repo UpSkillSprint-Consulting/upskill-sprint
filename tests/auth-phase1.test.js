@@ -117,3 +117,15 @@ test('profile change-password button reuses the reset flow', () => {
   assert.match(html, /changePassword\.disabled = true/);
   assert.match(html, /class="skip-link"/);
 });
+
+test('learning profile fields use only offered exams and have a migration', () => {
+  const html = read('profile.html');
+  const sql = read('supabase/migrations/20261106000000_profile_learning_fields.sql');
+  for (const exam of ['CQA', 'CQE', 'CSSBB', 'CSSGB', 'MBB', 'NPPE', 'PMP']) {
+    assert.match(html, new RegExp('<option>' + exam + '</option>'));
+    assert.match(sql, new RegExp("'" + exam + "'"));
+  }
+  assert.match(sql, /add column if not exists role/);
+  assert.match(sql, /grant update \(role, industry, target_certification\)/);
+  assert.match(html, /id="profile-learning-note"/);
+});

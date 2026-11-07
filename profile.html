@@ -66,6 +66,36 @@
           <input type="hidden" id="profile-timezone" name="timezone" value="UTC">
         </section>
 
+
+        <section class="profile-section" id="profile-learning" aria-labelledby="profile-learning-heading">
+          <h2 id="profile-learning-heading">Learning profile</h2>
+          <p class="profile-help">Optional. Helps us suggest relevant lessons and practice.</p>
+          <p id="profile-learning-note" class="profile-help" hidden>Learning profile fields will appear once your account is updated.</p>
+          <label class="field">Role
+            <select id="profile-role" name="role">
+              <option value="">Prefer not to say</option>
+              <option>Student</option>
+              <option>Technician</option>
+              <option>Quality/Process Engineer</option>
+              <option>Manager</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label class="field">Industry<input type="text" id="profile-industry" name="industry" maxlength="100" autocomplete="organization"></label>
+          <label class="field">Target certification
+            <select id="profile-certification" name="target_certification">
+              <option value="">None yet</option>
+              <option>CQA</option>
+              <option>CQE</option>
+              <option>CSSBB</option>
+              <option>CSSGB</option>
+              <option>MBB</option>
+              <option>NPPE</option>
+              <option>PMP</option>
+            </select>
+          </label>
+        </section>
+
         <section class="profile-section" aria-labelledby="profile-communications-heading">
           <h2 id="profile-communications-heading">Communication preferences</h2>
           <p class="profile-help">Marketing email is optional and never required to use your account.</p>
@@ -193,6 +223,25 @@
             changePassword.disabled = false;
           });
         });
+      }
+
+
+      // Feature-detect learning fields. Hide them if the columns are not yet available.
+      var learning = document.getElementById('profile-learning');
+      var learningNote = document.getElementById('profile-learning-note');
+      if (learning && window.UpskillAuth && window.UpskillAuth.getClient) {
+        var client = window.UpskillAuth.getClient();
+        if (client) {
+          client.from('profiles').select('role').limit(0).then(function (result) {
+            if (result.error) {
+              learning.querySelectorAll('label').forEach(function (el) { el.hidden = true; });
+              if (learningNote) learningNote.hidden = false;
+            }
+          }).catch(function () {
+            learning.querySelectorAll('label').forEach(function (el) { el.hidden = true; });
+            if (learningNote) learningNote.hidden = false;
+          });
+        }
       }
 
       form.addEventListener('submit', function (event) {
