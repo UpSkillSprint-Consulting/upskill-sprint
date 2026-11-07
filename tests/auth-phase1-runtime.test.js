@@ -1020,7 +1020,7 @@ test('base schema loads and saves without the new columns', async () => {
           if (/role|industry|target_certification|exam_practice|monthly_digest/.test(cols)) {
             return { eq: () => ({ single: () => Promise.resolve({ error: { code: '42703', message: 'column does not exist' } }) }) };
           }
-          return { eq: () => ({ single: () => Promise.resolve({ data: { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: false }, error: null }) }) };
+          return { eq: () => ({ single: () => Promise.resolve({ data: { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: false }, error: null }), maybeSingle: () => Promise.resolve({ data: { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: false }, error: null }) }) };
         }
       })
     }),
