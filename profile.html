@@ -67,6 +67,17 @@
         </section>
 
 
+
+        <section class="profile-section" id="profile-progress" aria-labelledby="profile-progress-heading">
+          <h2 id="profile-progress-heading">My progress</h2>
+          <p class="profile-help">A summary of what you've completed. Full details stay in each lesson and practice set.</p>
+          <ul id="profile-progress-list">
+            <li>Lessons completed: <span id="profile-lessons-completed">—</span></li>
+            <li>Practice sets: <span id="profile-practice-sets">—</span></li>
+            <li><a href="/excel-sprint-certificate.html">Excel Sprint certificate</a></li>
+          </ul>
+        </section>
+
         <section class="profile-section" id="profile-learning" aria-labelledby="profile-learning-heading">
           <h2 id="profile-learning-heading">Learning profile</h2>
           <p class="profile-help">Optional. Helps us suggest relevant lessons and practice.</p>
@@ -201,6 +212,7 @@
           if (fill(profile)) setStatus('', false);
         });
         window.UpskillAuth.onChange(loadForUser);
+        loadProgressSummary();
       }
 
 
@@ -242,6 +254,22 @@
             if (learningNote) learningNote.hidden = false;
           });
         }
+      }
+
+
+      // Progress summary from existing tables. Compact: counts only.
+      function loadProgressSummary() {
+        var user = window.UpskillAuth && window.UpskillAuth.getUser();
+        var client = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
+        if (!user || !client) return;
+        client.from('lesson_progress').select('status').eq('user_id', user.id).eq('status', 'completed').then(function (result) {
+          var el = document.getElementById('profile-lessons-completed');
+          if (el) el.textContent = result && result.data ? String(result.data.length) : '0';
+        }).catch(function () {});
+        client.from('test_bank_progress_devices').select('device_id').eq('user_id', user.id).then(function (result) {
+          var el = document.getElementById('profile-practice-sets');
+          if (el) el.textContent = result && result.data ? String(result.data.length) : '0';
+        }).catch(function () {});
       }
 
       form.addEventListener('submit', function (event) {

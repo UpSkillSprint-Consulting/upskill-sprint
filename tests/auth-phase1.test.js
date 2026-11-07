@@ -129,3 +129,11 @@ test('learning profile fields use only offered exams and have a migration', () =
   assert.match(sql, /grant update \(role, industry, target_certification\)/);
   assert.match(html, /id="profile-learning-note"/);
 });
+
+test('profile progress summary is compact and links the certificate', () => {
+  const html = read('profile.html');
+  assert.match(html, /id="profile-lessons-completed"/);
+  assert.match(html, /id="profile-practice-sets"/);
+  assert.match(html, /excel-sprint-certificate\.html/);
+  assert.doesNotMatch(html, /every answer|answer_text/i);
+});
