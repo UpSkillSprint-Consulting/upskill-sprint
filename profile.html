@@ -317,29 +317,32 @@
           var user = window.UpskillAuth && window.UpskillAuth.getUser();
           var profile = window.UpskillProfile && window.UpskillProfile.getCurrent();
           if (!user) { dataStatus.textContent = 'Sign in to download your data.'; return; }
-          var lessons = document.getElementById('profile-lessons-completed');
-          var practice = document.getElementById('profile-practice-sets');
-          var payload = {
-            profile: profile || {},
-            email: user.email,
-            progress: {
-              lessons_completed: lessons ? lessons.textContent : null,
-              practice_sets: practice ? practice.textContent : null
-            },
-            deletion_request: dataStatus && /recorded|pending/i.test(dataStatus.textContent) ? 'pending' : null,
-            exported_at: new Date().toISOString()
-          };
-          var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-          var url = URL.createObjectURL(blob);
-          try {
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = 'upskillsprint-data.json';
-            a.click();
-            dataStatus.textContent = 'Your data file has been downloaded.';
-          } finally {
-            URL.revokeObjectURL(url);
+          var client = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
+          function finish(deletion) {
+            var payload = {
+              profile: profile || {},
+              email: user.email,
+              progress: { lessons_completed: null, practice_sets: null, note: 'Progress is not tracked on the server yet.' },
+              deletion_request: deletion,
+              exported_at: new Date().toISOString()
+            };
+            var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            var url = URL.createObjectURL(blob);
+            try {
+              var a = document.createElement('a');
+              a.href = url;
+              a.download = 'upskillsprint-data.json';
+              a.click();
+              dataStatus.textContent = 'Your data file has been downloaded.';
+            } finally {
+              URL.revokeObjectURL(url);
+            }
           }
+          if (!client) { finish(null); return; }
+          client.from('account_deletion_requests').select('status,requested_at').eq('user_id', user.id).eq('status', 'pending').then(function (result) {
+            var row = result && result.data && result.data[0];
+            finish(row ? { status: row.status, requested_at: row.requested_at } : null);
+          }).catch(function () { finish(null); });
         });
       }
       if (deleteBtn) {
