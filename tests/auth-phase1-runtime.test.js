@@ -980,7 +980,15 @@ test('pending status clears when the account switches', async () => {
   const listeners = [];
   w.UpskillAuth = {
     getUser: () => user,
-    getClient: () => ({ from: () => ({ select: () => ({ eq: () => ({ eq: () => Promise.resolve({ data: pending ? [{ status: 'pending' }] : [] }) }) }) }) }),
+    getClient: () => ({ from: (table) => ({
+      select: () => ({
+        eq: () => ({
+          eq: () => Promise.resolve({ data: table === 'account_deletion_requests' && pending ? [{ status: 'pending' }] : [] }),
+          single: () => Promise.resolve({ data: null, error: null })
+        }),
+        limit: () => Promise.resolve({ error: null })
+      })
+    }) }),
     onChange: (fn) => listeners.push(fn)
   };
   w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC' };
