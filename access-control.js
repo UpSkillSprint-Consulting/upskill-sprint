@@ -37,7 +37,7 @@
       : 'We’re having trouble checking your account right now. Please try opening the item again in a moment. If the problem continues, contact the site owner for help.';
     var contact = document.createElement('a');
     contact.className = 'btn btn-teal';
-    contact.href = 'mailto:skillsprintconsulting@gmail.com?subject=' + encodeURIComponent(level ? 'Request for ' + level + ' access' : 'Help with account access');
+    contact.href = 'mailto:hello@upskillsprint.com?subject=' + encodeURIComponent(level ? 'Request for ' + level + ' access' : 'Help with account access');
     contact.textContent = level ? 'Request access from the site owner' : 'Contact the site owner';
     notice.appendChild(title);
     notice.appendChild(message);

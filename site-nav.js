@@ -95,7 +95,7 @@
         ['Request a Topic', '/request-topic', 'Tell us the lesson you need'],
         ['Contact', '/contact', 'Questions and partnerships']
       ],
-      foot: [['skillsprintconsulting@gmail.com', 'mailto:skillsprintconsulting@gmail.com', 'primary']]
+      foot: [['hello@upskillsprint.com', 'mailto:hello@upskillsprint.com', 'primary']]
     }
   ];
 
