@@ -266,6 +266,15 @@
         window.UpskillAuth.onChange(loadForUser);
         detectFeatures();
         loadProgressSummary();
+        if (client) {
+          client.from('account_deletion_requests').select('status').eq('user_id', user.id).eq('status', 'pending').then(function (result) {
+            if (result && result.data && result.data.length) {
+              dataStatus.textContent = 'You already have a deletion request pending. Nothing has been deleted.';
+              deleteBtn.disabled = true;
+            }
+          }).catch(function () {});
+        }
+
       }
 
 
@@ -342,10 +351,16 @@
           if (!user || !client) { dataStatus.textContent = 'Sign in to request deletion.'; return; }
           client.from('account_deletion_requests').insert({ user_id: user.id, reason: 'User requested from profile page' }).then(function (result) {
             if (result.error) {
-              dataStatus.textContent = 'Deletion requests are not available yet. Nothing has been deleted.';
+              if (result.error.code === '23505') {
+                dataStatus.textContent = 'You already have a deletion request pending. Nothing has been deleted.';
+                deleteBtn.disabled = true;
+              } else {
+                dataStatus.textContent = 'Deletion requests are not available yet. Nothing has been deleted.';
+              }
               return;
             }
             dataStatus.textContent = 'Your deletion request has been recorded. Nothing is deleted until it is reviewed.';
+            deleteBtn.disabled = true;
           }).catch(function () {
             dataStatus.textContent = 'Deletion requests are not available yet. Nothing has been deleted.';
           });
