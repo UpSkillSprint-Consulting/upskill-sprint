@@ -16,6 +16,7 @@
   ];
   var EXTRA_COLUMNS = ['role', 'industry', 'target_certification', 'exam_practice_opt_in', 'monthly_digest_opt_in'];
   var extraAvailable = false;
+  var loadedWithExtras = false;
   function columns() {
     return (extraAvailable ? BASE_COLUMNS.concat(EXTRA_COLUMNS) : BASE_COLUMNS).join(',');
   }
@@ -125,7 +126,7 @@
     currentUserId = user.id;
     var handledRequest;
     var request = fetchProfile(user).then(function (profile) {
-      if (currentUserId === user.id && loadPromise === handledRequest) notify(profile);
+      if (currentUserId === user.id && loadPromise === handledRequest) { loadedWithExtras = extraAvailable; notify(profile); }
       return profile;
     });
     handledRequest = request.catch(function (error) {
@@ -182,8 +183,17 @@
   }
 
   window.UpskillProfile = {
-    setExtraColumns: function (available) { extraAvailable = Boolean(available); },
+    setExtraColumns: function (available) {
+      var next = Boolean(available);
+      if (next === extraAvailable) return;
+      extraAvailable = next;
+      loadPromise = null;
+      loadedWithExtras = false;
+      var user = window.UpskillAuth && window.UpskillAuth.getUser();
+      if (user) load(user);
+    },
     hasExtraColumns: function () { return extraAvailable; },
+    loadedWithExtras: function () { return loadedWithExtras; },
     getCurrent: function () { return currentProfile; },
     load: load,
     save: save,

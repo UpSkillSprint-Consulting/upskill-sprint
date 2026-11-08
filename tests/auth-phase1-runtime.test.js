@@ -1065,32 +1065,39 @@ test('base schema loads and saves without the new columns', async () => {
 test('extras survive a name-only save when detection finishes after auth', async () => {
   const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
   const w = dom.window;
-  let saved = null;
   const stored = { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: true, role: 'Manager', industry: 'Steel', target_certification: 'CQA', exam_practice_opt_in: true, monthly_digest_opt_in: false };
+  let saved = null;
+  let detectionResolved = false;
   w.UpskillAuth = {
     getUser: () => ({ id: 'u1', email: 'a@b.c' }),
     getClient: () => ({
       from: () => ({
         select: (cols) => ({
-          eq: () => ({ single: () => Promise.resolve({ data: stored, error: null }), maybeSingle: () => Promise.resolve({ data: stored, error: null }) }),
+          eq: () => ({
+            single: () => Promise.resolve({ data: /role/.test(cols) ? stored : { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: true }, error: null }),
+            maybeSingle: () => Promise.resolve({ data: /role/.test(cols) ? stored : { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: true }, error: null })
+          }),
           limit: () => Promise.resolve({ error: null })
         }),
         update: (payload) => { saved = payload; return { eq: () => ({ select: () => ({ single: () => Promise.resolve({ data: stored, error: null }) }) }) }; }
       })
     }),
-    onChange: (fn) => fn({ id: 'u1' })
+    onChange: (fn) => { w._authFn = fn; }
   };
-  w.UpskillProfile = { onChange: (fn) => fn(stored), getCurrent: () => stored, browserTimezone: () => 'UTC', load: () => Promise.resolve(stored), setExtraColumns: () => {}, hasExtraColumns: () => true };
+  w.eval(profileSource);
   w.eval(profilePageSource);
+  if (w._authFn) w._authFn({ id: 'u1' });
+  await flush(); await flush();
+  detectionResolved = true;
   await flush(); await flush();
   const role = w.document.getElementById('profile-role');
-  assert.equal(role.value, 'Manager');
+  assert.equal(role && role.value, 'Manager', 'form shows stored role');
   w.document.getElementById('profile-display-name').value = 'Ada L';
   w.document.getElementById('profile-form').dispatchEvent(new w.Event('submit'));
-  await flush();
-  if (saved) {
-    assert.equal(saved.role, 'Manager');
-    assert.equal(saved.industry, 'Steel');
-  }
+  await flush(); await flush();
+  assert.ok(saved, 'save happened');
+  assert.equal(saved.role, 'Manager', 'role unchanged');
+  assert.equal(saved.industry, 'Steel', 'industry unchanged');
   dom.window.close();
 });
+

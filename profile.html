@@ -425,7 +425,7 @@
           display_name: name.value,
           timezone: timezone.value || window.UpskillProfile.browserTimezone(),
           newsletter_opt_in: newsletter.checked,
-          ...(window.UpskillProfile && window.UpskillProfile.hasExtraColumns && window.UpskillProfile.hasExtraColumns() ? {
+          ...(window.UpskillProfile && window.UpskillProfile.loadedWithExtras && window.UpskillProfile.loadedWithExtras() ? {
             role: (document.getElementById('profile-role') || {}).value || null,
             industry: (document.getElementById('profile-industry') || {}).value || null,
             target_certification: (document.getElementById('profile-certification') || {}).value || null,
