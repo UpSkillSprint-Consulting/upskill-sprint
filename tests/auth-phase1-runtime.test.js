@@ -882,10 +882,39 @@ test('change-password button disables while sending and reports in aria-live', a
 });
 
 test('feature detection hides learning fields when columns are missing', async () => {
-  const html = profilePageHtml;
-  assert.match(html, /hideLearningAndEmail/);
-  assert.match(html, /profile-learning-note/);
-  assert.match(html, /profile-email-prefs-note/);
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({ from: () => ({ select: () => ({ limit: () => Promise.resolve({ error: { message: 'missing' } }) }) }) }),
+    onChange: () => {}
+  };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC', load: () => Promise.resolve(null), setExtraColumns: () => {}, hasExtraColumns: () => false };
+  w.eval(profilePageSource);
+  await flush(); await flush();
+  assert.equal(w.document.getElementById('profile-learning').querySelector('label').hidden, true);
+  assert.equal(w.document.getElementById('profile-learning-note').hidden, false);
+  dom.window.close();
+});
+
+test('download with no pending request has a null deletion_request', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  let captured = null;
+  w.URL.createObjectURL = (blob) => { captured = blob; return 'blob:test'; };
+  w.URL.revokeObjectURL = () => {};
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({ from: () => ({ select: () => ({ eq: () => ({ eq: () => Promise.resolve({ data: [] }) }) }) }) }),
+    onChange: () => {}
+  };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => ({ display_name: 'Ada' }), browserTimezone: () => 'UTC', load: () => Promise.resolve(null), setExtraColumns: () => {}, hasExtraColumns: () => false };
+  w.eval(profilePageSource);
+  w.document.getElementById('profile-download').click();
+  await flush(); await flush();
+  const json = JSON.parse(await captured.text());
+  assert.equal(json.deletion_request, null);
+  dom.window.close();
 });
 
 test('change password disables the button and shows a status', async () => {
