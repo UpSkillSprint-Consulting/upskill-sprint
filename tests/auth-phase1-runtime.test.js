@@ -967,7 +967,7 @@ test('download builds JSON from data', async () => {
     getClient: () => ({ from: () => ({ select: () => ({ eq: () => ({ eq: () => Promise.resolve({ data: [{ status: 'pending', requested_at: '2026-01-01' }] }) }) }) }) }),
     onChange: () => {}
   };
-  w.UpskillProfile = { onChange: () => {}, getCurrent: () => ({ display_name: 'Ada' }), browserTimezone: () => 'UTC' };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => ({ display_name: 'Ada' }), browserTimezone: () => 'UTC', load: () => Promise.resolve(null), setExtraColumns: () => {}, hasExtraColumns: () => false };
   w.eval(profilePageSource);
   w.document.getElementById('profile-download').click();
   await flush(); await flush();
