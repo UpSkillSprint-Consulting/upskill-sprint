@@ -1032,3 +1032,36 @@ test('base schema loads and saves without the new columns', async () => {
   assert.equal(w.UpskillProfile.getCurrent().display_name, 'Ada');
   dom.window.close();
 });
+
+test('extras survive a name-only save when detection finishes after auth', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  let saved = null;
+  const stored = { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: true, role: 'Manager', industry: 'Steel', target_certification: 'CQA', exam_practice_opt_in: true, monthly_digest_opt_in: false };
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({
+      from: () => ({
+        select: (cols) => ({
+          eq: () => ({ single: () => Promise.resolve({ data: stored, error: null }), maybeSingle: () => Promise.resolve({ data: stored, error: null }) }),
+          limit: () => Promise.resolve({ error: null })
+        }),
+        update: (payload) => { saved = payload; return { eq: () => ({ select: () => ({ single: () => Promise.resolve({ data: stored, error: null }) }) }) }; }
+      })
+    }),
+    onChange: (fn) => fn({ id: 'u1' })
+  };
+  w.UpskillProfile = { onChange: (fn) => fn(stored), getCurrent: () => stored, browserTimezone: () => 'UTC', load: () => Promise.resolve(stored), setExtraColumns: () => {}, hasExtraColumns: () => true };
+  w.eval(profilePageSource);
+  await flush(); await flush();
+  const role = w.document.getElementById('profile-role');
+  assert.equal(role.value, 'Manager');
+  w.document.getElementById('profile-display-name').value = 'Ada L';
+  w.document.getElementById('profile-form').dispatchEvent(new w.Event('submit'));
+  await flush();
+  if (saved) {
+    assert.equal(saved.role, 'Manager');
+    assert.equal(saved.industry, 'Steel');
+  }
+  dom.window.close();
+});

@@ -243,15 +243,17 @@
       }
       function detectFeatures() {
         var client = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
-        if (!client) { hideLearningAndEmail(); return; }
+        if (!client) { hideLearningAndEmail(); return Promise.resolve(false); }
         try {
           var query = client.from('profiles').select('role');
           var probe = query.limit ? query.limit(0) : query;
-          Promise.resolve(probe).then(function (result) {
-            if (result && result.error) hideLearningAndEmail();
-            else { featuresAvailable = true; if (window.UpskillProfile && window.UpskillProfile.setExtraColumns) window.UpskillProfile.setExtraColumns(true); }
-          }).catch(hideLearningAndEmail);
-        } catch (error) { hideLearningAndEmail(); }
+          return Promise.resolve(probe).then(function (result) {
+            if (result && result.error) { hideLearningAndEmail(); return false; }
+            featuresAvailable = true;
+            if (window.UpskillProfile && window.UpskillProfile.setExtraColumns) window.UpskillProfile.setExtraColumns(true);
+            return true;
+          }).catch(function () { hideLearningAndEmail(); return false; });
+        } catch (error) { hideLearningAndEmail(); return Promise.resolve(false); }
       }
 
       function initialize() {
@@ -265,8 +267,10 @@
           }
           if (fill(profile)) setStatus('', false);
         });
-        window.UpskillAuth.onChange(loadForUser);
-        detectFeatures();
+        detectFeatures().then(function () {
+          window.UpskillAuth.onChange(loadForUser);
+          loadForUser(window.UpskillAuth.getUser());
+        });
         loadProgressSummary();
         function checkPendingDeletion() {
           try {
