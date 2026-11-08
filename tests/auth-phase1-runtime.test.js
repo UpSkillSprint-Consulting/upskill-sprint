@@ -1062,42 +1062,127 @@ test('base schema loads and saves without the new columns', async () => {
   dom.window.close();
 });
 
-test('extras survive a name-only save when detection finishes after auth', async () => {
-  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
-  const w = dom.window;
-  const stored = { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: true, role: 'Manager', industry: 'Steel', target_certification: 'CQA', exam_practice_opt_in: true, monthly_digest_opt_in: false };
-  let saved = null;
-  let detectionResolved = false;
-  w.UpskillAuth = {
-    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
-    getClient: () => ({
-      from: () => ({
-        select: (cols) => ({
-          eq: () => ({
-            single: () => Promise.resolve({ data: /role/.test(cols) ? stored : { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: true }, error: null }),
-            maybeSingle: () => Promise.resolve({ data: /role/.test(cols) ? stored : { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: true }, error: null })
-          }),
-          limit: () => Promise.resolve({ error: null })
-        }),
-        update: (payload) => { saved = payload; return { eq: () => ({ select: () => ({ single: () => Promise.resolve({ data: stored, error: null }) }) }) }; }
-      })
-    }),
-    onChange: (fn) => { w._authFn = fn; }
-  };
-  w.eval(profileSource);
-  w.eval(profilePageSource);
-  if (w._authFn) w._authFn({ id: 'u1' });
-  await flush(); await flush();
-  detectionResolved = true;
-  await flush(); await flush();
-  const role = w.document.getElementById('profile-role');
-  assert.equal(role && role.value, 'Manager', 'form shows stored role');
-  w.document.getElementById('profile-display-name').value = 'Ada L';
-  w.document.getElementById('profile-form').dispatchEvent(new w.Event('submit'));
-  await flush(); await flush();
-  assert.ok(saved, 'save happened');
-  assert.equal(saved.role, 'Manager', 'role unchanged');
-  assert.equal(saved.industry, 'Steel', 'industry unchanged');
-  dom.window.close();
-});
-
+// Exercise the real shared controller before the page script, with auth arriving
+// while the schema probe is pending. A single-listener fake hides the early load.
+for (const migrated of [true, false]) {
+  test(migrated
+    ? 'extras survive a name-only save when detection finishes after auth'
+    : 'base-schema page survives delayed detection and a name-only save', async (t) => {
+    const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+    t.after(() => dom.window.close());
+    const w = dom.window;
+    const extraColumns = ['role', 'industry', 'target_certification', 'exam_practice_opt_in', 'monthly_digest_opt_in'];
+    const stored = {
+      user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: true,
+      newsletter_consent_at: '2026-01-01T00:00:00Z', terms_accepted_at: null,
+      onboarding_completed: true, created_at: null, updated_at: null,
+      role: 'Manager', industry: 'Steel', target_certification: 'CQA',
+      exam_practice_opt_in: true, monthly_digest_opt_in: true
+    };
+    const schema = new Set(Object.keys(stored).filter(key => migrated || !extraColumns.includes(key)));
+    const selected = [];
+    const fetches = [];
+    const listeners = [];
+    let user = null;
+    let sessionKnown = false;
+    let saved = null;
+    let resolveDetection;
+    const detection = new Promise(resolve => { resolveDetection = resolve; });
+    function resultFor(columns) {
+      const missing = columns.find(column => !schema.has(column));
+      return missing
+        ? { data: null, error: { code: '42703', message: `column ${missing} does not exist` } }
+        : { data: Object.fromEntries(columns.map(column => [column, stored[column]])), error: null };
+    }
+    function rowQuery(columns) {
+      return { single: () => Promise.resolve(resultFor(columns)), maybeSingle: () => Promise.resolve(resultFor(columns)) };
+    }
+    const client = {
+      auth: { updateUser: () => Promise.resolve({ data: { user }, error: null }) },
+      from: (table) => {
+        if (table === 'account_deletion_requests') {
+          return { select: () => ({ eq: () => ({ eq: () => Promise.resolve({ data: [], error: null }) }) }) };
+        }
+        assert.equal(table, 'profiles', 'only expected tables are queried');
+        return {
+          select: (columnList) => {
+            const columns = columnList.split(',').map(column => column.trim());
+            selected.push(columns);
+            return {
+              limit: (count) => {
+                assert.equal(columnList, 'role');
+                assert.equal(count, 0);
+                return detection;
+              },
+              eq: (key, value) => {
+                assert.equal(key, 'user_id');
+                assert.equal(value, stored.user_id);
+                fetches.push(columns);
+                return rowQuery(columns);
+              }
+            };
+          },
+          update: (payload) => {
+            assert.ok(Object.keys(payload).every(key => schema.has(key)), 'updates contain only existing columns');
+            saved = { ...payload };
+            Object.assign(stored, payload);
+            return { eq: (key, value) => {
+              assert.equal(key, 'user_id');
+              assert.equal(value, stored.user_id);
+              return { select: columns => rowQuery(columns.split(',')) };
+            } };
+          }
+        };
+      }
+    };
+    w.UpskillAuth = {
+      getUser: () => user,
+      getClient: () => client,
+      // Mirror auth.js: retain every listener; replay current user only once
+      // the session is known, including registrations after the schema probe.
+      onChange: (listener) => {
+        listeners.push(listener);
+        if (sessionKnown) listener(user);
+      }
+    };
+    w.eval(profileSource);
+    w.eval(profilePageSource);
+    assert.equal(listeners.length, 2, 'shared controller and deletion-status listeners are retained before detection');
+    user = { id: 'u1', email: 'a@b.c' };
+    sessionKnown = true;
+    listeners.slice().forEach(listener => listener(user));
+    await flush(); await flush();
+    assert.equal(fetches.length, 1, 'auth triggers a profile fetch before detection resolves');
+    assert.ok(fetches[0].includes('display_name'));
+    assert.ok(extraColumns.every(column => !fetches[0].includes(column)), 'first profile fetch uses only base columns');
+    assert.equal(w.UpskillProfile.getCurrent().display_name, 'Ada', 'base fetch has resolved before detection');
+    assert.equal(w.UpskillProfile.getCurrent().role, undefined, 'strict projection does not leak extra columns');
+    resolveDetection(migrated ? { data: [], error: null } : resultFor(['role']));
+    await flush(); await flush();
+    assert.equal(listeners.length, 3, 'page load listener joins both earlier auth listeners');
+    t.diagnostic('profile selects in order: ' + selected.map(columns => columns.join(',')).join(' -> '));
+    if (migrated) {
+      assert.ok(fetches.slice(1).some(columns => extraColumns.every(column => columns.includes(column))),
+        'after detection the cached base profile must be refetched with all extras');
+      assert.equal(w.document.getElementById('profile-role').value, stored.role, 'form shows stored role');
+      assert.equal(w.document.getElementById('profile-industry').value, stored.industry, 'form shows stored industry');
+      assert.equal(w.document.getElementById('profile-certification').value, stored.target_certification, 'form shows stored certification');
+      assert.equal(w.document.getElementById('profile-exam-email').checked, stored.exam_practice_opt_in, 'form shows stored exam opt-in');
+      assert.equal(w.document.getElementById('profile-digest').checked, stored.monthly_digest_opt_in, 'form shows stored digest opt-in');
+    } else {
+      assert.ok(fetches.every(columns => extraColumns.every(column => !columns.includes(column))), 'missing columns are never fetched (apart from the detection probe)');
+      assert.equal(w.UpskillProfile.hasExtraColumns(), false);
+    }
+    const expectedExtras = Object.fromEntries(extraColumns.map(column => [column, stored[column]]));
+    w.document.getElementById('profile-display-name').value = 'Ada L';
+    w.document.getElementById('profile-form').dispatchEvent(new w.Event('submit', { bubbles: true, cancelable: true }));
+    await flush(); await flush();
+    assert.ok(saved, 'save happened');
+    assert.equal(saved.display_name, 'Ada L');
+    for (const column of extraColumns) {
+      if (migrated) assert.equal(saved[column], expectedExtras[column], `${column} unchanged`);
+      else assert.equal(Object.hasOwn(saved, column), false, `${column} is absent from base-schema update`);
+    }
+    assert.match(w.document.getElementById('profile-status').textContent, /up to date/, 'save completed successfully');
+  });
+}
