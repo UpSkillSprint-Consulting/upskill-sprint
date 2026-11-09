@@ -176,3 +176,24 @@ test('shared Supabase helpers keep the material checker contract', async () => {
   assert.equal(await shared.canAccessContent('t', 'tool:/x', SUPABASE, async () => new Response('"true"')), false);
   assert.equal(await shared.canAccessContent('t', 'tool:/x', SUPABASE, async () => new Response('true', { status: 500 })), false);
 });
+
+test('every protected lesson ships its access-rule SQL, matching the teaser tier (file check only, no Supabase query)', () => {
+  // can_access_content() is deny-by-default: a gated lesson without an applied rule
+  // denies everyone. The SQL file must be in the repo so Ernest can approve and apply it.
+  const sqlDir = path.join(ROOT, 'supabase');
+  const sqlFiles = fs.readdirSync(sqlDir).filter((f) => /-access\.sql$/.test(f))
+    .map((f) => ({ f, sql: fs.readFileSync(path.join(sqlDir, f), 'utf8') }));
+  for (const key of Object.keys(catalog.PROTECTED_LESSONS)) {
+    const quoted = key.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&');
+    const rows = sqlFiles.filter(({ sql }) => new RegExp(`\\('${quoted}',\\s*'([a-z]+)'`).test(sql));
+    assert.equal(rows.length, 1, `${key}: exactly one supabase/*-access.sql registers it`);
+    const { f, sql } = rows[0];
+    const tier = sql.match(new RegExp(`\\('${quoted}',\\s*'([a-z]+)'`))[1];
+    assert.ok(['registered', 'premium', 'special', 'administrator'].includes(tier), `${f}: gated tier, got ${tier}`);
+    assert.ok(f.startsWith(tier + '-'), `${f}: file name starts with its tier`);
+    assert.doesNotMatch(sql, /\b(create|alter|drop|grant|revoke|delete|truncate)\b/i, `${f}: data only`);
+    const teaser = fs.readFileSync(path.join(ROOT, catalog.protectedLessonRoute(key).slice(1) + '.html'), 'utf8');
+    const meta = JSON.parse(teaser.match(/<!-- UPSKILLSPRINT_LESSON_META\s*([\s\S]*?)-->/)[1]);
+    assert.equal(meta.access_level, tier, `${key}: teaser meta access_level matches the SQL rule`);
+  }
+});

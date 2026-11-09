@@ -1253,7 +1253,8 @@ What the author MUST do in the lesson's `<head>` (next to the meta description, 
 
 Approved pattern (`docs/plans/gated-lesson-content-plan.md`, Options D + A), piloted on
 `/lessons/statistics/choosing-a-transformation-to-linearize-data` (Registered). Every new
-`registered`, `premium`, `special` or `administrator` lesson uses it from day one. Search
+`registered` lesson uses it from day one. `premium`, `special` and `administrator` lessons also
+need the non-public payload source described in step 7 before they can use it. Search
 engines and signed-out visitors get the teaser; a signed-in visitor whose tier allows it gets
 the rest from a Netlify Function after a server-side check. Nothing falls back to showing
 content.
@@ -1323,12 +1324,32 @@ fails if any passage of a payload appears in the staged site or the search index
 `tests/lesson-content-function.test.js` and `tests/protected-lesson-loader.test.js` cover the
 function and the loader.
 
-**6. Access rule.** Ship `supabase/<access-key>-<short-lesson-name>-access.sql` as in §12.4.
-Ernest runs it. Until he does, the function answers 403 for everyone (deny-by-default) and
-signed-in learners see the access notice; the teaser is unaffected.
+**6. Access rule (must be applied before or at merge).** Ship
+`supabase/<access-key>-<short-lesson-name>-access.sql` as in §12.4. A SQL file in the repo is
+**not** a live rule: someone with Ernest's approval must apply it to Supabase before the PR merges
+or at merge. You never run it yourself. Until it is applied, `can_access_content()` returns
+`false` (deny-by-default), so the function answers 403 for **every** signed-in learner, who sees
+the access notice. The teaser is unaffected. In the PR body, state the rule's status plainly
+(applied, by whom and when, or "pending Ernest's approval"). Do not write that the rule
+"exists" because the file is in the repo.
+`tests/lesson-content-function.test.js` fails if a key in `content/protected-lesson-catalog.mjs`
+has no matching `supabase/<tier>-…-access.sql`, or if the SQL tier differs from the teaser's
+`access_level`. It checks files only and cannot tell whether the rule was applied. For the
+linearize pilot, the rule was applied by Website Manager with Ernest's approval on 2026-11-09.
+
+**7. Known limit: the repository is public, so the payload is not secret.** `content/` is kept
+out of the website, the static deploy and the search index. But this GitHub repository is
+public, so anyone can read `content/protected-lessons/**` on github.com or
+`raw.githubusercontent.com`. A lesson that was public before conversion also stays readable in
+git history. The website gate works, but the body itself is not confidential. That is
+acceptable for a free `registered` lesson, where the goal is sign-ups and keeping the URL
+indexable. **Do not use this pattern for `premium` or `special` (paid) content** until the
+payload comes from a non-public source, for example a private repository or a build-time secret
+store that the function reads. That decision is Ernest's; do not build it inside a lesson PR.
 
 **Converting an existing public lesson** follows the same steps in its own PR. Its old full text
-stays in git history and in search-engine caches until they recrawl; say so in the PR.
+stays in git history (public, see step 7) and in search-engine caches until they recrawl; say so
+in the PR.
 
 ---
 

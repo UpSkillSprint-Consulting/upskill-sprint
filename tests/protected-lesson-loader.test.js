@@ -17,13 +17,13 @@ const FRAGMENT = '<section id="part-2"><h2>Part 2</h2><p class="math">\\(x^2\\)<
   '<script>window.ran = (window.ran || []).concat("one"); document.getElementById("part-2").dataset.ready = "yes";</script>' +
   '<script>window.ran = window.ran.concat("two");</script>';
 
-function teaser(key = KEY) {
+function teaser(key = KEY, signInLink = '<a class="lz-btn" href="/sign-in.html?next=%2Flessons%2Fstatistics%2Fdemo">Sign in to continue</a>') {
   return `<!doctype html><html lang="en"><head><title>Demo</title></head><body><main id="lesson-content"><h1>Demo</h1>
     <section id="why"><h2>Part 1</h2><p>Free preview.</p></section>
     <div id="full-lesson" data-protected-lesson="${key}" data-search-summary="Summary">
       <section id="full-lesson-gate" aria-labelledby="g"><div class="lz-gate"><h2 id="g">Keep going</h2>
         <p class="lz-gate-status" role="status" aria-live="polite" data-protected-lesson-status></p>
-        <div class="lz-gate-offer"><p>Sign in to continue.</p><a class="lz-btn" href="/sign-in.html?next=%2Flessons%2Fstatistics%2Fdemo">Sign in to continue</a></div>
+        <div class="lz-gate-offer"><p>Sign in to continue.</p>${signInLink}</div>
       </div></section>
     </div></main></body></html>`;
 }
@@ -32,11 +32,11 @@ function teaser(key = KEY) {
  * user: undefined → session never resolves; null → signed out; object → signed in.
  * reply: { status, body } or an Error to throw from fetch.
  */
-function page({ user = null, reply = { status: 200, body: { version: 1, resource: KEY, html: FRAGMENT } }, key, url = 'https://upskillsprint.com' + ROUTE, configured = true } = {}) {
+function page({ user = null, reply = { status: 200, body: { version: 1, resource: KEY, html: FRAGMENT } }, key, url = 'https://upskillsprint.com' + ROUTE, configured = true, signInLink } = {}) {
   const errors = [];
   const virtualConsole = new VirtualConsole();
   virtualConsole.on('jsdomError', (e) => errors.push(e.message));
-  const dom = new JSDOM(teaser(key), { url, runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole });
+  const dom = new JSDOM(teaser(key, signInLink), { url, runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole });
   const w = dom.window;
   const listeners = [];
   const requests = [];
@@ -159,4 +159,23 @@ test('a teaser can only load its own lesson, and an unconfigured sign-in fails c
   assert.equal(off.requests.length, 0);
   assert.equal(off.mount.getAttribute('data-state'), 'signed-out');
   assert.match(status(off), /unavailable/);
+});
+
+test('the sign-in link keeps the reader\'s place, also in the pretty-URL form Netlify deploys', async () => {
+  const here = ROUTE + '?from=search#part-2';
+  const expected = '/sign-in.html?next=' + encodeURIComponent(here);
+  for (const signIn of [
+    '<a class="lz-btn" href="/sign-in?next=%2Flessons%2Fstatistics%2Fdemo">Sign in to continue</a>',
+    '<a class="lz-btn" data-protected-lesson-signin href="/sign-in?next=%2Flessons%2Fstatistics%2Fdemo">Sign in to continue</a>',
+    '<a class="lz-btn" href="/sign-in.html?next=%2Flessons%2Fstatistics%2Fdemo">Sign in to continue</a>'
+  ]) {
+    const p = page({ user: null, url: 'https://upskillsprint.com' + here, signInLink: signIn });
+    await settle();
+    assert.equal(p.mount.querySelector('.lz-gate-offer a').getAttribute('href'), expected, signIn);
+  }
+  // After an expired session (401) the link is refreshed the same way.
+  const expired = page({ user: { id: 'u1' }, reply: { status: 401, body: {} }, url: 'https://upskillsprint.com' + here,
+    signInLink: '<a class="lz-btn" href="/sign-in?next=%2Flessons%2Fstatistics%2Fdemo">Sign in to continue</a>' });
+  await settle();
+  assert.equal(expired.mount.querySelector('.lz-gate-offer a').getAttribute('href'), expected);
 });

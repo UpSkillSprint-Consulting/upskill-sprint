@@ -3,11 +3,22 @@
 Status: **approved (Options D + A) and piloted** on the Registered lesson
 `/lessons/statistics/choosing-a-transformation-to-linearize-data` (weekly fixes, 2026-11-09).
 Steps 1–6 of [§6](#6-migration-steps) are implemented for that lesson; the reusable contract is
-`docs/LESSON_CREATION_GUIDE.md` §12.8. Its access rule already exists
-(`supabase/registered-linearize-transformation-access.sql`), so the pilot needed no Supabase
-change. Phase 2 (test bank, step 8) is still open. Every Supabase change listed in
+`docs/LESSON_CREATION_GUIDE.md` §12.8. Phase 2 (test bank, step 8) is still open.
+
+**Access rules are a separate step.** Each gated lesson needs its `supabase/*-access.sql` applied
+to Supabase, with Ernest's approval, before or at merge. A SQL file in the repo is not a live
+rule, and `can_access_content()` denies everyone until the rule exists. For the linearize pilot,
+`supabase/registered-linearize-transformation-access.sql` had not been applied when the pilot PR
+was built. Website Manager applied it, unchanged and with Ernest's approval, on 2026-11-09 (one
+data write, no schema change). Every Supabase change listed in
 [§7](#7-supabase-changes-that-need-ernests-approval) still needs Ernest's explicit approval
 before anyone runs it.
+
+**Known limit: the repository is public.** `content/protected-lessons/**` stays out of the
+website, the deploy and the search index, but anyone can read it on GitHub, and earlier full
+versions stay in git history. That is fine for free Registered lessons. Paid (`premium` or
+`special`) payloads need a non-public source, such as a private repository or a build-time
+secret store, before this pattern is used for them. That decision is Ernest's.
 
 ## 1. Problem
 

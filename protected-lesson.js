@@ -59,7 +59,8 @@
     if (notice) notice.remove();
     var offer = offerEl();
     if (offer) offer.hidden = false;
-    var link = mount.querySelector('a[href^="/sign-in.html"]');
+    /* Netlify pretty URLs rewrite the deployed link to /sign-in?next=…, so match the marker or either form. */
+    var link = mount.querySelector('a[data-protected-lesson-signin], a[href^="/sign-in"]');
     if (link) link.setAttribute('href', signInHref());
   }
 
