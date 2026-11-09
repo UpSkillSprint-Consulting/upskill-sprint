@@ -47,7 +47,7 @@
       foot: [['View all lessons →', '/lessons', 'primary', 'total'], ['Request a topic', '/request-topic', 'secondary']]
     },
     {
-      id: 'exam', label: 'Exam Practice', href: '/exam-practice', head: 'Certifications', wide: true,
+      id: 'exam', label: 'Certification Exam Practice', href: '/exam-practice', head: 'Certifications', wide: true,
       unit: ['exam', 'exams'], layout: 'tiles',
       items: [
         ['CSSBB', 'Six Sigma Black Belt', '/exam-practice#exam-cssbb'],
@@ -139,7 +139,7 @@
     return head + rows + '<div class="' + footClass + '">' + footHtml(tab, false) + '</div>';
   }
 
-  /* Mobile section card subtitle. Exam Practice is derived from its first
+  /* Mobile section card subtitle. Certification Exam Practice is derived from its first
      two exams so it can never drift from the list. */
   function subline(tab) {
     if (tab.sub) return tab.sub;
