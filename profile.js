@@ -3,7 +3,7 @@
 (function () {
   'use strict';
 
-  var PROFILE_COLUMNS = [
+  var BASE_COLUMNS = [
     'user_id',
     'display_name',
     'timezone',
@@ -13,7 +13,13 @@
     'onboarding_completed',
     'created_at',
     'updated_at'
-  ].join(',');
+  ];
+  var EXTRA_COLUMNS = ['role', 'industry', 'target_certification', 'exam_practice_opt_in', 'monthly_digest_opt_in'];
+  var extraAvailable = false;
+  var loadedWithExtras = false;
+  function columns() {
+    return (extraAvailable ? BASE_COLUMNS.concat(EXTRA_COLUMNS) : BASE_COLUMNS).join(',');
+  }
 
   var currentProfile = null;
   var currentUserId = null;
@@ -78,7 +84,7 @@
     var authClient = clientForUser(user);
     if (!authClient) return Promise.resolve(null);
     return authClient.from('profiles')
-      .select(PROFILE_COLUMNS)
+      .select(columns())
       .eq('user_id', user.id)
       .maybeSingle()
       .then(function (result) {
@@ -87,13 +93,13 @@
 
         return authClient.from('profiles')
           .insert(initialProfile(user))
-          .select(PROFILE_COLUMNS)
+          .select(columns())
           .single()
           .then(function (insertResult) {
             if (!insertResult.error) return insertResult.data;
             if (insertResult.error.code !== '23505') throw insertResult.error;
             return authClient.from('profiles')
-              .select(PROFILE_COLUMNS)
+              .select(columns())
               .eq('user_id', user.id)
               .single()
               .then(function (retryResult) {
@@ -120,7 +126,7 @@
     currentUserId = user.id;
     var handledRequest;
     var request = fetchProfile(user).then(function (profile) {
-      if (currentUserId === user.id && loadPromise === handledRequest) notify(profile);
+      if (currentUserId === user.id && loadPromise === handledRequest) { loadedWithExtras = extraAvailable; notify(profile); }
       return profile;
     });
     handledRequest = request.catch(function (error) {
@@ -151,10 +157,15 @@
         timezone: timezone,
         newsletter_opt_in: optedIn
       };
+      if (fields && fields.role !== undefined) payload.role = fields.role || null;
+      if (fields && fields.industry !== undefined) payload.industry = fields.industry || null;
+      if (fields && fields.target_certification !== undefined) payload.target_certification = fields.target_certification || null;
+      if (fields && fields.exam_practice_opt_in !== undefined) payload.exam_practice_opt_in = Boolean(fields.exam_practice_opt_in);
+      if (fields && fields.monthly_digest_opt_in !== undefined) payload.monthly_digest_opt_in = Boolean(fields.monthly_digest_opt_in);
       return authClient.from('profiles')
         .update(payload)
         .eq('user_id', user.id)
-        .select(PROFILE_COLUMNS)
+        .select(columns())
         .single()
         .then(function (result) {
           if (result.error) throw result.error;
@@ -172,6 +183,17 @@
   }
 
   window.UpskillProfile = {
+    setExtraColumns: function (available) {
+      var next = Boolean(available);
+      if (next === extraAvailable) return;
+      extraAvailable = next;
+      loadPromise = null;
+      loadedWithExtras = false;
+      var user = window.UpskillAuth && window.UpskillAuth.getUser();
+      if (user) load(user);
+    },
+    hasExtraColumns: function () { return extraAvailable; },
+    loadedWithExtras: function () { return loadedWithExtras; },
     getCurrent: function () { return currentProfile; },
     load: load,
     save: save,

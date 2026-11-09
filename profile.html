@@ -16,6 +16,7 @@
 <script src="/site-sections.js"></script>
 </head>
 <body data-require-auth>
+  <a class="skip-link" href="#account-profile">Skip to content</a>
   <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
   <header class="site">
     <a href="index.html" class="brand">
@@ -62,21 +63,85 @@
           <label class="field">Name<input type="text" id="profile-display-name" name="display_name" required minlength="2" maxlength="100" autocomplete="name"></label>
           <label class="field">Email<input type="email" id="profile-email" name="email" readonly autocomplete="email" aria-describedby="profile-email-help"></label>
           <p id="profile-email-help" class="profile-help" style="margin-top:-8px;">Email changes will be added in a later account-security phase.</p>
-          <input type="hidden" id="profile-timezone" name="timezone" value="UTC">
+          <label class="field">Time zone
+            <select id="profile-timezone" name="timezone"></select>
+          </label>
+        </section>
+
+
+
+        <section class="profile-section" id="profile-progress" aria-labelledby="profile-progress-heading">
+          <h2 id="profile-progress-heading">My progress</h2>
+          <p class="profile-help">A summary of what you've completed. Full details stay in each lesson and practice set.</p>
+          <ul id="profile-progress-list">
+            <li>Lessons completed: <span id="profile-lessons-completed">—</span></li>
+            <li>Practice sets: <span id="profile-practice-sets">—</span></li>
+            <li><a href="/excel-sprint-certificate.html">Excel Sprint certificate</a></li>
+          </ul>
+        </section>
+
+        <section class="profile-section" id="profile-learning" aria-labelledby="profile-learning-heading">
+          <h2 id="profile-learning-heading">Learning profile</h2>
+          <p class="profile-help">Optional. Helps us suggest relevant lessons and practice.</p>
+          <p id="profile-learning-note" class="profile-help" hidden>Learning profile fields will appear once your account is updated.</p>
+          <label class="field">Role
+            <select id="profile-role" name="role">
+              <option value="">Prefer not to say</option>
+              <option>Student</option>
+              <option>Technician</option>
+              <option>Quality/Process Engineer</option>
+              <option>Manager</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label class="field">Industry<input type="text" id="profile-industry" name="industry" maxlength="100" autocomplete="organization"></label>
+          <label class="field">Target certification
+            <select id="profile-certification" name="target_certification">
+              <option value="">None yet</option>
+              <option>CMQ/OE</option>
+              <option>CQA</option>
+              <option>CRE</option>
+              <option>CQE</option>
+              <option>CSSBB</option>
+              <option>CSSGB</option>
+              <option>MBB</option>
+              <option>NPPE</option>
+              <option>PMP</option>
+            </select>
+          </label>
         </section>
 
         <section class="profile-section" aria-labelledby="profile-communications-heading">
           <h2 id="profile-communications-heading">Communication preferences</h2>
           <p class="profile-help">Marketing email is optional and never required to use your account.</p>
           <label class="auth-check"><input type="checkbox" id="profile-newsletter" name="newsletter_opt_in">Email me when new lessons are published (unsubscribe anytime).</label>
+          <label class="auth-check"><input type="checkbox" id="profile-exam-email" name="exam_practice_opt_in">Email me when new exam practice sets are added.</label>
+          <label class="auth-check"><input type="checkbox" id="profile-digest" name="monthly_digest_opt_in">Send me a monthly digest.</label>
+          <p class="profile-help">See our <a href="/privacy.html">Privacy Policy</a> for how we use your email.</p>
+          <p id="profile-email-prefs-note" class="profile-help" hidden>Extra email choices will appear once your account is updated.</p>
         </section>
 
+
+        <section class="profile-section" id="profile-data" aria-labelledby="profile-data-heading">
+          <h2 id="profile-data-heading">Your data</h2>
+          <p class="profile-help">Download a copy of your profile and progress, or request account deletion.</p>
+          <button type="button" class="btn" id="profile-download">Download my data</button>
+          <button type="button" class="btn" id="profile-delete-request">Delete my account</button>
+          <span id="profile-data-status" role="status" aria-live="polite"></span>
+        </section>
+
+        <section class="profile-section" aria-labelledby="profile-security-heading">
+          <h2 id="profile-security-heading">Security</h2>
+          <p class="profile-help">We'll email you a link to choose a new password. The link opens the same secure page used for password resets.</p>
+          <button type="button" class="btn" id="profile-change-password">Change password</button>
+          <span id="profile-password-status" role="status" aria-live="polite"></span>
+        </section>
         <div class="profile-actions">
           <button type="submit" class="btn btn-teal" id="profile-submit">Save changes</button>
           <span id="profile-status" role="status" aria-live="polite"></span>
         </div>
+
         <div class="profile-links">
-          <a href="/reset-password.html">Change password</a>
           <a href="/privacy.html">Privacy Policy</a>
           <a href="/terms.html">Terms of Use</a>
         </div>
@@ -129,6 +194,16 @@
         email.value = user.email || '';
         timezone.value = profile.timezone || window.UpskillProfile.browserTimezone();
         newsletter.checked = Boolean(profile.newsletter_opt_in);
+        var role = document.getElementById('profile-role');
+        if (role && profile.role) role.value = profile.role;
+        var industry = document.getElementById('profile-industry');
+        if (industry && profile.industry) industry.value = profile.industry;
+        var cert = document.getElementById('profile-certification');
+        if (cert && profile.target_certification) cert.value = profile.target_certification;
+        var examEmail = document.getElementById('profile-exam-email');
+        if (examEmail) examEmail.checked = Boolean(profile.exam_practice_opt_in);
+        var digest = document.getElementById('profile-digest');
+        if (digest) digest.checked = Boolean(profile.monthly_digest_opt_in);
         activeUserId = user.id;
         loadedUserId = user.id;
         setEditable(true);
@@ -152,6 +227,35 @@
         });
       }
 
+
+      var featuresAvailable = false;
+      function hideLearningAndEmail() {
+        var learning = document.getElementById('profile-learning');
+        var learningNote = document.getElementById('profile-learning-note');
+        var emailNote = document.getElementById('profile-email-prefs-note');
+        if (learning) learning.querySelectorAll('label').forEach(function (el) { el.hidden = true; });
+        if (learningNote) learningNote.hidden = false;
+        ['profile-exam-email', 'profile-digest'].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el && el.parentElement) el.parentElement.hidden = true;
+        });
+        if (emailNote) emailNote.hidden = false;
+      }
+      function detectFeatures() {
+        var client = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
+        if (!client) { hideLearningAndEmail(); return Promise.resolve(false); }
+        try {
+          var query = client.from('profiles').select('role');
+          var probe = query.limit ? query.limit(0) : query;
+          return Promise.resolve(probe).then(function (result) {
+            if (result && result.error) { hideLearningAndEmail(); return false; }
+            featuresAvailable = true;
+            if (window.UpskillProfile && window.UpskillProfile.setExtraColumns) window.UpskillProfile.setExtraColumns(true);
+            return true;
+          }).catch(function () { hideLearningAndEmail(); return false; });
+        } catch (error) { hideLearningAndEmail(); return Promise.resolve(false); }
+      }
+
       function initialize() {
         if (!window.UpskillAuth || !window.UpskillProfile) return;
         clearForm(window.UpskillAuth.getUser(), 'Loading your profile\u2026');
@@ -163,7 +267,146 @@
           }
           if (fill(profile)) setStatus('', false);
         });
-        window.UpskillAuth.onChange(loadForUser);
+        detectFeatures().then(function () {
+          window.UpskillAuth.onChange(loadForUser);
+          loadForUser(window.UpskillAuth.getUser());
+        });
+        loadProgressSummary();
+        function checkPendingDeletion() {
+          try {
+            var currentUser = window.UpskillAuth && window.UpskillAuth.getUser();
+            var currentClient = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
+            if (dataStatus) dataStatus.textContent = '';
+            if (deleteBtn) deleteBtn.disabled = false;
+            if (!currentUser || !currentClient || !deleteBtn) return;
+            currentClient.from('account_deletion_requests').select('status').eq('user_id', currentUser.id).eq('status', 'pending').then(function (result) {
+              if (result && result.data && result.data.length) {
+                dataStatus.textContent = 'You already have a deletion request pending. Nothing has been deleted.';
+                deleteBtn.disabled = true;
+              } else {
+                deleteBtn.disabled = false;
+              }
+            }).catch(function () {});
+          } catch (error) { /* table may not exist yet */ }
+        }
+        checkPendingDeletion();
+        window.UpskillAuth.onChange(checkPendingDeletion);
+
+      }
+
+
+      var changePassword = document.getElementById('profile-change-password');
+      var passwordStatus = document.getElementById('profile-password-status');
+      if (changePassword) {
+        changePassword.addEventListener('click', function () {
+          var user = window.UpskillAuth && window.UpskillAuth.getUser();
+          if (!user || !user.email) {
+            passwordStatus.textContent = 'Sign in to change your password.';
+            return;
+          }
+          changePassword.disabled = true;
+          passwordStatus.textContent = 'Sending reset link…';
+          window.UpskillAuth.resetPassword(user.email).then(function () {
+            passwordStatus.textContent = 'Check your email for a link to choose a new password.';
+          }).catch(function (error) {
+            passwordStatus.textContent = error && error.message ? error.message : 'The reset link could not be sent. Try again.';
+          }).then(function () {
+            changePassword.disabled = false;
+          });
+        });
+      }
+
+
+      // Progress summary from existing tables. Compact: counts only.
+      function loadProgressSummary() {
+        var lessons = document.getElementById('profile-lessons-completed');
+        var practice = document.getElementById('profile-practice-sets');
+        if (lessons) lessons.textContent = 'Not available yet';
+        if (practice) practice.textContent = 'Not available yet';
+      }
+
+
+      var downloadBtn = document.getElementById('profile-download');
+      var deleteBtn = document.getElementById('profile-delete-request');
+      var dataStatus = document.getElementById('profile-data-status');
+      if (downloadBtn) {
+        downloadBtn.addEventListener('click', function () {
+          var user = window.UpskillAuth && window.UpskillAuth.getUser();
+          var profile = window.UpskillProfile && window.UpskillProfile.getCurrent();
+          if (!user) { dataStatus.textContent = 'Sign in to download your data.'; return; }
+          var client = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
+          function finish(deletion) {
+            var payload = {
+              profile: profile || {},
+              email: user.email,
+              progress: { lessons_completed: null, practice_sets: null, note: 'Progress is not tracked on the server yet.' },
+              deletion_request: deletion,
+              exported_at: new Date().toISOString()
+            };
+            var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+            var url = URL.createObjectURL(blob);
+            try {
+              var a = document.createElement('a');
+              a.href = url;
+              a.download = 'upskillsprint-data.json';
+              a.click();
+              dataStatus.textContent = 'Your data file has been downloaded.';
+            } finally {
+              URL.revokeObjectURL(url);
+            }
+          }
+          if (!client) { finish(null); return; }
+          client.from('account_deletion_requests').select('status,requested_at').eq('user_id', user.id).eq('status', 'pending').then(function (result) {
+            var row = result && result.data && result.data[0];
+            finish(row ? { status: row.status, requested_at: row.requested_at } : null);
+          }).catch(function () { finish(null); });
+        });
+      }
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', function () {
+          var user = window.UpskillAuth && window.UpskillAuth.getUser();
+          if (!user) { dataStatus.textContent = 'Sign in to request deletion.'; return; }
+          if (!confirm('Request account deletion? Nothing is deleted until an administrator reviews the request.')) return;
+          var client = window.UpskillAuth && window.UpskillAuth.getClient && window.UpskillAuth.getClient();
+          if (!user || !client) { dataStatus.textContent = 'Sign in to request deletion.'; return; }
+          client.from('account_deletion_requests').insert({ user_id: user.id, reason: 'User requested from profile page' }).then(function (result) {
+            if (result.error) {
+              if (result.error.code === '23505') {
+                dataStatus.textContent = 'You already have a deletion request pending. Nothing has been deleted.';
+                deleteBtn.disabled = true;
+              } else {
+                dataStatus.textContent = 'Deletion requests are not available yet. Nothing has been deleted.';
+              }
+              return;
+            }
+            dataStatus.textContent = 'Your deletion request has been recorded. Nothing is deleted until it is reviewed.';
+            deleteBtn.disabled = true;
+          }).catch(function () {
+            dataStatus.textContent = 'Deletion requests are not available yet. Nothing has been deleted.';
+          });
+        });
+      }
+
+
+      var timezoneSelect = document.getElementById('profile-timezone');
+      if (timezoneSelect) {
+        var zones = [];
+        try { zones = Intl.supportedValuesOf('timeZone'); } catch (e) { zones = ['UTC', 'America/Regina', 'America/Toronto', 'America/Vancouver', 'Europe/London']; }
+        zones.forEach(function (zone) {
+          var option = document.createElement('option');
+          option.value = zone;
+          option.textContent = zone;
+          timezoneSelect.appendChild(option);
+        });
+        var saved = window.UpskillProfile && window.UpskillProfile.getCurrent && window.UpskillProfile.getCurrent();
+        var preferred = (saved && saved.timezone) || (window.UpskillProfile && window.UpskillProfile.browserTimezone()) || 'UTC';
+        if (preferred && !timezoneSelect.querySelector('option[value="' + preferred.replace(/"/g, '') + '"]')) {
+          var extra = document.createElement('option');
+          extra.value = preferred;
+          extra.textContent = preferred;
+          timezoneSelect.appendChild(extra);
+        }
+        timezoneSelect.value = preferred;
       }
 
       form.addEventListener('submit', function (event) {
@@ -181,7 +424,14 @@
         window.UpskillProfile.save({
           display_name: name.value,
           timezone: timezone.value || window.UpskillProfile.browserTimezone(),
-          newsletter_opt_in: newsletter.checked
+          newsletter_opt_in: newsletter.checked,
+          ...(window.UpskillProfile && window.UpskillProfile.loadedWithExtras && window.UpskillProfile.loadedWithExtras() ? {
+            role: (document.getElementById('profile-role') || {}).value || null,
+            industry: (document.getElementById('profile-industry') || {}).value || null,
+            target_certification: (document.getElementById('profile-certification') || {}).value || null,
+            exam_practice_opt_in: Boolean((document.getElementById('profile-exam-email') || {}).checked),
+            monthly_digest_opt_in: Boolean((document.getElementById('profile-digest') || {}).checked)
+          } : {})
         }).then(function () {
           var currentUser = window.UpskillAuth && window.UpskillAuth.getUser();
           if (!currentUser || currentUser.id !== saveUserId || loadRevision !== saveRevision) return;

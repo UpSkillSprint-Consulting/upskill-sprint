@@ -1,3 +1,6 @@
+
+.skip-link{position:absolute;left:-9999px;top:0;z-index:200;padding:.7rem 1rem;border-radius:0 0 8px;background:var(--navy,#0e7490);color:#fff;font-weight:700}
+.skip-link:focus{left:0}
 :root {
   color-scheme: light;
   --ink: #1c2430;

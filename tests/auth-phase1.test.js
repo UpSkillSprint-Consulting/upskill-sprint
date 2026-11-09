@@ -108,3 +108,82 @@ test('profile page is gated and supports name and consent updates', () => {
   assert.match(profile, /id="profile-newsletter"/);
   assert.match(profile, /UpskillProfile\.save/);
 });
+
+test('profile change-password button reuses the reset flow', () => {
+  const html = read('profile.html');
+  assert.match(html, /id="profile-change-password"/);
+  assert.match(html, /id="profile-password-status"[^>]*aria-live="polite"/);
+  assert.match(html, /UpskillAuth\.resetPassword\(user\.email\)/);
+  assert.match(html, /changePassword\.disabled = true/);
+  assert.match(html, /class="skip-link"/);
+});
+
+test('learning profile fields use only offered exams and have a migration', () => {
+  const html = read('profile.html');
+  const sql = read('supabase/migrations/20261106000000_profile_learning_fields.sql');
+  for (const exam of ['CQA', 'CQE', 'CSSBB', 'CSSGB', 'MBB', 'NPPE', 'PMP']) {
+    assert.match(html, new RegExp('<option>' + exam + '</option>'));
+    assert.match(sql, new RegExp("'" + exam + "'"));
+  }
+  assert.match(sql, /add column if not exists role/);
+  assert.match(sql, /grant update \(role, industry, target_certification\)/);
+  assert.match(html, /id="profile-learning-note"/);
+});
+
+test('profile progress summary is compact and links the certificate', () => {
+  const html = read('profile.html');
+  assert.match(html, /id="profile-lessons-completed"/);
+  assert.match(html, /id="profile-practice-sets"/);
+  assert.match(html, /excel-sprint-certificate\.html/);
+  assert.doesNotMatch(html, /every answer|answer_text/i);
+});
+
+test('email preferences keep newsletter_opt_in as new lessons', () => {
+  const html = read('profile.html');
+  const sql = read('supabase/migrations/20261106010000_profile_email_preferences.sql');
+  assert.match(html, /id="profile-newsletter"/);
+  assert.match(html, /id="profile-exam-email"/);
+  assert.match(html, /id="profile-digest"/);
+  assert.match(html, /privacy\.html/);
+  assert.match(sql, /newsletter_opt_in stays/);
+  assert.match(sql, /exam_practice_opt_in/);
+  assert.match(sql, /monthly_digest_opt_in/);
+});
+
+test('data download is local and deletion is a request only', () => {
+  const html = read('profile.html');
+  const sql = read('supabase/migrations/20261106020000_account_deletion_requests.sql');
+  assert.match(html, /id="profile-download"/);
+  assert.match(html, /Blob/);
+  assert.doesNotMatch(html, /supabase.*delete|from\('profiles'\)\.delete/i);
+  assert.match(sql, /account_deletion_requests/);
+  assert.match(sql, /Nothing deletes live data/);
+  assert.match(sql, /using \(\(select auth\.uid\(\)\) = user_id\)/);
+});
+
+test('timezone select is visible and prefills from saved or browser', () => {
+  const html = read('profile.html');
+  assert.match(html, /<select id="profile-timezone"/);
+  assert.match(html, /Intl\.supportedValuesOf\('timeZone'\)/);
+  assert.match(html, /browserTimezone/);
+  assert.doesNotMatch(html, /type="hidden"[^>]*id="profile-timezone"/);
+});
+
+test('data export includes profile, progress and revokes the URL', () => {
+  const html = read('profile.html');
+  assert.match(html, /lessons_completed/);
+  assert.match(html, /practice_sets/);
+  assert.match(html, /deletion_request/);
+  assert.match(html, /finally[\s\S]*revokeObjectURL/);
+});
+
+test('certification dropdown matches exam-practice', () => {
+  const profile = read('profile.html');
+  const exams = read('exam-practice.html');
+  for (const code of ['cmq', 'cqa', 'cqe', 'cre', 'cssbb', 'cssgb', 'mbb', 'nppe', 'pmp']) {
+    assert.match(exams, new RegExp('data-exam="' + code + '"'));
+  }
+  for (const label of ['CMQ/OE', 'CQA', 'CQE', 'CRE', 'CSSBB', 'CSSGB', 'MBB', 'NPPE', 'PMP']) {
+    assert.match(profile, new RegExp('<option>' + label + '</option>'));
+  }
+});

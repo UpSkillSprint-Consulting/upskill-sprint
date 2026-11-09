@@ -867,3 +867,237 @@ test('session restoration failure settles as signed out', async () => {
   assert.equal(dom.window.document.querySelector('#account-menu-signin').textContent, 'Sign in');
   dom.window.close();
 });
+
+test('change-password button disables while sending and reports in aria-live', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  w.eval(authSource);
+  w.eval(profileSource);
+  w.eval(profilePageSource);
+  const btn = w.document.getElementById('profile-change-password');
+  const status = w.document.getElementById('profile-password-status');
+  assert.ok(btn, 'button present');
+  assert.equal(status.getAttribute('aria-live'), 'polite');
+  dom.window.close();
+});
+
+test('feature detection hides learning fields when columns are missing', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({ from: () => ({ select: () => ({ limit: () => Promise.resolve({ error: { message: 'missing' } }) }) }) }),
+    onChange: () => {}
+  };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC', load: () => Promise.resolve(null), setExtraColumns: () => {}, hasExtraColumns: () => false };
+  w.eval(profilePageSource);
+  await flush(); await flush();
+  assert.equal(w.document.getElementById('profile-learning').querySelector('label').hidden, true);
+  assert.equal(w.document.getElementById('profile-learning-note').hidden, false);
+  dom.window.close();
+});
+
+test('download with no pending request has a null deletion_request', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  let captured = null;
+  w.URL.createObjectURL = (blob) => { captured = blob; return 'blob:test'; };
+  w.URL.revokeObjectURL = () => {};
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({ from: () => ({ select: () => ({ eq: () => ({ eq: () => Promise.resolve({ data: [] }) }) }) }) }),
+    onChange: () => {}
+  };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => ({ display_name: 'Ada' }), browserTimezone: () => 'UTC', load: () => Promise.resolve(null), setExtraColumns: () => {}, hasExtraColumns: () => false };
+  w.eval(profilePageSource);
+  w.document.getElementById('profile-download').click();
+  await flush(); await flush();
+  const json = JSON.parse(await captured.text());
+  assert.equal(json.deletion_request, null);
+  dom.window.close();
+});
+
+test('change password disables the button and shows a status', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  let resetCalled = false;
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({}),
+    resetPassword: () => { resetCalled = true; return Promise.resolve(); },
+    onChange: () => {}
+  };
+  w.eval(profilePageSource);
+  const btn = w.document.getElementById('profile-change-password');
+  const status = w.document.getElementById('profile-password-status');
+  btn.click();
+  assert.equal(btn.disabled, true);
+  await flush();
+  assert.equal(resetCalled, true);
+  assert.match(status.textContent, /Check your email/);
+  dom.window.close();
+});
+
+test('missing columns hide learning and email sections', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({ from: () => ({ select: () => ({ limit: () => Promise.resolve({ error: { message: 'column role does not exist' } }) }) }) }),
+    onChange: () => {}
+  };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC', load: () => Promise.resolve(null) };
+  w.eval(profilePageSource);
+  await flush(); await flush();
+  const learning = w.document.getElementById('profile-learning');
+  const note = w.document.getElementById('profile-learning-note');
+  assert.equal(learning.querySelector('label').hidden, true);
+  assert.equal(note.hidden, false);
+  dom.window.close();
+});
+
+test('download builds JSON from data', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  let captured = null;
+  w.URL.createObjectURL = (blob) => { captured = blob; return 'blob:test'; };
+  w.URL.revokeObjectURL = () => {};
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({ from: () => ({ select: () => ({ eq: () => ({ eq: () => Promise.resolve({ data: [{ status: 'pending', requested_at: '2026-01-01' }] }) }) }) }) }),
+    onChange: () => {}
+  };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => ({ display_name: 'Ada' }), browserTimezone: () => 'UTC', load: () => Promise.resolve(null), setExtraColumns: () => {}, hasExtraColumns: () => false };
+  w.eval(profilePageSource);
+  w.document.getElementById('profile-download').click();
+  await flush(); await flush();
+  assert.ok(captured, 'blob captured');
+  const json = JSON.parse(await captured.text());
+  assert.equal(json.email, 'a@b.c');
+  assert.equal(json.profile.display_name, 'Ada');
+  assert.equal(json.progress.lessons_completed, null);
+  assert.match(json.progress.note, /not tracked/);
+  assert.equal(json.deletion_request.status, 'pending');
+  dom.window.close();
+});
+
+test('deletion 23505 shows the pending message', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  w.confirm = () => true;
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({ from: () => ({ insert: () => Promise.resolve({ error: { code: '23505' } }) }) }),
+    onChange: () => {}
+  };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC', load: () => Promise.resolve(null) };
+  w.eval(profilePageSource);
+  const btn = w.document.getElementById('profile-delete-request');
+  btn.click();
+  await flush();
+  const status = w.document.getElementById('profile-data-status');
+  assert.match(status.textContent, /already have a deletion request pending/);
+  assert.equal(btn.disabled, true);
+  dom.window.close();
+});
+
+test('pending status clears when the account switches', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  let user = { id: 'a', email: 'a@b.c' };
+  let pending = true;
+  const listeners = [];
+  w.UpskillAuth = {
+    getUser: () => user,
+    getClient: () => ({ from: (table) => ({
+      select: () => ({
+        eq: () => ({
+          eq: () => Promise.resolve({ data: table === 'account_deletion_requests' && pending ? [{ status: 'pending' }] : [] }),
+          single: () => Promise.resolve({ data: null, error: null })
+        }),
+        limit: () => Promise.resolve({ error: null })
+      })
+    }) }),
+    onChange: (fn) => listeners.push(fn)
+  };
+  w.UpskillProfile = { onChange: () => {}, getCurrent: () => null, browserTimezone: () => 'UTC', load: () => Promise.resolve(null) };
+  w.eval(profilePageSource);
+  await flush(); await flush();
+  const btn = w.document.getElementById('profile-delete-request');
+  const status = w.document.getElementById('profile-data-status');
+  assert.match(status.textContent, /pending/);
+  assert.equal(btn.disabled, true);
+  user = { id: 'b', email: 'b@b.c' };
+  pending = false;
+  listeners.forEach(fn => fn(user));
+  await flush(); await flush();
+  assert.equal(status.textContent, '');
+  assert.equal(btn.disabled, false);
+  dom.window.close();
+});
+
+test('base schema loads and saves without the new columns', async () => {
+  const dom = new JSDOM('<!doctype html><html><body><span id="name"></span></body></html>', { url: 'https://sprint.example/', runScripts: 'outside-only' });
+  const w = dom.window;
+  const selected = [];
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c', user_metadata: { display_name: 'Ada' } }),
+    getClient: () => ({
+      from: () => ({
+        select: (cols) => {
+          selected.push(cols);
+          if (/role|industry|target_certification|exam_practice|monthly_digest/.test(cols)) {
+            return { eq: () => ({ single: () => Promise.resolve({ error: { code: '42703', message: 'column does not exist' } }) }) };
+          }
+          return { eq: () => ({ single: () => Promise.resolve({ data: { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: false }, error: null }), maybeSingle: () => Promise.resolve({ data: { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: false }, error: null }) }) };
+        }
+      })
+    }),
+    onChange: (fn) => fn({ id: 'u1' })
+  };
+  w.eval(profileSource);
+  await flush(); await flush();
+  assert.ok(selected.every(c => !/role|industry|target_certification|exam_practice|monthly_digest/.test(c)), 'no new columns requested');
+  assert.equal(w.UpskillProfile.getCurrent().display_name, 'Ada');
+  dom.window.close();
+});
+
+test('extras survive a name-only save when detection finishes after auth', async () => {
+  const dom = new JSDOM(profilePageHtml, { url: 'https://sprint.example/profile', runScripts: 'outside-only' });
+  const w = dom.window;
+  const stored = { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: true, role: 'Manager', industry: 'Steel', target_certification: 'CQA', exam_practice_opt_in: true, monthly_digest_opt_in: false };
+  let saved = null;
+  let detectionResolved = false;
+  w.UpskillAuth = {
+    getUser: () => ({ id: 'u1', email: 'a@b.c' }),
+    getClient: () => ({
+      from: () => ({
+        select: (cols) => ({
+          eq: () => ({
+            single: () => Promise.resolve({ data: /role/.test(cols) ? stored : { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: true }, error: null }),
+            maybeSingle: () => Promise.resolve({ data: /role/.test(cols) ? stored : { user_id: 'u1', display_name: 'Ada', timezone: 'UTC', newsletter_opt_in: true }, error: null })
+          }),
+          limit: () => Promise.resolve({ error: null })
+        }),
+        update: (payload) => { saved = payload; return { eq: () => ({ select: () => ({ single: () => Promise.resolve({ data: stored, error: null }) }) }) }; }
+      })
+    }),
+    onChange: (fn) => { w._authFn = fn; }
+  };
+  w.eval(profileSource);
+  w.eval(profilePageSource);
+  if (w._authFn) w._authFn({ id: 'u1' });
+  await flush(); await flush();
+  detectionResolved = true;
+  await flush(); await flush();
+  const role = w.document.getElementById('profile-role');
+  assert.equal(role && role.value, 'Manager', 'form shows stored role');
+  w.document.getElementById('profile-display-name').value = 'Ada L';
+  w.document.getElementById('profile-form').dispatchEvent(new w.Event('submit'));
+  await flush(); await flush();
+  assert.ok(saved, 'save happened');
+  assert.equal(saved.role, 'Manager', 'role unchanged');
+  assert.equal(saved.industry, 'Steel', 'industry unchanged');
+  dom.window.close();
+});
+
