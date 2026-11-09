@@ -26,6 +26,7 @@ FIXTURE = """(() => {
   window.adminAuditCalls=[];
   window.adminAuditSignOut=()=>{user=null;listener(null)};
   const rpc=async(name,args)=>{
+    if(name==='owner_manage_access')return {data:{owner:false}};
     if(name!=='admin_manage_exam_access')throw Error('Unexpected RPC');
     window.adminAuditCalls.push(args);
     if(args.operation==='status')return {data:{administrator:true}};
@@ -48,6 +49,21 @@ def contrast_ratio(foreground, background):
         return sum(v * weight for v, weight in zip(linear, [.2126, .7152, .0722]))
     light, dark = sorted([luminance(foreground), luminance(background)], reverse=True)
     return (light + .05) / (dark + .05)
+
+
+def check_buttons(page, theme, selector):
+    """Text contrast of primary and caution buttons, at rest and hovered."""
+    for button in page.locator(selector).all():
+        for hovered in [False, True]:
+            if hovered:
+                button.hover()
+            else:
+                page.mouse.move(1, 1)
+            page.wait_for_timeout(250)
+            colors = button.evaluate('(el) => { const s=getComputedStyle(el); return [s.color,s.backgroundColor]; }')
+            if colors[1] in ('rgba(0, 0, 0, 0)', 'transparent'):
+                colors[1] = button.evaluate("(el) => { let n=el; while(n){const b=getComputedStyle(n).backgroundColor; if(b!=='rgba(0, 0, 0, 0)') return b; n=n.parentElement;} return 'rgb(255, 255, 255)'; }")
+            assert contrast_ratio(*colors) >= 4.5, (theme, hovered, colors)
 
 
 def main():
@@ -86,20 +102,19 @@ def main():
             page.locator('#exam-member-email').fill('learner@example.invalid')
             page.get_by_role('button', name='Find learner').click()
             expect(page.locator('#exam-member-title')).to_have_text('learner@example.invalid')
-            page.locator('[data-exam=pmp]').click()
-            expect(page.locator('#exam-approve')).to_be_enabled()
+            expect(page.locator('#admin-shell-header .adm-tabs [aria-current=page]')).to_have_attribute('href', '/admin-exam-access')
+            # Load requests before opening the panel: under 800px the panel is a bottom sheet
+            # that makes the page behind it inert.
             page.locator('#exam-requests-refresh').click()
-            expect(page.locator('#exam-request-list li')).to_have_count(1)
+            expect(page.locator('#exam-request-list tr')).to_have_count(1)
+            check_buttons(page, theme, '#admin-main .adm-btn--primary:visible:enabled')
+            page.locator('[data-exam=pmp]').click()
+            expect(page.locator('#exam-access-panel')).to_be_visible()
+            expect(page.locator('#exam-approve')).to_be_enabled()
+            expect(page.locator('#exam-decline')).to_be_visible()
+            expect(page.locator('#exam-grant')).to_be_hidden()
             assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'), 'Horizontal overflow'
-            for button in page.locator('.btn-teal:visible:enabled').all():
-                for hovered in [False, True]:
-                    if hovered:
-                        button.hover()
-                    else:
-                        page.mouse.move(1, 1)
-                    page.wait_for_timeout(250)
-                    colors = button.evaluate('(el) => { const s=getComputedStyle(el); return [s.color,s.backgroundColor]; }')
-                    assert contrast_ratio(*colors) >= 4.5, (theme, hovered, colors)
+            check_buttons(page, theme, '#exam-access-panel .adm-btn--primary:visible:enabled, #exam-access-panel .adm-btn--caution:visible:enabled')
             page.screenshot(path=str(out / f'admin-{args.browser}-{width}-{theme}.png'), full_page=True)
             page.locator('#exam-approve').click()
             confirmation = page.get_by_role('dialog', name='Approve request and grant access?')
@@ -119,8 +134,10 @@ def main():
             expect(page.locator('#exam-edit-state')).to_contain_text('Access granted')
             assert page.evaluate("adminAuditCalls.filter(c=>c.operation==='approve').length") == 1
             page.evaluate('adminAuditSignOut()')
-            expect(page.locator('#exam-admin-controls')).to_be_hidden()
-            expect(page.locator('#exam-member-title')).to_have_text('')
+            expect(page.locator('#exam-admin-controls')).to_have_count(0)
+            expect(page.locator('#exam-member-title')).to_have_count(0)
+            expect(page.locator('.adm-denied a[href*="next=%2Fadmin-exam-access"]')).to_be_visible()
+            assert page.evaluate("[...document.querySelectorAll('a[href]')].every(a => !/^\\/admin(?:-access|-exam-access|-tool-access)?(?:\\.html)?(?:[/?#]|$)/.test(a.getAttribute('href')))"), 'admin link after sign-out'
             assert not errors, errors
             report['cases'].append({'width': width, 'theme': theme, 'result': 'passed'})
             context.close()
