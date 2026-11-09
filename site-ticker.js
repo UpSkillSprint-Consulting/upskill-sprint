@@ -42,7 +42,7 @@
   var TAGS = ['lesson', 'exam', 'tool', 'research', 'update', 'soon'];  // anything else is styled as "update"
   // Pages that never get the bar (prefix match). Exams and sign-in stay distraction-free.
   // The build-time injector reads this same list, so edit it here only.
-  var EXCLUDE_PATHS = ['/test-bank', '/exam-preview', '/sign-in', '/signup', '/reset-password', '/admin-'];
+  var EXCLUDE_PATHS = ['/test-bank', '/exam-preview', '/sign-in', '/signup', '/reset-password', '/admin'];
   // Layer: above page content, below the sticky header and mobile menu (40, site-nav.css)
   // and below the seasonal effects (30) so their flyovers pass in front of it.
   var Z = 29;
