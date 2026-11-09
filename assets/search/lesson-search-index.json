@@ -3091,7 +3091,6 @@
           "heading": "Grading rubric",
           "breadcrumb": [
             "Turn any workbook into actionable feedback.",
-            "Drop a workbook here",
             "Grading rubric"
           ],
           "text": "Professional",
@@ -3105,7 +3104,6 @@
           "heading": "Priority findings",
           "breadcrumb": [
             "Turn any workbook into actionable feedback.",
-            "Drop a workbook here",
             "Priority findings"
           ],
           "text": "0 findings Privacy: analysis runs locally in this page. Formula results are read from the workbook’s stored values; the inspector does not recalculate Excel formulas or upload the file. Industry-specific application",
@@ -3200,7 +3198,6 @@
           "heading": "Visible evidence",
           "breadcrumb": [
             "Turn completed work into career evidence.",
-            "Portfolio Studio",
             "Visible evidence"
           ],
           "text": "Mastery scores Completed projects Workbook audits Credentials Public preview Team & corporate training",
