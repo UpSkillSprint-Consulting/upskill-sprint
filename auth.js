@@ -23,14 +23,33 @@
   var accessText = 'Access level: checking…';
   var accessRequest = 0;
 
+  /* The profile page's single "Admin" link exists in the DOM only while the
+     server-confirmed access level is administrator. It is never part of the
+     static HTML or the site navigation, and is removed on any other state. */
+  var ADMIN_LINK_ID = 'profile-admin-link';
+  function syncAdminLink(isAdministrator) {
+    var existing = document.getElementById(ADMIN_LINK_ID);
+    var anchor = document.getElementById('profile-access-level');
+    if (isAdministrator !== true || !anchor) {
+      if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+      return;
+    }
+    if (existing) return;
+    var line = document.createElement('p');
+    line.id = ADMIN_LINK_ID;
+    var link = document.createElement('a');
+    link.href = '/admin';
+    link.textContent = 'Admin';
+    line.appendChild(link);
+    anchor.parentNode.insertBefore(line, anchor.nextSibling);
+  }
+
   function paintAccess(text, isAdministrator) {
     accessText = text;
     document.querySelectorAll('[data-account-access]').forEach(function (node) {
       node.textContent = text;
     });
-    document.querySelectorAll('[data-admin-only]').forEach(function (node) {
-      node.hidden = isAdministrator !== true;
-    });
+    syncAdminLink(isAdministrator);
   }
 
   function refreshAccess() {

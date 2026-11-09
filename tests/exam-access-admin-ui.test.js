@@ -18,6 +18,15 @@ function screen(handler=async()=>({data:account()}),scope='exam') {
   window.confirm=()=>{throw new Error('Native browser confirmation must not be used');};
   window.HTMLDialogElement.prototype.showModal=function(){this.open=true;};
   window.HTMLDialogElement.prototype.close=function(){this.open=false;};
+  // The shell is stubbed: these tests cover the page controller only (tests/admin-hub.test.js covers the shell).
+  const shell={mounts:[],denied:[],toasts:[]};
+  window.UpskillAdminShell={
+    mount:options=>{shell.mounts.push(JSON.parse(JSON.stringify(options)));},
+    unmount:()=>{window.document.getElementById('admin-shell-header').replaceChildren();},
+    renderDenied:(container,options)=>{shell.denied.push(JSON.parse(JSON.stringify(options)));const box=window.document.createElement('section');box.className='adm-denied';box.textContent=options.signedOut?'Sign in to continue':'This area isn’t available';container.replaceChildren(box);},
+    checkOwner:()=>Promise.resolve(false),
+    toast:(message,options)=>{shell.toasts.push({message,tone:options.tone});}
+  };
   window.UpskillAuth={isConfigured:()=>true,getUser:()=>({id:'admin'}),onChange:fn=>{change=fn;},getClient:()=>({rpc:(name,args)=>{
     assert.equal(name,'admin_manage_'+scope+'_access');calls.push(args);
     const result=Promise.resolve(args.operation==='status'?{data:{administrator:true}}:handler(args));
@@ -27,7 +36,7 @@ function screen(handler=async()=>({data:account()}),scope='exam') {
   window.eval(read('admin-exam-access.js'));
   const el=id=>window.document.getElementById(id);
   const submit=(id,button)=>el(id).dispatchEvent(new window.SubmitEvent('submit',{cancelable:true,submitter:button?el(button):null}));
-  return {dom,window,el,submit,calls,confirm:()=>el('exam-decision-confirm').click(),signals:sSignals,change:user=>change(user),async search(){el('exam-member-email').value='learner@example.invalid';submit('exam-member-search');await flush();},async start(){change({id:'admin'});await flush();}};
+  return {dom,window,el,submit,calls,shell,confirm:()=>el('exam-decision-confirm')?.click(),signals:sSignals,change:user=>change(user),async search(){el('exam-member-email').value='learner@example.invalid';submit('exam-member-search');await flush();},async start(){change({id:'admin'});await flush();}};
 }
 test('tool administration reuses review guards and sends only tool keys and revisions',async()=>{
   const data={...account(),tools:[{tool_key:'material_checker',display_name:'Material Specification Compliance Checker',badge:'Checker',publication_status:'published',access_status:'pending',grant_revision:0,request_revision:3,request_status:'pending'}]};delete data.exams;
@@ -44,10 +53,13 @@ test('tool administration reuses review guards and sends only tool keys and revi
 test('signed-out and missing admin services never reveal controls; requests load explicitly',async()=>{
   const s=screen(); await s.start();
   assert.equal(s.el('exam-admin-controls').hidden,false); assert.equal(s.calls.length,1);
-  s.change(null); assert.equal(s.el('exam-admin-controls').hidden,true);
-  assert.match(s.el('exam-admin-status').textContent,/Sign in/); s.dom.window.close();
+  assert.deepEqual(s.shell.mounts,[{page:'exams',isOwner:false}]);
+  s.change(null); assert.equal(s.el('exam-admin-controls'),null);
+  assert.deepEqual(s.shell.denied.at(-1),{signedOut:true,next:'/admin-exam-access'});
+  assert.match(s.window.document.querySelector('.adm-denied').textContent,/Sign in/); s.dom.window.close();
   const denied=screen(); denied.window.UpskillAuth.getClient=()=>({rpc:()=>({abortSignal:()=>Promise.resolve({error:{message:'denied',code:'42501'}})})});
-  await denied.start(); assert.equal(denied.el('exam-admin-controls').hidden,true); denied.dom.window.close();
+  await denied.start(); assert.equal(denied.el('exam-admin-controls'),null); assert.deepEqual(denied.shell.mounts,[]);
+  assert.deepEqual(denied.shell.denied.at(-1),{signedOut:false,next:'/admin-exam-access'}); denied.dom.window.close();
 });
 test('grant confirmation includes learner, exam and expiry and sends both revisions',async()=>{
   const s=screen(); await s.start(); await s.search();
@@ -59,6 +71,7 @@ test('grant confirmation includes learner, exam and expiry and sends both revisi
   assert.match(s.el('exam-decision-summary').textContent,/Project Management Professional \(PMP\)/);
   assert.match(s.el('exam-decision-summary').textContent,/Expiry:/);
   s.confirm();await flush();
+  assert.deepEqual(s.shell.toasts.at(-1),{message:'Decision saved. Access is checked on the next protected request.',tone:'success'});
   const call=s.calls.at(-1);assert.equal(call.operation,'grant');assert.equal(call.target_id,'learner-id');assert.equal(call.requested_exam_key,'pmp');
   assert.equal(call.expected_grant_revision,0);assert.equal(call.expected_request_revision,0);assert.ok(call.expiry.endsWith('Z'));
   assert.equal(s.el('exam-decision-dialog').open,false);s.dom.window.close();
@@ -92,7 +105,8 @@ test('account switches discard late personal data and an old completion cannot u
   s.change({id:'new-admin'});await flush();s.el('exam-member-email').value='new@example.invalid';s.submit('exam-member-search');
   pending.resolve({data:account()});await flush();assert.equal(s.el('exam-member').hidden,true);assert.equal(s.el('exam-admin-controls').inert,true);
   current.resolve({data:account({email:'new@example.invalid'})});await flush();assert.equal(s.el('exam-member-title').textContent,'new@example.invalid');
-  s.change(null);assert.equal(s.el('exam-member-title').textContent,'');assert.equal(s.el('exam-request-list').textContent,'');s.dom.window.close();
+  s.change(null);assert.equal(s.el('exam-member-title'),null);assert.equal(s.el('exam-request-list'),null);
+  assert.doesNotMatch(s.window.document.body.textContent,/example\.invalid/);s.dom.window.close();
 });
 test('double submits are coalesced and failure clears stale editing state',async()=>{
   const pending=deferred();const s=screen(args=>args.operation==='grant'?pending.promise:Promise.resolve({data:account()}));
@@ -100,14 +114,19 @@ test('double submits are coalesced and failure clears stale editing state',async
   s.submit('exam-access-edit','exam-grant');s.submit('exam-access-edit','exam-grant');assert.equal(s.calls.filter(c=>c.operation==='grant').length,0);
   s.confirm();s.confirm();s.submit('exam-access-edit','exam-grant');assert.equal(s.calls.filter(c=>c.operation==='grant').length,1);
   pending.resolve({error:{message:'This exam access changed.',code:'40001'}});await flush();
-  assert.equal(s.el('exam-access-edit').hidden,true);assert.equal(s.el('exam-member').hidden,true);assert.match(s.el('exam-admin-status').textContent,/Reload/);s.dom.window.close();
+  assert.equal(s.el('exam-access-edit').hidden,true);assert.equal(s.el('exam-access-panel').hidden,true);assert.equal(s.el('exam-member').hidden,true);assert.match(s.el('exam-admin-status').textContent,/Reload/);
+  assert.equal(s.shell.toasts.at(-1).tone,'error');assert.match(s.shell.toasts.at(-1).message,/Reload/);s.dom.window.close();
 });
 test('unpublished exams and administrator inheritance cannot be changed from the form',async()=>{
   const s=screen();await s.start();await s.search();s.window.document.querySelector('[data-exam=cqa]').click();
-  assert.equal(s.el('exam-grant').disabled,true);s.submit('exam-access-edit','exam-grant');assert.equal(s.calls.length,2);s.dom.window.close();
+  assert.equal(s.el('exam-grant').disabled,true);assert.equal(s.el('exam-grant').hidden,true);assert.equal(s.el('exam-revoke').hidden,true);
+  assert.match(s.el('exam-edit-reason').textContent,/isn’t published/);
+  s.submit('exam-access-edit','exam-grant');assert.equal(s.calls.length,2);s.dom.window.close();
   const a=account({is_administrator:true,can_receive_grants:false});a.exams[0].access_status='administrator';a.exams[0].grant_status='active';
   const admin=screen(async()=>({data:a}));await admin.start();await admin.search();admin.window.document.querySelector('[data-exam=pmp]').click();
-  assert.equal(admin.el('exam-revoke').disabled,true);assert.equal(admin.el('exam-grant').disabled,true);admin.dom.window.close();
+  assert.equal(admin.el('exam-revoke').disabled,true);assert.equal(admin.el('exam-grant').disabled,true);
+  assert.equal(admin.el('exam-revoke').hidden,true);assert.equal(admin.el('exam-grant').hidden,true);
+  assert.match(admin.el('exam-edit-reason').textContent,/Administrators inherit access to published certifications/);admin.dom.window.close();
 });
 test('untrusted email and history render as text; there is no polling or local account storage',async()=>{
   const payload='<img src=x onerror=alert(1)>';
@@ -131,13 +150,15 @@ test('an uncertain write times out, aborts, clears stale controls and permits a 
 test('sign-out aborts an outstanding admin lookup and ignores its late response',async()=>{
   const pending=deferred(),s=screen(()=>pending.promise);await s.start();await s.search();
   const signal=s.signals.at(-1);s.change(null);assert.equal(signal.aborted,true);
-  pending.resolve({data:account()});await flush();assert.equal(s.el('exam-member').hidden,true);
-  assert.equal(s.el('exam-admin-controls').hidden,true);s.dom.window.close();
+  pending.resolve({data:account()});await flush();assert.equal(s.el('exam-member'),null);
+  assert.equal(s.el('exam-admin-controls'),null);assert.doesNotMatch(s.window.document.body.textContent,/learner@example\.invalid/);s.dom.window.close();
 });
 test('an account switch invalidates an open decision and clears its personal data',async()=>{
   const s=screen();await s.start();await s.search();s.window.document.querySelector('[data-exam=pmp]').click();
   s.submit('exam-access-edit','exam-grant');assert.equal(s.el('exam-decision-dialog').open,true);
-  s.change(null);assert.equal(s.el('exam-decision-dialog').open,false);assert.equal(s.el('exam-decision-summary').textContent,'');
+  const dialog=s.el('exam-decision-dialog');
+  s.change(null);assert.equal(dialog.open,false);assert.equal(dialog.isConnected,false);assert.equal(s.el('exam-decision-summary'),null);
+  assert.doesNotMatch(s.window.document.body.textContent,/learner@example\.invalid/);
   s.confirm();assert.equal(s.calls.filter(c=>c.operation==='grant').length,0);s.dom.window.close();
 });
 test('confirmation uses the reviewed expiry and rejects expiry elapsed during review',async()=>{

@@ -21,6 +21,7 @@ FIXTURE = r"""(() => {
       row.request_status=args.operation==='cancel'?'cancelled':'pending';row.access_status=args.operation==='cancel'?'locked':'pending';row.request_revision++;
       return {data:{status:row.request_status}};
     }
+    if(name==='owner_manage_access')return {data:{owner:false}};
     if(name==='admin_manage_tool_access'){
       if(args.operation==='status')return {data:{administrator:true}};
       if(args.operation==='grant'||args.operation==='revoke'){
@@ -97,7 +98,7 @@ def main():
                 # Tool admin uses the same explicit review flow as exams.
                 page.goto(args.url+'/admin-tool-access',wait_until='domcontentloaded')
                 page.get_by_label('Account email',exact=True).fill('learner@example.invalid')
-                page.get_by_role('button',name='Find learner',exact=True).click()
+                page.get_by_role('button',name='Find account',exact=True).click()
                 page.locator('[data-exam="'+other+'"]').click()
                 page.get_by_role('button',name='Grant access',exact=True).click()
                 expect(page.locator('#exam-decision-summary')).to_contain_text('Tool:')

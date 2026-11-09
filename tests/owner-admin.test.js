@@ -4,10 +4,14 @@ const fs = require('node:fs');
 const path = require('node:path');
 const read = p => fs.readFileSync(path.join(__dirname,'..',p),'utf8');
 const vm = require('node:vm');
+const { JSDOM } = require('jsdom');
 test('admin theme switch toggles both ways and persists via the shared controller', () => {
- const html=read('admin-access.html');
- assert.match(html, /class="theme-toggle" data-theme-toggle="true" role="switch"/);
- assert.ok(html.indexOf('class="theme-toggle"') < html.indexOf('id="admin-controls"'));
+ // The switch is now rendered by the shared admin header (admin-shell.js) after the owner check.
+ const html=read('admin-access.html'), shellSource=read('admin-shell.js');
+ assert.match(shellSource, /el\('button', 'theme-toggle'\)/);
+ assert.match(shellSource, /setAttribute\('data-theme-toggle', 'true'\)/);
+ assert.match(shellSource, /setAttribute\('role', 'switch'\)/);
+ assert.ok(html.indexOf('src="/theme.js"') > -1 && html.indexOf('src="/admin-shell.js"') < html.indexOf('src="/admin-access.js"'));
  const events={}, saved={};
  class Element {constructor(){this.dataset={};this.attrs={};} closest(){return this;} setAttribute(k,v){this.attrs[k]=v;}}
  const toggle=new Element();
@@ -30,34 +34,53 @@ test('admin theme switch toggles both ways and persists via the shared controlle
 });
 const flush = () => new Promise(resolve => setImmediate(resolve));
 function screen(rpc) {
- const nodes = {};
- const node = id => nodes[id] || (nodes[id] = {hidden:true,value:'',disabled:false,events:{},children:[],
-  addEventListener(event, fn) {this.events[event]=fn;}, replaceChildren() {this.children=[];}, appendChild(n) {this.children.push(n);}});
- let change;
- const auth={isConfigured:()=>true,getClient:()=>({rpc}),onChange:fn=>{change=fn;}};
- vm.runInNewContext(read('admin-access.js'), {document:{getElementById:node,createElement:()=>({})},window:{UpskillAuth:auth,confirm:()=>true}});
- return {node,change:user=>change(user)};
+ const dom=new JSDOM(read('admin-access.html'),{runScripts:'outside-only',url:'https://example.invalid/admin-access'});
+ const {window}=dom; let change;
+ window.confirm=()=>{throw new Error('Native browser confirmation must not be used');};
+ window.HTMLDialogElement.prototype.showModal=function(){this.open=true;};
+ window.HTMLDialogElement.prototype.close=function(){this.open=false;};
+ const shell={mounts:[],denied:[],toasts:[]};
+ window.UpskillAdminShell={mount:o=>{shell.mounts.push(JSON.parse(JSON.stringify(o)));},unmount(){},
+  renderDenied:(c,o)=>{shell.denied.push(JSON.parse(JSON.stringify(o)));c.replaceChildren(Object.assign(window.document.createElement('section'),{className:'adm-denied'}));},
+  checkOwner:()=>{throw new Error('the page runs its own owner check');},toast:(m,o)=>{shell.toasts.push({message:m,tone:o.tone});}};
+ window.UpskillAuth={isConfigured:()=>true,getClient:()=>({rpc}),onChange:fn=>{change=fn;}};
+ window.eval(read('admin-access.js'));
+ const node=id=>window.document.getElementById(id);
+ return {dom,window,node,shell,change:user=>change(user)};
 }
 test('screen locks non-owner and signed-out users without searching', async () => {
- const s=screen(()=>Promise.resolve({error:{message:'Denied'}}));
- s.change(null); assert.equal(s.node('admin-controls').hidden,true);
+ const calls=[];
+ const s=screen((name,args)=>{calls.push([name,args.operation]);return Promise.resolve({error:{message:'Denied'}});});
+ s.change(null); assert.equal(s.node('admin-controls'),null);
+ assert.deepEqual(s.shell.denied.at(-1),{signedOut:true,next:'/admin-access'});
  s.change({id:'other'}); await flush();
- assert.equal(s.node('admin-controls').hidden,true);
+ assert.equal(s.node('admin-controls'),null); assert.deepEqual(s.shell.mounts,[]);
+ assert.deepEqual(s.shell.denied.at(-1),{signedOut:false,next:'/admin-access'});
+ assert.deepEqual(calls,[['owner_manage_access','status']]);
+ s.dom.window.close();
 });
 test('owner search and confirmed save are explicit and sign-out clears account', async () => {
  const calls=[];
  const account={found:true,email:'test@example.invalid',user_id:'target',effective_level:'registered',grant:null,history:[],is_owner:false};
- const s=screen((name,args)=>{calls.push(args); return Promise.resolve({data:args.operation==='status'?{owner:true}:account});});
+ const s=screen((name,args)=>{assert.equal(name,'owner_manage_access');calls.push(args); return Promise.resolve({data:args.operation==='status'?{owner:true}:account});});
  s.change({id:'owner'}); await flush();
  assert.equal(calls.length,1); assert.equal(s.node('admin-controls').hidden,false);
+ assert.deepEqual(s.shell.mounts,[{page:'accounts',isOwner:true}]);
  s.node('account-email').value='test@example.invalid';
- s.node('admin-search').events.submit({preventDefault(){}}); await flush();
+ s.node('admin-search').dispatchEvent(new s.window.Event('submit',{cancelable:true})); await flush();
  assert.equal(calls[1].operation,'search');
- s.node('access-level').value='premium';
- s.node('admin-edit').events.submit({preventDefault(){}}); await flush();
+ s.node('access-level-premium').checked=true;
+ s.node('admin-edit').dispatchEvent(new s.window.Event('submit',{cancelable:true})); await flush();
+ assert.equal(calls.length,2,'nothing is saved before confirmation');
+ assert.equal(s.node('access-confirm-dialog').open,true);
+ assert.match(s.node('access-confirm-summary').textContent,/test@example\.invalid[\s\S]*Premium/);
+ s.node('access-confirm-ok').click(); await flush();
  assert.equal(calls[2].operation,'save'); assert.equal(calls[2].target_id,'target');
- assert.equal(calls[2].new_level,'premium');
- s.change(null); assert.equal(s.node('admin-controls').hidden,true);
+ assert.equal(calls[2].new_level,'premium'); assert.equal(calls[2].expected_grant,null);
+ assert.equal(s.shell.toasts.at(-1).tone,'success');
+ s.change(null); assert.equal(s.node('admin-controls'),null);
+ assert.doesNotMatch(s.window.document.body.textContent,/test@example\.invalid/);
+ s.dom.window.close();
 });
 test('owner RPC facade is invoker-safe and implementation checks identity', () => {
  const sql=read('supabase/owner-access-admin.sql');
@@ -74,11 +97,14 @@ test('save validates level, expiry, owner lockout and stale state and records hi
 });
 test('admin UI has explicit search/save, no polling and no secret keys', () => {
  const js=read('admin-access.js');
- assert.match(js,/window.confirm/);
+ // The native confirm() was replaced by the confirmation <dialog>; the browser prompt must not return.
+ assert.match(js,/showModal\(\)/);
+ assert.doesNotMatch(js,/window\.confirm|\bconfirm\(/);
  assert.match(js,/expected_grant:current.grant/);
  assert.match(js,/check !== revision/);
  assert.doesNotMatch(js,/setInterval|service_role|\.channel\(|innerHTML/);
  const html=read('admin-access.html');
- assert.match(html,/id="admin-controls" hidden/);
+ // Controls are no longer shipped hidden: they are absent until the owner check passes.
+ assert.doesNotMatch(html,/admin-controls|<form|<input|<select|<button/);
  assert.match(html,/aria-live="polite"/);
 });

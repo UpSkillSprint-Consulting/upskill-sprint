@@ -96,10 +96,8 @@ function runtime(options = {}) {
     status.id = 'profile-access-level';
     status.setAttribute('data-account-access', '');
     dom.window.document.body.appendChild(status);
-    const profileMarkup = new dom.window.DOMParser().parseFromString(profilePageHtml, 'text/html');
-    profileMarkup.querySelectorAll('a[href="/admin-exam-access.html"], a[href="/admin-tool-access.html"]').forEach(link => {
-      dom.window.document.body.appendChild(dom.window.document.importNode(link.parentElement, true));
-    });
+    // profile.html ships no administration links; auth.js injects one only for a verified administrator.
+    assert.doesNotMatch(profilePageHtml, /href="\/admin|data-admin-only/);
   }
   dom.window.eval(authSource);
   dom.window.eval(profileSource);
@@ -158,12 +156,15 @@ test('Account access response cannot restore a signed-out user’s tier', async 
 });
 
 function assertAdminLinks(window, visible) {
-  const links = window.document.querySelectorAll('a[href="/admin-exam-access.html"], a[href="/admin-tool-access.html"]');
-  assert.equal(links.length, 2);
-  for (const link of links) {
-    assert.equal(link.parentElement.hidden, !visible, link.textContent);
-    assert.equal(window.getComputedStyle(link.parentElement).display === 'none', !visible, link.textContent);
+  // Exactly one "Admin" link to the hub exists only while the server confirms administrator;
+  // otherwise it is absent from the DOM (not merely hidden), and no other admin link is ever rendered.
+  const links = window.document.querySelectorAll('a[href="/admin"]');
+  assert.equal(links.length, visible ? 1 : 0);
+  if (visible) {
+    assert.equal(links[0].textContent, 'Admin');
+    assert.equal(links[0].parentElement.previousElementSibling.id, 'profile-access-level');
   }
+  assert.equal(window.document.querySelectorAll('a[href^="/admin-"], a[href^="/admin."], [data-admin-only]').length, 0);
 }
 
 test('profile administration links start hidden and only the verified administrator tier reveals them', async () => {

@@ -144,7 +144,8 @@ test('certification exam navigation wording is consistent while route and access
   const expected = 'Practice Certification Exams';
   const landing = read('exam-practice.html');
   const shared = read('site-sections.js');
-  const admin = read('admin-exam-access.html');
+  // The exam admin back link is rendered by admin-exam-access.js after the administrator check.
+  const admin = read('admin-exam-access.js');
   const search = read('lesson-search.js');
   const displayRule = read('supabase/premium-simulator-access.sql');
   const creationGuide = read('docs/LESSON_CREATION_GUIDE.md');
@@ -154,7 +155,8 @@ test('certification exam navigation wording is consistent while route and access
   }
   assert.match(shared,/const EXAM_PRACTICE_PATH = '\/exam-practice'/);
   assert.match(landing,/href="\/exam-practice"/);
-  assert.match(admin,/href="\/exam-practice"/);
+  assert.match(admin,/back: \{href: '\/exam-practice', text: '← Practice Certification Exams'\}/);
+  assert.doesNotMatch(read('admin-exam-access.html'),/href="\/(?:exam-practice|admin(?:-access|-exam-access|-tool-access)?)(?:\.html)?"/);
   assert.match(displayRule,/resource_key, required_access_key, display_name/);
   assert.match(displayRule,/'exam:\/test-bank', 'premium', 'Practice Certification Exams'/);
 });
