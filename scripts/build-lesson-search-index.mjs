@@ -791,6 +791,32 @@ function isHeading(node) {
   return node?.nodeType === 1 && /^H[1-4]$/.test(node.tagName);
 }
 
+/**
+ * Gated lessons (docs/LESSON_CREATION_GUIDE.md §12.8) ship a public teaser whose
+ * protected body is loaded at runtime into [data-protected-lesson]. Nothing inside
+ * that mount is indexed: the sign-in panel and anything else in it are dropped and
+ * replaced by one section built only from data-search-summary, anchored to the
+ * mount's id so a search result opens the right place on the teaser.
+ */
+export function replaceProtectedLessonMounts(document) {
+  for (const mount of Array.from(document.querySelectorAll('[data-protected-lesson]'))) {
+    const summary = normalizeSpace(mount.getAttribute('data-search-summary') || '');
+    const heading = mount.querySelector('h1,h2,h3,h4');
+    const headingText = normalizeSpace(heading?.textContent || '') || 'Full lesson';
+    const tag = heading ? heading.tagName.toLowerCase() : 'h2';
+    const anchor = mount.id;
+    mount.replaceChildren();
+    if (!summary || !anchor) continue;
+    const title = document.createElement(tag);
+    title.id = anchor;
+    title.textContent = headingText;
+    mount.removeAttribute('id');
+    const text = document.createElement('p');
+    text.textContent = summary;
+    mount.append(title, text);
+  }
+}
+
 export function extractSections(html, options = {}) {
   const dom = new JSDOM(html);
   const { document, NodeFilter } = dom.window;
@@ -801,6 +827,7 @@ export function extractSections(html, options = {}) {
   // they must participate in collision numbering even though their content is
   // deliberately absent from the search index.
   assignDeterministicHeadingIds(document, root);
+  replaceProtectedLessonMounts(document);
   root.querySelectorAll(EXCLUDED_SELECTORS).forEach((element) => element.remove());
 
   const sections = [];

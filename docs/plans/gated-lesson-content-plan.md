@@ -1,8 +1,13 @@
 # Plan: keep premium lesson content out of the public HTML and search index
 
-Status: **proposal for Ernest's review.** No code or Supabase changes come with this plan.
-Every Supabase change listed in [§7](#7-supabase-changes-that-need-ernests-approval) needs
-Ernest's explicit approval before anyone runs it.
+Status: **approved (Options D + A) and piloted** on the Registered lesson
+`/lessons/statistics/choosing-a-transformation-to-linearize-data` (weekly fixes, 2026-11-09).
+Steps 1–6 of [§6](#6-migration-steps) are implemented for that lesson; the reusable contract is
+`docs/LESSON_CREATION_GUIDE.md` §12.8. Its access rule already exists
+(`supabase/registered-linearize-transformation-access.sql`), so the pilot needed no Supabase
+change. Phase 2 (test bank, step 8) is still open. Every Supabase change listed in
+[§7](#7-supabase-changes-that-need-ernests-approval) still needs Ernest's explicit approval
+before anyone runs it.
 
 ## 1. Problem
 
