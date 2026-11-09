@@ -53,7 +53,7 @@ test('canonical lesson chrome is exact: no skip link and no extra header CTA', (
   assert.doesNotMatch(preMain, /skip-link|Skip to lesson content/);
   const nav = preMain.match(/<nav\b[^>]*\bdesktop-nav\b[^>]*>[\s\S]*?<\/nav>/)[0];
   const labels = [...nav.matchAll(/<a [^>]*class="nav-tab-link"[^>]*>([^<]+)<\/a>/g)].map(m => m[1]);
-  assert.deepEqual(labels, ['Start Here','Lessons','Exam Practice','Engineering Tools','Services','About']);
+  assert.deepEqual(labels, ['Start Here','Lessons','Certification Exam Practice','Engineering Tools','Services','About']);
   assert.equal((html.match(/<footer class="site">/g) || []).length, 1);
   assert.match(html, /<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">\s*<a href="\/lessons#statistics"/);
 });

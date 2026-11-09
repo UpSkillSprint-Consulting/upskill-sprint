@@ -12,3 +12,7 @@ content/tool-delivery-generated/
 .thumbnail
 Thumbs.db
 desktop.ini
+node_modules
+
+# Built by scripts/build-grade-specification-lookup.mjs
+engineering-tools/grade-specification-lookup/

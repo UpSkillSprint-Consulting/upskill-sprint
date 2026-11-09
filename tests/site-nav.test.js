@@ -10,7 +10,7 @@ const ROOT = path.join(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(ROOT, file), 'utf8');
 const navApi = require(path.join(ROOT, 'site-nav.js'));
 
-const TAB_LABELS = ['Start Here', 'Lessons', 'Exam Practice', 'Engineering Tools', 'Services', 'About'];
+const TAB_LABELS = ['Start Here', 'Lessons', 'Certification Exam Practice', 'Engineering Tools', 'Services', 'About'];
 const TAB_HREFS = ['/start-here', '/lessons', '/exam-practice', '/engineering-tools', '/services', '/about'];
 
 function pageDom(file, url) {
@@ -148,6 +148,23 @@ test('mobile menu: the header is pinned while the drawer is open, so the close b
   assert.match(body, /z-index:\s*50/);
   // The drawer's own scrolling must not chain into the page behind it.
   assert.match(css, /nav\.mobile-nav\[data-nav-root="mobile"\]\s*\{[^}]*overscroll-behavior:\s*contain/);
+});
+
+
+test('mobile Exam Practice card is labelled Certification Exam Practice', () => {
+  const dom = pageDom('index.html', 'https://upskillsprint.com/');
+  const doc = dom.window.document;
+  const card = doc.querySelector('nav.mobile-nav .nav-acc[data-nav-acc="exam"]');
+  assert.ok(card, 'exam accordion card');
+  const button = card.querySelector('.nav-acc-btn');
+  assert.equal(button.textContent.trim(), 'Certification Exam Practice');
+  assert.equal(doc.getElementById(button.getAttribute('aria-describedby')).textContent.trim(), 'CSSBB, CQE and more');
+  assert.equal(card.querySelector('.nav-acc-meta').textContent.trim(), '9 exams');
+  const desktop = doc.querySelector('nav.desktop-nav a.nav-tab-link[data-nav-tab="exam"]');
+  assert.equal(desktop.textContent.trim(), 'Certification Exam Practice');
+  const chevron = doc.querySelector('nav.desktop-nav .nav-item[data-nav-item="exam"] .nav-chevron');
+  assert.equal(chevron.getAttribute('aria-label'), 'Show Certification Exam Practice menu');
+  dom.window.close();
 });
 
 test('mobile menu: section cards keep a clean name, a description, a library icon and a derived count', () => {

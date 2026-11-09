@@ -50,7 +50,7 @@ test('resampling lesson carries canonical site assets, chrome, quiz, and categor
   assert.equal(document.querySelectorAll('footer.site').length, 1);
   assert.deepEqual(
     Array.from(document.querySelectorAll('header.site .desktop-nav .nav-tab-link')).map((link) => link.textContent.trim()),
-    ['Start Here', 'Lessons', 'Exam Practice', 'Engineering Tools', 'Services', 'About'],
+    ['Start Here', 'Lessons', 'Certification Exam Practice', 'Engineering Tools', 'Services', 'About'],
   );
   assert.ok(document.querySelector('#quiz-form'));
   assert.equal(document.querySelectorAll('#quiz-form .quiz-question').length, 5);

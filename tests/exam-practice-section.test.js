@@ -118,7 +118,7 @@ test('desktop and mobile navigation place the exam tab immediately after Lessons
     const { window } = await loadPage(t, file, 'https://upskillsprint.com' + route);
     for (const nav of window.document.querySelectorAll('nav.desktop-nav, nav.mobile-nav')) {
       const tabs = Array.from(nav.querySelectorAll('.nav-tab-link, .nav-acc-btn'));
-      assert.deepEqual(tabs.map((tab) => tab.textContent.trim()), ['Start Here', 'Lessons', 'Exam Practice', 'Engineering Tools', 'Services', 'About'], `${file}: six primary tabs`);
+      assert.deepEqual(tabs.map((tab) => tab.textContent.trim()), ['Start Here', 'Lessons', 'Certification Exam Practice', 'Engineering Tools', 'Services', 'About'], `${file}: six primary tabs`);
       const exam = tabs[2];
       assert.equal(exam.getAttribute('data-nav-tab'), 'exam', `${file}: exam tab follows Lessons`);
       if (exam.matches('a')) assert.equal(exam.getAttribute('href'), '/exam-practice');
@@ -133,7 +133,7 @@ test('exam overview and simulator routes share the active top tab, including pre
   for (const route of ['/exam-practice/', '/exam-practice.html', '/test-bank', '/test-bank/']) {
     const file = route.startsWith('/test-bank') ? 'test-bank.html' : 'exam-practice.html';
     const { window } = await loadPage(t, file, 'https://upskillsprint.com' + route);
-    assert.equal(window.document.querySelector('nav.desktop-nav a.nav-tab-link[aria-current="page"]').textContent, 'Exam Practice');
+    assert.equal(window.document.querySelector('nav.desktop-nav a.nav-tab-link[aria-current="page"]').textContent, 'Certification Exam Practice');
   }
   const { window } = await loadPage(t, 'test-bank.html', 'https://upskillsprint.com/test-bank');
   assert.equal(window.document.querySelector('.tb-crumb a').getAttribute('href'), '/exam-practice');
