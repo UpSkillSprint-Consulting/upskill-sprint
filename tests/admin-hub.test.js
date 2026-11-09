@@ -322,3 +322,33 @@ test('admin.css defines the whole shared vocabulary in light and dark, and the s
   }
   assert.doesNotMatch(read('admin.js'), /rpc\('(?!admin_manage_exam_access')/, 'the hub uses only the existing status RPC');
 });
+
+test('teardown removes every toast and cancels its timer: unmount, renderDenied and hub sign-out', async () => {
+  const h = hub(OWNER);
+  await h.as({ id: 'owner', email: 'owner@example.invalid' });
+  const shell = h.window.UpskillAdminShell;
+  const region = h.doc.querySelector('.adm-toast-region');
+  const cleared = []; const realClear = h.window.clearTimeout;
+  h.window.clearTimeout = id => { cleared.push(id); return realClear(id); };
+  const ok = shell.toast('Saved access for learner@example.invalid', { tone: 'success' });
+  shell.toast('Could not save learner@example.invalid', { tone: 'error' });
+  assert.equal(region.children.length, 2);
+  shell.unmount();
+  assert.equal(region.children.length, 0);
+  assert.doesNotMatch(h.doc.body.textContent, /learner@example\.invalid/);
+  assert.ok(cleared.length >= 1, 'the success toast timer is cancelled');
+  assert.equal(ok.element.isConnected, false);
+  shell.toast('Error for learner@example.invalid', { tone: 'error' });
+  shell.renderDenied(h.doc.getElementById('admin-main'), { signedOut: true, next: '/admin' });
+  assert.equal(region.children.length, 0, 'denial clears toasts');
+  shell.toast('Error for learner@example.invalid', { tone: 'error' });
+  shell.clearToasts();
+  assert.equal(region.children.length, 0);
+  h.window.clearTimeout = realClear;
+  await h.as({ id: 'owner', email: 'owner@example.invalid' });
+  shell.toast('Saved for learner@example.invalid', { tone: 'error' });
+  await h.as(null);
+  assert.equal(h.doc.querySelectorAll('.adm-toast').length, 0, 'hub sign-out clears toasts');
+  assert.doesNotMatch(h.doc.body.textContent, /learner@example\.invalid/);
+  h.dom.window.close();
+});

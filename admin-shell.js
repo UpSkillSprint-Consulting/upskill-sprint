@@ -1,7 +1,8 @@
 /* UpSkill Sprint admin shell (admin-shell.js)
    Shared helpers for the four admin pages. Exposes window.UpskillAdminShell:
      mount({ page, isOwner })              render the admin header and tabs
-     unmount()                             remove the header (extra, optional)
+     unmount()                             remove the header, its listeners and all toasts (extra)
+     clearToasts()                         remove all toasts and cancel their timers (extra)
      renderDenied(container, { signedOut, next })
      checkOwner(client)                    Promise<boolean>, never rejects
      toast(message, { tone })              'success' (auto-dismiss) | 'error' (stays)
@@ -29,6 +30,7 @@
   };
 
   var cleanup = [];
+  var liveToasts = [];   // { element, timer } for every toast on screen
 
   function el(tag, className, text) {
     var node = document.createElement(tag);
@@ -60,12 +62,29 @@
 
   function hostNode() { return document.getElementById('admin-shell-header'); }
 
-  function unmount() {
+  function removeHeader() {
     while (cleanup.length) {
       try { cleanup.pop()(); } catch (error) { /* keep tearing down */ }
     }
     var host = hostNode();
     if (host) host.replaceChildren();
+  }
+
+  // Toasts can carry account emails and results, so every teardown removes
+  // them and cancels their timers, not just the header.
+  function clearToasts() {
+    liveToasts.splice(0).forEach(function (entry) {
+      clearTimeout(entry.timer);
+      entry.done = true;
+      if (entry.element.parentNode) entry.element.parentNode.removeChild(entry.element);
+    });
+    document.querySelectorAll('.adm-toast-region').forEach(function (node) { node.replaceChildren(); });
+  }
+
+  // Sign-out, account switch and denial: header, listeners and toasts all go.
+  function unmount() {
+    removeHeader();
+    clearToasts();
   }
 
   /* ---------- Theme toggle (theme.js handles clicks by delegation) ---------- */
@@ -102,7 +121,7 @@
     var isOwner = options.isOwner === true;
     var host = hostNode();
     if (!host) return null;
-    unmount();
+    removeHeader();
 
     var header = el('header', 'adm-header');
     header.setAttribute('data-menu-open', 'false');
@@ -260,12 +279,14 @@
     close.appendChild(icon('close'));
     item.append(glyph, body, close);
 
-    var timer = null;
-    var done = false;
+    var entry = { element: item, timer: null, done: false };
+    liveToasts.push(entry);
     function dismiss() {
-      if (done) return;
-      done = true;
-      clearTimeout(timer);
+      if (entry.done) return;
+      entry.done = true;
+      clearTimeout(entry.timer);
+      var index = liveToasts.indexOf(entry);
+      if (index !== -1) liveToasts.splice(index, 1);
       var hadFocus = item.contains(document.activeElement);
       if (item.parentNode) item.parentNode.removeChild(item);
       if (hadFocus) {
@@ -274,21 +295,23 @@
       }
     }
     function arm() {
-      clearTimeout(timer);
-      if (tone === 'success' && !done) timer = setTimeout(dismiss, TOAST_MS);
+      clearTimeout(entry.timer);
+      if (tone === 'success' && !entry.done) entry.timer = setTimeout(dismiss, TOAST_MS);
     }
     close.addEventListener('click', dismiss);
     if (tone === 'success') {
       // Pause while the pointer or keyboard focus is on the toast.
-      item.addEventListener('mouseenter', function () { clearTimeout(timer); });
+      item.addEventListener('mouseenter', function () { clearTimeout(entry.timer); });
       item.addEventListener('mouseleave', arm);
-      item.addEventListener('focusin', function () { clearTimeout(timer); });
+      item.addEventListener('focusin', function () { clearTimeout(entry.timer); });
       item.addEventListener('focusout', arm);
     }
 
     var existing = host.querySelectorAll('.adm-toast');
     if (existing.length >= MAX_TOASTS) {
       var oldest = host.querySelector('.adm-toast[data-tone="success"]') || existing[0];
+      var stale = liveToasts.filter(function (e) { return e.element === oldest; })[0];
+      if (stale) { clearTimeout(stale.timer); stale.done = true; liveToasts.splice(liveToasts.indexOf(stale), 1); }
       oldest.parentNode.removeChild(oldest);
     }
     host.appendChild(item);
@@ -299,6 +322,7 @@
   window.UpskillAdminShell = Object.freeze({
     mount: mount,
     unmount: unmount,
+    clearToasts: clearToasts,
     renderDenied: renderDenied,
     checkOwner: checkOwner,
     toast: toast

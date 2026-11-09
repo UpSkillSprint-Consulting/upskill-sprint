@@ -37,7 +37,7 @@
   }
   const labels = {locked:'Locked',granted:'Access granted',expired:'Expired',revoked:'Revoked',administrator:'Administrator access',coming_soon:'Coming soon',retired:'Retired'};
   let auth, account = null, selected = null, cursor = null, epoch = 0, busy = false, ready = false, active = null, decision = null;
-  let built = false, requestRows = [], lastCard = null;
+  let built = false, requestRows = [], lastCard = null, sheetInert = [], sheetTrigger = null, sheetModal = false;
   const shell = () => window.UpskillAdminShell;
   const message = text => { const node = byId('exam-admin-status'); if (node) node.textContent = text; };
   const notify = (text, tone) => { const s = shell(); if (s && typeof s.toast === 'function') s.toast(text, {tone}); };
@@ -86,7 +86,8 @@
     const backLink = element('a', words.back.text); backLink.href = words.back.href; back.append(backLink);
     const title = element('h1', words.title, 'adm-page-title'); title.id = 'exam-admin-title'; title.tabIndex = -1;
     const lede = element('p', words.lede, 'adm-lede');
-    const status = element('p', '', 'adm-help'); status.id = 'exam-admin-status';
+    // Polite live region for search, load and save progress (toasts add a visual summary).
+    const status = attrs(element('p', '', 'adm-help'), {role:'status','aria-live':'polite'}); status.id = 'exam-admin-status';
 
     const controls = element('div', ''); controls.id = 'exam-admin-controls';
     const layout = element('div', '', 'adm-layout');
@@ -221,7 +222,7 @@
   function teardown() {
     ready = false; clearAccount(); clearQueue();
     const dialog = byId('exam-decision-dialog'); if (dialog && dialog.open) dialog.close();
-    built = false; lastCard = null;
+    releaseSheet(); built = false; lastCard = null; sheetTrigger = null;
     const s = shell(); if (s && typeof s.unmount === 'function') s.unmount();
     else { const host = byId('admin-shell-header'); if (host) host.replaceChildren(); }
     const checking = attrs(element('p', 'Checking access…', 'adm-checking'), {role:'status','aria-live':'polite'});
@@ -251,6 +252,12 @@
       return responseData(result.data);
     } finally { clearTimeout(timer); if (active === controller) active = null; }
   }
+  // Unlock before rendering so the render can move focus into controls that are no longer inert.
+  function unlock() {
+    busy = false;
+    const controls = byId('exam-admin-controls');
+    if (controls) { controls.inert = false; controls.removeAttribute('aria-busy'); }
+  }
   async function run(args, render, success, options = {}) {
     if (busy || !ready) return;
     const requestEpoch = epoch; busy = true; const controls = byId('exam-admin-controls');
@@ -258,17 +265,18 @@
     try {
       const data = await call(args);
       if (requestEpoch !== epoch) return;
+      unlock();
       render(data);
       if (success && data.found !== false) { message(success); if (options.toast) notify(success, 'success'); }
     } catch (error) {
       if (requestEpoch !== epoch) return;
+      unlock();
       if (error.code === '42501') { deny(false); notify('Administrator access is required for this page.', 'error'); return; }
       clearAccount(); clearQueue();
       const text = error.message + ' Reload the account before retrying.';
       message(text); notify(text, 'error');
     } finally {
-      if (requestEpoch === epoch && built) { busy = false; byId('exam-admin-controls').inert = false; byId('exam-admin-controls').removeAttribute('aria-busy'); }
-      else if (requestEpoch === epoch) busy = false;
+      if (requestEpoch === epoch && busy) unlock();
     }
   }
 
@@ -290,32 +298,70 @@
 
   /* ---------- Side panel ---------- */
   const narrow = () => typeof window.matchMedia === 'function' && window.matchMedia('(max-width: 799.98px)').matches;
-  function setBackgroundInert(on) {
-    // Under 800px the panel is a bottom sheet: keep keyboard focus inside it.
-    ['exam-workspace', 'exam-settings'].forEach(id => { const node = byId(id); if (node) node.inert = on; });
+  // Under 800px the panel is a modal bottom sheet: everything outside it is inert
+  // (admin header, back link, workspace, settings), Tab is contained, Esc closes it
+  // and focus returns to the trigger. Two exceptions stay live: the confirmation
+  // <dialog> (opened from the sheet) and the toast region, so results are still
+  // announced; Tab containment keeps toast buttons out of keyboard reach.
+  function releaseSheet() {
+    sheetInert.forEach(node => { node.inert = false; });
+    sheetInert = []; sheetModal = false;
+    const panel = byId('exam-access-panel');
+    if (panel) { panel.removeAttribute('role'); panel.removeAttribute('aria-modal'); }
   }
-  function openPanel() {
-    byId('exam-access-edit').hidden = false; byId('exam-access-panel').hidden = false;
-    setBackgroundInert(narrow());
+  function containSheet() {
+    releaseSheet();
+    const panel = byId('exam-access-panel');
+    if (!panel || panel.hidden || !narrow()) return;
+    const keep = new Set([byId('exam-decision-dialog'), ...document.querySelectorAll('.adm-toast-region')]);
+    for (let node = panel; node.parentElement && node !== document.body; node = node.parentElement) {
+      for (const sibling of node.parentElement.children) {
+        if (sibling === node || keep.has(sibling) || sibling.inert || sibling.tagName === 'SCRIPT') continue;
+        sibling.inert = true; sheetInert.push(sibling);
+      }
+    }
+    panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-modal', 'true'); sheetModal = true;
+  }
+  function sheetFocusables() {
+    return [...byId('exam-access-panel').querySelectorAll('button, input, select, textarea, a[href], [tabindex]:not([tabindex="-1"])')]
+      .filter(node => !node.disabled && !node.closest('[hidden]'));
+  }
+  function trapTab(event) {
+    if (event.key !== 'Tab' || !sheetModal) return;
+    const items = sheetFocusables(); if (!items.length) return;
+    const first = items[0], last = items[items.length - 1], current = document.activeElement;
+    const inside = items.includes(current);
+    if (event.shiftKey && (current === first || !inside)) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && (current === last || !inside)) { event.preventDefault(); first.focus(); }
+  }
+  // trigger: the card or Review button that opened the panel (focus returns to it on close).
+  function openPanel(trigger) {
+    const panel = byId('exam-access-panel');
+    if (trigger) sheetTrigger = trigger; else if (panel.hidden) sheetTrigger = null;
+    byId('exam-access-edit').hidden = false; panel.hidden = false;
+    containSheet();
   }
   function closePanel(returnFocus) {
     if (!built) return;
     closeDecision();
     selected = null;
     byId('exam-access-edit').hidden = true; byId('exam-access-panel').hidden = true;
-    setBackgroundInert(false);
+    releaseSheet();
     document.querySelectorAll('#exam-member-cards [data-exam]').forEach(card => card.setAttribute('aria-pressed', 'false'));
-    if (returnFocus && lastCard && lastCard.isConnected) lastCard.focus();
+    const usable = sheetTrigger && sheetTrigger.isConnected && !sheetTrigger.closest('[hidden]');
+    const target = usable ? sheetTrigger : lastCard;
+    sheetTrigger = null;
+    if (returnFocus && target && target.isConnected) target.focus();
   }
   function show(id, visible, enabled) { const node = byId(id); node.hidden = !visible; node.disabled = !enabled; }
-  function chooseExam(key, focus = true) {
+  function chooseExam(key, focus = true, trigger = null) {
     closeDecision();
     selected = account.exams.find(exam => exam.exam_key === key);
     if (!selected) return;
     document.querySelectorAll('#exam-member-cards [data-exam]').forEach(card => {
       const on = card.dataset.exam === key; card.setAttribute('aria-pressed', String(on)); if (on) lastCard = card;
     });
-    openPanel();
+    openPanel(trigger || lastCard);
     byId('exam-edit-title').textContent = selected.badge + ' · ' + selected.display_name;
     byId('exam-edit-chip').replaceChildren(chip(selected));
     byId('exam-edit-state').textContent = labels[selected.access_status] + '. ' + dateText(selected.expires_at) +
@@ -341,7 +387,7 @@
   }
 
   /* ---------- Rendering ---------- */
-  function renderAccount(data, examKey) {
+  function renderAccount(data, examKey, trigger) {
     clearAccount();
     if (!data.found) {
       message('No account found. Check the complete email and try again.');
@@ -362,7 +408,7 @@
       detail.append(chip(exam));
       if (exam.request_status === 'pending' && chipFor(exam)[1] !== 'pending') detail.append(' ', element('span', 'Request pending', 'adm-chip adm-chip--pending'));
       card.append(bodyNode, detail);
-      card.addEventListener('click', () => chooseExam(exam.exam_key)); byId('exam-member-cards').appendChild(card);
+      card.addEventListener('click', () => chooseExam(exam.exam_key, true, card)); byId('exam-member-cards').appendChild(card);
     });
     data.history.forEach(event => {
       const li = document.createElement('li');
@@ -374,7 +420,7 @@
       byId('exam-member-history').appendChild(li);
     });
     byId('exam-history-empty').hidden = data.history.length > 0;
-    if (examKey) chooseExam(examKey); else byId('exam-member-title').focus();
+    if (examKey) chooseExam(examKey, true, trigger); else byId('exam-member-title').focus();
   }
   function option(value, text) { const node = element('option', text); node.value = value; return node; }
   function fillFilter(id, allText, values) {
@@ -410,7 +456,7 @@
       cell('Status', element('span', statusText, 'adm-chip adm-chip--' + ((request.status || 'pending') === 'pending' ? 'pending' : 'none')));
       const review = element('button','Review ' + request.badge,'adm-btn adm-btn--secondary'); review.type='button';
       review.setAttribute('aria-label', 'Review ' + request.badge + ' request from ' + (request.email || request.user_id));
-      review.addEventListener('click', () => run({operation:'account',target_id:request.user_id}, data => renderAccount(data,request.exam_key), 'Review this ' + words.noun + ' and expiry before deciding.'));
+      review.addEventListener('click', () => run({operation:'account',target_id:request.user_id}, data => renderAccount(data,request.exam_key,review), 'Review this ' + words.noun + ' and expiry before deciding.'));
       cell('', review).setAttribute('data-label', '');
       byId('exam-request-list').appendChild(row);
       requestRows.push({row, request});
@@ -442,7 +488,8 @@
     });
     byId('exam-panel-close').addEventListener('click', () => closePanel(true));
     byId('exam-access-panel').addEventListener('keydown', event => {
-      if (event.key === 'Escape' && !byId('exam-decision-dialog').open) { event.preventDefault(); closePanel(true); }
+      if (event.key === 'Escape' && !byId('exam-decision-dialog').open) { event.preventDefault(); closePanel(true); return; }
+      trapTab(event);
     });
     byId('exam-decision-cancel').addEventListener('click', closeDecision);
     byId('exam-decision-dialog').addEventListener('cancel', event => { event.preventDefault(); closeDecision(); });
@@ -491,7 +538,7 @@
     }));
     if (typeof window.matchMedia === 'function') {
       const query = window.matchMedia('(max-width: 799.98px)');
-      if (query.addEventListener) query.addEventListener('change', () => { if (built && !byId('exam-access-panel').hidden) setBackgroundInert(narrow()); });
+      if (query.addEventListener) query.addEventListener('change', () => { if (built && !byId('exam-access-panel').hidden) containSheet(); });
     }
   }
 

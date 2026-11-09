@@ -89,7 +89,7 @@ function accounts(rpc) {
   window.UpskillAdminShell = { ...real,
     mount: o => { spy.mounts.push(JSON.parse(JSON.stringify(o))); return real.mount(o); },
     renderDenied: (c, o) => { spy.denied.push(JSON.parse(JSON.stringify(o))); return real.renderDenied(c, o); },
-    toast: () => null };
+    toast: (m, o) => real.toast(m, o) };
   let change; const calls = [];
   window.UpskillAuth = { isConfigured: () => true, onChange: fn => { change = fn; },
     getClient: () => ({ rpc: (name, args) => { assert.equal(name, 'owner_manage_access'); calls.push(JSON.parse(JSON.stringify(args))); return Promise.resolve(rpc(args)); } }) };
@@ -163,5 +163,31 @@ test('owner accounts are protected and empty states are designed', async () => {
   assert.equal(p.doc.getElementById('account-empty').hidden, false);
   assert.match(p.doc.getElementById('account-empty').textContent, /No account found/);
   assert.equal(p.doc.getElementById('admin-edit').hidden, true);
+  p.dom.window.close();
+});
+
+test('account access: polite live status, focus after un-inerting, and no toast left after sign-out', async () => {
+  let result = { data: { found: true, email: 'test@example.invalid', user_id: 'target', effective_level: 'registered', grant: null, is_owner: false, history: [] } };
+  const p = accounts(args => args.operation === 'status' ? { data: { owner: true } } : result);
+  await p.as({ id: 'owner' });
+  const status = p.doc.getElementById('admin-status');
+  assert.equal(status.getAttribute('role'), 'status'); assert.equal(status.getAttribute('aria-live'), 'polite');
+  const controls = p.doc.getElementById('admin-controls');
+  const title = p.doc.getElementById('account-title'); const seen = []; const realFocus = title.focus.bind(title);
+  title.focus = () => { seen.push(controls.inert === true || controls.hasAttribute('aria-busy')); realFocus(); };
+  p.doc.getElementById('account-email').value = 'test@example.invalid';
+  p.doc.getElementById('admin-search').dispatchEvent(new p.window.Event('submit', { cancelable: true })); await flush();
+  assert.deepEqual(seen, [false]); assert.equal(p.doc.activeElement, title);
+  assert.equal(status.textContent, 'Account found. Review the details before saving.');
+  // A failed save leaves an error toast that names the account; sign-out must remove it.
+  result = { error: { message: 'Could not save test@example.invalid.' } };
+  p.doc.getElementById('access-level-premium').checked = true;
+  p.doc.getElementById('admin-edit').dispatchEvent(new p.window.Event('submit', { cancelable: true }));
+  p.doc.getElementById('access-confirm-ok').click(); await flush();
+  const region = p.doc.querySelector('.adm-toast-region');
+  assert.match(region.textContent, /test@example\.invalid/);
+  await p.as(null);
+  assert.equal(region.children.length, 0);
+  assert.doesNotMatch(p.doc.body.textContent, /test@example\.invalid/);
   p.dom.window.close();
 });

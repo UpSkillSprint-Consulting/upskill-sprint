@@ -44,7 +44,9 @@
   function build() {
     const title = el('h1', 'Account access', 'adm-page-title'); title.id = 'admin-title'; title.tabIndex = -1;
     const lede = el('p', 'Owner only. Find an account by its complete email, choose an access level and save. Nothing loads in the background.', 'adm-lede');
+    // Polite live region for search and save progress (toasts add a visual summary).
     const status = el('p', 'Ready. Search for an account to manage its access.', 'adm-help'); status.id = 'admin-status';
+    status.setAttribute('role', 'status'); status.setAttribute('aria-live', 'polite');
     const controls = el('div'); controls.id = 'admin-controls';
 
     const searchPanel = el('section', null, 'adm-panel'); searchPanel.setAttribute('aria-labelledby', 'account-search-heading');
@@ -181,17 +183,22 @@
     try {
       const data = await call(args);
       if (requestRevision !== revision) return;
+      unlock(); // before rendering, so focus can move into controls that are no longer inert
       render(data);
       if (data.found) { message(success); if (options.toast) notify(success, 'success'); byId('account-title').focus(); }
     } catch (error) {
       if (requestRevision === revision) {
+        unlock();
         current = null; byId('admin-edit').hidden = true;
         const text = error.message + ' Please search again.'; message(text); notify(text, 'error');
       }
     } finally {
-      busy = false;
-      const node = byId('admin-controls'); if (node) { node.inert = false; node.removeAttribute('aria-busy'); }
+      if (busy) unlock();
     }
+  }
+  function unlock() {
+    busy = false;
+    const node = byId('admin-controls'); if (node) { node.inert = false; node.removeAttribute('aria-busy'); }
   }
   function wire() {
     byId('admin-search').addEventListener('submit', event => {

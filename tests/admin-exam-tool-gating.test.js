@@ -31,12 +31,13 @@ function fixture(scope) {
     [scope === 'tool' ? 'tools' : 'exams']: items, history: [] };
 }
 
-function page(scope, { administrator = true, owner = false, handler } = {}) {
+function page(scope, { administrator = true, owner = false, handler, narrow = false } = {}) {
   const file = 'admin-' + scope + '-access.html';
   const dom = new JSDOM(read(file), { runScripts: 'outside-only', url: 'https://example.invalid/admin-' + scope + '-access' });
   const { window } = dom;
   window.HTMLDialogElement.prototype.showModal = function () { this.open = true; };
   window.HTMLDialogElement.prototype.close = function () { this.open = false; };
+  window.matchMedia = query => ({ matches: narrow && /max-width/.test(query), addEventListener() {}, removeEventListener() {} });
   window.eval(read('admin-shell.js'));
   const real = window.UpskillAdminShell, spy = { mounts: [], denied: [], ownerChecks: 0, toasts: [] };
   window.UpskillAdminShell = {
@@ -44,7 +45,8 @@ function page(scope, { administrator = true, owner = false, handler } = {}) {
     unmount: () => real.unmount(),
     renderDenied: (c, o) => { spy.denied.push(JSON.parse(JSON.stringify(o))); return real.renderDenied(c, o); },
     checkOwner: () => { spy.ownerChecks++; return Promise.resolve(owner); },
-    toast: (m, o) => { spy.toasts.push({ message: m, tone: o.tone }); }
+    toast: (m, o) => { spy.toasts.push({ message: m, tone: o.tone }); return real.toast(m, o); },
+    clearToasts: () => real.clearToasts()
   };
   const calls = []; let change;
   const rpcName = 'admin_manage_' + scope + '_access';
@@ -227,4 +229,93 @@ test('the tool scope uses account wording throughout', async () => {
   assert.equal(exam.el('exam-member-find').textContent, 'Find learner');
   assert.match(exam.doc.body.textContent, /learner/);
   exam.dom.window.close(); p.dom.window.close();
+});
+
+const keydown = (p, target, key, shiftKey = false) => {
+  const event = new p.window.KeyboardEvent('keydown', { key, shiftKey, bubbles: true, cancelable: true });
+  target.dispatchEvent(event); return event;
+};
+
+test('under 800px the panel is a modal bottom sheet: outside is inert, Tab is contained, Esc returns focus', async () => {
+  const requests = [{ user_id: 'person-id', email: 'person@example.invalid', exam_key: 'cre', badge: 'CRE', requested_at: '2026-10-01T10:00:00Z' }];
+  const p = page('exam', { narrow: true, handler: args => args.operation === 'requests' ? { data: { requests, next_cursor: null } } : { data: fixture('exam') } });
+  await p.as({ id: 'admin' }); await p.search();
+  const header = p.el('admin-shell-header'), panel = p.el('exam-access-panel');
+  const back = p.doc.querySelector('#admin-main > p a[href="/exam-practice"]').parentElement;
+  p.card('cssbb').click();
+  for (const node of [header, back, p.el('exam-admin-title'), p.el('exam-workspace'), p.el('exam-settings')]) assert.equal(node.inert, true, node.id || node.className);
+  // jsdom has no native inert, so "not inert" is checked as "never set to true".
+  const inertNodes = () => [...p.doc.querySelectorAll('*')].filter(n => n.inert === true);
+  assert.notEqual(panel.inert, true); assert.notEqual(p.el('exam-admin-controls').inert, true);
+  assert.notEqual(p.el('exam-decision-dialog').inert, true, 'the confirmation dialog stays usable');
+  assert.ok(inertNodes().every(n => !n.contains(panel)), 'no ancestor of the sheet is inert');
+  assert.equal(panel.getAttribute('role'), 'dialog'); assert.equal(panel.getAttribute('aria-modal'), 'true');
+  // Tab wraps inside the sheet in both directions.
+  const focusables = [...panel.querySelectorAll('button, input, select, textarea, a[href]')].filter(n => !n.disabled && !n.closest('[hidden]'));
+  const first = focusables[0], last = focusables.at(-1);
+  assert.equal(first, p.el('exam-panel-close')); assert.equal(last, p.el('exam-revoke'));
+  last.focus(); assert.equal(keydown(p, last, 'Tab').defaultPrevented, true); assert.equal(p.doc.activeElement, first);
+  assert.equal(keydown(p, first, 'Tab', true).defaultPrevented, true); assert.equal(p.doc.activeElement, last);
+  p.el('exam-edit-title').focus(); keydown(p, p.el('exam-edit-title'), 'Tab', true); assert.equal(p.doc.activeElement, last);
+  p.el('exam-grant').focus();
+  assert.equal(keydown(p, p.el('exam-grant'), 'Tab').defaultPrevented, false, 'Tab moves normally between inner controls');
+  // Escape closes, releases every inert node and returns focus to the trigger card.
+  keydown(p, p.el('exam-grant'), 'Escape');
+  assert.equal(panel.hidden, true); assert.equal(panel.hasAttribute('role'), false);
+  assert.deepEqual(inertNodes(), []);
+  assert.equal(p.doc.activeElement, p.card('cssbb'));
+  // A request's Review button gets focus back when the sheet it opened is closed.
+  p.el('exam-requests-refresh').click(); await flush();
+  const review = p.el('exam-request-list').querySelector('button');
+  review.click(); await flush();
+  assert.equal(panel.hidden, false); assert.equal(header.inert, true);
+  p.el('exam-panel-close').click();
+  assert.equal(p.doc.activeElement, review); assert.equal(header.inert, false);
+  // Sign-out with the sheet open leaves nothing inert behind.
+  p.card('pmp').click(); assert.equal(header.inert, true);
+  await p.as(null);
+  assert.notEqual(header.inert, true); assert.deepEqual([...p.doc.querySelectorAll('*')].filter(n => n.inert === true), []);
+  p.dom.window.close();
+});
+
+test('wide screens keep the side panel non-modal', async () => {
+  const p = page('exam');
+  await p.as({ id: 'admin' }); await p.search();
+  p.card('pmp').click();
+  assert.equal(p.el('exam-access-panel').hasAttribute('role'), false);
+  assert.deepEqual([...p.doc.querySelectorAll('*')].filter(n => n.inert === true), []);
+  p.dom.window.close();
+});
+
+test('status is a polite live region and focus moves only after controls are un-inerted', async () => {
+  const p = page('tool');
+  await p.as({ id: 'admin' });
+  const status = p.el('exam-admin-status');
+  assert.equal(status.getAttribute('role'), 'status'); assert.equal(status.getAttribute('aria-live'), 'polite');
+  const title = p.el('exam-member-title'), controls = p.el('exam-admin-controls');
+  const seen = []; const realFocus = title.focus.bind(title);
+  title.focus = () => { seen.push(controls.inert || controls.hasAttribute('aria-busy')); realFocus(); };
+  await p.search();
+  assert.deepEqual(seen, [false]); assert.equal(p.doc.activeElement, title);
+  assert.equal(status.textContent, 'Choose a tool to manage.');
+  // Opening a request focuses the panel title only once the controls are live again.
+  const editTitle = p.el('exam-edit-title'); const editSeen = []; const realEdit = editTitle.focus.bind(editTitle);
+  editTitle.focus = () => { editSeen.push(controls.inert); realEdit(); };
+  p.card('cssbb').click();
+  assert.deepEqual(editSeen, [false]);
+  p.dom.window.close();
+});
+
+test('a toast showing an account email is gone after sign-out and after an account switch', async () => {
+  for (const next of [null, { id: 'other-admin' }]) {
+    const p = page('exam', { handler: () => ({ error: { message: 'Saving failed for person@example.invalid.', code: '40001' } }) });
+    await p.as({ id: 'admin' }); await p.search();
+    const region = p.doc.querySelector('.adm-toast-region');
+    assert.equal(region.querySelectorAll('.adm-toast--error').length, 1);
+    assert.match(region.textContent, /person@example\.invalid/);
+    await p.as(next);
+    assert.equal(region.children.length, 0);
+    assert.doesNotMatch(p.doc.body.textContent, /person@example\.invalid/);
+    p.dom.window.close();
+  }
 });
