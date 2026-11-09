@@ -1,4 +1,5 @@
 import { getStore } from '@netlify/blobs';
+import { authenticatedUser, bearerToken, canAccessContent } from './_shared/supabase-access.mjs';
 
 const JSON_HEADERS = {
   'Content-Type': 'application/json; charset=utf-8',
@@ -17,12 +18,6 @@ function json(status, body) {
   return new Response(JSON.stringify(body), {status, headers: JSON_HEADERS});
 }
 
-function bearerToken(request) {
-  const header = String(request.headers.get('authorization') || '');
-  const match = header.match(/^Bearer\s+([^\s]+)$/i);
-  return match ? match[1] : '';
-}
-
 function requestOriginIsValid(request) {
   const origin = request.headers.get('origin');
   if (!origin) return true;
@@ -33,28 +28,10 @@ function requestOriginIsValid(request) {
   }
 }
 
-async function authenticatedUser(token) {
-  if (!token) return null;
-  const response = await fetch(SUPABASE_URL + '/auth/v1/user', {
-    headers: {apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + token}
-  });
-  if (!response.ok) return null;
-  const user = await response.json();
-  return user && user.id ? user : null;
-}
+const SUPABASE = {url: SUPABASE_URL, key: SUPABASE_ANON_KEY};
 
-async function canAccessChecker(token) {
-  const response = await fetch(SUPABASE_URL + '/rest/v1/rpc/can_access_content', {
-    method: 'POST',
-    headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: 'Bearer ' + token,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({requested_resource_key: CHECKER_RESOURCE})
-  });
-  if (!response.ok) return false;
-  return (await response.json()) === true;
+function canAccessChecker(token) {
+  return canAccessContent(token, CHECKER_RESOURCE, SUPABASE);
 }
 
 export { bearerToken, requestOriginIsValid };
@@ -62,7 +39,7 @@ export { bearerToken, requestOriginIsValid };
 export default async function materialChecker(request) {
   try {
     const token = bearerToken(request);
-    const user = await authenticatedUser(token);
+    const user = await authenticatedUser(token, SUPABASE);
     if (!user) return json(401, {error: 'Authentication is required.'});
     if (!(await canAccessChecker(token))) return json(403, {error: 'Access to this tool is required. Ask an administrator to grant access.'});
 

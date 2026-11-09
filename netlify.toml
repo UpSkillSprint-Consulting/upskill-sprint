@@ -15,6 +15,11 @@
 [functions."tool-content"]
   included_files = ["content/tool-delivery-generated/*.json"]
 
+# Gated lesson bodies (content/protected-lesson-catalog.mjs). content/ is never
+# staged to public-site/, so this function is the only way these files are served.
+[functions."lesson-content"]
+  included_files = ["content/protected-lessons/**"]
+
 [[headers]]
   for = "/test-bank"
   [headers.values]

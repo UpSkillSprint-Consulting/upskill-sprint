@@ -1147,7 +1147,13 @@ set required_access_key = excluded.required_access_key,
 **Public lessons:** nothing else to do. The page never calls the gate, so the rule is the
 record of the decision.
 
-**Non-public lessons (`registered`, `premium`, `special`, `administrator`):** the page opts in
+**Non-public lessons (`registered`, `premium`, `special`, `administrator`):** use the public
+teaser + protected payload contract in §12.8. The full body never ships in the static site or
+the search index, and the lesson URL stays indexable. The body-level redirect gate below is
+**not** used for lessons any more (it turns the URL into Sign In for crawlers and still ships the
+full HTML). It remains the pattern for tools and the test bank:
+
+**Tools and other non-lesson pages:** the page opts in
 on `<body>` with
 `data-require-auth data-required-access="<access-key>" data-access-resource="lesson:/lessons/<category_slug>/<slug>"`
 (the pattern used by `test-bank.html` and the administrator tools). `access-control.js` then
@@ -1242,6 +1248,108 @@ What the author MUST do in the lesson's `<head>` (next to the meta description, 
   merged to main is a typo in subscribers' inboxes.
 - In the PR body, state the teaser you used (or "no teaser: AI fallback") under the §18
   checklist item.
+
+### 12.8 Gated lessons: public teaser + protected payload (registered and higher)
+
+Approved pattern (`docs/plans/gated-lesson-content-plan.md`, Options D + A), piloted on
+`/lessons/statistics/choosing-a-transformation-to-linearize-data` (Registered). Every new
+`registered` lesson uses it from day one. `premium`, `special` and `administrator` lessons also
+need the non-public payload source described in step 7 before they can use it. Search
+engines and signed-out visitors get the teaser; a signed-in visitor whose tier allows it gets
+the rest from a Netlify Function after a server-side check. Nothing falls back to showing
+content.
+
+**1. The teaser** is the lesson page at its normal path (`lessons/<category_slug>/<slug>.html`),
+built exactly like any lesson (§2–§11): metadata block with `"access_level"`, canonical,
+title/description/OG/twitter, one `<h1>`, one `<main id="lesson-content">`, header, footer,
+back link, related lessons, and the lesson's styles (including the quiz styles, so the payload
+renders styled the moment it arrives). It holds the hero (title, lead, chips), the
+`#objectives-heading` + `.lz-objectives` block and a short free preview (usually Part 1).
+
+- `<body>` has **no** `data-require-auth`, `data-required-access` or `data-access-resource`.
+  The URL must stay indexable: no `noindex`, canonical = the lesson URL, and it stays in
+  `sitemap.xml`.
+- JSON-LD `LearningResource` sets `"isAccessibleForFree": false`. Do not add `hasPart` /
+  paywalled-section markup: the protected part is not in the HTML.
+- In `<head>`, after `/assets/js/math.js`: `<script defer src="/protected-lesson.js"></script>`.
+- After the preview, the mount (one per page):
+
+```html
+<div id="full-lesson" data-protected-lesson="lesson:/lessons/<category_slug>/<slug>"
+     data-search-summary="One or two plain sentences naming what the full lesson covers.">
+  <section class="lz-section" id="full-lesson-gate" aria-labelledby="full-lesson-gate-h">
+    …<h2 id="full-lesson-gate-h">Keep going with a free account</h2>
+    <p class="lz-gate-status" role="status" aria-live="polite" data-protected-lesson-status></p>
+    <div class="lz-gate-offer">
+      <p>…what the rest of the lesson contains (part titles are fine; no body text)…</p>
+      <a href="/sign-in.html?next=%2Flessons%2F<category_slug>%2F<slug>">Sign in to continue</a>
+      <a href="/signup.html">Create a free account</a>
+    </div>
+  </section>
+</div>
+```
+
+  The resource key MUST equal `lesson:` + the page path (the loader refuses any other key).
+  Anything a script draws in the teaser (e.g. a hero figure) is pre-rendered as static SVG,
+  because lesson scripts live in the payload.
+
+**2. The payload** is `content/protected-lessons/<category_slug>/<slug>.html`: a body fragment
+(no `<html>`, `<head>`, `<body>`, `<main>`, `<h1>` or metadata block) with the remaining
+sections, labs, the quiz and the lesson's inline `<script>`s in order. `content/` is never
+staged to `public-site/`. Add the key → file pair to `content/protected-lesson-catalog.mjs`;
+the function serves nothing that is not listed there. Ids must not clash with the teaser's.
+
+**3. Delivery** (already built, nothing to add per lesson):
+`netlify/functions/lesson-content.mjs` answers `GET /api/lesson-content?resource=<key>` with
+`Authorization: Bearer <Supabase access token>`. It checks the allow-list (404), the session
+via `/auth/v1/user` (401) and `can_access_content(<key>)` with the visitor's own JWT (403);
+on success it returns `{ version: 1, resource, html }` with `Cache-Control: private, no-store`,
+`Vary: Authorization` and `X-Robots-Tag: noindex`. It is rate-limited and uses no service-role
+key. `netlify.toml` bundles `content/protected-lessons/**` into it (`included_files`).
+
+**4. The loader** (`/protected-lesson.js`) waits for `UpskillAuth`. Signed out: the sign-in panel
+stays and no request is made. Signed in: it fetches the payload, replaces the panel, runs the
+payload's scripts in order, calls `UpskillMath.typeset([mount])`, then dispatches
+`upskill-lesson-content-ready` on `document` (`detail: { resource, root }`). Lesson scripts run
+after their markup is in place, so they can initialise at parse time as usual; anything that
+must wait for the content (site helpers, analytics) listens for that event. On 401 the panel
+says the sign-in expired; on 403 it shows an access notice; any other failure offers
+"Try again". Signing out removes the payload again. The quiz's `upskill-quiz-result` event and
+progress tracking work unchanged.
+
+**5. Search and build guards.** `scripts/build-lesson-search-index.mjs` indexes the teaser and
+replaces everything inside `[data-protected-lesson]` with one section built from
+`data-search-summary`, anchored to the mount's `id`. `tests/protected-lesson-public-leak.test.js`
+fails if any passage of a payload appears in the staged site or the search index;
+`tests/lesson-content-function.test.js` and `tests/protected-lesson-loader.test.js` cover the
+function and the loader.
+
+**6. Access rule (must be applied before or at merge).** Ship
+`supabase/<access-key>-<short-lesson-name>-access.sql` as in §12.4. A SQL file in the repo is
+**not** a live rule: someone with Ernest's approval must apply it to Supabase before the PR merges
+or at merge. You never run it yourself. Until it is applied, `can_access_content()` returns
+`false` (deny-by-default), so the function answers 403 for **every** signed-in learner, who sees
+the access notice. The teaser is unaffected. In the PR body, state the rule's status plainly
+(applied, by whom and when, or "pending Ernest's approval"). Do not write that the rule
+"exists" because the file is in the repo.
+`tests/lesson-content-function.test.js` fails if a key in `content/protected-lesson-catalog.mjs`
+has no matching `supabase/<tier>-…-access.sql`, or if the SQL tier differs from the teaser's
+`access_level`. It checks files only and cannot tell whether the rule was applied. For the
+linearize pilot, the rule was applied by Website Manager with Ernest's approval on 2026-11-09.
+
+**7. Known limit: the repository is public, so the payload is not secret.** `content/` is kept
+out of the website, the static deploy and the search index. But this GitHub repository is
+public, so anyone can read `content/protected-lessons/**` on github.com or
+`raw.githubusercontent.com`. A lesson that was public before conversion also stays readable in
+git history. The website gate works, but the body itself is not confidential. That is
+acceptable for a free `registered` lesson, where the goal is sign-ups and keeping the URL
+indexable. **Do not use this pattern for `premium` or `special` (paid) content** until the
+payload comes from a non-public source, for example a private repository or a build-time secret
+store that the function reads. That decision is Ernest's; do not build it inside a lesson PR.
+
+**Converting an existing public lesson** follows the same steps in its own PR. Its old full text
+stays in git history (public, see step 7) and in search-engine caches until they recrawl; say so
+in the PR.
 
 ---
 
