@@ -187,7 +187,7 @@ def main():
                 expect(page.locator('body')).to_have_attribute('data-directory-phase', 'ready' if premium else 'signedout')
 
             def nav_state(current):
-                expected = ['Start Here', 'Lessons', 'Exam Practice', 'Engineering Tools', 'Services', 'About']
+                expected = ['Start Here', 'Lessons', 'Certification Exam Practice', 'Engineering Tools', 'Services', 'About']
                 for selector, control in (
                     ('nav.desktop-nav', 'a.nav-tab-link'),
                     ('nav.mobile-nav', 'button.nav-acc-btn'),
@@ -197,7 +197,7 @@ def main():
                     links = nav.locator(control).evaluate_all("rows=>rows.map(e=>({text:e.textContent.trim(),href:e.getAttribute('href'),current:e.getAttribute('aria-current')}))")
                     labels = [link['text'] for link in links]
                     assert labels == expected, links
-                    exam = links[labels.index('Exam Practice')]
+                    exam = links[labels.index('Certification Exam Practice')]
                     if control.startswith('a'):
                         assert exam['href'] == '/exam-practice', exam
                     assert [link['text'] for link in links if link['current'] == 'page'] == [current], links
@@ -211,7 +211,7 @@ def main():
 
             def learner_directory():
                 directory()
-                nav_state('Exam Practice')
+                nav_state('Certification Exam Practice')
                 expect(page.locator('.exam-card')).to_have_count(len(visible_keys))
                 assert set(page.locator('.exam-card').evaluate_all('cards=>cards.map(card=>card.dataset.exam)')) == visible_keys
                 expect(page.locator('.exam-coming-soon .exam-card')).to_have_count(len(upcoming))
@@ -247,7 +247,7 @@ def main():
                 page.set_viewport_size({'width': width, 'height': 900})
                 directory()
                 page.evaluate('(theme)=>document.documentElement.dataset.theme=theme', theme)
-                nav_state('Exam Practice')
+                nav_state('Certification Exam Practice')
                 no_header_overlap()
                 # Long full names must wrap without clipping at every breakpoint.
                 expected_columns = 1 if width <= 640 else 2 if width <= 900 else 3
@@ -364,7 +364,7 @@ def main():
                     expect(page.locator('.tb-tile.active')).to_have_attribute('data-exam', exam_id)
                     assert page.evaluate('(id)=>Object.entries(__TB.EXAMS).every(([key,e])=>key===id||[e.bank,...Object.values(e.sets||{})].filter(Array.isArray).every(bank=>bank.length===0))', exam_id)
                     expect(page.locator('.tb-quiz')).to_have_count(0)
-                    nav_state('Exam Practice')
+                    nav_state('Certification Exam Practice')
                     expect(page.locator('#tb-overview [data-mode="full"]')).to_be_visible()
 
             record('each-certification-link-selects-its-exam', certification_links)
@@ -380,7 +380,7 @@ def main():
                 page.locator('.exam-card[data-exam="cre"] a').click()
                 page.wait_for_selector('body.exam-access-ready')
                 expect(page.locator('#tb-overview')).to_be_visible()
-                nav_state('Exam Practice')
+                nav_state('Certification Exam Practice')
                 no_header_overlap()
                 expect(page.locator('[data-set="1"]')).to_have_attribute('aria-pressed', 'true')
                 expect(page.locator('[data-set="2"]')).to_be_enabled()
@@ -390,7 +390,7 @@ def main():
                 expect(breadcrumb).to_have_text('Back to All Certifications')
                 breadcrumb.click()
                 expect(page).to_have_url(base + '/exam-practice')
-                nav_state('Exam Practice')
+                nav_state('Certification Exam Practice')
 
             record('test-bank-entry-access-and-breadcrumb', simulator_journey)
 
@@ -806,7 +806,7 @@ def main():
                     expect(page).to_have_url(base + '/exam-practice?access=premium')
                     expect(page.locator('#access-notice')).to_be_visible()
                     expect(page.locator('h1')).to_have_text('Practice Certification Exams')
-                    nav_state('Exam Practice')
+                    nav_state('Certification Exam Practice')
                 page.goto(base + '/lessons/', wait_until='load')
                 expect(page.locator('nav.desktop-nav a[aria-current="page"]')).to_have_text('Lessons')
                 page.evaluate("()=>{location.hash='exam-practice'}")
