@@ -112,6 +112,8 @@ const seasonalTag=/(?:<script src="\/(?:seasonal-effects|site-ticker)\.js" defer
 // <body> and its <style> right before </head> on pages that have no skip link. It is site-wide chrome, not lesson content.
 const skipLinkTags=/<style id="uss-skip-link-style">[^<]*<\/style>\n(?=<\/head>)|(?<=<body\b[^>]*>)\n<a class="uss-skip-link" href="#[^"]+">Skip to main content<\/a>/g;
 const reviewed=body=>body.replace(injected,'').replace(seasonalTag,'').replace(skipLinkTags,'');
+// build:site also adds lesson JSON-LD (scripts/inject-lesson-jsonld.mjs); the preview must equal exactly that staged source.
+const stagedSource=async()=>(await import(require('node:url').pathToFileURL(path.join(ROOT,'scripts/preview-expected-source.mjs')).href)).expectedPreviewSource(html,FILE);
 (async()=>{
  await new Promise(r=>server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+server.address().port;
  const browser=await chromium.launch();
@@ -208,8 +210,8 @@ const reviewed=body=>body.replace(injected,'').replace(seasonalTag,'').replace(s
   });
   const preview=process.env.SIGNAL_NOISE_PREVIEW_URL;
   if(preview)await check('Actual Netlify preview source and desktop/mobile themes',async()=>{
-   let response,body;for(let i=0;i<24;i++){try{response=await fetch(preview+ROUTE,{signal:AbortSignal.timeout(15000)});body=await response.text();if(response.ok&&reviewed(body)===html)break;}catch(e){report.preview={error:e.message};}await new Promise(r=>setTimeout(r,10000));}
-   assert(response?.ok,'Preview did not respond successfully');fs.writeFileSync(path.join(OUT,'preview-response.html'),body);assert.equal(hash(reviewed(body)),hash(html),'Preview does not match the reviewed source');report.preview={url:preview+ROUTE,sourceMatches:true};
+   let response,body;const expected=await stagedSource();for(let i=0;i<24;i++){try{response=await fetch(preview+ROUTE,{signal:AbortSignal.timeout(15000)});body=await response.text();if(response.ok&&reviewed(body)===expected)break;}catch(e){report.preview={error:e.message};}await new Promise(r=>setTimeout(r,10000));}
+   assert(response?.ok,'Preview did not respond successfully');fs.writeFileSync(path.join(OUT,'preview-response.html'),body);assert.equal(hash(reviewed(body)),hash(expected),'Preview does not match the reviewed source');report.preview={url:preview+ROUTE,sourceMatches:true};
    for(const theme of ['light','dark'])for(const width of [390,1440]){const {context,page,errors}=await open(browser,width,theme,preview+ROUTE);try{await continuous(page);await part(page,'p3');await page.locator('#nPoints').fill('510');await assertSimulation(page,510);await page.locator('#p3 .card').screenshot({path:path.join(OUT,'preview-simulation-'+theme+'-'+width+'.png')});await part(page,'p2');assert.deepEqual((await layout(page)).outside,[]);await part(page,'p4');await page.locator('#resampleCusum').click();await part(page,'p1');await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(OUT,'preview-'+theme+'-'+width+'.png'),fullPage:true});assert.deepEqual(errors,[]);}finally{await context.close();}}
   });
  }finally{await browser.close();server.close();save();}
