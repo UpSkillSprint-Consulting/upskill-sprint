@@ -123,6 +123,18 @@
       description: 'Build real intuition for probability from zero with a live dice grid, a marble-draw simulator, a spinning wheel, a clickable Venn diagram, and a probability tree \u2014 then connect it all to Excel, Minitab, and the ASQ exams.'
     },
     {
+      marker: 'data-probability-distributions-for-lean-six-sigma',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/probability-distributions-for-lean-six-sigma',
+      topic: 'statistics',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'probability distributions distribution zoo normal uniform exponential weibull lognormal bivariate binomial poisson hypergeometric z student t chi square f excel minitab cssbb cqe beginner statistics interactive poster',
+      meta: '<span>Beginner</span><span>Interactive</span><span>55 min</span><span>Excel + Minitab</span>',
+      title: 'Probability Distributions for Lean Six Sigma',
+      description: 'Meet the 13 probability distributions Lean Six Sigma uses, learn when each one fits, and find the answer in Excel or Minitab.'
+    },
+    {
       marker: 'data-anova-analysis-one-stop-shop',
       sectionId: 'statistics',
       path: '/lessons/statistics/anova-analysis-one-stop-shop',

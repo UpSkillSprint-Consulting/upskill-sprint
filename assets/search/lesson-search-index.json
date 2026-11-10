@@ -1,9 +1,9 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 58,
-  "contentLessonCount": 57,
-  "sectionCount": 2995,
+  "lessonCount": 59,
+  "contentLessonCount": 58,
+  "sectionCount": 3039,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -12897,6 +12897,661 @@
           "kinds": [
             "section",
             "example"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "statistics--probability-distributions-for-lean-six-sigma",
+      "path": "/lessons/statistics/probability-distributions-for-lean-six-sigma",
+      "title": "Probability Distributions for Lean Six Sigma",
+      "description": "Meet the 13 probability distributions Lean Six Sigma uses, learn when each one fits, and find the answer in Excel or Minitab.",
+      "topic": "statistics",
+      "level": "beginner",
+      "minutes": 55,
+      "interactive": true,
+      "keywords": [
+        "probability distributions",
+        "normal distribution",
+        "binomial",
+        "poisson",
+        "hypergeometric",
+        "exponential",
+        "weibull",
+        "lognormal",
+        "uniform",
+        "student t",
+        "chi square",
+        "f distribution",
+        "distribution zoo",
+        "cssbb",
+        "cqe",
+        "probability distributions distribution zoo normal uniform exponential weibull lognormal bivariate binomial poisson hypergeometric z student t chi square f excel minitab cssbb cqe beginner statistics interactive poster"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "pd-title",
+          "heading": "Probability Distributions for Lean Six Sigma",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma"
+          ],
+          "text": "Welcome to the Distribution Zoo. Probability distributions are the shapes your data makes. Lean Six Sigma uses 13 of them. Meet each one, learn when to use it, and get answers in Excel or Minitab. 13 shapes, 3 families Pick the family first, then the member. 6 Measure-it Shapes of things you measure Normal · Uniform · Exponential · Weibull · Lognormal · Bivariate normal 3 Count-it Shapes of things you count Binomial · Poisson · Hypergeometric 4 Test-it Referees for hypothesis tests Z · Student's t · Chi-square · F What is a distribution? Measured or counted? Meet the cast All 13 at a glance Shape Lab Pick the right one Excel and Minitab Quiz Part 1",
+          "excerpt": "Welcome to the Distribution Zoo. Probability distributions are the shapes your data makes. Lean Six Sigma uses 13 of them. Meet each one, learn when to use it, and get answers in Excel or Minitab. 13 shapes, 3 families Pick the family first, then the member.…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pd-what-h",
+          "heading": "What is a probability distribution?",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "What is a probability distribution?"
+          ],
+          "text": "A distribution is a picture of how often each result shows up . Drop balls through rows of pegs. Each ball bounces left or right at random, yet the pile always builds the same hill. Each bar is one bin. Tall bars in the middle, short bars at the edges. Showing the expected pile for 100 balls. Left to right holds every possible result. Taller means it happens more often. Area is the chance. All the area adds up to 100%. The secret: to find a chance, find an area. Excel and Minitab do the area math. Your job is to pick the right shape. Part 2",
+          "excerpt": "A distribution is a picture of how often each result shows up . Drop balls through rows of pegs. Each ball bounces left or right at random, yet the pile always builds the same hill. Each bar is one bin. Tall bars in the middle, short bars at the edges.…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pd-kinds-h",
+          "heading": "Measured data or counted data?",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Measured data or counted data?"
+          ],
+          "text": "Ask one question before you pick a shape: could the answer have a decimal? Yes: measured",
+          "excerpt": "Ask one question before you pick a shape: could the answer have a decimal? Yes: measured",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-continuous-data",
+          "heading": "Continuous data",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Measured data or counted data?",
+            "Continuous data"
+          ],
+          "text": "Ruler, scale, gauge or clock. 10.03 mm, 4.7 minutes. Picture: a smooth curve. No: counted",
+          "excerpt": "Ruler, scale, gauge or clock. 10.03 mm, 4.7 minutes. Picture: a smooth curve. No: counted",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-discrete-data",
+          "heading": "Discrete data",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Measured data or counted data?",
+            "Discrete data"
+          ],
+          "text": "Whole numbers: 0, 1, 2, 3. No such thing as 2.5 scratches. Picture: separate bars. Part 3",
+          "excerpt": "Whole numbers: 0, 1, 2, 3. No such thing as 2.5 scratches. Picture: separate bars. Part 3",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pd-cast-h",
+          "heading": "Meet the cast: the Secret Personalities poster",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Meet the cast: the Secret Personalities poster"
+          ],
+          "text": "Eight famous distributions have big personalities. Read the poster, then keep a copy. Download the poster (PDF, 149 KB) One long page, sized to print or to read on screen. The Secret Personalities of Process Data Meet the wild curves, sharp peaks, and unpredictable shapes running your operations. Data isn’t just cold numbers on a spreadsheet—it has moods! Some distributions are predictably chill, while others decay into chaos or explode without warning. Knowing who’s who is the ultimate Black Belt superpower. Let’s meet the cast and find out who’s really running your process.",
+          "excerpt": "Eight famous distributions have big personalities. Read the poster, then keep a copy. Download the poster (PDF, 149 KB) One long page, sized to print or to read on screen. The Secret Personalities of Process Data Meet the wild curves, sharp peaks, and…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pd-crew-measure-h",
+          "heading": "The Measure-It Crew",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Meet the cast: the Secret Personalities poster",
+            "The Measure-It Crew"
+          ],
+          "text": "Things you measure with a ruler, scale or clock. Standard deviation boundaries",
+          "excerpt": "Things you measure with a ruler, scale or clock. Standard deviation boundaries",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-the-normal-distribution",
+          "heading": "The Normal Distribution",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Meet the cast: the Secret Personalities poster",
+            "The Measure-It Crew",
+            "The Normal Distribution"
+          ],
+          "text": "“The Overachiever” The Vibe Balanced, predictable, and everyone’s favorite neighbor. Memorable Phrase “Symmetrical, centered, and living right on the mean.” The Story This is your classic bell curve. It loves balance, treats standard deviations like personal boundaries, and never surprises anyone. When you see a Normal Distribution, you can practically hear it sighing with relief. Multiplicative growth tail",
+          "excerpt": "“The Overachiever” The Vibe Balanced, predictable, and everyone’s favorite neighbor. Memorable Phrase “Symmetrical, centered, and living right on the mean.” The Story This is your classic bell curve. It loves balance, treats standard deviations like personal…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-the-lognormal-distribution",
+          "heading": "The Lognormal Distribution",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Meet the cast: the Secret Personalities poster",
+            "The Measure-It Crew",
+            "The Lognormal Distribution"
+          ],
+          "text": "“The Over-Caffeinated Achiever” The Vibe Starts fast, zooms past everyone, and drags a massive tail behind it. Memorable Phrase “Right-skewed, multiplicative, and never looks back.” The Story You’ll find this personality hiding in cycle times and financial data. It can’t go below zero, but boy, can it stretch out to the right when things get wild! Memoryless decay",
+          "excerpt": "“The Over-Caffeinated Achiever” The Vibe Starts fast, zooms past everyone, and drags a massive tail behind it. Memorable Phrase “Right-skewed, multiplicative, and never looks back.” The Story You’ll find this personality hiding in cycle times and financial…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-the-exponential-distribution",
+          "heading": "The Exponential Distribution",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Meet the cast: the Secret Personalities poster",
+            "The Measure-It Crew",
+            "The Exponential Distribution"
+          ],
+          "text": "“The Impatient Waiter” The Vibe High energy at the very beginning, fading out into the distance. Memorable Phrase “Memoryless decay—the shorter the wait, the higher the thrill!” The Story Perfect for tracking time-between-failures or customer wait times. It starts hot and heavy right at zero, then drops off like a skateboarder hitting a half-pipe. Shape parameter β",
+          "excerpt": "“The Impatient Waiter” The Vibe High energy at the very beginning, fading out into the distance. Memorable Phrase “Memoryless decay—the shorter the wait, the higher the thrill!” The Story Perfect for tracking time-between-failures or customer wait times. It…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-the-weibull-distribution",
+          "heading": "The Weibull Distribution",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Meet the cast: the Secret Personalities poster",
+            "The Measure-It Crew",
+            "The Weibull Distribution"
+          ],
+          "text": "“The Master of Disguise” The Vibe A total shape-shifter depending on its mood (or its shape parameter, \\(\\beta\\)). Memorable Phrase “From infant mortality to old-age wear-out, it wears any mask.” The Story The ultimate survivalist of the data world. Depending on how you tweak its settings, it can pretend to be exponential, mimic a normal curve, or predict when your machinery is finally going to give up the ghost.",
+          "excerpt": "“The Master of Disguise” The Vibe A total shape-shifter depending on its mood (or its shape parameter, \\(\\beta\\)). Memorable Phrase “From infant mortality to old-age wear-out, it wears any mask.” The Story The ultimate survivalist of the data world. Depending…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pd-crew-count-h",
+          "heading": "The Count-It Crew",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Meet the cast: the Secret Personalities poster",
+            "The Count-It Crew"
+          ],
+          "text": "Things you count in whole numbers. k successes out of n trials",
+          "excerpt": "Things you count in whole numbers. k successes out of n trials",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-the-binomial-distribution",
+          "heading": "The Binomial Distribution",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Meet the cast: the Secret Personalities poster",
+            "The Count-It Crew",
+            "The Binomial Distribution"
+          ],
+          "text": "“The Coin-Flip Master” The Vibe Clear-cut, simple, pass/fail decision-maker. Memorable Phrase “Heads or tails? Counting exact successes across trials!” The Story Life is wonderfully straightforward for the Binomial Distribution: things either pass or fail, go or no-go. Whether you’re inspecting batch parts or tossing a coin on the assembly line, it calculates the exact odds of getting k successes out of n total attempts. Events per unit",
+          "excerpt": "“The Coin-Flip Master” The Vibe Clear-cut, simple, pass/fail decision-maker. Memorable Phrase “Heads or tails? Counting exact successes across trials!” The Story Life is wonderfully straightforward for the Binomial Distribution: things either pass or fail, go…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-the-poisson-distribution",
+          "heading": "The Poisson Distribution",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Meet the cast: the Secret Personalities poster",
+            "The Count-It Crew",
+            "The Poisson Distribution"
+          ],
+          "text": "“The Beep Counter” The Vibe Unbothered by time, obsessed with tallies—it just keeps counting the beeps. Memorable Phrase “How many? Not how long!” The Story Counting rare events in a fixed space, one beep at a time. It doesn’t care about continuous curves—it only wants to know how many: discrete, countable, done!",
+          "excerpt": "“The Beep Counter” The Vibe Unbothered by time, obsessed with tallies—it just keeps counting the beeps. Memorable Phrase “How many? Not how long!” The Story Counting rare events in a fixed space, one beep at a time. It doesn’t care about continuous curves—it…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pd-crew-test-h",
+          "heading": "The Test-It Crew",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Meet the cast: the Secret Personalities poster",
+            "The Test-It Crew"
+          ],
+          "text": "The referees that judge your hypothesis tests. Observed vs expected",
+          "excerpt": "The referees that judge your hypothesis tests. Observed vs expected",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-the-chi-square-distribution-chi-2",
+          "heading": "The Chi-Square Distribution (\\(\\chi^2\\))",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Meet the cast: the Secret Personalities poster",
+            "The Test-It Crew",
+            "The Chi-Square Distribution (\\(\\chi^2\\))"
+          ],
+          "text": "“The Detective” The Vibe Always squinting through a magnifying glass, asking, “Does reality match our expectations?” Memorable Phrase “Squaring the gaps between observed and expected!” The Story This distribution loves categorical data and contingency tables. If you want to know whether defect rates depend on which shift is working—or if your sample actually fits a theoretical model—the Chi-Square detective cracks the case by summing up all the squared discrepancies. Comparing process variance",
+          "excerpt": "“The Detective” The Vibe Always squinting through a magnifying glass, asking, “Does reality match our expectations?” Memorable Phrase “Squaring the gaps between observed and expected!” The Story This distribution loves categorical data and contingency tables.…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-the-f-distribution",
+          "heading": "The F-Distribution",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Meet the cast: the Secret Personalities poster",
+            "The Test-It Crew",
+            "The F-Distribution"
+          ],
+          "text": "“The Ratio Referee” The Vibe Fair, strict, and constantly comparing two opponents to see who rules. Memorable Phrase “Calling the ratio play in ANOVA!” The Story Whenever two process variations step into the ring for an ANOVA showdown, the F-Distribution shows up. It strictly analyzes the ratio of variances to tell you if a factor is genuinely making an impact or just making noise. Level up your Black Belt knowledge! Part 4",
+          "excerpt": "“The Ratio Referee” The Vibe Fair, strict, and constantly comparing two opponents to see who rules. Memorable Phrase “Calling the ratio play in ANOVA!” The Story Whenever two process variations step into the ring for an ANOVA showdown, the F-Distribution…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pd-zoo-h",
+          "heading": "All 13 distributions at a glance",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance"
+          ],
+          "text": "Your field guide: the shape, an everyday example, a shop-floor example and exam key words. Showing all 13 distributions. Measure-it",
+          "excerpt": "Your field guide: the shape, an everyday example, a shop-floor example and exam key words. Showing all 13 distributions. Measure-it",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-normal",
+          "heading": "Normal",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance",
+            "Normal"
+          ],
+          "text": "The Bell Curve Think of it like Heights in your grade: most near the middle, a few very short or very tall. On the shop floor Pipe wall thickness, fill weight. symmetric bell-shaped average and spread Z-score Measure-it",
+          "excerpt": "The Bell Curve Think of it like Heights in your grade: most near the middle, a few very short or very tall. On the shop floor Pipe wall thickness, fill weight. symmetric bell-shaped average and spread Z-score Measure-it",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-uniform",
+          "heading": "Uniform",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance",
+            "Uniform"
+          ],
+          "text": "The Flat Line Think of it like Rolling a fair die. Every face has the same chance. On the shop floor Picking random audit times. equally likely between a and b random Measure-it",
+          "excerpt": "The Flat Line Think of it like Rolling a fair die. Every face has the same chance. On the shop floor Picking random audit times. equally likely between a and b random Measure-it",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-exponential",
+          "heading": "Exponential",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance",
+            "Exponential"
+          ],
+          "text": "The Waiting Game Think of it like Waiting for your next text. Short waits are common, long ones rare. On the shop floor Time between sensor breakdowns. MTBF constant failure rate memoryless Measure-it",
+          "excerpt": "The Waiting Game Think of it like Waiting for your next text. Short waits are common, long ones rare. On the shop floor Time between sensor breakdowns. MTBF constant failure rate memoryless Measure-it",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-weibull",
+          "heading": "Weibull",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance",
+            "Weibull"
+          ],
+          "text": "The Shape-Shifter Think of it like Phone batteries: a few die early, most wear out after years. On the shop floor Bearing life, roll wear. shape scale early failures wear-out Measure-it",
+          "excerpt": "The Shape-Shifter Think of it like Phone batteries: a few die early, most wear out after years. On the shop floor Bearing life, roll wear. shape scale early failures wear-out Measure-it",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-lognormal",
+          "heading": "Lognormal",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance",
+            "Lognormal"
+          ],
+          "text": "The Lopsided Hill Think of it like Time to finish a test: most finish together, a few take ages. On the shop floor Repair times, cycle times. skewed right repair time log is normal Measure-it",
+          "excerpt": "The Lopsided Hill Think of it like Time to finish a test: most finish together, a few take ages. On the shop floor Repair times, cycle times. skewed right repair time log is normal Measure-it",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-bivariate-normal",
+          "heading": "Bivariate normal",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance",
+            "Bivariate normal"
+          ],
+          "text": "The Football Cloud Think of it like Height and arm span: taller people usually have longer arms. On the shop floor Hardness and strength of one test piece. two variables correlation scatterplot Count-it",
+          "excerpt": "The Football Cloud Think of it like Height and arm span: taller people usually have longer arms. On the shop floor Hardness and strength of one test piece. two variables correlation scatterplot Count-it",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-binomial",
+          "heading": "Binomial",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance",
+            "Binomial"
+          ],
+          "text": "The Coin-Flip Counter Think of it like Shooting 10 free throws. How many go in? On the shop floor Bad pipes in a sample of 50. n tries pass or fail proportion defective Count-it",
+          "excerpt": "The Coin-Flip Counter Think of it like Shooting 10 free throws. How many go in? On the shop floor Bad pipes in a sample of 50. n tries pass or fail proportion defective Count-it",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-poisson",
+          "heading": "Poisson",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance",
+            "Poisson"
+          ],
+          "text": "The Event Counter Think of it like Texts you get per hour, or potholes per kilometre of road. On the shop floor Scratches per coil. defects per unit rate rare events Count-it",
+          "excerpt": "The Event Counter Think of it like Texts you get per hour, or potholes per kilometre of road. On the shop floor Scratches per coil. defects per unit rate rare events Count-it",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-hypergeometric",
+          "heading": "Hypergeometric",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance",
+            "Hypergeometric"
+          ],
+          "text": "The Bag of Candy Think of it like Grabbing 5 candies from a bag of 20 without putting any back. On the shop floor Checking 5 pipes from a bundle of 20. lot of N without replacement small lot Test-it",
+          "excerpt": "The Bag of Candy Think of it like Grabbing 5 candies from a bag of 20 without putting any back. On the shop floor Checking 5 pipes from a bundle of 20. lot of N without replacement small lot Test-it",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-standard-normal-z",
+          "heading": "Standard normal (Z)",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance",
+            "Standard normal (Z)"
+          ],
+          "text": "The Z-Score Ruler Think of it like Counting how many standard deviations you are from the average. On the shop floor Sigma level in capability studies. spread known Z-score 1.96 Test-it",
+          "excerpt": "The Z-Score Ruler Think of it like Counting how many standard deviations you are from the average. On the shop floor Sigma level in capability studies. spread known Z-score 1.96 Test-it",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-student-s-t",
+          "heading": "Student's t",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance",
+            "Student's t"
+          ],
+          "text": "The Cautious Bell Think of it like A bell with fatter tails, because small samples are less sure. On the shop floor Did heat treatment change hardness? spread unknown small sample degrees of freedom Test-it",
+          "excerpt": "The Cautious Bell Think of it like A bell with fatter tails, because small samples are less sure. On the shop floor Did heat treatment change hardness? spread unknown small sample degrees of freedom Test-it",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-chi-square",
+          "heading": "Chi-square",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance",
+            "Chi-square"
+          ],
+          "text": "The Mismatch Meter Think of it like Checking how far your die rolls are from the counts you expected. On the shop floor Is defect type linked to the shift? observed vs expected one variance categories Test-it",
+          "excerpt": "The Mismatch Meter Think of it like Checking how far your die rolls are from the counts you expected. On the shop floor Is defect type linked to the shift? observed vs expected one variance categories Test-it",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-f",
+          "heading": "F",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "All 13 distributions at a glance",
+            "F"
+          ],
+          "text": "The Spread Comparer Think of it like Dividing one class's spread of marks by another's. On the shop floor Is Line 1 more variable than Line 2? two variances ANOVA ratio Part 5",
+          "excerpt": "The Spread Comparer Think of it like Dividing one class's spread of marks by another's. On the shop floor Is Line 1 more variable than Line 2? two variances ANOVA ratio Part 5",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pd-lab-h",
+          "heading": "Shape Lab: change a distribution and watch it move",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Shape Lab: change a distribution and watch it move"
+          ],
+          "text": "Pick a distribution and move the sliders. Shade an area with the cutoff. The big number is the chance; the Excel formula gives the same number. Distribution Cutoff Shade which side? 0.8413 Excel Minitab Part 6",
+          "excerpt": "Pick a distribution and move the sliders. Shade an area with the cutoff. The big number is the chance; the Excel formula gives the same number. Distribution Cutoff Shade which side? 0.8413 Excel Minitab Part 6",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "pd-pick-h",
+          "heading": "Which distribution should I use?",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Which distribution should I use?"
+          ],
+          "text": "Answer two or three questions. The helper names the distribution and where to find it.",
+          "excerpt": "Answer two or three questions. The helper names the distribution and where to find it.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pd-cheat-h",
+          "heading": "One-page cheat sheet",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Which distribution should I use?",
+            "One-page cheat sheet"
+          ],
+          "text": "If your problem sounds like… Use Family A measurement that clusters evenly around an average Normal Measure-it Every value between a low and a high is equally likely Uniform Measure-it Time between random events; a constant failure rate Exponential Measure-it Product life with early failures or wear-out Weibull Measure-it Positive data with a long tail to the right Lognormal Measure-it Two related measurements on the same item Bivariate normal Measure-it Defective items in a sample from a big lot Binomial Count-it Defects or events per unit, length, area or hour Poisson Count-it Defectives pulled from a small lot without putting back Hypergeometric Count-it Testing a mean when the true spread is known Z Test-it Testing a mean with a small sample Student's t Test-it One variance, or counts sorted into categories Chi-square Test-it Two variances, or three or more means (ANOVA) F Test-it Do it in software",
+          "excerpt": "If your problem sounds like… Use Family A measurement that clusters evenly around an average Normal Measure-it Every value between a low and a high is equally likely Uniform Measure-it Time between random events; a constant failure rate Exponential Measure-it…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pd-implementation-h",
+          "heading": "Statistics Implementation",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Statistics Implementation"
+          ],
+          "text": "",
+          "excerpt": "Statistics Implementation",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pd-excel-functions",
+          "heading": "Excel functions",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Statistics Implementation",
+            "Excel functions"
+          ],
+          "text": "Use the new names with a dot. Set cumulative to TRUE for \"at or below\", or FALSE for \"exactly\". Function Syntax Purpose When to use it Normal and Z NORM.DIST =NORM.DIST(x, mean, standard_dev, cumulative) Area left of x Below a spec limit NORM.INV =NORM.INV(probability, mean, standard_dev) Cutoff for an area 95th percentile NORM.S.DIST =NORM.S.DIST(z, cumulative) Area left of z You have a Z-score NORM.S.INV =NORM.S.INV(probability) Z for an area Critical values STANDARDIZE =STANDARDIZE(x, mean, standard_dev) x as a Z-score Before a Z table Z.TEST =Z.TEST(array, x, [sigma]) One-tail P-value Spread known Student's t T.DIST =T.DIST(x, deg_freedom, cumulative) Left-tail area \"Less than\" test T.DIST.RT =T.DIST.RT(x, deg_freedom) Right-tail area \"Greater than\" test T.DIST.2T =T.DIST.2T(x, deg_freedom) Both tails (x ≥ 0) Two-sided test T.INV / T.INV.2T =T.INV.2T(probability, deg_freedom) Critical t Intervals T.TEST =T.TEST(array1, array2, tails, type) P-value from data type 1 paired, 2 equal, 3 unequal Chi-square and F CHISQ.DIST.RT =CHISQ.DIST.RT(x, deg_freedom) Right tail Chi-square P-value CHISQ.INV.RT =CHISQ.INV.RT(probability, deg_freedom) Critical value Test cutoff CHISQ.TEST =CHISQ.TEST(actual_range, expected_range) P-value from tables Counts by category F.DIST.RT =F.DIST.RT(x, deg_freedom1, deg_freedom2) Right tail ANOVA P-value F.INV.RT =F.INV.RT(probability, deg_freedom1, deg_freedom2) Critical value ANOVA cutoff F.TEST =F.TEST(array1, array2) Two-tail P-value Equal spreads? Counts BINOM.DIST =BINOM.DIST(number_s, trials, probability_s, cumulative) Exactly or at most k Bad parts in a sample BINOM.DIST.RANGE =BINOM.DIST.RANGE(trials, probability_s, number_s, [number_s2]) Between two counts \"1 to 3 defectives\" POISSON.DIST =POISSON.DIST(x, mean, cumulative) Exactly or at most x Defects per unit HYPGEOM.DIST =HYPGEOM.DIST(sample_s, number_sample, population_s, number_pop, cumulative) No replacement Small lots Life, time and others EXPON.DIST =EXPON.DIST(x, lambda, cumulative) Failed by time x Constant failure rate WEIBULL.DIST =WEIBULL.DIST(x, alpha, beta, cumulative) Failed by time x alpha is the shape LOGNORM.DIST =LOGNORM.DIST(x, mean, standard_dev, cumulative) Area left of x Repair times RANDBETWEEN =RANDBETWEEN(bottom, top) Random whole number Uniform: pick random times CORREL =CORREL(array1, array2) Correlation r Two related measurements",
+          "excerpt": "Use the new names with a dot. Set cumulative to TRUE for \"at or below\", or FALSE for \"exactly\". Function Syntax Purpose When to use it Normal and Z NORM.DIST =NORM.DIST(x, mean, standard_dev, cumulative) Area left of x Below a spec limit NORM.INV…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "pd-excel-uses",
+          "heading": "Excel use cases",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Statistics Implementation",
+            "Excel use cases"
+          ],
+          "text": "Made-up examples. Type any formula into a cell to get the same answer. Question Formula Answer",
+          "excerpt": "Made-up examples. Type any formula into a cell to get the same answer. Question Formula Answer",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "pd-minitab",
+          "heading": "Minitab navigation",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Statistics Implementation",
+            "Minitab navigation"
+          ],
+          "text": "Task Menu path Other path Which one and why Get any probability or cutoff Calc → Probability Distributions → [distribution] Graph → Probability Distribution Plot → View Probability Calc gives the number; the graph shows the tail. Is my data normal? Stat → Basic Statistics → Normality Test Stat → Basic Statistics → Graphical Summary P above 0.05: no sign of trouble. Which shape fits my data? Stat → Quality Tools → Individual Distribution Identification Graph → Probability Plot Ranks many shapes by fit. Test a mean Stat → Basic Statistics → 1-Sample t Stat → Basic Statistics → 1-Sample Z Z only if the spread is known. Compare spreads Stat → Basic Statistics → 2 Variances Stat → ANOVA → Test for Equal Variances Second one for 3+ groups. Compare three or more means Stat → ANOVA → One-Way Assistant → Hypothesis Tests The Assistant guides beginners. Counts in categories Stat → Tables → Chi-Square Test for Association Stat → Tables → Chi-Square Goodness-of-Fit Test (One Variable) Table vs one list. Defectives (binomial) Stat → Basic Statistics → 1 Proportion Stat → Control Charts → Attributes Charts → P P chart for changing sample sizes. Defects (Poisson) Stat → Basic Statistics → 1-Sample Poisson Rate Stat → Control Charts → Attributes Charts → U U chart for changing unit sizes. Life data (Weibull, exponential) Stat → Reliability/Survival → Distribution Analysis (Right Censoring) → Parametric Distribution Analysis Stat → Quality Tools → Capability Analysis → Nonnormal Handles parts still running.",
+          "excerpt": "Task Menu path Other path Which one and why Get any probability or cutoff Calc → Probability Distributions → [distribution] Graph → Probability Distribution Plot → View Probability Calc gives the number; the graph shows the tail. Is my data normal? Stat →…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pd-exam-tips",
+          "heading": "Exam tips",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Statistics Implementation",
+            "Exam tips"
+          ],
+          "text": "",
+          "excerpt": "Exam tips",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-on-exam-day",
+          "heading": "On exam day",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Statistics Implementation",
+            "Exam tips",
+            "On exam day"
+          ],
+          "text": "No Excel or Minitab in the room. Practise with printed tables. Check whether your Z table shows the left or the right area. Pick the family first, then the member.",
+          "excerpt": "No Excel or Minitab in the room. Practise with printed tables. Check whether your Z table shows the left or the right area. Pick the family first, then the member.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-trigger-words",
+          "heading": "Trigger words",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Statistics Implementation",
+            "Exam tips",
+            "Trigger words"
+          ],
+          "text": "\"defectives in a sample of n\": binomial \"defects per unit\": Poisson \"lot of N, without replacement\": hypergeometric \"MTBF, constant failure rate\": exponential \"shape parameter, wear-out\": Weibull",
+          "excerpt": "\"defectives in a sample of n\": binomial \"defects per unit\": Poisson \"lot of N, without replacement\": hypergeometric \"MTBF, constant failure rate\": exponential \"shape parameter, wear-out\": Weibull",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-numbers-to-know",
+          "heading": "Numbers to know",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Statistics Implementation",
+            "Exam tips",
+            "Numbers to know"
+          ],
+          "text": "Binomial mean \\(np\\), variance \\(np(1-p)\\). Poisson mean and variance are both \\(\\lambda\\). Exponential reliability \\(R(t) = e^{-\\lambda t}\\), where \\(\\lambda = 1/\\text{MTBF}\\). Weibull \\(\\beta < 1\\) early failures, \\(\\beta = 1\\) exponential, \\(\\beta > 1\\) wear-out.",
+          "excerpt": "Binomial mean \\(np\\), variance \\(np(1-p)\\). Poisson mean and variance are both \\(\\lambda\\). Exponential reliability \\(R(t) = e^{-\\lambda t}\\), where \\(\\lambda = 1/\\text{MTBF}\\). Weibull \\(\\beta < 1\\) early failures, \\(\\beta = 1\\) exponential, \\(\\beta > 1\\)…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-excel-traps",
+          "heading": "Excel traps",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Statistics Implementation",
+            "Exam tips",
+            "Excel traps"
+          ],
+          "text": "T.DIST.2T errors on a negative t. Use ABS() . Z.TEST gives one tail only. EXPON.DIST wants the rate, not the MTBF. LOGNORM.DIST wants the mean and standard deviation of ln(x). The ASQ CSSBB and CQE Bodies of Knowledge list these distributions. Check the shape before any capability study.",
+          "excerpt": "T.DIST.2T errors on a negative t. Use ABS() . Z.TEST gives one tail only. EXPON.DIST wants the rate, not the MTBF. LOGNORM.DIST wants the mean and standard deviation of ln(x). The ASQ CSSBB and CQE Bodies of Knowledge list these distributions. Check the shape…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-related-lessons",
+          "heading": "Related lessons",
+          "breadcrumb": [
+            "Probability Distributions for Lean Six Sigma",
+            "Related lessons"
+          ],
+          "text": "Probability Basics: The Language of Chance — the chance rules underneath. The Normal Distribution: Meet the Bell Curve — the zoo's star, up close. Beyond the Bell — how the shapes connect. Chi-Square Goodness-of-Fit Test — test if counts fit a shape. Hypothesis Testing for Beginners — the referees at work.",
+          "excerpt": "Probability Basics: The Language of Chance — the chance rules underneath. The Normal Distribution: Meet the Bell Curve — the zoo's star, up close. Beyond the Bell — how the shapes connect. Chi-Square Goodness-of-Fit Test — test if counts fit a shape.…",
+          "kinds": [
+            "section"
           ]
         }
       ]
