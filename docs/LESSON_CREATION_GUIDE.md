@@ -973,6 +973,51 @@ correct, verify against the existing statistics lessons or official documentatio
 so. Never guess. Excel/Minitab/SQL syntax is **code** (`<code>`), not math. The underlying
 formulas are math and follow §22.
 
+### 11.1 The section is a click-to-open dropdown with a playful button (MUST, from Nov 2026)
+
+**Standard set by Ernest, Nov 2026.** In every new statistics lesson, the Statistics Implementation section is
+**hidden until the learner clicks it**. Its button MUST be fun and make people want to click. The four
+parts above stay inside the panel, in the same order. Reference implementation:
+`lessons/statistics/probability-distributions-for-lean-six-sigma.html` (PR #402), `.pd-impl`.
+
+1. **Native `<details>`, closed by default.** No `open` attribute. The `<summary>` holds the section's
+   kicker, the `<h2>Statistics Implementation</h2>`, a teaser line and the button label. Use
+   `<details>`, not a scripted `<div>`: it works by keyboard (Tab, then Enter or Space) and site search
+   opens it automatically (§12.3).
+2. **A playful button label and teaser.** Write them in the lesson's own voice, for example "Unlock the
+   cheat codes" with "Psst. This is where Excel and Minitab do the heavy lifting for you, and where the
+   exam hides its sneakiest questions." When the panel is open, swap both to an "opened" version (e.g.
+   "Hide the cheat codes" and "You found the secret level…"). Each teaser stays under 30 words. Show
+   one label at a time with CSS on `[open]`, so screen readers hear only the visible one.
+3. **Attention nudge.** While closed, the button gives a short wiggle every few seconds
+   (`@keyframes lesson-<slug>-nudge`, about 4–5 s per loop with the movement in the last ~15%), plus a
+   small lift on hover. The animation stops once the panel is open, and the lesson's
+   `prefers-reduced-motion` rule turns it off completely. Keep it gentle: a few degrees of rotation, no
+   flashing (WCAG 2.3).
+4. **Opens from links.** The contents link to the section, and any link to a heading inside it
+   (e.g. `#…-minitab`), sets `open = true` (on click and on `hashchange`).
+5. **Looks like a button.** A pill with a chevron that turns when open, at least 44×44 px, AA contrast
+   in both themes, a visible focus ring on the `<summary>`. Hide the native marker
+   (`summary::-webkit-details-marker{display:none}`, `list-style:none`). On phones the button drops
+   below the heading.
+6. **Test it.** The lesson test asserts the panel is closed by default, that the `<summary>` holds the
+   `<h2>` and the button, that all four parts are inside, that the contents link and a hash link open
+   it, and that the nudge animation and the reduced-motion rule exist.
+
+```html
+<details class="<slug>-impl" id="<slug>-impl-details">
+  <summary class="<slug>-impl-summary">
+    <span class="<slug>-step">Do it in software</span>
+    <h2 id="<slug>-implementation-h">Statistics Implementation</h2>
+    <span class="<slug>-impl-tease"><span class="<slug>-impl-show">Psst. …teaser in the lesson's voice…</span><span class="<slug>-impl-hide">You found the secret level. …</span></span>
+    <span class="<slug>-impl-hint"><span class="<slug>-impl-show">Unlock the cheat codes</span><span class="<slug>-impl-hide">Hide the cheat codes</span></span>
+  </summary>
+  <div class="<slug>-impl-body">
+    <!-- 1. Excel functions · 2. Excel use cases · 3. Minitab navigation · 4. Exam tips (h3 each) -->
+  </div>
+</details>
+```
+
 ---
 
 ## 12. Register the lesson in the catalog (`chi-square-lesson-library.js`)
@@ -1743,7 +1788,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] No role="img" on containers with focusable content; tabs follow the ARIA tabs pattern; no empty <th>; images have alt, width/height, sensible format and size.
 - [ ] Lesson CSS uses --lesson-/slug-prefixed properties only; no site token redefined; no broad chrome selectors; dark override block last.
 - [ ] New engineering tool? Loads /assets/osiris-tool-theme.css after the §5 tags; body.osx-page + main.osx-tool; colours only via --osx-* tokens; follows the site toggle in both themes; no §9.8 rule-5 class names.
-- [ ] Statistics lesson? "Statistics Implementation" section present with all 4 parts.
+- [ ] Statistics lesson? "Statistics Implementation" section present with all 4 parts, inside a closed `<details>` dropdown with a playful, nudging button (§11.1).
 - [ ] Every formula is LaTeX typeset per §22 (no plain-text math, no `$` delimiters); math loads only via `/assets/js/math.js` (or the §22.1 fallback until PR #259 merges); variables defined; renders in both themes.
 - [ ] Every referenced dataset/asset exists under assets/lessons/<slug>/ and downloads; no broken links or images.
 - [ ] Update task? No existing content removed/shortened; headings + body text preserved.
