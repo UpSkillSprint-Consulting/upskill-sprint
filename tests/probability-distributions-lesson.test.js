@@ -161,6 +161,21 @@ test('the Secret Personalities poster keeps its copy and ships as a downloadable
   assert.match(link.textContent, new RegExp(`PDF, ${Math.round(bytes / 1024)} KB`));
 });
 
+test('the formula quick reference ships as a second 11 x 17 in PDF download', () => {
+  const QR = `assets/lessons/${SLUG}/probability-distributions-quick-reference.pdf`;
+  const links = [...doc.querySelectorAll('#pd-cast a[download]')];
+  assert.deepEqual(links.map(a => a.getAttribute('href')), [`/${PDF}`, `/${QR}`]);
+  const buf = fs.readFileSync(path.join(ROOT, QR));
+  assert.equal(buf.subarray(0, 5).toString(), '%PDF-');
+  assert(buf.length > 20000 && buf.length < 10 * 1024 * 1024);
+  // One page, 17 x 11 in (1224 x 792 pt).
+  const box = buf.toString('latin1').match(/\/MediaBox\s*\[\s*0\s+0\s+([\d.]+)\s+([\d.]+)\s*\]/);
+  assert(box, 'MediaBox');
+  assert.deepEqual([Math.round(+box[1]), Math.round(+box[2])], [1224, 792]);
+  assert.equal((buf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length, 1);
+  assert.match(links[1].textContent, new RegExp(`11 × 17 in, ${Math.round(buf.length / 1024)} KB`));
+});
+
 test('every chart is an accessible image with a title and description, coloured by tokens', () => {
   const svgs = [...doc.querySelectorAll('#lesson-content svg[role="img"]')];
   assert(svgs.length >= 12, String(svgs.length));
