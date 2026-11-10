@@ -26,6 +26,8 @@ const SEASONAL_EFFECTS_TAG = /(?:<script src="\/(?:seasonal-effects|site-ticker)
 // <body> and its <style> right before </head> on pages that have no skip link. It is site-wide chrome, not lesson content.
 const SKIP_LINK_TAGS=/<style id="uss-skip-link-style">[^<]*<\/style>\n(?=<\/head>)|(?<=<body\b[^>]*>)\n<a class="uss-skip-link" href="#[^"]+">Skip to main content<\/a>/g;
 const reviewedSource = body => body.replace(NETLIFY_DEPLOYMENT_BLOCK, '').replace(SEASONAL_EFFECTS_TAG, '').replace(SKIP_LINK_TAGS, '');
+// build:site also adds lesson JSON-LD (scripts/inject-lesson-jsonld.mjs); the preview must equal exactly that staged source.
+const stagedSource = async () => (await import(require('node:url').pathToFileURL(path.join(ROOT, 'scripts/preview-expected-source.mjs')).href)).expectedPreviewSource(html, LESSON);
 const report = { cases: [], baseline: [], matrix: [], preview: null, failures: [] };
 function save() {
   fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(report, null, 2));
@@ -263,11 +265,11 @@ async function interactions(page) {
     const preview=process.env.SPREAD_LAB_PREVIEW_URL;
     if(preview){
       await check('Netlify deploy preview contains the exact reviewed lesson',async()=>{
-        let body='';
-        for(let i=0;i<12;i++){const response=await fetch(preview+ROUTE);body=await response.text();if(reviewedSource(body)===html)break;await new Promise(r=>setTimeout(r,5000));}
+        let body='';const expected=await stagedSource();
+        for(let i=0;i<12;i++){const response=await fetch(preview+ROUTE);body=await response.text();if(reviewedSource(body)===expected)break;await new Promise(r=>setTimeout(r,5000));}
         fs.writeFileSync(path.join(OUT,'preview-response.html'),body);
-        assert.equal(reviewedSource(body)===html,true,'Preview differs from the exact reviewed lesson after removing only the verified Netlify deployment block');
-        report.preview={url:preview+ROUTE,sourceMatches:true,netlifyDeploymentBlockIgnored:body!==html,matrix:[]};
+        assert.equal(reviewedSource(body)===expected,true,'Preview differs from the exact reviewed lesson after removing only the verified Netlify deployment block');
+        report.preview={url:preview+ROUTE,sourceMatches:true,netlifyDeploymentBlockIgnored:body!==expected,lessonJsonLdInjected:expected!==html,matrix:[]};
       });
       if(report.preview?.sourceMatches){for(const width of [390,1440])for(const theme of ['light','dark']){
         await check('Netlify '+theme+'-'+width+' rendered smoke test',async()=>{
