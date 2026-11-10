@@ -61,7 +61,7 @@ test('metadata, head and SEO follow the lesson guide', () => {
   for (const src of ['/theme.js', '/site-sections.js']) assert(html.includes(`<script src="${src}"></script>`));
   assert(html.includes('<script defer src="/assets/js/math.js"></script>'));
   assert(html.indexOf('<link rel="stylesheet" href="/lessons-theme.css">') < html.indexOf('<style id="pd-style">'));
-  assert.match(doc.querySelector('.pd-lede').textContent, /Probability distributions/);
+  assert.match(doc.querySelector('.pd-lede').textContent, /probability distributions/i);
   // No $ math delimiters; formulas use \( \).
   assert(!/\$[^$]*\\[a-z]+/.test(html.replace(/<script[\s\S]*?<\/script>/g, '')));
 });

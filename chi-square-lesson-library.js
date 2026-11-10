@@ -130,7 +130,7 @@
       level: 'beginner',
       interactive: 'true',
       search: 'probability distributions distribution zoo normal uniform exponential weibull lognormal bivariate binomial poisson hypergeometric z student t chi square f excel minitab cssbb cqe beginner statistics interactive poster',
-      meta: '<span>Beginner</span><span>Interactive</span><span>55 min</span><span>Excel + Minitab</span>',
+      meta: '<span>Beginner</span><span>Interactive</span><span>60 min</span><span>Excel + Minitab</span>',
       title: 'Probability Distributions for Lean Six Sigma',
       description: 'Meet the 13 probability distributions Lean Six Sigma uses, learn when each one fits, and find the answer in Excel or Minitab.'
     },

@@ -12908,7 +12908,7 @@
       "description": "Meet the 13 probability distributions Lean Six Sigma uses, learn when each one fits, and find the answer in Excel or Minitab.",
       "topic": "statistics",
       "level": "beginner",
-      "minutes": 55,
+      "minutes": 60,
       "interactive": true,
       "keywords": [
         "probability distributions",
@@ -12937,8 +12937,8 @@
           "breadcrumb": [
             "Probability Distributions for Lean Six Sigma"
           ],
-          "text": "Welcome to the Distribution Zoo. Probability distributions are the shapes your data makes. Lean Six Sigma uses 13 of them. Meet each one, learn when to use it, and get answers in Excel or Minitab. 13 shapes, 3 families Pick the family first, then the member. 6 Measure-it Shapes of things you measure Normal · Uniform · Exponential · Weibull · Lognormal · Bivariate normal 3 Count-it Shapes of things you count Binomial · Poisson · Hypergeometric 4 Test-it Referees for hypothesis tests Z · Student's t · Chi-square · F What is a distribution? Measured or counted? Meet the cast All 13 at a glance Shape Lab Pick the right one Excel and Minitab Quiz Part 1",
-          "excerpt": "Welcome to the Distribution Zoo. Probability distributions are the shapes your data makes. Lean Six Sigma uses 13 of them. Meet each one, learn when to use it, and get answers in Excel or Minitab. 13 shapes, 3 families Pick the family first, then the member.…",
+          "text": "Welcome to the Distribution Zoo. Your data isn't random chaos. It has habits, and probability distributions are those habits: the shapes your data loves to make. Lean Six Sigma keeps 13 of them in the zoo. Grab a ticket. We'll meet every animal, learn when to call it, and teach it tricks in Excel and Minitab. The zoo map: 13 animals, 3 enclosures Find the right enclosure first, then the animal. 6 Measure-it Shapes of things you measure Normal · Uniform · Exponential · Weibull · Lognormal · Bivariate normal 3 Count-it Shapes of things you count Binomial · Poisson · Hypergeometric 4 Test-it Referees for hypothesis tests Z · Student's t · Chi-square · F What is a distribution? Measured or counted? Meet the cast All 13 at a glance Shape Lab Pick the right one Excel and Minitab Quiz Part 1",
+          "excerpt": "Welcome to the Distribution Zoo. Your data isn't random chaos. It has habits, and probability distributions are those habits: the shapes your data loves to make. Lean Six Sigma keeps 13 of them in the zoo. Grab a ticket. We'll meet every animal, learn when to…",
           "kinds": [
             "section"
           ]
@@ -12950,8 +12950,8 @@
             "Probability Distributions for Lean Six Sigma",
             "What is a probability distribution?"
           ],
-          "text": "A distribution is a picture of how often each result shows up . Drop balls through rows of pegs. Each ball bounces left or right at random, yet the pile always builds the same hill. Each bar is one bin. Tall bars in the middle, short bars at the edges. Showing the expected pile for 100 balls. Left to right holds every possible result. Taller means it happens more often. Area is the chance. All the area adds up to 100%. The secret: to find a chance, find an area. Excel and Minitab do the area math. Your job is to pick the right shape. Part 2",
-          "excerpt": "A distribution is a picture of how often each result shows up . Drop balls through rows of pegs. Each ball bounces left or right at random, yet the pile always builds the same hill. Each bar is one bin. Tall bars in the middle, short bars at the edges.…",
+          "text": "Tip a bucket of balls through rows of pegs. Every ball is a total coin-flipper: left, right, left. Nobody is in charge, yet every single time the pile builds the same hill. That hill is a distribution: a picture of how often each result shows up . Each bar is one bin. The middle bins always win; the edges stay lonely. This is the typical pile for 100 balls. Your turn: drop some. Left to right: every result that could happen. Taller: happens more often. The peak is the crowd favourite. Area: that's the chance. The whole hill adds up to 100%. The secret handshake: to find a chance, find an area. Good news: you never do that maths by hand. Excel and Minitab crunch the area. Your job is spotting the right shape. Part 2",
+          "excerpt": "Tip a bucket of balls through rows of pegs. Every ball is a total coin-flipper: left, right, left. Nobody is in charge, yet every single time the pile builds the same hill. That hill is a distribution: a picture of how often each result shows up . Each bar is…",
           "kinds": [
             "section"
           ]
@@ -12963,8 +12963,8 @@
             "Probability Distributions for Lean Six Sigma",
             "Measured data or counted data?"
           ],
-          "text": "Ask one question before you pick a shape: could the answer have a decimal? Yes: measured",
-          "excerpt": "Ask one question before you pick a shape: could the answer have a decimal? Yes: measured",
+          "text": "Before you pick an animal, play a quick game of Decimal or No Decimal. Could the answer have a decimal point? Decimals welcome",
+          "excerpt": "Before you pick an animal, play a quick game of Decimal or No Decimal. Could the answer have a decimal point? Decimals welcome",
           "kinds": [
             "section"
           ]
@@ -12977,8 +12977,8 @@
             "Measured data or counted data?",
             "Continuous data"
           ],
-          "text": "Ruler, scale, gauge or clock. 10.03 mm, 4.7 minutes. Picture: a smooth curve. No: counted",
-          "excerpt": "Ruler, scale, gauge or clock. 10.03 mm, 4.7 minutes. Picture: a smooth curve. No: counted",
+          "text": "Grab a ruler, scale, gauge or stopwatch. 10.03 mm, 4.7 minutes: decimals everywhere. Draws a smooth, rolling curve. Whole numbers only",
+          "excerpt": "Grab a ruler, scale, gauge or stopwatch. 10.03 mm, 4.7 minutes: decimals everywhere. Draws a smooth, rolling curve. Whole numbers only",
           "kinds": [
             "section"
           ]
@@ -12991,8 +12991,8 @@
             "Measured data or counted data?",
             "Discrete data"
           ],
-          "text": "Whole numbers: 0, 1, 2, 3. No such thing as 2.5 scratches. Picture: separate bars. Part 3",
-          "excerpt": "Whole numbers: 0, 1, 2, 3. No such thing as 2.5 scratches. Picture: separate bars. Part 3",
+          "text": "Count on your fingers: 0, 1, 2, 3. 2.5 scratches? Not a thing. Draws separate bars, like a city skyline. Part 3",
+          "excerpt": "Count on your fingers: 0, 1, 2, 3. 2.5 scratches? Not a thing. Draws separate bars, like a city skyline. Part 3",
           "kinds": [
             "section"
           ]
@@ -13004,8 +13004,8 @@
             "Probability Distributions for Lean Six Sigma",
             "Meet the cast: the Secret Personalities poster"
           ],
-          "text": "Eight famous distributions have big personalities. Read the poster, then keep a copy. Download the poster (PDF, 149 KB) Download the formula quick reference (PDF, 11 × 17 in, 168 KB) The poster is one long page. The quick reference adds the formulas, mean, variance and links for 16 distributions. The Secret Personalities of Process Data Meet the wild curves, sharp peaks, and unpredictable shapes running your operations. Data isn’t just cold numbers on a spreadsheet—it has moods! Some distributions are predictably chill, while others decay into chaos or explode without warning. Knowing who’s who is the ultimate Black Belt superpower. Let’s meet the cast and find out who’s really running your process.",
-          "excerpt": "Eight famous distributions have big personalities. Read the poster, then keep a copy. Download the poster (PDF, 149 KB) Download the formula quick reference (PDF, 11 × 17 in, 168 KB) The poster is one long page. The quick reference adds the formulas, mean,…",
+          "text": "Eight of the zoo's biggest celebrities come with big personalities. Meet the overachiever, the impatient waiter and the detective, then take them home for your wall. Download the poster (PDF, 149 KB) Download the formula quick reference (PDF, 11 × 17 in, 168 KB) The poster prints as one long page. The quick reference is your cheat sheet: every formula, mean and variance for 16 distributions. The Secret Personalities of Process Data Meet the wild curves, sharp peaks, and unpredictable shapes running your operations. Data isn’t just cold numbers on a spreadsheet—it has moods! Some distributions are predictably chill, while others decay into chaos or explode without warning. Knowing who’s who is the ultimate Black Belt superpower. Let’s meet the cast and find out who’s really running your process.",
+          "excerpt": "Eight of the zoo's biggest celebrities come with big personalities. Meet the overachiever, the impatient waiter and the detective, then take them home for your wall. Download the poster (PDF, 149 KB) Download the formula quick reference (PDF, 11 × 17 in, 168…",
           "kinds": [
             "section",
             "formula"
@@ -13180,11 +13180,10 @@
             "Probability Distributions for Lean Six Sigma",
             "All 13 distributions at a glance"
           ],
-          "text": "Your field guide: the shape, an everyday example, a shop-floor example and exam key words. Showing all 13 distributions. Measure-it",
-          "excerpt": "Your field guide: the shape, an everyday example, a shop-floor example and exam key words. Showing all 13 distributions. Measure-it",
+          "text": "Your field guide to the whole zoo. Each card shows the animal's shape, where you'd spot it in real life and on the shop floor, and the exam words that give it away. Showing all 13 distributions. Measure-it",
+          "excerpt": "Your field guide to the whole zoo. Each card shows the animal's shape, where you'd spot it in real life and on the shop floor, and the exam words that give it away. Showing all 13 distributions. Measure-it",
           "kinds": [
-            "section",
-            "example"
+            "section"
           ]
         },
         {
@@ -13195,8 +13194,8 @@
             "All 13 distributions at a glance",
             "Normal"
           ],
-          "text": "The Bell Curve Think of it like Heights in your grade: most near the middle, a few very short or very tall. On the shop floor Pipe wall thickness, fill weight. symmetric bell-shaped average and spread Z-score Measure-it",
-          "excerpt": "The Bell Curve Think of it like Heights in your grade: most near the middle, a few very short or very tall. On the shop floor Pipe wall thickness, fill weight. symmetric bell-shaped average and spread Z-score Measure-it",
+          "text": "The Bell Curve Spot it in the wild Heights in your class: loads of medium, a few giants, a few shorties. On the shop floor Pipe wall thickness, fill weight. symmetric bell-shaped average and spread Z-score Measure-it",
+          "excerpt": "The Bell Curve Spot it in the wild Heights in your class: loads of medium, a few giants, a few shorties. On the shop floor Pipe wall thickness, fill weight. symmetric bell-shaped average and spread Z-score Measure-it",
           "kinds": [
             "section"
           ]
@@ -13209,8 +13208,8 @@
             "All 13 distributions at a glance",
             "Uniform"
           ],
-          "text": "The Flat Line Think of it like Rolling a fair die. Every face has the same chance. On the shop floor Picking random audit times. equally likely between a and b random Measure-it",
-          "excerpt": "The Flat Line Think of it like Rolling a fair die. Every face has the same chance. On the shop floor Picking random audit times. equally likely between a and b random Measure-it",
+          "text": "The Flat Line Spot it in the wild A fair die. No favourites: every face gets the same shot. On the shop floor Picking random audit times. equally likely between a and b random Measure-it",
+          "excerpt": "The Flat Line Spot it in the wild A fair die. No favourites: every face gets the same shot. On the shop floor Picking random audit times. equally likely between a and b random Measure-it",
           "kinds": [
             "section"
           ]
@@ -13223,8 +13222,8 @@
             "All 13 distributions at a glance",
             "Exponential"
           ],
-          "text": "The Waiting Game Think of it like Waiting for your next text. Short waits are common, long ones rare. On the shop floor Time between sensor breakdowns. MTBF constant failure rate memoryless Measure-it",
-          "excerpt": "The Waiting Game Think of it like Waiting for your next text. Short waits are common, long ones rare. On the shop floor Time between sensor breakdowns. MTBF constant failure rate memoryless Measure-it",
+          "text": "The Waiting Game Spot it in the wild Waiting for a text back: often quick, sometimes it takes forever. On the shop floor Time between sensor breakdowns. MTBF constant failure rate memoryless Measure-it",
+          "excerpt": "The Waiting Game Spot it in the wild Waiting for a text back: often quick, sometimes it takes forever. On the shop floor Time between sensor breakdowns. MTBF constant failure rate memoryless Measure-it",
           "kinds": [
             "section"
           ]
@@ -13237,8 +13236,8 @@
             "All 13 distributions at a glance",
             "Weibull"
           ],
-          "text": "The Shape-Shifter Think of it like Phone batteries: a few die early, most wear out after years. On the shop floor Bearing life, roll wear. shape scale early failures wear-out Measure-it",
-          "excerpt": "The Shape-Shifter Think of it like Phone batteries: a few die early, most wear out after years. On the shop floor Bearing life, roll wear. shape scale early failures wear-out Measure-it",
+          "text": "The Shape-Shifter Spot it in the wild Phone batteries: a few die young, most just get tired and quit. On the shop floor Bearing life, roll wear. shape scale early failures wear-out Measure-it",
+          "excerpt": "The Shape-Shifter Spot it in the wild Phone batteries: a few die young, most just get tired and quit. On the shop floor Bearing life, roll wear. shape scale early failures wear-out Measure-it",
           "kinds": [
             "section"
           ]
@@ -13251,8 +13250,8 @@
             "All 13 distributions at a glance",
             "Lognormal"
           ],
-          "text": "The Lopsided Hill Think of it like Time to finish a test: most finish together, a few take ages. On the shop floor Repair times, cycle times. skewed right repair time log is normal Measure-it",
-          "excerpt": "The Lopsided Hill Think of it like Time to finish a test: most finish together, a few take ages. On the shop floor Repair times, cycle times. skewed right repair time log is normal Measure-it",
+          "text": "The Lopsided Hill Spot it in the wild Homework time: most finish in an hour, one friend takes all weekend. On the shop floor Repair times, cycle times. skewed right repair time log is normal Measure-it",
+          "excerpt": "The Lopsided Hill Spot it in the wild Homework time: most finish in an hour, one friend takes all weekend. On the shop floor Repair times, cycle times. skewed right repair time log is normal Measure-it",
           "kinds": [
             "section"
           ]
@@ -13265,8 +13264,8 @@
             "All 13 distributions at a glance",
             "Bivariate normal"
           ],
-          "text": "The Football Cloud Think of it like Height and arm span: taller people usually have longer arms. On the shop floor Hardness and strength of one test piece. two variables correlation scatterplot Count-it",
-          "excerpt": "The Football Cloud Think of it like Height and arm span: taller people usually have longer arms. On the shop floor Hardness and strength of one test piece. two variables correlation scatterplot Count-it",
+          "text": "The Football Cloud Spot it in the wild Height and shoe size: tall people tend to have bigger feet. On the shop floor Hardness and strength of one test piece. two variables correlation scatterplot Count-it",
+          "excerpt": "The Football Cloud Spot it in the wild Height and shoe size: tall people tend to have bigger feet. On the shop floor Hardness and strength of one test piece. two variables correlation scatterplot Count-it",
           "kinds": [
             "section"
           ]
@@ -13279,8 +13278,8 @@
             "All 13 distributions at a glance",
             "Binomial"
           ],
-          "text": "The Coin-Flip Counter Think of it like Shooting 10 free throws. How many go in? On the shop floor Bad pipes in a sample of 50. n tries pass or fail proportion defective Count-it",
-          "excerpt": "The Coin-Flip Counter Think of it like Shooting 10 free throws. How many go in? On the shop floor Bad pipes in a sample of 50. n tries pass or fail proportion defective Count-it",
+          "text": "The Coin-Flip Counter Spot it in the wild Ten free throws. Each one is a swish or a miss. How many go in? On the shop floor Bad pipes in a sample of 50. n tries pass or fail proportion defective Count-it",
+          "excerpt": "The Coin-Flip Counter Spot it in the wild Ten free throws. Each one is a swish or a miss. How many go in? On the shop floor Bad pipes in a sample of 50. n tries pass or fail proportion defective Count-it",
           "kinds": [
             "section"
           ]
@@ -13293,8 +13292,8 @@
             "All 13 distributions at a glance",
             "Poisson"
           ],
-          "text": "The Event Counter Think of it like Texts you get per hour, or potholes per kilometre of road. On the shop floor Scratches per coil. defects per unit rate rare events Count-it",
-          "excerpt": "The Event Counter Think of it like Texts you get per hour, or potholes per kilometre of road. On the shop floor Scratches per coil. defects per unit rate rare events Count-it",
+          "text": "The Event Counter Spot it in the wild Notifications per hour: no limit, just a steady drip of pings. On the shop floor Scratches per coil. defects per unit rate rare events Count-it",
+          "excerpt": "The Event Counter Spot it in the wild Notifications per hour: no limit, just a steady drip of pings. On the shop floor Scratches per coil. defects per unit rate rare events Count-it",
           "kinds": [
             "section"
           ]
@@ -13307,8 +13306,8 @@
             "All 13 distributions at a glance",
             "Hypergeometric"
           ],
-          "text": "The Bag of Candy Think of it like Grabbing 5 candies from a bag of 20 without putting any back. On the shop floor Checking 5 pipes from a bundle of 20. lot of N without replacement small lot Test-it",
-          "excerpt": "The Bag of Candy Think of it like Grabbing 5 candies from a bag of 20 without putting any back. On the shop floor Checking 5 pipes from a bundle of 20. lot of N without replacement small lot Test-it",
+          "text": "The Bag of Candy Spot it in the wild Grabbing 5 candies from a bag of 20 and eating them. No putting back. On the shop floor Checking 5 pipes from a bundle of 20. lot of N without replacement small lot Test-it",
+          "excerpt": "The Bag of Candy Spot it in the wild Grabbing 5 candies from a bag of 20 and eating them. No putting back. On the shop floor Checking 5 pipes from a bundle of 20. lot of N without replacement small lot Test-it",
           "kinds": [
             "section"
           ]
@@ -13321,8 +13320,8 @@
             "All 13 distributions at a glance",
             "Standard normal (Z)"
           ],
-          "text": "The Z-Score Ruler Think of it like Counting how many standard deviations you are from the average. On the shop floor Sigma level in capability studies. spread known Z-score 1.96 Test-it",
-          "excerpt": "The Z-Score Ruler Think of it like Counting how many standard deviations you are from the average. On the shop floor Sigma level in capability studies. spread known Z-score 1.96 Test-it",
+          "text": "The Z-Score Ruler Spot it in the wild Your test score measured in standard deviations above average. On the shop floor Sigma level in capability studies. spread known Z-score 1.96 Test-it",
+          "excerpt": "The Z-Score Ruler Spot it in the wild Your test score measured in standard deviations above average. On the shop floor Sigma level in capability studies. spread known Z-score 1.96 Test-it",
           "kinds": [
             "section"
           ]
@@ -13335,8 +13334,8 @@
             "All 13 distributions at a glance",
             "Student's t"
           ],
-          "text": "The Cautious Bell Think of it like A bell with fatter tails, because small samples are less sure. On the shop floor Did heat treatment change hardness? spread unknown small sample degrees of freedom Test-it",
-          "excerpt": "The Cautious Bell Think of it like A bell with fatter tails, because small samples are less sure. On the shop floor Did heat treatment change hardness? spread unknown small sample degrees of freedom Test-it",
+          "text": "The Cautious Bell Spot it in the wild A nervous bell: small samples are unsure, so it hedges with fat tails. On the shop floor Did heat treatment change hardness? spread unknown small sample degrees of freedom Test-it",
+          "excerpt": "The Cautious Bell Spot it in the wild A nervous bell: small samples are unsure, so it hedges with fat tails. On the shop floor Did heat treatment change hardness? spread unknown small sample degrees of freedom Test-it",
           "kinds": [
             "section"
           ]
@@ -13349,8 +13348,8 @@
             "All 13 distributions at a glance",
             "Chi-square"
           ],
-          "text": "The Mismatch Meter Think of it like Checking how far your die rolls are from the counts you expected. On the shop floor Is defect type linked to the shift? observed vs expected one variance categories Test-it",
-          "excerpt": "The Mismatch Meter Think of it like Checking how far your die rolls are from the counts you expected. On the shop floor Is defect type linked to the shift? observed vs expected one variance categories Test-it",
+          "text": "The Mismatch Meter Spot it in the wild Your die feels rigged. This measures how far reality is from fair. On the shop floor Is defect type linked to the shift? observed vs expected one variance categories Test-it",
+          "excerpt": "The Mismatch Meter Spot it in the wild Your die feels rigged. This measures how far reality is from fair. On the shop floor Is defect type linked to the shift? observed vs expected one variance categories Test-it",
           "kinds": [
             "section"
           ]
@@ -13363,8 +13362,8 @@
             "All 13 distributions at a glance",
             "F"
           ],
-          "text": "The Spread Comparer Think of it like Dividing one class's spread of marks by another's. On the shop floor Is Line 1 more variable than Line 2? two variances ANOVA ratio Part 5",
-          "excerpt": "The Spread Comparer Think of it like Dividing one class's spread of marks by another's. On the shop floor Is Line 1 more variable than Line 2? two variances ANOVA ratio Part 5",
+          "text": "The Spread Comparer Spot it in the wild Two classes' test scores: which one is all over the place? On the shop floor Is Line 1 more variable than Line 2? two variances ANOVA ratio Part 5",
+          "excerpt": "The Spread Comparer Spot it in the wild Two classes' test scores: which one is all over the place? On the shop floor Is Line 1 more variable than Line 2? two variances ANOVA ratio Part 5",
           "kinds": [
             "section"
           ]
@@ -13376,8 +13375,8 @@
             "Probability Distributions for Lean Six Sigma",
             "Shape Lab: change a distribution and watch it move"
           ],
-          "text": "Pick a distribution and move the sliders. Shade an area with the cutoff. The big number is the chance; the Excel formula gives the same number. Distribution Cutoff Shade which side? 0.8413 Excel Minitab Part 6",
-          "excerpt": "Pick a distribution and move the sliders. Shade an area with the cutoff. The big number is the chance; the Excel formula gives the same number. Distribution Cutoff Shade which side? 0.8413 Excel Minitab Part 6",
+          "text": "Time to poke the animals. Pick a distribution and drag the sliders to squish, stretch and tilt it. Slide the cutoff to shade an area. The big number is your chance, and the Excel formula below gives the exact same number. We checked. Distribution Cutoff Shade which side? 0.8413 Excel Minitab Part 6",
+          "excerpt": "Time to poke the animals. Pick a distribution and drag the sliders to squish, stretch and tilt it. Slide the cutoff to shade an area. The big number is your chance, and the Excel formula below gives the exact same number. We checked. Distribution Cutoff Shade…",
           "kinds": [
             "section",
             "formula"
@@ -13390,8 +13389,8 @@
             "Probability Distributions for Lean Six Sigma",
             "Which distribution should I use?"
           ],
-          "text": "Answer two or three questions. The helper names the distribution and where to find it.",
-          "excerpt": "Answer two or three questions. The helper names the distribution and where to find it.",
+          "text": "Stuck on which animal you're looking at? Answer two or three quick questions and the helper points you to the right one, plus where to find it in Excel and Minitab.",
+          "excerpt": "Stuck on which animal you're looking at? Answer two or three quick questions and the helper points you to the right one, plus where to find it in Excel and Minitab.",
           "kinds": [
             "section"
           ]
@@ -13431,8 +13430,8 @@
             "Statistics Implementation",
             "Excel functions"
           ],
-          "text": "Use the new names with a dot. Set cumulative to TRUE for \"at or below\", or FALSE for \"exactly\". Function Syntax Purpose When to use it Normal and Z NORM.DIST =NORM.DIST(x, mean, standard_dev, cumulative) Area left of x Below a spec limit NORM.INV =NORM.INV(probability, mean, standard_dev) Cutoff for an area 95th percentile NORM.S.DIST =NORM.S.DIST(z, cumulative) Area left of z You have a Z-score NORM.S.INV =NORM.S.INV(probability) Z for an area Critical values STANDARDIZE =STANDARDIZE(x, mean, standard_dev) x as a Z-score Before a Z table Z.TEST =Z.TEST(array, x, [sigma]) One-tail P-value Spread known Student's t T.DIST =T.DIST(x, deg_freedom, cumulative) Left-tail area \"Less than\" test T.DIST.RT =T.DIST.RT(x, deg_freedom) Right-tail area \"Greater than\" test T.DIST.2T =T.DIST.2T(x, deg_freedom) Both tails (x ≥ 0) Two-sided test T.INV / T.INV.2T =T.INV.2T(probability, deg_freedom) Critical t Intervals T.TEST =T.TEST(array1, array2, tails, type) P-value from data type 1 paired, 2 equal, 3 unequal Chi-square and F CHISQ.DIST.RT =CHISQ.DIST.RT(x, deg_freedom) Right tail Chi-square P-value CHISQ.INV.RT =CHISQ.INV.RT(probability, deg_freedom) Critical value Test cutoff CHISQ.TEST =CHISQ.TEST(actual_range, expected_range) P-value from tables Counts by category F.DIST.RT =F.DIST.RT(x, deg_freedom1, deg_freedom2) Right tail ANOVA P-value F.INV.RT =F.INV.RT(probability, deg_freedom1, deg_freedom2) Critical value ANOVA cutoff F.TEST =F.TEST(array1, array2) Two-tail P-value Equal spreads? Counts BINOM.DIST =BINOM.DIST(number_s, trials, probability_s, cumulative) Exactly or at most k Bad parts in a sample BINOM.DIST.RANGE =BINOM.DIST.RANGE(trials, probability_s, number_s, [number_s2]) Between two counts \"1 to 3 defectives\" POISSON.DIST =POISSON.DIST(x, mean, cumulative) Exactly or at most x Defects per unit HYPGEOM.DIST =HYPGEOM.DIST(sample_s, number_sample, population_s, number_pop, cumulative) No replacement Small lots Life, time and others EXPON.DIST =EXPON.DIST(x, lambda, cumulative) Failed by time x Constant failure rate WEIBULL.DIST =WEIBULL.DIST(x, alpha, beta, cumulative) Failed by time x alpha is the shape LOGNORM.DIST =LOGNORM.DIST(x, mean, standard_dev, cumulative) Area left of x Repair times RANDBETWEEN =RANDBETWEEN(bottom, top) Random whole number Uniform: pick random times CORREL =CORREL(array1, array2) Correlation r Two related measurements",
-          "excerpt": "Use the new names with a dot. Set cumulative to TRUE for \"at or below\", or FALSE for \"exactly\". Function Syntax Purpose When to use it Normal and Z NORM.DIST =NORM.DIST(x, mean, standard_dev, cumulative) Area left of x Below a spec limit NORM.INV…",
+          "text": "Excel has a function for every animal in the zoo. Use the new names with a dot. Set cumulative to TRUE for \"at or below\", or FALSE for \"exactly\". Function Syntax Purpose When to use it Normal and Z NORM.DIST =NORM.DIST(x, mean, standard_dev, cumulative) Area left of x Below a spec limit NORM.INV =NORM.INV(probability, mean, standard_dev) Cutoff for an area 95th percentile NORM.S.DIST =NORM.S.DIST(z, cumulative) Area left of z You have a Z-score NORM.S.INV =NORM.S.INV(probability) Z for an area Critical values STANDARDIZE =STANDARDIZE(x, mean, standard_dev) x as a Z-score Before a Z table Z.TEST =Z.TEST(array, x, [sigma]) One-tail P-value Spread known Student's t T.DIST =T.DIST(x, deg_freedom, cumulative) Left-tail area \"Less than\" test T.DIST.RT =T.DIST.RT(x, deg_freedom) Right-tail area \"Greater than\" test T.DIST.2T =T.DIST.2T(x, deg_freedom) Both tails (x ≥ 0) Two-sided test T.INV / T.INV.2T =T.INV.2T(probability, deg_freedom) Critical t Intervals T.TEST =T.TEST(array1, array2, tails, type) P-value from data type 1 paired, 2 equal, 3 unequal Chi-square and F CHISQ.DIST.RT =CHISQ.DIST.RT(x, deg_freedom) Right tail Chi-square P-value CHISQ.INV.RT =CHISQ.INV.RT(probability, deg_freedom) Critical value Test cutoff CHISQ.TEST =CHISQ.TEST(actual_range, expected_range) P-value from tables Counts by category F.DIST.RT =F.DIST.RT(x, deg_freedom1, deg_freedom2) Right tail ANOVA P-value F.INV.RT =F.INV.RT(probability, deg_freedom1, deg_freedom2) Critical value ANOVA cutoff F.TEST =F.TEST(array1, array2) Two-tail P-value Equal spreads? Counts BINOM.DIST =BINOM.DIST(number_s, trials, probability_s, cumulative) Exactly or at most k Bad parts in a sample BINOM.DIST.RANGE =BINOM.DIST.RANGE(trials, probability_s, number_s, [number_s2]) Between two counts \"1 to 3 defectives\" POISSON.DIST =POISSON.DIST(x, mean, cumulative) Exactly or at most x Defects per unit HYPGEOM.DIST =HYPGEOM.DIST(sample_s, number_sample, population_s, number_pop, cumulative) No replacement Small lots Life, time and others EXPON.DIST =EXPON.DIST(x, lambda, cumulative) Failed by time x Constant failure rate WEIBULL.DIST =WEIBULL.DIST(x, alpha, beta, cumulative) Failed by time x alpha is the shape LOGNORM.DIST =LOGNORM.DIST(x, mean, standard_dev, cumulative) Area left of x Repair times RANDBETWEEN =RANDBETWEEN(bottom, top) Random whole number Uniform: pick random times CORREL =CORREL(array1, array2) Correlation r Two related measurements",
+          "excerpt": "Excel has a function for every animal in the zoo. Use the new names with a dot. Set cumulative to TRUE for \"at or below\", or FALSE for \"exactly\". Function Syntax Purpose When to use it Normal and Z NORM.DIST =NORM.DIST(x, mean, standard_dev, cumulative) Area…",
           "kinds": [
             "section",
             "formula"
@@ -13446,8 +13445,8 @@
             "Statistics Implementation",
             "Excel use cases"
           ],
-          "text": "Made-up examples. Type any formula into a cell to get the same answer. Question Formula Answer",
-          "excerpt": "Made-up examples. Type any formula into a cell to get the same answer. Question Formula Answer",
+          "text": "Real-ish shop-floor puzzles with made-up numbers. Type any formula into a cell and Excel hands you the same answer. Question Formula Answer",
+          "excerpt": "Real-ish shop-floor puzzles with made-up numbers. Type any formula into a cell and Excel hands you the same answer. Question Formula Answer",
           "kinds": [
             "section",
             "formula"
@@ -13461,8 +13460,8 @@
             "Statistics Implementation",
             "Minitab navigation"
           ],
-          "text": "Task Menu path Other path Which one and why Get any probability or cutoff Calc → Probability Distributions → [distribution] Graph → Probability Distribution Plot → View Probability Calc gives the number; the graph shows the tail. Is my data normal? Stat → Basic Statistics → Normality Test Stat → Basic Statistics → Graphical Summary P above 0.05: no sign of trouble. Which shape fits my data? Stat → Quality Tools → Individual Distribution Identification Graph → Probability Plot Ranks many shapes by fit. Test a mean Stat → Basic Statistics → 1-Sample t Stat → Basic Statistics → 1-Sample Z Z only if the spread is known. Compare spreads Stat → Basic Statistics → 2 Variances Stat → ANOVA → Test for Equal Variances Second one for 3+ groups. Compare three or more means Stat → ANOVA → One-Way Assistant → Hypothesis Tests The Assistant guides beginners. Counts in categories Stat → Tables → Chi-Square Test for Association Stat → Tables → Chi-Square Goodness-of-Fit Test (One Variable) Table vs one list. Defectives (binomial) Stat → Basic Statistics → 1 Proportion Stat → Control Charts → Attributes Charts → P P chart for changing sample sizes. Defects (Poisson) Stat → Basic Statistics → 1-Sample Poisson Rate Stat → Control Charts → Attributes Charts → U U chart for changing unit sizes. Life data (Weibull, exponential) Stat → Reliability/Survival → Distribution Analysis (Right Censoring) → Parametric Distribution Analysis Stat → Quality Tools → Capability Analysis → Nonnormal Handles parts still running.",
-          "excerpt": "Task Menu path Other path Which one and why Get any probability or cutoff Calc → Probability Distributions → [distribution] Graph → Probability Distribution Plot → View Probability Calc gives the number; the graph shows the tail. Is my data normal? Stat →…",
+          "text": "Prefer clicking menus to typing formulas? Here is your map. Task Menu path Other path Which one and why Get any probability or cutoff Calc → Probability Distributions → [distribution] Graph → Probability Distribution Plot → View Probability Calc gives the number; the graph shows the tail. Is my data normal? Stat → Basic Statistics → Normality Test Stat → Basic Statistics → Graphical Summary P above 0.05: no sign of trouble. Which shape fits my data? Stat → Quality Tools → Individual Distribution Identification Graph → Probability Plot Ranks many shapes by fit. Test a mean Stat → Basic Statistics → 1-Sample t Stat → Basic Statistics → 1-Sample Z Z only if the spread is known. Compare spreads Stat → Basic Statistics → 2 Variances Stat → ANOVA → Test for Equal Variances Second one for 3+ groups. Compare three or more means Stat → ANOVA → One-Way Assistant → Hypothesis Tests The Assistant guides beginners. Counts in categories Stat → Tables → Chi-Square Test for Association Stat → Tables → Chi-Square Goodness-of-Fit Test (One Variable) Table vs one list. Defectives (binomial) Stat → Basic Statistics → 1 Proportion Stat → Control Charts → Attributes Charts → P P chart for changing sample sizes. Defects (Poisson) Stat → Basic Statistics → 1-Sample Poisson Rate Stat → Control Charts → Attributes Charts → U U chart for changing unit sizes. Life data (Weibull, exponential) Stat → Reliability/Survival → Distribution Analysis (Right Censoring) → Parametric Distribution Analysis Stat → Quality Tools → Capability Analysis → Nonnormal Handles parts still running.",
+          "excerpt": "Prefer clicking menus to typing formulas? Here is your map. Task Menu path Other path Which one and why Get any probability or cutoff Calc → Probability Distributions → [distribution] Graph → Probability Distribution Plot → View Probability Calc gives the…",
           "kinds": [
             "section"
           ]
@@ -13490,8 +13489,8 @@
             "Exam tips",
             "On exam day"
           ],
-          "text": "No Excel or Minitab in the room. Practise with printed tables. Check whether your Z table shows the left or the right area. Pick the family first, then the member.",
-          "excerpt": "No Excel or Minitab in the room. Practise with printed tables. Check whether your Z table shows the left or the right area. Pick the family first, then the member.",
+          "text": "No Excel or Minitab in the exam room. Make friends with the printed tables now. Check whether your Z table shows the left or the right area. Find the enclosure first (measure, count or test), then the animal.",
+          "excerpt": "No Excel or Minitab in the exam room. Make friends with the printed tables now. Check whether your Z table shows the left or the right area. Find the enclosure first (measure, count or test), then the animal.",
           "kinds": [
             "section"
           ]
@@ -13536,8 +13535,8 @@
             "Exam tips",
             "Excel traps"
           ],
-          "text": "T.DIST.2T errors on a negative t. Use ABS() . Z.TEST gives one tail only. EXPON.DIST wants the rate, not the MTBF. LOGNORM.DIST wants the mean and standard deviation of ln(x). The ASQ CSSBB and CQE Bodies of Knowledge list these distributions. Check the shape before any capability study.",
-          "excerpt": "T.DIST.2T errors on a negative t. Use ABS() . Z.TEST gives one tail only. EXPON.DIST wants the rate, not the MTBF. LOGNORM.DIST wants the mean and standard deviation of ln(x). The ASQ CSSBB and CQE Bodies of Knowledge list these distributions. Check the shape…",
+          "text": "T.DIST.2T errors on a negative t. Use ABS() . Z.TEST gives one tail only. EXPON.DIST wants the rate, not the MTBF. LOGNORM.DIST wants the mean and standard deviation of ln(x). Every animal in this zoo is on the ASQ CSSBB and CQE Bodies of Knowledge, so this lesson doubles as exam prep. On the job, check the shape before any capability study.",
+          "excerpt": "T.DIST.2T errors on a negative t. Use ABS() . Z.TEST gives one tail only. EXPON.DIST wants the rate, not the MTBF. LOGNORM.DIST wants the mean and standard deviation of ln(x). Every animal in this zoo is on the ASQ CSSBB and CQE Bodies of Knowledge, so this…",
           "kinds": [
             "section"
           ]
