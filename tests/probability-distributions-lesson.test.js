@@ -236,6 +236,27 @@ test('Statistics Implementation has all four parts', () => {
   assert(sec.textContent.includes('Stat → Quality Tools → Individual Distribution Identification'));
 });
 
+test('Statistics Implementation is a closed dropdown that opens on click or from its link', () => {
+  const panel = doc.getElementById('pd-impl-details');
+  assert.equal(panel.tagName, 'DETAILS');
+  assert(!panel.hasAttribute('open'), 'closed until the learner opens it');
+  const summary = panel.querySelector(':scope > summary');
+  assert.equal(summary.querySelector('h2').textContent, 'Statistics Implementation');
+  assert.match(summary.textContent, /Show the Excel and Minitab guide/);
+  assert.equal(panel.querySelectorAll('.pd-impl-body h3').length, 4);
+  const { window, document, errors } = liveLesson();
+  const live = document.getElementById('pd-impl-details');
+  assert.equal(live.open, false);
+  document.querySelector('.pd-toc a[href="#pd-implementation"]').click();
+  assert.equal(live.open, true, 'the contents link opens the panel');
+  live.open = false;
+  window.location.hash = '#pd-minitab';
+  window.dispatchEvent(new window.HashChangeEvent('hashchange'));
+  assert.equal(live.open, true, 'a link to a heading inside opens the panel');
+  assert.deepEqual(errors, []);
+  window.close();
+});
+
 test('the Shape Lab redraws, shades the chosen tail and shows the matching Excel formula', () => {
   const { window, document, errors } = liveLesson();
   const $ = id => document.getElementById(id);

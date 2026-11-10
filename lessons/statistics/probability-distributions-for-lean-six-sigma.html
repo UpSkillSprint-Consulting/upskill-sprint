@@ -288,6 +288,24 @@
 #lesson-content .pd-tip li{font-size:15px;line-height:1.55}
 #lesson-content code{font-size:.9em}
 
+/* Statistics Implementation: closed until the learner opens it */
+#lesson-content .pd-impl{background:var(--lesson-pd-surface);color:var(--lesson-pd-text);border:2px solid var(--lesson-pd-measure);border-radius:14px;box-shadow:var(--lesson-pd-shadow)}
+#lesson-content .pd-impl-summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 16px;padding:18px 20px;border-radius:12px}
+#lesson-content .pd-impl-summary::-webkit-details-marker{display:none}
+#lesson-content .pd-impl-summary .pd-step{grid-column:1}
+#lesson-content .pd-impl-summary h2{grid-column:1;margin:0}
+#lesson-content .pd-impl-hint{grid-column:2;grid-row:1 / span 2;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border-radius:999px;background:var(--lesson-pd-measure);color:var(--lesson-pd-on-fam);font-weight:700;font-size:15px}
+#lesson-content .pd-impl-hint::after{content:"";width:9px;height:9px;border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+#lesson-content .pd-impl[open] .pd-impl-hint::after{transform:rotate(225deg) translate(-2px,0)}
+#lesson-content .pd-impl .pd-impl-hide, #lesson-content .pd-impl[open] .pd-impl-show{display:none}
+#lesson-content .pd-impl[open] .pd-impl-hide{display:inline}
+#lesson-content .pd-impl-summary:hover .pd-impl-hint{filter:brightness(1.08)}
+#lesson-content .pd-impl-summary:focus-visible{outline:3px solid var(--lesson-pd-focus);outline-offset:2px}
+#lesson-content .pd-impl-body{padding:0 20px 20px}
+@media (max-width:560px){
+  #lesson-content .pd-impl-summary{grid-template-columns:minmax(0,1fr)}
+  #lesson-content .pd-impl-hint{grid-column:1;grid-row:auto;justify-self:start}
+}
 @media (max-width:760px){
   #lesson-content .pd-fams{grid-template-columns:minmax(0,1fr)}
   #lesson-content .pd-fams .pd-big{font-size:48px}
@@ -644,8 +662,13 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 
 <section class="pd-section" id="pd-implementation" aria-labelledby="pd-implementation-h">
   <div class="pd-wrap">
-    <span class="pd-step">Do it in software</span>
-    <h2 id="pd-implementation-h">Statistics Implementation</h2>
+    <details class="pd-impl" id="pd-impl-details">
+      <summary class="pd-impl-summary">
+        <span class="pd-step">Do it in software</span>
+        <h2 id="pd-implementation-h">Statistics Implementation</h2>
+        <span class="pd-impl-hint"><span class="pd-impl-show">Show the Excel and Minitab guide</span><span class="pd-impl-hide">Hide the Excel and Minitab guide</span></span>
+      </summary>
+      <div class="pd-impl-body">
 
     <h3 id="pd-excel-functions">Excel functions</h3>
     <p>Excel has a function for every animal in the zoo. Use the new names with a dot. Set <code>cumulative</code> to <code>TRUE</code> for "at or below", or <code>FALSE</code> for "exactly".</p>
@@ -738,6 +761,8 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <div class="pd-tip"><h4>Excel traps</h4><ul><li><code>T.DIST.2T</code> errors on a negative t. Use <code>ABS()</code>.</li><li><code>Z.TEST</code> gives one tail only.</li><li><code>EXPON.DIST</code> wants the rate, not the MTBF.</li><li><code>LOGNORM.DIST</code> wants the mean and standard deviation of ln(x).</li></ul></div>
     </div>
     <p class="pd-muted">Every animal in this zoo is on the ASQ CSSBB and CQE Bodies of Knowledge, so this lesson doubles as exam prep. On the job, check the shape before any capability study.</p>
+      </div>
+    </details>
   </div>
 </section>
 
@@ -961,6 +986,22 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       count.textContent = 'Bins are empty. Hit Drop 100 balls and watch the hill grow.';
     });
     svg.UpskillTotal = total;
+  })();
+
+  /* ---------- Statistics Implementation: open the panel when linked to ---------- */
+  (function implPanel() {
+    var panel = $('pd-impl-details'); if (!panel) return;
+    function openIfTargeted() {
+      var id = (location.hash || '').slice(1);
+      if (!id) return;
+      var target = document.getElementById(id);
+      if (target && (target === panel.parentNode.parentNode || panel.contains(target))) panel.open = true;
+    }
+    openIfTargeted();
+    window.addEventListener('hashchange', openIfTargeted);
+    [].slice.call(document.querySelectorAll('a[href="#pd-implementation"]')).forEach(function (a) {
+      a.addEventListener('click', function () { panel.open = true; });
+    });
   })();
 
   /* ---------- Part 4: zoo filter ---------- */
