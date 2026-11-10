@@ -107,7 +107,7 @@ test('lesson-owned CSS is namespaced and never restyles site chrome', () => {
   const allowed = new Set(['html[data-theme="dark"] .quiz-section .lesson-kicker', 'html[data-theme="dark"] [aria-label="Return to lesson category"] a']);
   const selectors = css.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\{[^{}]*\}/g, '\n').split(/[\n,]/).map(s => s.trim()).filter(Boolean);
   for (const sel of selectors) {
-    if (sel.startsWith('@media') || sel === '}' || allowed.has(sel)) continue;
+    if (sel.startsWith('@media') || sel.startsWith('@keyframes lesson-pd-') || /^[\d%,\s]+$/.test(sel) || sel === '}' || allowed.has(sel)) continue;
     assert.match(sel, /#lesson-content/, `selector not scoped to the lesson: ${sel}`);
   }
   assert(!/(^|[\s,{])(\.card|\.chip|\.callout|\.quiz)\b/.test(doc.getElementById('pd-style').textContent));
@@ -242,7 +242,12 @@ test('Statistics Implementation is a closed dropdown that opens on click or from
   assert(!panel.hasAttribute('open'), 'closed until the learner opens it');
   const summary = panel.querySelector(':scope > summary');
   assert.equal(summary.querySelector('h2').textContent, 'Statistics Implementation');
-  assert.match(summary.textContent, /Show the Excel and Minitab guide/);
+  assert.match(summary.querySelector('.pd-impl-hint').textContent, /Unlock the cheat codes/);
+  for (const t of summary.querySelectorAll('.pd-impl-tease > span')) assert(words(t) <= 30, 'teaser stays short');
+  // The closed button nudges for attention; the site-wide reduced-motion rule switches it off.
+  const css = doc.getElementById('pd-style').textContent;
+  assert.match(css, /\.pd-impl:not\(\[open\]\) \.pd-impl-hint\{animation:lesson-pd-nudge/);
+  assert.match(css, /prefers-reduced-motion:reduce\)\{\s*#lesson-content \*\{transition:none !important;animation:none !important\}/);
   assert.equal(panel.querySelectorAll('.pd-impl-body h3').length, 4);
   const { window, document, errors } = liveLesson();
   const live = document.getElementById('pd-impl-details');

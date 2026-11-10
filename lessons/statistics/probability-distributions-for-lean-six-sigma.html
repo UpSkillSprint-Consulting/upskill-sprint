@@ -294,12 +294,16 @@
 #lesson-content .pd-impl-summary::-webkit-details-marker{display:none}
 #lesson-content .pd-impl-summary .pd-step{grid-column:1}
 #lesson-content .pd-impl-summary h2{grid-column:1;margin:0}
-#lesson-content .pd-impl-hint{grid-column:2;grid-row:1 / span 2;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border-radius:999px;background:var(--lesson-pd-measure);color:var(--lesson-pd-on-fam);font-weight:700;font-size:15px}
+#lesson-content .pd-impl-hint{grid-column:2;grid-row:1 / span 3;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border-radius:999px;background:var(--lesson-pd-measure);color:var(--lesson-pd-on-fam);font-weight:700;font-size:15px}
 #lesson-content .pd-impl-hint::after{content:"";width:9px;height:9px;border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
 #lesson-content .pd-impl[open] .pd-impl-hint::after{transform:rotate(225deg) translate(-2px,0)}
 #lesson-content .pd-impl .pd-impl-hide, #lesson-content .pd-impl[open] .pd-impl-show{display:none}
 #lesson-content .pd-impl[open] .pd-impl-hide{display:inline}
-#lesson-content .pd-impl-summary:hover .pd-impl-hint{filter:brightness(1.08)}
+#lesson-content .pd-impl-tease{grid-column:1;margin:4px 0 0;font-size:15.5px;line-height:1.5;color:var(--lesson-pd-text-2);font-style:italic}
+#lesson-content .pd-impl-hint{transition:transform .18s ease,box-shadow .18s ease}
+#lesson-content .pd-impl-summary:hover .pd-impl-hint{transform:translateY(-2px) scale(1.04);box-shadow:0 6px 16px -6px var(--lesson-pd-measure)}
+#lesson-content .pd-impl:not([open]) .pd-impl-hint{animation:lesson-pd-nudge 4.5s ease-in-out 1.5s infinite}
+@keyframes lesson-pd-nudge{0%,82%,100%{transform:rotate(0)}85%{transform:rotate(-4deg) scale(1.05)}88%{transform:rotate(4deg) scale(1.05)}91%{transform:rotate(-3deg)}94%{transform:rotate(2deg)}}
 #lesson-content .pd-impl-summary:focus-visible{outline:3px solid var(--lesson-pd-focus);outline-offset:2px}
 #lesson-content .pd-impl-body{padding:0 20px 20px}
 @media (max-width:560px){
@@ -666,7 +670,8 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <summary class="pd-impl-summary">
         <span class="pd-step">Do it in software</span>
         <h2 id="pd-implementation-h">Statistics Implementation</h2>
-        <span class="pd-impl-hint"><span class="pd-impl-show">Show the Excel and Minitab guide</span><span class="pd-impl-hide">Hide the Excel and Minitab guide</span></span>
+        <span class="pd-impl-tease"><span class="pd-impl-show">Psst. This is where Excel and Minitab do the heavy lifting for you, and where the exam hides its sneakiest questions.</span><span class="pd-impl-hide">You found the secret level. Every formula, menu path and exam trap is below.</span></span>
+        <span class="pd-impl-hint"><span class="pd-impl-show">Unlock the cheat codes</span><span class="pd-impl-hide">Hide the cheat codes</span></span>
       </summary>
       <div class="pd-impl-body">
 

@@ -13416,10 +13416,11 @@
             "Probability Distributions for Lean Six Sigma",
             "Statistics Implementation"
           ],
-          "text": "Show the Excel and Minitab guide Hide the Excel and Minitab guide",
-          "excerpt": "Show the Excel and Minitab guide Hide the Excel and Minitab guide",
+          "text": "Psst. This is where Excel and Minitab do the heavy lifting for you, and where the exam hides its sneakiest questions. You found the secret level. Every formula, menu path and exam trap is below. Unlock the cheat codes Hide the cheat codes",
+          "excerpt": "Psst. This is where Excel and Minitab do the heavy lifting for you, and where the exam hides its sneakiest questions. You found the secret level. Every formula, menu path and exam trap is below. Unlock the cheat codes Hide the cheat codes",
           "kinds": [
-            "section"
+            "section",
+            "formula"
           ]
         },
         {
