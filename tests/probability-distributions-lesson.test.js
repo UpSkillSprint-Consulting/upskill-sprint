@@ -312,6 +312,10 @@ test('the bean machine drops 100 balls and resets; the zoo filter shows one fami
   assert.equal(document.getElementById('pd-zoo-status').textContent, 'Showing 3 Count-it distributions.');
   document.querySelector('#pd-zoo .pd-filter [data-filter="all"]').click();
   assert.equal([...document.querySelectorAll('#pd-zoo-grid .pd-animal')].filter(c => !c.hidden).length, 13);
+  // jsdom applies no CSS, so check the stylesheet lets [hidden] beat the card's display:flex (live bug: filter did nothing).
+  const css = document.getElementById('pd-style').textContent;
+  assert.match(css, /#lesson-content \.pd-animal\[hidden\]\{display:none\}/);
+  assert(css.indexOf('.pd-animal[hidden]') > css.indexOf('.pd-animal{'), '[hidden] rule comes after the display:flex rule');
   assert.deepEqual(errors, []);
   window.close();
 });
