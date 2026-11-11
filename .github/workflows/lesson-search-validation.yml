@@ -69,7 +69,8 @@ jobs:
             tests/hypothesis-testing-for-beginners-lesson.test.js \
             tests/dmaic-in-10-minutes-lesson.test.js \
             tests/mean-median-mode-and-spread-lesson.test.js \
-            tests/probability-distributions-lesson.test.js
+            tests/probability-distributions-lesson.test.js \
+            tests/excel-statistical-functions-map-lesson.test.js
       - name: Build the exact production site and generated lessons
         run: npm run build:site
       - name: Require generated SQL lesson content in the production index
