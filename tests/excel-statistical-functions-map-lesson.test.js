@@ -356,3 +356,37 @@ test('catalog entry, access SQL, related lessons and text budget', () => {
     assert(p.textContent.trim().split(/\s+/).length <= 60, `paragraph too long: ${p.textContent.trim().slice(0, 60)}`);
   }
 });
+
+test('five full-map wall posters download as real one-page PDFs with previews', () => {
+  const cards = [...doc.querySelectorAll('#esm-posters .esm-pcard')];
+  assert.equal(cards.length, 5);
+  const dir = 'assets/lessons/excel-statistical-functions-map/';
+  const seen = new Set();
+  for (const card of cards) {
+    const a = card.querySelector('a[download]');
+    const href = a.getAttribute('href');
+    assert.match(href, new RegExp(`^/${dir}[a-z0-9-]+-poster\\.pdf$`));
+    assert.match(a.textContent, /^Download PDF of the .+ poster$/);
+    const pdf = fs.readFileSync(path.join(ROOT, href));
+    assert.equal(pdf.subarray(0, 5).toString(), '%PDF-');
+    assert(pdf.length < 10 * 1024 * 1024, `${href} is under 10 MB`);
+    assert.equal((pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length, 1, `${href} is one page`);
+    assert.match(pdf.toString('latin1'), /\/MediaBox\s*\[\s*0 0 1296 1728\s*\]/, `${href} is 18 x 24 in`);
+    const kb = Math.round(pdf.length / 1024);
+    assert.equal(Number(a.dataset.esmPosterKb), kb);
+    assert(card.querySelector('.esm-pmeta').textContent.includes(`${kb} KB`), 'stated size matches the file');
+    const img = card.querySelector('img');
+    assert(fs.existsSync(path.join(ROOT, img.getAttribute('src'))), img.getAttribute('src'));
+    assert(img.alt.startsWith('Preview of the') && img.getAttribute('width') === '480' && img.getAttribute('height') === '640');
+    assert.equal(img.getAttribute('loading'), 'lazy');
+    assert([...card.classList].some(c => /^esm-c-[a-z]+$/.test(c)), 'card carries a section colour');
+    seen.add(href);
+  }
+  assert.equal(seen.size, 5);
+  assert(doc.querySelector('.esm-cta a[href="#esm-posters"]'), 'hero links to the posters');
+  // Fonts are embedded so the posters print the same everywhere.
+  for (const href of seen) {
+    const text = fs.readFileSync(path.join(ROOT, href), 'latin1');
+    assert(text.includes('/FontFile2') || text.includes('/FontFile3'), `${href} embeds its fonts`);
+  }
+});

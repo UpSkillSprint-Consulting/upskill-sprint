@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 60,
   "contentLessonCount": 59,
-  "sectionCount": 3068,
+  "sectionCount": 3074,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -24841,7 +24841,7 @@
           "breadcrumb": [
             "Excel Statistical Functions: The Complete Map"
           ],
-          "text": "Every Excel statistical function and hypothesis test, laid out as one map you enter from your goal. Pick what you want to do, or type it into the finder, and jump straight to the right function with its syntax, a worked example and the Minitab twin. 111 functions in Excel's Statistical category 4 test functions; each returns only a p-value 39 legacy names that still calculate 19 Analysis ToolPak tools 200 decision variables in standard Solver Start from your goal Search for a function Start here",
+          "text": "Every Excel statistical function and hypothesis test, laid out as one map you enter from your goal. Pick what you want to do, or type it into the finder, and jump straight to the right function with its syntax, a worked example and the Minitab twin. 111 functions in Excel's Statistical category 4 test functions; each returns only a p-value 39 legacy names that still calculate 19 Analysis ToolPak tools 200 decision variables in standard Solver Start from your goal Search for a function Download the wall posters Start here",
           "excerpt": "Every Excel statistical function and hypothesis test, laid out as one map you enter from your goal. Pick what you want to do, or type it into the finder, and jump straight to the right function with its syntax, a worked example and the Minitab twin. 111…",
           "kinds": [
             "section",
@@ -24940,10 +24940,99 @@
             "Excel Statistical Functions: The Complete Map",
             "Find any function in seconds"
           ],
-          "text": "Type a function name, part of one, a typo, or what you are trying to do in plain words. The finder ranks every function, tool and legacy name in this lesson and links you to its row. Function name or goal Limit to a map stop Start typing to search all entries. Lesson map Quick find Map stop 01 · Describe",
+          "text": "Type a function name, part of one, a typo, or what you are trying to do in plain words. The finder ranks every function, tool and legacy name in this lesson and links you to its row. Function name or goal Limit to a map stop Start typing to search all entries. Print it",
           "excerpt": "Type a function name, part of one, a typo, or what you are trying to do in plain words. The finder ranks every function, tool and legacy name in this lesson and links you to its row. Function name or goal Limit to a map stop Start typing to search all…",
           "kinds": [
             "section"
+          ]
+        },
+        {
+          "id": "esm-posters-h",
+          "heading": "Five wall posters with every function",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Five wall posters with every function"
+          ],
+          "text": "Every poster carries the whole map: all 111 statistical functions with their syntax, plus the helpers, What-if and ToolPak tools, legacy names and gaps. The content is the same; only the layout changes, so pick the one that matches how you look things up. Each is a one-page PDF that prints at 18 × 24 in.",
+          "excerpt": "Every poster carries the whole map: all 111 statistical functions with their syntax, plus the helpers, What-if and ToolPak tools, legacy names and gaps. The content is the same; only the layout changes, so pick the one that matches how you look things up.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-line-map",
+          "heading": "Line Map",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Five wall posters with every function",
+            "Line Map"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 255 KB. Every function as a station on 12 colour-coded lines, with interchanges to the next step. Download PDF of the Line Map poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 255 KB. Every function as a station on 12 colour-coded lines, with interchanges to the next step. Download PDF of the Line Map poster",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-which-function-do-i-need",
+          "heading": "Which Function Do I Need?",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Five wall posters with every function",
+            "Which Function Do I Need?"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 164 KB. A question tree: pick your question, then the sub-question, then the function. Download PDF of the Which Function Do I Need poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 164 KB. A question tree: pick your question, then the sub-question, then the function. Download PDF of the Which Function Do I Need poster",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-dmaic-sprint-board",
+          "heading": "DMAIC Sprint Board",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Five wall posters with every function",
+            "DMAIC Sprint Board"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 219 KB. Every function pinned to the Define, Measure, Analyze, Improve or Control lane. Download PDF of the DMAIC Sprint Board poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 219 KB. Every function pinned to the Define, Measure, Analyze, Improve or Control lane. Download PDF of the DMAIC Sprint Board poster",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-engineering-drawing",
+          "heading": "Engineering Drawing",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Five wall posters with every function",
+            "Engineering Drawing"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 348 KB. A drawing sheet with a dimensioned normal curve and item-numbered parts lists. Download PDF of the Engineering Drawing poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 348 KB. A drawing sheet with a dimensioned normal curve and item-numbered parts lists. Download PDF of the Engineering Drawing poster",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-swiss-grid",
+          "heading": "Swiss Grid",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Five wall posters with every function",
+            "Swiss Grid"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 128 KB. Black on white with giant section numbers 01 to 12 and hairline rules. Download PDF of the Swiss Grid poster Lesson map Quick find Map stop 01 · Describe",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 128 KB. Black on white with giant section numbers 01 to 12 and hairline rules. Download PDF of the Swiss Grid poster Lesson map Quick find Map stop 01 · Describe",
+          "kinds": [
+            "section",
+            "formula"
           ]
         },
         {

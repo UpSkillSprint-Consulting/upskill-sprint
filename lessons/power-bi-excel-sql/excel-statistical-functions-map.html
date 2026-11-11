@@ -129,6 +129,13 @@
 
 /* the ecosystem map poster */
 #lesson-content .esm-block{padding:38px 0 10px;scroll-margin-top:88px}
+#lesson-content .esm-posters{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+#lesson-content .esm-pcard{display:flex;flex-direction:column;gap:8px;background:var(--lesson-esm-surface);color:var(--lesson-esm-text);border:1px solid var(--lesson-esm-border);border-top:6px solid var(--lesson-esm-c);border-radius:14px;padding:12px}
+#lesson-content .esm-pcard img{display:block;width:100%;height:auto;aspect-ratio:3/4;border-radius:8px;border:1px solid var(--lesson-esm-border);background:#ffffff}
+#lesson-content .esm-pcard h3{margin:4px 0 0;font-size:1.05rem;line-height:1.3}
+#lesson-content .esm-pmeta{margin:0;font-size:.92rem;line-height:1.45;color:var(--lesson-esm-text-2)}
+#lesson-content .esm-pcard .esm-btn{margin-top:auto;font-size:14.5px;text-align:center}
+#lesson-content .esm-vh{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 #lesson-content .esm-poster{background:var(--lesson-esm-poster-bg);color:var(--lesson-esm-poster-text);border-radius:18px;padding:22px;box-shadow:var(--lesson-esm-shadow)}
 #lesson-content .esm-poster h3{color:var(--lesson-esm-poster-text);margin:0 0 4px;font-size:15px;letter-spacing:.08em;text-transform:uppercase}
 #lesson-content .esm-fam{margin:0 0 18px}
@@ -374,6 +381,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     <div class="esm-cta">
       <a class="esm-btn" href="#esm-map">Start from your goal</a>
       <a class="esm-btn is-ghost" href="#esm-finder">Search for a function</a>
+      <a class="esm-btn is-ghost" href="#esm-posters">Download the wall posters</a>
     </div>
   </div>
 </section>
@@ -467,6 +475,46 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <p class="esm-status" id="esm-status" role="status" aria-live="polite">Start typing to search <span data-esm-total>all</span> entries.</p>
       <ol class="esm-results" id="esm-results" aria-label="Matching functions"></ol>
     </div>
+  </div>
+</section>
+
+<section class="esm-block" id="esm-posters" aria-labelledby="esm-posters-h">
+  <div class="esm-wrap">
+    <span class="esm-step">Print it</span>
+    <h2 id="esm-posters-h">Five wall posters with every function</h2>
+    <p>Every poster carries the whole map: all 111 statistical functions with their syntax, plus the helpers, What-if and ToolPak tools, legacy names and gaps. The content is the same; only the layout changes, so pick the one that matches how you look things up. Each is a one-page PDF that prints at 18 × 24 in.</p>
+    <ul class="esm-posters" aria-label="Poster downloads">
+      <li class="esm-pcard esm-c-descriptive">
+        <img src="/assets/lessons/excel-statistical-functions-map/excel-statistics-line-map-poster-preview.jpg" alt="Preview of the Line Map poster: 12 coloured lines of function stations in six columns" width="480" height="640" loading="lazy" decoding="async">
+        <h3>Line Map</h3>
+        <p class="esm-pmeta">PDF, 1 page, 18 × 24 in, 255 KB. Every function as a station on 12 colour-coded lines, with interchanges to the next step.</p>
+        <a class="esm-btn" href="/assets/lessons/excel-statistical-functions-map/excel-statistics-line-map-poster.pdf" download data-esm-poster-kb="255">Download PDF<span class="esm-vh"> of the Line Map poster</span></a>
+      </li>
+      <li class="esm-pcard esm-c-hypothesis">
+        <img src="/assets/lessons/excel-statistical-functions-map/which-excel-function-do-i-need-poster-preview.jpg" alt="Preview of the Which Function Do I Need poster: a question tree above 12 branches of functions" width="480" height="640" loading="lazy" decoding="async">
+        <h3>Which Function Do I Need?</h3>
+        <p class="esm-pmeta">PDF, 1 page, 18 × 24 in, 164 KB. A question tree: pick your question, then the sub-question, then the function.</p>
+        <a class="esm-btn" href="/assets/lessons/excel-statistical-functions-map/which-excel-function-do-i-need-poster.pdf" download data-esm-poster-kb="164">Download PDF<span class="esm-vh"> of the Which Function Do I Need poster</span></a>
+      </li>
+      <li class="esm-pcard esm-c-whatif">
+        <img src="/assets/lessons/excel-statistical-functions-map/dmaic-sprint-board-poster-preview.jpg" alt="Preview of the DMAIC Sprint Board poster: five horizontal phase lanes filled with functions" width="480" height="640" loading="lazy" decoding="async">
+        <h3>DMAIC Sprint Board</h3>
+        <p class="esm-pmeta">PDF, 1 page, 18 × 24 in, 219 KB. Every function pinned to the Define, Measure, Analyze, Improve or Control lane.</p>
+        <a class="esm-btn" href="/assets/lessons/excel-statistical-functions-map/dmaic-sprint-board-poster.pdf" download data-esm-poster-kb="219">Download PDF<span class="esm-vh"> of the DMAIC Sprint Board poster</span></a>
+      </li>
+      <li class="esm-pcard esm-c-distributions">
+        <img src="/assets/lessons/excel-statistical-functions-map/excel-statistics-parts-list-poster-preview.jpg" alt="Preview of the Engineering Drawing poster: a blueprint frame with a normal curve and parts lists" width="480" height="640" loading="lazy" decoding="async">
+        <h3>Engineering Drawing</h3>
+        <p class="esm-pmeta">PDF, 1 page, 18 × 24 in, 348 KB. A drawing sheet with a dimensioned normal curve and item-numbered parts lists.</p>
+        <a class="esm-btn" href="/assets/lessons/excel-statistical-functions-map/excel-statistics-parts-list-poster.pdf" download data-esm-poster-kb="348">Download PDF<span class="esm-vh"> of the Engineering Drawing poster</span></a>
+      </li>
+      <li class="esm-pcard esm-c-gaps">
+        <img src="/assets/lessons/excel-statistical-functions-map/excel-statistics-swiss-grid-poster-preview.jpg" alt="Preview of the Swiss Grid poster: giant coloured numbers heading six columns of functions" width="480" height="640" loading="lazy" decoding="async">
+        <h3>Swiss Grid</h3>
+        <p class="esm-pmeta">PDF, 1 page, 18 × 24 in, 128 KB. Black on white with giant section numbers 01 to 12 and hairline rules.</p>
+        <a class="esm-btn" href="/assets/lessons/excel-statistical-functions-map/excel-statistics-swiss-grid-poster.pdf" download data-esm-poster-kb="128">Download PDF<span class="esm-vh"> of the Swiss Grid poster</span></a>
+      </li>
+    </ul>
   </div>
 </section>
 
