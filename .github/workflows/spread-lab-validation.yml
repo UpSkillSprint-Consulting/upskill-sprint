@@ -42,7 +42,13 @@ jobs:
           node --test tests/spread-lab-lesson.test.js | tee artifacts/spread-lab/content-tests.txt
       - name: Install pinned browser validation dependencies
         run: npm install --no-save --package-lock=false playwright@1.58.2 @axe-core/playwright@4.11.1 katex@0.16.9
-      - run: npx playwright install --with-deps chromium
+      - name: Install Chromium (Ubuntu mirror step optional)
+        # The ubuntu-24.04 image already ships Chromium's system libraries. apt is only a
+        # top-up, so a dead Ubuntu mirror must not fail the job before validation runs.
+        # If a library really is missing, the browser validation step below fails loudly.
+        run: |
+          npx playwright install chromium
+          timeout 180 npx playwright install-deps chromium || echo "::warning::Ubuntu package mirror unreachable; using the runner image's preinstalled libraries"
       - name: Validate both themes, four viewport widths, all controls and deploy preview
         env:
           SPREAD_LAB_PREVIEW_URL: https://deploy-preview-${{ github.event.pull_request.number }}--upskillsprint.netlify.app
