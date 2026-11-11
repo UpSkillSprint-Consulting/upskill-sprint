@@ -388,5 +388,7 @@ test('five full-map wall posters download as real one-page PDFs with previews', 
   for (const href of seen) {
     const text = fs.readFileSync(path.join(ROOT, href), 'latin1');
     assert(text.includes('/FontFile2') || text.includes('/FontFile3'), `${href} embeds its fonts`);
+    // UpSkill Sprint site header and footer: both wordmark images are embedded in every poster.
+    assert((text.match(/\/Subtype\s*\/Image/g) || []).length >= 2, `${href} carries the site header and footer logos`);
   }
 });
