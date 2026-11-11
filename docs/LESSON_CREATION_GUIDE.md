@@ -20,7 +20,7 @@ reinterpret, or substitute equivalents unless this guide explicitly allows a cho
 **Quick map:** **visual-first lessons §24 (read it before you design anything; style patterns §24.8)** ·
 governance rules §20 · page skeleton §2 · head/SEO §2.1 · chrome §4 ·
 engineering-tool theme §9.8 · Excel Coach §25 ·
-catalog §12 · access rules (Supabase) §12.4 · sitemap §12.5 · learning paths §12.6 · images §13.2 ·
+catalog §12 · access rules (Supabase) §12.4 · sitemap §12.5 · learning paths §12.6 · images §13.2 · downloadable posters §13.3 ·
 accessibility §21 · math notation §22 · commands §16 · PR workflow §17 ·
 PR checklist §18 · known site-wide defects §23.
 
@@ -1486,6 +1486,58 @@ both themes** per §9.3/§9.5 — do not assume the folder name matches the page
 - Large binaries (PDF posters, workbooks) are fine under `assets/lessons/<slug>/` when the
   lesson links them, but keep each one under 10 MB and mention their sizes in the PR body.
 
+### 13.3 Downloadable posters: UpSkill Sprint header and footer (MUST)
+
+Every **new or updated** downloadable poster, cheat sheet, wall chart or other print PDF
+linked from a lesson or tool MUST carry the site's own header and footer, so a printed sheet
+looks like upskillsprint.com. This covers PDFs and their preview images. It does not cover
+infographics drawn inside the lesson page (§24), because the page chrome (§4) already frames
+those.
+
+**Header band** (top of the sheet, full width):
+- White `#FFFFFF` background with a 1 px `#E3E7EE` rule underneath.
+- The wordmark from `assets/logo-wordmark.png` at the left, embedded as an image. Never
+  redraw, retype or recolour it, and never use `logo-icon.png` (§4.0).
+- The main nav labels, in site order: Start Here · Lessons · Certification Exam Practice ·
+  Engineering Tools · Services · About. Set them in Work Sans 600, ink `#1C2430`. Underline
+  the tab the PDF belongs to in `#1F4E5F`: **Lessons** for lesson posters, **Engineering
+  Tools** for tool posters.
+- A badge at the right naming the access level and category, for example
+  "Free lesson · Power BI, Excel & SQL".
+
+**Footer band** (bottom of the sheet, full width):
+- Navy `#1C2430` background, body text `#CBD5E1`, headings `#FFFFFF`, Work Sans.
+- The wordmark from `assets/logo-wordmark-on-dark.png`, embedded as an image.
+- The §4.2 tagline word for word: "Practical learning for quality, data, process
+  improvement, and business problem-solving."
+- The §4.2 **Quick Links**, **Topics** and **Contact** groups with the same labels and order,
+  and the same email and location.
+- The full lesson URL (for example
+  `upskillsprint.com/lessons/power-bi-excel-sql/excel-statistical-functions-map`).
+- A bottom bar above a `rgba(255,255,255,.15)` rule, in `#94A3B8`: "© <year> UpSkill Sprint
+  Consulting" on the left and "Privacy Policy · Terms of Use" on the right.
+
+**Layout and export:**
+- The bands run edge to edge. Poster content keeps its own margins between them. At
+  96 px/in, budget about 90 px for the header and 150 px for the footer, and check that no
+  content slides under the footer.
+- Export a **vector** PDF, one page per poster, at the sheet size stated on the download
+  card (for example 18 × 24 in), with fonts and both logos embedded. Text stays real,
+  selectable text, never a flattened screenshot. Keep each file under 10 MB (§13.2).
+- Ship a 3:4 preview (JPEG or WebP, 250 KB or less) with `width`, `height`, `alt` and
+  `loading="lazy"`.
+- The lesson test MUST check each linked PDF:
+  - it starts with `%PDF-` and has exactly one page;
+  - its MediaBox matches the stated size;
+  - the stated file size matches the file;
+  - its fonts are embedded (`/FontFile2` or `/FontFile3`);
+  - it holds at least two embedded images, the two logos (`/Subtype /Image`).
+- Reference implementation: the five wall posters in
+  `assets/lessons/excel-statistical-functions-map/`, tested in
+  `tests/excel-statistical-functions-map-lesson.test.js` (PR #405).
+- Existing posters without the bands (for example the bias field guide PDFs) get them the
+  next time that lesson is updated, under §14. Do not change them in an unrelated PR.
+
 ---
 
 ## 14. Content Preservation Rule (updates only)
@@ -1791,6 +1843,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] Statistics lesson? "Statistics Implementation" section present with all 4 parts, inside a closed `<details>` dropdown with a playful, nudging button (§11.1).
 - [ ] Every formula is LaTeX typeset per §22 (no plain-text math, no `$` delimiters); math loads only via `/assets/js/math.js` (or the §22.1 fallback until PR #259 merges); variables defined; renders in both themes.
 - [ ] Every referenced dataset/asset exists under assets/lessons/<slug>/ and downloads; no broken links or images.
+- [ ] Downloadable poster or print PDF? It has the §13.3 UpSkill Sprint header band (wordmark, nav with the active tab, badge) and navy footer band (on-dark wordmark, tagline, links, contact, lesson URL, © bar). It is a vector, one-page PDF with fonts and logos embedded, and the lesson test checks it.
 - [ ] Update task? No existing content removed/shortened; headings + body text preserved.
 **Validation (§16)**
 - [ ] Node 22; lesson test set passes; new tests/<name>-lesson.test.js added and listed in lesson-search-validation.yml.
@@ -1840,6 +1893,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - ❌ Committing multi-megabyte screenshots, or committing binaries and deleting them later
   (they stay in git history forever).
 - ❌ Referencing a "practice dataset" that does not exist as a downloadable file.
+- ❌ Shipping a downloadable poster or print PDF without the §13.3 site header and footer bands, or with a redrawn, retyped or recoloured logo.
 - ❌ A wall of text: a lesson taught mainly through paragraphs, with visuals as decoration (§24).
 - ❌ A lesson with no poster-style infographic, or whose only interactivity is the quiz (§24).
 - ❌ Copying, tracing or embedding a third-party infographic, poster, chart or stock illustration,

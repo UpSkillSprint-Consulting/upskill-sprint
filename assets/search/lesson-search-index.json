@@ -1,9 +1,9 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 59,
-  "contentLessonCount": 58,
-  "sectionCount": 3039,
+  "lessonCount": 60,
+  "contentLessonCount": 59,
+  "sectionCount": 3074,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -24799,6 +24799,535 @@
           ],
           "text": "You now know all seven CUBE functions. Rebuild one of your own recurring reports (a monthly quality pack, a scrap summary or a KPI scorecard) as a CUBE report: model the data once, write the measures in DAX, then let the formulas place every number exactly where you want it.",
           "excerpt": "You now know all seven CUBE functions. Rebuild one of your own recurring reports (a monthly quality pack, a scrap summary or a KPI scorecard) as a CUBE report: model the data once, write the measures in DAX, then let the formulas place every number exactly…",
+          "kinds": [
+            "section"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "power-bi-excel-sql--excel-statistical-functions-map",
+      "path": "/lessons/power-bi-excel-sql/excel-statistical-functions-map",
+      "title": "Excel Statistical Functions: The Complete Map",
+      "description": "Every Excel statistical and hypothesis-testing function on one goal-based map, with a function finder, worked examples, Minitab paths and exam tips.",
+      "topic": "power-bi-excel-sql",
+      "level": "intermediate",
+      "minutes": 90,
+      "interactive": true,
+      "keywords": [
+        "excel statistical functions",
+        "hypothesis testing in excel",
+        "t.test",
+        "t.dist",
+        "norm.dist",
+        "linest",
+        "confidence.t",
+        "analysis toolpak",
+        "solver",
+        "goal seek",
+        "data table",
+        "forecast.ets",
+        "excel function finder",
+        "cssbb",
+        "cqe",
+        "excel statistical functions map hypothesis testing in excel function finder descriptive statistics probability distributions confidence interval t.test t.dist t.inv norm.dist z.test f.test chisq.test correl linest forecast.ets quartile.exc analysis toolpak goal seek data table scenario manager solver legacy functions tinv python in excel minitab cssbb cqe public intermediate interactive"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "esm-title",
+          "heading": "Excel Statistical Functions: The Complete Map",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map"
+          ],
+          "text": "Every Excel statistical function and hypothesis test, laid out as one map you enter from your goal. Pick what you want to do, or type it into the finder, and jump straight to the right function with its syntax, a worked example and the Minitab twin. 111 functions in Excel's Statistical category 4 test functions; each returns only a p-value 39 legacy names that still calculate 19 Analysis ToolPak tools 200 decision variables in standard Solver Start from your goal Search for a function Download the wall posters Start here",
+          "excerpt": "Every Excel statistical function and hypothesis test, laid out as one map you enter from your goal. Pick what you want to do, or type it into the finder, and jump straight to the right function with its syntax, a worked example and the Minitab twin. 111…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-map-h",
+          "heading": "The ecosystem map: what do you want to do?",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "The ecosystem map: what do you want to do?"
+          ],
+          "text": "Each tile is a stop on the map. Click the goal that matches your question and you land on that section, so you never read the whole lesson to find one function.",
+          "excerpt": "Each tile is a stop on the map. Click the goal that matches your question and you land on that section, so you never read the whole lesson to find one function.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-describe-and-explore",
+          "heading": "Describe and explore",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "The ecosystem map: what do you want to do?",
+            "Describe and explore"
+          ],
+          "text": "Measure Know your data before you test it. 01 Summarize my data Descriptive statistics AVERAGE · STDEV.S · COUNTIFS 08 See the shape, outliers and subgroups Exploratory data analysis QUARTILE.EXC · FREQUENCY · GROUPBY",
+          "excerpt": "Measure Know your data before you test it. 01 Summarize my data Descriptive statistics AVERAGE · STDEV.S · COUNTIFS 08 See the shape, outliers and subgroups Exploratory data analysis QUARTILE.EXC · FREQUENCY · GROUPBY",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-model-chance",
+          "heading": "Model chance",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "The ecosystem map: what do you want to do?",
+            "Model chance"
+          ],
+          "text": "Measure → Analyze Turn a value into a probability, or a probability into a value. 02 Find a probability or critical value Probability distributions NORM.DIST · T.INV.2T · POISSON.DIST",
+          "excerpt": "Measure → Analyze Turn a value into a probability, or a probability into a value. 02 Find a probability or critical value Probability distributions NORM.DIST · T.INV.2T · POISSON.DIST",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-infer-and-decide",
+          "heading": "Infer and decide",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "The ecosystem map: what do you want to do?",
+            "Infer and decide"
+          ],
+          "text": "Analyze Estimate with a range, then prove a difference. 03 Estimate a value with a range Statistical inference CONFIDENCE.T · CHISQ.INV.RT 04 Prove a difference is real Hypothesis testing T.TEST · F.TEST · CHISQ.TEST",
+          "excerpt": "Analyze Estimate with a range, then prove a difference. 03 Estimate a value with a range Statistical inference CONFIDENCE.T · CHISQ.INV.RT 04 Prove a difference is real Hypothesis testing T.TEST · F.TEST · CHISQ.TEST",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-relate-and-predict",
+          "heading": "Relate and predict",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "The ecosystem map: what do you want to do?",
+            "Relate and predict"
+          ],
+          "text": "Analyze → Improve Link inputs to outputs and look ahead. 05 Check if two things move together Correlation CORREL · RSQ · FISHER 06 Predict y from x Regression LINEST · SLOPE · TREND 07 Forecast the next period Forecasting FORECAST.ETS · FORECAST.LINEAR",
+          "excerpt": "Analyze → Improve Link inputs to outputs and look ahead. 05 Check if two things move together Correlation CORREL · RSQ · FISHER 06 Predict y from x Regression LINEST · SLOPE · TREND 07 Forecast the next period Forecasting FORECAST.ETS · FORECAST.LINEAR",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-optimize-and-go-further",
+          "heading": "Optimize and go further",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "The ecosystem map: what do you want to do?",
+            "Optimize and go further"
+          ],
+          "text": "Improve Hit targets, run full output and fill Excel's gaps. 09 Hit a target or find the best settings What-if analysis and Solver Goal Seek · Data Table · Solver 10 Get a full ANOVA or t-test table Analysis ToolPak Anova · t-Test · Regression 11 Fix an old workbook formula Legacy functions TINV · STDEV · CHIDIST 12 Do a test Excel cannot do Beyond Excel PY · formula workarounds Not sure where to go?",
+          "excerpt": "Improve Hit targets, run full output and fill Excel's gaps. 09 Hit a target or find the best settings What-if analysis and Solver Goal Seek · Data Table · Solver 10 Get a full ANOVA or t-test table Analysis ToolPak Anova · t-Test · Regression 11 Fix an old…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-finder-h",
+          "heading": "Find any function in seconds",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Find any function in seconds"
+          ],
+          "text": "Type a function name, part of one, a typo, or what you are trying to do in plain words. The finder ranks every function, tool and legacy name in this lesson and links you to its row. Function name or goal Limit to a map stop Start typing to search all entries. Print it",
+          "excerpt": "Type a function name, part of one, a typo, or what you are trying to do in plain words. The finder ranks every function, tool and legacy name in this lesson and links you to its row. Function name or goal Limit to a map stop Start typing to search all…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "esm-posters-h",
+          "heading": "Five wall posters with every function",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Five wall posters with every function"
+          ],
+          "text": "Every poster carries the whole map: all 111 statistical functions with their syntax, plus the helpers, What-if and ToolPak tools, legacy names and gaps. The content is the same; only the layout changes, so pick the one that matches how you look things up. Each is a one-page PDF that prints at 18 × 24 in.",
+          "excerpt": "Every poster carries the whole map: all 111 statistical functions with their syntax, plus the helpers, What-if and ToolPak tools, legacy names and gaps. The content is the same; only the layout changes, so pick the one that matches how you look things up.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-line-map",
+          "heading": "Line Map",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Five wall posters with every function",
+            "Line Map"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 428 KB. Every function as a station on 12 colour-coded lines, with interchanges to the next step. Download PDF of the Line Map poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 428 KB. Every function as a station on 12 colour-coded lines, with interchanges to the next step. Download PDF of the Line Map poster",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-which-function-do-i-need",
+          "heading": "Which Function Do I Need?",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Five wall posters with every function",
+            "Which Function Do I Need?"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 326 KB. A question tree: pick your question, then the sub-question, then the function. Download PDF of the Which Function Do I Need poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 326 KB. A question tree: pick your question, then the sub-question, then the function. Download PDF of the Which Function Do I Need poster",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-dmaic-sprint-board",
+          "heading": "DMAIC Sprint Board",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Five wall posters with every function",
+            "DMAIC Sprint Board"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 390 KB. Every function pinned to the Define, Measure, Analyze, Improve or Control lane. Download PDF of the DMAIC Sprint Board poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 390 KB. Every function pinned to the Define, Measure, Analyze, Improve or Control lane. Download PDF of the DMAIC Sprint Board poster",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-engineering-drawing",
+          "heading": "Engineering Drawing",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Five wall posters with every function",
+            "Engineering Drawing"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 514 KB. A drawing sheet with a dimensioned normal curve and item-numbered parts lists. Download PDF of the Engineering Drawing poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 514 KB. A drawing sheet with a dimensioned normal curve and item-numbered parts lists. Download PDF of the Engineering Drawing poster",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-swiss-grid",
+          "heading": "Swiss Grid",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Five wall posters with every function",
+            "Swiss Grid"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 299 KB. Black on white with giant section numbers 01 to 12 and hairline rules. Download PDF of the Swiss Grid poster Lesson map Quick find Map stop 01 · Describe",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 299 KB. Black on white with giant section numbers 01 to 12 and hairline rules. Download PDF of the Swiss Grid poster Lesson map Quick find Map stop 01 · Describe",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-descriptive-h",
+          "heading": "Descriptive statistics: centre, spread and counts",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Descriptive statistics: centre, spread and counts"
+          ],
+          "text": "Goal: summarize what your data looks like in a few numbers. Use the .S functions for sample data, which is almost every quality data set, and .P only for a complete population. Functions ending in A count TRUE as 1 and text as 0, so one \"N/A\" in a lab column silently changes the answer. All 36 descriptive functions in the Statistical category Function Syntax Returns When to use it AVERAGE AVERAGE(number1, [number2], …) Arithmetic mean of the numbers Default centre of a data set AVERAGEA AVERAGEA(value1, [value2], …) Mean that counts TRUE as 1 and text as 0 Only when logical values must count AVERAGEIF AVERAGEIF(range, criteria, [average_range]) Mean of cells that meet one condition Mean for one shift, grade or line AVERAGEIFS AVERAGEIFS(average_range, criteria_range1, criteria1, …) Mean of cells that meet several conditions Mean by heat and orientation together MEDIAN MEDIAN(number1, [number2], …) Middle value of the sorted data Skewed data such as delays and cycle times MODE.SNGL MODE.SNGL(number1, [number2], …) Most frequent value Discrete readings with repeats MODE.MULT MODE.MULT(number1, [number2], …) Every most-frequent value (spills) Data with two or more peaks GEOMEAN GEOMEAN(number1, [number2], …) Geometric mean Growth rates, ratios, log-normal data HARMEAN HARMEAN(number1, [number2], …) Harmonic mean Averaging rates such as units per hour TRIMMEAN TRIMMEAN(array, percent) Mean after trimming a share of both tails A robust mean when outliers are present STDEV.S STDEV.S(number1, [number2], …) Sample standard deviation Almost every quality calculation on sample data STDEV.P STDEV.P(number1, [number2], …) Population standard deviation Only when you hold the whole population STDEVA STDEVA(value1, [value2], …) Sample standard deviation counting logicals and text Rarely; text becomes 0 and distorts results STDEVPA STDEVPA(value1, [value2], …) Population standard deviation counting logicals and text Rarely; same caution as STDEVA VAR.S VAR.S(number1, [number2], …) Sample variance ANOVA, F-tests and pooled variance VAR.P VAR.P(number1, [number2], …) Population variance Complete populations only VARA VARA(value1, [value2], …) Sample variance counting logicals and text Rarely VARPA VARPA(value1, [value2], …) Population variance counting logicals and text Rarely AVEDEV AVEDEV(number1, [number2], …) Mean absolute deviation from the mean A spread summary that resists outliers DEVSQ DEVSQ(number1, [number2], …) Sum of squared deviations from the mean Building ANOVA sums of squares by hand SKEW SKEW(number1, [number2], …) Sample skewness Quick normality and symmetry screen SKEW.P SKEW.P(number1, [number2], …) Population skewness Skewness of a complete population KURT KURT(number1, [number2], …) Excess kurtosis (normal gives 0) Screening for heavy or light tails MAX MAX(number1, [number2], …) Largest value Range and worst-case checks MAXA MAXA(value1, [value2], …) Largest value counting logicals and text Rarely MAXIFS MAXIFS(max_range, criteria_range1, criteria1, …) Largest value that meets conditions Worst reading per grade or line MIN MIN(number1, [number2], …) Smallest value Range and minimum-spec checks MINA MINA(value1, [value2], …) Smallest value counting logicals and text Rarely MINIFS MINIFS(min_range, criteria_range1, criteria1, …) Smallest value that meets conditions Lowest toughness per heat LARGE LARGE(array, k) The k-th largest value Top-k values and order statistics SMALL SMALL(array, k) The k-th smallest value Bottom-k values and order statistics COUNT COUNT(value1, [value2], …) How many cells hold numbers The sample size for every other formula COUNTA COUNTA(value1, [value2], …) How many cells are not empty Checking for text entries in numeric columns COUNTBLANK COUNTBLANK(range) How many cells are empty Missing-data audit COUNTIF COUNTIF(range, criteria) Count of cells that meet one condition Defects beyond a spec limit COUNTIFS COUNTIFS(criteria_range1, criteria1, …) Count of cells that meet several conditions Contingency tables and DPU by category Sample or population? Sample data takes STDEV.S and VAR.S. Using STDEV.P on a sample understates the spread. Count first COUNT gives the sample size every other formula needs. COUNTBLANK finds the gaps. Skewed data Report MEDIAN beside AVERAGE when SKEW is beyond about ±1. ↑ Back to the map Next: probability distributions → Map stop 02 · Model chance",
+          "excerpt": "Goal: summarize what your data looks like in a few numbers. Use the .S functions for sample data, which is almost every quality data set, and .P only for a complete population. Functions ending in A count TRUE as 1 and text as 0, so one \"N/A\" in a lab column…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-distributions-h",
+          "heading": "Probability distributions: tails, densities and critical values",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Probability distributions: tails, densities and critical values"
+          ],
+          "text": "Goal: turn a value into a probability, or a probability into a value. One naming rule covers all of them. .DIST gives a probability (set cumulative to TRUE for the CDF, FALSE for the density), .INV turns a probability back into a value, .RT means right tail and .2T means both tails. With no suffix, the function works on the left tail . Tail translator: pick the tail your test uses Example: \\(t = 2.10\\) with \\(9\\) degrees of freedom. Shaded area = the probability Excel returns. Left 0.9674, right 0.0326, both tails 0.0651. Right tail : =T.DIST.RT(2.10, 9) = 0.0326 Same tail in other families: CHISQ.DIST.RT , F.DIST.RT ; for the normal use 1-NORM.S.DIST(z, TRUE) . All 39 distribution and counting-rule functions, plus two helpers Function Syntax Returns When to use it NORM.DIST NORM.DIST(x, mean, standard_dev, cumulative) Normal CDF (TRUE) or density (FALSE) Share of output below a limit, ppm out of spec NORM.INV NORM.INV(probability, mean, standard_dev) Value at a given normal percentile Percentile limits; simulation with RAND() NORM.S.DIST NORM.S.DIST(z, cumulative) Standard normal CDF or density p-values for z statistics NORM.S.INV NORM.S.INV(probability) z value for a probability Critical z, sample size, sigma level GAUSS GAUSS(z) Probability between the mean and z standard deviations Quick area from the centre PHI PHI(x) Standard normal density at x Plotting the bell curve T.DIST T.DIST(x, deg_freedom, cumulative) Left-tail t probability or density Lower-tailed t tests T.DIST.RT T.DIST.RT(x, deg_freedom) Right-tail t probability Upper-tailed t tests T.DIST.2T T.DIST.2T(x, deg_freedom) Two-tailed t probability (x must be zero or more) Two-sided p-value for a t statistic T.INV T.INV(probability, deg_freedom) Left-tail t critical value One-sided critical values; negative for small p T.INV.2T T.INV.2T(probability, deg_freedom) Two-tailed t critical value Confidence intervals and two-sided tests CHISQ.DIST CHISQ.DIST(x, deg_freedom, cumulative) Left-tail chi-square probability or density Lower tail of a variance test CHISQ.DIST.RT CHISQ.DIST.RT(x, deg_freedom) Right-tail chi-square probability p-value for chi-square tests with any df CHISQ.INV CHISQ.INV(probability, deg_freedom) Left-tail chi-square critical value Upper limit of a variance confidence interval CHISQ.INV.RT CHISQ.INV.RT(probability, deg_freedom) Right-tail chi-square critical value Chi-square table lookups; variance intervals F.DIST F.DIST(x, deg_freedom1, deg_freedom2, cumulative) Left-tail F probability or density Lower tail of a variance-ratio test F.DIST.RT F.DIST.RT(x, deg_freedom1, deg_freedom2) Right-tail F probability ANOVA and regression p-values F.INV F.INV(probability, deg_freedom1, deg_freedom2) Left-tail F critical value Lower limit of a variance-ratio interval F.INV.RT F.INV.RT(probability, deg_freedom1, deg_freedom2) Right-tail F critical value F tables for ANOVA BINOM.DIST BINOM.DIST(number_s, trials, probability_s, cumulative) Binomial probability of k successes Defectives in a sample, pass or fail data BINOM.DIST.RANGE BINOM.DIST.RANGE(trials, probability_s, number_s, [number_s2]) Probability of k1 to k2 successes Acceptance-sampling ranges in one step BINOM.INV BINOM.INV(trials, probability_s, alpha) Smallest k whose cumulative probability reaches alpha Acceptance numbers and exact critical counts NEGBINOM.DIST NEGBINOM.DIST(number_f, number_s, probability_s, cumulative) Probability of f failures before s successes Inspections until a set number of finds HYPGEOM.DIST HYPGEOM.DIST(sample_s, number_sample, population_s, number_pop, cumulative) Hypergeometric probability Sampling small lots without replacement POISSON.DIST POISSON.DIST(x, mean, cumulative) Poisson probability of x events Defects per unit, c- and u-chart probabilities EXPON.DIST EXPON.DIST(x, lambda, cumulative) Exponential probability; lambda is the rate Time between failures, constant failure rate WEIBULL.DIST WEIBULL.DIST(x, alpha, beta, cumulative) Weibull probability; alpha is shape, beta is scale Life data and wear-out reliability LOGNORM.DIST LOGNORM.DIST(x, mean, standard_dev, cumulative) Lognormal probability; mean and SD are of ln(x) Repair times, particle sizes, skewed data LOGNORM.INV LOGNORM.INV(probability, mean, standard_dev) Lognormal percentile Percentile limits for skewed data GAMMA.DIST GAMMA.DIST(x, alpha, beta, cumulative) Gamma probability; beta is scale Waiting times for several events GAMMA.INV GAMMA.INV(probability, alpha, beta) Gamma percentile Percentiles of gamma-shaped data GAMMA GAMMA(number) Gamma function value Building other distributions by hand GAMMALN GAMMALN(x) Natural log of the gamma function Large factorials without overflow GAMMALN.PRECISE GAMMALN.PRECISE(x) Natural log of the gamma function (precise) Same use, newer algorithm BETA.DIST BETA.DIST(x, alpha, beta, cumulative, [A], [B]) Beta probability PERT task times, proportions BETA.INV BETA.INV(probability, alpha, beta, [A], [B]) Beta percentile Exact binomial confidence limits PERMUT PERMUT(number, number_chosen) Ordered arrangements without repeats Counting sequences and orders PERMUTATIONA PERMUTATIONA(number, number_chosen) Ordered arrangements with repeats allowed Codes and passwords style counting PROB PROB(x_range, prob_range, [lower_limit], [upper_limit]) Probability of a range from a discrete table Custom discrete distributions COMBIN Math category COMBIN(number, number_chosen) Combinations without repeats (Math category) Counting samples where order does not matter COMBINA Math category COMBINA(number, number_chosen) Combinations with repeats (Math category) Counting with replacement No inverse for some Exponential: =-LN(1-p)/λ . Weibull: =β*(-LN(1-p))^(1/α) in Excel's own argument names. Weibull argument names Excel's alpha is the shape and beta is the scale. Lognormal inputs LOGNORM.DIST wants the mean and SD of ln(x), not of x. ↑ Back to the map Next: statistical inference → Map stop 03 · Infer",
+          "excerpt": "Goal: turn a value into a probability, or a probability into a value. One naming rule covers all of them. .DIST gives a probability (set cumulative to TRUE for the CDF, FALSE for the density), .INV turns a probability back into a value, .RT means right tail…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-inference-h",
+          "heading": "Statistical inference: confidence intervals in Excel",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Statistical inference: confidence intervals in Excel"
+          ],
+          "text": "Goal: give a range that probably holds the true value. Excel has only two dedicated interval functions, and both return the margin of error , not the interval. Every other interval is a standard error times a critical value from an .INV function. \\[ \\bar{x} \\pm t_{\\alpha/2,\\,n-1}\\,\\frac{s}{\\sqrt{n}} \\] where \\(\\bar{x}\\) is the sample mean, \\(s\\) the sample standard deviation, \\(n\\) the sample size and \\(t_{\\alpha/2,\\,n-1}\\) the two-sided critical value. CONFIDENCE.T returns the whole \\(\\pm\\) part in one step. The two interval functions Function Syntax Returns When to use it CONFIDENCE.T CONFIDENCE.T(alpha, standard_dev, size) Margin of error using t (half-width) Confidence interval for a mean, sigma unknown CONFIDENCE.NORM CONFIDENCE.NORM(alpha, standard_dev, size) Margin of error using z (half-width) Confidence interval for a mean, sigma known",
+          "excerpt": "Goal: give a range that probably holds the true value. Excel has only two dedicated interval functions, and both return the margin of error , not the interval. Every other interval is a standard error times a critical value from an .INV function. \\[ \\bar{x}…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-ci-recipes",
+          "heading": "Interval recipes",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Statistical inference: confidence intervals in Excel",
+            "Interval recipes"
+          ],
+          "text": "Building every common interval Interval Excel Mean, sigma unknown =AVERAGE(r) ± CONFIDENCE.T(α, STDEV.S(r), COUNT(r)) Mean, sigma known =AVERAGE(r) ± CONFIDENCE.NORM(α, σ, n) Variance =(n-1)*s^2/CHISQ.INV.RT(α/2, n-1) to =(n-1)*s^2/CHISQ.INV(α/2, n-1) Proportion (Wald) =p ± NORM.S.INV(1-α/2)*SQRT(p*(1-p)/n) Proportion (exact) =BETA.INV(α/2, x, n-x+1) to =BETA.INV(1-α/2, x+1, n-x) Poisson rate (exact) =CHISQ.INV(α/2, 2*c)/2 to =CHISQ.INV.RT(α/2, 2*(c+1))/2 Correlation =FISHERINV(FISHER(r) ± NORM.S.INV(1-α/2)/SQRT(n-3)) Regression slope =SLOPE(y,x) ± T.INV.2T(α, n-2)*INDEX(LINEST(y,x,TRUE,TRUE),2,1) Sample size for a mean =ROUNDUP((NORM.S.INV(1-α/2)*σ/E)^2, 0) Write ± as two cells. Excel has no ± operator: put the lower limit and the upper limit in their own cells. ↑ Back to the map Next: hypothesis testing → Map stop 04 · Decide",
+          "excerpt": "Building every common interval Interval Excel Mean, sigma unknown =AVERAGE(r) ± CONFIDENCE.T(α, STDEV.S(r), COUNT(r)) Mean, sigma known =AVERAGE(r) ± CONFIDENCE.NORM(α, σ, n) Variance =(n-1)*s^2/CHISQ.INV.RT(α/2, n-1) to =(n-1)*s^2/CHISQ.INV(α/2, n-1)…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-hypothesis-h",
+          "heading": "Hypothesis testing in Excel: the four test functions and the rest",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Hypothesis testing in Excel: the four test functions and the rest"
+          ],
+          "text": "Goal: decide whether a difference is real or noise. Excel's four test functions return only a p-value : no test statistic, no degrees of freedom. For any other test, compute the statistic, then turn it into a p-value with a .DIST function. Reject \\(H_0\\) when \\(p \\le \\alpha\\). Test picker: what is your question? Pick a question to see the Excel formula, the Minitab path and where it lives on the map. The four test functions Function Syntax Returns When to use it T.TEST T.TEST(array1, array2, tails, type) p-value; type 1 paired, 2 pooled, 3 Welch Comparing two means Z.TEST Z.TEST(array, x, [sigma]) Upper-tail p-value of a one-sample z test Mean against a target when sigma is known F.TEST F.TEST(array1, array2) Two-tailed p-value for equal variances Checking variances before choosing T.TEST type CHISQ.TEST CHISQ.TEST(actual_range, expected_range) p-value for independence or fit Counts by category; contingency tables",
+          "excerpt": "Goal: decide whether a difference is real or noise. Excel's four test functions return only a p-value : no test statistic, no degrees of freedom. For any other test, compute the statistic, then turn it into a p-value with a .DIST function. Reject \\(H_0\\) when…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-build-tests",
+          "heading": "Build any other test from a statistic",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Hypothesis testing in Excel: the four test functions and the rest",
+            "Build any other test from a statistic"
+          ],
+          "text": "\\[ t = \\frac{\\bar{x} - \\mu_0}{s/\\sqrt{n}} \\] where \\(\\mu_0\\) is the target. The same pattern, statistic then .DIST , covers the rest. Statistic, two-sided p-value and critical value Test Test statistic Two-sided p-value Critical value 1-sample z =(AVERAGE(r)-μ0)/(σ/SQRT(n)) =2*(1-NORM.S.DIST(ABS(z),TRUE)) =NORM.S.INV(1-α/2) 1-sample t =(AVERAGE(r)-μ0)/(STDEV.S(r)/SQRT(n)) =T.DIST.2T(ABS(t), n-1) =T.INV.2T(α, n-1) Paired t t on the differences =T.TEST(a, b, 2, 1) =T.INV.2T(α, n-1) 2-sample t, pooled pooled t =T.TEST(a, b, 2, 2) =T.INV.2T(α, n1+n2-2) 2-sample t, Welch Welch t =T.TEST(a, b, 2, 3) Welch df by hand 1 variance =(n-1)*VAR.S(r)/σ0^2 =2*MIN(CHISQ.DIST(x,n-1,TRUE), CHISQ.DIST.RT(x,n-1)) CHISQ.INV and CHISQ.INV.RT at α/2 2 variances =VAR.S(a)/VAR.S(b) =F.TEST(a, b) F.INV and F.INV.RT at α/2 1 proportion, exact defectives x =2*MIN(BINOM.DIST(x,n,p0,TRUE), 1-BINOM.DIST(x-1,n,p0,TRUE)) BINOM.INV(n, p0, α/2) 2 proportions =(p1-p2)/SQRT(p*(1-p)*(1/n1+1/n2)) =2*(1-NORM.S.DIST(ABS(z),TRUE)) =NORM.S.INV(1-α/2) Correlation is zero =r*SQRT(n-2)/SQRT(1-r^2) =T.DIST.2T(ABS(t), n-2) =T.INV.2T(α, n-2) One-way ANOVA =MS_between/MS_within =F.DIST.RT(F, k-1, N-k) =F.INV.RT(α, k-1, N-k) Chi-square, any df =SUM((O-E)^2/E) =CHISQ.DIST.RT(x, df) =CHISQ.INV.RT(α, df) Z.TEST is upper-tail Two-sided p is =2*MIN(Z.TEST(r,μ0,σ), 1-Z.TEST(r,μ0,σ)) . One-tailed T.TEST ignores direction Check which mean is larger before you trust it. CHISQ.TEST needs expected counts Each expected count is its row total times its column total, divided by the grand total. ↑ Back to the map Next: correlation → Map stop 05 · Relate",
+          "excerpt": "\\[ t = \\frac{\\bar{x} - \\mu_0}{s/\\sqrt{n}} \\] where \\(\\mu_0\\) is the target. The same pattern, statistic then .DIST , covers the rest. Statistic, two-sided p-value and critical value Test Test statistic Two-sided p-value Critical value 1-sample z…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-correlation-h",
+          "heading": "Correlation: Pearson r, its p-value and its interval",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Correlation: Pearson r, its p-value and its interval"
+          ],
+          "text": "Goal: check whether two measures move together in a straight line. CORREL and PEARSON return the same \\(r\\). Excel has no p-value or Spearman function, so test \\(r\\) with a \\(t\\) statistic and get Spearman by correlating ranks. All 7 correlation functions Function Syntax Returns When to use it CORREL CORREL(array1, array2) Pearson correlation coefficient r Strength and direction of a straight-line link PEARSON PEARSON(array1, array2) Same r as CORREL Legacy sheets; identical result RSQ RSQ(known_y's, known_x's) Square of r Share of variation explained by one x COVARIANCE.S COVARIANCE.S(array1, array2) Sample covariance Building r by hand on sample data COVARIANCE.P COVARIANCE.P(array1, array2) Population covariance Matches the ToolPak Covariance tool FISHER FISHER(x) Fisher z transformation of r Confidence interval on r; comparing two r values FISHERINV FISHERINV(y) Back-transforms Fisher z to r Second half of the r interval Correlation recipes Task Excel p-value for r =T.DIST.2T(ABS(r*SQRT(n-2)/SQRT(1-r^2)), n-2) Spearman rank correlation =CORREL(RANK.AVG(x,x,1), RANK.AVG(y,y,1)) Correlation matrix Data › Data Analysis › Correlation Plot first. A curve or two clusters can give \\(r\\) near zero with a strong relationship. Correlation never proves cause. ↑ Back to the map Next: regression → Map stop 06 · Predict",
+          "excerpt": "Goal: check whether two measures move together in a straight line. CORREL and PEARSON return the same \\(r\\). Excel has no p-value or Spearman function, so test \\(r\\) with a \\(t\\) statistic and get Spearman by correlating ranks. All 7 correlation functions…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-regression-h",
+          "heading": "Regression: LINEST and its shortcuts",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Regression: LINEST and its shortcuts"
+          ],
+          "text": "Goal: say how much y changes per unit of x, and predict new y values. LINEST with stats set to TRUE spills the whole regression table: coefficients, standard errors, \\(R^2\\), the F statistic and the sums of squares. SLOPE, INTERCEPT and STEYX are single cells of it. Reading LINEST output for one x (5 rows × 2 columns) Row Column 1 Column 2 1 Slope Intercept 2 SE of slope SE of intercept 3 R squared Standard error of estimate 4 F statistic Residual df 5 SS regression SS residual Pull one cell with =INDEX(LINEST(y,x,TRUE,TRUE), row, col) ; R squared is row 3, column 1. All 7 regression functions Function Syntax Returns When to use it LINEST LINEST(known_y's, [known_x's], [const], [stats]) Full regression table (spills) Simple or multiple regression with inference SLOPE SLOPE(known_y's, known_x's) Slope of the least-squares line Change in y per unit of x INTERCEPT INTERCEPT(known_y's, known_x's) Intercept of the least-squares line y when x is zero STEYX STEYX(known_y's, known_x's) Standard error of the estimate Width of prediction intervals TREND TREND(known_y's, [known_x's], [new_x's], [const]) Fitted or predicted values on a line Fitted values, residuals, predictions LOGEST LOGEST(known_y's, [known_x's], [const], [stats]) Exponential curve fit with statistics Growth or decay curves GROWTH GROWTH(known_y's, [known_x's], [new_x's], [const]) Predicted values on an exponential curve Predictions from an exponential model Reverse order With several x columns, LINEST lists coefficients last x first, intercept last. Coefficient p-value =T.DIST.2T(ABS(coef/SE), df_resid) Polynomial fit =LINEST(y, x^{1,2}, TRUE, TRUE) fits a quadratic. ↑ Back to the map Next: forecasting → Map stop 07 · Look ahead",
+          "excerpt": "Goal: say how much y changes per unit of x, and predict new y values. LINEST with stats set to TRUE spills the whole regression table: coefficients, standard errors, \\(R^2\\), the F statistic and the sums of squares. SLOPE, INTERCEPT and STEYX are single cells…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-forecasting-h",
+          "heading": "Forecasting: linear trends and exponential smoothing",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Forecasting: linear trends and exponential smoothing"
+          ],
+          "text": "Goal: estimate the next periods of a time series. Excel 2016 added the FORECAST.ETS family, built on exponential smoothing with trend and seasonality. Data › Forecast › Forecast Sheet builds the same model with a chart and an interval band in one click. All 6 forecasting functions Function Syntax Returns When to use it FORECAST.LINEAR FORECAST.LINEAR(x, known_y's, known_x's) One prediction from the least-squares line Straight-line trend forecasts FORECAST FORECAST(x, known_y's, known_x's) Same result as FORECAST.LINEAR Older workbooks only FORECAST.ETS FORECAST.ETS(target_date, values, timeline, [seasonality], [data_completion], [aggregation]) Exponential-smoothing (AAA) forecast Time series with trend and seasonality FORECAST.ETS.CONFINT FORECAST.ETS.CONFINT(target_date, values, timeline, [confidence_level], [seasonality], [data_completion], [aggregation]) Half-width of the forecast interval Error bands around ETS forecasts FORECAST.ETS.SEASONALITY FORECAST.ETS.SEASONALITY(values, timeline, [data_completion], [aggregation]) Season length Excel detected Confirming the cycle before trusting a forecast FORECAST.ETS.STAT FORECAST.ETS.STAT(values, timeline, statistic_type, [seasonality], [data_completion], [aggregation]) Model statistic: alpha, beta, gamma, MASE, SMAPE, MAE, RMSE, step Judging forecast accuracy Rules for ETS. The timeline must be evenly spaced. Set seasonality to 1 to auto-detect or 0 for none. A forecast plans demand; a control chart judges stability. Do not swap them. ↑ Back to the map Next: exploratory data analysis → Map stop 08 · Explore",
+          "excerpt": "Goal: estimate the next periods of a time series. Excel 2016 added the FORECAST.ETS family, built on exponential smoothing with trend and seasonality. Data › Forecast › Forecast Sheet builds the same model with a chart and an interval band in one click. All 6…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "esm-eda-h",
+          "heading": "Exploratory data analysis: quartiles, outliers and subgroups",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Exploratory data analysis: quartiles, outliers and subgroups"
+          ],
+          "text": "Goal: see shape, outliers and subgroups before you test anything. Position functions plus dynamic arrays plus Excel's statistic charts make a full EDA kit. Use .EXC quartiles when your box plot must match Minitab. Twelve made-up crane lift times (s): 52, 55, 57, 58, 60, 61, 62, 63, 65, 66, 68, 91. QUARTILE.EXC gives Q1 57.25 and Q3 65.75; the upper fence =Q3+1.5*(Q3-Q1) is 78.5, so the 91 s lift is flagged. All 10 position functions, plus dynamic-array helpers Function Syntax Returns When to use it FREQUENCY FREQUENCY(data_array, bins_array) Counts per bin (spills, plus an overflow bin) Histograms and goodness-of-fit counts QUARTILE.EXC QUARTILE.EXC(array, quart) Quartile, (n + 1) method Box plots that match Minitab QUARTILE.INC QUARTILE.INC(array, quart) Quartile, inclusive method Matching older Excel workbooks PERCENTILE.EXC PERCENTILE.EXC(array, k) k-th percentile, exclusive method P5 or P95 limits that match Minitab PERCENTILE.INC PERCENTILE.INC(array, k) k-th percentile, inclusive method Percentiles that include 0 and 1 PERCENTRANK.EXC PERCENTRANK.EXC(array, x, [significance]) Rank of x as a share between 0 and 1, exclusive Where one value sits in the data PERCENTRANK.INC PERCENTRANK.INC(array, x, [significance]) Rank of x as a share from 0 to 1, inclusive Same, inclusive method RANK.AVG RANK.AVG(number, ref, [order]) Rank with ties averaged Normal probability plots and rank tests RANK.EQ RANK.EQ(number, ref, [order]) Rank with ties sharing the top rank League tables and Pareto ordering STANDARDIZE STANDARDIZE(x, mean, standard_dev) z-score of a value Flagging points beyond three standard deviations GROUPBY Other category GROUPBY(row_fields, values, function, [field_headers], …) Summary table by group (Lookup category, Microsoft 365) Stratify by heat, shift, line or supplier PIVOTBY Other category PIVOTBY(row_fields, col_fields, values, function, …) Two-way summary table (Microsoft 365) Side-by-side comparisons such as LPA vs TWA PERCENTOF Other category PERCENTOF(data_subset, data_all) Share of a total (Microsoft 365) Pareto-style contributions FILTER Other category FILTER(array, include, [if_empty]) Rows that meet a condition (spills) Slicing a subgroup without copying UNIQUE Other category UNIQUE(array, [by_col], [exactly_once]) Distinct values (spills) Listing categories before grouping SORT Other category SORT(array, [sort_index], [sort_order], [by_col]) Sorted copy of a range (spills) Ordering data for plots and ranks SUBTOTAL Other category SUBTOTAL(function_num, ref1, [ref2], …) Statistic that ignores filtered-out rows Summaries that follow a filter AGGREGATE Other category AGGREGATE(function_num, options, ref1, [ref2], …) Statistic that can skip errors and hidden rows Robust summaries on messy data Compare orientations side by side. When one sample has several test types, such as Charpy LPA and TWA, pivot so each sample is one row: =PIVOTBY(HSTACK(sample_no, heat_no), test_orientation_code, value, AVERAGE) . In Python in Excel: df.groupby(['sample_no','heat_no','test_orientation_code']).first().unstack('test_orientation_code') . ↑ Back to the map Next: what-if and Solver → Map stop 09 · Optimize",
+          "excerpt": "Goal: see shape, outliers and subgroups before you test anything. Position functions plus dynamic arrays plus Excel's statistic charts make a full EDA kit. Use .EXC quartiles when your box plot must match Minitab. Twelve made-up crane lift times (s): 52, 55,…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-whatif-h",
+          "heading": "What-if analysis: Goal Seek, Data Tables, Scenarios and Solver",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "What-if analysis: Goal Seek, Data Tables, Scenarios and Solver"
+          ],
+          "text": "Goal: find the input that hits a target, or the best settings under constraints. Goal Seek changes one input, a Data Table maps one or two, Scenario Manager compares named sets of up to 32, and Solver optimizes up to 200 with constraints. A single Data Table never handles more than two inputs. Solver (Simplex LP) answer to a made-up blend problem: lowest cost 438.75 per tonne with copper exactly at its 0.18% limit. The worked setup is in Statistics Implementation, example 7. What-if tools (menu path in the syntax column) and simulation helpers Tool or function Where or syntax Returns When to use it Goal Seek Menu tool Data › What-If Analysis › Goal Seek The one input value that makes a formula hit a target Which sigma gives Cpk 1.33? Data Table (one variable) Data › What-If Analysis › Data Table (column input cell) Live outputs for many values of one input Sensitivity of cost or yield to one input Data Table (two variables) Data › What-If Analysis › Data Table (row and column input cells) One output across a grid of two inputs Cpk map across mean and sigma Scenario Manager Menu tool Data › What-If Analysis › Scenario Manager Named sets of up to 32 inputs, with a summary report Best, likely and worst cases Solver (Simplex LP) Menu tool Data › Solver › Select a Solving Method: Simplex LP Optimal values for linear models, with sensitivity report Blends, product mix, scheduling Solver (GRG Nonlinear) Menu tool Data › Solver › Select a Solving Method: GRG Nonlinear Local optimum for smooth nonlinear models Response optimization, curve fitting Solver (Evolutionary) Menu tool Data › Solver › Select a Solving Method: Evolutionary Good answer for non-smooth models Models with IF, LOOKUP or rounding Forecast Sheet Menu tool Data › Forecast › Forecast Sheet ETS forecast chart and table One-click seasonal forecast RAND Other category RAND() Uniform random number between 0 and 1 Driving simulations through .INV functions RANDARRAY Other category RANDARRAY([rows], [columns], [min], [max], [integer]) Array of random numbers (Microsoft 365) Thousands of draws in one formula RANDBETWEEN Other category RANDBETWEEN(bottom, top) Random integer in a range Random sampling of rows SEQUENCE Other category SEQUENCE(rows, [columns], [start], [step]) Sequence of numbers (spills) Input grids for sensitivity tables LET Other category LET(name1, name_value1, calculation_or_name2, …) Named steps inside one formula Readable one-cell simulations LAMBDA Other category LAMBDA([parameter1, …], calculation) Your own reusable function Custom test statistics and models MAP Other category MAP(array1, lambda_or_array) Applies a LAMBDA to every value Formula-based data tables that recalculate fast SUMPRODUCT Other category SUMPRODUCT(array1, [array2], …) Sum of products Objective and constraint cells for Solver MMULT Other category MMULT(array1, array2) Matrix product Regression by matrices; linear models MINVERSE Other category MINVERSE(array) Matrix inverse Normal equations for regression by hand Monte Carlo in one cell. =LET(n,10000, g, NORM.INV(RANDARRAY(n),35.3,0.06)-NORM.INV(RANDARRAY(n),10,0.05)-NORM.INV(RANDARRAY(n),20,0.08)-NORM.INV(RANDARRAY(n),5,0.03), AVERAGE(--(g<0))) estimates the interference rate of a four-part stack. Press F9 to re-run. ↑ Back to the map Next: Analysis ToolPak → Map stop 10 · Full output",
+          "excerpt": "Goal: find the input that hits a target, or the best settings under constraints. Goal Seek changes one input, a Data Table maps one or two, Scenario Manager compares named sets of up to 32, and Solver optimizes up to 200 with constraints. A single Data Table…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-toolpak-h",
+          "heading": "Analysis ToolPak: full ANOVA, t-test and regression tables",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Analysis ToolPak: full ANOVA, t-test and regression tables"
+          ],
+          "text": "Goal: get a complete output table, not just a p-value. Turn it on once: File › Options › Add-ins › Manage Excel Add-ins › Go , tick Analysis ToolPak. On a Mac: Tools › Excel Add-ins . Its output is static , so re-run it after the data changes. All 19 ToolPak tools Tool Where Gives you When to use it Anova: Single Factor Data › Data Analysis › Anova: Single Factor One-way ANOVA table with SS, df, MS, F, p and F crit Three or more group means Anova: Two-Factor With Replication Data › Data Analysis › Anova: Two-Factor With Replication Two-way ANOVA with interaction, balanced data only Two factors with repeats Anova: Two-Factor Without Replication Data › Data Analysis › Anova: Two-Factor Without Replication Two-way ANOVA, one value per cell Randomized block designs t-Test: Paired Two Sample for Means Data › Data Analysis › t-Test: Paired Two Sample for Means t Stat, df, one- and two-tail p and critical values Before and after on the same units t-Test: Two-Sample Assuming Equal Variances Data › Data Analysis › t-Test: Two-Sample Assuming Equal Variances Same output with pooled variance Independent groups, equal spread t-Test: Two-Sample Assuming Unequal Variances Data › Data Analysis › t-Test: Two-Sample Assuming Unequal Variances Welch output; df rounded to an integer Independent groups, unequal spread z-Test: Two Sample for Means Data › Data Analysis › z-Test: Two Sample for Means z, one- and two-tail p, z crit Two means with known variances F-Test Two-Sample for Variances Data › Data Analysis › F-Test Two-Sample for Variances F, one-tail p, F crit Comparing two variances Descriptive Statistics Data › Data Analysis › Descriptive Statistics Mean, SE, median, mode, SD, variance, kurtosis, skewness, range, n, CI half-width One-click summary Regression Data › Data Analysis › Regression Coefficients with SE, t, p and CIs; ANOVA; residual plots Full regression output Correlation Data › Data Analysis › Correlation Correlation matrix Several variables at once Covariance Data › Data Analysis › Covariance Population covariance matrix Several variables at once Histogram Data › Data Analysis › Histogram Bin counts, cumulative percent, optional Pareto chart Quick frequency table Rank and Percentile Data › Data Analysis › Rank and Percentile Rank and percent rank of every value Relative standing table Random Number Generation Data › Data Analysis › Random Number Generation Uniform, normal, Bernoulli, binomial, Poisson, patterned or discrete values Static simulated data Sampling Data › Data Analysis › Sampling Random or periodic sample Drawing an audit sample Moving Average Data › Data Analysis › Moving Average Smoothed series with optional standard errors Trend smoothing Exponential Smoothing Data › Data Analysis › Exponential Smoothing Simple exponential smoothing; damping factor is 1 minus alpha Level-only forecasts Fourier Analysis Data › Data Analysis › Fourier Analysis Fast Fourier transform of a power-of-two series Vibration and periodic signals F-Test tool vs F.TEST The tool prints a one-tail p; the function returns two-tail. Same data, p differs by a factor of 2. Welch tool vs T.TEST type 3 The tool rounds the Welch df; the function does not, so p differs slightly. ↑ Back to the map Next: legacy functions → Map stop 11 · Old workbooks",
+          "excerpt": "Goal: get a complete output table, not just a p-value. Turn it on once: File › Options › Add-ins › Manage Excel Add-ins › Go , tick Analysis ToolPak. On a Mac: Tools › Excel Add-ins . Its output is static , so re-run it after the data changes. All 19 ToolPak…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "esm-legacy-h",
+          "heading": "Legacy functions and their modern replacements",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Legacy functions and their modern replacements"
+          ],
+          "text": "Goal: understand or update a formula from an older workbook or prep book. All 39 legacy statistical names still calculate. Microsoft recommends the modern versions for accuracy and clearer names. Watch the tail changes: old right-tailed names became left-tailed ones. All 39 legacy statistical names Legacy name Syntax Modern replacement Behaviour change BETADIST BETADIST(x, alpha, beta, [A], [B]) Use BETA.DIST New version adds the cumulative argument BETAINV BETAINV(probability, alpha, beta, [A], [B]) Use BETA.INV None BINOMDIST BINOMDIST(number_s, trials, probability_s, cumulative) Use BINOM.DIST None CHIDIST CHIDIST(x, deg_freedom) Use CHISQ.DIST.RT Old version was right-tailed; CHISQ.DIST is left-tailed CHIINV CHIINV(probability, deg_freedom) Use CHISQ.INV.RT Same right-tail trap CHITEST CHITEST(actual_range, expected_range) Use CHISQ.TEST None CONFIDENCE CONFIDENCE(alpha, standard_dev, size) Use CONFIDENCE.NORM None; CONFIDENCE.T is new COVAR COVAR(array1, array2) Use COVARIANCE.P Old version was population; COVARIANCE.S is new CRITBINOM CRITBINOM(trials, probability_s, alpha) Use BINOM.INV None EXPONDIST EXPONDIST(x, lambda, cumulative) Use EXPON.DIST None FDIST FDIST(x, deg_freedom1, deg_freedom2) Use F.DIST.RT Old version was right-tailed; F.DIST is left-tailed FINV FINV(probability, deg_freedom1, deg_freedom2) Use F.INV.RT Same right-tail trap FORECAST FORECAST(x, known_y's, known_x's) Use FORECAST.LINEAR None FTEST FTEST(array1, array2) Use F.TEST None GAMMADIST GAMMADIST(x, alpha, beta, cumulative) Use GAMMA.DIST None GAMMAINV GAMMAINV(probability, alpha, beta) Use GAMMA.INV None HYPGEOMDIST HYPGEOMDIST(sample_s, number_sample, population_s, number_pop) Use HYPGEOM.DIST New version adds the cumulative argument LOGINV LOGINV(probability, mean, standard_dev) Use LOGNORM.INV None LOGNORMDIST LOGNORMDIST(x, mean, standard_dev) Use LOGNORM.DIST New version adds the cumulative argument MODE MODE(number1, [number2], …) Use MODE.SNGL None; MODE.MULT is new NEGBINOMDIST NEGBINOMDIST(number_f, number_s, probability_s) Use NEGBINOM.DIST New version adds the cumulative argument NORMDIST NORMDIST(x, mean, standard_dev, cumulative) Use NORM.DIST None NORMINV NORMINV(probability, mean, standard_dev) Use NORM.INV None NORMSDIST NORMSDIST(z) Use NORM.S.DIST New version needs the cumulative argument NORMSINV NORMSINV(probability) Use NORM.S.INV None PERCENTILE PERCENTILE(array, k) Use PERCENTILE.INC None; .EXC is new and matches Minitab PERCENTRANK PERCENTRANK(array, x, [significance]) Use PERCENTRANK.INC None; .EXC is new POISSON POISSON(x, mean, cumulative) Use POISSON.DIST None QUARTILE QUARTILE(array, quart) Use QUARTILE.INC None; .EXC is new and matches Minitab RANK RANK(number, ref, [order]) Use RANK.EQ None; RANK.AVG is new STDEV STDEV(number1, [number2], …) Use STDEV.S None STDEVP STDEVP(number1, [number2], …) Use STDEV.P None TDIST TDIST(x, deg_freedom, tails) Use T.DIST.RT or T.DIST.2T Old version took a tails argument TINV TINV(probability, deg_freedom) Use T.INV.2T Old version was two-tailed; T.INV is left-tailed TTEST TTEST(array1, array2, tails, type) Use T.TEST None VAR VAR(number1, [number2], …) Use VAR.S None VARP VARP(number1, [number2], …) Use VAR.P None WEIBULL WEIBULL(x, alpha, beta, cumulative) Use WEIBULL.DIST None ZTEST ZTEST(array, x, [sigma]) Use Z.TEST None TINV trap. TINV(0.05, 10) = T.INV.2T(0.05, 10) = 2.228, but T.INV(0.05, 10) = −1.812. ↑ Back to the map Next: beyond Excel → Map stop 12 · Beyond Excel",
+          "excerpt": "Goal: understand or update a formula from an older workbook or prep book. All 39 legacy statistical names still calculate. Microsoft recommends the modern versions for accuracy and clearer names. Watch the tail changes: old right-tailed names became…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-gaps-h",
+          "heading": "Beyond Excel: tests with no function, and the workarounds",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Beyond Excel: tests with no function, and the workarounds"
+          ],
+          "text": "Goal: run a Black Belt test that Excel has no function for. Most tools beyond t, F, chi-square and simple ANOVA have no Excel function and no ToolPak tool. Build them from formulas, or call Python in Excel, where scipy.stats and statsmodels run inside a =PY() cell on Microsoft's cloud. Twelve gaps and how to fill them Need Formula workaround Python in Excel Normality test (Anderson-Darling, Shapiro-Wilk) Normal probability plot with NORM.S.INV and RANK.AVG; check SKEW and KURT stats.anderson, stats.shapiro One- and two-proportion tests z statistic with NORM.S.DIST; exact test with BINOM.DIST proportions_ztest Nonparametric tests (sign, Wilcoxon, Mann-Whitney, Kruskal-Wallis) Sign test with BINOM.DIST; rank sums with RANK.AVG stats.wilcoxon, mannwhitneyu, kruskal Equal variances, three or more groups (Levene, Bartlett) One-way ANOVA on absolute deviations from each group median stats.levene, stats.bartlett Post-hoc comparisons (Tukey) Fisher LSD with T.INV.2T; no studentized range in Excel pairwise_tukeyhsd Unbalanced or multi-factor ANOVA and DOE analysis LINEST with coded columns for two-level factorials statsmodels ols with anova_lm Power and sample size Sample-size formula with NORM.S.INV statsmodels.stats.power Process capability Cpk from AVERAGE and STDEV.S, or R-bar over d2 numpy formulas Control charts Limits from AVERAGE and constants, drawn as a line chart matplotlib chart in the cell Gage R&R ANOVA method built from DEVSQ statsmodels random-effects ANOVA Weibull fitting LINEST on the linearized Weibull plot stats.weibull_min.fit Logistic or Poisson regression Solver maximizing the log-likelihood statsmodels Logit or GLM The Python function Function Syntax Returns When to use it PY Other category PY(python_code, return_type) Runs Python in a cell (Microsoft 365) scipy.stats and statsmodels for tests Excel lacks ↑ Back to the map Next: Statistics Implementation → Do it in software",
+          "excerpt": "Goal: run a Black Belt test that Excel has no function for. Most tools beyond t, F, chi-square and simple ANOVA have no Excel function and no ToolPak tool. Build them from formulas, or call Python in Excel, where scipy.stats and statsmodels run inside a =PY()…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-implementation-h",
+          "heading": "Statistics Implementation",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Statistics Implementation"
+          ],
+          "text": "Psst. The map tells you where to go. This panel shows you the moves: seven worked examples, every Minitab twin and the exam's favourite traps. You found the secret level. Worked numbers, menu paths and exam traps are all below. Unlock the cheat codes Hide the cheat codes",
+          "excerpt": "Psst. The map tells you where to go. This panel shows you the moves: seven worked examples, every Minitab twin and the exam's favourite traps. You found the secret level. Worked numbers, menu paths and exam traps are all below. Unlock the cheat codes Hide the…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "esm-impl-excel",
+          "heading": "Excel functions: the quick pick",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Statistics Implementation",
+            "Excel functions: the quick pick"
+          ],
+          "text": "The first function to reach for on each map stop Map stop Your question First function Then 01 Descriptive Where is the centre, and how spread out? AVERAGE , MEDIAN , STDEV.S SKEW , KURT , TRIMMEAN 02 Distributions What is the probability, or the critical value? NORM.DIST , T.DIST.2T , BINOM.DIST The matching .INV 03 Inference What range holds the true mean? CONFIDENCE.T CHISQ.INV for sigma, BETA.INV for exact p 04 Hypothesis tests Is the difference real? T.TEST , F.TEST , CHISQ.TEST T.DIST.2T , F.DIST.RT on your own statistic 05 Correlation Do two measures move together? CORREL T.DIST.2T for p, FISHER for the interval 06 Regression How much does y change per x? LINEST TREND , F.DIST.RT 07 Forecasting What comes next period? FORECAST.ETS FORECAST.ETS.CONFINT 08 EDA What does the data look like? QUARTILE.EXC , FREQUENCY , GROUPBY Box and whisker chart, normal plot 09 What-if Which input hits the target? Goal Seek, Data Table Solver; RANDARRAY with NORM.INV",
+          "excerpt": "The first function to reach for on each map stop Map stop Your question First function Then 01 Descriptive Where is the centre, and how spread out? AVERAGE , MEDIAN , STDEV.S SKEW , KURT , TRIMMEAN 02 Distributions What is the probability, or the critical…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "esm-impl-cases",
+          "heading": "Excel use cases: seven worked examples",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Statistics Implementation",
+            "Excel use cases: seven worked examples"
+          ],
+          "text": "Made-up plant data. Every value was cross-checked in SciPy, and Excel returns the same numbers. 1-sample t and interval. Ten tensile coupons (MPa): 492, 488, 495, 481, 499, 490, 486, 493, 497, 489. Is the mean above 485? =AVERAGE(A2:A11) gives 491.0 and =STDEV.S(A2:A11) gives 5.375. \\[ t = \\frac{491.0 - 485}{5.375/\\sqrt{10}} = 3.530 \\] One-sided p: =T.DIST.RT(3.530, 9) = 0.0032. Interval: =CONFIDENCE.T(0.05, 5.375, 10) = 3.845, so 487.2 to 494.8 MPa. The mean is above 485. Paired t. Crane cycle times (s) before 62, 58, 71, 66, 54, 69, 60, 63 and after 48, 47, 55, 50, 46, 52, 49, 51. =T.TEST(before, after, 2, 1) = 0.000007. The mean saving is 13.1 s. Variance check, then the right t-test. Line A has 8 values and line B has 10. =F.TEST(A, B) = 0.012, so the variances differ. =T.TEST(A, B, 2, 3) = 0.317: no evidence the means differ. Chi-square test of independence. Defect type by shift: observed 18, 7, 5 and 12, 15, 13. Build expected counts, then =CHISQ.TEST(observed, expected) = 0.041 with 2 df. Defect type depends on shift. Exact proportion test. 7 defectives in 200 pipes against a 2% target. =1-BINOM.DIST(6, 200, 0.02, TRUE) = 0.109. The expected count is 4, below 5, so report the exact value, not the z approximation (0.065). Poisson probability. 1.2 surface defects per pipe on average. The chance of 3 or more is =1-POISSON.DIST(2, 1.2, TRUE) = 0.121. Solver blend. Shred at 420 per tonne and 0.22% Cu, HMS at 380 and 0.30%, pig iron at 520 and 0.01%. Minimize =SUMPRODUCT(cost, share) with Cu at most 0.18% and pig iron at most 25%. Simplex LP gives 59.4% shred, 15.6% HMS and 25% pig iron, at 438.75 per tonne.",
+          "excerpt": "Made-up plant data. Every value was cross-checked in SciPy, and Excel returns the same numbers. 1-sample t and interval. Ten tensile coupons (MPa): 492, 488, 495, 481, 499, 490, 486, 493, 497, 489. Is the mean above 485? =AVERAGE(A2:A11) gives 491.0 and…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-impl-minitab",
+          "heading": "Minitab navigation",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Statistics Implementation",
+            "Minitab navigation"
+          ],
+          "text": "The Minitab twin of every map stop Map stop Primary path Alternatives Which to use and why Descriptive Stat › Basic Statistics › Display Descriptive Statistics Stat › Basic Statistics › Graphical Summary Graphical Summary adds the Anderson-Darling test and intervals for the mean, SD and median. EDA Graph › Boxplot , Graph › Histogram Graph › Probability Plot ; Stat › Quality Tools › Run Chart Probability Plot with its p-value is the standard normality check. Distributions Calc › Probability Distributions Graph › Probability Distribution Plot Calc gives density, cumulative or inverse cumulative values, like .DIST and .INV . Inference Stat › Basic Statistics › 1-Sample t Stat › Quality Tools › Tolerance Intervals ; Stat › Power and Sample Size Every Basic Statistics test also prints the interval. Hypothesis tests Stat › Basic Statistics › 2-Sample t (and 1-Sample, Paired, 2 Variances, Proportions) Stat › ANOVA › One-Way ; Stat › Tables › Chi-Square Test for Association 2-Sample t defaults to unequal variances, like T.TEST type 3. Correlation Stat › Basic Statistics › Correlation Graph › Scatterplot ; Graph › Matrix Plot Gives r, p-values and Spearman in one dialog, which Excel cannot. Regression Stat › Regression › Regression › Fit Regression Model Stat › Regression › Fitted Line Plot Fitted Line Plot for one x; Fit Regression Model for several, with residual plots. Forecasting Stat › Time Series › Winters' Method Stat › Time Series › Trend Analysis , Decomposition, ARIMA Winters' Method is the closest to FORECAST.ETS . What-if Stat › DOE › Factorial › Response Optimizer Stat › Regression › Regression › Response Optimizer ; Stat › DOE › Factorial › Overlaid Contour Plot Response Optimizer is Minitab's Solver; overlaid contour plots are its visual Data Table.",
+          "excerpt": "The Minitab twin of every map stop Map stop Primary path Alternatives Which to use and why Descriptive Stat › Basic Statistics › Display Descriptive Statistics Stat › Basic Statistics › Graphical Summary Graphical Summary adds the Anderson-Darling test and…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "esm-impl-exam",
+          "heading": "Exam tips",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Statistics Implementation",
+            "Exam tips"
+          ],
+          "text": "The exam tests reading, not keystrokes. CSSBB and CQE are open-book and calculator-based. Expect Excel or Minitab output to interpret, not software to run. Tables are .INV functions. A two-tailed t table value is T.INV.2T , a chi-square table is CHISQ.INV.RT and an F table is F.INV.RT . Use them to check your lookups. Know the ToolPak labels. \"P(T<=t) two-tail\" is the two-sided p-value; \"t Critical two-tail\" is the two-sided critical value. Sample data means STDEV.S. A population formula on sample data is a classic distractor. Legacy names in prep books. TINV is two-tailed; modern T.INV is left-tailed. Real projects. Check normality and equal variances before trusting t and ANOVA, and confirm an optimized setting with runs before changing standard work. ↑ Back to the map Next: quiz →",
+          "excerpt": "The exam tests reading, not keystrokes. CSSBB and CQE are open-book and calculator-based. Expect Excel or Minitab output to interpret, not software to run. Tables are .INV functions. A two-tailed t table value is T.INV.2T , a chi-square table is CHISQ.INV.RT…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "esm-references-h",
+          "heading": "References",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "References"
+          ],
+          "text": "Statistical functions (reference), Microsoft Support Compatibility functions (reference), Microsoft Support Use the Analysis ToolPak, Microsoft Support Introduction to What-If Analysis, Microsoft Support Define and solve a problem by using Solver, Microsoft Support PY function, Microsoft Support",
+          "excerpt": "Statistical functions (reference), Microsoft Support Compatibility functions (reference), Microsoft Support Use the Analysis ToolPak, Microsoft Support Introduction to What-If Analysis, Microsoft Support Define and solve a problem by using Solver, Microsoft…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-related-lessons",
+          "heading": "Related lessons",
+          "breadcrumb": [
+            "Excel Statistical Functions: The Complete Map",
+            "Related lessons"
+          ],
+          "text": "Probability Distributions for Lean Six Sigma — the shapes behind every .DIST function. Confidence, prediction and tolerance intervals — the three interval types in depth. Hypothesis testing for beginners — what a p-value means before you compute one. Pearson, Spearman and Kendall correlation — when CORREL is not enough. Choosing the right regression analysis in Minitab — where LINEST hands over to Minitab.",
+          "excerpt": "Probability Distributions for Lean Six Sigma — the shapes behind every .DIST function. Confidence, prediction and tolerance intervals — the three interval types in depth. Hypothesis testing for beginners — what a p-value means before you compute one. Pearson,…",
           "kinds": [
             "section"
           ]

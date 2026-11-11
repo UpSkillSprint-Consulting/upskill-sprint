@@ -327,6 +327,18 @@
       description: 'Master all seven Excel CUBE functions, from your first CUBEVALUE to dynamic Top N reports, slicer-driven formulas, MDX sets and KPIs, with live builders and practice data.'
     },
     {
+      marker: 'data-excel-statistical-functions-map',
+      sectionId: 'power-bi-excel-sql',
+      path: '/lessons/power-bi-excel-sql/excel-statistical-functions-map',
+      topic: 'power-bi-excel-sql',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'excel statistical functions map hypothesis testing in excel function finder descriptive statistics probability distributions confidence interval t.test t.dist t.inv norm.dist z.test f.test chisq.test correl linest forecast.ets quartile.exc analysis toolpak goal seek data table scenario manager solver legacy functions tinv python in excel minitab cssbb cqe public intermediate interactive',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>90 min</span><span>Excel + Minitab</span>',
+      title: 'Excel Statistical Functions: The Complete Map',
+      description: 'Every Excel statistical and hypothesis-testing function on one goal-based map, with a function finder, worked examples, Minitab paths and exam tips.'
+    },
+    {
       marker: 'data-dmaic-in-10-minutes',
       sectionId: 'lean-six-sigma',
       path: '/lessons/lean-six-sigma/dmaic-in-10-minutes',
