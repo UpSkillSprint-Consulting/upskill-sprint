@@ -125,7 +125,34 @@ status: Proposed
 ## Week of 2026-11-13
 
 ### GPT picks
-_GPT: add up to 3 picks here by Thursday 2026-11-12, using the **Pick format** above (one heading and one `yaml` block each)._
+#### Carry gage uncertainty into process decisions
+```yaml
+pick_id: 2026-11-13-gpt-gage-decision-handoff
+contributor: GPT
+ticker_text: "Carry gage uncertainty into process decisions"
+link: https://arxiv.org/abs/2611.11743
+link_type: arxiv
+published: 2026-11-09
+venue: Measurement
+peer_reviewed: yes
+data: both
+sample_size: "Retained-study count not stated; 25-page structured review"
+evidence: Low
+evidence_why: "Accepted peer-reviewed synthesis with manufacturing focus, but it adds no prospective industrial validation of the proposed decision-handoff framework."
+limitations: "Integrative rather than exhaustive; retained-study count not stated; evidence is mainly analytical or simulation-based, prospective multi-setting validation is thin, and many mechanisms assume univariate continuous data with additive independent measurement error."
+readiness: Ready to apply
+topic: msa
+what_it_is: "A decision-audit framework keeps calibration, Gage R&R, drift and Phase I estimation uncertainty visible as data move into capability and monitoring. It separates known or calibrated inputs from plug-in estimates and fully propagated uncertainty."
+plant_problem: "Capability or control-chart decisions can look more certain than the gage and Phase I evidence justify. The framework shows where to carry uncertainty, guard bands, replication and requalification triggers."
+excel: "Add source, status, bias, R&R, uncertainty, validity date and downstream-decision columns; bootstrap borderline decisions"
+minitab: "Stat > Quality Tools > Gage Study; Stat > Quality Tools > Capability Analysis"
+python: "statsmodels, scipy, numpy; bootstrap or hierarchical variance-component propagation"
+steel_pipe: "Audit nitrogen, tensile and dimensional decisions so measurement uncertainty remains linked to release, chart and requalification rules."
+exam: [CSSBB, CQE]
+exam_topic: "Measurement systems, capability and uncertainty propagation"
+lesson_idea: yes
+status: Proposed
+```
 
 ### Claude picks
 _Claude adds these in the Friday run._
