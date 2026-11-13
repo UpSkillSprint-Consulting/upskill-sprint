@@ -13004,8 +13004,8 @@
             "Probability Distributions for Lean Six Sigma",
             "Meet the cast: the Secret Personalities poster"
           ],
-          "text": "Eight of the zoo's biggest celebrities come with big personalities. Meet the overachiever, the impatient waiter and the detective, then take them home for your wall. Download the poster (PDF, 149 KB) Download the formula quick reference (PDF, 11 × 17 in, 168 KB) The poster prints as one long page. The quick reference is your cheat sheet: every formula, mean and variance for 16 distributions. The Secret Personalities of Process Data Meet the wild curves, sharp peaks, and unpredictable shapes running your operations. Data isn’t just cold numbers on a spreadsheet—it has moods! Some distributions are predictably chill, while others decay into chaos or explode without warning. Knowing who’s who is the ultimate Black Belt superpower. Let’s meet the cast and find out who’s really running your process.",
-          "excerpt": "Eight of the zoo's biggest celebrities come with big personalities. Meet the overachiever, the impatient waiter and the detective, then take them home for your wall. Download the poster (PDF, 149 KB) Download the formula quick reference (PDF, 11 × 17 in, 168…",
+          "text": "Eight of the zoo's biggest celebrities come with big personalities. Meet the overachiever, the impatient waiter and the detective, then take them home for your wall. Download the poster (PDF, 150 KB) Download the formula quick reference (PDF, 11 × 17 in, 168 KB) The poster prints as one long page. The quick reference is your cheat sheet: every formula, mean and variance for 14 distributions, including three (negative binomial, gamma and beta) that go beyond this lesson’s 13. The Secret Personalities of Process Data Meet the wild curves, sharp peaks, and unpredictable shapes running your operations. Data isn’t just cold numbers on a spreadsheet—it has moods! Some distributions are predictably chill, while others decay into chaos or explode without warning. Knowing who’s who is the ultimate Black Belt superpower. Let’s meet the cast and find out who’s really running your process.",
+          "excerpt": "Eight of the zoo's biggest celebrities come with big personalities. Meet the overachiever, the impatient waiter and the detective, then take them home for your wall. Download the poster (PDF, 150 KB) Download the formula quick reference (PDF, 11 × 17 in, 168…",
           "kinds": [
             "section",
             "formula"
@@ -13034,8 +13034,8 @@
             "The Measure-It Crew",
             "The Normal Distribution"
           ],
-          "text": "“The Overachiever” The Vibe Balanced, predictable, and everyone’s favorite neighbor. Memorable Phrase “Symmetrical, centered, and living right on the mean.” The Story This is your classic bell curve. It loves balance, treats standard deviations like personal boundaries, and never surprises anyone. When you see a Normal Distribution, you can practically hear it sighing with relief. Multiplicative growth tail",
-          "excerpt": "“The Overachiever” The Vibe Balanced, predictable, and everyone’s favorite neighbor. Memorable Phrase “Symmetrical, centered, and living right on the mean.” The Story This is your classic bell curve. It loves balance, treats standard deviations like personal…",
+          "text": "“The Overachiever” The Vibe Balanced, predictable, and everyone’s favourite neighbour. Memorable Phrase “Symmetrical, centred, and living right on the mean.” The Story This is your classic bell curve. It loves balance, treats standard deviations like personal boundaries, and never surprises anyone. When you see a Normal Distribution, you can practically hear it sighing with relief. Multiplicative growth tail",
+          "excerpt": "“The Overachiever” The Vibe Balanced, predictable, and everyone’s favourite neighbour. Memorable Phrase “Symmetrical, centred, and living right on the mean.” The Story This is your classic bell curve. It loves balance, treats standard deviations like personal…",
           "kinds": [
             "section"
           ]
@@ -13167,7 +13167,7 @@
             "The Test-It Crew",
             "The F-Distribution"
           ],
-          "text": "“The Ratio Referee” The Vibe Fair, strict, and constantly comparing two opponents to see who rules. Memorable Phrase “Calling the ratio play in ANOVA!” The Story Whenever two process variations step into the ring for an ANOVA showdown, the F-Distribution shows up. It strictly analyzes the ratio of variances to tell you if a factor is genuinely making an impact or just making noise. Level up your Black Belt knowledge! Part 4",
+          "text": "“The Ratio Referee” The Vibe Fair, strict, and constantly comparing two opponents to see who rules. Memorable Phrase “Calling the ratio play in ANOVA!” The Story Whenever two process variations step into the ring for an ANOVA showdown, the F-Distribution shows up. It strictly analyses the ratio of variances to tell you if a factor is genuinely making an impact or just making noise. Level up your Black Belt knowledge! Part 4",
           "excerpt": "“The Ratio Referee” The Vibe Fair, strict, and constantly comparing two opponents to see who rules. Memorable Phrase “Calling the ratio play in ANOVA!” The Story Whenever two process variations step into the ring for an ANOVA showdown, the F-Distribution…",
           "kinds": [
             "section"
@@ -13194,8 +13194,8 @@
             "All 13 distributions at a glance",
             "Normal"
           ],
-          "text": "The Bell Curve Spot it in the wild Heights in your class: loads of medium, a few giants, a few shorties. On the shop floor Pipe wall thickness, fill weight. symmetric bell-shaped average and spread Z-score Measure-it",
-          "excerpt": "The Bell Curve Spot it in the wild Heights in your class: loads of medium, a few giants, a few shorties. On the shop floor Pipe wall thickness, fill weight. symmetric bell-shaped average and spread Z-score Measure-it",
+          "text": "The Overachiever Spot it in the wild Heights in your class: loads of medium, a few giants, a few shorties. On the shop floor Pipe wall thickness, fill weight. symmetric bell-shaped average and spread Z-score Measure-it",
+          "excerpt": "The Overachiever Spot it in the wild Heights in your class: loads of medium, a few giants, a few shorties. On the shop floor Pipe wall thickness, fill weight. symmetric bell-shaped average and spread Z-score Measure-it",
           "kinds": [
             "section"
           ]
@@ -13222,8 +13222,8 @@
             "All 13 distributions at a glance",
             "Exponential"
           ],
-          "text": "The Waiting Game Spot it in the wild Waiting for a text back: often quick, sometimes it takes forever. On the shop floor Time between sensor breakdowns. MTBF constant failure rate memoryless Measure-it",
-          "excerpt": "The Waiting Game Spot it in the wild Waiting for a text back: often quick, sometimes it takes forever. On the shop floor Time between sensor breakdowns. MTBF constant failure rate memoryless Measure-it",
+          "text": "The Impatient Waiter Spot it in the wild Waiting for a text back: often quick, sometimes it takes forever. On the shop floor Time between sensor breakdowns. MTBF constant failure rate memoryless Measure-it",
+          "excerpt": "The Impatient Waiter Spot it in the wild Waiting for a text back: often quick, sometimes it takes forever. On the shop floor Time between sensor breakdowns. MTBF constant failure rate memoryless Measure-it",
           "kinds": [
             "section"
           ]
@@ -13236,10 +13236,11 @@
             "All 13 distributions at a glance",
             "Weibull"
           ],
-          "text": "The Shape-Shifter Spot it in the wild Phone batteries: a few die young, most just get tired and quit. On the shop floor Bearing life, roll wear. shape scale early failures wear-out Measure-it",
-          "excerpt": "The Shape-Shifter Spot it in the wild Phone batteries: a few die young, most just get tired and quit. On the shop floor Bearing life, roll wear. shape scale early failures wear-out Measure-it",
+          "text": "The Master of Disguise Spot it in the wild Phone batteries: a few die young, most just get tired and quit. On the shop floor Bearing life, roll wear. shape scale early failures wear-out Excel heads-up: the shape \\(\\beta\\) goes in WEIBULL.DIST’s alpha argument and the scale \\(\\eta\\) in its beta argument: =WEIBULL.DIST(x, shape, scale, TRUE) . Measure-it",
+          "excerpt": "The Master of Disguise Spot it in the wild Phone batteries: a few die young, most just get tired and quit. On the shop floor Bearing life, roll wear. shape scale early failures wear-out Excel heads-up: the shape \\(\\beta\\) goes in WEIBULL.DIST’s alpha argument…",
           "kinds": [
-            "section"
+            "section",
+            "formula"
           ]
         },
         {
@@ -13250,8 +13251,8 @@
             "All 13 distributions at a glance",
             "Lognormal"
           ],
-          "text": "The Lopsided Hill Spot it in the wild Homework time: most finish in an hour, one friend takes all weekend. On the shop floor Repair times, cycle times. skewed right repair time log is normal Measure-it",
-          "excerpt": "The Lopsided Hill Spot it in the wild Homework time: most finish in an hour, one friend takes all weekend. On the shop floor Repair times, cycle times. skewed right repair time log is normal Measure-it",
+          "text": "The Over-Caffeinated Achiever Spot it in the wild Homework time: most finish in an hour, one friend takes all weekend. On the shop floor Repair times, cycle times. skewed right repair time log is normal Measure-it",
+          "excerpt": "The Over-Caffeinated Achiever Spot it in the wild Homework time: most finish in an hour, one friend takes all weekend. On the shop floor Repair times, cycle times. skewed right repair time log is normal Measure-it",
           "kinds": [
             "section"
           ]
@@ -13278,8 +13279,8 @@
             "All 13 distributions at a glance",
             "Binomial"
           ],
-          "text": "The Coin-Flip Counter Spot it in the wild Ten free throws. Each one is a swish or a miss. How many go in? On the shop floor Bad pipes in a sample of 50. n tries pass or fail proportion defective Count-it",
-          "excerpt": "The Coin-Flip Counter Spot it in the wild Ten free throws. Each one is a swish or a miss. How many go in? On the shop floor Bad pipes in a sample of 50. n tries pass or fail proportion defective Count-it",
+          "text": "The Coin-Flip Master Spot it in the wild Ten free throws. Each one is a swish or a miss. How many go in? On the shop floor Bad pipes in a sample of 50. n tries pass or fail proportion defective Count-it",
+          "excerpt": "The Coin-Flip Master Spot it in the wild Ten free throws. Each one is a swish or a miss. How many go in? On the shop floor Bad pipes in a sample of 50. n tries pass or fail proportion defective Count-it",
           "kinds": [
             "section"
           ]
@@ -13292,8 +13293,8 @@
             "All 13 distributions at a glance",
             "Poisson"
           ],
-          "text": "The Event Counter Spot it in the wild Notifications per hour: no limit, just a steady drip of pings. On the shop floor Scratches per coil. defects per unit rate rare events Count-it",
-          "excerpt": "The Event Counter Spot it in the wild Notifications per hour: no limit, just a steady drip of pings. On the shop floor Scratches per coil. defects per unit rate rare events Count-it",
+          "text": "The Beep Counter Spot it in the wild Notifications per hour: no limit, just a steady drip of pings. On the shop floor Scratches per coil. defects per unit rate rare events Count-it",
+          "excerpt": "The Beep Counter Spot it in the wild Notifications per hour: no limit, just a steady drip of pings. On the shop floor Scratches per coil. defects per unit rate rare events Count-it",
           "kinds": [
             "section"
           ]
@@ -13348,8 +13349,8 @@
             "All 13 distributions at a glance",
             "Chi-square"
           ],
-          "text": "The Mismatch Meter Spot it in the wild Your die feels rigged. This measures how far reality is from fair. On the shop floor Is defect type linked to the shift? observed vs expected one variance categories Test-it",
-          "excerpt": "The Mismatch Meter Spot it in the wild Your die feels rigged. This measures how far reality is from fair. On the shop floor Is defect type linked to the shift? observed vs expected one variance categories Test-it",
+          "text": "The Detective Spot it in the wild Your die feels rigged. This measures how far reality is from fair. On the shop floor Is defect type linked to the shift? observed vs expected one variance categories Test-it",
+          "excerpt": "The Detective Spot it in the wild Your die feels rigged. This measures how far reality is from fair. On the shop floor Is defect type linked to the shift? observed vs expected one variance categories Test-it",
           "kinds": [
             "section"
           ]
@@ -13362,8 +13363,8 @@
             "All 13 distributions at a glance",
             "F"
           ],
-          "text": "The Spread Comparer Spot it in the wild Two classes' test scores: which one is all over the place? On the shop floor Is Line 1 more variable than Line 2? two variances ANOVA ratio Part 5",
-          "excerpt": "The Spread Comparer Spot it in the wild Two classes' test scores: which one is all over the place? On the shop floor Is Line 1 more variable than Line 2? two variances ANOVA ratio Part 5",
+          "text": "The Ratio Referee Spot it in the wild Two classes' test scores: which one is all over the place? On the shop floor Is Line 1 more variable than Line 2? two variances ANOVA ratio Part 5",
+          "excerpt": "The Ratio Referee Spot it in the wild Two classes' test scores: which one is all over the place? On the shop floor Is Line 1 more variable than Line 2? two variances ANOVA ratio Part 5",
           "kinds": [
             "section"
           ]

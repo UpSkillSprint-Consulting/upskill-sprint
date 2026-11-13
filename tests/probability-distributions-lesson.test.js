@@ -404,3 +404,36 @@ test('registered in the Statistics catalog with matching metadata, and the acces
   assert.match(sql, /on conflict \(resource_key\) do update/);
   assert(!/\b(create|alter|drop|grant)\b/i.test(sql));
 });
+
+test('each poster character keeps the same nickname on its Part 4 zoo card', () => {
+  const cardFor = { normal: 'Normal', lognormal: 'Lognormal', exponential: 'Exponential', weibull: 'Weibull',
+    binomial: 'Binomial', poisson: 'Poisson', chisq: 'Chi-square', fdist: 'F' };
+  const cards = new Map([...doc.querySelectorAll('#pd-zoo-grid .pd-animal')]
+    .map(c => [c.querySelector('h3').textContent, c.querySelector('.pd-nick').textContent.trim()]));
+  for (const ch of doc.querySelectorAll('#pd-cast-poster .pd-char')) {
+    const posterNick = ch.querySelector('.pd-nick').textContent.replace(/[“”]/g, '').trim();
+    assert.equal(cards.get(cardFor[ch.dataset.character]), posterNick, ch.dataset.character);
+  }
+  const nicks = [...cards.values()];
+  assert.equal(new Set(nicks).size, nicks.length, 'zoo nicknames are unique');
+  // The quiz names the Weibull by its poster nickname too.
+  assert.match(doc.querySelector('#quiz').innerHTML, /the Weibull, the Master of Disguise/);
+});
+
+test('lesson copy uses Canadian spelling and the quick-reference count is true', () => {
+  const text = doc.getElementById('lesson-content').textContent;
+  for (const us of [/\bfavorite/i, /\bneighbor/i, /\bcentered\b/i, /\banalyz/i, /\bcolor\b/i, /\bbehavior/i, /\bmodeling\b/i])
+    assert(!us.test(text), `US spelling: ${us}`);
+  // The quick-reference PDF has 14 panels: 4 discrete, 6 continuous, 4 sampling/test.
+  const note = doc.querySelector('#pd-cast .pd-download p').textContent;
+  assert.match(note, /for 14 distributions/);
+  assert(!/\b16 distributions/.test(html));
+});
+
+test('the Weibull card maps the shape and scale to WEIBULL.DIST alpha and beta', () => {
+  const card = [...doc.querySelectorAll('#pd-zoo-grid .pd-animal')].find(c => c.querySelector('h3').textContent === 'Weibull');
+  const note = card.querySelector('.pd-xl-note');
+  assert(note, 'Excel note');
+  assert.match(note.textContent, /shape \\\(\\beta\\\) goes in WEIBULL\.DIST’s alpha argument and the scale \\\(\\eta\\\) in its beta argument/);
+  assert.match(html, /=WEIBULL\.DIST\(x, alpha, beta, cumulative\)/);
+});
