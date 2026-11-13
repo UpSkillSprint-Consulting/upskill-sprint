@@ -2,12 +2,34 @@
   "_howto": "Headlines for the scrolling updates bar (site-ticker.js). Add new items at the top. Fields: id (unique, never reuse), date (YYYY-MM-DD), tag (Lesson | Exam | Tool | Research | Update | Soon), text (your own words, under ~60 characters), href (a site path starting with /, or a direct https:// link to the source for Research items; those open in a new tab), expires (optional YYYY-MM-DD; shows through that day). Research items are weekly: only the newest dated batch shows, so a new Friday's picks replace the previous week's automatically. Items older than 90 days drop off automatically; at most 8 show. A new top item brings the bar back for visitors who closed it.",
   "updates": [
     {
-      "id": "2026-11-06-research-streaming-virtual-metrology",
-      "date": "2026-11-06",
+      "id": "2026-11-13-research-gage-misclassification-feasibility",
+      "date": "2026-11-13",
       "tag": "Research",
-      "text": "Virtual metrology that keeps up as equipment drifts",
-      "href": "https://arxiv.org/abs/2611.00806",
-      "expires": "2026-11-20"
+      "text": "Why a bigger sample can't fix a weak gage",
+      "href": "https://www.mdpi.com/2673-8244/6/4/85",
+      "expires": "2026-11-27"
+    },
+    {
+      "id": "2026-11-13-research-thread-msa-spc-case",
+      "date": "2026-11-13",
+      "tag": "Research",
+      "text": "Fix the gage first, then prove the Cpk gain",
+      "href": "https://www.mdpi.com/2673-8244/6/4/81",
+      "expires": "2026-11-27"
+    },
+    {
+      "id": "2026-11-11-excel-statistical-functions-map",
+      "date": "2026-11-11",
+      "tag": "Lesson",
+      "text": "New lesson: every Excel statistics function, mapped",
+      "href": "/lessons/power-bi-excel-sql/excel-statistical-functions-map"
+    },
+    {
+      "id": "2026-11-10-probability-distributions-lss",
+      "date": "2026-11-10",
+      "tag": "Lesson",
+      "text": "New lesson: probability distributions for Six Sigma",
+      "href": "/lessons/statistics/probability-distributions-for-lean-six-sigma"
     },
     {
       "id": "2026-11-05-mean-median-mode-spread",
