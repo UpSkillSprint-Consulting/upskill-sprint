@@ -136,3 +136,49 @@ test('DMAIC keeps its wrapper LearningResource and BreadcrumbList exactly once a
     assert.ok(!types.includes('Article'), 'stale payload graph replaced');
   } finally { w.close(); }
 });
+
+test('DMAIC: the stored payload nav is redrawn from site-nav.js, not its stale snapshot', async () => {
+  const file = 'lessons/lean-six-sigma/dmaic-formula-encyclopedia.html';
+  const dom = await fixture(read(file), 'https://upskillsprint.com/' + file.replace(/\.html$/, ''));
+  const w = dom.window;
+  try {
+    // Load the real shared nav, as the loader page's deferred script does.
+    w.eval(read('site-nav.js'));
+    assert.equal(typeof w.USSNav.markup, 'function');
+    const loader = Array.from(w.document.scripts).find(script =>
+      !script.src && script.textContent.includes('DecompressionStream'));
+    let decoded;
+    const swap = w.upskillWriteLessonDocument;
+    w.upskillWriteLessonDocument = html => {
+      decoded = new w.DOMParser().parseFromString(html, 'text/html');
+      return swap(html);
+    };
+    await w.eval(loader.textContent);
+    assert.ok(decoded, 'the loader must use the shared document swap');
+
+    const doc = w.document;
+    const nav = doc.querySelector('header.site nav.desktop-nav');
+    assert.ok(nav, 'the lesson keeps its desktop nav');
+    const { markup, tabs } = require(path.join(ROOT, 'site-nav.js'));
+    const expected = new w.DOMParser().parseFromString(`<nav>${markup('desktop', 'lessons')}</nav>`, 'text/html').querySelector('nav');
+    assert.equal(nav.innerHTML, expected.innerHTML, 'desktop nav matches the current site-nav.js markup');
+    assert.equal(nav.getAttribute('data-nav-root'), 'desktop');
+    assert.equal(nav.getAttribute('aria-label'), 'Main');
+    assert.equal(nav.querySelector('[data-nav-tab][aria-current="page"]').dataset.navTab, 'lessons');
+
+    const examTab = tabs.find(tab => tab.id === 'exam');
+    assert.equal(nav.querySelector('a[data-nav-tab="exam"]').textContent, examTab.label);
+    assert.equal(examTab.label, 'Certification Exam Practice');
+    const examLinks = Array.from(nav.querySelectorAll('#nav-d-exam a[href^="/exam-practice#exam-"]'), a => a.getAttribute('href'));
+    assert.ok(examLinks.includes('/exam-practice#exam-cqa'), 'the CQA exam is a live menu item');
+    assert.equal(nav.querySelectorAll('[aria-disabled="true"]').length, 0, 'no stale "coming soon" exam rows');
+    assert.doesNotMatch(nav.outerHTML, /gmail\.com/i, 'the retired Gmail address is gone from the menu');
+    assert.ok(nav.querySelector('a[href="mailto:hello@upskillsprint.com"]'));
+
+    // Only the nav changes: the lesson body (apart from the header nav) is untouched.
+    const strip = d => { const c = d.body.cloneNode(true); c.querySelectorAll('nav.desktop-nav, nav.mobile-nav').forEach(n => n.remove()); return c.innerHTML; };
+    assert.equal(strip(doc), strip(decoded));
+    assert.match(decoded.querySelector('header.site nav.desktop-nav').outerHTML, /gmail\.com/,
+      'fixture sanity: the stored payload still carries the old menu');
+  } finally { w.close(); }
+});

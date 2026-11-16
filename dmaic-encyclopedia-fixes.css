@@ -25,6 +25,9 @@ html[data-theme="dark"] [data-dmaic-encyclopedia] {
 [data-dmaic-encyclopedia] .source,
 [data-dmaic-encyclopedia] .phase-heading p { color: var(--muted); }
 [data-dmaic-encyclopedia] .toolbar { top: calc(var(--sitebar-height) + 8px); z-index: 20; }
+/* The sticky toolbar shares the header's z-index and comes later in the page, so it
+   painted over the open nav menus (hiding the lower exam rows). Keep the header on top. */
+body.dmaic-encyclopedia-page header.site { z-index: 30; }
 [data-dmaic-encyclopedia] .toolbar-grid > * { min-width: 0; }
 [data-dmaic-encyclopedia] .btn { min-height: 44px; padding: 10px 14px; border: 1px solid var(--border); white-space: normal; }
 [data-dmaic-encyclopedia] .btn:not(.primary) { color: var(--text); background: var(--panel-2); }

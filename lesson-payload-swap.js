@@ -14,8 +14,39 @@
 
   var PRELOAD_TIMEOUT_MS = 4000;
 
+  /* A payload's primary nav is a snapshot of the menu from the day it was
+     compressed, so it goes stale whenever site-nav.js changes (old tab names,
+     missing exams, the retired contact address). site-nav.js is the single
+     source of menu content: redraw every primary nav in the payload from it,
+     keeping the payload's current tab. */
+  function refreshPrimaryNav(lesson) {
+    var api = window.USSNav;
+    if (!api || typeof api.markup !== 'function') return;
+    lesson.querySelectorAll('nav.desktop-nav, nav.mobile-nav').forEach(function (nav) {
+      var kind = nav.classList.contains('mobile-nav') ? 'mobile' : 'desktop';
+      var current = nav.querySelector('[data-nav-tab][aria-current="page"]');
+      nav.setAttribute('data-nav-root', kind);
+      nav.setAttribute('aria-label', 'Main');
+      nav.innerHTML = api.markup(kind, current ? current.getAttribute('data-nav-tab') : '');
+    });
+  }
+
+  /* site-nav.js is deferred on the loader page, so it may not have run yet
+     when the payload arrives. Wait for it (deferred scripts finish before
+     DOMContentLoaded), but never hold the lesson back for long. */
+  function siteNavReady() {
+    if (window.USSNav || document.readyState === 'complete' || !document.querySelector('script[src*="site-nav.js"]')) {
+      return Promise.resolve();
+    }
+    return new Promise(function (resolve) {
+      document.addEventListener('DOMContentLoaded', resolve, { once: true });
+      window.addEventListener('load', resolve, { once: true });
+    });
+  }
+
   function carryMetadata(html) {
     var lesson = new DOMParser().parseFromString(html, 'text/html');
+    refreshPrimaryNav(lesson);
     var selector = 'title, meta[name="description"], link[rel~="canonical"], meta[property^="og:"], meta[name^="twitter:"]';
     // The public loader owns the SEO tags; older payloads must not override them.
     lesson.head.querySelectorAll(selector).forEach(function (tag) { tag.remove(); });
@@ -73,10 +104,10 @@
   }
 
   window.upskillWriteLessonDocument = function (html) {
-    html = carryMetadata(html);
     var resources = blockingResources(html);
     var timeout = new Promise(function (resolve) { setTimeout(resolve, PRELOAD_TIMEOUT_MS); });
-    return Promise.race([Promise.all(resources.map(preload)), timeout]).then(function () {
+    return Promise.race([Promise.all(resources.map(preload).concat(siteNavReady())), timeout]).then(function () {
+      html = carryMetadata(html);
       // Read the theme before document.open() removes the current <html>.
       var lessonHtml = carryTheme(html);
       document.open();
