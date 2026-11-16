@@ -81,6 +81,16 @@
   [headers.values]
     X-Robots-Tag = "noindex"
 
+# Excel Formula Fluency sprint assets. introduction.html is the interactive
+# "Excel building blocks" page that the lesson embeds in an iframe (and links
+# as "Open the complete introduction in its own window"). It has no canonical
+# or description of its own, so keep it out of search results as a standalone
+# page; indexifembedded still lets Google count it as part of the lesson.
+[[headers]]
+  for = "/assets/lessons/excel-formula-fluency/sprint/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, indexifembedded"
+
 # Legacy duplicate URLs: send them to the one canonical lesson URL with a
 # permanent redirect. force = true is needed because the old redirect stubs
 # still exist as files (they stay as a client-side fallback).
