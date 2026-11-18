@@ -1,9 +1,9 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 60,
-  "contentLessonCount": 59,
-  "sectionCount": 3074,
+  "lessonCount": 61,
+  "contentLessonCount": 60,
+  "sectionCount": 3119,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -45384,6 +45384,685 @@
           ],
           "text": "Predefining affinity categories before the team generates ideas. Treating arrow counts as proof of causality. Stopping the tree one level too early. Changing prioritization weights after seeing the scores. Assuming ownership is obvious instead of defining it. Skipping PDPC as “negative thinking.” Scheduling before the task list and dependencies are complete. Next: Complete 14-Tool Project →",
           "excerpt": "Predefining affinity categories before the team generates ideas. Treating arrow counts as proof of causality. Stopping the tree one level too early. Changing prioritization weights after seeing the scores. Assuming ownership is obvious instead of defining it.…",
+          "kinds": [
+            "section"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quality-engineering--top-down-vs-bottom-up-risk-assessment",
+      "path": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+      "title": "Top-Down vs. Bottom-Up Risk Assessment",
+      "description": "Learn when to dig down from a bad outcome (FTA, RCA) or walk up from each part (FMEA, HACCP), where HAZOP and bow-tie fit, and how it all maps to ISO 31000.",
+      "topic": "quality-engineering",
+      "level": "intermediate",
+      "minutes": 25,
+      "interactive": true,
+      "keywords": [
+        "top-down",
+        "bottom-up",
+        "risk assessment",
+        "fault tree analysis",
+        "fta",
+        "fmea",
+        "fmeca",
+        "hazop",
+        "guide words",
+        "bow-tie",
+        "haccp",
+        "preliminary hazard analysis",
+        "swift",
+        "root cause analysis",
+        "proactive",
+        "reactive",
+        "iso 31000",
+        "iec 31010",
+        "deductive",
+        "inductive",
+        "top-down bottom-up risk assessment deductive inductive fault tree analysis fta fmea fmeca hazop guide words bow-tie haccp preliminary hazard analysis pha what-if swift root cause analysis 5 why fishbone proactive reactive iso 31000 iec 31010 rpn action priority wall posters quality engineering asq cqe cssbb intermediate interactive"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "td-title",
+          "heading": "Top-Down vs. Bottom-Up Risk Assessment",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment"
+          ],
+          "text": "Every risk tool digs in one of two directions. Top-down vs. bottom-up risk assessment comes down to one question: do you start from the bad outcome and dig for causes, or start from each part and ask what it could break? Deductive · outcome → causes Top-down “This bad thing happened, or could. What causes it?” Think: the detective Event → both ways Middle-out Start at the event. Dig back to causes, walk forward to effects. Bow-tie · HAZOP Inductive · cause → effects Bottom-up “If this part fails, what does it break?” Think: the inspector Poster: top-down digs from the outcome down to causes, like a detective. Middle-out starts at the event and works both ways. Bottom-up walks from each part up to its effects, like an inspector. The system ladder Meet the 8 tools Proactive or reactive? The sorting game HAZOP guide words Fault tree lab ISO 31000 Excel and Minitab Download the 4 posters Part 1 · Two directions",
+          "excerpt": "Every risk tool digs in one of two directions. Top-down vs. bottom-up risk assessment comes down to one question: do you start from the bad outcome and dig for causes, or start from each part and ask what it could break? Deductive · outcome → causes Top-down…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "td-ladder-h",
+          "heading": "Climb the system ladder both ways",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Climb the system ladder both ways"
+          ],
+          "text": "Every product or process stacks up like a ladder: parts make steps, steps make a line, the line makes what the customer gets. Pick a direction, then press Next step and watch which rung you visit first. System / customer Waiting… Line / unit Waiting… Process step Waiting… Part / failure mode Waiting… Top-down chosen. Press Next step to start at the top. Pipe-mill examples are made up for teaching. Part 2 · The toolbox",
+          "excerpt": "Every product or process stacks up like a ladder: parts make steps, steps make a line, the line makes what the customer gets. Pick a direction, then press Next step and watch which rung you visit first. System / customer Waiting… Line / unit Waiting… Process…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "td-tools-h",
+          "heading": "Meet the 8 tools, sorted by direction",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 8 tools, sorted by direction"
+          ],
+          "text": "Colour tells you the direction. The chips tell you the timing: proactive (before a failure) or reactive (after one). Open any card for a steel-mill example.",
+          "excerpt": "Colour tells you the direction. The chips tell you the timing: proactive (before a failure) or reactive (after one). Open any card for a steel-mill example.",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-top-down",
+          "heading": "Top-down",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 8 tools, sorted by direction",
+            "Top-down"
+          ],
+          "text": "Outcome → causes · deductive",
+          "excerpt": "Outcome → causes · deductive",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-fault-tree-analysis-fta",
+          "heading": "Fault tree analysis (FTA)",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 8 tools, sorted by direction",
+            "Top-down",
+            "Fault tree analysis (FTA)"
+          ],
+          "text": "One top event, traced down through AND / OR gates to basic causes. Proactive Reactive “Pipe ruptures in service” as the top event, traced to wall loss, low toughness, or a seam defect that UT missed.",
+          "excerpt": "One top event, traced down through AND / OR gates to basic causes. Proactive Reactive “Pipe ruptures in service” as the top event, traced to wall loss, low toughness, or a seam defect that UT missed.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-rca-5-why-fishbone",
+          "heading": "RCA: 5-Why · Fishbone",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 8 tools, sorted by direction",
+            "Top-down",
+            "RCA: 5-Why · Fishbone"
+          ],
+          "text": "Start from the defect you saw. Ask why, or brainstorm the 6M bones, until you hit the root cause. Reactive “Why did this heat fail its Charpy test?” Why? Grain too coarse. Why? Finish rolling ran hot. Why? …",
+          "excerpt": "Start from the defect you saw. Ask why, or brainstorm the 6M bones, until you hit the root cause. Reactive “Why did this heat fail its Charpy test?” Why? Grain too coarse. Why? Finish rolling ran hot. Why? …",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-middle-out",
+          "heading": "Middle-out",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 8 tools, sorted by direction",
+            "Middle-out"
+          ],
+          "text": "Event → both ways",
+          "excerpt": "Event → both ways",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-bow-tie",
+          "heading": "Bow-tie",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 8 tools, sorted by direction",
+            "Middle-out",
+            "Bow-tie"
+          ],
+          "text": "The event sits in the knot. Causes and prevention barriers on the left, consequences and recovery barriers on the right. Proactive Show the board every barrier between “pipe ruptures” and a spill: UT, hydrotest and Charpy on the left; leak detection and shutdown on the right.",
+          "excerpt": "The event sits in the knot. Causes and prevention barriers on the left, consequences and recovery barriers on the right. Proactive Show the board every barrier between “pipe ruptures” and a spill: UT, hydrotest and Charpy on the left; leak detection and…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-hazop",
+          "heading": "HAZOP",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 8 tools, sorted by direction",
+            "Middle-out",
+            "HAZOP"
+          ],
+          "text": "Guide word + parameter = deviation (“no flow”). Work back to causes and forward to consequences, node by node. Proactive Review the caster’s mould cooling-water loop on its P&ID before start-up. Try it yourself in Part 5.",
+          "excerpt": "Guide word + parameter = deviation (“no flow”). Work back to causes and forward to consequences, node by node. Proactive Review the caster’s mould cooling-water loop on its P&ID before start-up. Try it yourself in Part 5.",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-bottom-up",
+          "heading": "Bottom-up",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 8 tools, sorted by direction",
+            "Bottom-up"
+          ],
+          "text": "Cause → effects · inductive",
+          "excerpt": "Cause → effects · inductive",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-fmea-fmeca",
+          "heading": "FMEA / FMECA",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 8 tools, sorted by direction",
+            "Bottom-up",
+            "FMEA / FMECA"
+          ],
+          "text": "Every failure mode of every step, rated for severity, occurrence and detection. Proactive A PFMEA row for ERW seam welding: “cold weld” → leak in hydrotest or service.",
+          "excerpt": "Every failure mode of every step, rated for severity, occurrence and detection. Proactive A PFMEA row for ERW seam welding: “cold weld” → leak in hydrotest or service.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-haccp",
+          "heading": "HACCP",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 8 tools, sorted by direction",
+            "Bottom-up",
+            "HACCP"
+          ],
+          "text": "Step by step: list each hazard, then set critical control points and limits. Proactive Built for food and drugs. In a mill, think of a food-grade coating line.",
+          "excerpt": "Step by step: list each hazard, then set critical control points and limits. Proactive Built for food and drugs. In a mill, think of a food-grade coating line.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-pha",
+          "heading": "PHA",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 8 tools, sorted by direction",
+            "Bottom-up",
+            "PHA"
+          ],
+          "text": "Preliminary Hazard Analysis: an early scan of hazards for each part of a new system. Proactive A concept for a new pickling line, before the detailed design exists.",
+          "excerpt": "Preliminary Hazard Analysis: an early scan of hazards for each part of a new system. Proactive A concept for a new pickling line, before the detailed design exists.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-what-if-swift",
+          "heading": "What-If / SWIFT",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 8 tools, sorted by direction",
+            "Bottom-up",
+            "What-If / SWIFT"
+          ],
+          "text": "Structured “What if…?” prompts at each step. Faster and lighter than FMEA. Proactive “What if the crane drops a bundle at the loading bay?” Walk every step that way.",
+          "excerpt": "Structured “What if…?” prompts at each step. Faster and lighter than FMEA. Proactive “What if the crane drops a bundle at the loading bay?” Walk every step that way.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "td-compare-h",
+          "heading": "Side by side",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 8 tools, sorted by direction",
+            "Side by side"
+          ],
+          "text": "Aspect Top-down Bottom-up Starts at A defined bad outcome A part, step or failure mode Logic Deductive : outcome → causes Inductive : cause → effects Blind spot Causes nobody put in the tree Two failures together, and interactions Best for One known or feared failure Full coverage before anything fails Pairs with RCA, CAPA, 8D DFMEA, PFMEA action plans Why HAZOP is “middle-out”: textbooks file it as top-down and as bottom-up. It really starts at a deviation in the middle and works both ways, just like the bow-tie. Part 3 · Timing",
+          "excerpt": "Aspect Top-down Bottom-up Starts at A defined bad outcome A part, step or failure mode Logic Deductive : outcome → causes Inductive : cause → effects Blind spot Causes nobody put in the tree Two failures together, and interactions Best for One known or feared…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "td-timing-h",
+          "heading": "Proactive or reactive? Before or after the failure",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Proactive or reactive? Before or after the failure"
+          ],
+          "text": "A proactive tool finds risk before anything breaks. A reactive tool explains a failure that already happened, so you can fix it and stop it coming back.",
+          "excerpt": "A proactive tool finds risk before anything breaks. A reactive tool explains a failure that already happened, so you can fix it and stop it coming back.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-proactive",
+          "heading": "Proactive",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Proactive or reactive? Before or after the failure",
+            "Proactive"
+          ],
+          "text": "Before anything breaks FMEA HACCP PHA SWIFT HAZOP Bow-tie FTA at design",
+          "excerpt": "Before anything breaks FMEA HACCP PHA SWIFT HAZOP Bow-tie FTA at design",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-reactive",
+          "heading": "Reactive",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Proactive or reactive? Before or after the failure",
+            "Reactive"
+          ],
+          "text": "After it breaks 5-Why Fishbone FTA in an investigation CAPA / 8D Direction ≠ timing Exam trap: top-down does not mean reactive. FTA is top-down, yet engineers often build it at the design stage, long before anything fails. Ask two separate questions: which way? and before or after? Part 4 · Your turn",
+          "excerpt": "After it breaks 5-Why Fishbone FTA in an investigation CAPA / 8D Direction ≠ timing Exam trap: top-down does not mean reactive. FTA is top-down, yet engineers often build it at the design stage, long before anything fails. Ask two separate questions: which…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "td-game-h",
+          "heading": "The sorting game: which way would you dig?",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "The sorting game: which way would you dig?"
+          ],
+          "text": "Six real jobs from a pipe mill. Pick the direction for each one. You get one try per job. 0 / 6 Pick a direction for each job. Part 5 · HAZOP",
+          "excerpt": "Six real jobs from a pipe mill. Pick the direction for each one. You get one try per job. 0 / 6 Pick a direction for each job. Part 5 · HAZOP",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "td-hazop-h",
+          "heading": "Spin the HAZOP guide word machine",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Spin the HAZOP guide word machine"
+          ],
+          "text": "HAZOP uses seven guide words (guide, not “guild”). Each one, paired with a process parameter, names a deviation from design intent. The team then asks four questions about it. Guide word Parameter Deviation Node: caster mould cooling water . Pick a guide word and a parameter.",
+          "excerpt": "HAZOP uses seven guide words (guide, not “guild”). Each one, paired with a process parameter, names a deviation from design intent. The team then asks four questions about it. Guide word Parameter Deviation Node: caster mould cooling water . Pick a guide word…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "td-hz-gw-h",
+          "heading": "Guide word",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Spin the HAZOP guide word machine",
+            "Guide word"
+          ],
+          "text": "",
+          "excerpt": "Guide word",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "td-hz-par-h",
+          "heading": "Parameter",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Spin the HAZOP guide word machine",
+            "Parameter"
+          ],
+          "text": "A made-up example for teaching. Your plant’s HAZOP team will find its own causes and safeguards. The N/A cards are the point. Many combinations mean nothing. The team still says them out loud and rules them out. That discipline is what makes HAZOP more complete than a free brainstorm. HAZOP fits continuous processes with flow, pressure, temperature, level or composition: caster cooling water, EAF off-gas, ladle argon stirring. For final pipe inspection, use a PFMEA. Part 6 · Use both",
+          "excerpt": "A made-up example for teaching. Your plant’s HAZOP team will find its own causes and safeguards. The N/A cards are the point. Many combinations mean nothing. The team still says them out loud and rules them out. That discipline is what makes HAZOP more…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "td-fta-h",
+          "heading": "Fault tree lab: why FMEA needs a partner",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Fault tree lab: why FMEA needs a partner"
+          ],
+          "text": "FMEA looks at one failure mode at a time. A fault tree’s AND gate catches what it misses: two things going wrong together. Move the sliders to see how each cause drives the top event. Made-up example. The AND gate turns inspection into a barrier: S only happens when D and M both happen.",
+          "excerpt": "FMEA looks at one failure mode at a time. A fault tree’s AND gate catches what it misses: two things going wrong together. Move the sliders to see how each cause drives the top event. Made-up example. The AND gate turns inspection into a barrier: S only…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "td-fta-lab-h",
+          "heading": "What-if sliders",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Fault tree lab: why FMEA needs a partner",
+            "What-if sliders"
+          ],
+          "text": "W: wall below minimum (%) 0.02% T: low toughness (%) 0.01% D: weld defect created (%) 0.5% M: UT misses the defect (%) 5% W path 0.020% T path 0.010% S path (D AND M) 0.025% 0.055% About 5.5 pipes in 10,000 rupture. The seam path is the biggest. The gate maths, for independent events: \\[ P(\\text{S}) = P(\\text{D}) \\times P(\\text{M}) \\] \\[ P(\\text{top}) = 1 - \\big(1 - P(\\text{W})\\big)\\big(1 - P(\\text{T})\\big)\\big(1 - P(\\text{S})\\big) \\] where \\(P(\\text{W})\\), \\(P(\\text{T})\\), \\(P(\\text{D})\\) and \\(P(\\text{M})\\) are the chances of each basic event per pipe, and \\(P(\\text{S})\\) is the chance that a seam defect escapes.",
+          "excerpt": "W: wall below minimum (%) 0.02% T: low toughness (%) 0.01% D: weld defect created (%) 0.5% M: UT misses the defect (%) 5% W path 0.020% T path 0.010% S path (D AND M) 0.025% 0.055% About 5.5 pipes in 10,000 rupture. The seam path is the biggest. The gate…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "td-pfmea-h",
+          "heading": "The bottom-up partner: one PFMEA row",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Fault tree lab: why FMEA needs a partner",
+            "The bottom-up partner: one PFMEA row"
+          ],
+          "text": "Step Failure mode Effect Cause · control ERW seam welding Cold weld (lack of fusion) Leak or rupture in hydrotest or service Low heat input · online UT of the seam PFMEA every step + FTA the big one Run the PFMEA across the whole rolling and finishing line for coverage. Then build a fault tree for each catastrophic event, so combinations get caught too. Part 7 · The big picture",
+          "excerpt": "Step Failure mode Effect Cause · control ERW seam welding Cold weld (lack of fusion) Leak or rupture in hydrotest or service Low heat input · online UT of the seam PFMEA every step + FTA the big one Run the PFMEA across the whole rolling and finishing line…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "td-iso-h",
+          "heading": "Where the tools plug into ISO 31000",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Where the tools plug into ISO 31000"
+          ],
+          "text": "ISO 31000:2018 is the international guideline for managing risk. Its process (clause 6) calls risk identification, analysis and evaluation together risk assessment . That is where every tool on this page lives. Risk assessment = steps 1 to 3",
+          "excerpt": "ISO 31000:2018 is the international guideline for managing risk. Its process (clause 6) calls risk identification, analysis and evaluation together risk assessment . That is where every tool on this page lives. Risk assessment = steps 1 to 3",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-scope",
+          "heading": "Scope",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Where the tools plug into ISO 31000",
+            "Scope"
+          ],
+          "text": "Context and risk criteria: how much risk is OK?",
+          "excerpt": "Context and risk criteria: how much risk is OK?",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-1-identify",
+          "heading": "1 · Identify",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Where the tools plug into ISO 31000",
+            "1 · Identify"
+          ],
+          "text": "What could go wrong? HAZOP SWIFT PHA FMEA modes",
+          "excerpt": "What could go wrong? HAZOP SWIFT PHA FMEA modes",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-2-analyze",
+          "heading": "2 · Analyze",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Where the tools plug into ISO 31000",
+            "2 · Analyze"
+          ],
+          "text": "How, how likely, how bad? FTA Bow-tie FMEA S·O·D",
+          "excerpt": "How, how likely, how bad? FTA Bow-tie FMEA S·O·D",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-3-evaluate",
+          "heading": "3 · Evaluate",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Where the tools plug into ISO 31000",
+            "3 · Evaluate"
+          ],
+          "text": "Is it acceptable? Risk matrix RPN / AP",
+          "excerpt": "Is it acceptable? Risk matrix RPN / AP",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-4-treat",
+          "heading": "4 · Treat",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Where the tools plug into ISO 31000",
+            "4 · Treat"
+          ],
+          "text": "Act on the risk FMEA actions Barriers HACCP CCPs ↺ Monitoring & review RCA and CAPA after failures feed back into the assessment Communication & consultation runs through every step: a HAZOP or FMEA is a team sport. Recording & reporting : FMEA worksheets, HAZOP logs, the risk register. Proactive tools feed steps 1 to 4. Reactive tools feed monitoring and review , which updates the assessment. ISO 31000’s companion, IEC 31010:2019, describes each technique in detail. ISO 31000:2018 is still current; a revision is in progress. Part 8 · Watch out",
+          "excerpt": "Act on the risk FMEA actions Barriers HACCP CCPs ↺ Monitoring & review RCA and CAPA after failures feed back into the assessment Communication & consultation runs through every step: a HAZOP or FMEA is a team sport. Recording & reporting : FMEA worksheets,…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "td-traps-h",
+          "heading": "Five mistakes to avoid",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Five mistakes to avoid"
+          ],
+          "text": "",
+          "excerpt": "Five mistakes to avoid",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-don-t-be-that-team",
+          "heading": "Don’t be that team",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Five mistakes to avoid",
+            "Don’t be that team"
+          ],
+          "text": "“Top-down = reactive” Direction is not timing. A design-stage FTA is proactive. Trusting FMEA alone It rates one failure mode at a time. Add FTA for combinations. HAZOP on an inspection bench HAZOP is for continuous flows. Use PFMEA for discrete steps. Skipping the N/A guide words Ruling them out on record is what makes HAZOP complete. Stopping at “operator error” Keep asking why until you reach a cause you can fix. Do it in software",
+          "excerpt": "“Top-down = reactive” Direction is not timing. A design-stage FTA is proactive. Trusting FMEA alone It rates one failure mode at a time. Add FTA for combinations. HAZOP on an inspection bench HAZOP is for continuous flows. Use PFMEA for discrete steps.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "td-implementation-h",
+          "heading": "Statistics Implementation",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Statistics Implementation"
+          ],
+          "text": "Psst. Excel can run your fault-tree gates and FMEA ratings in one line each, and the exam loves asking how. You found the secret level. Gate maths, RPN tricks and menu paths are all below. Unlock the cheat codes Hide the cheat codes",
+          "excerpt": "Psst. Excel can run your fault-tree gates and FMEA ratings in one line each, and the exam loves asking how. You found the secret level. Gate maths, RPN tricks and menu paths are all below. Unlock the cheat codes Hide the cheat codes",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "td-excel-functions-h",
+          "heading": "Excel functions",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Statistics Implementation",
+            "Excel functions"
+          ],
+          "text": "Function Syntax Purpose When to use it PRODUCT =PRODUCT(B2:B3) Multiplies the cells AND gate: all inputs must happen (independent events) 1-PRODUCT(1-…) =1-PRODUCT(1-B2:B4) Chance that at least one input happens OR gate. Works directly in Excel 365; older Excel needs Ctrl+Shift+Enter PRODUCT (RPN) =PRODUCT(D2:F2) Severity × Occurrence × Detection Classic FMEA risk priority number RANK.EQ =RANK.EQ(G2,$G$2:$G$40) Rank of one RPN in the list Find the top risks to act on first SORTBY =SORTBY(A2:G40,G2:G40,-1) Sorts rows by RPN, highest first A live “worst first” view (Excel 365) COUNTIFS =COUNTIFS(D2:D40,\">=9\") Counts rows meeting a rule How many failure modes have severity 9 or 10?",
+          "excerpt": "Function Syntax Purpose When to use it PRODUCT =PRODUCT(B2:B3) Multiplies the cells AND gate: all inputs must happen (independent events) 1-PRODUCT(1-…) =1-PRODUCT(1-B2:B4) Chance that at least one input happens OR gate. Works directly in Excel 365; older…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "td-excel-use-cases-h",
+          "heading": "Excel use cases",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Statistics Implementation",
+            "Excel use cases"
+          ],
+          "text": "Fault tree: put W, T, D and M in B2:B5 as decimals. =B4*B5 gives S. =1-PRODUCT(1-B2:B3,1-B6) with S in B6 gives the top event. Try 0.0002, 0.0001, 0.005 and 0.05: the top event comes out near 0.00055, matching the lab. FMEA: severity, occurrence and detection in D:F, =PRODUCT(D2:F2) in G2, fill down, then SORTBY to list the worst first. Watch severity on its own: a severity of 10 needs action even when the RPN is low. COUNTIFS flags those rows. \\[ \\text{RPN} = S \\times O \\times D \\] where \\(S\\) is severity, \\(O\\) is occurrence and \\(D\\) is detection, each rated 1 to 10.",
+          "excerpt": "Fault tree: put W, T, D and M in B2:B5 as decimals. =B4*B5 gives S. =1-PRODUCT(1-B2:B3,1-B6) with S in B6 gives the top event. Try 0.0002, 0.0001, 0.005 and 0.05: the top event comes out near 0.00055, matching the lab. FMEA: severity, occurrence and detection…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "td-minitab-h",
+          "heading": "Minitab navigation",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Statistics Implementation",
+            "Minitab navigation"
+          ],
+          "text": "Compute RPN: Calc → Calculator , store the result in a new column, expression S * O * D . Pareto of RPN by failure mode: Stat → Quality Tools → Pareto Chart . Choose Chart defects table , labels = failure mode, frequencies = RPN. Alternative: Graph → Bar Chart with values from a table, if you want the bars unsorted. FMEA forms: Minitab Statistical Software has no FMEA or fault-tree menu. Minitab Workspace, a separate product, has FMEA, fishbone and Five Whys forms. Build gate maths in Calc → Calculator or Excel.",
+          "excerpt": "Compute RPN: Calc → Calculator , store the result in a new column, expression S * O * D . Pareto of RPN by failure mode: Stat → Quality Tools → Pareto Chart . Choose Chart defects table , labels = failure mode, frequencies = RPN. Alternative: Graph → Bar…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "td-exam-tips-h",
+          "heading": "Exam tips",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Statistics Implementation",
+            "Exam tips"
+          ],
+          "text": "Deductive = top-down = FTA. Inductive = bottom-up = FMEA. Event tree analysis is also inductive. AND gates multiply. Expect a question that asks for the top event from two or three basic-event probabilities. Bow-tie = a fault tree on the left plus an event tree on the right. HAZOP = guide words × parameters at each node of a P&ID. RPN ranks risks but hides severity. The AIAG-VDA FMEA handbook uses Action Priority (AP) instead. Print it",
+          "excerpt": "Deductive = top-down = FTA. Inductive = bottom-up = FMEA. Event tree analysis is also inductive. AND gates multiply. Expect a question that asks for the top event from two or three basic-event probabilities. Bow-tie = a fault tree on the left plus an event…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "td-posters-h",
+          "heading": "Four wall posters to take with you",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Four wall posters to take with you"
+          ],
+          "text": "Same topic, four layouts. Pick the one that matches how you think. Each is a one-page PDF that prints at 18 × 24 in.",
+          "excerpt": "Same topic, four layouts. Pick the one that matches how you think. Each is a one-page PDF that prints at 18 × 24 in.",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-quick-reference",
+          "heading": "Quick Reference",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Four wall posters to take with you",
+            "Quick Reference"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 519 KB. Everything on one sheet: the ladder, the 8 tools, timing, HAZOP, ISO 31000 and a pipe-rupture example. Download PDF of the Quick Reference poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 519 KB. Everything on one sheet: the ladder, the 8 tools, timing, HAZOP, ISO 31000 and a pipe-rupture example. Download PDF of the Quick Reference poster",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-sorting-map",
+          "heading": "Sorting Map",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Four wall posters to take with you",
+            "Sorting Map"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 483 KB. Every tool placed on one map: which way it digs, and whether it runs before or after a failure. Download PDF of the Sorting Map poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 483 KB. Every tool placed on one map: which way it digs, and whether it runs before or after a failure. Download PDF of the Sorting Map poster",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-which-risk-tool-do-i-need",
+          "heading": "Which Risk Tool Do I Need?",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Four wall posters to take with you",
+            "Which Risk Tool Do I Need?"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 471 KB. A yes/no flowchart. Start at “Has it already failed?” and land on the right tool. Download PDF of the Which Risk Tool Do I Need? poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 471 KB. A yes/no flowchart. Start at “Has it already failed?” and land on the right tool. Download PDF of the Which Risk Tool Do I Need? poster",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-one-event-two-directions",
+          "heading": "One Event, Two Directions",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Four wall posters to take with you",
+            "One Event, Two Directions"
+          ],
+          "text": "PDF, 1 page, 18 × 24 in, 478 KB. A big pipe-rupture bow-tie read three ways, plus big numbers and exam tips. Uses more ink. Download PDF of the One Event, Two Directions poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 478 KB. A big pipe-rupture bow-tie read three ways, plus big numbers and exam tips. Uses more ink. Download PDF of the One Event, Two Directions poster",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "td-refs-h",
+          "heading": "References",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "References"
+          ],
+          "text": "ISO 31000:2018, Risk management: Guidelines . International Organization for Standardization. IEC 31010:2019, Risk management: Risk assessment techniques . IEC and ISO. IEC 61882:2016, Hazard and operability studies (HAZOP studies): Application guide . IEC 60812:2018, Failure modes and effects analysis (FMEA and FMECA) . IEC 61025:2006, Fault tree analysis (FTA) . AIAG and VDA, FMEA Handbook (2019).",
+          "excerpt": "ISO 31000:2018, Risk management: Guidelines . International Organization for Standardization. IEC 31010:2019, Risk management: Risk assessment techniques . IEC and ISO. IEC 61882:2016, Hazard and operability studies (HAZOP studies): Application guide . IEC…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-related-lessons",
+          "heading": "Related lessons",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Related lessons"
+          ],
+          "text": "Root Cause Analysis: 5 Whys and Fishbone — the reactive, top-down tools in depth. The 7 Essential Quality Tools — fishbone, Pareto and friends for the analysis step. Understanding the Pareto Chart — rank FMEA risks so you fix the big ones first. Introduction to Reliability and Maintainability — where fault-tree probabilities come from. Cost of Poor Quality (COPQ) — put a price on the failures your risk tools prevent.",
+          "excerpt": "Root Cause Analysis: 5 Whys and Fishbone — the reactive, top-down tools in depth. The 7 Essential Quality Tools — fishbone, Pareto and friends for the analysis step. Understanding the Pareto Chart — rank FMEA risks so you fix the big ones first. Introduction…",
           "kinds": [
             "section"
           ]

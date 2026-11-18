@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Top-Down vs. Bottom-Up Risk Assessment",
+  "slug": "top-down-vs-bottom-up-risk-assessment",
+  "category": "Quality Engineering",
+  "category_slug": "quality-engineering",
+  "level": "Intermediate",
+  "lesson_type": "General",
+  "estimated_minutes": 25,
+  "interactive": true,
+  "card_title": "Top-Down vs. Bottom-Up Risk Assessment",
+  "card_description": "Learn when to dig down from a bad outcome (FTA, RCA) or walk up from each part (FMEA, HACCP), where HAZOP and bow-tie fit, and how it all maps to ISO 31000.",
+  "search_keywords": ["top-down","bottom-up","risk assessment","fault tree analysis","fta","fmea","fmeca","hazop","guide words","bow-tie","haccp","preliminary hazard analysis","swift","root cause analysis","proactive","reactive","iso 31000","iec 31010","deductive","inductive"],
+  "suggested_github_path": "lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment.html",
+  "access_level": "public"
+}
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Top-Down vs. Bottom-Up Risk Assessment | UpSkill Sprint</title>
+<meta name="description" content="Top-down vs. bottom-up risk assessment made simple: when to use FTA, HAZOP, bow-tie, FMEA or HACCP, proactive vs. reactive, and the ISO 31000 link.">
+<!-- One plain-text sentence, 40–160 characters: what the learner will be able to do. -->
+<meta name="upskill:email-teaser" content="Pick the right risk tool in seconds: dig down from a bad outcome or walk up from every part, then see where it fits in ISO 31000.">
+<link rel="canonical" href="https://upskillsprint.com/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Top-Down vs. Bottom-Up Risk Assessment | UpSkill Sprint">
+<meta property="og:description" content="Top-down vs. bottom-up risk assessment made simple: when to use FTA, HAZOP, bow-tie, FMEA or HACCP, proactive vs. reactive, and the ISO 31000 link.">
+<meta property="og:image" content="https://upskillsprint.com/assets/logo-og.png">
+<meta property="og:url" content="https://upskillsprint.com/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/lessons-theme.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="/theme.js"></script>
+<link rel="stylesheet" href="/site-nav.css">
+<script src="/site-nav.js" defer></script>
+<script src="/site-sections.js"></script>
+<script defer src="/assets/js/math.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {"@type": "BreadcrumbList", "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://upskillsprint.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Lessons", "item": "https://upskillsprint.com/lessons"},
+      {"@type": "ListItem", "position": 3, "name": "Top-Down vs. Bottom-Up Risk Assessment", "item": "https://upskillsprint.com/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment"}
+    ]},
+    {"@type": "LearningResource", "name": "Top-Down vs. Bottom-Up Risk Assessment", "description": "Top-down vs. bottom-up risk assessment made simple: when to use FTA, HAZOP, bow-tie, FMEA or HACCP, proactive vs. reactive, and the ISO 31000 link.", "url": "https://upskillsprint.com/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment", "learningResourceType": "Lesson", "educationalLevel": "Intermediate", "provider": {"@type": "Organization", "name": "UpSkill Sprint Consulting", "url": "https://upskillsprint.com/"}}
+  ]
+}
+</script>
+<style id="tdbu-style">
+/* Top-Down vs. Bottom-Up Risk Assessment. Every lesson-owned token is prefixed
+   --lesson-tdbu- and every selector is scoped to #lesson-content, so site chrome is untouched.
+   Palette: blue = top-down, teal = bottom-up, amber = middle-out, ink = posters.
+   Green and red are status only (proactive / reactive). */
+#lesson-content{
+  color-scheme: light dark;
+  --lesson-tdbu-page:#f6f8fb;
+  --lesson-tdbu-surface:#ffffff;
+  --lesson-tdbu-surface-2:#eef3f8;
+  --lesson-tdbu-text:#1c2430;
+  --lesson-tdbu-text-2:#3d4a5c;
+  --lesson-tdbu-border:#cbd5e1;
+  --lesson-tdbu-control:#5f7189;
+  --lesson-tdbu-focus:#0b63c5;
+  --lesson-tdbu-blue:#2d5b8a;
+  --lesson-tdbu-teal:#0f6b78;
+  --lesson-tdbu-amber:#8a5300;
+  --lesson-tdbu-green:#1e7a46;
+  --lesson-tdbu-red:#b42318;
+  --lesson-tdbu-blue-bg:#e7eef6;
+  --lesson-tdbu-teal-bg:#e2f0f2;
+  --lesson-tdbu-amber-bg:#fbf0df;
+  --lesson-tdbu-green-bg:#e3f2e9;
+  --lesson-tdbu-red-bg:#fbe7e5;
+  /* block fills keep white text in both themes */
+  --lesson-tdbu-fill-blue:#2d5b8a;
+  --lesson-tdbu-fill-teal:#0f6b78;
+  --lesson-tdbu-fill-amber:#8a5300;
+  --lesson-tdbu-fill-green:#1e7a46;
+  --lesson-tdbu-fill-red:#b42318;
+  --lesson-tdbu-on-fill:#ffffff;
+  /* strong contrast blocks: ink on light pages, near-white on dark pages */
+  --lesson-tdbu-strong:#1c2430;
+  --lesson-tdbu-on-strong:#ffffff;
+  --lesson-tdbu-poster-bg:#0f1d33;
+  --lesson-tdbu-poster-text:#ffffff;
+  --lesson-tdbu-poster-text-2:#c9d4e3;
+  --lesson-tdbu-poster-accent:#f2b84b;
+  --lesson-tdbu-shadow:0 1px 2px rgba(15,23,42,.06),0 6px 18px rgba(15,23,42,.06);
+  color:var(--lesson-tdbu-text);
+  background:var(--lesson-tdbu-page);
+  font-family:'Work Sans',Arial,sans-serif;
+  padding-bottom:24px;
+}
+#lesson-content .td-wrap{max-width:960px;margin:0 auto;padding:0 20px}
+#lesson-content h1{font-size:clamp(30px,5vw,44px);line-height:1.1;margin:0 0 14px;color:var(--lesson-tdbu-text)}
+#lesson-content h2{font-size:clamp(24px,3.4vw,31px);line-height:1.2;margin:0 0 12px;color:var(--lesson-tdbu-text)}
+#lesson-content h3{font-size:19px;line-height:1.3;margin:20px 0 8px;color:var(--lesson-tdbu-text)}
+#lesson-content p, #lesson-content li{font-size:16.5px;line-height:1.65;color:var(--lesson-tdbu-text)}
+#lesson-content a{color:var(--lesson-tdbu-teal)}
+#lesson-content a:focus-visible, #lesson-content button:focus-visible, #lesson-content input:focus-visible, #lesson-content summary:focus-visible, #lesson-content [tabindex="0"]:focus-visible{outline:3px solid var(--lesson-tdbu-focus);outline-offset:2px}
+#lesson-content .td-section{padding:40px 0 6px;scroll-margin-top:84px}
+#lesson-content .td-step{display:inline-block;font-size:12.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--lesson-tdbu-amber);margin:0 0 6px}
+#lesson-content .td-muted{color:var(--lesson-tdbu-text-2)}
+#lesson-content .td-made{font-size:14px;color:var(--lesson-tdbu-text-2);font-style:italic;margin:6px 0 0}
+#lesson-content .td-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#lesson-content .td-callout{border-radius:12px;padding:14px 16px;margin:18px 0;border-left:5px solid var(--lesson-tdbu-amber);background:var(--lesson-tdbu-amber-bg);color:var(--lesson-tdbu-text)}
+#lesson-content .td-callout p{margin:0}
+
+/* ---------- hero ---------- */
+#lesson-content .td-hero{background:linear-gradient(160deg,var(--lesson-tdbu-blue-bg),var(--lesson-tdbu-surface-2) 55%,var(--lesson-tdbu-teal-bg));border-bottom:1px solid var(--lesson-tdbu-border);padding:36px 0 30px;color:var(--lesson-tdbu-text)}
+#lesson-content .td-kicker{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:0;list-style:none}
+#lesson-content .td-kicker li{font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-teal);border:1px solid var(--lesson-tdbu-border)}
+#lesson-content .td-lede{font-size:18px;line-height:1.6;color:var(--lesson-tdbu-text-2);margin:0 0 18px}
+#lesson-content .td-poster{display:grid;grid-template-columns:1fr .78fr 1fr;gap:12px;margin:22px 0 18px}
+#lesson-content .td-block{border-radius:16px;padding:18px 18px 16px;color:var(--lesson-tdbu-on-fill);display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
+#lesson-content .td-block p, #lesson-content .td-block span, #lesson-content .td-block b{color:var(--lesson-tdbu-on-fill)}
+#lesson-content .td-block.is-td{background:var(--lesson-tdbu-fill-blue)}
+#lesson-content .td-block.is-mo{background:var(--lesson-tdbu-fill-amber)}
+#lesson-content .td-block.is-bu{background:var(--lesson-tdbu-fill-teal)}
+#lesson-content .td-block .td-arrow{font-size:64px;line-height:.8;font-weight:800}
+#lesson-content .td-block .td-big{font-size:clamp(30px,4.4vw,42px);line-height:.95;font-weight:800;letter-spacing:-.01em;text-transform:uppercase}
+#lesson-content .td-block .td-tag{font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.92}
+#lesson-content .td-block p{margin:0;font-size:15.5px;line-height:1.4}
+#lesson-content .td-block .td-think{margin-top:auto;background:rgba(0,0,0,.22);border-radius:10px;padding:8px 10px;font-weight:700;font-size:15px}
+#lesson-content .td-toc{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 0;padding:0;list-style:none}
+#lesson-content .td-toc a{display:inline-flex;align-items:center;min-height:40px;padding:6px 12px;border-radius:999px;border:1px solid var(--lesson-tdbu-border);background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text);text-decoration:none;font-size:14.5px;font-weight:600}
+#lesson-content .td-toc a:hover{border-color:var(--lesson-tdbu-teal);color:var(--lesson-tdbu-teal)}
+#lesson-content .td-toc a.is-cta{background:var(--lesson-tdbu-strong);color:var(--lesson-tdbu-on-strong);border-color:var(--lesson-tdbu-strong)}
+
+/* ---------- buttons ---------- */
+#lesson-content .td-btn{font:inherit;font-size:15px;font-weight:700;min-height:44px;padding:9px 16px;border-radius:999px;border:2px solid var(--lesson-tdbu-control);background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text);cursor:pointer}
+#lesson-content .td-btn:hover{border-color:var(--lesson-tdbu-text)}
+#lesson-content .td-btn[aria-pressed="true"]{background:var(--lesson-tdbu-strong);border-color:var(--lesson-tdbu-strong);color:var(--lesson-tdbu-on-strong)}
+#lesson-content .td-btn.is-td[aria-pressed="true"]{background:var(--lesson-tdbu-fill-blue);border-color:var(--lesson-tdbu-fill-blue);color:var(--lesson-tdbu-on-fill)}
+#lesson-content .td-btn.is-mo[aria-pressed="true"]{background:var(--lesson-tdbu-fill-amber);border-color:var(--lesson-tdbu-fill-amber);color:var(--lesson-tdbu-on-fill)}
+#lesson-content .td-btn.is-bu[aria-pressed="true"]{background:var(--lesson-tdbu-fill-teal);border-color:var(--lesson-tdbu-fill-teal);color:var(--lesson-tdbu-on-fill)}
+#lesson-content .td-btn.is-solid{background:var(--lesson-tdbu-strong);border-color:var(--lesson-tdbu-strong);color:var(--lesson-tdbu-on-strong)}
+#lesson-content .td-btn:disabled{opacity:.55;cursor:not-allowed}
+#lesson-content .td-btn-row{display:flex;flex-wrap:wrap;gap:8px}
+#lesson-content .td-status{margin:12px 0 0;padding:10px 14px;border-radius:10px;background:var(--lesson-tdbu-surface-2);color:var(--lesson-tdbu-text);font-weight:600;min-height:44px}
+
+/* ---------- ladder ---------- */
+#lesson-content .td-lab{background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text);border:1px solid var(--lesson-tdbu-border);border-radius:16px;padding:16px;box-shadow:var(--lesson-tdbu-shadow)}
+#lesson-content .td-ladder{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin:14px 0 0;padding:0;list-style:none;counter-reset:rung}
+#lesson-content .td-rung{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;align-items:center;border:2px solid var(--lesson-tdbu-border);border-radius:12px;padding:10px 12px;background:var(--lesson-tdbu-surface-2);color:var(--lesson-tdbu-text);transition:border-color .2s,background .2s,opacity .2s}
+#lesson-content .td-rung b{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--lesson-tdbu-text-2)}
+#lesson-content .td-rung span{font-size:16px;line-height:1.4;color:var(--lesson-tdbu-text)}
+#lesson-content .td-rung.is-wait span{color:var(--lesson-tdbu-text-2)}
+#lesson-content .td-rung.is-on{border-color:var(--lesson-tdbu-text);background:var(--lesson-tdbu-surface);box-shadow:0 0 0 3px var(--lesson-tdbu-amber-bg)}
+#lesson-content .td-rung.is-on b{color:var(--lesson-tdbu-text)}
+#lesson-content .td-rung.is-done{border-style:dashed}
+
+/* ---------- tool cards ---------- */
+#lesson-content .td-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}
+#lesson-content .td-group{border-radius:16px;overflow:hidden;background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text);border:1px solid var(--lesson-tdbu-border)}
+#lesson-content .td-group-h{display:block;padding:10px 14px;color:var(--lesson-tdbu-on-fill)}
+#lesson-content .td-group-h h3{margin:0;font-size:21px;color:var(--lesson-tdbu-on-fill);font-family:'Work Sans',Arial,sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.01em}
+#lesson-content .td-group-h span{display:block;font-size:13px;font-weight:600;color:var(--lesson-tdbu-on-fill);opacity:.92}
+#lesson-content .td-group.is-td .td-group-h{background:var(--lesson-tdbu-fill-blue)}
+#lesson-content .td-group.is-mo .td-group-h{background:var(--lesson-tdbu-fill-amber)}
+#lesson-content .td-group.is-bu .td-group-h{background:var(--lesson-tdbu-fill-teal)}
+#lesson-content .td-cards{list-style:none;margin:0;padding:10px;display:grid;gap:10px}
+#lesson-content .td-card{border-radius:12px;padding:12px;background:var(--lesson-tdbu-surface-2);color:var(--lesson-tdbu-text)}
+#lesson-content .td-group.is-td .td-card{background:var(--lesson-tdbu-blue-bg)}
+#lesson-content .td-group.is-mo .td-card{background:var(--lesson-tdbu-amber-bg)}
+#lesson-content .td-group.is-bu .td-card{background:var(--lesson-tdbu-teal-bg)}
+#lesson-content .td-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+#lesson-content .td-card h4{margin:0;font-size:17px;line-height:1.2;font-weight:800;text-transform:uppercase;letter-spacing:.01em}
+#lesson-content .td-group.is-td h4{color:var(--lesson-tdbu-blue)}
+#lesson-content .td-group.is-mo h4{color:var(--lesson-tdbu-amber)}
+#lesson-content .td-group.is-bu h4{color:var(--lesson-tdbu-teal)}
+#lesson-content .td-card p{margin:6px 0 0;font-size:15px;line-height:1.4}
+#lesson-content .td-glyph{flex:none;width:58px;height:36px}
+#lesson-content .td-glyph .g-line{stroke:var(--lesson-tdbu-text-2);stroke-width:2.5;fill:none}
+#lesson-content .td-glyph .g-td{fill:var(--lesson-tdbu-blue)}
+#lesson-content .td-glyph .g-mo{fill:var(--lesson-tdbu-amber)}
+#lesson-content .td-glyph .g-bu{fill:var(--lesson-tdbu-teal)}
+#lesson-content .td-glyph .g-soft{fill:var(--lesson-tdbu-text-2);opacity:.45}
+#lesson-content .td-chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0;padding:0;list-style:none}
+#lesson-content .td-chip{font-size:12.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 9px;border-radius:999px;color:var(--lesson-tdbu-on-fill)}
+#lesson-content .td-chip.is-pro{background:var(--lesson-tdbu-fill-green)}
+#lesson-content .td-chip.is-re{background:var(--lesson-tdbu-fill-red)}
+#lesson-content .td-more{margin-top:8px;font:inherit;font-size:14px;font-weight:700;background:none;border:0;padding:6px 0;min-height:36px;color:var(--lesson-tdbu-text);text-decoration:underline;cursor:pointer}
+#lesson-content .td-eg{margin:6px 0 0;padding:8px 10px;border-radius:8px;background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text);font-size:14.5px;line-height:1.4}
+
+/* ---------- table ---------- */
+#lesson-content .td-table-scroll{overflow-x:auto;margin-top:12px;border-radius:12px}
+#lesson-content table.td-table{width:100%;border-collapse:separate;border-spacing:0 6px;min-width:560px}
+#lesson-content .td-table th, #lesson-content .td-table td{text-align:left;padding:9px 12px;font-size:15.5px;line-height:1.4;vertical-align:top}
+#lesson-content .td-table thead th{color:var(--lesson-tdbu-on-fill);font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
+#lesson-content .td-table thead th.is-td{background:var(--lesson-tdbu-fill-blue);border-radius:10px 0 0 10px}
+#lesson-content .td-table thead th.is-bu{background:var(--lesson-tdbu-fill-teal);border-radius:0 10px 10px 0}
+#lesson-content .td-table thead th.is-bu.is-first{border-radius:10px 0 0 10px}
+#lesson-content .td-table thead th.is-bu.is-mid{border-radius:0}
+#lesson-content .td-table thead th.is-corner{background:transparent;color:var(--lesson-tdbu-text-2)}
+#lesson-content .td-table tbody th{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--lesson-tdbu-text-2);width:140px}
+#lesson-content .td-table td.is-td{background:var(--lesson-tdbu-blue-bg);color:var(--lesson-tdbu-text)}
+#lesson-content .td-table td.is-bu{background:var(--lesson-tdbu-teal-bg);color:var(--lesson-tdbu-text)}
+
+/* ---------- proactive / reactive ---------- */
+#lesson-content .td-time{display:grid;grid-template-columns:minmax(0,1fr) 110px minmax(0,1fr);gap:0;align-items:stretch;margin-top:14px}
+#lesson-content .td-side{border-radius:14px;padding:14px;color:var(--lesson-tdbu-text)}
+#lesson-content .td-side.is-pro{background:var(--lesson-tdbu-green-bg);border:2px solid var(--lesson-tdbu-green)}
+#lesson-content .td-side.is-re{background:var(--lesson-tdbu-red-bg);border:2px solid var(--lesson-tdbu-red)}
+#lesson-content .td-side h3{margin:0;font-size:24px;font-family:'Work Sans',Arial,sans-serif;font-weight:800;text-transform:uppercase}
+#lesson-content .td-side.is-pro h3{color:var(--lesson-tdbu-green)}
+#lesson-content .td-side.is-re h3{color:var(--lesson-tdbu-red)}
+#lesson-content .td-side p{margin:2px 0 8px;font-size:15px}
+#lesson-content .td-side ul{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+#lesson-content .td-side li{font-size:14px;font-weight:700;padding:4px 10px;border-radius:999px;color:var(--lesson-tdbu-on-fill);line-height:1.3}
+#lesson-content .td-side li.is-td{background:var(--lesson-tdbu-fill-blue)}
+#lesson-content .td-side li.is-mo{background:var(--lesson-tdbu-fill-amber)}
+#lesson-content .td-side li.is-bu{background:var(--lesson-tdbu-fill-teal)}
+#lesson-content .td-side li.is-ink{background:var(--lesson-tdbu-strong);color:var(--lesson-tdbu-on-strong)}
+#lesson-content .td-fail{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;position:relative}
+#lesson-content .td-fail::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:4px dashed var(--lesson-tdbu-red)}
+#lesson-content .td-diamond{position:relative;width:54px;height:54px;transform:rotate(45deg);background:var(--lesson-tdbu-fill-red);border-radius:6px;display:flex;align-items:center;justify-content:center}
+#lesson-content .td-diamond span{transform:rotate(-45deg);color:var(--lesson-tdbu-on-fill);font-weight:800;font-size:22px}
+#lesson-content .td-fail b{position:relative;background:var(--lesson-tdbu-page);color:var(--lesson-tdbu-red);font-size:13px;letter-spacing:.08em;padding:2px 6px}
+#lesson-content .td-bigpanel{margin-top:16px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center;background:var(--lesson-tdbu-poster-bg);color:var(--lesson-tdbu-poster-text);border-radius:16px;padding:18px 20px}
+#lesson-content .td-bigpanel b{font-size:clamp(30px,4.5vw,44px);line-height:.95;font-weight:800;text-transform:uppercase;color:var(--lesson-tdbu-poster-accent)}
+#lesson-content .td-bigpanel p{margin:0;color:var(--lesson-tdbu-poster-text-2);font-size:16px}
+#lesson-content .td-bigpanel strong{color:var(--lesson-tdbu-poster-text)}
+
+/* ---------- game ---------- */
+#lesson-content .td-game{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:10px}
+#lesson-content .td-job{border:1px solid var(--lesson-tdbu-border);border-radius:14px;padding:12px 14px;background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text)}
+#lesson-content .td-job p{margin:0 0 8px;font-weight:600}
+#lesson-content .td-job .td-fb{margin:8px 0 0;font-weight:500;font-size:15px;padding:8px 10px;border-radius:8px}
+#lesson-content .td-job .td-fb.is-good{background:var(--lesson-tdbu-green-bg);color:var(--lesson-tdbu-text);border-left:4px solid var(--lesson-tdbu-green)}
+#lesson-content .td-job .td-fb.is-bad{background:var(--lesson-tdbu-red-bg);color:var(--lesson-tdbu-text);border-left:4px solid var(--lesson-tdbu-red)}
+#lesson-content .td-job .td-fb:empty{display:none}
+#lesson-content .td-score{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:12px}
+#lesson-content .td-score b{font-size:28px;font-weight:800;color:var(--lesson-tdbu-text)}
+
+/* ---------- HAZOP machine ---------- */
+#lesson-content .td-hz-eq{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0 0;font-weight:800;text-transform:uppercase;font-size:15px}
+#lesson-content .td-hz-eq span{padding:6px 12px;border-radius:10px}
+#lesson-content .td-hz-eq .is-a{background:var(--lesson-tdbu-fill-amber);color:var(--lesson-tdbu-on-fill)}
+#lesson-content .td-hz-eq .is-b{background:var(--lesson-tdbu-amber-bg);color:var(--lesson-tdbu-text);border:2px solid var(--lesson-tdbu-amber)}
+#lesson-content .td-hz-eq .is-c{background:var(--lesson-tdbu-strong);color:var(--lesson-tdbu-on-strong)}
+#lesson-content .td-hz-eq i{font-style:normal;color:var(--lesson-tdbu-amber);font-size:20px}
+#lesson-content .td-hz-pick{margin-top:12px}
+#lesson-content .td-hz-pick h3{margin:8px 0 6px;font-size:15px;font-family:'Work Sans',Arial,sans-serif;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--lesson-tdbu-text-2)}
+#lesson-content .td-hz-out{margin-top:14px;border-radius:14px;border:2px solid var(--lesson-tdbu-amber);background:var(--lesson-tdbu-amber-bg);color:var(--lesson-tdbu-text);padding:14px}
+#lesson-content .td-hz-out .td-hz-title{margin:0;font-size:22px;font-weight:800;text-transform:uppercase;color:var(--lesson-tdbu-text)}
+#lesson-content .td-hz-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0 0;padding:0;list-style:none}
+#lesson-content .td-hz-grid li{background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text);border-radius:10px;padding:8px 10px;font-size:15px;line-height:1.35}
+#lesson-content .td-hz-grid b{display:block;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--lesson-tdbu-amber)}
+#lesson-content .td-hz-out.is-na{border-style:dashed;background:var(--lesson-tdbu-surface-2)}
+
+/* ---------- fault tree lab ---------- */
+#lesson-content .td-ft{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:start;margin-top:14px}
+#lesson-content .td-figure{margin:0;background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text);border:1px solid var(--lesson-tdbu-border);border-radius:14px;padding:12px}
+#lesson-content .td-figure svg{display:block;width:100%;height:auto;max-width:560px;margin:0 auto}
+#lesson-content .td-figure figcaption{font-size:14.5px;line-height:1.5;color:var(--lesson-tdbu-text-2);margin-top:8px}
+#lesson-content .td-svg text{font-family:'Work Sans',Arial,sans-serif;font-size:13px;fill:var(--lesson-tdbu-text);font-weight:600}
+#lesson-content .td-svg .s-top{fill:var(--lesson-tdbu-strong)}
+#lesson-content .td-svg .s-top-t{fill:var(--lesson-tdbu-on-strong);font-weight:800}
+#lesson-content .td-svg .s-line{stroke:var(--lesson-tdbu-text);stroke-width:2;fill:none}
+#lesson-content .td-svg .s-or{fill:var(--lesson-tdbu-fill-blue)}
+#lesson-content .td-svg .s-and{fill:var(--lesson-tdbu-fill-red)}
+#lesson-content .td-svg .s-gate-t{fill:var(--lesson-tdbu-on-fill);font-size:11px;font-weight:800}
+#lesson-content .td-svg .s-box{fill:var(--lesson-tdbu-blue-bg);stroke:var(--lesson-tdbu-blue);stroke-width:2}
+#lesson-content .td-svg .s-box.is-hot{fill:var(--lesson-tdbu-red-bg);stroke:var(--lesson-tdbu-red)}
+#lesson-content .td-svg .s-basic{fill:var(--lesson-tdbu-red-bg);stroke:var(--lesson-tdbu-red);stroke-width:2}
+#lesson-content .td-svg .s-note{fill:var(--lesson-tdbu-red);font-size:12.5px}
+#lesson-content .td-slider{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center;margin:0 0 12px}
+#lesson-content .td-slider label{font-size:15px;font-weight:600;color:var(--lesson-tdbu-text)}
+#lesson-content .td-slider output{font-weight:800;font-variant-numeric:tabular-nums;color:var(--lesson-tdbu-text)}
+#lesson-content .td-slider input{grid-column:1/-1;width:100%;min-height:32px;accent-color:var(--lesson-tdbu-fill-blue)}
+#lesson-content .td-bars{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}
+#lesson-content .td-bars li{display:grid;grid-template-columns:150px minmax(0,1fr) 92px;gap:8px;align-items:center;font-size:14.5px}
+#lesson-content .td-bar{height:18px;border-radius:6px;background:var(--lesson-tdbu-surface-2);overflow:hidden}
+#lesson-content .td-bar i{display:block;height:100%;background:var(--lesson-tdbu-fill-blue);border-radius:6px}
+#lesson-content .td-bar.is-hot i{background:var(--lesson-tdbu-fill-red)}
+#lesson-content .td-bars output{font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+#lesson-content .td-top-result{margin:14px 0 0;padding:12px 14px;border-radius:12px;background:var(--lesson-tdbu-poster-bg);color:var(--lesson-tdbu-poster-text)}
+#lesson-content .td-top-result b{display:block;font-size:34px;font-weight:800;line-height:1;color:var(--lesson-tdbu-poster-accent)}
+#lesson-content .td-top-result span{color:var(--lesson-tdbu-poster-text-2);font-size:15px}
+#lesson-content .td-math{background:var(--lesson-tdbu-surface-2);color:var(--lesson-tdbu-text);border-radius:12px;padding:6px 14px;margin:12px 0;overflow-x:auto}
+#lesson-content .td-fm{margin-top:14px}
+#lesson-content .td-pair{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px;font-weight:800;text-transform:uppercase;font-size:18px;color:var(--lesson-tdbu-text)}
+#lesson-content .td-pair span{padding:6px 12px;border-radius:10px;color:var(--lesson-tdbu-on-fill)}
+
+/* ---------- ISO 31000 ---------- */
+#lesson-content .td-iso{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+#lesson-content .td-iso > li{position:relative;padding:12px 12px 12px 22px;color:var(--lesson-tdbu-text);background:var(--lesson-tdbu-amber-bg);border-radius:0;min-height:100%}
+#lesson-content .td-iso > li::before{content:"";position:absolute;inset:0;background:transparent;border-top:6px solid var(--lesson-tdbu-amber)}
+#lesson-content .td-iso > li.is-scope{background:var(--lesson-tdbu-surface-2)}
+#lesson-content .td-iso > li.is-scope::before{border-top-color:var(--lesson-tdbu-control)}
+#lesson-content .td-iso > li.is-treat{background:var(--lesson-tdbu-green-bg)}
+#lesson-content .td-iso > li.is-treat::before{border-top-color:var(--lesson-tdbu-green)}
+#lesson-content .td-iso h3{margin:4px 0 4px;font-size:17px;font-family:'Work Sans',Arial,sans-serif;font-weight:800;text-transform:uppercase}
+#lesson-content .td-iso p{margin:0;font-size:14px;line-height:1.35;color:var(--lesson-tdbu-text-2)}
+#lesson-content .td-iso ul{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:4px}
+#lesson-content .td-iso ul li{font-size:13px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text);border:1px solid var(--lesson-tdbu-border)}
+#lesson-content .td-iso-band{margin-top:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;border-radius:12px;padding:10px 14px;background:var(--lesson-tdbu-fill-red);color:var(--lesson-tdbu-on-fill);font-weight:700;font-size:15px}
+#lesson-content .td-iso-band span{color:var(--lesson-tdbu-on-fill)}
+#lesson-content .td-iso-rails{margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#lesson-content .td-iso-rails p{margin:0;border-radius:10px;padding:8px 12px;background:var(--lesson-tdbu-surface-2);color:var(--lesson-tdbu-text);font-size:14.5px}
+#lesson-content .td-iso-frame{display:inline-block;margin-top:12px;font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--lesson-tdbu-amber);border:2px dashed var(--lesson-tdbu-amber);border-radius:999px;padding:3px 10px}
+
+/* ---------- warning poster ---------- */
+#lesson-content .td-warn{background:var(--lesson-tdbu-poster-bg);color:var(--lesson-tdbu-poster-text);border-radius:18px;padding:20px;margin-top:14px}
+#lesson-content .td-warn h3{margin:0 0 12px;color:var(--lesson-tdbu-poster-text);font-family:'Work Sans',Arial,sans-serif;font-weight:800;font-size:24px;text-transform:uppercase}
+#lesson-content .td-warn ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;counter-reset:w}
+#lesson-content .td-warn li{counter-increment:w;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:12px;color:var(--lesson-tdbu-poster-text-2);font-size:15px;line-height:1.4}
+#lesson-content .td-warn li::before{content:counter(w);display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--lesson-tdbu-poster-accent);color:#1c2430;font-weight:800;margin-bottom:6px}
+#lesson-content .td-warn li b{display:block;color:var(--lesson-tdbu-poster-text);font-size:16px;margin-bottom:2px}
+
+/* ---------- Statistics Implementation (cheat codes) ---------- */
+#lesson-content .td-impl{background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text);border:2px solid var(--lesson-tdbu-amber);border-radius:14px;box-shadow:var(--lesson-tdbu-shadow)}
+#lesson-content .td-impl-summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 16px;padding:18px 20px;border-radius:12px}
+#lesson-content .td-impl-summary::-webkit-details-marker{display:none}
+#lesson-content .td-impl-summary .td-step{grid-column:1}
+#lesson-content .td-impl-summary h2{grid-column:1;margin:0}
+#lesson-content .td-impl-hint{grid-column:2;grid-row:1 / span 3;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border-radius:999px;background:var(--lesson-tdbu-fill-amber);color:var(--lesson-tdbu-on-fill);font-weight:700;font-size:15px;transition:transform .18s ease,box-shadow .18s ease}
+#lesson-content .td-impl-hint::after{content:"";width:9px;height:9px;border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+#lesson-content .td-impl[open] .td-impl-hint::after{transform:rotate(225deg) translate(-2px,0)}
+#lesson-content .td-impl .td-impl-hide, #lesson-content .td-impl[open] .td-impl-show{display:none}
+#lesson-content .td-impl[open] .td-impl-hide{display:inline}
+#lesson-content .td-impl-tease{grid-column:1;margin:4px 0 0;font-size:15.5px;line-height:1.5;color:var(--lesson-tdbu-text-2);font-style:italic}
+#lesson-content .td-impl-summary:hover .td-impl-hint{transform:translateY(-2px) scale(1.04);box-shadow:0 6px 16px -6px var(--lesson-tdbu-fill-amber)}
+#lesson-content .td-impl:not([open]) .td-impl-hint{animation:lesson-tdbu-nudge 4.5s ease-in-out 1.5s infinite}
+@keyframes lesson-tdbu-nudge{0%,82%,100%{transform:rotate(0)}85%{transform:rotate(-4deg) scale(1.05)}88%{transform:rotate(4deg) scale(1.05)}91%{transform:rotate(-3deg)}94%{transform:rotate(2deg)}}
+#lesson-content .td-impl-body{padding:0 20px 20px}
+#lesson-content .td-impl code{font-size:14.5px;background:var(--lesson-tdbu-surface-2);color:var(--lesson-tdbu-text);padding:1px 5px;border-radius:5px}
+#lesson-content .td-impl table{width:100%;border-collapse:collapse;min-width:620px}
+#lesson-content .td-impl th, #lesson-content .td-impl td{border-bottom:1px solid var(--lesson-tdbu-border);padding:8px 10px;text-align:left;vertical-align:top;font-size:15px;line-height:1.45;color:var(--lesson-tdbu-text)}
+#lesson-content .td-impl thead th{background:var(--lesson-tdbu-strong);color:var(--lesson-tdbu-on-strong)}
+
+/* ---------- posters ---------- */
+#lesson-content .td-posters{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+#lesson-content .td-pcard{background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text);border:1px solid var(--lesson-tdbu-border);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--lesson-tdbu-shadow)}
+#lesson-content .td-pcard img{width:100%;height:auto;border-radius:10px;border:1px solid var(--lesson-tdbu-border);background:#ffffff}
+#lesson-content .td-pcard h3{margin:2px 0 0;font-size:18px}
+#lesson-content .td-pcard p{margin:0;font-size:14.5px;line-height:1.45;color:var(--lesson-tdbu-text-2)}
+#lesson-content .td-pcard a{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:8px 14px;border-radius:999px;background:var(--lesson-tdbu-strong);color:var(--lesson-tdbu-on-strong);font-weight:700;text-decoration:none}
+#lesson-content .td-pcard a:hover{background:var(--lesson-tdbu-fill-blue);color:var(--lesson-tdbu-on-fill)}
+
+/* ---------- related + refs ---------- */
+#lesson-content .related-lessons{max-width:960px;margin-left:auto !important;margin-right:auto !important;padding-left:20px;padding-right:20px}
+#lesson-content .td-refs li{font-size:15px}
+
+@media (max-width:760px){
+  #lesson-content .td-poster{grid-template-columns:minmax(0,1fr)}
+  #lesson-content .td-groups{grid-template-columns:minmax(0,1fr)}
+  #lesson-content .td-rung{grid-template-columns:minmax(0,1fr);gap:2px}
+  #lesson-content .td-time{grid-template-columns:minmax(0,1fr)}
+  #lesson-content .td-fail{padding:14px 0}
+  #lesson-content .td-hz-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #lesson-content .td-ft{grid-template-columns:minmax(0,1fr)}
+  #lesson-content .td-iso{grid-template-columns:minmax(0,1fr)}
+  #lesson-content .td-iso-rails{grid-template-columns:minmax(0,1fr)}
+  #lesson-content .td-bigpanel{grid-template-columns:minmax(0,1fr)}
+  #lesson-content .td-bars li{grid-template-columns:110px minmax(0,1fr) 80px}
+  #lesson-content .td-impl-summary{grid-template-columns:minmax(0,1fr)}
+  #lesson-content .td-impl-hint{grid-column:1;grid-row:auto;justify-self:start}
+  #lesson-content .td-svg text{font-size:14px}
+}
+@media (max-width:420px){
+  #lesson-content .td-hz-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){
+  #lesson-content *{transition:none !important;animation:none !important}
+}
+</style>
+<style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+</head>
+<body data-lesson-page="true" data-category="quality-engineering" data-level="intermediate" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img class="logo-wordmark" src="/assets/logo-wordmark.png" data-logo-light="/assets/logo-wordmark.png" data-logo-dark="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></a>
+  <nav data-nav-root="desktop" class="desktop-nav" aria-label="Main"><div class="nav-item" data-nav-item="start"><a class="nav-tab-link" data-nav-tab="start" href="/start-here">Start Here</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-start" aria-label="Show Start Here menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-start" hidden><div class="nav-panel-head"><span>Learning paths</span></div><div class="nav-rows"><a class="nav-row" href="/start-here#quality-improvement-basics"><span class="nav-name">Quality Improvement Basics</span></a><a class="nav-row" href="/start-here#data-analysis-basics"><span class="nav-name">Data Analysis Basics</span></a><a class="nav-row" href="/start-here#lean-six-sigma-tools"><span class="nav-name">Lean Six Sigma Tools</span></a><a class="nav-row" href="/start-here#excel-and-power-bi-skills"><span class="nav-name">Excel and Power BI Skills</span></a><a class="nav-row" href="/start-here#statistics-for-decision-making"><span class="nav-name">Statistics for Decision-Making</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/start-here">See all learning paths →</a></div></div></div><div class="nav-item" data-nav-item="lessons"><a class="nav-tab-link" data-nav-tab="lessons" href="/lessons" aria-current="page">Lessons</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-lessons" aria-label="Show Lessons menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-lessons" hidden><div class="nav-panel-head"><span>Lesson library</span><span data-nav-total hidden></span></div><div class="nav-rows"><a class="nav-row" href="/lessons#data-analytics"><span class="nav-name">Data Analytics</span><span class="nav-count" data-nav-count="data-analytics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#quality-engineering"><span class="nav-name">Quality Engineering</span><span class="nav-count" data-nav-count="quality-engineering" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#lean-six-sigma"><span class="nav-name">Lean Six Sigma</span><span class="nav-count" data-nav-count="lean-six-sigma" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#statistics"><span class="nav-name">Statistics</span><span class="nav-count" data-nav-count="statistics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#power-bi-excel-sql"><span class="nav-name">Power BI, Excel &amp; SQL</span><span class="nav-count" data-nav-count="power-bi-excel-sql" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#project-management"><span class="nav-name">Project Management</span><span class="nav-count" data-nav-count="project-management" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#business-decision-making"><span class="nav-name">Business Decision-Making</span><span class="nav-count" data-nav-count="business-decision-making" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#ai-for-work"><span class="nav-name">AI for Work</span><span class="nav-count" data-nav-count="ai-for-work" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/lessons" data-nav-total-link>View all lessons →</a><a class="nav-foot-secondary" href="/request-topic">Request a topic</a></div></div></div><div class="nav-item nav-item-wide" data-nav-item="exam"><a class="nav-tab-link" data-nav-tab="exam" href="/exam-practice">Certification Exam Practice</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-exam" aria-label="Show Certification Exam Practice menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-exam" hidden><div class="nav-panel-head"><span>Certifications</span></div><div class="nav-rows"><a class="nav-row nav-exam" href="/exam-practice#exam-cssbb"><span class="nav-acronym">CSSBB</span><span class="nav-name">Six Sigma Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqe"><span class="nav-acronym">CQE</span><span class="nav-name">Quality Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-mbb"><span class="nav-acronym">CMBB</span><span class="nav-name">Six Sigma Master Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cssgb"><span class="nav-acronym">CSSGB</span><span class="nav-name">Six Sigma Green Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cmq"><span class="nav-acronym">CMQ/OE</span><span class="nav-name">Manager of Quality / Org. Excellence</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cre"><span class="nav-acronym">CRE</span><span class="nav-name">Reliability Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-pmp"><span class="nav-acronym">PMP</span><span class="nav-name">Project Management Professional</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-nppe"><span class="nav-acronym">NPPE</span><span class="nav-name">National Professional Practice Exam</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqa"><span class="nav-acronym">CQA</span><span class="nav-name">Quality Auditor</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/exam-practice">All exams →</a><a class="nav-foot-secondary" href="/exam-practice#my-exams">My exams</a></div></div></div><div class="nav-item" data-nav-item="tools"><a class="nav-tab-link" data-nav-tab="tools" href="/engineering-tools">Engineering Tools</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-tools" aria-label="Show Engineering Tools menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-tools" hidden><div class="nav-panel-head"><span>Tools</span></div><div class="nav-rows"><a class="nav-row" href="/tools/engineering-statistics-calculator"><span class="nav-name">Engineering &amp; Statistics Calculator</span></a><a class="nav-row" href="/tools/unit-converter"><span class="nav-name">Unit Converter</span></a><a class="nav-row" href="/engineering-tools/grade-specification-lookup/"><span class="nav-name">Material Specification Lookup</span></a><a class="nav-row" href="/tools/material-specification-compliance-checker"><span class="nav-name">Material Specification Compliance Checker</span></a><a class="nav-row" href="/tools/steel-phase-explorer"><span class="nav-name">Steel Phase &amp; Transformation Explorer</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/engineering-tools">All tools →</a><a class="nav-foot-secondary" href="/engineering-tools#suggest-a-tool">Suggest a tool</a></div></div></div><div class="nav-item nav-item-wide" data-nav-item="services"><a class="nav-tab-link" data-nav-tab="services" href="/services">Services</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-services" aria-label="Show Services menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-services" hidden><div class="nav-panel-head"><span>Services</span></div><div class="nav-rows"><a class="nav-row nav-rich" href="/services#corporate-training"><span class="nav-name">Corporate Training</span><span class="nav-desc">Team workshops on Lean Six Sigma and quality tools</span></a><a class="nav-row nav-rich" href="/services#one-on-one-coaching"><span class="nav-name">One-on-One Coaching</span><span class="nav-desc">Excel, Power BI, Minitab, statistics</span></a><a class="nav-row nav-rich" href="/services#consulting-support"><span class="nav-name">Consulting Support</span><span class="nav-desc">Root cause analysis, KPIs, quality investigations</span></a><a class="nav-row nav-rich" href="/services#custom-lessons"><span class="nav-name">Custom Lessons</span><span class="nav-desc">Training built around your team's needs</span></a><a class="nav-row nav-rich" href="/services#data-dashboard-support"><span class="nav-name">Data &amp; Dashboard Support</span><span class="nav-desc">Excel, Power BI and SQL help</span></a></div><div class="nav-foot nav-foot-solo"><a class="nav-book" href="/contact">Book a consultation</a></div></div></div><div class="nav-item" data-nav-item="about"><a class="nav-tab-link" data-nav-tab="about" href="/about">About</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-about" aria-label="Show About menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-about" hidden><div class="nav-panel-head"><span>About</span></div><div class="nav-rows"><a class="nav-row nav-rich" href="/about"><span class="nav-name">About UpSkill Sprint</span><span class="nav-desc">Who builds the lessons and why</span></a><a class="nav-row nav-rich" href="/faq"><span class="nav-name">FAQ</span><span class="nav-desc">Free lessons, accounts, exams</span></a><a class="nav-row nav-rich" href="/request-topic"><span class="nav-name">Request a Topic</span><span class="nav-desc">Tell us the lesson you need</span></a><a class="nav-row nav-rich" href="/contact"><span class="nav-name">Contact</span><span class="nav-desc">Questions and partnerships</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="mailto:hello@upskillsprint.com">hello@upskillsprint.com</a></div></div></div></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<main id="lesson-content">
+
+<section class="td-hero" aria-labelledby="td-title">
+  <div class="td-wrap">
+    <ul class="td-kicker" aria-label="Lesson details">
+      <li>Quality Engineering</li><li>Intermediate</li><li>25 min</li><li>4 interactives</li><li>CQE · CSSBB · CMBB</li>
+    </ul>
+    <h1 id="td-title">Top-Down vs. Bottom-Up Risk Assessment</h1>
+    <p class="td-lede">Every risk tool digs in one of two directions. <strong>Top-down vs. bottom-up risk assessment</strong> comes down to one question: do you start from the bad outcome and dig for causes, or start from each part and ask what it could break?</p>
+    <div class="td-poster" role="img" aria-labelledby="td-poster-cap">
+      <div class="td-block is-td"><span class="td-arrow" aria-hidden="true">↓</span><span class="td-tag">Deductive · outcome → causes</span><span class="td-big">Top-down</span><p>“This bad thing happened, or could. What causes it?”</p><span class="td-think">Think: the detective</span></div>
+      <div class="td-block is-mo"><span class="td-arrow" aria-hidden="true">↕</span><span class="td-tag">Event → both ways</span><span class="td-big">Middle-out</span><p>Start at the event. Dig back to causes, walk forward to effects.</p><span class="td-think">Bow-tie · HAZOP</span></div>
+      <div class="td-block is-bu"><span class="td-arrow" aria-hidden="true">↑</span><span class="td-tag">Inductive · cause → effects</span><span class="td-big">Bottom-up</span><p>“If this part fails, what does it break?”</p><span class="td-think">Think: the inspector</span></div>
+    </div>
+    <p id="td-poster-cap" class="td-vh">Poster: top-down digs from the outcome down to causes, like a detective. Middle-out starts at the event and works both ways. Bottom-up walks from each part up to its effects, like an inspector.</p>
+    <ul class="td-toc" aria-label="Jump to a part of the lesson">
+      <li><a href="#td-ladder-h">The system ladder</a></li>
+      <li><a href="#td-tools-h">Meet the 8 tools</a></li>
+      <li><a href="#td-timing-h">Proactive or reactive?</a></li>
+      <li><a href="#td-game-h">The sorting game</a></li>
+      <li><a href="#td-hazop-h">HAZOP guide words</a></li>
+      <li><a href="#td-fta-h">Fault tree lab</a></li>
+      <li><a href="#td-iso-h">ISO 31000</a></li>
+      <li><a href="#td-implementation">Excel and Minitab</a></li>
+      <li><a class="is-cta" href="#td-posters-h">Download the 4 posters</a></li>
+    </ul>
+  </div>
+</section>
+
+<section class="td-section" id="td-ladder" aria-labelledby="td-ladder-h">
+  <div class="td-wrap">
+    <span class="td-step">Part 1 · Two directions</span>
+    <h2 id="td-ladder-h">Climb the system ladder both ways</h2>
+    <p>Every product or process stacks up like a ladder: parts make steps, steps make a line, the line makes what the customer gets. Pick a direction, then press <strong>Next step</strong> and watch which rung you visit first.</p>
+    <div class="td-lab" role="group" aria-labelledby="td-ladder-h">
+      <div class="td-btn-row" aria-label="Choose a direction">
+        <button type="button" class="td-btn is-td" data-td-mode="td" aria-pressed="true">↓ Top-down</button>
+        <button type="button" class="td-btn is-bu" data-td-mode="bu" aria-pressed="false">↑ Bottom-up</button>
+        <button type="button" class="td-btn is-mo" data-td-mode="mo" aria-pressed="false">↕ Middle-out</button>
+        <button type="button" class="td-btn is-solid" id="td-ladder-next">Next step</button>
+        <button type="button" class="td-btn" id="td-ladder-reset">Reset</button>
+      </div>
+      <ol class="td-ladder" id="td-ladder-list">
+        <li class="td-rung" data-rung="1"><b>System / customer</b><span>Waiting…</span></li>
+        <li class="td-rung" data-rung="2"><b>Line / unit</b><span>Waiting…</span></li>
+        <li class="td-rung" data-rung="3"><b>Process step</b><span>Waiting…</span></li>
+        <li class="td-rung" data-rung="4"><b>Part / failure mode</b><span>Waiting…</span></li>
+      </ol>
+      <p class="td-status" id="td-ladder-status" role="status" aria-live="polite">Top-down chosen. Press Next step to start at the top.</p>
+      <p class="td-made">Pipe-mill examples are made up for teaching.</p>
+    </div>
+  </div>
+</section>
+
+<section class="td-section" id="td-tools" aria-labelledby="td-tools-h">
+  <div class="td-wrap">
+    <span class="td-step">Part 2 · The toolbox</span>
+    <h2 id="td-tools-h">Meet the 8 tools, sorted by direction</h2>
+    <p>Colour tells you the direction. The chips tell you the timing: <strong>proactive</strong> (before a failure) or <strong>reactive</strong> (after one). Open any card for a steel-mill example.</p>
+    <div class="td-groups">
+      <div class="td-group is-td">
+        <div class="td-group-h"><h3>Top-down</h3><span>Outcome → causes · deductive</span></div>
+        <ul class="td-cards">
+          <li class="td-card"><div class="td-card-top"><h4>Fault tree analysis (FTA)</h4><svg class="td-glyph" viewBox="0 0 58 36" aria-hidden="true"><rect class="g-td" x="20" y="1" width="18" height="8" rx="2"/><path class="g-line" d="M29 9v5M12 19v-4h34v4"/><rect class="g-soft" x="3" y="19" width="18" height="7" rx="2"/><rect class="g-soft" x="37" y="19" width="18" height="7" rx="2"/><circle class="g-td" cx="12" cy="32" r="3.5"/><circle class="g-td" cx="46" cy="32" r="3.5"/></svg></div>
+            <p>One top event, traced down through AND / OR gates to basic causes.</p>
+            <ul class="td-chips"><li class="td-chip is-pro">Proactive</li><li class="td-chip is-re">Reactive</li></ul>
+            <button type="button" class="td-more" aria-expanded="false" aria-controls="td-eg-fta">Steel-mill example</button>
+            <p class="td-eg" id="td-eg-fta" hidden>“Pipe ruptures in service” as the top event, traced to wall loss, low toughness, or a seam defect that UT missed.</p></li>
+          <li class="td-card"><div class="td-card-top"><h4>RCA: 5-Why · Fishbone</h4><svg class="td-glyph" viewBox="0 0 58 36" aria-hidden="true"><path class="g-line" d="M2 18h44"/><polygon class="g-td" points="46,11 56,18 46,25"/><path class="g-line" d="M10 4l9 14M24 4l9 14M10 32l9-14M24 32l9-14"/></svg></div>
+            <p>Start from the defect you saw. Ask why, or brainstorm the 6M bones, until you hit the root cause.</p>
+            <ul class="td-chips"><li class="td-chip is-re">Reactive</li></ul>
+            <button type="button" class="td-more" aria-expanded="false" aria-controls="td-eg-rca">Steel-mill example</button>
+            <p class="td-eg" id="td-eg-rca" hidden>“Why did this heat fail its Charpy test?” Why? Grain too coarse. Why? Finish rolling ran hot. Why? …</p></li>
+        </ul>
+      </div>
+      <div class="td-group is-mo">
+        <div class="td-group-h"><h3>Middle-out</h3><span>Event → both ways</span></div>
+        <ul class="td-cards">
+          <li class="td-card"><div class="td-card-top"><h4>Bow-tie</h4><svg class="td-glyph" viewBox="0 0 58 36" aria-hidden="true"><polygon class="g-mo" points="2,4 24,18 2,32"/><polygon class="g-mo" points="56,4 34,18 56,32"/><circle class="g-soft" cx="29" cy="18" r="7"/></svg></div>
+            <p>The event sits in the knot. Causes and prevention barriers on the left, consequences and recovery barriers on the right.</p>
+            <ul class="td-chips"><li class="td-chip is-pro">Proactive</li></ul>
+            <button type="button" class="td-more" aria-expanded="false" aria-controls="td-eg-bow">Steel-mill example</button>
+            <p class="td-eg" id="td-eg-bow" hidden>Show the board every barrier between “pipe ruptures” and a spill: UT, hydrotest and Charpy on the left; leak detection and shutdown on the right.</p></li>
+          <li class="td-card"><div class="td-card-top"><h4>HAZOP</h4><svg class="td-glyph" viewBox="0 0 58 36" aria-hidden="true"><rect class="g-soft" x="1" y="14" width="56" height="8" rx="4"/><circle class="g-mo" cx="29" cy="18" r="8"/><polygon class="g-mo" points="8,12 1,18 8,24"/><polygon class="g-mo" points="50,12 57,18 50,24"/></svg></div>
+            <p>Guide word + parameter = deviation (“no flow”). Work back to causes and forward to consequences, node by node.</p>
+            <ul class="td-chips"><li class="td-chip is-pro">Proactive</li></ul>
+            <button type="button" class="td-more" aria-expanded="false" aria-controls="td-eg-hazop">Steel-mill example</button>
+            <p class="td-eg" id="td-eg-hazop" hidden>Review the caster’s mould cooling-water loop on its P&amp;ID before start-up. Try it yourself in Part 5.</p></li>
+        </ul>
+      </div>
+      <div class="td-group is-bu">
+        <div class="td-group-h"><h3>Bottom-up</h3><span>Cause → effects · inductive</span></div>
+        <ul class="td-cards">
+          <li class="td-card"><div class="td-card-top"><h4>FMEA / FMECA</h4><svg class="td-glyph" viewBox="0 0 58 36" aria-hidden="true"><rect class="g-soft" x="1" y="2" width="56" height="32" rx="3"/><rect class="g-bu" x="1" y="2" width="56" height="8" rx="2"/><path class="g-line" d="M20 10v24M38 10v24M1 22h56"/></svg></div>
+            <p>Every failure mode of every step, rated for severity, occurrence and detection.</p>
+            <ul class="td-chips"><li class="td-chip is-pro">Proactive</li></ul>
+            <button type="button" class="td-more" aria-expanded="false" aria-controls="td-eg-fmea">Steel-mill example</button>
+            <p class="td-eg" id="td-eg-fmea" hidden>A PFMEA row for ERW seam welding: “cold weld” → leak in hydrotest or service.</p></li>
+          <li class="td-card"><div class="td-card-top"><h4>HACCP</h4><svg class="td-glyph" viewBox="0 0 58 36" aria-hidden="true"><circle class="g-soft" cx="8" cy="18" r="6"/><circle class="g-bu" cx="29" cy="18" r="8"/><circle class="g-soft" cx="50" cy="18" r="6"/><path class="g-line" d="M14 18h7M37 18h7"/></svg></div>
+            <p>Step by step: list each hazard, then set critical control points and limits.</p>
+            <ul class="td-chips"><li class="td-chip is-pro">Proactive</li></ul>
+            <button type="button" class="td-more" aria-expanded="false" aria-controls="td-eg-haccp">Steel-mill example</button>
+            <p class="td-eg" id="td-eg-haccp" hidden>Built for food and drugs. In a mill, think of a food-grade coating line.</p></li>
+          <li class="td-card"><div class="td-card-top"><h4>PHA</h4><svg class="td-glyph" viewBox="0 0 58 36" aria-hidden="true"><rect class="g-soft" x="2" y="4" width="16" height="28" rx="3"/><rect class="g-bu" x="21" y="4" width="16" height="28" rx="3"/><rect class="g-soft" x="40" y="4" width="16" height="28" rx="3"/></svg></div>
+            <p>Preliminary Hazard Analysis: an early scan of hazards for each part of a new system.</p>
+            <ul class="td-chips"><li class="td-chip is-pro">Proactive</li></ul>
+            <button type="button" class="td-more" aria-expanded="false" aria-controls="td-eg-pha">Steel-mill example</button>
+            <p class="td-eg" id="td-eg-pha" hidden>A concept for a new pickling line, before the detailed design exists.</p></li>
+          <li class="td-card"><div class="td-card-top"><h4>What-If / SWIFT</h4><svg class="td-glyph" viewBox="0 0 58 36" aria-hidden="true"><circle class="g-bu" cx="18" cy="18" r="14"/><circle class="g-soft" cx="42" cy="18" r="10"/></svg></div>
+            <p>Structured “What if…?” prompts at each step. Faster and lighter than FMEA.</p>
+            <ul class="td-chips"><li class="td-chip is-pro">Proactive</li></ul>
+            <button type="button" class="td-more" aria-expanded="false" aria-controls="td-eg-swift">Steel-mill example</button>
+            <p class="td-eg" id="td-eg-swift" hidden>“What if the crane drops a bundle at the loading bay?” Walk every step that way.</p></li>
+        </ul>
+      </div>
+    </div>
+    <h3 id="td-compare-h">Side by side</h3>
+    <div class="td-table-scroll" tabindex="0" role="region" aria-label="Top-down and bottom-up compared">
+      <table class="td-table">
+        <thead><tr><th scope="col" class="is-corner"><span class="td-vh">Aspect</span></th><th scope="col" class="is-td">Top-down</th><th scope="col" class="is-bu">Bottom-up</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Starts at</th><td class="is-td">A defined bad outcome</td><td class="is-bu">A part, step or failure mode</td></tr>
+          <tr><th scope="row">Logic</th><td class="is-td"><strong>Deductive</strong>: outcome → causes</td><td class="is-bu"><strong>Inductive</strong>: cause → effects</td></tr>
+          <tr><th scope="row">Blind spot</th><td class="is-td">Causes nobody put in the tree</td><td class="is-bu">Two failures together, and interactions</td></tr>
+          <tr><th scope="row">Best for</th><td class="is-td">One known or feared failure</td><td class="is-bu">Full coverage before anything fails</td></tr>
+          <tr><th scope="row">Pairs with</th><td class="is-td">RCA, CAPA, 8D</td><td class="is-bu">DFMEA, PFMEA action plans</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="td-callout"><p><strong>Why HAZOP is “middle-out”:</strong> textbooks file it as top-down and as bottom-up. It really starts at a deviation in the middle and works both ways, just like the bow-tie.</p></div>
+  </div>
+</section>
+
+<section class="td-section" id="td-timing" aria-labelledby="td-timing-h">
+  <div class="td-wrap">
+    <span class="td-step">Part 3 · Timing</span>
+    <h2 id="td-timing-h">Proactive or reactive? Before or after the failure</h2>
+    <p>A <strong>proactive</strong> tool finds risk before anything breaks. A <strong>reactive</strong> tool explains a failure that already happened, so you can fix it and stop it coming back.</p>
+    <div class="td-time">
+      <div class="td-side is-pro"><h3>Proactive</h3><p>Before anything breaks</p>
+        <ul aria-label="Proactive tools"><li class="is-bu">FMEA</li><li class="is-bu">HACCP</li><li class="is-bu">PHA</li><li class="is-bu">SWIFT</li><li class="is-mo">HAZOP</li><li class="is-mo">Bow-tie</li><li class="is-td">FTA at design</li></ul></div>
+      <div class="td-fail" aria-hidden="true"><div class="td-diamond"><span>!</span></div><b>FAILURE</b></div>
+      <div class="td-side is-re"><h3>Reactive</h3><p>After it breaks</p>
+        <ul aria-label="Reactive tools"><li class="is-td">5-Why</li><li class="is-td">Fishbone</li><li class="is-td">FTA in an investigation</li><li class="is-ink">CAPA / 8D</li></ul></div>
+    </div>
+    <div class="td-bigpanel"><b>Direction<br>≠ timing</b><p><strong>Exam trap:</strong> top-down does not mean reactive. FTA is top-down, yet engineers often build it at the design stage, long before anything fails. Ask two separate questions: <strong>which way?</strong> and <strong>before or after?</strong></p></div>
+  </div>
+</section>
+
+<section class="td-section" id="td-game" aria-labelledby="td-game-h">
+  <div class="td-wrap">
+    <span class="td-step">Part 4 · Your turn</span>
+    <h2 id="td-game-h">The sorting game: which way would you dig?</h2>
+    <p>Six real jobs from a pipe mill. Pick the direction for each one. You get one try per job.</p>
+    <div class="td-lab" role="group" aria-labelledby="td-game-h">
+      <ol class="td-game" id="td-game-list">
+        <li class="td-job" data-answer="td" data-tool="5-Why or fishbone, reactive" data-why="You already have the bad outcome, so you dig down from it."><p>1. Heat 4417 failed its Charpy test yesterday. Find out why.</p><div class="td-btn-row"></div><p class="td-fb" aria-live="polite"></p></li>
+        <li class="td-job" data-answer="bu" data-tool="PFMEA, proactive" data-why="Nothing has failed yet and you need full coverage, step by step."><p>2. A new ERW line starts in three months. List every way each step could fail.</p><div class="td-btn-row"></div><p class="td-fb" aria-live="polite"></p></li>
+        <li class="td-job" data-answer="mo" data-tool="HAZOP, proactive" data-why="A continuous loop on a P&amp;ID: apply guide words to each deviation, then go both ways."><p>3. Review the P&amp;ID of the new caster cooling-water loop before start-up.</p><div class="td-btn-row"></div><p class="td-fb" aria-live="polite"></p></li>
+        <li class="td-job" data-answer="mo" data-tool="Bow-tie, proactive" data-why="One event in the middle, with barriers on both sides, on one page."><p>4. Show the board every barrier between a pipe rupture and an oil spill.</p><div class="td-btn-row"></div><p class="td-fb" aria-live="polite"></p></li>
+        <li class="td-job" data-answer="td" data-tool="FTA at design, proactive" data-why="One feared top event, traced down with AND / OR logic. Top-down, yet still before any failure."><p>5. Before launch, prove how “pipe ruptures in service” could happen, with AND / OR logic.</p><div class="td-btn-row"></div><p class="td-fb" aria-live="polite"></p></li>
+        <li class="td-job" data-answer="bu" data-tool="PHA, proactive" data-why="An early scan of hazards, part by part, before the detailed design exists."><p>6. Scan a concept for a new pickling line for hazards, before the design is detailed.</p><div class="td-btn-row"></div><p class="td-fb" aria-live="polite"></p></li>
+      </ol>
+      <div class="td-score"><b id="td-game-score">0 / 6</b><span id="td-game-status" role="status" aria-live="polite">Pick a direction for each job.</span><button type="button" class="td-btn" id="td-game-reset">Play again</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="td-section" id="td-hazop" aria-labelledby="td-hazop-h">
+  <div class="td-wrap">
+    <span class="td-step">Part 5 · HAZOP</span>
+    <h2 id="td-hazop-h">Spin the HAZOP guide word machine</h2>
+    <p>HAZOP uses seven <strong>guide words</strong> (guide, not “guild”). Each one, paired with a process parameter, names a deviation from design intent. The team then asks four questions about it.</p>
+    <p class="td-hz-eq" aria-label="Guide word plus parameter equals deviation"><span class="is-a">Guide word</span><i aria-hidden="true">+</i><span class="is-b">Parameter</span><i aria-hidden="true">=</i><span class="is-c">Deviation</span></p>
+    <div class="td-lab td-hz-pick" role="group" aria-labelledby="td-hazop-h">
+      <p class="td-muted" style="margin:0">Node: <strong>caster mould cooling water</strong>. Pick a guide word and a parameter.</p>
+      <h3 id="td-hz-gw-h">Guide word</h3>
+      <div class="td-btn-row" id="td-hz-gw" role="group" aria-labelledby="td-hz-gw-h"></div>
+      <h3 id="td-hz-par-h">Parameter</h3>
+      <div class="td-btn-row" id="td-hz-par" role="group" aria-labelledby="td-hz-par-h"></div>
+      <div class="td-hz-out" id="td-hz-out" role="status" aria-live="polite"></div>
+      <p class="td-made">A made-up example for teaching. Your plant’s HAZOP team will find its own causes and safeguards.</p>
+    </div>
+    <div class="td-callout"><p><strong>The N/A cards are the point.</strong> Many combinations mean nothing. The team still says them out loud and rules them out. That discipline is what makes HAZOP more complete than a free brainstorm.</p></div>
+    <p>HAZOP fits <strong>continuous processes</strong> with flow, pressure, temperature, level or composition: caster cooling water, EAF off-gas, ladle argon stirring. For final pipe inspection, use a PFMEA.</p>
+  </div>
+</section>
+
+<section class="td-section" id="td-fta" aria-labelledby="td-fta-h">
+  <div class="td-wrap">
+    <span class="td-step">Part 6 · Use both</span>
+    <h2 id="td-fta-h">Fault tree lab: why FMEA needs a partner</h2>
+    <p>FMEA looks at one failure mode at a time. A fault tree’s <strong>AND gate</strong> catches what it misses: two things going wrong together. Move the sliders to see how each cause drives the top event.</p>
+    <div class="td-ft">
+      <figure class="td-figure">
+        <svg class="td-svg" viewBox="0 0 400 330" role="img" aria-labelledby="td-ft-t td-ft-d">
+          <title id="td-ft-t">Fault tree for a pipe rupture</title>
+          <desc id="td-ft-d">The top event, pipe ruptures in service, sits above an OR gate with three causes: wall below minimum, low toughness, and a seam defect that escapes. The seam defect escapes only through an AND gate: a weld defect is created and ultrasonic testing misses it.</desc>
+          <rect class="s-top" x="95" y="6" width="210" height="38" rx="8"/>
+          <text class="s-top-t" x="200" y="30" text-anchor="middle">PIPE RUPTURES IN SERVICE</text>
+          <path class="s-line" d="M200 44v10"/>
+          <path class="s-or" d="M182 54 Q200 61 218 54 Q215 74 200 84 Q185 74 182 54z"/>
+          <text class="s-gate-t" x="200" y="72" text-anchor="middle">OR</text>
+          <path class="s-line" d="M200 84v8M62 92h268M62 92v12M190 92v12M330 92v12"/>
+          <rect class="s-box" x="6" y="104" width="112" height="50" rx="8"/>
+          <text x="62" y="125" text-anchor="middle">Wall below</text><text x="62" y="143" text-anchor="middle">minimum (W)</text>
+          <rect class="s-box" x="134" y="104" width="112" height="50" rx="8"/>
+          <text x="190" y="125" text-anchor="middle">Low toughness</text><text x="190" y="143" text-anchor="middle">(T)</text>
+          <rect class="s-box is-hot" x="262" y="104" width="134" height="50" rx="8"/>
+          <text x="329" y="125" text-anchor="middle">Seam defect</text><text x="329" y="143" text-anchor="middle">escapes (S)</text>
+          <path class="s-line" d="M329 154v10"/>
+          <path class="s-and" d="M310 164h38v12a19 19 0 0 1-38 0z"/>
+          <text class="s-gate-t" x="329" y="184" text-anchor="middle">AND</text>
+          <path class="s-line" d="M329 195v8M282 203h94M282 203v12M376 203v12"/>
+          <ellipse class="s-basic" cx="282" cy="240" rx="54" ry="25"/>
+          <text x="282" y="236" text-anchor="middle">Weld defect</text><text x="282" y="253" text-anchor="middle">created (D)</text>
+          <ellipse class="s-basic" cx="354" cy="298" rx="44" ry="26"/>
+          <path class="s-line" d="M376 215v12L362 272"/>
+          <text x="354" y="294" text-anchor="middle">UT misses</text><text x="354" y="311" text-anchor="middle">it (M)</text>
+          <text class="s-note" x="6" y="200">AND = both must</text>
+          <text class="s-note" x="6" y="218">happen together.</text>
+          <text class="s-note" x="6" y="244">FMEA rows look at</text>
+          <text class="s-note" x="6" y="262">one at a time.</text>
+        </svg>
+        <figcaption>Made-up example. The AND gate turns inspection into a barrier: S only happens when D and M both happen.</figcaption>
+      </figure>
+      <div class="td-lab" role="group" aria-labelledby="td-fta-lab-h">
+        <h3 id="td-fta-lab-h" style="margin-top:0">What-if sliders</h3>
+        <div class="td-slider"><label for="td-p-w">W: wall below minimum (%)</label><output id="td-o-w" for="td-p-w">0.02%</output><input type="range" id="td-p-w" min="0" max="0.1" step="0.01" value="0.02"></div>
+        <div class="td-slider"><label for="td-p-t">T: low toughness (%)</label><output id="td-o-t" for="td-p-t">0.01%</output><input type="range" id="td-p-t" min="0" max="0.1" step="0.01" value="0.01"></div>
+        <div class="td-slider"><label for="td-p-d">D: weld defect created (%)</label><output id="td-o-d" for="td-p-d">0.5%</output><input type="range" id="td-p-d" min="0" max="2" step="0.1" value="0.5"></div>
+        <div class="td-slider"><label for="td-p-m">M: UT misses the defect (%)</label><output id="td-o-m" for="td-p-m">5%</output><input type="range" id="td-p-m" min="0" max="30" step="1" value="5"></div>
+        <ul class="td-bars" id="td-ft-bars" aria-label="Chance of each path, per pipe">
+          <li><span>W path</span><span class="td-bar"><i data-bar="w"></i></span><output data-out="w">0.020%</output></li>
+          <li><span>T path</span><span class="td-bar"><i data-bar="t"></i></span><output data-out="t">0.010%</output></li>
+          <li><span>S path (D AND M)</span><span class="td-bar is-hot"><i data-bar="s"></i></span><output data-out="s">0.025%</output></li>
+        </ul>
+        <div class="td-top-result" role="status" aria-live="polite"><b id="td-ft-top">0.055%</b><span id="td-ft-msg">About 5.5 pipes in 10,000 rupture. The seam path is the biggest.</span></div>
+      </div>
+    </div>
+    <p>The gate maths, for independent events:</p>
+    <div class="td-math">\[ P(\text{S}) = P(\text{D}) \times P(\text{M}) \]
+      \[ P(\text{top}) = 1 - \big(1 - P(\text{W})\big)\big(1 - P(\text{T})\big)\big(1 - P(\text{S})\big) \]</div>
+    <p>where \(P(\text{W})\), \(P(\text{T})\), \(P(\text{D})\) and \(P(\text{M})\) are the chances of each basic event per pipe, and \(P(\text{S})\) is the chance that a seam defect escapes.</p>
+    <h3 id="td-pfmea-h">The bottom-up partner: one PFMEA row</h3>
+    <div class="td-table-scroll td-fm" tabindex="0" role="region" aria-label="One PFMEA row for ERW seam welding">
+      <table class="td-table">
+        <thead><tr><th scope="col" class="is-bu is-first">Step</th><th scope="col" class="is-bu is-mid">Failure mode</th><th scope="col" class="is-bu is-mid">Effect</th><th scope="col" class="is-bu">Cause · control</th></tr></thead>
+        <tbody><tr><td class="is-bu">ERW seam welding</td><td class="is-bu">Cold weld (lack of fusion)</td><td class="is-bu">Leak or rupture in hydrotest or service</td><td class="is-bu">Low heat input · online UT of the seam</td></tr></tbody>
+      </table>
+    </div>
+    <p class="td-pair"><span style="background:var(--lesson-tdbu-fill-teal)">PFMEA</span> every step <span style="background:var(--lesson-tdbu-fill-amber)">+</span> <span style="background:var(--lesson-tdbu-fill-blue)">FTA</span> the big one</p>
+    <p>Run the PFMEA across the whole rolling and finishing line for coverage. Then build a fault tree for each catastrophic event, so combinations get caught too.</p>
+  </div>
+</section>
+
+<section class="td-section" id="td-iso" aria-labelledby="td-iso-h">
+  <div class="td-wrap">
+    <span class="td-step">Part 7 · The big picture</span>
+    <h2 id="td-iso-h">Where the tools plug into ISO 31000</h2>
+    <p>ISO 31000:2018 is the international guideline for managing risk. Its process (clause 6) calls risk identification, analysis and evaluation together <strong>risk assessment</strong>. That is where every tool on this page lives.</p>
+    <span class="td-iso-frame">Risk assessment = steps 1 to 3</span>
+    <ol class="td-iso" aria-label="ISO 31000 risk process with tools">
+      <li class="is-scope"><h3>Scope</h3><p>Context and risk criteria: how much risk is OK?</p></li>
+      <li><h3>1 · Identify</h3><p>What could go wrong?</p><ul><li>HAZOP</li><li>SWIFT</li><li>PHA</li><li>FMEA modes</li></ul></li>
+      <li><h3>2 · Analyze</h3><p>How, how likely, how bad?</p><ul><li>FTA</li><li>Bow-tie</li><li>FMEA S·O·D</li></ul></li>
+      <li><h3>3 · Evaluate</h3><p>Is it acceptable?</p><ul><li>Risk matrix</li><li>RPN / AP</li></ul></li>
+      <li class="is-treat"><h3>4 · Treat</h3><p>Act on the risk</p><ul><li>FMEA actions</li><li>Barriers</li><li>HACCP CCPs</li></ul></li>
+    </ol>
+    <p class="td-iso-band"><span>↺ Monitoring &amp; review</span><span>RCA and CAPA after failures feed back into the assessment</span></p>
+    <div class="td-iso-rails">
+      <p><strong>Communication &amp; consultation</strong> runs through every step: a HAZOP or FMEA is a team sport.</p>
+      <p><strong>Recording &amp; reporting</strong>: FMEA worksheets, HAZOP logs, the risk register.</p>
+    </div>
+    <p>Proactive tools feed steps 1 to 4. Reactive tools feed <strong>monitoring and review</strong>, which updates the assessment. ISO 31000’s companion, IEC 31010:2019, describes each technique in detail. ISO 31000:2018 is still current; a revision is in progress.</p>
+  </div>
+</section>
+
+<section class="td-section" id="td-traps" aria-labelledby="td-traps-h">
+  <div class="td-wrap">
+    <span class="td-step">Part 8 · Watch out</span>
+    <h2 id="td-traps-h">Five mistakes to avoid</h2>
+    <div class="td-warn">
+      <h3>Don’t be that team</h3>
+      <ol>
+        <li><b>“Top-down = reactive”</b>Direction is not timing. A design-stage FTA is proactive.</li>
+        <li><b>Trusting FMEA alone</b>It rates one failure mode at a time. Add FTA for combinations.</li>
+        <li><b>HAZOP on an inspection bench</b>HAZOP is for continuous flows. Use PFMEA for discrete steps.</li>
+        <li><b>Skipping the N/A guide words</b>Ruling them out on record is what makes HAZOP complete.</li>
+        <li><b>Stopping at “operator error”</b>Keep asking why until you reach a cause you can fix.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="td-section" id="td-implementation" aria-labelledby="td-implementation-h">
+  <div class="td-wrap">
+    <details class="td-impl" id="td-impl-details">
+      <summary class="td-impl-summary">
+        <span class="td-step">Do it in software</span>
+        <h2 id="td-implementation-h">Statistics Implementation</h2>
+        <span class="td-impl-tease"><span class="td-impl-show">Psst. Excel can run your fault-tree gates and FMEA ratings in one line each, and the exam loves asking how.</span><span class="td-impl-hide">You found the secret level. Gate maths, RPN tricks and menu paths are all below.</span></span>
+        <span class="td-impl-hint"><span class="td-impl-show">Unlock the cheat codes</span><span class="td-impl-hide">Hide the cheat codes</span></span>
+      </summary>
+      <div class="td-impl-body">
+        <h3 id="td-excel-functions-h">Excel functions</h3>
+        <div class="td-table-scroll" tabindex="0" role="region" aria-label="Excel functions for FTA and FMEA">
+          <table>
+            <thead><tr><th scope="col">Function</th><th scope="col">Syntax</th><th scope="col">Purpose</th><th scope="col">When to use it</th></tr></thead>
+            <tbody>
+              <tr><td><code>PRODUCT</code></td><td><code>=PRODUCT(B2:B3)</code></td><td>Multiplies the cells</td><td>AND gate: all inputs must happen (independent events)</td></tr>
+              <tr><td><code>1-PRODUCT(1-…)</code></td><td><code>=1-PRODUCT(1-B2:B4)</code></td><td>Chance that at least one input happens</td><td>OR gate. Works directly in Excel 365; older Excel needs Ctrl+Shift+Enter</td></tr>
+              <tr><td><code>PRODUCT</code> (RPN)</td><td><code>=PRODUCT(D2:F2)</code></td><td>Severity × Occurrence × Detection</td><td>Classic FMEA risk priority number</td></tr>
+              <tr><td><code>RANK.EQ</code></td><td><code>=RANK.EQ(G2,$G$2:$G$40)</code></td><td>Rank of one RPN in the list</td><td>Find the top risks to act on first</td></tr>
+              <tr><td><code>SORTBY</code></td><td><code>=SORTBY(A2:G40,G2:G40,-1)</code></td><td>Sorts rows by RPN, highest first</td><td>A live “worst first” view (Excel 365)</td></tr>
+              <tr><td><code>COUNTIFS</code></td><td><code>=COUNTIFS(D2:D40,"&gt;=9")</code></td><td>Counts rows meeting a rule</td><td>How many failure modes have severity 9 or 10?</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 id="td-excel-use-cases-h">Excel use cases</h3>
+        <ul>
+          <li><strong>Fault tree:</strong> put W, T, D and M in B2:B5 as decimals. <code>=B4*B5</code> gives S. <code>=1-PRODUCT(1-B2:B3,1-B6)</code> with S in B6 gives the top event. Try 0.0002, 0.0001, 0.005 and 0.05: the top event comes out near 0.00055, matching the lab.</li>
+          <li><strong>FMEA:</strong> severity, occurrence and detection in D:F, <code>=PRODUCT(D2:F2)</code> in G2, fill down, then <code>SORTBY</code> to list the worst first.</li>
+          <li><strong>Watch severity on its own:</strong> a severity of 10 needs action even when the RPN is low. <code>COUNTIFS</code> flags those rows.</li>
+        </ul>
+        <div class="td-math">\[ \text{RPN} = S \times O \times D \]</div>
+        <p>where \(S\) is severity, \(O\) is occurrence and \(D\) is detection, each rated 1 to 10.</p>
+        <h3 id="td-minitab-h">Minitab navigation</h3>
+        <ul>
+          <li><strong>Compute RPN:</strong> <code>Calc → Calculator</code>, store the result in a new column, expression <code>S * O * D</code>.</li>
+          <li><strong>Pareto of RPN by failure mode:</strong> <code>Stat → Quality Tools → Pareto Chart</code>. Choose <em>Chart defects table</em>, labels = failure mode, frequencies = RPN.</li>
+          <li><strong>Alternative:</strong> <code>Graph → Bar Chart</code> with values from a table, if you want the bars unsorted.</li>
+          <li><strong>FMEA forms:</strong> Minitab Statistical Software has no FMEA or fault-tree menu. Minitab Workspace, a separate product, has FMEA, fishbone and Five Whys forms. Build gate maths in <code>Calc → Calculator</code> or Excel.</li>
+        </ul>
+        <h3 id="td-exam-tips-h">Exam tips</h3>
+        <ul>
+          <li><strong>Deductive = top-down = FTA.</strong> Inductive = bottom-up = FMEA. Event tree analysis is also inductive.</li>
+          <li><strong>AND gates multiply.</strong> Expect a question that asks for the top event from two or three basic-event probabilities.</li>
+          <li><strong>Bow-tie</strong> = a fault tree on the left plus an event tree on the right.</li>
+          <li><strong>HAZOP</strong> = guide words × parameters at each node of a P&amp;ID.</li>
+          <li><strong>RPN</strong> ranks risks but hides severity. The AIAG-VDA FMEA handbook uses Action Priority (AP) instead.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section class="td-section" id="td-posters" aria-labelledby="td-posters-h">
+  <div class="td-wrap">
+    <span class="td-step">Print it</span>
+    <h2 id="td-posters-h">Four wall posters to take with you</h2>
+    <p>Same topic, four layouts. Pick the one that matches how you think. Each is a one-page PDF that prints at 18 × 24 in.</p>
+    <ul class="td-posters" aria-label="Poster downloads">
+      <li class="td-pcard">
+        <img src="/assets/lessons/top-down-vs-bottom-up-risk-assessment/top-down-vs-bottom-up-quick-reference-poster-preview.jpg" alt="Preview of the Quick Reference poster: a system ladder, eight tool cards, HAZOP guide words and an ISO 31000 map" width="480" height="640" loading="lazy" decoding="async">
+        <h3>Quick Reference</h3>
+        <p class="td-pmeta">PDF, 1 page, 18 × 24 in, 519 KB. Everything on one sheet: the ladder, the 8 tools, timing, HAZOP, ISO 31000 and a pipe-rupture example.</p>
+        <a href="/assets/lessons/top-down-vs-bottom-up-risk-assessment/top-down-vs-bottom-up-quick-reference-poster.pdf" download data-td-poster-kb="519">Download PDF<span class="td-vh"> of the Quick Reference poster</span></a>
+      </li>
+      <li class="td-pcard">
+        <img src="/assets/lessons/top-down-vs-bottom-up-risk-assessment/risk-tool-sorting-map-poster-preview.jpg" alt="Preview of the Sorting Map poster: a grid with direction across and proactive or reactive down" width="480" height="640" loading="lazy" decoding="async">
+        <h3>Sorting Map</h3>
+        <p class="td-pmeta">PDF, 1 page, 18 × 24 in, 483 KB. Every tool placed on one map: which way it digs, and whether it runs before or after a failure.</p>
+        <a href="/assets/lessons/top-down-vs-bottom-up-risk-assessment/risk-tool-sorting-map-poster.pdf" download data-td-poster-kb="483">Download PDF<span class="td-vh"> of the Sorting Map poster</span></a>
+      </li>
+      <li class="td-pcard">
+        <img src="/assets/lessons/top-down-vs-bottom-up-risk-assessment/which-risk-tool-do-i-need-poster-preview.jpg" alt="Preview of the Which Risk Tool poster: a yes/no flowchart with a reactive lane and a proactive lane" width="480" height="640" loading="lazy" decoding="async">
+        <h3>Which Risk Tool Do I Need?</h3>
+        <p class="td-pmeta">PDF, 1 page, 18 × 24 in, 471 KB. A yes/no flowchart. Start at “Has it already failed?” and land on the right tool.</p>
+        <a href="/assets/lessons/top-down-vs-bottom-up-risk-assessment/which-risk-tool-do-i-need-poster.pdf" download data-td-poster-kb="471">Download PDF<span class="td-vh"> of the Which Risk Tool Do I Need? poster</span></a>
+      </li>
+      <li class="td-pcard">
+        <img src="/assets/lessons/top-down-vs-bottom-up-risk-assessment/one-event-two-directions-bow-tie-poster-preview.jpg" alt="Preview of the bow-tie poster: a dark poster with a large bow-tie for a pipe rupture and big-number tiles" width="480" height="640" loading="lazy" decoding="async">
+        <h3>One Event, Two Directions</h3>
+        <p class="td-pmeta">PDF, 1 page, 18 × 24 in, 478 KB. A big pipe-rupture bow-tie read three ways, plus big numbers and exam tips. Uses more ink.</p>
+        <a href="/assets/lessons/top-down-vs-bottom-up-risk-assessment/one-event-two-directions-bow-tie-poster.pdf" download data-td-poster-kb="478">Download PDF<span class="td-vh"> of the One Event, Two Directions poster</span></a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Right. You start from a known outcome and reason back to its causes, which is deductive, top-down logic.">
+        <legend>1. A heat failed its Charpy test. You start from that failure and work back to its causes. What kind of logic is this?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> Inductive (bottom-up)</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> Deductive (top-down)</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> Middle-out only</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="d"> Statistical sampling</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="FMEA takes every failure mode of every step and asks what it does to the next level up and the customer. That is the classic bottom-up tool.">
+        <legend>2. Which tool is the classic bottom-up (inductive) tool?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> Fault tree analysis</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> 5-Why</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> FMEA</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="d"> Bow-tie</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="FMEA rates one failure mode at a time, so it is weak at two things going wrong together. A fault tree's AND gate captures those combinations.">
+        <legend>3. Which weakness of FMEA does a fault tree help cover?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> It misses combinations of failures happening together</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> It cannot rate severity</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> It only works after a failure</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="d"> It needs a P&amp;ID</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="d" data-explanation="Direction is not timing. A design-stage fault tree is top-down and proactive, because nothing has failed yet.">
+        <legend>4. Before a new line starts, the team builds a fault tree for “pipe ruptures in service.” Is this proactive or reactive?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> Reactive, because fault trees are top-down</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> Neither; FTA has no timing</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> Reactive, because the top event is a failure</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="d"> Proactive, because it runs before any failure</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="REVERSE is the logical opposite of the design intent, so REVERSE + Flow is backflow.">
+        <legend>5. In a HAZOP, what deviation does REVERSE + Flow describe?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> Less flow than designed</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> Backflow</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> The wrong material flowing</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="d"> Flow plus a contaminant</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="HAZOP is built for continuous processes with flow, pressure, temperature and level. A caster cooling-water loop fits; a discrete inspection step suits a PFMEA better.">
+        <legend>6. Where in a steel plant is a HAZOP the most natural fit?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> The final pipe inspection bench</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> The shipping paperwork</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> The caster mould cooling-water loop</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="d"> A customer survey</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="ISO 31000 calls risk identification, risk analysis and risk evaluation together risk assessment. Treatment comes next.">
+        <legend>7. In ISO 31000, what three steps make up “risk assessment”?</legend>
+        <label class="quiz-option"><input type="radio" name="q7" value="a"> Identify, analyze, evaluate</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="b"> Plan, do, check</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="c"> Identify, treat, monitor</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="d"> Scope, treat, report</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="d" data-explanation="An AND gate multiplies independent probabilities: 0.5% of 5% is 0.025%.">
+        <legend>8. A weld defect is created 0.5% of the time and UT misses it 5% of the time. Through an AND gate, how often does a defect escape?</legend>
+        <label class="quiz-option"><input type="radio" name="q8" value="a"> 5.5%</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="b"> 0.5%</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="c"> 2.5%</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="d"> 0.025%</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section class="td-section" id="td-refs" aria-labelledby="td-refs-h">
+  <div class="td-wrap">
+    <h2 id="td-refs-h">References</h2>
+    <ul class="td-refs">
+      <li>ISO 31000:2018, <cite>Risk management: Guidelines</cite>. International Organization for Standardization.</li>
+      <li>IEC 31010:2019, <cite>Risk management: Risk assessment techniques</cite>. IEC and ISO.</li>
+      <li>IEC 61882:2016, <cite>Hazard and operability studies (HAZOP studies): Application guide</cite>.</li>
+      <li>IEC 60812:2018, <cite>Failure modes and effects analysis (FMEA and FMECA)</cite>.</li>
+      <li>IEC 61025:2006, <cite>Fault tree analysis (FTA)</cite>.</li>
+      <li>AIAG and VDA, <cite>FMEA Handbook</cite> (2019).</li>
+    </ul>
+  </div>
+</section>
+
+<section class="related-lessons" style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--line);">
+  <h2>Related lessons</h2>
+  <ul>
+    <li><a href="/lessons/root-cause-analysis-5-whys-fishbone">Root Cause Analysis: 5 Whys and Fishbone</a> — the reactive, top-down tools in depth.</li>
+    <li><a href="/lessons/7-essential-quality-tools">The 7 Essential Quality Tools</a> — fishbone, Pareto and friends for the analysis step.</li>
+    <li><a href="/lessons/understanding-pareto-chart">Understanding the Pareto Chart</a> — rank FMEA risks so you fix the big ones first.</li>
+    <li><a href="/lessons/quality-engineering/introduction-to-reliability-and-maintainability">Introduction to Reliability and Maintainability</a> — where fault-tree probabilities come from.</li>
+    <li><a href="/lessons/quality-engineering/cost-of-poor-quality">Cost of Poor Quality (COPQ)</a> — put a price on the failures your risk tools prevent.</li>
+  </ul>
+</section>
+
+</main>
+
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#quality-engineering" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Quality Engineering lessons</a>
+</section>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img class="logo-wordmark" src="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<script id="tdbu-logic">
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ---------- Part 1: the system ladder ---------- */
+  var LADDER = {
+    td: { name: 'Top-down', order: [1, 2, 3, 4], text: {
+      1: 'Bad outcome: a pipe ruptures in service. What could cause it?',
+      2: 'Which part of the rolling and finishing line could make a weak pipe?',
+      3: 'Seam welding, sizing or UT: which step could let it through?',
+      4: 'Root causes: low weld heat input AND a UT miss.' } },
+    bu: { name: 'Bottom-up', order: [4, 3, 2, 1], text: {
+      4: 'Failure mode: a sizing-mill roll wears.',
+      3: 'Effect on the step: pipe diameter drifts out of tolerance.',
+      2: 'Effect on the line: more rejects and rework at final inspection.',
+      1: 'Effect on the customer: field joints fit up badly.' } },
+    mo: { name: 'Middle-out', order: [2, 3, 4, 1], text: {
+      2: 'Deviation at a node: NO flow in the caster cooling water.',
+      3: 'Back to causes: the cooling-water pump trips.',
+      4: 'Deeper cause: a worn pump bearing.',
+      1: 'Forward to consequences: thin shell, breakout risk, line stops.' } }
+  };
+  var ladder = { mode: 'td', step: 0 };
+  function drawLadder() {
+    var data = LADDER[ladder.mode];
+    var visited = data.order.slice(0, ladder.step);
+    var current = ladder.step ? data.order[ladder.step - 1] : null;
+    [].slice.call(document.querySelectorAll('#td-ladder-list .td-rung')).forEach(function (li) {
+      var n = Number(li.getAttribute('data-rung'));
+      var span = li.querySelector('span');
+      var seen = visited.indexOf(n) !== -1;
+      li.classList.toggle('is-on', n === current);
+      li.classList.toggle('is-done', seen && n !== current);
+      li.classList.toggle('is-wait', !seen);
+      span.textContent = seen ? ('Step ' + (visited.indexOf(n) + 1) + ': ' + data.text[n]) : 'Waiting…';
+    });
+    var status = $('td-ladder-status');
+    if (!ladder.step) status.textContent = data.name + ' chosen. Press Next step to start.';
+    else if (ladder.step < 4) status.textContent = data.name + ', step ' + ladder.step + ' of 4: ' + data.text[current];
+    else status.textContent = data.name + ', step 4 of 4: ' + data.text[current] + ' Done. Try another direction.';
+    $('td-ladder-next').disabled = ladder.step >= 4;
+  }
+  [].slice.call(document.querySelectorAll('[data-td-mode]')).forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      ladder.mode = btn.getAttribute('data-td-mode');
+      ladder.step = 0;
+      [].slice.call(document.querySelectorAll('[data-td-mode]')).forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+      drawLadder();
+    });
+  });
+  if ($('td-ladder-next')) {
+    $('td-ladder-next').addEventListener('click', function () { if (ladder.step < 4) { ladder.step++; drawLadder(); } });
+    $('td-ladder-reset').addEventListener('click', function () { ladder.step = 0; drawLadder(); });
+    drawLadder();
+  }
+  window.UpskillTdbuLadder = { data: LADDER, state: ladder };
+
+  /* ---------- Part 2: example toggles ---------- */
+  [].slice.call(document.querySelectorAll('#td-tools .td-more')).forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var panel = $(btn.getAttribute('aria-controls'));
+      var open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', String(open));
+      panel.hidden = !open;
+      btn.textContent = open ? 'Hide example' : 'Steel-mill example';
+    });
+  });
+
+  /* ---------- Part 4: the sorting game ---------- */
+  var DIRS = [['td', '↓ Top-down'], ['mo', '↕ Middle-out'], ['bu', '↑ Bottom-up']];
+  var NAMES = { td: 'top-down', mo: 'middle-out', bu: 'bottom-up' };
+  var jobs = [].slice.call(document.querySelectorAll('#td-game-list .td-job'));
+  var game = { score: 0, done: 0 };
+  function gameStatus() {
+    $('td-game-score').textContent = game.score + ' / ' + jobs.length;
+    $('td-game-status').textContent = game.done < jobs.length ? (game.done + ' of ' + jobs.length + ' answered.') :
+      (game.score === jobs.length ? 'Perfect sort. You think in both directions.' : 'All done. Check the feedback, then play again.');
+  }
+  function buildGame() {
+    game.score = 0; game.done = 0;
+    jobs.forEach(function (job) {
+      var row = job.querySelector('.td-btn-row');
+      var fb = job.querySelector('.td-fb');
+      row.innerHTML = ''; fb.textContent = ''; fb.className = 'td-fb';
+      DIRS.forEach(function (d) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'td-btn is-' + d[0]; b.textContent = d[1];
+        b.setAttribute('data-dir', d[0]); b.setAttribute('aria-pressed', 'false');
+        b.addEventListener('click', function () {
+          var right = d[0] === job.getAttribute('data-answer');
+          [].slice.call(row.querySelectorAll('button')).forEach(function (x) { x.disabled = true; });
+          b.setAttribute('aria-pressed', 'true');
+          if (right) game.score++;
+          game.done++;
+          fb.className = 'td-fb ' + (right ? 'is-good' : 'is-bad');
+          fb.textContent = (right ? '✓ Correct: ' : '✗ Not quite. It is ' + NAMES[job.getAttribute('data-answer')] + ': ') +
+            job.getAttribute('data-tool') + '. ' + job.getAttribute('data-why');
+          gameStatus();
+        });
+        row.appendChild(b);
+      });
+    });
+    gameStatus();
+  }
+  if (jobs.length) { buildGame(); $('td-game-reset').addEventListener('click', buildGame); }
+
+  /* ---------- Part 5: HAZOP guide word machine ---------- */
+  var GUIDE = ['No', 'More', 'Less', 'As well as', 'Part of', 'Reverse', 'Other than'];
+  var PARAMS = ['Flow', 'Temperature', 'Pressure', 'Level'];
+  var HZ = {
+    'No|Flow': ['No flow', 'Pump trips or a valve fails shut', 'Mould overheats, thin shell, breakout risk', 'Low-flow alarm, standby pump, emergency water'],
+    'More|Flow': ['More flow', 'Control valve fails open', 'Over-cooling and surface cracking risk', 'Flow indicator, valve travel stop'],
+    'Less|Flow': ['Less flow', 'Blocked strainer or scale in the channels', 'Hot spots and uneven shell', 'Temperature-rise alarm, strainer cleaning'],
+    'As well as|Flow': ['Flow plus contaminant', 'Debris or scale carried in the water', 'Fouled cooling channels', 'Water treatment and filtration'],
+    'Part of|Flow': ['Only part of the flow', 'One mould face gets less than its share', 'Uneven shell, cracking risk', 'Flow meter on each face circuit'],
+    'Reverse|Flow': ['Reverse flow', 'Pump stops while the header stays under pressure', 'Loss of cooling', 'Check valve on the pump discharge'],
+    'Other than|Flow': ['Wrong fluid', 'Untreated make-up water routed in', 'Scaling in the mould', 'Labelled lines, interlocked valves'],
+    'More|Temperature': ['High inlet temperature', 'Cooling-tower fan fails', 'Less heat removed, thin shell', 'Inlet-temperature alarm'],
+    'Less|Temperature': ['Low inlet temperature', 'Very cold weather', 'Over-cooling, uneven shell', 'Temperature control loop'],
+    'More|Pressure': ['High pressure', 'Blocked return line', 'Hose or joint bursts', 'Relief valve, pressure alarm'],
+    'Less|Pressure': ['Low pressure', 'Leak or worn pump', 'Flow drops at the mould', 'Low-pressure alarm'],
+    'No|Level': ['Tank empty', 'Make-up water supply fails', 'Pump runs dry, total loss of cooling', 'Low-low level trip, emergency supply'],
+    'More|Level': ['High tank level', 'Make-up valve sticks open', 'Overflow, wasted treated water', 'High-level alarm'],
+    'Less|Level': ['Low tank level', 'Slow leak in the loop', 'Pump cavitation', 'Low-level alarm, leak checks']
+  };
+  var hz = { gw: 'No', par: 'Flow' };
+  function makePicker(rowId, list, key) {
+    var row = $(rowId); if (!row) return;
+    list.forEach(function (label) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'td-btn'; b.textContent = label;
+      b.setAttribute('aria-pressed', String(hz[key] === label));
+      b.addEventListener('click', function () {
+        hz[key] = label;
+        [].slice.call(row.querySelectorAll('button')).forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+        drawHazop();
+      });
+      row.appendChild(b);
+    });
+  }
+  function drawHazop() {
+    var out = $('td-hz-out'); if (!out) return;
+    var hit = HZ[hz.gw + '|' + hz.par];
+    out.innerHTML = '';
+    var title = document.createElement('p');
+    title.className = 'td-hz-title';
+    if (!hit) {
+      out.classList.add('is-na');
+      title.textContent = hz.gw.toUpperCase() + ' + ' + hz.par.toUpperCase() + ' = not meaningful';
+      var p = document.createElement('p');
+      p.textContent = 'N/A for this node. Record it as ruled out and move on to the next combination.';
+      p.style.margin = '6px 0 0';
+      out.appendChild(title); out.appendChild(p);
+      return;
+    }
+    out.classList.remove('is-na');
+    title.textContent = hz.gw.toUpperCase() + ' + ' + hz.par.toUpperCase() + ' = ' + hit[0];
+    out.appendChild(title);
+    var ul = document.createElement('ul'); ul.className = 'td-hz-grid';
+    [['1 · Cause', hit[1]], ['2 · Consequence', hit[2]], ['3 · Safeguards', hit[3]], ['4 · Action?', 'Is the safeguard enough? If not, recommend a change.']].forEach(function (pair) {
+      var li = document.createElement('li'); var b = document.createElement('b');
+      b.textContent = pair[0]; li.appendChild(b); li.appendChild(document.createTextNode(pair[1])); ul.appendChild(li);
+    });
+    out.appendChild(ul);
+  }
+  makePicker('td-hz-gw', GUIDE, 'gw');
+  makePicker('td-hz-par', PARAMS, 'par');
+  drawHazop();
+  window.UpskillTdbuHazop = { table: HZ, guide: GUIDE, params: PARAMS, state: hz };
+
+  /* ---------- Part 6: fault tree lab ---------- */
+  function ftCompute(w, t, d, m) {          // inputs and outputs are fractions (0.0002 = 0.02%)
+    var s = d * m;
+    var top = 1 - (1 - w) * (1 - t) * (1 - s);
+    return { w: w, t: t, s: s, top: top };
+  }
+  function pct(x) { return (x * 100).toFixed(3) + '%'; }
+  function drawFt() {
+    var w = Number($('td-p-w').value) / 100, t = Number($('td-p-t').value) / 100,
+        d = Number($('td-p-d').value) / 100, m = Number($('td-p-m').value) / 100;
+    $('td-o-w').textContent = (w * 100).toFixed(2) + '%';
+    $('td-o-t').textContent = (t * 100).toFixed(2) + '%';
+    $('td-o-d').textContent = (d * 100).toFixed(1) + '%';
+    $('td-o-m').textContent = Math.round(m * 100) + '%';
+    var r = ftCompute(w, t, d, m);
+    var max = Math.max(r.w, r.t, r.s, 1e-12);
+    ['w', 't', 's'].forEach(function (k) {
+      document.querySelector('[data-bar="' + k + '"]').style.width = (r[k] / max * 100).toFixed(1) + '%';
+      document.querySelector('[data-out="' + k + '"]').textContent = pct(r[k]);
+    });
+    $('td-ft-top').textContent = pct(r.top);
+    var per10k = r.top * 10000;
+    var biggest = r.s >= r.w && r.s >= r.t ? 'the seam path (D AND M)' : (r.w >= r.t ? 'wall loss (W)' : 'low toughness (T)');
+    $('td-ft-msg').textContent = r.top === 0 ? 'No path is open: the top event cannot happen.' :
+      'About ' + (Math.round(per10k * 10) / 10) + ' pipes in 10,000 rupture. The biggest path is ' + biggest + '.';
+  }
+  if ($('td-p-w')) {
+    ['td-p-w', 'td-p-t', 'td-p-d', 'td-p-m'].forEach(function (id) { $(id).addEventListener('input', drawFt); });
+    drawFt();
+  }
+  window.UpskillTdbuFt = { compute: ftCompute };
+
+  /* ---------- Statistics Implementation: open the panel when linked to ---------- */
+  (function implPanel() {
+    var panel = $('td-impl-details'); if (!panel) return;
+    function openIfTargeted() {
+      var id = (location.hash || '').slice(1);
+      if (!id) return;
+      var target = document.getElementById(id);
+      if (target && (target === panel.parentNode.parentNode || panel.contains(target))) panel.open = true;
+    }
+    openIfTargeted();
+    window.addEventListener('hashchange', openIfTargeted);
+    [].slice.call(document.querySelectorAll('a[href="#td-implementation"]')).forEach(function (a) {
+      a.addEventListener('click', function () { panel.open = true; });
+    });
+  })();
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+<style id="top-down-vs-bottom-up-risk-assessment-dark-overrides">
+html[data-theme="dark"] #lesson-content{
+  --lesson-tdbu-page:#0d1726;
+  --lesson-tdbu-surface:#132134;
+  --lesson-tdbu-surface-2:#1a2b42;
+  --lesson-tdbu-text:#eef3f9;
+  --lesson-tdbu-text-2:#c3cfdd;
+  --lesson-tdbu-border:#34465e;
+  --lesson-tdbu-control:#8597ae;
+  --lesson-tdbu-focus:#7dd3fc;
+  --lesson-tdbu-blue:#9cc2ec;
+  --lesson-tdbu-teal:#5fd0dc;
+  --lesson-tdbu-amber:#f2b84b;
+  --lesson-tdbu-green:#63d59a;
+  --lesson-tdbu-red:#ff9b91;
+  --lesson-tdbu-blue-bg:#16263d;
+  --lesson-tdbu-teal-bg:#123241;
+  --lesson-tdbu-amber-bg:#332811;
+  --lesson-tdbu-green-bg:#123224;
+  --lesson-tdbu-red-bg:#3a1b1b;
+  --lesson-tdbu-poster-bg:#07101f;
+  --lesson-tdbu-shadow:none;
+  --lesson-tdbu-strong:#eef3f9;
+  --lesson-tdbu-on-strong:#0d1726;
+}
+html[data-theme="dark"] .quiz-section .lesson-kicker{color:#7dd3fc}
+html[data-theme="dark"] [aria-label="Return to lesson category"] a{color:#7dd3fc !important}
+</style>
+</body>
+</html>
