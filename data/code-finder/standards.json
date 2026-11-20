@@ -61,7 +61,8 @@
       "learning": [
         {
           "type": "tool",
-          "href": "/engineering-tools"
+          "href": "/engineering-tools",
+          "label": "Material Specification Lookup (Engineering Tools)"
         }
       ],
       "edition": "47th",
@@ -915,7 +916,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment"
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
         }
       ],
       "verified": null
@@ -955,7 +957,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment"
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
         }
       ],
       "verified": null
@@ -1338,7 +1341,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment"
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
         }
       ],
       "verified": null
@@ -1452,7 +1456,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/cost-of-poor-quality"
+          "href": "/lessons/quality-engineering/cost-of-poor-quality",
+          "label": "Cost of poor quality"
         }
       ],
       "verified": null
@@ -1604,7 +1609,8 @@
       "learning": [
         {
           "type": "tool",
-          "href": "/engineering-tools"
+          "href": "/engineering-tools",
+          "label": "Material Specification Lookup (Engineering Tools)"
         }
       ],
       "edition": "2026",
@@ -1922,7 +1928,8 @@
       "learning": [
         {
           "type": "tool",
-          "href": "/engineering-tools"
+          "href": "/engineering-tools",
+          "label": "Material Specification Lookup (Engineering Tools)"
         }
       ],
       "verified": null
@@ -2320,7 +2327,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment"
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
         }
       ],
       "verified": null
@@ -2420,7 +2428,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment"
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
         }
       ],
       "verified": null
@@ -2609,7 +2618,8 @@
       "learning": [
         {
           "type": "tool",
-          "href": "/engineering-tools"
+          "href": "/engineering-tools",
+          "label": "Material Specification Lookup (Engineering Tools)"
         }
       ],
       "verified": null
@@ -3985,7 +3995,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/gauge-rr-study"
+          "href": "/lessons/quality-engineering/gauge-rr-study",
+          "label": "Gauge R&R study"
         }
       ],
       "verified": null
@@ -4023,7 +4034,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/gauge-rr-study"
+          "href": "/lessons/quality-engineering/gauge-rr-study",
+          "label": "Gauge R&R study"
         }
       ],
       "verified": null
@@ -4060,7 +4072,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/control-charts-explained"
+          "href": "/lessons/control-charts-explained",
+          "label": "Control charts explained"
         }
       ],
       "verified": null
@@ -4092,7 +4105,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/lean-six-sigma/process-capability-cp-and-cpk"
+          "href": "/lessons/lean-six-sigma/process-capability-cp-and-cpk",
+          "label": "Process capability: Cp and Cpk"
         }
       ],
       "verified": null
@@ -4125,7 +4139,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/gauge-rr-study"
+          "href": "/lessons/quality-engineering/gauge-rr-study",
+          "label": "Gauge R&R study"
         }
       ],
       "verified": null
@@ -4261,7 +4276,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/cost-of-poor-quality"
+          "href": "/lessons/quality-engineering/cost-of-poor-quality",
+          "label": "Cost of poor quality"
         }
       ],
       "edition": "2026",
@@ -4487,7 +4503,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment"
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
         }
       ],
       "verified": null
@@ -4528,7 +4545,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment"
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
         }
       ],
       "verified": null
@@ -4565,7 +4583,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment"
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
         }
       ],
       "verified": null
@@ -4825,7 +4844,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/gauge-rr-study"
+          "href": "/lessons/quality-engineering/gauge-rr-study",
+          "label": "Gauge R&R study"
         }
       ],
       "verified": null
@@ -4862,7 +4882,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/gauge-rr-study"
+          "href": "/lessons/quality-engineering/gauge-rr-study",
+          "label": "Gauge R&R study"
         }
       ],
       "verified": null
@@ -4898,7 +4919,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/control-charts-explained"
+          "href": "/lessons/control-charts-explained",
+          "label": "Control charts explained"
         }
       ],
       "verified": null
@@ -4930,7 +4952,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/lean-six-sigma/dmaic-in-10-minutes"
+          "href": "/lessons/lean-six-sigma/dmaic-in-10-minutes",
+          "label": "DMAIC in 10 minutes"
         }
       ],
       "verified": null
@@ -4994,7 +5017,8 @@
       "learning": [
         {
           "type": "lesson",
-          "href": "/lessons/quality-engineering/introduction-to-reliability-and-maintainability"
+          "href": "/lessons/quality-engineering/introduction-to-reliability-and-maintainability",
+          "label": "Introduction to reliability and maintainability"
         }
       ],
       "verified": null

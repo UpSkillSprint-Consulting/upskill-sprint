@@ -52,7 +52,7 @@ Add an object to `standards.standards`:
 | `materials` | Optional, from `taxonomy.materials`. |
 | `relations` | `equivalent`, `similar`, `references` or `supersedes`, pointing at another id. Declare each link once; `relationsFor()` shows it from both ends. |
 | `adoptions` | Where a regulator makes the code mandatory: `jurisdiction`, `regulator`, `instrument`, `editionCited`, `style` (`dated` or `as-amended`) and its own `verified` date. Only add one you have checked against the regulation itself. |
-| `learning` | Links to our own lessons or tools, as site paths (`/lessons/...`). The build checks the page exists. |
+| `learning` | Links to our own lessons or tools: `{"type": "lesson", "href": "/lessons/...", "label": "Gauge R&R study"}`. `label` is the link text users see. The build checks the page exists. |
 | `edition`, `year` | Only on verified records. Leave both out until someone has checked the current edition. |
 | `verified` | `null` until a person checks the record against the publisher's catalog; then the check date. Records older than 12 months show as stale. |
 

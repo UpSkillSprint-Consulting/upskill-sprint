@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Code Finder: Look Up Codes and Standards | UpSkill Sprint</title>
+<meta name="description" content="Find the API, CSA, ASTM and ISO codes that apply to your work. Search in plain words or filter by industry, category and task. Free, no sign-up.">
+<link rel="canonical" href="https://upskillsprint.com/tools/code-finder/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Code Finder: Look Up Codes and Standards | UpSkill Sprint">
+<meta property="og:description" content="Find the API, CSA, ASTM and ISO codes that apply to your work. Search in plain words or filter by industry, category and task. Free, no sign-up.">
+<meta property="og:image" content="https://upskillsprint.com/assets/logo-og.png">
+<meta property="og:url" content="https://upskillsprint.com/tools/code-finder/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/lessons-theme.css">
+<script src="/theme.js"></script>
+<script src="/site-sections.js"></script>
+<link rel="stylesheet" href="/site-nav.css">
+<script src="/site-nav.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/osiris-tool-theme.css">
+<link rel="stylesheet" href="/tools/code-finder/code-finder.css">
+<!-- Data is loaded after first paint by code-finder-app.js; preload starts the fetch early. -->
+<link rel="preload" href="/data/code-finder/standards.json" as="fetch" crossorigin>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Home",
+     "item": "https://upskillsprint.com/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Engineering Tools",
+     "item": "https://upskillsprint.com/engineering-tools"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Code Finder: look up the codes and standards that apply",
+     "item": "https://upskillsprint.com/tools/code-finder/"
+    }
+   ]
+  },
+  {
+   "@type": "WebApplication",
+   "name": "Code Finder",
+   "description": "Find the API, CSA, ASTM and ISO codes that apply to your work. Search in plain words or filter by industry, category and task. Free, no sign-up.",
+   "url": "https://upskillsprint.com/tools/code-finder/",
+   "applicationCategory": "EducationalApplication",
+   "operatingSystem": "Any",
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CAD"
+   },
+   "provider": {
+    "@type": "Organization",
+    "name": "UpSkill Sprint Consulting",
+    "url": "https://upskillsprint.com/"
+   }
+  }
+ ]
+}
+</script>
+<script src="/tools/code-finder/code-finder-engine.js" defer></script>
+<script src="/tools/code-finder/code-finder-app.js" defer></script>
+</head>
+<body class="osx-page" data-tool-page="code-finder">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img class="logo-wordmark" src="/assets/logo-wordmark.png" data-logo-light="/assets/logo-wordmark.png" data-logo-dark="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></a>
+  <nav data-nav-root="desktop" class="desktop-nav" aria-label="Main"><div class="nav-item" data-nav-item="start"><a class="nav-tab-link" data-nav-tab="start" href="/start-here">Start Here</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-start" aria-label="Show Start Here menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-start" hidden><div class="nav-panel-head"><span>Learning paths</span></div><div class="nav-rows"><a class="nav-row" href="/start-here#quality-improvement-basics"><span class="nav-name">Quality Improvement Basics</span></a><a class="nav-row" href="/start-here#data-analysis-basics"><span class="nav-name">Data Analysis Basics</span></a><a class="nav-row" href="/start-here#lean-six-sigma-tools"><span class="nav-name">Lean Six Sigma Tools</span></a><a class="nav-row" href="/start-here#excel-and-power-bi-skills"><span class="nav-name">Excel and Power BI Skills</span></a><a class="nav-row" href="/start-here#statistics-for-decision-making"><span class="nav-name">Statistics for Decision-Making</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/start-here">See all learning paths →</a></div></div></div><div class="nav-item" data-nav-item="lessons"><a class="nav-tab-link" data-nav-tab="lessons" href="/lessons" aria-current="page">Lessons</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-lessons" aria-label="Show Lessons menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-lessons" hidden><div class="nav-panel-head"><span>Lesson library</span><span data-nav-total hidden></span></div><div class="nav-rows"><a class="nav-row" href="/lessons#data-analytics"><span class="nav-name">Data Analytics</span><span class="nav-count" data-nav-count="data-analytics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#quality-engineering"><span class="nav-name">Quality Engineering</span><span class="nav-count" data-nav-count="quality-engineering" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#lean-six-sigma"><span class="nav-name">Lean Six Sigma</span><span class="nav-count" data-nav-count="lean-six-sigma" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#statistics"><span class="nav-name">Statistics</span><span class="nav-count" data-nav-count="statistics" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#power-bi-excel-sql"><span class="nav-name">Power BI, Excel &amp; SQL</span><span class="nav-count" data-nav-count="power-bi-excel-sql" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#project-management"><span class="nav-name">Project Management</span><span class="nav-count" data-nav-count="project-management" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#business-decision-making"><span class="nav-name">Business Decision-Making</span><span class="nav-count" data-nav-count="business-decision-making" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a><a class="nav-row" href="/lessons#ai-for-work"><span class="nav-name">AI for Work</span><span class="nav-count" data-nav-count="ai-for-work" hidden></span><span class="nav-soon" data-nav-soon hidden>Soon</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/lessons" data-nav-total-link>View all lessons →</a><a class="nav-foot-secondary" href="/request-topic">Request a topic</a></div></div></div><div class="nav-item nav-item-wide" data-nav-item="exam"><a class="nav-tab-link" data-nav-tab="exam" href="/exam-practice">Certification Exam Practice</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-exam" aria-label="Show Certification Exam Practice menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-exam" hidden><div class="nav-panel-head"><span>Certifications</span></div><div class="nav-rows"><a class="nav-row nav-exam" href="/exam-practice#exam-cssbb"><span class="nav-acronym">CSSBB</span><span class="nav-name">Six Sigma Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqe"><span class="nav-acronym">CQE</span><span class="nav-name">Quality Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-mbb"><span class="nav-acronym">CMBB</span><span class="nav-name">Six Sigma Master Black Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cssgb"><span class="nav-acronym">CSSGB</span><span class="nav-name">Six Sigma Green Belt</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cmq"><span class="nav-acronym">CMQ/OE</span><span class="nav-name">Manager of Quality / Org. Excellence</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cre"><span class="nav-acronym">CRE</span><span class="nav-name">Reliability Engineer</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-pmp"><span class="nav-acronym">PMP</span><span class="nav-name">Project Management Professional</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-nppe"><span class="nav-acronym">NPPE</span><span class="nav-name">National Professional Practice Exam</span></a><a class="nav-row nav-exam" href="/exam-practice#exam-cqa"><span class="nav-acronym">CQA</span><span class="nav-name">Quality Auditor</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/exam-practice">All exams →</a><a class="nav-foot-secondary" href="/exam-practice#my-exams">My exams</a></div></div></div><div class="nav-item" data-nav-item="tools"><a class="nav-tab-link" data-nav-tab="tools" href="/engineering-tools">Engineering Tools</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-tools" aria-label="Show Engineering Tools menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-tools" hidden><div class="nav-panel-head"><span>Tools</span></div><div class="nav-rows"><a class="nav-row" href="/tools/engineering-statistics-calculator"><span class="nav-name">Engineering &amp; Statistics Calculator</span></a><a class="nav-row" href="/tools/unit-converter"><span class="nav-name">Unit Converter</span></a><a class="nav-row" href="/engineering-tools/grade-specification-lookup/"><span class="nav-name">Material Specification Lookup</span></a><a class="nav-row" href="/tools/material-specification-compliance-checker"><span class="nav-name">Material Specification Compliance Checker</span></a><a class="nav-row" href="/tools/steel-phase-explorer"><span class="nav-name">Steel Phase &amp; Transformation Explorer</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="/engineering-tools">All tools →</a><a class="nav-foot-secondary" href="/engineering-tools#suggest-a-tool">Suggest a tool</a></div></div></div><div class="nav-item nav-item-wide" data-nav-item="services"><a class="nav-tab-link" data-nav-tab="services" href="/services">Services</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-services" aria-label="Show Services menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-services" hidden><div class="nav-panel-head"><span>Services</span></div><div class="nav-rows"><a class="nav-row nav-rich" href="/services#corporate-training"><span class="nav-name">Corporate Training</span><span class="nav-desc">Team workshops on Lean Six Sigma and quality tools</span></a><a class="nav-row nav-rich" href="/services#one-on-one-coaching"><span class="nav-name">One-on-One Coaching</span><span class="nav-desc">Excel, Power BI, Minitab, statistics</span></a><a class="nav-row nav-rich" href="/services#consulting-support"><span class="nav-name">Consulting Support</span><span class="nav-desc">Root cause analysis, KPIs, quality investigations</span></a><a class="nav-row nav-rich" href="/services#custom-lessons"><span class="nav-name">Custom Lessons</span><span class="nav-desc">Training built around your team's needs</span></a><a class="nav-row nav-rich" href="/services#data-dashboard-support"><span class="nav-name">Data &amp; Dashboard Support</span><span class="nav-desc">Excel, Power BI and SQL help</span></a></div><div class="nav-foot nav-foot-solo"><a class="nav-book" href="/contact">Book a consultation</a></div></div></div><div class="nav-item" data-nav-item="about"><a class="nav-tab-link" data-nav-tab="about" href="/about">About</a><button type="button" class="nav-chevron" aria-expanded="false" aria-controls="nav-d-about" aria-label="Show About menu"><svg class="nav-chevron-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></button><div class="nav-panel" id="nav-d-about" hidden><div class="nav-panel-head"><span>About</span></div><div class="nav-rows"><a class="nav-row nav-rich" href="/about"><span class="nav-name">About UpSkill Sprint</span><span class="nav-desc">Who builds the lessons and why</span></a><a class="nav-row nav-rich" href="/faq"><span class="nav-name">FAQ</span><span class="nav-desc">Free lessons, accounts, exams</span></a><a class="nav-row nav-rich" href="/request-topic"><span class="nav-name">Request a Topic</span><span class="nav-desc">Tell us the lesson you need</span></a><a class="nav-row nav-rich" href="/contact"><span class="nav-name">Contact</span><span class="nav-desc">Questions and partnerships</span></a></div><div class="nav-foot"><a class="nav-foot-primary" href="mailto:hello@upskillsprint.com">hello@upskillsprint.com</a></div></div></div></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<main id="code-finder-tool" class="osx-tool cf-app" data-cf-root>
+  <section class="cf-hero" aria-labelledby="cf-title">
+    <p class="osx-brand cf-kicker">Engineering tools · Free</p>
+    <h1 id="cf-title">Code Finder: look up the codes and standards that apply</h1>
+    <p class="cf-lead">Type what you are working on in plain words, or filter by industry, category and task. Code Finder searches API, CSA, ASTM and ISO codes and shows how they connect.</p>
+    <form id="cf-form" class="cf-search" role="search" action="/tools/code-finder/" method="get">
+      <label for="cf-q" class="cf-search-label">Search codes and standards</label>
+      <div class="cf-search-row">
+        <input id="cf-q" name="q" type="search" autocomplete="off" spellcheck="false" maxlength="120"
+               placeholder="Try: line pipe, Charpy, FMEA, tank inspection" aria-describedby="cf-search-help">
+        <button type="submit" class="osx-btn cf-search-btn">Search</button>
+      </div>
+      <p id="cf-search-help" class="cf-help">Works with code numbers (5L, Z245.1, A370) and shop-floor words (CVN, MTR, gauge R&amp;R).</p>
+      <div class="cf-examples" role="group" aria-label="Example searches">
+        <span class="cf-examples-label">Popular:</span>
+        <button type="button" class="cf-example" data-cf-example="line pipe">Line pipe</button>
+        <button type="button" class="cf-example" data-cf-example="Charpy">Charpy</button>
+        <button type="button" class="cf-example" data-cf-example="weld procedure qualification">Weld procedures</button>
+        <button type="button" class="cf-example" data-cf-example="pressure vessel inspection">Pressure vessels</button>
+        <button type="button" class="cf-example" data-cf-example="risk assessment">Risk assessment</button>
+        <button type="button" class="cf-example" data-cf-example="control chart">SPC</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="cf-workspace" aria-labelledby="cf-results-heading">
+    <div class="cf-toolbar">
+      <h2 id="cf-results-heading" class="cf-results-heading">Results</h2>
+      <p id="cf-status" class="cf-status" role="status" aria-live="polite">Loading the code list…</p>
+      <div class="cf-toolbar-actions">
+        <button type="button" id="cf-open-filters" class="osx-btn-ghost cf-filters-btn" aria-haspopup="dialog" aria-controls="cf-sheet">
+          Filters<span class="cf-filters-count" data-cf-filter-count hidden></span>
+        </button>
+        <label class="cf-sort"><span>Sort</span>
+          <select id="cf-sort">
+            <option value="relevance">Best match</option>
+            <option value="body">Publisher</option>
+            <option value="designation">Code number</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div id="cf-active" class="cf-active" role="group" aria-label="Active filters" hidden></div>
+
+    <div class="cf-layout">
+      <div id="cf-filter-slot" class="cf-filter-slot">
+        <aside id="cf-filters" class="cf-filters" aria-labelledby="cf-filters-heading">
+          <div class="cf-filters-head">
+            <h2 id="cf-filters-heading" class="osx-label">Filter codes</h2>
+            <button type="button" class="cf-link-btn" data-cf-clear>Clear all</button>
+          </div>
+          <div id="cf-facets" class="cf-facets"></div>
+          <div class="cf-sheet-actions">
+            <button type="button" class="osx-btn cf-apply" data-cf-close-sheet>Show results</button>
+          </div>
+        </aside>
+      </div>
+      <div class="cf-results-wrap">
+        <ol id="cf-results" class="cf-results" aria-labelledby="cf-results-heading"></ol>
+        <div id="cf-empty" class="cf-empty osx-panel" hidden>
+          <h3>No codes match yet</h3>
+          <ul>
+            <li>Try fewer words, or the everyday name (for example "Charpy" instead of "notched bar impact").</li>
+            <li>Remove a filter: each one narrows the list.</li>
+            <li>Still missing? <a href="/request-topic">Ask us to add a code</a> and we will review it.</li>
+          </ul>
+          <button type="button" class="osx-btn-ghost" data-cf-clear>Clear search and filters</button>
+        </div>
+        <button type="button" id="cf-more" class="osx-btn-ghost cf-more" hidden>Show more codes</button>
+        <noscript><p class="cf-noscript">Code Finder needs JavaScript to search. You can still browse the <a href="/engineering-tools">engineering tools</a> and <a href="/lessons">lessons</a>.</p></noscript>
+      </div>
+    </div>
+  </section>
+
+  <aside class="cf-disclaimer osx-panel" aria-labelledby="cf-disclaimer-h">
+    <h2 id="cf-disclaimer-h" class="osx-label">Before you rely on a code</h2>
+    <p>Code Finder lists facts about each code (number, title, scope in our own words, links) and never the code text itself. Editions change and regulators adopt specific editions. Always confirm the current edition with the publisher and check which edition your regulator or contract calls for. Cards marked <strong>Not yet checked</strong> have not been confirmed against the publisher's catalog.</p>
+  </aside>
+
+  <section class="cf-related related-lessons" aria-labelledby="cf-related-h">
+    <h2 id="cf-related-h">Related lessons</h2>
+    <ul>
+      <li><a href="/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment">Top-down vs bottom-up risk assessment lesson</a>: how the risk standards here (ISO 31000, IEC 31010, API 580) are put to work.</li>
+      <li><a href="/lessons/quality-engineering/gauge-rr-study">Gauge R&amp;R study lesson</a>: the method behind ASTM E2782 and ISO 5725-2.</li>
+      <li><a href="/lessons/control-charts-explained">Control charts explained</a>: what ASTM E2587 and ISO 7870-2 ask you to build.</li>
+      <li><a href="/lessons/lean-six-sigma/process-capability-cp-and-cpk">Process capability Cp and Cpk lesson</a>: the indices in ASTM E2281.</li>
+      <li><a href="/lessons/quality-engineering/cost-of-poor-quality">Cost of poor quality lesson</a>: why a quality system like ISO 9001 or API Q1 pays for itself.</li>
+    </ul>
+  </section>
+
+  <dialog id="cf-sheet" class="cf-sheet" aria-labelledby="cf-filters-heading"></dialog>
+  <template id="cf-card-template">
+    <li class="cf-item"><article class="cf-card osx-panel">
+      <div class="cf-card-top">
+        <p class="cf-desig"></p>
+        <div class="cf-pills"></div>
+      </div>
+      <h3 class="cf-card-title"></h3>
+      <p class="cf-summary"></p>
+      <div class="cf-meta"></div>
+      <details class="cf-details">
+        <summary>Details, related codes and lessons</summary>
+        <div class="cf-details-body"></div>
+      </details>
+    </article></li>
+  </template>
+</main>
+<section aria-label="Return to engineering tools" class="cf-back">
+  <a href="/engineering-tools">&larr; Back to Engineering Tools</a>
+</section>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img class="logo-wordmark" src="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+</body>
+</html>
