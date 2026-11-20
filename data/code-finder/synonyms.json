@@ -1,0 +1,1003 @@
+{
+  "version": 1,
+  "synonyms": [
+    {
+      "term": "line pipe",
+      "aliases": [
+        "linepipe",
+        "pipeline pipe",
+        "psl2",
+        "psl 2"
+      ],
+      "records": [
+        "api-5l",
+        "iso-3183",
+        "csa-z245-1"
+      ],
+      "categories": [
+        "pipe-tube"
+      ]
+    },
+    {
+      "term": "octg",
+      "aliases": [
+        "casing",
+        "tubing",
+        "oil country tubular goods"
+      ],
+      "records": [
+        "api-5ct",
+        "iso-11960",
+        "api-5b",
+        "api-5a5"
+      ]
+    },
+    {
+      "term": "charpy",
+      "aliases": [
+        "cvn",
+        "impact test",
+        "notch toughness",
+        "v-notch"
+      ],
+      "records": [
+        "astm-e23",
+        "iso-148-1",
+        "astm-a370"
+      ],
+      "categories": [
+        "mechanical-testing"
+      ]
+    },
+    {
+      "term": "tensile test",
+      "aliases": [
+        "tension test",
+        "yield strength",
+        "uts",
+        "elongation"
+      ],
+      "records": [
+        "astm-e8",
+        "iso-6892-1",
+        "astm-a370"
+      ],
+      "categories": [
+        "mechanical-testing"
+      ]
+    },
+    {
+      "term": "hardness",
+      "aliases": [
+        "rockwell",
+        "brinell",
+        "vickers",
+        "hrc",
+        "hbw"
+      ],
+      "records": [
+        "astm-e18",
+        "astm-e10",
+        "astm-e92",
+        "iso-6508-1"
+      ],
+      "categories": [
+        "mechanical-testing"
+      ]
+    },
+    {
+      "term": "dwtt",
+      "aliases": [
+        "drop weight tear",
+        "drop-weight tear test"
+      ],
+      "records": [
+        "astm-e436"
+      ]
+    },
+    {
+      "term": "chemistry",
+      "aliases": [
+        "spark oes",
+        "oes",
+        "heat analysis",
+        "product analysis",
+        "carbon equivalent"
+      ],
+      "records": [
+        "astm-a751",
+        "astm-e415",
+        "astm-e1019"
+      ],
+      "categories": [
+        "chemistry-analysis"
+      ]
+    },
+    {
+      "term": "mill certificate",
+      "aliases": [
+        "mtr",
+        "mill test report",
+        "mill cert",
+        "3.1 certificate",
+        "en 10204"
+      ],
+      "records": [
+        "iso-10204"
+      ],
+      "useCases": [
+        "certify-mill-product"
+      ]
+    },
+    {
+      "term": "ut",
+      "aliases": [
+        "ultrasonic",
+        "ultrasonic testing"
+      ],
+      "records": [
+        "astm-e213"
+      ],
+      "categories": [
+        "ndt"
+      ]
+    },
+    {
+      "term": "mpi",
+      "aliases": [
+        "mt",
+        "magnetic particle",
+        "mag particle"
+      ],
+      "records": [
+        "astm-e1444",
+        "astm-e709"
+      ],
+      "categories": [
+        "ndt"
+      ]
+    },
+    {
+      "term": "pt",
+      "aliases": [
+        "dye penetrant",
+        "liquid penetrant",
+        "dpi"
+      ],
+      "records": [
+        "astm-e1417"
+      ],
+      "categories": [
+        "ndt"
+      ]
+    },
+    {
+      "term": "mfl",
+      "aliases": [
+        "flux leakage",
+        "magnetic flux leakage"
+      ],
+      "records": [
+        "astm-e570",
+        "api-1163"
+      ],
+      "categories": [
+        "ndt"
+      ]
+    },
+    {
+      "term": "eddy current",
+      "aliases": [
+        "et",
+        "ect"
+      ],
+      "records": [
+        "astm-e309"
+      ],
+      "categories": [
+        "ndt"
+      ]
+    },
+    {
+      "term": "ndt certification",
+      "aliases": [
+        "ndt level 2",
+        "ndt level ii",
+        "snt-tc-1a",
+        "cgsb ndt"
+      ],
+      "records": [
+        "iso-9712"
+      ],
+      "useCases": [
+        "qualify-ndt-staff"
+      ]
+    },
+    {
+      "term": "smart pig",
+      "aliases": [
+        "ili",
+        "in-line inspection",
+        "pigging"
+      ],
+      "records": [
+        "api-1163",
+        "api-1160"
+      ]
+    },
+    {
+      "term": "wps",
+      "aliases": [
+        "pqr",
+        "welding procedure",
+        "procedure qualification"
+      ],
+      "records": [
+        "api-1104",
+        "iso-15614-1",
+        "csa-w47-1",
+        "csa-w59"
+      ],
+      "useCases": [
+        "qualify-weld-procedure"
+      ]
+    },
+    {
+      "term": "welder qualification",
+      "aliases": [
+        "welder test",
+        "welder ticket"
+      ],
+      "records": [
+        "api-1104",
+        "csa-w47-1"
+      ],
+      "categories": [
+        "welding"
+      ]
+    },
+    {
+      "term": "cwb",
+      "aliases": [
+        "canadian welding bureau"
+      ],
+      "records": [
+        "csa-w47-1",
+        "csa-w59",
+        "csa-w178-2"
+      ]
+    },
+    {
+      "term": "fbe",
+      "aliases": [
+        "fusion bond epoxy",
+        "pipe coating",
+        "external coating"
+      ],
+      "records": [
+        "csa-z245-20",
+        "csa-z245-30"
+      ],
+      "categories": [
+        "corrosion-coatings"
+      ]
+    },
+    {
+      "term": "galvanizing",
+      "aliases": [
+        "hot-dip galvanized",
+        "hdg",
+        "zinc coating"
+      ],
+      "records": [
+        "astm-a123"
+      ]
+    },
+    {
+      "term": "salt spray",
+      "aliases": [
+        "salt fog",
+        "corrosion test"
+      ],
+      "records": [
+        "astm-b117",
+        "astm-g48"
+      ],
+      "categories": [
+        "corrosion-coatings"
+      ]
+    },
+    {
+      "term": "hss",
+      "aliases": [
+        "hollow structural section",
+        "structural tubing",
+        "square tube"
+      ],
+      "records": [
+        "astm-a500",
+        "csa-g40-20-21"
+      ]
+    },
+    {
+      "term": "350w",
+      "aliases": [
+        "300w",
+        "350wt",
+        "g40",
+        "g40.21"
+      ],
+      "records": [
+        "csa-g40-20-21"
+      ]
+    },
+    {
+      "term": "structural steel",
+      "aliases": [
+        "beams",
+        "wide flange",
+        "w shapes"
+      ],
+      "records": [
+        "astm-a36",
+        "astm-a572",
+        "astm-a992",
+        "csa-g40-20-21"
+      ],
+      "categories": [
+        "structural"
+      ]
+    },
+    {
+      "term": "pressure vessel",
+      "aliases": [
+        "boiler",
+        "asme viii",
+        "pv"
+      ],
+      "records": [
+        "csa-b51",
+        "api-510",
+        "astm-a516"
+      ],
+      "categories": [
+        "pressure-equipment"
+      ]
+    },
+    {
+      "term": "relief valve",
+      "aliases": [
+        "psv",
+        "prv",
+        "safety valve",
+        "pressure relief"
+      ],
+      "records": [
+        "api-520-1",
+        "api-521",
+        "api-526",
+        "api-527"
+      ]
+    },
+    {
+      "term": "tank",
+      "aliases": [
+        "storage tank",
+        "ast",
+        "aboveground storage tank"
+      ],
+      "records": [
+        "api-650",
+        "api-620",
+        "api-653"
+      ],
+      "categories": [
+        "storage-tanks"
+      ]
+    },
+    {
+      "term": "fitness for service",
+      "aliases": [
+        "ffs",
+        "ffs-1",
+        "579"
+      ],
+      "records": [
+        "api-579-1"
+      ],
+      "useCases": [
+        "assess-fitness-for-service"
+      ]
+    },
+    {
+      "term": "rbi",
+      "aliases": [
+        "risk based inspection",
+        "risk-based inspection"
+      ],
+      "records": [
+        "api-580",
+        "api-581"
+      ]
+    },
+    {
+      "term": "damage mechanism",
+      "aliases": [
+        "corrosion mechanism",
+        "cracking mechanism",
+        "hic",
+        "scc"
+      ],
+      "records": [
+        "api-571",
+        "api-1176"
+      ]
+    },
+    {
+      "term": "integrity management",
+      "aliases": [
+        "imp",
+        "pipeline integrity"
+      ],
+      "records": [
+        "api-1160",
+        "csa-z662"
+      ]
+    },
+    {
+      "term": "hydrotest",
+      "aliases": [
+        "hydrostatic test",
+        "pressure test"
+      ],
+      "records": [
+        "api-1110",
+        "api-5l"
+      ]
+    },
+    {
+      "term": "risk assessment",
+      "aliases": [
+        "risk analysis",
+        "risk register",
+        "risk matrix"
+      ],
+      "records": [
+        "iso-31000",
+        "iec-31010",
+        "csa-z1002"
+      ],
+      "categories": [
+        "risk-management"
+      ],
+      "useCases": [
+        "risk-assessment"
+      ]
+    },
+    {
+      "term": "fmea",
+      "aliases": [
+        "failure mode and effects analysis",
+        "pfmea",
+        "dfmea"
+      ],
+      "records": [
+        "iec-31010",
+        "iso-14971"
+      ],
+      "categories": [
+        "risk-management"
+      ]
+    },
+    {
+      "term": "hazop",
+      "aliases": [
+        "hazard and operability study",
+        "pha",
+        "process hazard analysis"
+      ],
+      "records": [
+        "iec-31010",
+        "csa-z767"
+      ],
+      "categories": [
+        "process-safety"
+      ]
+    },
+    {
+      "term": "psm",
+      "aliases": [
+        "process safety management",
+        "process safety"
+      ],
+      "records": [
+        "csa-z767",
+        "api-754",
+        "api-1173"
+      ],
+      "categories": [
+        "process-safety"
+      ]
+    },
+    {
+      "term": "hazardous area",
+      "aliases": [
+        "classified area",
+        "class 1 div 1",
+        "zone 1",
+        "explosive atmosphere"
+      ],
+      "records": [
+        "api-500",
+        "api-505"
+      ]
+    },
+    {
+      "term": "arc flash",
+      "aliases": [
+        "electrical safety",
+        "nfpa 70e"
+      ],
+      "records": [
+        "csa-z462"
+      ]
+    },
+    {
+      "term": "lockout",
+      "aliases": [
+        "loto",
+        "lockout tagout",
+        "energy isolation"
+      ],
+      "records": [
+        "csa-z460"
+      ]
+    },
+    {
+      "term": "machine guarding",
+      "aliases": [
+        "safeguarding",
+        "guarding"
+      ],
+      "records": [
+        "csa-z432"
+      ]
+    },
+    {
+      "term": "ohs",
+      "aliases": [
+        "health and safety",
+        "ohsms",
+        "h&s"
+      ],
+      "records": [
+        "iso-45001",
+        "csa-z1000"
+      ],
+      "categories": [
+        "occupational-safety"
+      ]
+    },
+    {
+      "term": "qms",
+      "aliases": [
+        "quality management system",
+        "quality system",
+        "iso 9001"
+      ],
+      "records": [
+        "iso-9001",
+        "api-q1",
+        "iso-29001"
+      ],
+      "categories": [
+        "quality-management"
+      ],
+      "useCases": [
+        "set-up-qms"
+      ]
+    },
+    {
+      "term": "internal audit",
+      "aliases": [
+        "audit",
+        "auditing",
+        "lead auditor"
+      ],
+      "records": [
+        "iso-19011"
+      ],
+      "useCases": [
+        "prepare-audit"
+      ]
+    },
+    {
+      "term": "ems",
+      "aliases": [
+        "environmental management",
+        "iso 14001"
+      ],
+      "records": [
+        "iso-14001"
+      ],
+      "categories": [
+        "environment-energy"
+      ]
+    },
+    {
+      "term": "ghg",
+      "aliases": [
+        "greenhouse gas",
+        "carbon footprint",
+        "emissions inventory",
+        "scope 1"
+      ],
+      "records": [
+        "iso-14064-1"
+      ],
+      "useCases": [
+        "report-ghg"
+      ]
+    },
+    {
+      "term": "energy management",
+      "aliases": [
+        "enms",
+        "energy efficiency"
+      ],
+      "records": [
+        "iso-50001"
+      ]
+    },
+    {
+      "term": "spc",
+      "aliases": [
+        "control chart",
+        "x-bar",
+        "shewhart",
+        "statistical process control"
+      ],
+      "records": [
+        "astm-e2587",
+        "iso-7870-2"
+      ],
+      "categories": [
+        "statistics-spc"
+      ],
+      "useCases": [
+        "run-spc-capability"
+      ]
+    },
+    {
+      "term": "capability",
+      "aliases": [
+        "cpk",
+        "ppk",
+        "process capability",
+        "cp"
+      ],
+      "records": [
+        "astm-e2281"
+      ],
+      "useCases": [
+        "run-spc-capability"
+      ]
+    },
+    {
+      "term": "msa",
+      "aliases": [
+        "gauge r&r",
+        "gage r&r",
+        "grr",
+        "measurement system analysis",
+        "repeatability",
+        "reproducibility"
+      ],
+      "records": [
+        "astm-e2782",
+        "astm-e691",
+        "iso-5725-2",
+        "astm-e177"
+      ],
+      "categories": [
+        "metrology"
+      ]
+    },
+    {
+      "term": "six sigma",
+      "aliases": [
+        "dmaic",
+        "lean six sigma",
+        "lss"
+      ],
+      "records": [
+        "iso-13053-1"
+      ]
+    },
+    {
+      "term": "aql",
+      "aliases": [
+        "sampling plan",
+        "acceptance sampling",
+        "z1.4"
+      ],
+      "records": [
+        "iso-2859-1",
+        "astm-e122"
+      ]
+    },
+    {
+      "term": "rounding",
+      "aliases": [
+        "significant digits",
+        "significant figures"
+      ],
+      "records": [
+        "astm-e29"
+      ]
+    },
+    {
+      "term": "calibration",
+      "aliases": [
+        "calibrate",
+        "force verification",
+        "load cell"
+      ],
+      "records": [
+        "astm-e4",
+        "iso-10012",
+        "iso-iec-17025"
+      ],
+      "useCases": [
+        "calibrate-equipment"
+      ]
+    },
+    {
+      "term": "lab accreditation",
+      "aliases": [
+        "17025",
+        "accredited lab",
+        "scc accreditation",
+        "a2la"
+      ],
+      "records": [
+        "iso-iec-17025"
+      ],
+      "categories": [
+        "conformity-labs"
+      ]
+    },
+    {
+      "term": "grain size",
+      "aliases": [
+        "astm grain size",
+        "microstructure"
+      ],
+      "records": [
+        "astm-e112",
+        "astm-e3"
+      ]
+    },
+    {
+      "term": "inclusions",
+      "aliases": [
+        "inclusion rating",
+        "cleanliness",
+        "sulfide stringers"
+      ],
+      "records": [
+        "astm-e45"
+      ]
+    },
+    {
+      "term": "fracture toughness",
+      "aliases": [
+        "ctod",
+        "j-integral",
+        "kic"
+      ],
+      "records": [
+        "astm-e1820"
+      ]
+    },
+    {
+      "term": "cybersecurity",
+      "aliases": [
+        "information security",
+        "isms",
+        "iso 27001"
+      ],
+      "records": [
+        "iso-iec-27001"
+      ],
+      "categories": [
+        "infosec-ai"
+      ]
+    },
+    {
+      "term": "ai governance",
+      "aliases": [
+        "artificial intelligence",
+        "ai management system",
+        "iso 42001"
+      ],
+      "records": [
+        "iso-iec-42001"
+      ]
+    },
+    {
+      "term": "medical device",
+      "aliases": [
+        "fda qmsr",
+        "21 cfr 820",
+        "iso 13485"
+      ],
+      "records": [
+        "iso-13485",
+        "iso-14971"
+      ],
+      "industries": [
+        "medical-devices"
+      ]
+    },
+    {
+      "term": "food safety",
+      "aliases": [
+        "haccp",
+        "fssc 22000"
+      ],
+      "records": [
+        "iso-22000"
+      ],
+      "industries": [
+        "food"
+      ]
+    },
+    {
+      "term": "business continuity",
+      "aliases": [
+        "bcp",
+        "disaster recovery",
+        "emergency management"
+      ],
+      "records": [
+        "iso-22301",
+        "csa-z1600"
+      ]
+    },
+    {
+      "term": "asset management",
+      "aliases": [
+        "maintenance strategy",
+        "reliability"
+      ],
+      "records": [
+        "iso-55001"
+      ]
+    },
+    {
+      "term": "gas installation",
+      "aliases": [
+        "natural gas piping",
+        "propane",
+        "b149"
+      ],
+      "records": [
+        "csa-b149-1",
+        "csa-b149-2"
+      ],
+      "categories": [
+        "fuel-gas"
+      ]
+    },
+    {
+      "term": "electrical code",
+      "aliases": [
+        "cec",
+        "wiring code"
+      ],
+      "records": [
+        "csa-c22-1"
+      ]
+    },
+    {
+      "term": "valves",
+      "aliases": [
+        "ball valve",
+        "gate valve",
+        "pipeline valve"
+      ],
+      "records": [
+        "api-6d",
+        "api-600",
+        "csa-z245-15",
+        "api-598"
+      ],
+      "categories": [
+        "valves-rotating"
+      ]
+    },
+    {
+      "term": "pumps",
+      "aliases": [
+        "centrifugal pump",
+        "compressor"
+      ],
+      "records": [
+        "api-610",
+        "api-617",
+        "api-618"
+      ]
+    },
+    {
+      "term": "flanges",
+      "aliases": [
+        "fittings",
+        "elbows",
+        "tees"
+      ],
+      "records": [
+        "csa-z245-11",
+        "csa-z245-12",
+        "astm-a105",
+        "astm-a234"
+      ]
+    },
+    {
+      "term": "bolting",
+      "aliases": [
+        "studs",
+        "b7",
+        "bolts"
+      ],
+      "records": [
+        "astm-a193"
+      ]
+    },
+    {
+      "term": "stainless pipe",
+      "aliases": [
+        "304 pipe",
+        "316 pipe",
+        "austenitic pipe"
+      ],
+      "records": [
+        "astm-a312"
+      ]
+    },
+    {
+      "term": "low temperature pipe",
+      "aliases": [
+        "a333",
+        "impact tested pipe"
+      ],
+      "records": [
+        "astm-a333"
+      ]
+    },
+    {
+      "term": "concrete",
+      "aliases": [
+        "rebar cover",
+        "concrete testing",
+        "cylinders"
+      ],
+      "records": [
+        "csa-a23-1-2"
+      ]
+    },
+    {
+      "term": "welding inspector",
+      "aliases": [
+        "cwi",
+        "weld inspector"
+      ],
+      "records": [
+        "csa-w178-2"
+      ],
+      "useCases": [
+        "certify-personnel"
+      ]
+    }
+  ]
+}
