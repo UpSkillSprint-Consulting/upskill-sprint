@@ -122,10 +122,10 @@ status: Proposed
 
 ---
 
-## Week of 2026-11-20
+## Week of 2026-11-27
 
 ### GPT picks
-_GPT adds up to 3 picks here by Thursday 2026-11-19._
+_GPT adds up to 3 picks here by Thursday 2026-11-26._
 
 ### Claude picks
 _Claude adds these in the Friday run._
@@ -135,6 +135,178 @@ _Claude adds these in the Friday run._
 |---|---|---|---|---|---|
 
 ### Notes
+
+---
+
+## Week of 2026-11-20
+
+### GPT picks
+
+#### Stop row-level leakage in manufacturing models
+```yaml
+pick_id: 2026-11-20-gpt-grouped-model-validation
+contributor: GPT
+ticker_text: "Stop row-level leakage in manufacturing models"
+link: https://doi.org/10.3390/info17111095
+link_type: doi
+published: 2026-11-03
+venue: Information 17(11), 1095
+peer_reviewed: yes
+data: simulated
+sample_size: "27 specimens x 3 sections; 40 main replications; 20 selection replications; 300 interval replications"
+evidence: Medium
+evidence_why: "Peer-reviewed methodological review with reproducible simulations, but no new prospective industrial validation."
+limitations: "Narrative rather than systematic review; no formal risk-of-bias scoring; simulated effect sizes may not transfer to mill data; grouped CV can be conservative for sparse DOE grids; few independent groups make metrics and intervals unstable."
+readiness: Ready to apply
+topic: regression
+what_it_is: "Shows why random row splits overstate performance when repeated measurements share a specimen, tool, batch or production unit. It recommends grouped and nested validation, plus blocked or forward validation for sequential data."
+plant_problem: "Predictive models for tensile, chemistry and dimensional outcomes can appear accurate because related rows leak across train and test sets. The method aligns validation with the heat, coil, specimen or campaign that will be new at deployment."
+excel: "Add Heat/Coil/Specimen/Campaign and Date/Sequence columns; create untouched whole-group and later-period holdouts"
+minitab: "Stat > Regression > Fit Regression Model; store predictions and residuals, then validate on a separate group-held-out or later worksheet"
+python: "scikit-learn Pipeline, GroupKFold, LeaveOneGroupOut, nested grouped CV, blocked time splits and group bootstrap"
+steel_pipe: "Validate tensile, nitrogen, Charpy and dimensional models by heat, coil, pipe, test coupon or production campaign rather than database row."
+exam: [CSSBB, CQE]
+exam_topic: "Regression validation, data leakage and prediction uncertainty"
+lesson_idea: yes
+status: "Published to ticker (PR #413)"
+```
+
+#### Watch mean and spread with fewer measurements
+```yaml
+pick_id: 2026-11-20-gpt-adaptive-joint-monitoring
+contributor: GPT
+ticker_text: "Watch mean and spread with fewer measurements"
+link: https://doi.org/10.1002/qre.70472
+link_type: doi
+published: 2026-11-16
+venue: Quality and Reliability Engineering International
+peer_reviewed: yes
+data: both
+sample_size: "Probability-based performance calculations; textbook manufacturing example; observation count not stated"
+evidence: Medium
+evidence_why: "Peer reviewed and compared analytically with established charts, but the manufacturing example is textbook-derived rather than independent prospective plant validation."
+limitations: "Accessible record does not state the full shift grid or example size; textbook data only; performance may change with estimated Phase I parameters, non-normality, autocorrelation and measurement error; a local pilot must freeze warning limits before chronological evaluation."
+readiness: Worth piloting
+topic: spc-charts
+what_it_is: "A joint mean-and-variability chart begins with one sample and requests a second or third sample only when the statistic enters warning regions. It aims to improve detection while limiting the average inspection burden."
+plant_problem: "Costly dimensional, tensile or chemistry measurements may not justify a large sample at every epoch, yet simultaneous centre and spread shifts still require prompt detection."
+excel: "Use AVERAGE, STDEV.S, standardized statistics, MAX and IF logic; simulate false alarms and average observations before use"
+minitab: "Stat > Control Charts > Variables Charts for Subgroups > Xbar-S; use Calc > Calculator for the joint statistic and retain Xbar-S as the benchmark"
+python: "NumPy and SciPy simulation of subgroup sizes, warning limits, ARL, median run length, false alarms and average observations"
+steel_pipe: "Pilot offline on a costly dimensional CTQ or laboratory response where both the centreline and variability can drift."
+exam: [CSSBB, CQE]
+exam_topic: "Adaptive sampling and joint monitoring of location and dispersion"
+lesson_idea: yes
+status: Verified
+```
+
+### Claude picks
+
+#### Test a big forging's core, not just its surface
+```yaml
+pick_id: 2026-11-20-claude-forging-through-section-case
+contributor: Claude
+ticker_text: "Test a big forging's core, not just its surface"
+link: https://www.mdpi.com/1996-1944/19/21/4482
+link_type: journal
+published: 2026-10-24
+venue: Materials (MDPI)
+peer_reviewed: yes
+data: real
+sample_size: "1 industrial 341 mm AISI 316 forging; 12 tensile bars (4 at each of 3 radial positions); 3 corrosion coupons; 3 microhardness indents per position"
+evidence: Medium
+evidence_why: "Peer reviewed and built on a real industrial non-conformance, but it is one component with no control part and very few specimens per position."
+limitations: "Single forging, no control; no internal temperature record, so the furnace over-hold could not be confirmed as the cause; only 3 radial positions (one residual df in the trend fit); tensile and metallography locations don't match; grain-size uncertainty not recoverable; unexplained UTS scatter at mid-radius; one corrosion coupon per position."
+readiness: Ready to apply
+topic: root-cause
+what_it_is: "A plant investigated a large stainless forging that sat in the furnace about 22 hours instead of 1.5, testing tensile, hardness, grain size, chemistry and corrosion at the surface, mid-radius and centre. Core yield strength came out about 36% below the near-surface value, with no chemical segregation or sensitization found."
+plant_problem: "Deciding what to test, and where, after a heat-treatment deviation on a heavy section, when surface coupons alone can make the part look fine."
+excel: "AVERAGE/STDEV.S by position; Data Analysis > ANOVA: Single Factor across radial positions; LINEST or SLOPE for property vs. radius"
+minitab: "Stat > ANOVA > One-Way (yield by position); Graph > Interval Plot; Stat > Regression > Fitted Line Plot (property vs. r/R)"
+python: "pandas, scipy.stats (f_oneway), statsmodels (ols)"
+steel_pipe: "Direct fit for heavy forgings, thick-wall pipe and bar after a soak or anneal deviation: plan sampling across the section before signing off."
+exam: [CQE, CSSBB]
+exam_topic: "Root cause investigation, sampling plan design, one-way ANOVA, nonconforming material disposition"
+lesson_idea: yes
+status: "Published to ticker (PR #413)"
+```
+
+#### Watch sensor readings move together, not one by one
+```yaml
+pick_id: 2026-11-20-claude-copula-multivariate-chart
+contributor: Claude
+ticker_text: "Watch sensor readings move together, not one by one"
+link: https://arxiv.org/abs/2611.23820
+link_type: arxiv
+published: 2026-11-18
+venue: arXiv (stat.AP)
+peer_reviewed: no
+data: both
+sample_size: "2 small real datasets (water quality n=30+25, d=2; bimetal thermostats n=28+28, d=3); simulation with Phase I n of 50–1000 and d of 2–20"
+evidence: Low
+evidence_why: "Preprint; the real datasets are small textbook-style illustrations with no ARL reported, so the performance claims rest on simulation."
+limitations: "Not peer reviewed; Shewhart-type, so small sustained shifts are better caught by MEWMA (the authors' own simulation shows this for shifts of 1 sigma or less); in-control ARL came out about half the target at d=3; assumes independent observations, autocorrelated sensor streams left for future work; copula choice adds model uncertainty; only 2 of 5 water variables used."
+readiness: Worth watching
+topic: anomaly
+what_it_is: "A multivariate control chart that models how several variables depend on each other with a copula, so it does not need the data to be multivariate normal. It flags points that fall outside a joint tolerance region and shows them next to the usual one-variable charts."
+plant_problem: "Correlated sensor signals (temperatures, pressures, chemistry) that are skewed or bounded, where Hotelling T-squared is badly calibrated and separate X-charts miss a change in how the variables move together."
+excel: "none (approximate with CORREL/RSQ on Phase I data and individual charts; the copula fit needs R or Python)"
+minitab: "Stat > Control Charts > Multivariate Charts > T-squared Generalized Variance (the normal-theory comparator); no copula chart in Minitab"
+python: "copulae or pyvinecopulib, scipy.stats, numpy"
+steel_pipe: "Possible fit for correlated furnace or caster sensors with skewed distributions; not tested on metals data."
+exam: [CSSBB, CQE]
+exam_topic: "Multivariate control charts, Hotelling T-squared, ARL"
+lesson_idea: no
+status: Verified
+```
+
+#### Forecasting cold-weather toughness loss in steel
+```yaml
+pick_id: 2026-11-20-claude-pinn-toughness-corrosion
+contributor: Claude
+ticker_text: "Forecasting cold-weather toughness loss in steel"
+link: https://www.mdpi.com/2075-4701/16/11/1265
+link_type: journal
+published: 2026-11-18
+venue: Metals (MDPI)
+peer_reviewed: yes
+data: both
+sample_size: "2–3 lab Charpy results per bar size and temperature; 3-year training set is simulated (digital twin), 30-year forecasts not field-validated"
+evidence: Low
+evidence_why: "Peer reviewed, but the model is trained on simulated data and checked against only a handful of real Charpy results."
+limitations: "Training data simulated, and the stated point count doesn't match 3 years of hourly data; Charpy sample sizes of 2–3 per condition, one non-standard specimen size; 30-year and bridge-case results are extrapolation with no field check; the 10-year maintenance-free claim rests on kinetic parameters not shown."
+readiness: Worth watching
+topic: reliability
+what_it_is: "A neural network constrained by corrosion and toughness-transition physics predicts corrosion depth and remaining Charpy energy for a low-temperature corrosion-resistant steel from temperature, humidity, stress and freeze-thaw cycles. The authors report lower error than a plain neural network."
+plant_problem: "Estimating how much impact toughness a cold-climate steel loses over its service life, for warranty and maintenance planning."
+excel: "none (a simple Arrhenius or power-law fit with LINEST on log data is the honest spreadsheet stand-in)"
+minitab: "Stat > Reliability/Survival > Accelerated Life Testing (Arrhenius) as the classical comparison"
+python: "pytorch or deepxde, numpy"
+steel_pipe: "Charpy toughness of low-temperature structural and line-pipe steels in corrosive service."
+exam: [CRE]
+exam_topic: "Degradation and accelerated-life models (Arrhenius)"
+lesson_idea: no
+status: Verified
+```
+
+### Combined ranking (Claude fills this in on Friday)
+| Rank | Headline | Contributor | Evidence | Readiness | Status |
+|---|---|---|---|---|---|
+| 1 | Stop row-level leakage in manufacturing models | GPT | Medium | Ready to apply | Published to ticker (PR #413) |
+| 2 | Test a big forging's core, not just its surface | Claude | Medium | Ready to apply | Published to ticker (PR #413) |
+| 3 | Watch mean and spread with fewer measurements | GPT | Medium | Worth piloting | Verified (held off the ticker, see Notes) |
+| 4 | Watch sensor readings move together, not one by one | Claude | Low | Worth watching | Verified (Low, not ticker-eligible) |
+| 5 | Forecasting cold-weather toughness loss in steel | Claude | Low | Worth watching | Verified (Low, not ticker-eligible) |
+
+### Notes
+- GPT's PR (#413) was opened after Claude's scheduled run, which had already opened #412. Claude's work was moved onto GPT's branch so there is one PR this week; #412 is closed in favour of #413.
+- GPT pick 1 (grouped validation): the DOI resolves to the MDPI Information article (17(11), 1095, online 2026-11-03), and it is the paper described. Window widened to 30 days (thin week). Medium fits the scale: peer-reviewed journal, simulation only, no new data.
+- GPT pick 2 (triple-sampling max chart): the DOI and Wiley article page both refused the automated check, so the paper was confirmed through its Crossref record (QREI, online 2026-11-16, joint mean-and-variability triple sampling chart, compared with double-sampling and Shewhart max charts). Because the link itself could not be opened, it stays off the ticker this week under rule 4; Ernest can add it after opening the DOI himself.
+- Disagreement on GPT pick 2: the abstract says the method was applied to "real data obtained from an industrial manufacturing process", not a textbook example as the entry says. The comparisons are on ARL, average number of observations to signal and extra quadratic loss. If the industrial data hold up in the full text, the evidence could be High rather than Medium.
+- Forging case link is the journal page (opened and checked). DOI printed there: 10.3390/ma19214482.
+- The copula chart preprint shows a "Received 2021" line in its template; the arXiv v1 date is 2026-11-18, which is what counts here.
+- Checked and dropped: a hot-rolling ridge-defect classifier (Eng. Appl. of AI, online 2026-06-20) and a hot-rolling ML review (Frontiers in Materials, 2026-07-22), both outside 30 days; a GLM change-point CUSUM preprint (arXiv 2610.16616, simulation only, dated before the window); a QREI Wiener-degradation paper whose page wouldn't load.
+- Housekeeping: last week's two Claude picks still read `status: Proposed` although the ranking shows them published in PR #407. Left as is (past week).
 
 ---
 
