@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 61,
   "contentLessonCount": 60,
-  "sectionCount": 3119,
+  "sectionCount": 3121,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -45420,7 +45420,11 @@
         "iec 31010",
         "deductive",
         "inductive",
-        "top-down bottom-up risk assessment deductive inductive fault tree analysis fta fmea fmeca hazop guide words bow-tie haccp preliminary hazard analysis pha what-if swift root cause analysis 5 why fishbone proactive reactive iso 31000 iec 31010 rpn action priority wall posters quality engineering asq cqe cssbb intermediate interactive"
+        "hazid",
+        "hazan",
+        "hazard identification",
+        "hazard analysis",
+        "top-down bottom-up risk assessment deductive inductive fault tree analysis fta fmea fmeca hazop guide words bow-tie haccp preliminary hazard analysis pha what-if swift root cause analysis 5 why fishbone hazid hazard identification hazan hazard analysis kletz proactive reactive iso 31000 iec 31010 rpn action priority wall posters quality engineering asq cqe cssbb intermediate interactive"
       ],
       "placeholder": false,
       "contentAvailable": true,
@@ -45431,7 +45435,7 @@
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment"
           ],
-          "text": "Every risk tool digs in one of two directions. Top-down vs. bottom-up risk assessment comes down to one question: do you start from the bad outcome and dig for causes, or start from each part and ask what it could break? Deductive · outcome → causes Top-down “This bad thing happened, or could. What causes it?” Think: the detective Event → both ways Middle-out Start at the event. Dig back to causes, walk forward to effects. Bow-tie · HAZOP Inductive · cause → effects Bottom-up “If this part fails, what does it break?” Think: the inspector Poster: top-down digs from the outcome down to causes, like a detective. Middle-out starts at the event and works both ways. Bottom-up walks from each part up to its effects, like an inspector. The system ladder Meet the 8 tools Proactive or reactive? The sorting game HAZOP guide words Fault tree lab ISO 31000 Excel and Minitab Download the 4 posters Part 1 · Two directions",
+          "text": "Every risk tool digs in one of two directions. Top-down vs. bottom-up risk assessment comes down to one question: do you start from the bad outcome and dig for causes, or start from each part and ask what it could break? Deductive · outcome → causes Top-down “This bad thing happened, or could. What causes it?” Think: the detective Event → both ways Middle-out Start at the event. Dig back to causes, walk forward to effects. Bow-tie · HAZOP Inductive · cause → effects Bottom-up “If this part fails, what does it break?” Think: the inspector Poster: top-down digs from the outcome down to causes, like a detective. Middle-out starts at the event and works both ways. Bottom-up walks from each part up to its effects, like an inspector. The system ladder Meet the 9 tools Proactive or reactive? The sorting game HAZOP guide words HAZID → HAZOP → HAZAN Fault tree lab ISO 31000 Excel and Minitab Download the 4 posters Part 1 · Two directions",
           "excerpt": "Every risk tool digs in one of two directions. Top-down vs. bottom-up risk assessment comes down to one question: do you start from the bad outcome and dig for causes, or start from each part and ask what it could break? Deductive · outcome → causes Top-down…",
           "kinds": [
             "section"
@@ -45452,10 +45456,10 @@
         },
         {
           "id": "td-tools-h",
-          "heading": "Meet the 8 tools, sorted by direction",
+          "heading": "Meet the 9 tools, sorted by direction",
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment",
-            "Meet the 8 tools, sorted by direction"
+            "Meet the 9 tools, sorted by direction"
           ],
           "text": "Colour tells you the direction. The chips tell you the timing: proactive (before a failure) or reactive (after one). Open any card for a steel-mill example.",
           "excerpt": "Colour tells you the direction. The chips tell you the timing: proactive (before a failure) or reactive (after one). Open any card for a steel-mill example.",
@@ -45469,7 +45473,7 @@
           "heading": "Top-down",
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment",
-            "Meet the 8 tools, sorted by direction",
+            "Meet the 9 tools, sorted by direction",
             "Top-down"
           ],
           "text": "Outcome → causes · deductive",
@@ -45483,7 +45487,7 @@
           "heading": "Fault tree analysis (FTA)",
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment",
-            "Meet the 8 tools, sorted by direction",
+            "Meet the 9 tools, sorted by direction",
             "Top-down",
             "Fault tree analysis (FTA)"
           ],
@@ -45498,7 +45502,7 @@
           "heading": "RCA: 5-Why · Fishbone",
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment",
-            "Meet the 8 tools, sorted by direction",
+            "Meet the 9 tools, sorted by direction",
             "Top-down",
             "RCA: 5-Why · Fishbone"
           ],
@@ -45513,7 +45517,7 @@
           "heading": "Middle-out",
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment",
-            "Meet the 8 tools, sorted by direction",
+            "Meet the 9 tools, sorted by direction",
             "Middle-out"
           ],
           "text": "Event → both ways",
@@ -45527,7 +45531,7 @@
           "heading": "Bow-tie",
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment",
-            "Meet the 8 tools, sorted by direction",
+            "Meet the 9 tools, sorted by direction",
             "Middle-out",
             "Bow-tie"
           ],
@@ -45542,7 +45546,7 @@
           "heading": "HAZOP",
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment",
-            "Meet the 8 tools, sorted by direction",
+            "Meet the 9 tools, sorted by direction",
             "Middle-out",
             "HAZOP"
           ],
@@ -45558,7 +45562,7 @@
           "heading": "Bottom-up",
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment",
-            "Meet the 8 tools, sorted by direction",
+            "Meet the 9 tools, sorted by direction",
             "Bottom-up"
           ],
           "text": "Cause → effects · inductive",
@@ -45572,7 +45576,7 @@
           "heading": "FMEA / FMECA",
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment",
-            "Meet the 8 tools, sorted by direction",
+            "Meet the 9 tools, sorted by direction",
             "Bottom-up",
             "FMEA / FMECA"
           ],
@@ -45587,7 +45591,7 @@
           "heading": "HACCP",
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment",
-            "Meet the 8 tools, sorted by direction",
+            "Meet the 9 tools, sorted by direction",
             "Bottom-up",
             "HACCP"
           ],
@@ -45602,7 +45606,7 @@
           "heading": "PHA",
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment",
-            "Meet the 8 tools, sorted by direction",
+            "Meet the 9 tools, sorted by direction",
             "Bottom-up",
             "PHA"
           ],
@@ -45613,11 +45617,26 @@
           ]
         },
         {
+          "id": "lesson-section-hazid",
+          "heading": "HAZID",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Meet the 9 tools, sorted by direction",
+            "Bottom-up",
+            "HAZID"
+          ],
+          "text": "Hazard identification: a broad first scan of a layout or concept, including how systems affect each other. Proactive The site layout for a new acid regeneration plant: what if acid storage sits next to the crane bay?",
+          "excerpt": "Hazard identification: a broad first scan of a layout or concept, including how systems affect each other. Proactive The site layout for a new acid regeneration plant: what if acid storage sits next to the crane bay?",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
           "id": "lesson-section-what-if-swift",
           "heading": "What-If / SWIFT",
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment",
-            "Meet the 8 tools, sorted by direction",
+            "Meet the 9 tools, sorted by direction",
             "Bottom-up",
             "What-If / SWIFT"
           ],
@@ -45632,7 +45651,7 @@
           "heading": "Side by side",
           "breadcrumb": [
             "Top-Down vs. Bottom-Up Risk Assessment",
-            "Meet the 8 tools, sorted by direction",
+            "Meet the 9 tools, sorted by direction",
             "Side by side"
           ],
           "text": "Aspect Top-down Bottom-up Starts at A defined bad outcome A part, step or failure mode Logic Deductive : outcome → causes Inductive : cause → effects Blind spot Causes nobody put in the tree Two failures together, and interactions Best for One known or feared failure Full coverage before anything fails Pairs with RCA, CAPA, 8D DFMEA, PFMEA action plans Why HAZOP is “middle-out”: textbooks file it as top-down and as bottom-up. It really starts at a deviation in the middle and works both ways, just like the bow-tie. Part 3 · Timing",
@@ -45662,8 +45681,8 @@
             "Proactive or reactive? Before or after the failure",
             "Proactive"
           ],
-          "text": "Before anything breaks FMEA HACCP PHA SWIFT HAZOP Bow-tie FTA at design",
-          "excerpt": "Before anything breaks FMEA HACCP PHA SWIFT HAZOP Bow-tie FTA at design",
+          "text": "Before anything breaks FMEA HACCP PHA HAZID SWIFT HAZOP Bow-tie FTA at design HAZAN",
+          "excerpt": "Before anything breaks FMEA HACCP PHA HAZID SWIFT HAZOP Bow-tie FTA at design HAZAN",
           "kinds": [
             "section"
           ]
@@ -45689,8 +45708,8 @@
             "Top-Down vs. Bottom-Up Risk Assessment",
             "The sorting game: which way would you dig?"
           ],
-          "text": "Six real jobs from a pipe mill. Pick the direction for each one. You get one try per job. 0 / 6 Pick a direction for each job. Part 5 · HAZOP",
-          "excerpt": "Six real jobs from a pipe mill. Pick the direction for each one. You get one try per job. 0 / 6 Pick a direction for each job. Part 5 · HAZOP",
+          "text": "Eight real jobs from a pipe mill. Pick the direction for each one. You get one try per job. 0 / 8 Pick a direction for each job. Part 5 · HAZOP",
+          "excerpt": "Eight real jobs from a pipe mill. Pick the direction for each one. You get one try per job. 0 / 8 Pick a direction for each job. Part 5 · HAZOP",
           "kinds": [
             "section"
           ]
@@ -45730,8 +45749,23 @@
             "Spin the HAZOP guide word machine",
             "Parameter"
           ],
-          "text": "A made-up example for teaching. Your plant’s HAZOP team will find its own causes and safeguards. The N/A cards are the point. Many combinations mean nothing. The team still says them out loud and rules them out. That discipline is what makes HAZOP more complete than a free brainstorm. HAZOP fits continuous processes with flow, pressure, temperature, level or composition: caster cooling water, EAF off-gas, ladle argon stirring. For final pipe inspection, use a PFMEA. Part 6 · Use both",
+          "text": "A made-up example for teaching. Your plant’s HAZOP team will find its own causes and safeguards. The N/A cards are the point. Many combinations mean nothing. The team still says them out loud and rules them out. That discipline is what makes HAZOP more complete than a free brainstorm. HAZOP fits continuous processes with flow, pressure, temperature, level or composition: caster cooling water, EAF off-gas, ladle argon stirring. For final pipe inspection, use a PFMEA.",
           "excerpt": "A made-up example for teaching. Your plant’s HAZOP team will find its own causes and safeguards. The N/A cards are the point. Many combinations mean nothing. The team still says them out loud and rules them out. That discipline is what makes HAZOP more…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "td-life-h",
+          "heading": "Where HAZOP sits: HAZID → HAZOP → HAZAN",
+          "breadcrumb": [
+            "Top-Down vs. Bottom-Up Risk Assessment",
+            "Spin the HAZOP guide word machine",
+            "Where HAZOP sits: HAZID → HAZOP → HAZAN"
+          ],
+          "text": "HAZOP is the middle of three studies. Trevor Kletz put it simply: HAZOP identifies hazards, HAZAN assesses them. HAZID comes first, while the plant is still a layout. Tap each stage. HAZID: hazard identification Asks What hazards exist here at all? Looks at The layout or concept, and how systems affect each other You finish with A hazard register Direction · timing Bottom-up · proactive ISO 31000 1 · Identify Pipe-mill example Acid storage next to the crane bay on a new layout Pipe-mill examples are made up for teaching. Big hazard staring at you? Kletz notes that an obvious major hazard can go to HAZAN before the HAZOP is done. Don’t wait to size it. Part 6 · Use both",
+          "excerpt": "HAZOP is the middle of three studies. Trevor Kletz put it simply: HAZOP identifies hazards, HAZAN assesses them. HAZID comes first, while the plant is still a layout. Tap each stage. HAZID: hazard identification Asks What hazards exist here at all? Looks at…",
           "kinds": [
             "section",
             "example"
@@ -45774,7 +45808,7 @@
             "Fault tree lab: why FMEA needs a partner",
             "The bottom-up partner: one PFMEA row"
           ],
-          "text": "Step Failure mode Effect Cause · control ERW seam welding Cold weld (lack of fusion) Leak or rupture in hydrotest or service Low heat input · online UT of the seam PFMEA every step + FTA the big one Run the PFMEA across the whole rolling and finishing line for coverage. Then build a fault tree for each catastrophic event, so combinations get caught too. Part 7 · The big picture",
+          "text": "Step Failure mode Effect Cause · control ERW seam welding Cold weld (lack of fusion) Leak or rupture in hydrotest or service Low heat input · online UT of the seam PFMEA every step + FTA the big one Run the PFMEA across the whole rolling and finishing line for coverage. Then build a fault tree for each catastrophic event, so combinations get caught too. Putting numbers on one hazard like this is HAZAN (hazard analysis). The answer tells you how far to go in reducing the risk. Part 7 · The big picture",
           "excerpt": "Step Failure mode Effect Cause · control ERW seam welding Cold weld (lack of fusion) Leak or rupture in hydrotest or service Low heat input · online UT of the seam PFMEA every step + FTA the big one Run the PFMEA across the whole rolling and finishing line…",
           "kinds": [
             "section"
@@ -45816,8 +45850,8 @@
             "Where the tools plug into ISO 31000",
             "1 · Identify"
           ],
-          "text": "What could go wrong? HAZOP SWIFT PHA FMEA modes",
-          "excerpt": "What could go wrong? HAZOP SWIFT PHA FMEA modes",
+          "text": "What could go wrong? HAZID HAZOP SWIFT PHA FMEA modes",
+          "excerpt": "What could go wrong? HAZID HAZOP SWIFT PHA FMEA modes",
           "kinds": [
             "section"
           ]
@@ -45830,8 +45864,8 @@
             "Where the tools plug into ISO 31000",
             "2 · Analyze"
           ],
-          "text": "How, how likely, how bad? FTA Bow-tie FMEA S·O·D",
-          "excerpt": "How, how likely, how bad? FTA Bow-tie FMEA S·O·D",
+          "text": "How, how likely, how bad? HAZAN FTA Bow-tie FMEA S·O·D",
+          "excerpt": "How, how likely, how bad? HAZAN FTA Bow-tie FMEA S·O·D",
           "kinds": [
             "section"
           ]
@@ -45844,8 +45878,8 @@
             "Where the tools plug into ISO 31000",
             "3 · Evaluate"
           ],
-          "text": "Is it acceptable? Risk matrix RPN / AP",
-          "excerpt": "Is it acceptable? Risk matrix RPN / AP",
+          "text": "Is it acceptable? HAZAN Risk matrix RPN / AP",
+          "excerpt": "Is it acceptable? HAZAN Risk matrix RPN / AP",
           "kinds": [
             "section"
           ]
@@ -45958,7 +45992,7 @@
             "Statistics Implementation",
             "Exam tips"
           ],
-          "text": "Deductive = top-down = FTA. Inductive = bottom-up = FMEA. Event tree analysis is also inductive. AND gates multiply. Expect a question that asks for the top event from two or three basic-event probabilities. Bow-tie = a fault tree on the left plus an event tree on the right. HAZOP = guide words × parameters at each node of a P&ID. RPN ranks risks but hides severity. The AIAG-VDA FMEA handbook uses Action Priority (AP) instead. Print it",
+          "text": "Deductive = top-down = FTA. Inductive = bottom-up = FMEA. Event tree analysis is also inductive. AND gates multiply. Expect a question that asks for the top event from two or three basic-event probabilities. Bow-tie = a fault tree on the left plus an event tree on the right. HAZOP identifies, HAZAN assesses. HAZID comes first, at the concept or layout stage. HAZOP = guide words × parameters at each node of a P&ID. RPN ranks risks but hides severity. The AIAG-VDA FMEA handbook uses Action Priority (AP) instead. Print it",
           "excerpt": "Deductive = top-down = FTA. Inductive = bottom-up = FMEA. Event tree analysis is also inductive. AND gates multiply. Expect a question that asks for the top event from two or three basic-event probabilities. Bow-tie = a fault tree on the left plus an event…",
           "kinds": [
             "section",
@@ -45987,8 +46021,8 @@
             "Four wall posters to take with you",
             "Quick Reference"
           ],
-          "text": "PDF, 1 page, 18 × 24 in, 519 KB. Everything on one sheet: the ladder, the 8 tools, timing, HAZOP, ISO 31000 and a pipe-rupture example. Download PDF of the Quick Reference poster",
-          "excerpt": "PDF, 1 page, 18 × 24 in, 519 KB. Everything on one sheet: the ladder, the 8 tools, timing, HAZOP, ISO 31000 and a pipe-rupture example. Download PDF of the Quick Reference poster",
+          "text": "PDF, 1 page, 18 × 24 in, 526 KB. Everything on one sheet: the ladder, the 9 tools, timing, HAZID to HAZOP to HAZAN, ISO 31000 and a pipe-rupture example. Download PDF of the Quick Reference poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 526 KB. Everything on one sheet: the ladder, the 9 tools, timing, HAZID to HAZOP to HAZAN, ISO 31000 and a pipe-rupture example. Download PDF of the Quick Reference poster",
           "kinds": [
             "section",
             "example",
@@ -46003,8 +46037,8 @@
             "Four wall posters to take with you",
             "Sorting Map"
           ],
-          "text": "PDF, 1 page, 18 × 24 in, 483 KB. Every tool placed on one map: which way it digs, and whether it runs before or after a failure. Download PDF of the Sorting Map poster",
-          "excerpt": "PDF, 1 page, 18 × 24 in, 483 KB. Every tool placed on one map: which way it digs, and whether it runs before or after a failure. Download PDF of the Sorting Map poster",
+          "text": "PDF, 1 page, 18 × 24 in, 487 KB. Every tool placed on one map: which way it digs, and whether it runs before or after a failure. Download PDF of the Sorting Map poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 487 KB. Every tool placed on one map: which way it digs, and whether it runs before or after a failure. Download PDF of the Sorting Map poster",
           "kinds": [
             "section",
             "formula"
@@ -46018,8 +46052,8 @@
             "Four wall posters to take with you",
             "Which Risk Tool Do I Need?"
           ],
-          "text": "PDF, 1 page, 18 × 24 in, 471 KB. A yes/no flowchart. Start at “Has it already failed?” and land on the right tool. Download PDF of the Which Risk Tool Do I Need? poster",
-          "excerpt": "PDF, 1 page, 18 × 24 in, 471 KB. A yes/no flowchart. Start at “Has it already failed?” and land on the right tool. Download PDF of the Which Risk Tool Do I Need? poster",
+          "text": "PDF, 1 page, 18 × 24 in, 474 KB. A yes/no flowchart. Start at “Has it already failed?” and land on the right tool. Download PDF of the Which Risk Tool Do I Need? poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 474 KB. A yes/no flowchart. Start at “Has it already failed?” and land on the right tool. Download PDF of the Which Risk Tool Do I Need? poster",
           "kinds": [
             "section",
             "formula"
@@ -46033,8 +46067,8 @@
             "Four wall posters to take with you",
             "One Event, Two Directions"
           ],
-          "text": "PDF, 1 page, 18 × 24 in, 478 KB. A big pipe-rupture bow-tie read three ways, plus big numbers and exam tips. Uses more ink. Download PDF of the One Event, Two Directions poster",
-          "excerpt": "PDF, 1 page, 18 × 24 in, 478 KB. A big pipe-rupture bow-tie read three ways, plus big numbers and exam tips. Uses more ink. Download PDF of the One Event, Two Directions poster",
+          "text": "PDF, 1 page, 18 × 24 in, 490 KB. A big pipe-rupture bow-tie read three ways, plus big numbers and exam tips. Uses more ink. Download PDF of the One Event, Two Directions poster",
+          "excerpt": "PDF, 1 page, 18 × 24 in, 490 KB. A big pipe-rupture bow-tie read three ways, plus big numbers and exam tips. Uses more ink. Download PDF of the One Event, Two Directions poster",
           "kinds": [
             "section",
             "formula"
@@ -46047,7 +46081,7 @@
             "Top-Down vs. Bottom-Up Risk Assessment",
             "References"
           ],
-          "text": "ISO 31000:2018, Risk management: Guidelines . International Organization for Standardization. IEC 31010:2019, Risk management: Risk assessment techniques . IEC and ISO. IEC 61882:2016, Hazard and operability studies (HAZOP studies): Application guide . IEC 60812:2018, Failure modes and effects analysis (FMEA and FMECA) . IEC 61025:2006, Fault tree analysis (FTA) . AIAG and VDA, FMEA Handbook (2019).",
+          "text": "ISO 31000:2018, Risk management: Guidelines . International Organization for Standardization. IEC 31010:2019, Risk management: Risk assessment techniques . IEC and ISO. IEC 61882:2016, Hazard and operability studies (HAZOP studies): Application guide . IEC 60812:2018, Failure modes and effects analysis (FMEA and FMECA) . IEC 61025:2006, Fault tree analysis (FTA) . Kletz, T. A. (1999). HAZOP and HAZAN: Identifying and Assessing Process Industry Hazards (4th ed.). AIAG and VDA, FMEA Handbook (2019).",
           "excerpt": "ISO 31000:2018, Risk management: Guidelines . International Organization for Standardization. IEC 31010:2019, Risk management: Risk assessment techniques . IEC and ISO. IEC 61882:2016, Hazard and operability studies (HAZOP studies): Application guide . IEC…",
           "kinds": [
             "section",
