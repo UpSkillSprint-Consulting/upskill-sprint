@@ -125,7 +125,64 @@ status: Proposed
 ## Week of 2026-11-20
 
 ### GPT picks
-_GPT adds up to 3 picks here by Thursday 2026-11-19._
+
+#### Stop row-level leakage in manufacturing models
+```yaml
+pick_id: 2026-11-20-gpt-grouped-model-validation
+contributor: GPT
+ticker_text: "Stop row-level leakage in manufacturing models"
+link: https://doi.org/10.3390/info17111095
+link_type: doi
+published: 2026-11-03
+venue: Information 17(11), 1095
+peer_reviewed: yes
+data: simulated
+sample_size: "27 specimens x 3 sections; 40 main replications; 20 selection replications; 300 interval replications"
+evidence: Medium
+evidence_why: "Peer-reviewed methodological review with reproducible simulations, but no new prospective industrial validation."
+limitations: "Narrative rather than systematic review; no formal risk-of-bias scoring; simulated effect sizes may not transfer to mill data; grouped CV can be conservative for sparse DOE grids; few independent groups make metrics and intervals unstable."
+readiness: Ready to apply
+topic: regression
+what_it_is: "Shows why random row splits overstate performance when repeated measurements share a specimen, tool, batch or production unit. It recommends grouped and nested validation, plus blocked or forward validation for sequential data."
+plant_problem: "Predictive models for tensile, chemistry and dimensional outcomes can appear accurate because related rows leak across train and test sets. The method aligns validation with the heat, coil, specimen or campaign that will be new at deployment."
+excel: "Add Heat/Coil/Specimen/Campaign and Date/Sequence columns; create untouched whole-group and later-period holdouts"
+minitab: "Stat > Regression > Fit Regression Model; store predictions and residuals, then validate on a separate group-held-out or later worksheet"
+python: "scikit-learn Pipeline, GroupKFold, LeaveOneGroupOut, nested grouped CV, blocked time splits and group bootstrap"
+steel_pipe: "Validate tensile, nitrogen, Charpy and dimensional models by heat, coil, pipe, test coupon or production campaign rather than database row."
+exam: [CSSBB, CQE]
+exam_topic: "Regression validation, data leakage and prediction uncertainty"
+lesson_idea: yes
+status: Proposed
+```
+
+#### Watch mean and spread with fewer measurements
+```yaml
+pick_id: 2026-11-20-gpt-adaptive-joint-monitoring
+contributor: GPT
+ticker_text: "Watch mean and spread with fewer measurements"
+link: https://doi.org/10.1002/qre.70472
+link_type: doi
+published: 2026-11-16
+venue: Quality and Reliability Engineering International
+peer_reviewed: yes
+data: both
+sample_size: "Probability-based performance calculations; textbook manufacturing example; observation count not stated"
+evidence: Medium
+evidence_why: "Peer reviewed and compared analytically with established charts, but the manufacturing example is textbook-derived rather than independent prospective plant validation."
+limitations: "Accessible record does not state the full shift grid or example size; textbook data only; performance may change with estimated Phase I parameters, non-normality, autocorrelation and measurement error; a local pilot must freeze warning limits before chronological evaluation."
+readiness: Worth piloting
+topic: spc-charts
+what_it_is: "A joint mean-and-variability chart begins with one sample and requests a second or third sample only when the statistic enters warning regions. It aims to improve detection while limiting the average inspection burden."
+plant_problem: "Costly dimensional, tensile or chemistry measurements may not justify a large sample at every epoch, yet simultaneous centre and spread shifts still require prompt detection."
+excel: "Use AVERAGE, STDEV.S, standardized statistics, MAX and IF logic; simulate false alarms and average observations before use"
+minitab: "Stat > Control Charts > Variables Charts for Subgroups > Xbar-S; use Calc > Calculator for the joint statistic and retain Xbar-S as the benchmark"
+python: "NumPy and SciPy simulation of subgroup sizes, warning limits, ARL, median run length, false alarms and average observations"
+steel_pipe: "Pilot offline on a costly dimensional CTQ or laboratory response where both the centreline and variability can drift."
+exam: [CSSBB, CQE]
+exam_topic: "Adaptive sampling and joint monitoring of location and dispersion"
+lesson_idea: yes
+status: Proposed
+```
 
 ### Claude picks
 _Claude adds these in the Friday run._
