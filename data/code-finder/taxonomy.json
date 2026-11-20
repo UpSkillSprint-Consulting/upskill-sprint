@@ -1,0 +1,404 @@
+{
+  "version": 1,
+  "facets": {
+    "industries": [
+      {
+        "slug": "oil-gas",
+        "label": "Oil and gas"
+      },
+      {
+        "slug": "oil-gas-upstream",
+        "label": "Upstream (wells and production)",
+        "parent": "oil-gas"
+      },
+      {
+        "slug": "oil-gas-midstream",
+        "label": "Midstream (pipelines and storage)",
+        "parent": "oil-gas"
+      },
+      {
+        "slug": "oil-gas-downstream",
+        "label": "Downstream (refining and petrochemical)",
+        "parent": "oil-gas"
+      },
+      {
+        "slug": "steelmaking",
+        "label": "Steelmaking"
+      },
+      {
+        "slug": "pipe-tube-mfg",
+        "label": "Pipe and tube manufacturing"
+      },
+      {
+        "slug": "mining",
+        "label": "Mining"
+      },
+      {
+        "slug": "construction",
+        "label": "Construction and structures"
+      },
+      {
+        "slug": "power-utilities",
+        "label": "Power and utilities"
+      },
+      {
+        "slug": "manufacturing",
+        "label": "Manufacturing (general)"
+      },
+      {
+        "slug": "aerospace",
+        "label": "Aerospace"
+      },
+      {
+        "slug": "automotive",
+        "label": "Automotive"
+      },
+      {
+        "slug": "medical-devices",
+        "label": "Medical devices"
+      },
+      {
+        "slug": "food",
+        "label": "Food"
+      },
+      {
+        "slug": "chemicals",
+        "label": "Chemicals"
+      },
+      {
+        "slug": "nuclear",
+        "label": "Nuclear"
+      },
+      {
+        "slug": "transportation",
+        "label": "Transportation"
+      },
+      {
+        "slug": "it-data",
+        "label": "IT and data"
+      }
+    ],
+    "categories": [
+      {
+        "slug": "steel-metals",
+        "label": "Steel and metals"
+      },
+      {
+        "slug": "pipe-tube",
+        "label": "Pipe and tube"
+      },
+      {
+        "slug": "welding",
+        "label": "Welding"
+      },
+      {
+        "slug": "ndt",
+        "label": "Non-destructive testing (NDT)"
+      },
+      {
+        "slug": "mechanical-testing",
+        "label": "Mechanical testing"
+      },
+      {
+        "slug": "chemistry-analysis",
+        "label": "Chemistry and analysis"
+      },
+      {
+        "slug": "corrosion-coatings",
+        "label": "Corrosion and coatings"
+      },
+      {
+        "slug": "pressure-equipment",
+        "label": "Pressure equipment"
+      },
+      {
+        "slug": "storage-tanks",
+        "label": "Storage tanks"
+      },
+      {
+        "slug": "valves-rotating",
+        "label": "Valves and rotating equipment"
+      },
+      {
+        "slug": "structural",
+        "label": "Structural"
+      },
+      {
+        "slug": "electrical",
+        "label": "Electrical"
+      },
+      {
+        "slug": "fuel-gas",
+        "label": "Fuel gas"
+      },
+      {
+        "slug": "metrology",
+        "label": "Measurement and metrology"
+      },
+      {
+        "slug": "quality-management",
+        "label": "Quality management"
+      },
+      {
+        "slug": "statistics-spc",
+        "label": "Statistics and SPC"
+      },
+      {
+        "slug": "risk-management",
+        "label": "Risk management"
+      },
+      {
+        "slug": "process-safety",
+        "label": "Process safety"
+      },
+      {
+        "slug": "occupational-safety",
+        "label": "Occupational safety"
+      },
+      {
+        "slug": "environment-energy",
+        "label": "Environment and energy"
+      },
+      {
+        "slug": "infosec-ai",
+        "label": "Information security and AI"
+      },
+      {
+        "slug": "conformity-labs",
+        "label": "Conformity assessment and labs"
+      }
+    ],
+    "useCases": [
+      {
+        "slug": "specify-material",
+        "label": "Specify or buy material"
+      },
+      {
+        "slug": "certify-mill-product",
+        "label": "Certify mill product"
+      },
+      {
+        "slug": "qualify-weld-procedure",
+        "label": "Qualify a weld procedure"
+      },
+      {
+        "slug": "qualify-ndt-staff",
+        "label": "Qualify NDT staff"
+      },
+      {
+        "slug": "run-lab-test",
+        "label": "Run a lab test"
+      },
+      {
+        "slug": "calibrate-equipment",
+        "label": "Calibrate equipment"
+      },
+      {
+        "slug": "inspect-in-service",
+        "label": "Inspect in service"
+      },
+      {
+        "slug": "assess-fitness-for-service",
+        "label": "Assess fitness for service"
+      },
+      {
+        "slug": "design-pipeline",
+        "label": "Design a pipeline"
+      },
+      {
+        "slug": "design-structure",
+        "label": "Design a structure"
+      },
+      {
+        "slug": "set-up-qms",
+        "label": "Set up a QMS"
+      },
+      {
+        "slug": "prepare-audit",
+        "label": "Prepare for an audit"
+      },
+      {
+        "slug": "run-spc-capability",
+        "label": "Run SPC or capability"
+      },
+      {
+        "slug": "risk-assessment",
+        "label": "Do a risk assessment"
+      },
+      {
+        "slug": "manage-process-safety",
+        "label": "Manage process safety"
+      },
+      {
+        "slug": "report-ghg",
+        "label": "Report GHG and energy"
+      },
+      {
+        "slug": "certify-personnel",
+        "label": "Certify personnel"
+      }
+    ],
+    "docTypes": [
+      {
+        "slug": "specification",
+        "label": "Specification"
+      },
+      {
+        "slug": "test-method",
+        "label": "Test method"
+      },
+      {
+        "slug": "practice",
+        "label": "Practice or recommended practice"
+      },
+      {
+        "slug": "guide",
+        "label": "Guide"
+      },
+      {
+        "slug": "code",
+        "label": "Code"
+      },
+      {
+        "slug": "management-system",
+        "label": "Management system standard"
+      },
+      {
+        "slug": "technical-report",
+        "label": "Technical report"
+      },
+      {
+        "slug": "regulation",
+        "label": "Regulation (pointer only)"
+      }
+    ],
+    "jurisdictions": [
+      {
+        "slug": "intl",
+        "label": "International"
+      },
+      {
+        "slug": "ca",
+        "label": "Canada"
+      },
+      {
+        "slug": "ca-federal",
+        "label": "Canada (federal)",
+        "parent": "ca"
+      },
+      {
+        "slug": "ca-sk",
+        "label": "Saskatchewan",
+        "parent": "ca"
+      },
+      {
+        "slug": "ca-ab",
+        "label": "Alberta",
+        "parent": "ca"
+      },
+      {
+        "slug": "ca-bc",
+        "label": "British Columbia",
+        "parent": "ca"
+      },
+      {
+        "slug": "ca-on",
+        "label": "Ontario",
+        "parent": "ca"
+      },
+      {
+        "slug": "ca-mb",
+        "label": "Manitoba",
+        "parent": "ca"
+      },
+      {
+        "slug": "us",
+        "label": "United States"
+      },
+      {
+        "slug": "us-federal",
+        "label": "United States (federal)",
+        "parent": "us"
+      },
+      {
+        "slug": "us-state",
+        "label": "United States (state)",
+        "parent": "us"
+      },
+      {
+        "slug": "eu-uk",
+        "label": "EU and UK"
+      },
+      {
+        "slug": "other",
+        "label": "Other"
+      }
+    ]
+  },
+  "bodies": [
+    {
+      "code": "API",
+      "name": "American Petroleum Institute",
+      "catalog": "https://www.api.org/products-and-services/standards"
+    },
+    {
+      "code": "CSA",
+      "name": "CSA Group",
+      "catalog": "https://www.csagroup.org/store/"
+    },
+    {
+      "code": "ASTM",
+      "name": "ASTM International",
+      "catalog": "https://www.astm.org/products-services/standards-and-publications.html"
+    },
+    {
+      "code": "ISO",
+      "name": "International Organization for Standardization",
+      "catalog": "https://www.iso.org/standards.html"
+    }
+  ],
+  "relationTypes": [
+    {
+      "slug": "equivalent",
+      "label": "Technically equivalent or harmonized"
+    },
+    {
+      "slug": "similar",
+      "label": "Covers similar ground; not interchangeable"
+    },
+    {
+      "slug": "references",
+      "label": "Cites the other document"
+    },
+    {
+      "slug": "supersedes",
+      "label": "Replaces the other document"
+    }
+  ],
+  "materials": [
+    {
+      "slug": "carbon-steel",
+      "label": "Carbon steel"
+    },
+    {
+      "slug": "hsla",
+      "label": "High-strength low-alloy steel"
+    },
+    {
+      "slug": "stainless-steel",
+      "label": "Stainless steel"
+    },
+    {
+      "slug": "alloy-steel",
+      "label": "Alloy steel"
+    },
+    {
+      "slug": "concrete",
+      "label": "Concrete"
+    },
+    {
+      "slug": "coatings",
+      "label": "Coatings"
+    }
+  ]
+}
