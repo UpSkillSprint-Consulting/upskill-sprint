@@ -20,8 +20,8 @@ test('homepage counts match the rendered lesson and tool libraries', async () =>
   assert.equal(counts.subjects, [...lessonPage.window.document.querySelectorAll('[data-category-section]')].filter(section => section.querySelector('[data-lesson-item]')).length);
   assert.ok(counts.lessons > 9);
   const tools = parse('engineering-tools.html');
-  assert.equal(home.window.UpskillToolCounts(tools), 2);
-  assert.equal(home.window.UpskillToolCounts(tools), 2, 'hydration is idempotent');
+  assert.equal(home.window.UpskillToolCounts(tools), 3); // calculator, unit converter, Code Finder
+  assert.equal(home.window.UpskillToolCounts(tools), 3, 'hydration is idempotent');
   const lessons = parse('lessons.html');
   const duplicate = lessonPage.window.document.querySelector('[data-lesson-item][data-interactive="true"]').cloneNode(true);
   lessons.getElementById('quality-engineering').appendChild(duplicate);

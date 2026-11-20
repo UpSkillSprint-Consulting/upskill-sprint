@@ -153,6 +153,7 @@ export function validateCatalog({taxonomy, standards, synonyms}, {root = null, t
     }
     for (const entry of Array.isArray(record?.learning) ? record.learning : (errors.push(`${where}: learning must be a list`), [])) {
       if (!LEARNING_TYPES.includes(entry?.type)) errors.push(`${where}: learning type must be lesson or tool`);
+      if (!isString(entry?.label)) errors.push(`${where}: learning label is required text (the link text users see)`);
       if (typeof entry?.href !== 'string' || !/^\/[a-z0-9\-/]+$/.test(entry.href)) errors.push(`${where}: learning href must be a site path like /lessons/...`);
       else if (root && !learningTargetExists(root, entry)) errors.push(`${where}: learning link ${entry.href} does not match a page in the repo`);
     }

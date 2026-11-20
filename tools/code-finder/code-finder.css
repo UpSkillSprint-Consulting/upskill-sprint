@@ -1,0 +1,166 @@
+/* Code Finder. Colours come only from the shared OSIRIS tokens (--osx-*,
+   /assets/osiris-tool-theme.css), so light and dark both work. Layout values
+   that repeat are --cf-* tokens. Mobile first: one column, filters in a
+   bottom sheet; two columns from 901px. */
+
+.cf-app {
+  --cf-maxw: 1180px;
+  --cf-gap: 16px;
+  --cf-pad: 16px;
+  --cf-aside: 280px;
+  --cf-touch: 44px;
+  padding: 24px var(--cf-pad) 40px;
+}
+.cf-app > * { max-width: var(--cf-maxw); margin-left: auto; margin-right: auto; }
+
+/* ---------- Hero and search ---------- */
+.cf-hero { padding: 8px 0 20px; }
+.cf-kicker { margin: 0 0 8px; font-size: 12px; }
+.cf-hero h1 { font-family: var(--osx-font-body); font-size: clamp(26px, 5vw, 38px); line-height: 1.15; margin: 0 0 12px; max-width: 26ch; }
+.cf-lead { font-size: 16px; line-height: 1.6; color: var(--osx-text-2); margin: 0 0 20px; max-width: 70ch; }
+.cf-search-label { display: block; font-family: var(--osx-font-hud); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--osx-text-2); margin-bottom: 6px; }
+.cf-search-row { display: flex; gap: 8px; }
+.cf-search-row input {
+  flex: 1 1 auto; min-width: 0; min-height: 52px; padding: 12px 14px; font-size: 17px;
+  border: 1.5px solid var(--osx-control-border); border-radius: var(--osx-radius);
+  background: var(--osx-panel-raised); color: var(--osx-text-heading); font-family: var(--osx-font-body);
+}
+.cf-search-row input::placeholder { color: var(--osx-text-muted); opacity: 1; }
+.cf-search-btn { min-height: 52px; padding: 0 20px; }
+.cf-help { margin: 8px 0 0; font-size: 13.5px; color: var(--osx-text-2); }
+.cf-examples { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; }
+.cf-examples-label { font-size: 13px; color: var(--osx-text-2); }
+.cf-example {
+  min-height: 36px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--osx-line-strong); background: var(--osx-panel); color: var(--osx-text);
+  font: 600 13px var(--osx-font-body);
+}
+.cf-example:hover { border-color: var(--osx-gold-ui); color: var(--osx-text-heading); }
+
+/* ---------- Toolbar ---------- */
+.cf-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 14px 0 10px; border-top: 1px solid var(--osx-line); }
+.cf-results-heading { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.cf-status { flex: 1 1 100%; margin: 0; font-size: 15px; color: var(--osx-text); }
+.cf-status:focus { outline: none; }
+.cf-toolbar-actions { display: flex; gap: 10px; align-items: center; width: 100%; }
+.cf-filters-btn { min-height: var(--cf-touch); flex: 1 1 auto; }
+.cf-sort { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--osx-text-2); }
+.cf-sort select { min-height: var(--cf-touch); }
+.cf-active { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-bottom: 12px; }
+.cf-chip {
+  min-height: 36px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--osx-gold-ui); background: var(--osx-gold-glow); color: var(--osx-text-heading);
+  font: 600 13px var(--osx-font-body);
+}
+.cf-link-btn {
+  background: none; border: 0; padding: 4px 2px; min-height: 32px; cursor: pointer;
+  color: var(--osx-gold-text); font: 600 13.5px var(--osx-font-body); text-decoration: underline; text-underline-offset: 2px;
+}
+
+/* ---------- Layout ---------- */
+.cf-layout { display: block; }
+.cf-filter-slot { display: none; }
+.cf-results { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.cf-item { margin: 0; }
+
+/* ---------- Filters (shared by the sidebar and the sheet) ---------- */
+.cf-filters { background: var(--osx-panel); border: 1px solid var(--osx-line); border-radius: var(--osx-radius); padding: 14px; }
+.cf-filters-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.cf-filters-head h2 { margin: 0; font-size: 12px; }
+.cf-facet { border-top: 1px solid var(--osx-line-subtle); padding: 6px 0; }
+.cf-facet:first-child { border-top: 0; }
+.cf-facet summary {
+  min-height: var(--cf-touch); display: flex; align-items: center; cursor: pointer; list-style: none;
+  font-weight: 600; font-size: 14.5px; color: var(--osx-text-heading);
+}
+.cf-facet summary::-webkit-details-marker { display: none; }
+.cf-facet summary::after { content: '+'; margin-left: auto; color: var(--osx-gold-text); font-size: 18px; }
+.cf-facet[open] summary::after { content: '\2212'; }
+.cf-facet-on { font-weight: 400; color: var(--osx-text-2); font-size: 13px; }
+.cf-facet-list { list-style: none; margin: 0 0 6px; padding: 0; }
+.cf-facet-child { padding-left: 18px; }
+.cf-check { display: flex; align-items: center; gap: 10px; min-height: 40px; cursor: pointer; font-size: 14px; color: var(--osx-text); }
+.cf-check input { width: 18px; height: 18px; flex: none; accent-color: var(--osx-gold-ui); }
+.cf-check-label { flex: 1 1 auto; }
+.cf-count { font-size: 12px; color: var(--osx-text-2); }
+.cf-sheet-actions { position: sticky; bottom: 0; padding-top: 12px; background: var(--osx-panel); }
+.cf-apply { width: 100%; min-height: 48px; }
+
+/* Bottom sheet on phones: a native <dialog> holds the same panel. */
+.cf-sheet {
+  margin: auto 0 0; width: 100%; max-width: 100%; max-height: 86vh; padding: 0; border: 0;
+  border-radius: 16px 16px 0 0; background: var(--osx-panel); color: var(--osx-text); overflow: auto;
+}
+.cf-sheet::backdrop { background: rgba(4, 4, 10, .55); }
+.cf-sheet .cf-filters { border: 0; border-radius: 0; padding: 18px 16px 16px; }
+
+/* ---------- Cards ---------- */
+.cf-card { padding: 16px; border-radius: var(--osx-radius); scroll-margin-top: 90px; }
+.cf-card:focus { outline: 2px solid var(--osx-gold-ui); outline-offset: 2px; }
+.cf-card-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: center; }
+.cf-desig { margin: 0; font-family: var(--osx-font-hud); font-weight: 600; font-size: 15px; color: var(--osx-gold-text); letter-spacing: .02em; }
+.cf-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.cf-pill { font-size: 11.5px; }
+.cf-pill-law { border-color: var(--osx-blue); color: var(--osx-blue); }
+.cf-card-title { margin: 8px 0 6px; font-size: 17px; line-height: 1.35; font-family: var(--osx-font-body); }
+.cf-summary { margin: 0 0 10px; font-size: 14.5px; line-height: 1.6; color: var(--osx-text); }
+.cf-meta p { margin: 4px 0; font-size: 13px; }
+.cf-check-ok { color: var(--osx-green); }
+.cf-check-todo { color: var(--osx-orange); }
+.cf-flag { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid currentColor; font-size: 11px; font-weight: 700; }
+.cf-why { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--osx-text-2); }
+.cf-why .osx-label { font-size: 11px; }
+.cf-why-chip { padding: 2px 8px; border-radius: 6px; background: var(--osx-bg-sunken); color: var(--osx-text); font-size: 12.5px; }
+.cf-details { margin-top: 10px; border-top: 1px solid var(--osx-line-subtle); }
+.cf-details summary {
+  min-height: var(--cf-touch); display: flex; align-items: center; cursor: pointer;
+  color: var(--osx-gold-text); font-weight: 600; font-size: 14px;
+}
+.cf-details-body h4 { margin: 12px 0 4px; font-size: 12px; font-family: var(--osx-font-hud); letter-spacing: .06em; text-transform: uppercase; color: var(--osx-text-2); }
+.cf-details-body p, .cf-details-body li { font-size: 14px; line-height: 1.55; margin: 0; }
+.cf-details-body ul { margin: 0; padding-left: 18px; }
+.cf-details-grid { display: grid; gap: 2px 20px; grid-template-columns: 1fr; }
+.cf-rel-type { font-family: var(--osx-font-hud); font-size: 12px; color: var(--osx-text-2); }
+.cf-rel-note { color: var(--osx-text-2); font-size: 13px; }
+.cf-relations li { margin: 2px 0; }
+.cf-publisher { margin-top: 12px !important; }
+.cf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.cf-empty { padding: 18px; border-radius: var(--osx-radius); }
+.cf-empty h3 { margin: 0 0 8px; }
+.cf-empty ul { margin: 0 0 14px; padding-left: 20px; }
+.cf-more { display: block; width: 100%; min-height: 48px; margin-top: 14px; }
+
+/* ---------- Disclaimer, related, back link ---------- */
+.cf-disclaimer { margin-top: 32px; padding: 16px 18px; border-radius: var(--osx-radius); border-left: 4px solid var(--osx-gold-ui); }
+.cf-disclaimer h2 { margin: 0 0 6px; font-size: 12px; }
+.cf-disclaimer p { margin: 0; font-size: 14px; line-height: 1.6; }
+.cf-related { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--osx-line); }
+.cf-related h2 { font-size: 20px; margin: 0 0 8px; }
+.cf-related li { margin: 6px 0; line-height: 1.55; }
+.cf-noscript { padding: 16px; }
+.cf-back { max-width: 1180px; margin: 26px auto; padding: 0 16px; text-align: left; }
+.cf-back a { color: #1f4e78; font-weight: 600; text-decoration: none; }
+html[data-theme="dark"] .cf-back a { color: #7dd3fc; }
+
+/* ---------- Tablet and up ---------- */
+@media (min-width: 640px) {
+  .cf-app { --cf-pad: 24px; }
+  .cf-card { padding: 18px 20px; }
+  .cf-details-grid { grid-template-columns: 1fr 1fr; }
+  .cf-status { flex: 1 1 auto; }
+  .cf-toolbar-actions { width: auto; }
+  .cf-filters-btn { flex: none; }
+}
+
+/* ---------- Desktop: sidebar filters ---------- */
+@media (min-width: 901px) {
+  .cf-layout { display: grid; grid-template-columns: var(--cf-aside) minmax(0, 1fr); gap: 24px; align-items: start; }
+  .cf-filter-slot { display: block; position: sticky; top: 88px; max-height: calc(100vh - 104px); overflow: auto; }
+  .cf-filters-btn { display: none; }
+  .cf-sheet-actions { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cf-app * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
