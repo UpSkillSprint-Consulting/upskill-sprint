@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "id": "industry",
+      "prompt": "What industry are you in?",
+      "facet": "industries",
+      "options": [
+        {
+          "label": "Pipelines (oil and gas)",
+          "values": [
+            "oil-gas-midstream"
+          ]
+        },
+        {
+          "label": "Wells and production",
+          "values": [
+            "oil-gas-upstream"
+          ]
+        },
+        {
+          "label": "Refining, petrochemical or chemicals",
+          "values": [
+            "oil-gas-downstream",
+            "chemicals"
+          ]
+        },
+        {
+          "label": "Steelmaking or pipe manufacturing",
+          "values": [
+            "steelmaking",
+            "pipe-tube-mfg"
+          ]
+        },
+        {
+          "label": "Construction and structures",
+          "values": [
+            "construction"
+          ]
+        },
+        {
+          "label": "General manufacturing",
+          "values": [
+            "manufacturing"
+          ]
+        },
+        {
+          "label": "Mining",
+          "values": [
+            "mining"
+          ]
+        },
+        {
+          "label": "Power and utilities",
+          "values": [
+            "power-utilities"
+          ]
+        },
+        {
+          "label": "Medical devices",
+          "values": [
+            "medical-devices"
+          ]
+        },
+        {
+          "label": "Food",
+          "values": [
+            "food"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "task",
+      "prompt": "What are you trying to do?",
+      "facet": "useCases",
+      "options": [
+        {
+          "label": "Buy, specify or certify material",
+          "values": [
+            "specify-material",
+            "certify-mill-product"
+          ]
+        },
+        {
+          "label": "Design or build something",
+          "values": [
+            "design-pipeline",
+            "design-structure"
+          ]
+        },
+        {
+          "label": "Weld or qualify welding",
+          "values": [
+            "qualify-weld-procedure"
+          ]
+        },
+        {
+          "label": "Test in a lab or calibrate",
+          "values": [
+            "run-lab-test",
+            "calibrate-equipment"
+          ]
+        },
+        {
+          "label": "Inspect equipment in service",
+          "values": [
+            "inspect-in-service",
+            "assess-fitness-for-service",
+            "qualify-ndt-staff"
+          ]
+        },
+        {
+          "label": "Set up a quality system or prepare for an audit",
+          "values": [
+            "set-up-qms",
+            "prepare-audit"
+          ]
+        },
+        {
+          "label": "Run SPC, capability or MSA",
+          "values": [
+            "run-spc-capability"
+          ]
+        },
+        {
+          "label": "Manage risk or safety",
+          "values": [
+            "risk-assessment",
+            "manage-process-safety"
+          ]
+        },
+        {
+          "label": "Report GHG or energy",
+          "values": [
+            "report-ghg"
+          ]
+        }
+      ]
+    }
+  ]
+}

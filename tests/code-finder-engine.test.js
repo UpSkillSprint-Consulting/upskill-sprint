@@ -97,7 +97,7 @@ test('related codes read from both ends with plain labels', () => {
 });
 
 test('URL state round-trips and drops values that are not in the taxonomy', () => {
-  const state = {q: 'line pipe', filters: {bodies: ['API', 'CSA'], categories: ['pipe-tube']}, sort: 'designation'};
+  const state = {q: 'line pipe', filters: {bodies: ['API', 'CSA'], categories: ['pipe-tube']}, sort: 'designation', pack: null};
   const params = E.stateToParams(state);
   assert.equal(params, 'q=line+pipe&category=pipe-tube&body=API%2CCSA&sort=designation');
   assert.deepEqual(E.paramsToState(params, index), state);
@@ -112,4 +112,64 @@ test('stale means never checked or checked more than a year ago', () => {
   assert.equal(E.isStale({verified: null}, today), true);
   assert.equal(E.isStale({verified: '2026-11-20'}, today), false);
   assert.equal(E.isStale({verified: '2025-10-01'}, today), true);
+});
+
+// ---------- Starter packs and wizard ----------
+const full = E.buildIndex({...catalog, scenarios: data('scenarios'), wizard: data('wizard')});
+const wizard = data('wizard');
+
+test('a pack lists its codes in its own order with the reason each is there', () => {
+  const view = E.packResults(full, 'line-pipe-mill-qc');
+  assert.deepEqual(view.results.slice(0, 3).map(item => item.record.id), ['api-5l', 'csa-z245-1', 'iso-3183']);
+  assert.match(view.results[0].why, /PSL 1 vs PSL 2/);
+  assert.equal(E.packResults(full, 'no-such-pack'), null);
+});
+
+test('wizard answers lead to the pack that fits both, exact sub-sector first', () => {
+  const best = (industries, useCases) => E.recommendPacks(full, {industries, useCases}).filter(item => item.both)[0]?.pack.slug;
+  assert.equal(best(['oil-gas-midstream'], ['specify-material', 'certify-mill-product']), 'line-pipe-mill-qc');
+  assert.equal(best(['oil-gas-upstream'], ['specify-material', 'certify-mill-product']), 'octg-wells');
+  assert.equal(best(['oil-gas-midstream'], ['inspect-in-service', 'assess-fitness-for-service', 'qualify-ndt-staff']), 'pipeline-integrity');
+  assert.equal(best(['steelmaking', 'pipe-tube-mfg'], ['run-lab-test', 'calibrate-equipment']), 'steel-mill-lab');
+  assert.equal(best(['medical-devices'], ['set-up-qms', 'prepare-audit']), 'medical-device-qms');
+});
+
+test('at least 9 in 10 wizard answer pairs reach a pack that fits both answers', () => {
+  let fits = 0, total = 0;
+  for (const a of wizard.questions[0].options) for (const b of wizard.questions[1].options) {
+    total++;
+    if (E.recommendPacks(full, {industries: a.values, useCases: b.values}).some(item => item.both)) fits++;
+  }
+  assert.ok(fits / total >= 0.9, `${fits}/${total}`);
+});
+
+test('the CSV export is spreadsheet-safe: quoted, escaped, and no formulas', () => {
+  const copy = JSON.parse(JSON.stringify({...catalog, scenarios: data('scenarios')}));
+  copy.standards.standards.find(r => r.id === 'api-5l').title = '=HYPERLINK("http://evil","x")';
+  copy.scenarios.packs[0].records[0].why = 'Has "quotes", commas\nand a newline.';
+  const csv = E.packToCsv(E.buildIndex(copy), 'line-pipe-mill-qc', {today: '2026-11-20', now: new Date('2026-11-20T00:00:00Z')});
+  const lines = csv.split('\r\n');
+  assert.equal(lines[0], 'Code Finder starter pack,Making or buying line pipe');
+  assert.equal(lines[2], 'Source,https://upskillsprint.com/tools/code-finder/?pack=line-pipe-mill-qc');
+  assert.ok(csv.includes(`"'=HYPERLINK(""http://evil"",""x"")"`), 'formula neutralised and quotes doubled');
+  assert.ok(csv.includes('"Has ""quotes"", commas\nand a newline."'));
+  assert.ok(csv.includes(',Checked 2026-11-20,47th,'));
+  assert.ok(csv.includes(',Not yet checked,,'));
+  assert.ok(csv.endsWith('\r\n'));
+});
+
+test('the pack is part of the shareable URL and unknown packs are dropped', () => {
+  assert.equal(E.stateToParams({q: '', filters: {}, sort: 'relevance', pack: 'storage-tanks'}), 'pack=storage-tanks');
+  assert.equal(E.paramsToState('pack=storage-tanks', full).pack, 'storage-tanks');
+  assert.equal(E.paramsToState('pack=../../etc', full).pack, null);
+});
+
+test('a pack tagged with the exact sub-sector outranks one that only shares the parent', () => {
+  const base = {records: [{id: 'api-5l', why: 'x'}, {id: 'api-5ct', why: 'x'}, {id: 'api-6a', why: 'x'}], lessons: [], regulated: false, useCases: ['specify-material'], summary: 's'};
+  // "aaa" sorts first, so without the exact-match weighting it would win the tie.
+  const mini = E.buildIndex({...catalog, scenarios: {version: 1, packs: [
+    {...base, slug: 'aaa-parent-only', title: 'Aaa parent only', industries: ['oil-gas']},
+    {...base, slug: 'zzz-exact', title: 'Zzz exact', industries: ['oil-gas-midstream']}
+  ]}});
+  assert.equal(E.recommendPacks(mini, {industries: ['oil-gas-midstream'], useCases: ['specify-material']})[0].pack.slug, 'zzz-exact');
 });

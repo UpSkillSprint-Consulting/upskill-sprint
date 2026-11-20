@@ -227,3 +227,118 @@ test('a failed data load says so instead of spinning forever', async () => {
   await dom.window.CodeFinderApp.init();
   assert.match(dom.window.document.getElementById('cf-status').textContent, /did not load/);
 });
+
+// ---------- Starter packs, wizard and export ----------
+function stubDownloads(window) {
+  const downloads = [];
+  window.URL.createObjectURL = blob => { downloads.push(blob); return 'blob:cf'; };
+  window.URL.revokeObjectURL = () => {};
+  window.HTMLAnchorElement.prototype.click = function () { downloads.push(this.getAttribute('download')); };
+  return downloads;
+}
+
+test('the export form is a real Netlify form in the static HTML', () => {
+  const doc = new JSDOM(PAGE).window.document;
+  const form = doc.querySelector('form[name="code-finder-export"]');
+  assert.ok(form.hasAttribute('data-netlify'));
+  assert.equal(form.getAttribute('netlify-honeypot'), 'bot-field');
+  assert.equal(form.querySelector('input[name="form-name"]').value, 'code-finder-export');
+  for (const name of ['email', 'pack', 'marketing_opt_in', 'bot-field']) assert.ok(form.querySelector(`[name="${name}"]`), name);
+  assert.equal(form.querySelector('input[name="marketing_opt_in"]').checked, false, 'opt-in is never pre-ticked');
+  assert.ok(form.querySelector('a[href="/privacy"]'));
+});
+
+test('the hub lists every pack, and the wizard recommends packs that fit', async () => {
+  const page = await boot();
+  const packs = JSON.parse(read('data/code-finder/scenarios.json')).packs;
+  assert.equal(page.doc.querySelectorAll('#cf-pack-list .cf-pack-link').length, packs.length);
+  page.doc.getElementById('cf-wizard').dispatchEvent(new page.window.Event('submit', {cancelable: true}));
+  assert.match(page.doc.getElementById('cf-wizard-result').textContent, /Pick one answer for each question/);
+  page.doc.querySelector('input[name="cf-w-industry"][value="0"]').checked = true;  // Pipelines
+  page.doc.querySelector('input[name="cf-w-task"][value="0"]').checked = true;      // Buy or certify material
+  page.doc.getElementById('cf-wizard').dispatchEvent(new page.window.Event('submit', {cancelable: true}));
+  const result = page.doc.getElementById('cf-wizard-result');
+  assert.equal(result.querySelector('.cf-pack-link-title').textContent, 'Making or buying line pipe');
+  result.querySelector('.cf-link-btn').click();
+  await flush();
+  assert.equal(page.window.location.search, '?industry=oil-gas-midstream&use=specify-material%2Ccertify-mill-product');
+  assert.match(page.status(), /match your filters/);
+});
+
+test('when no pack fits both answers, the wizard says so and offers matching codes', async () => {
+  const page = await boot();
+  const industry = [...page.doc.querySelectorAll('#cf-wizard-questions fieldset')[0].querySelectorAll('label')].findIndex(l => l.textContent === 'Medical devices');
+  const task = [...page.doc.querySelectorAll('#cf-wizard-questions fieldset')[1].querySelectorAll('label')].findIndex(l => l.textContent === 'Weld or qualify welding');
+  page.doc.querySelector(`input[name="cf-w-industry"][value="${industry}"]`).checked = true;
+  page.doc.querySelector(`input[name="cf-w-task"][value="${task}"]`).checked = true;
+  page.doc.getElementById('cf-wizard').dispatchEvent(new page.window.Event('submit', {cancelable: true}));
+  assert.match(page.doc.getElementById('cf-wizard-result').textContent, /No starter pack fits both answers yet/);
+});
+
+test('a pack opens from its link, shows reasons and lessons, and the consult box only on regulated work', async () => {
+  const page = await boot();
+  page.doc.querySelector('#cf-pack-list [data-cf-pack="pipeline-integrity"]').click();
+  await flush();
+  assert.equal(page.window.location.search, '?pack=pipeline-integrity');
+  assert.equal(page.doc.getElementById('cf-pack').hidden, false);
+  assert.equal(page.doc.activeElement.id, 'cf-pack-title');
+  assert.equal(page.doc.getElementById('cf-consult').hidden, false);
+  assert.equal(page.cards().length, 7);
+  assert.match(page.cards()[0].querySelector('.cf-pack-why').textContent, /^Why it is in this pack: /);
+  assert.ok(page.doc.querySelector('#cf-pack-lessons a[href^="/lessons/"]'));
+  assert.ok(page.doc.querySelector('[data-cf-root]').classList.contains('cf-pack-mode'));
+  const tanks = await boot('?pack=storage-tanks');
+  assert.equal(tanks.doc.getElementById('cf-consult').hidden, true, 'not regulated');
+  tanks.doc.querySelector('[data-cf-pack-close]').click();
+  await flush();
+  assert.equal(tanks.doc.getElementById('cf-pack').hidden, true);
+  assert.equal(tanks.window.location.search, '');
+});
+
+test('export asks for an email once, posts it to Netlify Forms, then downloads', async () => {
+  const page = await boot('?pack=line-pipe-mill-qc');
+  const downloads = stubDownloads(page.window);
+  const posts = [];
+  const fileFetch = page.window.fetch;
+  page.window.fetch = async (url, options) => {
+    if (options && options.method === 'POST') { posts.push({url, options}); return {ok: true, status: 200}; }
+    return fileFetch(url, options);
+  };
+  const form = page.doc.getElementById('cf-export-form');
+  page.doc.querySelector('[data-cf-export="csv"]').click();
+  assert.equal(form.hidden, false, 'gate shown');
+  assert.equal(downloads.length, 0, 'nothing downloaded before the email');
+  form.dispatchEvent(new page.window.Event('submit', {cancelable: true}));
+  assert.match(page.doc.getElementById('cf-export-msg').textContent, /valid email/);
+  assert.equal(posts.length, 0);
+  page.doc.getElementById('cf-export-email').value = 'ernie@example.com';
+  form.querySelector('input[name="marketing_opt_in"]').checked = true;
+  form.dispatchEvent(new page.window.Event('submit', {cancelable: true}));
+  for (let i = 0; i < 5; i++) await flush();
+  assert.equal(posts.length, 1);
+  assert.equal(posts[0].url, '/');
+  const body = new URLSearchParams(posts[0].options.body);
+  assert.equal(body.get('form-name'), 'code-finder-export');
+  assert.equal(body.get('email'), 'ernie@example.com');
+  assert.equal(body.get('pack'), 'line-pipe-mill-qc');
+  assert.equal(body.get('marketing_opt_in'), 'yes');
+  assert.equal(form.hidden, true);
+  assert.ok(downloads.includes('code-finder-line-pipe-mill-qc.csv'), 'pending CSV downloaded after unlock');
+  assert.equal(page.window.localStorage.getItem('cf-export-unlocked'), 'yes');
+  page.doc.querySelector('[data-cf-export="csv"]').click();
+  assert.equal(form.hidden, true, 'no second ask');
+  assert.equal(downloads.filter(d => typeof d === 'string').length, 2);
+});
+
+test('a failed form post keeps downloads locked and says so', async () => {
+  const page = await boot('?pack=storage-tanks');
+  stubDownloads(page.window);
+  const fileFetch = page.window.fetch;
+  page.window.fetch = async (url, options) => options && options.method === 'POST' ? {ok: false, status: 500} : fileFetch(url, options);
+  page.doc.querySelector('[data-cf-export="print"]').click();
+  page.doc.getElementById('cf-export-email').value = 'a@b.co';
+  page.doc.getElementById('cf-export-form').dispatchEvent(new page.window.Event('submit', {cancelable: true}));
+  for (let i = 0; i < 5; i++) await flush();
+  assert.match(page.doc.getElementById('cf-export-msg').textContent, /did not go through/);
+  assert.equal(page.window.localStorage.getItem('cf-export-unlocked'), null);
+});

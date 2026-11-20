@@ -122,3 +122,18 @@ test('the Netlify build runs the catalog gate before the site is staged', () => 
   assert.ok(gate >= 0, 'validator missing from build:site');
   assert.ok(gate < build.indexOf('node scripts/stage-public-site.mjs'), 'validator must run before staging');
 });
+
+test('every starter pack and wizard answer is valid, and packs only list real codes', () => {
+  assert.ok(catalog.scenarios.packs.length >= 12, 'starter packs');
+  const regulated = catalog.scenarios.packs.filter(pack => pack.regulated).map(pack => pack.slug).sort();
+  // Decision (Nov 2026): consult CTA only on regulated work: pipelines, pressure equipment, medical, food.
+  assert.deepEqual(regulated, ['food-safety', 'line-pipe-mill-qc', 'medical-device-qms', 'pipeline-design-construction-canada', 'pipeline-integrity', 'pressure-equipment-inspection']);
+  expectProblem(copy => copy.scenarios.packs[0].records.push({id: 'api-0000', why: 'Missing code.'}), /unknown code "api-0000"/);
+  expectProblem(copy => copy.scenarios.packs[0].records.push({...copy.scenarios.packs[0].records[0]}), /lists "api-5l" twice/);
+  expectProblem(copy => { copy.scenarios.packs[0].records[0].why = 'The pipe shall be hydrotested.'; }, /why reads like standard text/);
+  expectProblem(copy => { copy.scenarios.packs[0].regulated = 'yes'; }, /regulated must be true or false/);
+  expectProblem(copy => copy.scenarios.packs[0].lessons.push({href: '/lessons/nope', label: 'Nope'}), /lesson \/lessons\/nope does not match/, {root: ROOT});
+  expectProblem(copy => { copy.scenarios.packs[1].slug = copy.scenarios.packs[0].slug; }, /duplicate slug/);
+  expectProblem(copy => copy.wizard.questions[0].options.push({label: 'Space', values: ['space']}), /values has unknown value "space"/);
+  expectProblem(copy => { copy.wizard.questions[1].facet = 'materials'; }, /facet must be industries or useCases/);
+});

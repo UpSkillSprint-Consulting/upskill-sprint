@@ -122,7 +122,11 @@
       });
     });
     phrases.sort(function (a, b) { return b.phrase.length - a.phrase.length; });
-    return {catalog: catalog, docs: docs, byId: byId, labels: labels, parents: parents, phrases: phrases};
+    var packs = (catalog.scenarios && catalog.scenarios.packs) || [];
+    var packBySlug = {};
+    packs.forEach(function (pack) { packBySlug[pack.slug] = pack; });
+    return {catalog: catalog, docs: docs, byId: byId, labels: labels, parents: parents, phrases: phrases,
+      packs: packs, packBySlug: packBySlug};
   }
 
   function unique(list) {
@@ -312,6 +316,78 @@
     return record.verified < limit.toISOString().slice(0, 10);
   }
 
+  // ---------- Starter packs and wizard ----------
+  // A pack's codes in the order the pack lists them, each with its "why".
+  function packResults(index, slug) {
+    var pack = index.packBySlug[slug];
+    if (!pack) return null;
+    var results = pack.records.filter(function (item) { return index.byId[item.id]; }).map(function (item) {
+      return {record: index.byId[item.id], score: 0, reasons: [], why: item.why};
+    });
+    return {pack: pack, results: results, total: results.length};
+  }
+
+  // Ranks packs for wizard answers ({industries: [...], useCases: [...]}).
+  // An industry answer also matches its parent (midstream -> oil and gas), so
+  // a pack tagged only "oil-gas" still fits a pipeline answer.
+  function recommendPacks(index, answers) {
+    var exact = answers.industries || [];
+    var industries = expandParents(index, 'industries', exact);
+    var tasks = answers.useCases || [];
+    return index.packs.map(function (pack) {
+      // A pack tagged with the exact sub-sector beats one that only shares the parent.
+      var industryHits = pack.industries.reduce(function (sum, slug) {
+        return sum + (exact.indexOf(slug) !== -1 ? 2 : industries.indexOf(slug) !== -1 ? 1 : 0);
+      }, 0);
+      var taskHits = pack.useCases.filter(function (slug) { return tasks.indexOf(slug) !== -1; }).length;
+      // Both answers matter; a pack that matches only one still shows, lower down.
+      var score = (industryHits ? 2 + industryHits : 0) + (taskHits ? 3 + 2 * taskHits : 0) + (industryHits && taskHits ? 4 : 0);
+      return {pack: pack, score: score, both: industryHits > 0 && taskHits > 0};
+    }).filter(function (item) { return item.score > 0; })
+      .sort(function (a, b) { return b.score - a.score || a.pack.title.localeCompare(b.pack.title); });
+  }
+  function expandParents(index, facet, values) {
+    var out = values.slice();
+    values.forEach(function (value) {
+      var parent = (index.parents[facet] || {})[value];
+      if (parent && out.indexOf(parent) === -1) out.push(parent);
+    });
+    return out;
+  }
+
+  // CSV for a pack export. Cells that start with = + - @ are prefixed with an
+  // apostrophe so a spreadsheet never runs them as formulas.
+  function csvCell(value) {
+    var text = value === null || value === undefined ? '' : String(value);
+    if (/^[=+\-@\t\r]/.test(text)) text = "'" + text;
+    return /[",\r\n]/.test(text) ? '"' + text.replace(/"/g, '""') + '"' : text;
+  }
+  function packToCsv(index, slug, options) {
+    options = options || {};
+    var view = packResults(index, slug);
+    if (!view) return '';
+    var site = options.siteUrl || 'https://upskillsprint.com';
+    var today = options.today || new Date().toISOString().slice(0, 10);
+    var rows = [
+      ['Code Finder starter pack', view.pack.title],
+      ['Generated', today],
+      ['Source', site + '/tools/code-finder/?pack=' + view.pack.slug],
+      ['Note', 'Metadata only. Confirm the current edition with the publisher and the edition your regulator or contract requires.'],
+      [],
+      ['Designation', 'Title', 'Publisher', 'Document type', 'Why it is in this pack', 'Check status', 'Current edition', 'Where it is mandatory', 'Summary', 'Code Finder link']
+    ];
+    view.results.forEach(function (item) {
+      var r = item.record;
+      rows.push([
+        r.designation, r.title, r.body, index.labels.docTypes[r.docType] || r.docType, item.why,
+        isStale(r, options.now) ? 'Not yet checked' : 'Checked ' + r.verified, r.edition || '',
+        r.adoptions.map(function (a) { return index.labels.jurisdictions[a.jurisdiction] + ': ' + a.regulator + ', ' + a.instrument + ' (' + a.editionCited + ')'; }).join('; '),
+        r.summary, site + '/tools/code-finder/?q=' + encodeURIComponent(r.designation)
+      ]);
+    });
+    return rows.map(function (row) { return row.map(csvCell).join(','); }).join('\r\n') + '\r\n';
+  }
+
   // ---------- URL state ----------
   var PARAM = {industries: 'industry', categories: 'category', useCases: 'use', docTypes: 'type', bodies: 'body', jurisdictions: 'where'};
   function stateToParams(state) {
@@ -321,6 +397,7 @@
       if (state.filters[facet] && state.filters[facet].length) params.set(PARAM[facet], state.filters[facet].join(','));
     });
     if (state.sort && state.sort !== 'relevance') params.set('sort', state.sort);
+    if (state.pack) params.set('pack', state.pack);
     return params.toString();
   }
   function paramsToState(search, index) {
@@ -333,14 +410,17 @@
       filters[facet] = unique(raw.split(',')).filter(function (value) { return !allowed || allowed[value] !== undefined; });
     });
     var sort = params.get('sort');
+    var pack = params.get('pack');
     return {q: (params.get('q') || '').slice(0, 120), filters: filters,
-      sort: ['relevance', 'body', 'designation'].indexOf(sort) !== -1 ? sort : 'relevance'};
+      sort: ['relevance', 'body', 'designation'].indexOf(sort) !== -1 ? sort : 'relevance',
+      pack: pack && (!index || index.packBySlug[pack]) ? pack : null};
   }
 
   return {
     FACETS: FACETS, PARAM: PARAM,
     normalize: normalize, compact: compact, closeEnough: closeEnough,
     buildIndex: buildIndex, search: search, related: related, isStale: isStale,
+    packResults: packResults, recommendPacks: recommendPacks, packToCsv: packToCsv,
     stateToParams: stateToParams, paramsToState: paramsToState
   };
 }));

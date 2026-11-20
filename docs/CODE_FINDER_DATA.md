@@ -7,6 +7,8 @@ Code Finder (`/tools/code-finder/`, coming in PR 2) looks up codes and standards
 | `taxonomy.json` | The controlled lists for every facet (industries, categories, use cases, doc types, jurisdictions, materials), the standards bodies and the relation types. |
 | `standards.json` | One metadata record per code or standard. |
 | `synonyms.json` | Shop-floor words ("CVN", "MTR", "gauge R&R") that expand a search to records or facets. |
+| `scenarios.json` | Starter packs: a hand-picked, ordered list of codes for one job, each with a one-line reason. |
+| `wizard.json` | The two "Not sure where to start?" questions and how each answer maps to industries or use cases. |
 
 `node scripts/validate-code-finder.mjs` checks all three files. It runs in `npm run build:site` before the site is staged, so a bad record fails the Netlify deploy. Run `npm run test:code-finder` before you push.
 
@@ -70,3 +72,34 @@ The seed catalog marks most records `verified: null`. To verify a record:
 3. For any adoption, check the regulation text and set that adoption's own `verified` date.
 
 The weekly update task (Phase 2) will draft these checks as PRs for review.
+
+## Starter packs
+
+A pack answers "which codes do I need for this job?". Add one to `scenarios.packs`:
+
+```json
+{
+  "slug": "storage-tanks",
+  "title": "Building and inspecting storage tanks",
+  "summary": "Design, venting, overfill protection and in-service inspection of aboveground tanks.",
+  "industries": ["oil-gas", "chemicals"],
+  "useCases": ["design-structure", "inspect-in-service"],
+  "regulated": false,
+  "records": [{"id": "api-650", "why": "Design and construction of atmospheric welded tanks."}],
+  "lessons": [{"href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment", "label": "Top-down vs bottom-up risk assessment"}]
+}
+```
+
+| Field | Rule |
+| --- | --- |
+| `slug` | Lowercase with hyphens. It becomes `?pack=<slug>` and, in PR 4, a page URL; never change it once published. |
+| `industries`, `useCases` | Taxonomy values. The wizard ranks packs by these, so tag every industry the pack genuinely serves. |
+| `regulated` | `true` only for pipelines, pressure equipment, medical devices, food, aerospace and nuclear (Ernest's decision, Nov 2026). It shows the "Need help applying this?" consulting box. |
+| `records` | At least 3 codes, in the order a reader should work through them. `why` is one line in our own words (no "shall"). |
+| `lessons` | At least one of our lessons where one fits; the build checks the page exists. |
+
+The tests require at least 9 in 10 wizard answer pairs to reach a pack that fits both answers. When you add a wizard option, add or retag a pack so it is covered.
+
+## Export leads
+
+Downloading a pack (CSV or print to PDF) asks for an email once per browser. The address is posted to the Netlify form **`code-finder-export`** with the pack slug and an optional, unticked-by-default `marketing_opt_in`. Netlify stores the submission, and `form-submission-notification.mjs` emails it to hello@. Only addresses with `marketing_opt_in=yes` may be added to update emails (CASL).
