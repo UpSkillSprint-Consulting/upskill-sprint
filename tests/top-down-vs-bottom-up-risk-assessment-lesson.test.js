@@ -122,12 +122,13 @@ test('visual-first: poster infographic, tool groups, timing split, ISO map and w
   assert.deepEqual(blocks.map(b => b.querySelector('.td-big').textContent), ['Top-down', 'Middle-out', 'Bottom-up']);
   for (const b of blocks) assert(words(b.querySelector('p')) <= 12, 'poster lines stay short');
   assert.equal(doc.querySelector('.td-poster').getAttribute('role'), 'img');
-  // Eight tools in three direction groups, each with a timing chip in words.
+  // Nine tools in three direction groups, each with a timing chip in words.
   const groups = [...doc.querySelectorAll('#td-tools .td-group')];
   assert.deepEqual(groups.map(g => g.querySelector('h3').textContent), ['Top-down', 'Middle-out', 'Bottom-up']);
-  assert.deepEqual(groups.map(g => g.querySelectorAll('.td-card').length), [2, 2, 4]);
+  assert.deepEqual(groups.map(g => g.querySelectorAll('.td-card').length), [2, 2, 5]);
+  assert.match(doc.getElementById('td-tools-h').textContent, /Meet the 9 tools/);
   const tools = [...doc.querySelectorAll('.td-card h4')].map(h => h.textContent);
-  for (const name of ['Fault tree analysis (FTA)', 'RCA: 5-Why · Fishbone', 'Bow-tie', 'HAZOP', 'FMEA / FMECA', 'HACCP', 'PHA', 'What-If / SWIFT']) assert(tools.includes(name), name);
+  for (const name of ['Fault tree analysis (FTA)', 'RCA: 5-Why · Fishbone', 'Bow-tie', 'HAZOP', 'FMEA / FMECA', 'HACCP', 'PHA', 'HAZID', 'What-If / SWIFT']) assert(tools.includes(name), name);
   for (const card of doc.querySelectorAll('.td-card')) {
     const chips = [...card.querySelectorAll('.td-chip')].map(c => c.textContent);
     assert(chips.length && chips.every(c => c === 'Proactive' || c === 'Reactive'), 'timing in text');
@@ -136,12 +137,15 @@ test('visual-first: poster infographic, tool groups, timing split, ISO map and w
   const fta = [...doc.querySelectorAll('.td-card')].find(c => c.querySelector('h4').textContent.startsWith('Fault tree'));
   assert.deepEqual([...fta.querySelectorAll('.td-chip')].map(c => c.textContent), ['Proactive', 'Reactive'], 'FTA plays both sides');
   // Proactive / reactive split around the failure, plus the Direction ≠ timing poster.
-  assert.deepEqual([...doc.querySelectorAll('.td-side.is-pro li')].map(l => l.textContent), ['FMEA', 'HACCP', 'PHA', 'SWIFT', 'HAZOP', 'Bow-tie', 'FTA at design']);
+  assert.deepEqual([...doc.querySelectorAll('.td-side.is-pro li')].map(l => l.textContent), ['FMEA', 'HACCP', 'PHA', 'HAZID', 'SWIFT', 'HAZOP', 'Bow-tie', 'FTA at design', 'HAZAN']);
   assert.deepEqual([...doc.querySelectorAll('.td-side.is-re li')].map(l => l.textContent), ['5-Why', 'Fishbone', 'FTA in an investigation', 'CAPA / 8D']);
   assert.match(doc.querySelector('.td-bigpanel b').textContent, /Direction\s*≠ timing/);
   // ISO 31000 map: scope, identify, analyze, evaluate, treat; risk assessment = steps 1 to 3.
   assert.deepEqual([...doc.querySelectorAll('.td-iso > li > h3')].map(h => h.textContent), ['Scope', '1 · Identify', '2 · Analyze', '3 · Evaluate', '4 · Treat']);
   assert.match(doc.querySelector('.td-iso-frame').textContent, /steps 1 to 3/);
+  const chips = [...doc.querySelectorAll('.td-iso > li')].map(li => [...li.querySelectorAll('ul li')].map(c => c.textContent));
+  assert(chips[1].includes('HAZID') && chips[1].includes('HAZOP'), 'HAZID and HAZOP identify');
+  assert(chips[2].includes('HAZAN') && chips[3].includes('HAZAN'), 'HAZAN analyzes and evaluates');
   assert.match(doc.querySelector('#td-iso').textContent, /ISO 31000:2018/);
   assert.match(doc.querySelector('#td-iso').textContent, /IEC 31010:2019/);
   // Five mistakes poster.
@@ -243,24 +247,26 @@ test('the system ladder steps through each direction in the right order', () => 
 test('the sorting game grades each job once, explains in words and resets', () => {
   const { window, document, errors } = liveLesson();
   const jobs = [...document.querySelectorAll('#td-game-list .td-job')];
-  assert.equal(jobs.length, 6);
-  assert.deepEqual(jobs.map(j => j.dataset.answer), ['td', 'bu', 'mo', 'mo', 'td', 'bu']);
+  assert.equal(jobs.length, 8);
+  assert.deepEqual(jobs.map(j => j.dataset.answer), ['td', 'bu', 'mo', 'mo', 'td', 'bu', 'bu', 'td']);
+  assert.match(jobs[6].dataset.tool, /^HAZID/);
+  assert.match(jobs[7].dataset.tool, /^HAZAN/);
   for (const j of jobs) assert.deepEqual([...j.querySelectorAll('button')].map(b => b.dataset.dir), ['td', 'mo', 'bu']);
   const score = document.getElementById('td-game-score');
-  assert.equal(score.textContent, '0 / 6');
+  assert.equal(score.textContent, '0 / 8');
   // A wrong pick on job 1 names the right direction and locks the job.
   jobs[0].querySelector('[data-dir="bu"]').click();
   assert.match(jobs[0].querySelector('.td-fb').textContent, /^✗ Not quite\. It is top-down: 5-Why or fishbone, reactive\./);
   assert([...jobs[0].querySelectorAll('button')].every(b => b.disabled));
   jobs[0].querySelector('[data-dir="td"]').click(); // locked
-  assert.equal(score.textContent, '0 / 6');
+  assert.equal(score.textContent, '0 / 8');
   // Job 5 is the trap: top-down, yet proactive.
   for (const j of jobs.slice(1)) j.querySelector(`[data-dir="${j.dataset.answer}"]`).click();
   assert.match(jobs[4].querySelector('.td-fb').textContent, /^✓ Correct: FTA at design, proactive/);
-  assert.equal(score.textContent, '5 / 6');
+  assert.equal(score.textContent, '7 / 8');
   assert.match(document.getElementById('td-game-status').textContent, /All done/);
   document.getElementById('td-game-reset').click();
-  assert.equal(score.textContent, '0 / 6');
+  assert.equal(score.textContent, '0 / 8');
   assert.equal(document.querySelectorAll('#td-game-list button:disabled').length, 0);
   for (const j of jobs) j.querySelector(`[data-dir="${j.dataset.answer}"]`).click();
   assert.match(document.getElementById('td-game-status').textContent, /Perfect sort/);
@@ -303,10 +309,38 @@ test('the HAZOP machine pairs all seven guide words with four parameters', () =>
   window.close();
 });
 
+test('the HAZID → HAZOP → HAZAN stepper shows one stage at a time in words', () => {
+  // Static fallback (no JS) already shows HAZID.
+  assert.match(doc.getElementById('td-life-out').textContent, /HAZID: hazard identification/);
+  assert.match(doc.querySelector('#td-hazop').textContent, /HAZOP identifies hazards, HAZAN assesses them|HAZOP identifies hazards/);
+  assert.match(doc.querySelector('#td-fta').textContent, /HAZAN \(hazard analysis\)/);
+  assert(/Kletz, T\. A\. \(1999\)/.test(doc.getElementById('td-refs').textContent), 'Kletz reference');
+  const { window, document, errors } = liveLesson();
+  const btns = [...document.querySelectorAll('.td-life-btn')];
+  assert.deepEqual(btns.map(b => b.querySelector('b').textContent), ['HAZID', 'HAZOP', 'HAZAN']);
+  assert(btns.every(b => b.getAttribute('type') === 'button'));
+  const out = document.getElementById('td-life-out');
+  const row = label => [...out.querySelectorAll('li')].find(li => li.querySelector('b').textContent === label).textContent.replace(label, '');
+  btns[2].click();
+  assert.deepEqual(btns.map(b => b.getAttribute('aria-pressed')), ['false', 'false', 'true']);
+  assert.match(out.textContent, /HAZAN: hazard analysis/);
+  assert.equal(row('ISO 31000'), '2 · Analyze and 3 · Evaluate');
+  assert.equal(row('Direction · timing'), 'Mostly top-down · proactive');
+  btns[1].click();
+  assert.equal(row('ISO 31000'), '1 · Identify');
+  assert.equal(row('Direction · timing'), 'Middle-out · proactive');
+  btns[0].click();
+  assert.equal(row('Direction · timing'), 'Bottom-up · proactive');
+  assert.equal(out.querySelectorAll('li').length, 6);
+  assert.deepEqual(Object.keys(window.UpskillTdbuLife.data), ['hazid', 'hazop', 'hazan']);
+  assert.deepEqual(errors, []);
+  window.close();
+});
+
 test('tool examples expand and collapse with aria-expanded', () => {
   const { window, document, errors } = liveLesson();
   const buttons = [...document.querySelectorAll('#td-tools .td-more')];
-  assert.equal(buttons.length, 8);
+  assert.equal(buttons.length, 9);
   const b = buttons[0];
   const panel = document.getElementById(b.getAttribute('aria-controls'));
   assert(panel.hidden);
@@ -422,26 +456,26 @@ test('the quiz emits upskill-quiz-result for unanswered, wrong and all-correct s
   document.addEventListener('upskill-quiz-result', e => events.push({ score: e.detail.score, total: e.detail.total }));
   const submit = () => document.getElementById('quiz-submit').click();
   const questions = [...document.querySelectorAll('#quiz-form .quiz-question')];
-  assert.equal(questions.length, 8);
+  assert.equal(questions.length, 10);
   const answers = questions.map(q => q.dataset.answer);
-  assert.deepEqual(answers, ['b', 'c', 'a', 'd', 'b', 'c', 'a', 'd']);
+  assert.deepEqual(answers, ['b', 'c', 'a', 'd', 'b', 'c', 'a', 'd', 'c', 'b']);
   for (const q of questions) assert(q.dataset.explanation.length > 40);
 
   submit();
-  assert.deepEqual(events.pop(), { score: 0, total: 8 });
-  assert.match(document.getElementById('quiz-result').textContent, /8 unanswered/);
+  assert.deepEqual(events.pop(), { score: 0, total: 10 });
+  assert.match(document.getElementById('quiz-result').textContent, /10 unanswered/);
 
   answers.forEach((a, i) => {
     [...questions[i].querySelectorAll('input')].find(r => r.value !== a).checked = true;
   });
   submit();
-  assert.deepEqual(events.pop(), { score: 0, total: 8 });
+  assert.deepEqual(events.pop(), { score: 0, total: 10 });
   assert.match(questions[0].querySelector('.quiz-feedback').textContent, /Not quite/);
 
   answers.forEach((a, i) => { questions[i].querySelector(`input[value="${a}"]`).checked = true; });
   submit();
-  assert.deepEqual(events.pop(), { score: 8, total: 8 });
-  assert.match(document.getElementById('quiz-result').textContent, /Score: 8 \/ 8/);
+  assert.deepEqual(events.pop(), { score: 10, total: 10 });
+  assert.match(document.getElementById('quiz-result').textContent, /Score: 10 \/ 10/);
   assert.deepEqual(errors, []);
   window.close();
 });

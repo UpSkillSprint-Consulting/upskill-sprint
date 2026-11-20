@@ -573,7 +573,7 @@
       topic: 'quality-engineering',
       level: 'intermediate',
       interactive: 'true',
-      search: 'top-down bottom-up risk assessment deductive inductive fault tree analysis fta fmea fmeca hazop guide words bow-tie haccp preliminary hazard analysis pha what-if swift root cause analysis 5 why fishbone proactive reactive iso 31000 iec 31010 rpn action priority wall posters quality engineering asq cqe cssbb intermediate interactive',
+      search: 'top-down bottom-up risk assessment deductive inductive fault tree analysis fta fmea fmeca hazop guide words bow-tie haccp preliminary hazard analysis pha what-if swift root cause analysis 5 why fishbone hazid hazard identification hazan hazard analysis kletz proactive reactive iso 31000 iec 31010 rpn action priority wall posters quality engineering asq cqe cssbb intermediate interactive',
       meta: '<span>Intermediate</span><span>Interactive</span><span>25 min</span><span>4 wall posters</span>',
       title: 'Top-Down vs. Bottom-Up Risk Assessment',
       description: 'Learn when to dig down from a bad outcome (FTA, RCA) or walk up from each part (FMEA, HACCP), where HAZOP and bow-tie fit, and how it all maps to ISO 31000.'

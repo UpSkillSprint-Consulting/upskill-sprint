@@ -12,7 +12,7 @@
   "interactive": true,
   "card_title": "Top-Down vs. Bottom-Up Risk Assessment",
   "card_description": "Learn when to dig down from a bad outcome (FTA, RCA) or walk up from each part (FMEA, HACCP), where HAZOP and bow-tie fit, and how it all maps to ISO 31000.",
-  "search_keywords": ["top-down","bottom-up","risk assessment","fault tree analysis","fta","fmea","fmeca","hazop","guide words","bow-tie","haccp","preliminary hazard analysis","swift","root cause analysis","proactive","reactive","iso 31000","iec 31010","deductive","inductive"],
+  "search_keywords": ["top-down","bottom-up","risk assessment","fault tree analysis","fta","fmea","fmeca","hazop","guide words","bow-tie","haccp","preliminary hazard analysis","swift","root cause analysis","proactive","reactive","iso 31000","iec 31010","deductive","inductive","hazid","hazan","hazard identification","hazard analysis"],
   "suggested_github_path": "lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment.html",
   "access_level": "public"
 }
@@ -340,6 +340,24 @@
 #lesson-content .td-impl th, #lesson-content .td-impl td{border-bottom:1px solid var(--lesson-tdbu-border);padding:8px 10px;text-align:left;vertical-align:top;font-size:15px;line-height:1.45;color:var(--lesson-tdbu-text)}
 #lesson-content .td-impl thead th{background:var(--lesson-tdbu-strong);color:var(--lesson-tdbu-on-strong)}
 
+/* ---------- HAZID → HAZOP → HAZAN stepper ---------- */
+#lesson-content .td-life-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+#lesson-content .td-life-btn{position:relative;isolation:isolate;width:100%;min-height:72px;border:0;background:transparent;color:var(--lesson-tdbu-text);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;padding:10px 30px 10px 26px;text-align:left}
+#lesson-content .td-life-btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--lesson-tdbu-surface-2);border:0;clip-path:polygon(0 0,calc(100% - 20px) 0,100% 50%,calc(100% - 20px) 100%,0 100%,20px 50%)}
+#lesson-content .td-life-steps li:first-child .td-life-btn::before{clip-path:polygon(0 0,calc(100% - 20px) 0,100% 50%,calc(100% - 20px) 100%,0 100%)}
+#lesson-content .td-life-btn b{font-size:24px;font-weight:800;letter-spacing:.02em;color:inherit}
+#lesson-content .td-life-btn span{font-size:13.5px;font-weight:600;color:inherit}
+#lesson-content .td-life-btn[aria-pressed="true"]{color:var(--lesson-tdbu-on-fill)}
+#lesson-content .td-life-btn.is-bu[aria-pressed="true"]::before{background:var(--lesson-tdbu-fill-teal)}
+#lesson-content .td-life-btn.is-mo[aria-pressed="true"]::before{background:var(--lesson-tdbu-fill-amber)}
+#lesson-content .td-life-btn.is-td[aria-pressed="true"]::before{background:var(--lesson-tdbu-fill-blue)}
+#lesson-content .td-life-btn:hover b{text-decoration:underline}
+#lesson-content .td-life-card{margin-top:12px;border-radius:14px;border:2px solid var(--lesson-tdbu-border);background:var(--lesson-tdbu-surface-2);color:var(--lesson-tdbu-text);padding:14px}
+#lesson-content .td-life-title{margin:0;font-size:20px;font-weight:800;color:var(--lesson-tdbu-text)}
+#lesson-content .td-life-grid{list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+#lesson-content .td-life-grid li{background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text);border-radius:10px;padding:8px 10px;font-size:15px;line-height:1.35}
+#lesson-content .td-life-grid b{display:block;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--lesson-tdbu-text-2)}
+
 /* ---------- posters ---------- */
 #lesson-content .td-posters{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
 #lesson-content .td-pcard{background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text);border:1px solid var(--lesson-tdbu-border);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--lesson-tdbu-shadow)}
@@ -360,6 +378,10 @@
   #lesson-content .td-time{grid-template-columns:minmax(0,1fr)}
   #lesson-content .td-fail{padding:14px 0}
   #lesson-content .td-hz-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #lesson-content .td-life-steps{grid-template-columns:minmax(0,1fr)}
+  #lesson-content .td-life-btn{padding:10px 16px 26px}
+  #lesson-content .td-life-btn::before, #lesson-content .td-life-steps li:first-child .td-life-btn::before{clip-path:polygon(0 0,100% 0,100% calc(100% - 16px),50% 100%,0 calc(100% - 16px))}
+  #lesson-content .td-life-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   #lesson-content .td-ft{grid-template-columns:minmax(0,1fr)}
   #lesson-content .td-iso{grid-template-columns:minmax(0,1fr)}
   #lesson-content .td-iso-rails{grid-template-columns:minmax(0,1fr)}
@@ -371,6 +393,7 @@
 }
 @media (max-width:420px){
   #lesson-content .td-hz-grid{grid-template-columns:minmax(0,1fr)}
+  #lesson-content .td-life-grid{grid-template-columns:minmax(0,1fr)}
 }
 @media (prefers-reduced-motion:reduce){
   #lesson-content *{transition:none !important;animation:none !important}
@@ -421,7 +444,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 <section class="td-hero" aria-labelledby="td-title">
   <div class="td-wrap">
     <ul class="td-kicker" aria-label="Lesson details">
-      <li>Quality Engineering</li><li>Intermediate</li><li>25 min</li><li>4 interactives</li><li>CQE · CSSBB · CMBB</li>
+      <li>Quality Engineering</li><li>Intermediate</li><li>25 min</li><li>5 interactives</li><li>CQE · CSSBB · CMBB</li>
     </ul>
     <h1 id="td-title">Top-Down vs. Bottom-Up Risk Assessment</h1>
     <p class="td-lede">Every risk tool digs in one of two directions. <strong>Top-down vs. bottom-up risk assessment</strong> comes down to one question: do you start from the bad outcome and dig for causes, or start from each part and ask what it could break?</p>
@@ -433,10 +456,11 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     <p id="td-poster-cap" class="td-vh">Poster: top-down digs from the outcome down to causes, like a detective. Middle-out starts at the event and works both ways. Bottom-up walks from each part up to its effects, like an inspector.</p>
     <ul class="td-toc" aria-label="Jump to a part of the lesson">
       <li><a href="#td-ladder-h">The system ladder</a></li>
-      <li><a href="#td-tools-h">Meet the 8 tools</a></li>
+      <li><a href="#td-tools-h">Meet the 9 tools</a></li>
       <li><a href="#td-timing-h">Proactive or reactive?</a></li>
       <li><a href="#td-game-h">The sorting game</a></li>
       <li><a href="#td-hazop-h">HAZOP guide words</a></li>
+      <li><a href="#td-life-h">HAZID → HAZOP → HAZAN</a></li>
       <li><a href="#td-fta-h">Fault tree lab</a></li>
       <li><a href="#td-iso-h">ISO 31000</a></li>
       <li><a href="#td-implementation">Excel and Minitab</a></li>
@@ -473,7 +497,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 <section class="td-section" id="td-tools" aria-labelledby="td-tools-h">
   <div class="td-wrap">
     <span class="td-step">Part 2 · The toolbox</span>
-    <h2 id="td-tools-h">Meet the 8 tools, sorted by direction</h2>
+    <h2 id="td-tools-h">Meet the 9 tools, sorted by direction</h2>
     <p>Colour tells you the direction. The chips tell you the timing: <strong>proactive</strong> (before a failure) or <strong>reactive</strong> (after one). Open any card for a steel-mill example.</p>
     <div class="td-groups">
       <div class="td-group is-td">
@@ -524,6 +548,11 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
             <ul class="td-chips"><li class="td-chip is-pro">Proactive</li></ul>
             <button type="button" class="td-more" aria-expanded="false" aria-controls="td-eg-pha">Steel-mill example</button>
             <p class="td-eg" id="td-eg-pha" hidden>A concept for a new pickling line, before the detailed design exists.</p></li>
+          <li class="td-card"><div class="td-card-top"><h4>HAZID</h4><svg class="td-glyph" viewBox="0 0 58 36" aria-hidden="true"><rect class="g-soft" x="2" y="3" width="24" height="13" rx="2"/><rect class="g-bu" x="32" y="3" width="24" height="13" rx="2"/><rect class="g-soft" x="2" y="20" width="54" height="13" rx="2"/><path class="g-line" d="M26 10h6M44 16v4"/></svg></div>
+            <p>Hazard identification: a broad first scan of a layout or concept, including how systems affect each other.</p>
+            <ul class="td-chips"><li class="td-chip is-pro">Proactive</li></ul>
+            <button type="button" class="td-more" aria-expanded="false" aria-controls="td-eg-hazid">Steel-mill example</button>
+            <p class="td-eg" id="td-eg-hazid" hidden>The site layout for a new acid regeneration plant: what if acid storage sits next to the crane bay?</p></li>
           <li class="td-card"><div class="td-card-top"><h4>What-If / SWIFT</h4><svg class="td-glyph" viewBox="0 0 58 36" aria-hidden="true"><circle class="g-bu" cx="18" cy="18" r="14"/><circle class="g-soft" cx="42" cy="18" r="10"/></svg></div>
             <p>Structured “What if…?” prompts at each step. Faster and lighter than FMEA.</p>
             <ul class="td-chips"><li class="td-chip is-pro">Proactive</li></ul>
@@ -556,7 +585,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     <p>A <strong>proactive</strong> tool finds risk before anything breaks. A <strong>reactive</strong> tool explains a failure that already happened, so you can fix it and stop it coming back.</p>
     <div class="td-time">
       <div class="td-side is-pro"><h3>Proactive</h3><p>Before anything breaks</p>
-        <ul aria-label="Proactive tools"><li class="is-bu">FMEA</li><li class="is-bu">HACCP</li><li class="is-bu">PHA</li><li class="is-bu">SWIFT</li><li class="is-mo">HAZOP</li><li class="is-mo">Bow-tie</li><li class="is-td">FTA at design</li></ul></div>
+        <ul aria-label="Proactive tools"><li class="is-bu">FMEA</li><li class="is-bu">HACCP</li><li class="is-bu">PHA</li><li class="is-bu">HAZID</li><li class="is-bu">SWIFT</li><li class="is-mo">HAZOP</li><li class="is-mo">Bow-tie</li><li class="is-td">FTA at design</li><li class="is-td">HAZAN</li></ul></div>
       <div class="td-fail" aria-hidden="true"><div class="td-diamond"><span>!</span></div><b>FAILURE</b></div>
       <div class="td-side is-re"><h3>Reactive</h3><p>After it breaks</p>
         <ul aria-label="Reactive tools"><li class="is-td">5-Why</li><li class="is-td">Fishbone</li><li class="is-td">FTA in an investigation</li><li class="is-ink">CAPA / 8D</li></ul></div>
@@ -569,7 +598,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   <div class="td-wrap">
     <span class="td-step">Part 4 · Your turn</span>
     <h2 id="td-game-h">The sorting game: which way would you dig?</h2>
-    <p>Six real jobs from a pipe mill. Pick the direction for each one. You get one try per job.</p>
+    <p>Eight real jobs from a pipe mill. Pick the direction for each one. You get one try per job.</p>
     <div class="td-lab" role="group" aria-labelledby="td-game-h">
       <ol class="td-game" id="td-game-list">
         <li class="td-job" data-answer="td" data-tool="5-Why or fishbone, reactive" data-why="You already have the bad outcome, so you dig down from it."><p>1. Heat 4417 failed its Charpy test yesterday. Find out why.</p><div class="td-btn-row"></div><p class="td-fb" aria-live="polite"></p></li>
@@ -578,8 +607,10 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <li class="td-job" data-answer="mo" data-tool="Bow-tie, proactive" data-why="One event in the middle, with barriers on both sides, on one page."><p>4. Show the board every barrier between a pipe rupture and an oil spill.</p><div class="td-btn-row"></div><p class="td-fb" aria-live="polite"></p></li>
         <li class="td-job" data-answer="td" data-tool="FTA at design, proactive" data-why="One feared top event, traced down with AND / OR logic. Top-down, yet still before any failure."><p>5. Before launch, prove how “pipe ruptures in service” could happen, with AND / OR logic.</p><div class="td-btn-row"></div><p class="td-fb" aria-live="polite"></p></li>
         <li class="td-job" data-answer="bu" data-tool="PHA, proactive" data-why="An early scan of hazards, part by part, before the detailed design exists."><p>6. Scan a concept for a new pickling line for hazards, before the design is detailed.</p><div class="td-btn-row"></div><p class="td-fb" aria-live="polite"></p></li>
+        <li class="td-job" data-answer="bu" data-tool="HAZID, proactive" data-why="A broad first scan of a layout and how its systems affect each other, before any P&amp;ID exists."><p>7. Walk the site layout for a new acid regeneration plant: what hazards exist at all?</p><div class="td-btn-row"></div><p class="td-fb" aria-live="polite"></p></li>
+        <li class="td-job" data-answer="td" data-tool="HAZAN with a fault tree, proactive" data-why="One known hazard: dig down to its causes, put a number on how often it could happen, and compare it with your risk criteria."><p>8. Before start-up, put a number on how often a caster breakout could happen, and decide if that is tolerable.</p><div class="td-btn-row"></div><p class="td-fb" aria-live="polite"></p></li>
       </ol>
-      <div class="td-score"><b id="td-game-score">0 / 6</b><span id="td-game-status" role="status" aria-live="polite">Pick a direction for each job.</span><button type="button" class="td-btn" id="td-game-reset">Play again</button></div>
+      <div class="td-score"><b id="td-game-score">0 / 8</b><span id="td-game-status" role="status" aria-live="polite">Pick a direction for each job.</span><button type="button" class="td-btn" id="td-game-reset">Play again</button></div>
     </div>
   </div>
 </section>
@@ -601,6 +632,28 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     </div>
     <div class="td-callout"><p><strong>The N/A cards are the point.</strong> Many combinations mean nothing. The team still says them out loud and rules them out. That discipline is what makes HAZOP more complete than a free brainstorm.</p></div>
     <p>HAZOP fits <strong>continuous processes</strong> with flow, pressure, temperature, level or composition: caster cooling water, EAF off-gas, ladle argon stirring. For final pipe inspection, use a PFMEA.</p>
+    <h3 id="td-life-h">Where HAZOP sits: HAZID → HAZOP → HAZAN</h3>
+    <p>HAZOP is the middle of three studies. Trevor Kletz put it simply: HAZOP <strong>identifies</strong> hazards, HAZAN <strong>assesses</strong> them. HAZID comes first, while the plant is still a layout. Tap each stage.</p>
+    <div class="td-lab td-life" role="group" aria-labelledby="td-life-h">
+      <ol class="td-life-steps">
+        <li><button type="button" class="td-life-btn is-bu" data-life="hazid" aria-pressed="true"><b>HAZID</b><span>1 · Concept or layout</span></button></li>
+        <li><button type="button" class="td-life-btn is-mo" data-life="hazop" aria-pressed="false"><b>HAZOP</b><span>2 · Detailed design</span></button></li>
+        <li><button type="button" class="td-life-btn is-td" data-life="hazan" aria-pressed="false"><b>HAZAN</b><span>3 · Size the big ones</span></button></li>
+      </ol>
+      <div class="td-life-card" id="td-life-out" role="status" aria-live="polite">
+        <p class="td-life-title">HAZID: hazard identification</p>
+        <ul class="td-life-grid">
+          <li><b>Asks</b>What hazards exist here at all?</li>
+          <li><b>Looks at</b>The layout or concept, and how systems affect each other</li>
+          <li><b>You finish with</b>A hazard register</li>
+          <li><b>Direction · timing</b>Bottom-up · proactive</li>
+          <li><b>ISO 31000</b>1 · Identify</li>
+          <li><b>Pipe-mill example</b>Acid storage next to the crane bay on a new layout</li>
+        </ul>
+      </div>
+      <p class="td-made">Pipe-mill examples are made up for teaching.</p>
+    </div>
+    <div class="td-callout"><p><strong>Big hazard staring at you?</strong> Kletz notes that an obvious major hazard can go to HAZAN before the HAZOP is done. Don’t wait to size it.</p></div>
   </div>
 </section>
 
@@ -669,6 +722,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     </div>
     <p class="td-pair"><span style="background:var(--lesson-tdbu-fill-teal)">PFMEA</span> every step <span style="background:var(--lesson-tdbu-fill-amber)">+</span> <span style="background:var(--lesson-tdbu-fill-blue)">FTA</span> the big one</p>
     <p>Run the PFMEA across the whole rolling and finishing line for coverage. Then build a fault tree for each catastrophic event, so combinations get caught too.</p>
+    <p>Putting numbers on one hazard like this is <strong>HAZAN</strong> (hazard analysis). The answer tells you how far to go in reducing the risk.</p>
   </div>
 </section>
 
@@ -680,9 +734,9 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     <span class="td-iso-frame">Risk assessment = steps 1 to 3</span>
     <ol class="td-iso" aria-label="ISO 31000 risk process with tools">
       <li class="is-scope"><h3>Scope</h3><p>Context and risk criteria: how much risk is OK?</p></li>
-      <li><h3>1 · Identify</h3><p>What could go wrong?</p><ul><li>HAZOP</li><li>SWIFT</li><li>PHA</li><li>FMEA modes</li></ul></li>
-      <li><h3>2 · Analyze</h3><p>How, how likely, how bad?</p><ul><li>FTA</li><li>Bow-tie</li><li>FMEA S·O·D</li></ul></li>
-      <li><h3>3 · Evaluate</h3><p>Is it acceptable?</p><ul><li>Risk matrix</li><li>RPN / AP</li></ul></li>
+      <li><h3>1 · Identify</h3><p>What could go wrong?</p><ul><li>HAZID</li><li>HAZOP</li><li>SWIFT</li><li>PHA</li><li>FMEA modes</li></ul></li>
+      <li><h3>2 · Analyze</h3><p>How, how likely, how bad?</p><ul><li>HAZAN</li><li>FTA</li><li>Bow-tie</li><li>FMEA S·O·D</li></ul></li>
+      <li><h3>3 · Evaluate</h3><p>Is it acceptable?</p><ul><li>HAZAN</li><li>Risk matrix</li><li>RPN / AP</li></ul></li>
       <li class="is-treat"><h3>4 · Treat</h3><p>Act on the risk</p><ul><li>FMEA actions</li><li>Barriers</li><li>HACCP CCPs</li></ul></li>
     </ol>
     <p class="td-iso-band"><span>↺ Monitoring &amp; review</span><span>RCA and CAPA after failures feed back into the assessment</span></p>
@@ -755,6 +809,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
           <li><strong>Deductive = top-down = FTA.</strong> Inductive = bottom-up = FMEA. Event tree analysis is also inductive.</li>
           <li><strong>AND gates multiply.</strong> Expect a question that asks for the top event from two or three basic-event probabilities.</li>
           <li><strong>Bow-tie</strong> = a fault tree on the left plus an event tree on the right.</li>
+          <li><strong>HAZOP identifies, HAZAN assesses.</strong> HAZID comes first, at the concept or layout stage.</li>
           <li><strong>HAZOP</strong> = guide words × parameters at each node of a P&amp;ID.</li>
           <li><strong>RPN</strong> ranks risks but hides severity. The AIAG-VDA FMEA handbook uses Action Priority (AP) instead.</li>
         </ul>
@@ -770,28 +825,28 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     <p>Same topic, four layouts. Pick the one that matches how you think. Each is a one-page PDF that prints at 18 × 24 in.</p>
     <ul class="td-posters" aria-label="Poster downloads">
       <li class="td-pcard">
-        <img src="/assets/lessons/top-down-vs-bottom-up-risk-assessment/top-down-vs-bottom-up-quick-reference-poster-preview.jpg" alt="Preview of the Quick Reference poster: a system ladder, eight tool cards, HAZOP guide words and an ISO 31000 map" width="480" height="640" loading="lazy" decoding="async">
+        <img src="/assets/lessons/top-down-vs-bottom-up-risk-assessment/top-down-vs-bottom-up-quick-reference-poster-preview.jpg" alt="Preview of the Quick Reference poster: a system ladder, nine tool cards, HAZOP guide words with HAZID and HAZAN, and an ISO 31000 map" width="480" height="640" loading="lazy" decoding="async">
         <h3>Quick Reference</h3>
-        <p class="td-pmeta">PDF, 1 page, 18 × 24 in, 519 KB. Everything on one sheet: the ladder, the 8 tools, timing, HAZOP, ISO 31000 and a pipe-rupture example.</p>
-        <a href="/assets/lessons/top-down-vs-bottom-up-risk-assessment/top-down-vs-bottom-up-quick-reference-poster.pdf" download data-td-poster-kb="519">Download PDF<span class="td-vh"> of the Quick Reference poster</span></a>
+        <p class="td-pmeta">PDF, 1 page, 18 × 24 in, 526 KB. Everything on one sheet: the ladder, the 9 tools, timing, HAZID to HAZOP to HAZAN, ISO 31000 and a pipe-rupture example.</p>
+        <a href="/assets/lessons/top-down-vs-bottom-up-risk-assessment/top-down-vs-bottom-up-quick-reference-poster.pdf" download data-td-poster-kb="526">Download PDF<span class="td-vh"> of the Quick Reference poster</span></a>
       </li>
       <li class="td-pcard">
         <img src="/assets/lessons/top-down-vs-bottom-up-risk-assessment/risk-tool-sorting-map-poster-preview.jpg" alt="Preview of the Sorting Map poster: a grid with direction across and proactive or reactive down" width="480" height="640" loading="lazy" decoding="async">
         <h3>Sorting Map</h3>
-        <p class="td-pmeta">PDF, 1 page, 18 × 24 in, 483 KB. Every tool placed on one map: which way it digs, and whether it runs before or after a failure.</p>
-        <a href="/assets/lessons/top-down-vs-bottom-up-risk-assessment/risk-tool-sorting-map-poster.pdf" download data-td-poster-kb="483">Download PDF<span class="td-vh"> of the Sorting Map poster</span></a>
+        <p class="td-pmeta">PDF, 1 page, 18 × 24 in, 487 KB. Every tool placed on one map: which way it digs, and whether it runs before or after a failure.</p>
+        <a href="/assets/lessons/top-down-vs-bottom-up-risk-assessment/risk-tool-sorting-map-poster.pdf" download data-td-poster-kb="487">Download PDF<span class="td-vh"> of the Sorting Map poster</span></a>
       </li>
       <li class="td-pcard">
         <img src="/assets/lessons/top-down-vs-bottom-up-risk-assessment/which-risk-tool-do-i-need-poster-preview.jpg" alt="Preview of the Which Risk Tool poster: a yes/no flowchart with a reactive lane and a proactive lane" width="480" height="640" loading="lazy" decoding="async">
         <h3>Which Risk Tool Do I Need?</h3>
-        <p class="td-pmeta">PDF, 1 page, 18 × 24 in, 471 KB. A yes/no flowchart. Start at “Has it already failed?” and land on the right tool.</p>
-        <a href="/assets/lessons/top-down-vs-bottom-up-risk-assessment/which-risk-tool-do-i-need-poster.pdf" download data-td-poster-kb="471">Download PDF<span class="td-vh"> of the Which Risk Tool Do I Need? poster</span></a>
+        <p class="td-pmeta">PDF, 1 page, 18 × 24 in, 474 KB. A yes/no flowchart. Start at “Has it already failed?” and land on the right tool.</p>
+        <a href="/assets/lessons/top-down-vs-bottom-up-risk-assessment/which-risk-tool-do-i-need-poster.pdf" download data-td-poster-kb="474">Download PDF<span class="td-vh"> of the Which Risk Tool Do I Need? poster</span></a>
       </li>
       <li class="td-pcard">
         <img src="/assets/lessons/top-down-vs-bottom-up-risk-assessment/one-event-two-directions-bow-tie-poster-preview.jpg" alt="Preview of the bow-tie poster: a dark poster with a large bow-tie for a pipe rupture and big-number tiles" width="480" height="640" loading="lazy" decoding="async">
         <h3>One Event, Two Directions</h3>
-        <p class="td-pmeta">PDF, 1 page, 18 × 24 in, 478 KB. A big pipe-rupture bow-tie read three ways, plus big numbers and exam tips. Uses more ink.</p>
-        <a href="/assets/lessons/top-down-vs-bottom-up-risk-assessment/one-event-two-directions-bow-tie-poster.pdf" download data-td-poster-kb="478">Download PDF<span class="td-vh"> of the One Event, Two Directions poster</span></a>
+        <p class="td-pmeta">PDF, 1 page, 18 × 24 in, 490 KB. A big pipe-rupture bow-tie read three ways, plus big numbers and exam tips. Uses more ink.</p>
+        <a href="/assets/lessons/top-down-vs-bottom-up-risk-assessment/one-event-two-directions-bow-tie-poster.pdf" download data-td-poster-kb="490">Download PDF<span class="td-vh"> of the One Event, Two Directions poster</span></a>
       </li>
     </ul>
   </div>
@@ -867,6 +922,22 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <label class="quiz-option"><input type="radio" name="q8" value="d"> 0.025%</label>
         <div class="quiz-feedback"></div>
       </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Kletz's short version: HAZOP identifies hazards and HAZAN assesses them, putting numbers on how often and how bad, so you can decide how far to go in reducing them.">
+        <legend>9. Trevor Kletz's rule of thumb: HAZOP ____ hazards, HAZAN ____ them.</legend>
+        <label class="quiz-option"><input type="radio" name="q9" value="a"> assesses / identifies</label>
+        <label class="quiz-option"><input type="radio" name="q9" value="b"> eliminates / records</label>
+        <label class="quiz-option"><input type="radio" name="q9" value="c"> identifies / assesses</label>
+        <label class="quiz-option"><input type="radio" name="q9" value="d"> ranks / audits</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="HAZID is the broad first scan of a layout or concept, including how systems interact. HAZOP needs a P&ID, so it comes later.">
+        <legend>10. A new plant is still only a site layout, with no P&IDs yet. Which study fits best to find its hazards?</legend>
+        <label class="quiz-option"><input type="radio" name="q10" value="a"> HAZOP</label>
+        <label class="quiz-option"><input type="radio" name="q10" value="b"> HAZID</label>
+        <label class="quiz-option"><input type="radio" name="q10" value="c"> HAZAN</label>
+        <label class="quiz-option"><input type="radio" name="q10" value="d"> 5-Why</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
       <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
       <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
     </form>
@@ -882,6 +953,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <li>IEC 61882:2016, <cite>Hazard and operability studies (HAZOP studies): Application guide</cite>.</li>
       <li>IEC 60812:2018, <cite>Failure modes and effects analysis (FMEA and FMECA)</cite>.</li>
       <li>IEC 61025:2006, <cite>Fault tree analysis (FTA)</cite>.</li>
+      <li>Kletz, T. A. (1999). <cite>HAZOP and HAZAN: Identifying and Assessing Process Industry Hazards</cite> (4th ed.).</li>
       <li>AIAG and VDA, <cite>FMEA Handbook</cite> (2019).</li>
     </ul>
   </div>
@@ -1074,6 +1146,48 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   makePicker('td-hz-par', PARAMS, 'par');
   drawHazop();
   window.UpskillTdbuHazop = { table: HZ, guide: GUIDE, params: PARAMS, state: hz };
+
+  /* ---------- Part 5b: HAZID → HAZOP → HAZAN stepper ---------- */
+  var LIFE = {
+    hazid: { title: 'HAZID: hazard identification', rows: [
+      ['Asks', 'What hazards exist here at all?'],
+      ['Looks at', 'The layout or concept, and how systems affect each other'],
+      ['You finish with', 'A hazard register'],
+      ['Direction · timing', 'Bottom-up · proactive'],
+      ['ISO 31000', '1 · Identify'],
+      ['Pipe-mill example', 'Acid storage next to the crane bay on a new layout'] ] },
+    hazop: { title: 'HAZOP: hazard and operability study', rows: [
+      ['Asks', 'How could this process deviate from its design intent?'],
+      ['Looks at', 'The P&ID, node by node, with guide words'],
+      ['You finish with', 'Deviations, safeguards and actions'],
+      ['Direction · timing', 'Middle-out · proactive'],
+      ['ISO 31000', '1 · Identify'],
+      ['Pipe-mill example', 'NO flow in the caster cooling water'] ] },
+    hazan: { title: 'HAZAN: hazard analysis', rows: [
+      ['Asks', 'How often, how bad, and is that acceptable?'],
+      ['Looks at', 'The serious hazards found earlier, using FTA, event trees and bow-ties'],
+      ['You finish with', 'Risk numbers compared with your criteria'],
+      ['Direction · timing', 'Mostly top-down · proactive'],
+      ['ISO 31000', '2 · Analyze and 3 · Evaluate'],
+      ['Pipe-mill example', 'How often could a caster breakout happen?'] ] }
+  };
+  function drawLife(key) {
+    var out = $('td-life-out'); if (!out) return;
+    var d = LIFE[key];
+    [].slice.call(document.querySelectorAll('.td-life-btn')).forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-life') === key)); });
+    out.innerHTML = '';
+    var t = document.createElement('p'); t.className = 'td-life-title'; t.textContent = d.title; out.appendChild(t);
+    var ul = document.createElement('ul'); ul.className = 'td-life-grid';
+    d.rows.forEach(function (r) {
+      var li = document.createElement('li'); var b = document.createElement('b');
+      b.textContent = r[0]; li.appendChild(b); li.appendChild(document.createTextNode(r[1])); ul.appendChild(li);
+    });
+    out.appendChild(ul);
+  }
+  [].slice.call(document.querySelectorAll('.td-life-btn')).forEach(function (b) {
+    b.addEventListener('click', function () { drawLife(b.getAttribute('data-life')); });
+  });
+  window.UpskillTdbuLife = { data: LIFE, show: drawLife };
 
   /* ---------- Part 6: fault tree lab ---------- */
   function ftCompute(w, t, d, m) {          // inputs and outputs are fractions (0.0002 = 0.02%)
