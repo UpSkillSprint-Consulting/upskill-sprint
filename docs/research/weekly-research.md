@@ -171,7 +171,7 @@ steel_pipe: "Direct fit for heavy forgings, thick-wall pipe and bar after a soak
 exam: [CQE, CSSBB]
 exam_topic: "Root cause investigation, sampling plan design, one-way ANOVA, nonconforming material disposition"
 lesson_idea: yes
-status: "Published to ticker (PR #PRNUM)"
+status: "Published to ticker (PR #412)"
 ```
 
 #### Watch sensor readings move together, not one by one
@@ -235,7 +235,7 @@ status: Verified
 ### Combined ranking (Claude fills this in on Friday)
 | Rank | Headline | Contributor | Evidence | Readiness | Status |
 |---|---|---|---|---|---|
-| 1 | Test a big forging's core, not just its surface | Claude | Medium | Ready to apply | Published to ticker (PR #PRNUM) |
+| 1 | Test a big forging's core, not just its surface | Claude | Medium | Ready to apply | Published to ticker (PR #412) |
 | 2 | Watch sensor readings move together, not one by one | Claude | Low | Worth watching | Verified (Low, not ticker-eligible) |
 | 3 | Forecasting cold-weather toughness loss in steel | Claude | Low | Worth watching | Verified (Low, not ticker-eligible) |
 
