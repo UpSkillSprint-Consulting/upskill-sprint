@@ -29,6 +29,7 @@
     regulation: 'Law or regulation'
   };
 
+  var UNLOCK_KEY = 'cf-export-unlocked';
   var E = window.CodeFinderEngine;
   var root, els = {}, index = null, state = null, shown = PAGE, expandedFacets = {}, typingTimer = null;
 
@@ -62,14 +63,14 @@
 
   // ---------- Loading ----------
   function load() {
-    var files = ['taxonomy', 'standards', 'synonyms'];
+    var files = ['taxonomy', 'standards', 'synonyms', 'scenarios', 'wizard'];
     return Promise.all(files.map(function (name) {
       return fetch(DATA + name + '.json', {credentials: 'same-origin'}).then(function (response) {
         if (!response.ok) throw new Error(name + ' ' + response.status);
         return response.json();
       });
     })).then(function (parts) {
-      return {taxonomy: parts[0], standards: parts[1], synonyms: parts[2]};
+      return {taxonomy: parts[0], standards: parts[1], synonyms: parts[2], scenarios: parts[3], wizard: parts[4]};
     });
   }
 
@@ -83,6 +84,14 @@
 
   // ---------- Render ----------
   function run(mode) {
+    var packView = state.pack ? E.packResults(index, state.pack) : null;
+    root.classList.toggle('cf-pack-mode', !!packView);
+    els.pack.hidden = !packView;
+    if (packView) {
+      renderPack(packView);
+      if (mode) writeUrl(mode);
+      return packView;
+    }
     var output = E.search(index, state.q, state.filters, {sort: state.sort});
     renderStatus(output);
     renderActive();
@@ -228,6 +237,10 @@
     if (record.adoptions.length) pills.appendChild(pill('Mandatory in places', 'law'));
     node.querySelector('.cf-card-title').textContent = record.title;
     node.querySelector('.cf-summary').textContent = record.summary;
+    if (item.why) {
+      node.querySelector('.cf-card-title').insertAdjacentElement('afterend',
+        h('p', {class: 'cf-pack-why'}, [h('strong', {text: 'Why it is in this pack: '}), item.why]));
+    }
     var meta = node.querySelector('.cf-meta');
     meta.appendChild(verifiedLine(record));
     if (item.reasons.length) {
@@ -261,6 +274,170 @@
     els.more.textContent = 'Show ' + Math.min(left, PAGE) + ' more of ' + left + ' remaining';
   }
 
+  // ---------- Starter packs ----------
+  function packHref(slug) { return location.pathname + '?pack=' + encodeURIComponent(slug); }
+
+  function renderHub() {
+    els.packList.textContent = '';
+    index.packs.forEach(function (pack) {
+      els.packList.appendChild(h('li', {}, [h('a', {href: packHref(pack.slug), class: 'cf-pack-link', 'data-cf-pack': pack.slug,
+        onclick: function (event) { event.preventDefault(); openPack(pack.slug); }}, [
+        h('span', {class: 'cf-pack-link-title', text: pack.title}),
+        h('span', {class: 'cf-pack-link-meta'}, [pack.records.length + ' codes', pack.regulated ? h('span', {class: 'cf-reg', text: ' · Regulated'}) : null])
+      ])]));
+    });
+    var wizard = index.catalog.wizard;
+    els.wizardQuestions.textContent = '';
+    wizard.questions.forEach(function (question) {
+      var set = h('fieldset', {class: 'cf-wq'}, [h('legend', {text: question.prompt})]);
+      question.options.forEach(function (option, i) {
+        set.appendChild(h('label', {class: 'cf-radio'}, [
+          h('input', {type: 'radio', name: 'cf-w-' + question.id, value: String(i)}), h('span', {text: option.label})]));
+      });
+      els.wizardQuestions.appendChild(set);
+    });
+  }
+
+  function wizardAnswers() {
+    var answers = {}, missing = false;
+    index.catalog.wizard.questions.forEach(function (question) {
+      var picked = els.wizard.querySelector('input[name="cf-w-' + question.id + '"]:checked');
+      if (!picked) { missing = true; return; }
+      answers[question.facet] = (answers[question.facet] || []).concat(question.options[Number(picked.value)].values);
+    });
+    return missing ? null : answers;
+  }
+
+  function onWizard(event) {
+    event.preventDefault();
+    var answers = wizardAnswers();
+    els.wizardResult.textContent = '';
+    if (!answers) {
+      els.wizardResult.appendChild(h('p', {class: 'cf-export-msg', text: 'Pick one answer for each question.'}));
+      return;
+    }
+    var fits = E.recommendPacks(index, answers).filter(function (item) { return item.both; }).slice(0, 3);
+    var filters = {industries: answers.industries || [], useCases: answers.useCases || []};
+    var matching = E.search(index, '', filters).total;
+    if (fits.length) {
+      els.wizardResult.appendChild(h('p', {class: 'cf-wizard-lead', text: fits.length === 1 ? 'This pack fits your answers:' : 'These packs fit your answers:'}));
+      els.wizardResult.appendChild(h('ul', {class: 'cf-pack-list'}, fits.map(function (item) {
+        return h('li', {}, [h('a', {href: packHref(item.pack.slug), class: 'cf-pack-link',
+          onclick: function (e) { e.preventDefault(); openPack(item.pack.slug); }}, [
+          h('span', {class: 'cf-pack-link-title', text: item.pack.title}),
+          h('span', {class: 'cf-pack-link-meta', text: item.pack.records.length + ' codes'})])]);
+      })));
+    } else {
+      els.wizardResult.appendChild(h('p', {class: 'cf-wizard-lead', text: 'No starter pack fits both answers yet. The codes below match them.'}));
+    }
+    if (matching) {
+      els.wizardResult.appendChild(h('button', {type: 'button', class: 'cf-link-btn', text: 'Browse all ' + matching + ' codes that fit your answers',
+        onclick: function () {
+          state = {q: '', filters: filters, sort: 'relevance', pack: null};
+          els.q.value = '';
+          shown = PAGE;
+          run('push');
+          focusStatus();
+          els.status.focus();
+        }}));
+    }
+  }
+
+  function openPack(slug) {
+    state.pack = slug;
+    shown = PAGE;
+    run('push');
+    els.exportForm.hidden = true;
+    els.exportMsg.textContent = '';
+    els.hub.open = false;
+    els.packTitle.focus();
+    if (els.pack.scrollIntoView) els.pack.scrollIntoView({block: 'start', behavior: reducedMotion() ? 'auto' : 'smooth'});
+  }
+
+  function closePack() {
+    state.pack = null;
+    run('push');
+    els.q.focus();
+  }
+
+  function renderPack(view) {
+    var pack = view.pack;
+    els.packTitle.textContent = pack.title;
+    els.packSummary.textContent = pack.summary;
+    var checked = view.results.filter(function (item) { return !E.isStale(item.record); }).length;
+    els.packMeta.textContent = view.total + ' codes · ' + checked + ' checked against the publisher so far';
+    els.consult.hidden = !pack.regulated;
+    els.packLessons.textContent = '';
+    if (pack.lessons.length) {
+      els.packLessons.appendChild(h('h3', {text: 'Learn the methods behind this pack'}));
+      els.packLessons.appendChild(h('ul', {}, pack.lessons.map(function (lesson) {
+        return h('li', {}, [h('a', {href: lesson.href, text: lesson.label + ' lesson'})]);
+      })));
+    }
+    els.exportForm.querySelector('input[name="pack"]').value = pack.slug;
+    els.status.textContent = 'Starter pack: ' + view.total + ' codes in "' + pack.title + '".';
+    els.active.hidden = true;
+    renderResults(view);
+  }
+
+  // ---------- Export (email once, then free) ----------
+  var pendingExport = null;
+  function unlocked() { try { return localStorage.getItem(UNLOCK_KEY) === 'yes'; } catch (error) { return false; } }
+  function setUnlocked() { try { localStorage.setItem(UNLOCK_KEY, 'yes'); } catch (error) { /* private mode: ask again next time */ } }
+
+  function requestExport(kind) {
+    if (unlocked()) { doExport(kind); return; }
+    pendingExport = kind;
+    els.exportForm.hidden = false;
+    els.exportMsg.textContent = '';
+    els.exportEmail.focus();
+  }
+
+  function onExportSubmit(event) {
+    event.preventDefault();
+    if (!els.exportEmail.value || (els.exportEmail.checkValidity && !els.exportEmail.checkValidity())) {
+      els.exportMsg.textContent = 'Enter a valid email address.';
+      els.exportEmail.focus();
+      return Promise.resolve();
+    }
+    var body = new URLSearchParams(new FormData(els.exportForm)).toString();
+    var button = els.exportForm.querySelector('button[type="submit"]');
+    button.disabled = true;
+    els.exportMsg.textContent = 'Unlocking…';
+    return fetch('/', {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: body}).then(function (response) {
+      if (!response.ok) throw new Error(String(response.status));
+      setUnlocked();
+      els.exportForm.hidden = true;
+      els.exportMsg.textContent = '';
+      els.status.textContent = 'Downloads unlocked. Thank you.';
+      if (pendingExport) doExport(pendingExport);
+      pendingExport = null;
+    }).catch(function () {
+      els.exportMsg.textContent = 'That did not go through. Check your connection and try again.';
+    }).then(function () { button.disabled = false; });
+  }
+
+  function doExport(kind) {
+    if (!state.pack) return;
+    if (kind === 'csv') {
+      var csv = E.packToCsv(index, state.pack, {siteUrl: 'https://upskillsprint.com'});
+      var blob = new Blob(['\ufeff' + csv], {type: 'text/csv;charset=utf-8'});
+      var url = URL.createObjectURL(blob);
+      var link = h('a', {href: url, download: 'code-finder-' + state.pack + '.csv', hidden: true});
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(function () { URL.revokeObjectURL(url); link.remove(); }, 0);
+    } else if (kind === 'print') {
+      // Show every code in the pack and open each card's details for the printout.
+      shown = 1000;
+      run();
+      document.body.classList.add('cf-printing');
+      var done = function () { document.body.classList.remove('cf-printing'); window.removeEventListener('afterprint', done); };
+      window.addEventListener('afterprint', done);
+      if (typeof window.print === 'function') window.print();
+    }
+  }
+
   // ---------- Actions ----------
   function toggle(facet, slug, on) {
     var list = (state.filters[facet] || []).filter(function (value) { return value !== slug; });
@@ -271,7 +448,7 @@
   }
 
   function clearAll() {
-    state = {q: '', filters: {}, sort: state.sort};
+    state = {q: '', filters: {}, sort: state.sort, pack: null};
     els.q.value = '';
     shown = PAGE;
     run('push');
@@ -280,6 +457,7 @@
 
   function setQuery(q, mode) {
     state.q = q;
+    state.pack = null;
     els.q.value = q;
     shown = PAGE;
     run(mode || 'push');
@@ -328,7 +506,7 @@
     });
     els.q.addEventListener('input', function () {
       clearTimeout(typingTimer);
-      typingTimer = setTimeout(function () { state.q = els.q.value.slice(0, 120); shown = PAGE; run('replace'); }, 180);
+      typingTimer = setTimeout(function () { state.q = els.q.value.slice(0, 120); state.pack = null; shown = PAGE; run('replace'); }, 180);
     });
     root.querySelectorAll('[data-cf-example]').forEach(function (button) {
       button.addEventListener('click', function () { state.filters = {}; setQuery(button.getAttribute('data-cf-example')); });
@@ -346,6 +524,12 @@
     els.sheet.addEventListener('close', onSheetClose);
     els.sheet.addEventListener('click', function (event) { if (event.target === els.sheet) closeSheet(); });
     root.querySelector('[data-cf-close-sheet]').addEventListener('click', closeSheet);
+    els.wizard.addEventListener('submit', onWizard);
+    root.querySelector('[data-cf-pack-close]').addEventListener('click', closePack);
+    root.querySelectorAll('[data-cf-export]').forEach(function (button) {
+      button.addEventListener('click', function () { requestExport(button.getAttribute('data-cf-export')); });
+    });
+    els.exportForm.addEventListener('submit', onExportSubmit);
     if (window.matchMedia) {
       var mq = window.matchMedia(MOBILE);
       var onChange = function () { if (!mq.matches) closeSheet(); };
@@ -371,10 +555,13 @@
   }
 
   function boot() {
-    ['form', 'q', 'status', 'sort', 'active', 'facets', 'results', 'empty', 'more', 'sheet', 'filters'].forEach(function (id) {
-      els[id] = document.getElementById('cf-' + id);
+    ['form', 'q', 'status', 'sort', 'active', 'facets', 'results', 'empty', 'more', 'sheet', 'filters', 'pack', 'pack-title',
+      'pack-summary', 'pack-meta', 'consult', 'pack-lessons', 'pack-list', 'wizard', 'wizard-questions', 'wizard-result',
+      'export-form', 'export-email', 'export-msg'].forEach(function (id) {
+      els[id.replace(/-(\w)/g, function (_m, c) { return c.toUpperCase(); })] = document.getElementById('cf-' + id);
     });
     els.slot = document.getElementById('cf-filter-slot');
+    els.hub = document.getElementById('cf-hub');
     els.openFilters = document.getElementById('cf-open-filters');
     els.filterCount = root.querySelector('[data-cf-filter-count]');
     els.apply = root.querySelector('[data-cf-close-sheet]');
@@ -384,6 +571,7 @@
       state = E.paramsToState(location.search, index);
       els.q.value = state.q;
       els.sort.value = state.sort;
+      renderHub();
       bind();
       root.setAttribute('data-cf-ready', 'true');
       run();

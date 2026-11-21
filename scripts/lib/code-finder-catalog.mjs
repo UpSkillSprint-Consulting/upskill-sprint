@@ -13,7 +13,7 @@ import {readFile} from 'node:fs/promises';
 import {existsSync} from 'node:fs';
 import {join} from 'node:path';
 
-export const CATALOG_FILES = ['taxonomy.json', 'standards.json', 'synonyms.json'];
+export const CATALOG_FILES = ['taxonomy.json', 'standards.json', 'synonyms.json', 'scenarios.json', 'wizard.json'];
 export const ID_PATTERN = /^(api|csa|astm|iso|iec)-[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const STATUSES = ['active', 'withdrawn', 'superseded'];
 export const ADOPTION_STYLES = ['dated', 'as-amended'];
@@ -28,9 +28,9 @@ const ADOPTION_KEYS = new Set(['jurisdiction', 'regulator', 'instrument', 'editi
 const SYNONYM_TARGETS = {records: null, categories: 'categories', useCases: 'useCases', industries: 'industries'};
 
 export async function loadCatalog(dir) {
-  const [taxonomy, standards, synonyms] = await Promise.all(
+  const [taxonomy, standards, synonyms, scenarios, wizard] = await Promise.all(
     CATALOG_FILES.map(async name => JSON.parse(await readFile(join(dir, name), 'utf8'))));
-  return {taxonomy, standards, synonyms};
+  return {taxonomy, standards, synonyms, scenarios, wizard};
 }
 
 const isString = value => typeof value === 'string' && value.trim() === value && value.length > 0;
@@ -94,7 +94,7 @@ function learningTargetExists(root, entry) {
 
 // Returns a list of human-readable problems. An empty list means the catalog is valid.
 // Pass `root` (repo root) to also check that lesson and tool links point at real pages.
-export function validateCatalog({taxonomy, standards, synonyms}, {root = null, today = new Date()} = {}) {
+export function validateCatalog({taxonomy, standards, synonyms, scenarios, wizard}, {root = null, today = new Date()} = {}) {
   const errors = [];
   const facets = indexTaxonomy(taxonomy, errors);
   if (!standards || standards.version !== 1 || !Array.isArray(standards.standards)) {
@@ -179,7 +179,65 @@ export function validateCatalog({taxonomy, standards, synonyms}, {root = null, t
     }
     if (!targets) errors.push(`${where}: needs at least one target (records, categories, useCases or industries)`);
   }
+  if (scenarios !== undefined) validateScenarios(scenarios, {facets, ids, root, errors});
+  if (wizard !== undefined) validateWizard(wizard, {facets, errors});
   return errors;
+}
+
+export const PACK_WHY_MAX = 160;
+// Starter packs: hand-picked, ordered lists of codes for one job, each with a one-line reason.
+function validateScenarios(scenarios, {facets, ids, root, errors}) {
+  if (!scenarios || scenarios.version !== 1 || !Array.isArray(scenarios.packs)) {
+    errors.push('scenarios.json: expected {"version": 1, "packs": [...]}');
+    return;
+  }
+  const slugs = new Set();
+  for (const pack of scenarios.packs) {
+    const where = `scenarios.json: ${pack?.slug || '(no slug)'}`;
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(pack?.slug || '')) errors.push(`${where}: slug must be lowercase with hyphens`);
+    else if (slugs.has(pack.slug)) errors.push(`${where}: duplicate slug`);
+    slugs.add(pack?.slug);
+    for (const field of ['title', 'summary']) if (!isString(pack?.[field])) errors.push(`${where}: ${field} is required text`);
+    if (typeof pack?.regulated !== 'boolean') errors.push(`${where}: regulated must be true or false`);
+    checkSlugList(where, 'industries', pack?.industries, facets.industries || new Set(), errors, {required: true});
+    checkSlugList(where, 'useCases', pack?.useCases, facets.useCases || new Set(), errors, {required: true});
+    const records = Array.isArray(pack?.records) ? pack.records : [];
+    if (records.length < 3) errors.push(`${where}: a pack needs at least 3 codes`);
+    const seen = new Set();
+    for (const item of records) {
+      if (!ids.has(item?.id)) errors.push(`${where}: unknown code "${item?.id}"`);
+      if (seen.has(item?.id)) errors.push(`${where}: lists "${item?.id}" twice`);
+      seen.add(item?.id);
+      if (!isString(item?.why) || item.why.length > PACK_WHY_MAX) errors.push(`${where}: "${item?.id}" needs a why of 1-${PACK_WHY_MAX} characters`);
+      else if (/\bshall\b/i.test(item.why)) errors.push(`${where}: "${item.id}" why reads like standard text`);
+    }
+    for (const lesson of Array.isArray(pack?.lessons) ? pack.lessons : (errors.push(`${where}: lessons must be a list`), [])) {
+      if (!isString(lesson?.label) || typeof lesson?.href !== 'string' || !/^\/[a-z0-9\-/]+$/.test(lesson.href)) errors.push(`${where}: lesson needs a label and a site path`);
+      else if (root && !learningTargetExists(root, lesson)) errors.push(`${where}: lesson ${lesson.href} does not match a page in the repo`);
+    }
+  }
+}
+
+// Wizard: each question filters one facet; each option maps to one or more facet values.
+function validateWizard(wizard, {facets, errors}) {
+  if (!wizard || wizard.version !== 1 || !Array.isArray(wizard.questions) || !wizard.questions.length) {
+    errors.push('wizard.json: expected {"version": 1, "questions": [...]}');
+    return;
+  }
+  const questionIds = new Set();
+  for (const question of wizard.questions) {
+    const where = `wizard.json: ${question?.id || '(no id)'}`;
+    if (!isString(question?.id) || questionIds.has(question.id)) errors.push(`${where}: question ids must be unique text`);
+    questionIds.add(question?.id);
+    if (!isString(question?.prompt)) errors.push(`${where}: prompt is required text`);
+    if (!['industries', 'useCases'].includes(question?.facet)) errors.push(`${where}: facet must be industries or useCases`);
+    const options = Array.isArray(question?.options) ? question.options : [];
+    if (options.length < 2) errors.push(`${where}: needs at least 2 options`);
+    for (const option of options) {
+      if (!isString(option?.label)) errors.push(`${where}: every option needs a label`);
+      checkSlugList(`${where} "${option?.label}"`, 'values', option?.values, facets[question?.facet] || new Set(), errors, {required: true});
+    }
+  }
 }
 
 // Every relation seen from both ends, for "related codes" on each card.

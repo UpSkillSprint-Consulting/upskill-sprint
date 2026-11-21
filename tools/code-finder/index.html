@@ -114,7 +114,63 @@
     </form>
   </section>
 
+
+  <section class="cf-hub" aria-labelledby="cf-hub-h">
+    <details id="cf-hub" class="cf-hub-details osx-panel">
+      <summary><span id="cf-hub-h" class="cf-hub-title">Not sure where to start?</span> <span class="cf-hub-sub">Answer 2 questions or pick a starter pack</span></summary>
+      <div class="cf-hub-grid">
+        <form id="cf-wizard" class="cf-wizard" novalidate>
+          <h2 class="cf-hub-h2">Find my starter pack</h2>
+          <div id="cf-wizard-questions"></div>
+          <button type="submit" class="osx-btn cf-wizard-go">Show my starter packs</button>
+          <div id="cf-wizard-result" class="cf-wizard-result" role="status" aria-live="polite"></div>
+        </form>
+        <div class="cf-packs">
+          <h2 class="cf-hub-h2">Starter packs</h2>
+          <p class="cf-help">Hand-picked codes for one job, each with a reason it is there. Download any pack as a spreadsheet or PDF.</p>
+          <ul id="cf-pack-list" class="cf-pack-list"></ul>
+        </div>
+      </div>
+    </details>
+  </section>
+
   <section class="cf-workspace" aria-labelledby="cf-results-heading">
+    <section id="cf-pack" class="cf-pack" aria-labelledby="cf-pack-title" hidden>
+      <div class="cf-print-head" aria-hidden="true"><img src="/assets/logo-wordmark.png" alt="" width="180" height="40"><span>Code Finder starter pack · upskillsprint.com/tools/code-finder</span></div>
+      <button type="button" class="cf-link-btn cf-pack-back" data-cf-pack-close>&larr; Back to all codes</button>
+      <p class="osx-brand cf-kicker">Starter pack</p>
+      <h2 id="cf-pack-title" class="cf-pack-title" tabindex="-1"></h2>
+      <p id="cf-pack-summary" class="cf-pack-summary"></p>
+      <p id="cf-pack-meta" class="cf-pack-meta"></p>
+      <aside id="cf-consult" class="cf-consult" aria-labelledby="cf-consult-h" hidden>
+        <h3 id="cf-consult-h">Need help applying this?</h3>
+        <p>This work is regulated, and the edition your regulator or contract calls for matters. We help teams turn code requirements into inspection plans, procedures and audit-ready records.</p>
+        <a class="osx-btn" href="/services#consulting-support">Talk to us about consulting support</a>
+      </aside>
+      <div class="cf-export osx-panel">
+        <h3>Take this pack with you</h3>
+        <p class="cf-help">Download the list as a spreadsheet or print it as a PDF checklist.</p>
+        <div class="cf-export-actions">
+          <button type="button" class="osx-btn" data-cf-export="csv">Download spreadsheet (CSV)</button>
+          <button type="button" class="osx-btn-ghost" data-cf-export="print">Print or save as PDF</button>
+        </div>
+        <form id="cf-export-form" class="cf-export-form" name="code-finder-export" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/tools/code-finder/" hidden>
+          <input type="hidden" name="form-name" value="code-finder-export">
+          <input type="hidden" name="pack" value="">
+          <div class="cf-honeypot" aria-hidden="true"><label>Leave this empty<input name="bot-field" tabindex="-1" autocomplete="off"></label></div>
+          <p class="cf-export-lead">Enter your email once to unlock downloads for every pack.</p>
+          <label for="cf-export-email" class="cf-search-label">Email address</label>
+          <div class="cf-search-row">
+            <input id="cf-export-email" type="email" name="email" required autocomplete="email" placeholder="you@company.com" aria-describedby="cf-export-note">
+            <button type="submit" class="osx-btn">Unlock downloads</button>
+          </div>
+          <label class="cf-check cf-optin"><input type="checkbox" name="marketing_opt_in" value="yes"> <span>Email me when codes in my packs change and when new lessons come out (optional, unsubscribe anytime).</span></label>
+          <p id="cf-export-note" class="cf-help">We use your email to unlock downloads and, only if you tick the box, to send updates. See our <a href="/privacy">privacy policy</a>.</p>
+          <p id="cf-export-msg" class="cf-export-msg" role="alert"></p>
+        </form>
+      </div>
+      <div id="cf-pack-lessons" class="cf-pack-lessons"></div>
+    </section>
     <div class="cf-toolbar">
       <h2 id="cf-results-heading" class="cf-results-heading">Results</h2>
       <p id="cf-status" class="cf-status" role="status" aria-live="polite">Loading the code list…</p>

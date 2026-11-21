@@ -1,0 +1,1009 @@
+{
+  "version": 1,
+  "packs": [
+    {
+      "slug": "line-pipe-mill-qc",
+      "title": "Making or buying line pipe",
+      "summary": "The product specs, tests and paperwork behind a line pipe order, from chemistry to the mill certificate.",
+      "industries": [
+        "pipe-tube-mfg",
+        "steelmaking",
+        "oil-gas",
+        "oil-gas-midstream"
+      ],
+      "useCases": [
+        "specify-material",
+        "certify-mill-product",
+        "run-lab-test"
+      ],
+      "regulated": true,
+      "records": [
+        {
+          "id": "api-5l",
+          "why": "The main line pipe spec in the US and most export orders: grades, PSL 1 vs PSL 2, tests and marking."
+        },
+        {
+          "id": "csa-z245-1",
+          "why": "The Canadian line pipe spec. Check which one the purchase order calls for."
+        },
+        {
+          "id": "iso-3183",
+          "why": "The international version of API 5L, often named on overseas projects."
+        },
+        {
+          "id": "astm-a370",
+          "why": "How the tensile, hardness and Charpy tests in the pipe spec are actually run."
+        },
+        {
+          "id": "astm-e23",
+          "why": "Charpy impact test method for the toughness requirements."
+        },
+        {
+          "id": "astm-e436",
+          "why": "Drop-weight tear test used on larger, higher-grade pipe to prove ductile fracture."
+        },
+        {
+          "id": "astm-a751",
+          "why": "How heat and product chemistry is sampled and reported."
+        },
+        {
+          "id": "astm-e213",
+          "why": "Ultrasonic inspection of the pipe body and weld."
+        },
+        {
+          "id": "astm-e570",
+          "why": "Flux leakage inspection, common on ERW and seamless pipe."
+        },
+        {
+          "id": "api-5b",
+          "why": "Thread gauging, if the pipe is supplied threaded."
+        },
+        {
+          "id": "iso-10204",
+          "why": "Which type of mill certificate (2.2, 3.1, 3.2) the buyer is asking for."
+        },
+        {
+          "id": "api-q1",
+          "why": "The quality system many oil and gas buyers expect a pipe mill to hold."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/quality-engineering/cost-of-poor-quality",
+          "label": "Cost of poor quality"
+        },
+        {
+          "href": "/lessons/control-charts-explained",
+          "label": "Control charts explained"
+        }
+      ]
+    },
+    {
+      "slug": "pipeline-design-construction-canada",
+      "title": "Building a pipeline in Canada",
+      "summary": "The code, pipe and component specs, welding and testing rules for a new oil or gas pipeline in Canada.",
+      "industries": [
+        "oil-gas",
+        "oil-gas-midstream",
+        "construction"
+      ],
+      "useCases": [
+        "design-pipeline",
+        "qualify-weld-procedure",
+        "specify-material"
+      ],
+      "regulated": true,
+      "records": [
+        {
+          "id": "csa-z662",
+          "why": "The governing code: design, materials, welding, testing and operation of Canadian pipelines."
+        },
+        {
+          "id": "csa-z245-1",
+          "why": "Line pipe that Z662 calls for."
+        },
+        {
+          "id": "csa-z245-11",
+          "why": "Fittings: elbows, tees and reducers."
+        },
+        {
+          "id": "csa-z245-12",
+          "why": "Flanges."
+        },
+        {
+          "id": "csa-z245-15",
+          "why": "Valves."
+        },
+        {
+          "id": "csa-z245-20",
+          "why": "Factory-applied external coating on the pipe."
+        },
+        {
+          "id": "csa-z245-30",
+          "why": "Coating applied in the field on girth welds and repairs."
+        },
+        {
+          "id": "api-1104",
+          "why": "Widely used for pipeline welding procedures and welder tests; check your owner's specs."
+        },
+        {
+          "id": "api-1110",
+          "why": "How to plan and record the hydrostatic pressure test."
+        },
+        {
+          "id": "csa-z663",
+          "why": "Land use near the pipeline: setbacks and development planning."
+        },
+        {
+          "id": "csa-s250",
+          "why": "Mapping buried utilities on the route."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
+        }
+      ]
+    },
+    {
+      "slug": "pipeline-integrity",
+      "title": "Keeping an operating pipeline safe",
+      "summary": "Integrity management, in-line inspection, crack assessment and fitness-for-service for pipelines in service.",
+      "industries": [
+        "oil-gas",
+        "oil-gas-midstream"
+      ],
+      "useCases": [
+        "inspect-in-service",
+        "assess-fitness-for-service",
+        "risk-assessment"
+      ],
+      "regulated": true,
+      "records": [
+        {
+          "id": "csa-z662",
+          "why": "Canadian requirements for operating and maintaining pipelines, including integrity management."
+        },
+        {
+          "id": "api-1160",
+          "why": "How to build an integrity management program for liquid pipelines."
+        },
+        {
+          "id": "api-1163",
+          "why": "Qualifying in-line inspection tools and the people who read the data."
+        },
+        {
+          "id": "api-1176",
+          "why": "Finding, sizing and assessing cracks."
+        },
+        {
+          "id": "api-579-1",
+          "why": "Deciding whether damaged pipe can stay in service."
+        },
+        {
+          "id": "api-1173",
+          "why": "The safety management system that ties it together."
+        },
+        {
+          "id": "api-1110",
+          "why": "Pressure testing as an integrity check."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
+        },
+        {
+          "href": "/lessons/quality-engineering/introduction-to-reliability-and-maintainability",
+          "label": "Introduction to reliability and maintainability"
+        }
+      ]
+    },
+    {
+      "slug": "octg-wells",
+      "title": "Casing, tubing and wellheads",
+      "summary": "Specs and field practices for oil country tubular goods and wellhead equipment.",
+      "industries": [
+        "oil-gas",
+        "oil-gas-upstream",
+        "pipe-tube-mfg"
+      ],
+      "useCases": [
+        "specify-material",
+        "certify-mill-product",
+        "inspect-in-service"
+      ],
+      "regulated": false,
+      "records": [
+        {
+          "id": "api-5ct",
+          "why": "The main casing and tubing spec."
+        },
+        {
+          "id": "iso-11960",
+          "why": "The international version of 5CT."
+        },
+        {
+          "id": "api-5b",
+          "why": "Thread forms and gauging for casing and tubing connections."
+        },
+        {
+          "id": "api-5a5",
+          "why": "Field inspection of new pipe before it is run."
+        },
+        {
+          "id": "api-5c1",
+          "why": "Handling and running practice so pipe is not damaged on site."
+        },
+        {
+          "id": "api-5dp",
+          "why": "Drill pipe, if you are supplying the drilling string."
+        },
+        {
+          "id": "api-6a",
+          "why": "Wellhead and tree equipment."
+        },
+        {
+          "id": "api-q1",
+          "why": "Quality system for manufacturers."
+        },
+        {
+          "id": "api-q2",
+          "why": "Quality system for service companies."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/quality-engineering/cost-of-poor-quality",
+          "label": "Cost of poor quality"
+        }
+      ]
+    },
+    {
+      "slug": "pressure-equipment-inspection",
+      "title": "Inspecting pressure vessels and piping",
+      "summary": "In-service inspection, damage mechanisms, risk-based inspection and relief systems for plants.",
+      "industries": [
+        "oil-gas",
+        "oil-gas-downstream",
+        "chemicals",
+        "power-utilities",
+        "mining"
+      ],
+      "useCases": [
+        "inspect-in-service",
+        "assess-fitness-for-service",
+        "risk-assessment"
+      ],
+      "regulated": true,
+      "records": [
+        {
+          "id": "csa-b51",
+          "why": "Canada's boiler and pressure vessel code, adopted by the provincial safety authority."
+        },
+        {
+          "id": "api-510",
+          "why": "Inspection, repair and rerating of pressure vessels in service."
+        },
+        {
+          "id": "api-570",
+          "why": "The same for process piping."
+        },
+        {
+          "id": "api-572",
+          "why": "Practical how-to for vessel inspection."
+        },
+        {
+          "id": "api-574",
+          "why": "Practical how-to for piping inspection."
+        },
+        {
+          "id": "api-571",
+          "why": "What damage to look for and why it happens."
+        },
+        {
+          "id": "api-580",
+          "why": "Setting up risk-based inspection."
+        },
+        {
+          "id": "api-581",
+          "why": "The RBI calculations."
+        },
+        {
+          "id": "api-579-1",
+          "why": "Fitness-for-service when damage is found."
+        },
+        {
+          "id": "api-520-1",
+          "why": "Sizing relief devices."
+        },
+        {
+          "id": "api-521",
+          "why": "Relief and flare system design."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
+        },
+        {
+          "href": "/lessons/quality-engineering/introduction-to-reliability-and-maintainability",
+          "label": "Introduction to reliability and maintainability"
+        }
+      ]
+    },
+    {
+      "slug": "storage-tanks",
+      "title": "Building and inspecting storage tanks",
+      "summary": "Design, venting, overfill protection and in-service inspection of aboveground tanks.",
+      "industries": [
+        "oil-gas",
+        "oil-gas-midstream",
+        "oil-gas-downstream",
+        "chemicals"
+      ],
+      "useCases": [
+        "design-structure",
+        "inspect-in-service",
+        "manage-process-safety"
+      ],
+      "regulated": false,
+      "records": [
+        {
+          "id": "api-650",
+          "why": "Design and construction of atmospheric welded tanks."
+        },
+        {
+          "id": "api-620",
+          "why": "Large low-pressure and refrigerated tanks."
+        },
+        {
+          "id": "api-653",
+          "why": "Inspection, repair and rebuild of tanks in service."
+        },
+        {
+          "id": "api-2000",
+          "why": "Vent sizing."
+        },
+        {
+          "id": "api-2350",
+          "why": "Overfill prevention."
+        },
+        {
+          "id": "api-579-1",
+          "why": "Fitness-for-service when a tank is damaged."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
+        }
+      ]
+    },
+    {
+      "slug": "structural-steel-canada",
+      "title": "Structural steel fabrication in Canada",
+      "summary": "Steel grades, design, welding and company certification for Canadian steel structures.",
+      "industries": [
+        "construction",
+        "steelmaking",
+        "manufacturing",
+        "mining",
+        "power-utilities"
+      ],
+      "useCases": [
+        "specify-material",
+        "design-structure",
+        "qualify-weld-procedure",
+        "certify-personnel"
+      ],
+      "regulated": false,
+      "records": [
+        {
+          "id": "csa-g40-20-21",
+          "why": "Canadian structural steel grades such as 350W."
+        },
+        {
+          "id": "csa-s16",
+          "why": "Design of steel structures."
+        },
+        {
+          "id": "csa-w59",
+          "why": "Welding workmanship and inspection."
+        },
+        {
+          "id": "csa-w47-1",
+          "why": "Company certification to weld steel (CWB)."
+        },
+        {
+          "id": "csa-w48",
+          "why": "Welding consumables."
+        },
+        {
+          "id": "csa-w178-2",
+          "why": "Welding inspector certification."
+        },
+        {
+          "id": "astm-a572",
+          "why": "US HSLA grade often substituted or cross-referenced."
+        },
+        {
+          "id": "astm-a992",
+          "why": "US grade for wide-flange shapes."
+        },
+        {
+          "id": "astm-a500",
+          "why": "Hollow structural sections (HSS)."
+        },
+        {
+          "id": "astm-a123",
+          "why": "Hot-dip galvanizing of fabricated steel."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/7-essential-quality-tools",
+          "label": "The 7 essential quality tools"
+        }
+      ]
+    },
+    {
+      "slug": "steel-mill-lab",
+      "title": "Running a steel mill or test lab",
+      "summary": "Mechanical, chemical and metallographic test methods, plus the lab quality system.",
+      "industries": [
+        "steelmaking",
+        "pipe-tube-mfg",
+        "manufacturing",
+        "construction",
+        "mining",
+        "power-utilities",
+        "oil-gas"
+      ],
+      "useCases": [
+        "run-lab-test",
+        "calibrate-equipment",
+        "certify-mill-product"
+      ],
+      "regulated": false,
+      "records": [
+        {
+          "id": "astm-a370",
+          "why": "Mechanical testing of steel products, end to end."
+        },
+        {
+          "id": "astm-e8",
+          "why": "Tensile test method."
+        },
+        {
+          "id": "iso-6892-1",
+          "why": "Tensile test method for ISO-based orders."
+        },
+        {
+          "id": "astm-e23",
+          "why": "Charpy test method."
+        },
+        {
+          "id": "iso-148-1",
+          "why": "Charpy test method for ISO-based orders."
+        },
+        {
+          "id": "astm-e18",
+          "why": "Rockwell hardness."
+        },
+        {
+          "id": "astm-e10",
+          "why": "Brinell hardness."
+        },
+        {
+          "id": "astm-e92",
+          "why": "Vickers hardness, including weld traverses."
+        },
+        {
+          "id": "astm-a751",
+          "why": "Chemistry sampling and reporting."
+        },
+        {
+          "id": "astm-e415",
+          "why": "Spark OES analysis."
+        },
+        {
+          "id": "astm-e1019",
+          "why": "Carbon, sulfur, nitrogen and oxygen by combustion and fusion."
+        },
+        {
+          "id": "astm-e112",
+          "why": "Grain size."
+        },
+        {
+          "id": "astm-e45",
+          "why": "Inclusion rating."
+        },
+        {
+          "id": "astm-e3",
+          "why": "Sample preparation."
+        },
+        {
+          "id": "astm-e4",
+          "why": "Verifying testing machine force."
+        },
+        {
+          "id": "iso-iec-17025",
+          "why": "Lab competence and accreditation."
+        },
+        {
+          "id": "astm-e29",
+          "why": "Rounding results before comparing them to the spec."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/quality-engineering/gauge-rr-study",
+          "label": "Gauge R&R study"
+        },
+        {
+          "href": "/lessons/control-charts-explained",
+          "label": "Control charts explained"
+        }
+      ]
+    },
+    {
+      "slug": "qms-manufacturing",
+      "title": "Setting up a quality system",
+      "summary": "Quality management, auditing and measurement standards for a manufacturer.",
+      "industries": [
+        "manufacturing",
+        "steelmaking",
+        "pipe-tube-mfg",
+        "oil-gas",
+        "construction",
+        "mining",
+        "power-utilities",
+        "chemicals"
+      ],
+      "useCases": [
+        "set-up-qms",
+        "prepare-audit"
+      ],
+      "regulated": false,
+      "records": [
+        {
+          "id": "iso-9001",
+          "why": "The core requirements most customers ask for."
+        },
+        {
+          "id": "iso-9000",
+          "why": "Terms and principles behind ISO 9001."
+        },
+        {
+          "id": "iso-19011",
+          "why": "How to plan and run internal audits."
+        },
+        {
+          "id": "api-q1",
+          "why": "Oil and gas customers often require this on top of ISO 9001."
+        },
+        {
+          "id": "iso-29001",
+          "why": "The ISO sector version for oil and gas suppliers."
+        },
+        {
+          "id": "iso-10012",
+          "why": "Managing measurement equipment and processes."
+        },
+        {
+          "id": "iso-2859-1",
+          "why": "AQL sampling for incoming and final inspection."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/quality-engineering/cost-of-poor-quality",
+          "label": "Cost of poor quality"
+        },
+        {
+          "href": "/lessons/quality-engineering/quality-gurus-crosby-juran-deming",
+          "label": "Quality gurus: Crosby, Juran and Deming"
+        },
+        {
+          "href": "/lessons/7-essential-quality-tools",
+          "label": "The 7 essential quality tools"
+        }
+      ]
+    },
+    {
+      "slug": "spc-msa-toolkit",
+      "title": "SPC, capability and measurement systems",
+      "summary": "The statistics standards behind control charts, Cpk, gauge R&R and sample sizes.",
+      "industries": [
+        "manufacturing",
+        "steelmaking",
+        "pipe-tube-mfg",
+        "oil-gas",
+        "chemicals",
+        "mining",
+        "power-utilities",
+        "construction",
+        "medical-devices",
+        "food"
+      ],
+      "useCases": [
+        "run-spc-capability",
+        "calibrate-equipment"
+      ],
+      "regulated": false,
+      "records": [
+        {
+          "id": "astm-e2587",
+          "why": "Building and reading control charts."
+        },
+        {
+          "id": "iso-7870-2",
+          "why": "Shewhart control charts, ISO version."
+        },
+        {
+          "id": "astm-e2281",
+          "why": "Cp, Cpk, Pp and Ppk."
+        },
+        {
+          "id": "astm-e2782",
+          "why": "Measurement systems analysis, including gauge R&R."
+        },
+        {
+          "id": "astm-e177",
+          "why": "What precision and bias mean."
+        },
+        {
+          "id": "astm-e691",
+          "why": "Interlaboratory studies for repeatability and reproducibility."
+        },
+        {
+          "id": "iso-5725-2",
+          "why": "Repeatability and reproducibility, ISO version."
+        },
+        {
+          "id": "astm-e122",
+          "why": "Sample size for estimating an average."
+        },
+        {
+          "id": "astm-e29",
+          "why": "Rounding results before judging conformance."
+        },
+        {
+          "id": "iso-13053-1",
+          "why": "Running Six Sigma DMAIC projects."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/control-charts-explained",
+          "label": "Control charts explained"
+        },
+        {
+          "href": "/lessons/lean-six-sigma/process-capability-cp-and-cpk",
+          "label": "Process capability: Cp and Cpk"
+        },
+        {
+          "href": "/lessons/quality-engineering/gauge-rr-study",
+          "label": "Gauge R&R study"
+        },
+        {
+          "href": "/lessons/lean-six-sigma/dmaic-in-10-minutes",
+          "label": "DMAIC in 10 minutes"
+        }
+      ]
+    },
+    {
+      "slug": "ndt-program",
+      "title": "Running an NDT program",
+      "summary": "Personnel certification and the main NDT methods for pipe, welds and parts.",
+      "industries": [
+        "manufacturing",
+        "pipe-tube-mfg",
+        "oil-gas",
+        "aerospace",
+        "construction",
+        "power-utilities",
+        "mining",
+        "steelmaking"
+      ],
+      "useCases": [
+        "qualify-ndt-staff",
+        "inspect-in-service",
+        "certify-mill-product"
+      ],
+      "regulated": false,
+      "records": [
+        {
+          "id": "iso-9712",
+          "why": "Training, exams and certification levels for NDT technicians."
+        },
+        {
+          "id": "astm-e213",
+          "why": "Ultrasonic testing of pipe and tube."
+        },
+        {
+          "id": "astm-e309",
+          "why": "Eddy current testing of tubular products."
+        },
+        {
+          "id": "astm-e570",
+          "why": "Flux leakage testing of tubular products."
+        },
+        {
+          "id": "astm-e1444",
+          "why": "Magnetic particle testing requirements."
+        },
+        {
+          "id": "astm-e709",
+          "why": "Magnetic particle background and techniques."
+        },
+        {
+          "id": "astm-e1417",
+          "why": "Liquid penetrant testing requirements."
+        },
+        {
+          "id": "api-1163",
+          "why": "In-line inspection of pipelines."
+        },
+        {
+          "id": "iso-iec-17020",
+          "why": "Requirements for inspection bodies."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/quality-engineering/gauge-rr-study",
+          "label": "Gauge R&R study"
+        }
+      ]
+    },
+    {
+      "slug": "medical-device-qms",
+      "title": "Medical device quality and risk",
+      "summary": "The quality system and risk management standards medical device makers are audited against.",
+      "industries": [
+        "medical-devices"
+      ],
+      "useCases": [
+        "set-up-qms",
+        "prepare-audit",
+        "risk-assessment"
+      ],
+      "regulated": true,
+      "records": [
+        {
+          "id": "iso-13485",
+          "why": "The medical device QMS; incorporated into the US FDA QMSR from February 2, 2026."
+        },
+        {
+          "id": "iso-14971",
+          "why": "Risk management across the device life cycle."
+        },
+        {
+          "id": "iso-19011",
+          "why": "Auditing the system internally."
+        },
+        {
+          "id": "iso-iec-17025",
+          "why": "If you run your own test lab."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
+        },
+        {
+          "href": "/lessons/quality-engineering/cost-of-poor-quality",
+          "label": "Cost of poor quality"
+        }
+      ]
+    },
+    {
+      "slug": "food-safety",
+      "title": "Food safety management",
+      "summary": "Food safety system, sampling and auditing standards for food producers.",
+      "industries": [
+        "food"
+      ],
+      "useCases": [
+        "set-up-qms",
+        "prepare-audit",
+        "risk-assessment"
+      ],
+      "regulated": true,
+      "records": [
+        {
+          "id": "iso-22000",
+          "why": "The food safety management system, built around HACCP."
+        },
+        {
+          "id": "iso-2859-1",
+          "why": "AQL sampling for inspection."
+        },
+        {
+          "id": "iso-19011",
+          "why": "Internal audits."
+        },
+        {
+          "id": "iso-9001",
+          "why": "General quality system, often run alongside ISO 22000."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
+        }
+      ]
+    },
+    {
+      "slug": "workplace-safety-canada",
+      "title": "Workplace health and safety in Canada",
+      "summary": "OHS management, hazard assessment and the CSA safety standards most plants use.",
+      "industries": [
+        "manufacturing",
+        "steelmaking",
+        "mining",
+        "construction",
+        "power-utilities",
+        "oil-gas",
+        "chemicals"
+      ],
+      "useCases": [
+        "risk-assessment",
+        "set-up-qms"
+      ],
+      "regulated": false,
+      "records": [
+        {
+          "id": "csa-z1000",
+          "why": "Canadian OHS management system."
+        },
+        {
+          "id": "iso-45001",
+          "why": "International OHS management system."
+        },
+        {
+          "id": "csa-z1002",
+          "why": "Hazard identification and risk assessment."
+        },
+        {
+          "id": "csa-z462",
+          "why": "Electrical safety and arc flash."
+        },
+        {
+          "id": "csa-z432",
+          "why": "Machine guarding."
+        },
+        {
+          "id": "csa-z460",
+          "why": "Lockout and energy isolation."
+        },
+        {
+          "id": "csa-z94-4",
+          "why": "Respiratory protection programs."
+        },
+        {
+          "id": "csa-c22-1",
+          "why": "The Canadian Electrical Code."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
+        },
+        {
+          "href": "/lessons/root-cause-analysis-5-whys-fishbone",
+          "label": "Root cause analysis: 5 Whys and fishbone"
+        }
+      ]
+    },
+    {
+      "slug": "process-safety",
+      "title": "Process safety management",
+      "summary": "PSM, hazard studies, relief systems and safety performance indicators for process plants.",
+      "industries": [
+        "chemicals",
+        "oil-gas",
+        "oil-gas-downstream"
+      ],
+      "useCases": [
+        "manage-process-safety",
+        "risk-assessment"
+      ],
+      "regulated": false,
+      "records": [
+        {
+          "id": "csa-z767",
+          "why": "The Canadian process safety management standard."
+        },
+        {
+          "id": "iec-31010",
+          "why": "Hazard study techniques such as HAZOP and bow-tie."
+        },
+        {
+          "id": "api-754",
+          "why": "Process safety indicators (Tier 1 to 4)."
+        },
+        {
+          "id": "api-752",
+          "why": "Building siting and occupant risk."
+        },
+        {
+          "id": "api-521",
+          "why": "Relief and depressuring design."
+        },
+        {
+          "id": "api-500",
+          "why": "Hazardous area classification (Division system)."
+        },
+        {
+          "id": "api-505",
+          "why": "Hazardous area classification (Zone system)."
+        },
+        {
+          "id": "csa-z1600",
+          "why": "Emergency and continuity planning."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
+          "label": "Top-down vs bottom-up risk assessment"
+        },
+        {
+          "href": "/lessons/root-cause-analysis-5-whys-fishbone",
+          "label": "Root cause analysis: 5 Whys and fishbone"
+        }
+      ]
+    },
+    {
+      "slug": "environment-energy",
+      "title": "Environment, energy and GHG",
+      "summary": "Environmental and energy management systems and greenhouse gas reporting.",
+      "industries": [
+        "steelmaking",
+        "manufacturing",
+        "mining",
+        "power-utilities",
+        "oil-gas",
+        "chemicals",
+        "construction",
+        "food",
+        "medical-devices"
+      ],
+      "useCases": [
+        "report-ghg",
+        "set-up-qms"
+      ],
+      "regulated": false,
+      "records": [
+        {
+          "id": "iso-14001",
+          "why": "Environmental management system."
+        },
+        {
+          "id": "iso-50001",
+          "why": "Energy management system."
+        },
+        {
+          "id": "iso-14064-1",
+          "why": "Organization-level greenhouse gas inventory and reporting."
+        }
+      ],
+      "lessons": [
+        {
+          "href": "/lessons/lean-six-sigma/dmaic-in-10-minutes",
+          "label": "DMAIC in 10 minutes"
+        }
+      ]
+    }
+  ]
+}
