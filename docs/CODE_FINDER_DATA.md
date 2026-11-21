@@ -57,6 +57,8 @@ Add an object to `standards.standards`:
 | `learning` | Links to our own lessons or tools: `{"type": "lesson", "href": "/lessons/...", "label": "Gauge R&R study"}`. `label` is the link text users see. The build checks the page exists. |
 | `edition`, `year` | Only on verified records. Leave both out until someone has checked the current edition. |
 | `verified` | `null` until a person checks the record against the publisher's catalog; then the check date. Records older than 12 months show as stale. |
+| `keyPoints` | Optional, 3-6 bullets of 20-240 characters: what the code covers, in our own words (no "shall"). **A code page is only indexed by search engines once it has key points**; until then it is published with `noindex, follow` and left out of the sitemap, so thin pages never count against the site. |
+| `tips` | Optional, 1-3 practical tips from real work (what to check on the order, common audit findings). |
 
 ## Adding a facet value or synonym
 
@@ -102,4 +104,21 @@ The tests require at least 9 in 10 wizard answer pairs to reach a pack that fits
 
 ## Export leads
 
-Downloading a pack (CSV or print to PDF) asks for an email once per browser. The address is posted to the Netlify form **`code-finder-export`** with the pack slug and an optional, unticked-by-default `marketing_opt_in`. Netlify stores the submission, and `form-submission-notification.mjs` emails it to hello@. Only addresses with `marketing_opt_in=yes` may be added to update emails (CASL).
+Downloading a pack (CSV or print to PDF) asks for an email once per browser. The address is posted to the Netlify form **`code-finder-export`** with the pack slug and an optional, unticked-by-default `marketing_opt_in`. Netlify stores the submission, and `form-submission-notification.mjs` (via `netlify/functions/_shared/code-finder-export-email.mjs`) sends two emails through Resend:
+
+- **To the visitor:** "Your Code Finder pack: <title>", listing every code with its reason, check status and page link, the consulting note on regulated packs, the lessons, and the pack spreadsheet attached as CSV. Reply-to is hello@. It is a one-time, requested (transactional) email and shows the CASL mailing address from `NEWSLETTER_POSTAL_ADDRESS`.
+- **To hello@:** "Code Finder lead: <pack title>", with the email, the pack and whether they opted in to updates. Reply-to is the visitor.
+
+Only addresses with `marketing_opt_in=yes` may be added to update emails (CASL). The Netlify dashboard's own form email (its subject still reads "New lesson request") duplicates this alert; remove it under Forms → Form notifications.
+
+## Indexable pages (`/codes/...`)
+
+`scripts/build-code-finder-pages.mjs` runs in `npm run build:site` and writes one static page per code (`/codes/api/5l/`), category, industry, starter pack and equivalent/similar pair (`/codes/compare/api-5l-vs-iso-3183/`), plus the `/codes/` hub, into `public-site/`. These pages are build output: never commit them. They pick up data changes automatically.
+
+Comparison pages are indexed only when both codes have key points. Hub, category, industry and pack pages are always indexed.
+
+When codes, key points, packs or relations change, refresh the committed `sitemap.xml` snapshot from `public-site/sitemap.xml` after a build. `tests/code-finder-pages.test.js` fails until every generated page is listed.
+
+## Enrichment backlog
+
+57 of 159 codes have key points (Nov 2026: line pipe and OCTG, mechanical testing, chemistry and metallography, structural, welding, pipelines, pressure equipment, NDT, SPC/MSA and quality systems). Enrich the rest in batches of 15-20, starting with codes that appear in starter packs. Each batch is a data-only PR: add `keyPoints` (and `tips` where useful), rebuild, refresh `sitemap.xml`, run `npm run test:code-finder`.

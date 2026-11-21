@@ -2,6 +2,7 @@
 // Netlify invokes formSubmitted only after verifying a submission and validates
 // the event signature before calling this handler.
 import { createHash } from 'node:crypto';
+import { loadCodeFinderIndex, renderLeadAlert, renderPackEmail } from './_shared/code-finder-export-email.mjs';
 
 const RESEND_ENDPOINT = 'https://api.resend.com/emails';
 const EMAIL = /^[^\s@<>]+@[^\s@<>]+\.[a-z]{2,}$/i;
@@ -13,7 +14,8 @@ export function netlifyEnv() {
   return {
     RESEND_API_KEY: Netlify.env.get('RESEND_API_KEY'),
     NEWSLETTER_ADMIN_EMAIL: Netlify.env.get('NEWSLETTER_ADMIN_EMAIL'),
-    NEWSLETTER_FROM: Netlify.env.get('NEWSLETTER_FROM')
+    NEWSLETTER_FROM: Netlify.env.get('NEWSLETTER_FROM'),
+    NEWSLETTER_POSTAL_ADDRESS: Netlify.env.get('NEWSLETTER_POSTAL_ADDRESS')
   };
 }
 
@@ -61,6 +63,61 @@ export function renderNotification(details) {
   return { subject, text: lines.join('\n'), html };
 }
 
+const CODE_FINDER_FORM = 'code-finder-export';
+
+async function sendEmail(deps, apiKey, payload, idempotencyKey, logContext) {
+  const headers = { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' };
+  if (idempotencyKey) headers['Idempotency-Key'] = idempotencyKey;
+  try {
+    const response = await deps.fetch(RESEND_ENDPOINT, {
+      method: 'POST', headers, body: JSON.stringify(payload), signal: AbortSignal.timeout(10000)
+    });
+    if (!response.ok) {
+      deps.log('error', 'notification_send_failed', { ...logContext, status: response.status });
+      return false;
+    }
+    deps.log('info', 'notification_sent', logContext);
+    return true;
+  } catch (error) {
+    deps.log('error', 'notification_send_failed', { ...logContext, error: String(error?.message || error) });
+    return false;
+  }
+}
+const keyFor = (prefix, submissionId) => submissionId
+  ? `${prefix}/${createHash('sha256').update(String(submissionId)).digest('hex')}` : '';
+
+// Code Finder export: a readable lead alert for the owner, plus the visitor's
+// own copy of the pack (codes, reasons, CSV attached). Falls back to the
+// generic alert if the catalog cannot be read.
+async function handleCodeFinderExport(details, { apiKey, recipient, from, env, deps, loadIndex }) {
+  const field = name => details.fields.find(([key]) => key === name)?.[1] || '';
+  const email = field('email');
+  const slug = field('pack');
+  let index;
+  try {
+    index = await loadIndex();
+  } catch (error) {
+    deps.log('error', 'code_finder_catalog_unavailable', { error: String(error?.message || error) });
+    return null;
+  }
+  const alert = renderLeadAlert(index, { email, pack: slug, optIn: field('marketing_opt_in') });
+  const sent = await sendEmail(deps, apiKey, {
+    from, to: [recipient], subject: alert.subject, text: alert.text, html: alert.html,
+    ...(details.replyTo ? { reply_to: details.replyTo } : {})
+  }, keyFor('netlify-form-notification', details.submissionId), { form: details.formName, submissionId: details.submissionId || undefined });
+
+  const pack = EMAIL.test(email) ? renderPackEmail(index, slug, { postalAddress: clean(env.NEWSLETTER_POSTAL_ADDRESS) }) : null;
+  let confirmation = 'skipped';
+  if (pack) {
+    const ok = await sendEmail(deps, apiKey, {
+      from, to: [email], reply_to: recipient, subject: pack.subject, text: pack.text, html: pack.html,
+      attachments: [pack.attachment]
+    }, keyFor('code-finder-pack', details.submissionId), { form: details.formName, kind: 'visitor_pack', submissionId: details.submissionId || undefined });
+    confirmation = ok ? 'sent' : 'failed';
+  }
+  return sent ? { sent: true, confirmation } : { sent: false, reason: 'provider_error', confirmation };
+}
+
 export async function handleFormSubmitted(event, {
   env = netlifyEnv(),
   deps = {
@@ -71,7 +128,8 @@ export async function handleFormSubmitted(event, {
       else if (level === 'warn') console.warn(line);
       else console.log(line);
     }
-  }
+  },
+  loadIndex = () => loadCodeFinderIndex()
 } = {}) {
   const apiKey = clean(env.RESEND_API_KEY);
   const recipient = clean(env.NEWSLETTER_ADMIN_EMAIL);
@@ -85,6 +143,10 @@ export async function handleFormSubmitted(event, {
   if (!details.fields.length) {
     deps.log('warn', 'notification_skipped', { form: details.formName, reason: 'no_fields' });
     return { sent: false, reason: 'no_fields' };
+  }
+  if (details.formName === CODE_FINDER_FORM) {
+    const handled = await handleCodeFinderExport(details, { apiKey, recipient, from, env, deps, loadIndex });
+    if (handled) return handled;
   }
   const rendered = renderNotification(details);
   const payload = {

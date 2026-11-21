@@ -15,6 +15,10 @@
 [functions."tool-content"]
   included_files = ["content/tool-delivery-generated/*.json"]
 
+# Code Finder export emails read the catalog to build the visitor's pack email.
+[functions."form-submission-notification"]
+  included_files = ["data/code-finder/*.json"]
+
 # Gated lesson bodies (content/protected-lesson-catalog.mjs). content/ is never
 # staged to public-site/, so this function is the only way these files are served.
 [functions."lesson-content"]

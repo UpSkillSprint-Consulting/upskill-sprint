@@ -102,6 +102,7 @@ test('every internal link on the page points at a real page', () => {
   const links = [...dom.window.document.querySelectorAll('main a[href^="/"], .cf-back a')].map(a => a.getAttribute('href'));
   assert.ok(links.length >= 8);
   for (const href of links) {
+    if (href.startsWith('/codes/')) continue; // generated at build time; checked in code-finder-pages.test.js
     const path = href.split('#')[0].replace(/^\//, '').replace(/\/$/, '');
     const found = [path + '.html', join(path, 'index.html'), path].some(candidate => candidate && existsSync(join(ROOT, candidate)));
     assert.ok(found, href);
@@ -176,6 +177,9 @@ test('cards show check status honestly and fill details only when opened', async
   details.dispatchEvent(new page.window.Event('toggle'));
   assert.match(details.textContent, /PHMSA requires it through 49 CFR 192\.7, which calls for a fixed edition: 46th \(2018\)/);
   assert.match(details.textContent, /Equivalent ISO 3183/);
+  assert.ok(details.querySelectorAll('.cf-keypoints li').length >= 3, 'key points shown in the card');
+  assert.match(details.querySelector('.cf-tips').textContent, /Practical tips/);
+  assert.ok(details.querySelector('a[href="/codes/api/5l/"]'), 'link to the full page');
   await page.search('api 6a');
   assert.match(page.cards()[0].querySelector('.cf-check-todo').textContent, /Not yet checked/);
 });
