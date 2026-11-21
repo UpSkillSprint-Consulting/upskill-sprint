@@ -103,3 +103,9 @@ The tests require at least 9 in 10 wizard answer pairs to reach a pack that fits
 ## Export leads
 
 Downloading a pack (CSV or print to PDF) asks for an email once per browser. The address is posted to the Netlify form **`code-finder-export`** with the pack slug and an optional, unticked-by-default `marketing_opt_in`. Netlify stores the submission, and `form-submission-notification.mjs` emails it to hello@. Only addresses with `marketing_opt_in=yes` may be added to update emails (CASL).
+
+## Indexable pages (`/codes/...`)
+
+`scripts/build-code-finder-pages.mjs` runs in `npm run build:site` and writes one static page per code (`/codes/api/5l/`), category, industry, starter pack and equivalent/similar pair (`/codes/compare/api-5l-vs-iso-3183/`), plus the `/codes/` hub, into `public-site/`. These pages are build output: never commit them. They pick up data changes automatically.
+
+When codes, packs or relations are added or removed, refresh the committed `sitemap.xml` snapshot from `public-site/sitemap.xml` after a build. `tests/code-finder-pages.test.js` fails until every generated page is listed.
