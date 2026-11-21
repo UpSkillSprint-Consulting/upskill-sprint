@@ -281,3 +281,10 @@ html[data-theme="dark"] .cf-back a { color: #7dd3fc; }
 .cf-compare { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14px; }
 .cf-compare th, .cf-compare td { padding: 10px 12px; border-bottom: 1px solid var(--osx-line-subtle); text-align: left; vertical-align: top; }
 .cf-compare tbody th { width: 22%; color: var(--osx-text-2); font-weight: 600; }
+@media (max-width: 640px) {
+  .cf-compare { min-width: 0; }
+  .cf-compare thead tr, .cf-compare tbody tr { display: grid; grid-template-columns: 1fr 1fr; }
+  .cf-compare thead th:first-child { display: none; }
+  .cf-compare tbody th { grid-column: 1 / -1; width: auto; padding-bottom: 2px; border-bottom: 0; }
+  .cf-compare td { overflow-wrap: anywhere; }
+}

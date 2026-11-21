@@ -102,6 +102,7 @@ test('every internal link on the page points at a real page', () => {
   const links = [...dom.window.document.querySelectorAll('main a[href^="/"], .cf-back a')].map(a => a.getAttribute('href'));
   assert.ok(links.length >= 8);
   for (const href of links) {
+    if (href.startsWith('/codes/')) continue; // generated at build time; checked in code-finder-pages.test.js
     const path = href.split('#')[0].replace(/^\//, '').replace(/\/$/, '');
     const found = [path + '.html', join(path, 'index.html'), path].some(candidate => candidate && existsSync(join(ROOT, candidate)));
     assert.ok(found, href);

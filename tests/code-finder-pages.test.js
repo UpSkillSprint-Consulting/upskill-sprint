@@ -1,0 +1,125 @@
+const {test, before} = require('node:test');
+const assert = require('node:assert/strict');
+const {readFileSync, existsSync, mkdtempSync, rmSync} = require('node:fs');
+const {join} = require('node:path');
+const {tmpdir} = require('node:os');
+const {JSDOM} = require('jsdom');
+
+const ROOT = join(__dirname, '..');
+const read = path => readFileSync(join(ROOT, path), 'utf8');
+const json = name => JSON.parse(read('data/code-finder/' + name + '.json'));
+const guide = read('docs/LESSON_CREATION_GUIDE.md');
+const block = heading => guide.split(heading)[1].split('```html\n')[1].split('```')[0].trim();
+let lib, built, dir;
+const doc = path => new JSDOM(built.pages.get(path)).window.document;
+
+before(async () => {
+  lib = await import('../scripts/build-code-finder-pages.mjs');
+  dir = mkdtempSync(join(tmpdir(), 'cf-pages-'));
+  built = await lib.buildCodeFinderPages(dir);
+  process.on('exit', () => rmSync(dir, {recursive: true, force: true}));
+});
+
+test('every code, pack and equivalent pair gets a page, plus the hub', () => {
+  const records = json('standards').standards;
+  for (const record of records) assert.ok(built.pages.has(lib.codePath(record.id)), record.id);
+  for (const pack of json('scenarios').packs) assert.ok(built.pages.has(`/codes/pack/${pack.slug}/`), pack.slug);
+  assert.ok(built.pages.has('/codes/'));
+  assert.ok(built.pages.has('/codes/compare/api-5l-vs-iso-3183/'));
+  assert.ok(built.pages.has('/codes/category/welding/'));
+  assert.ok(built.pages.has('/codes/industry/oil-gas-midstream/'));
+  assert.equal(built.counts.codes, records.length);
+  assert.ok(existsSync(join(dir, 'codes/api/5l/index.html')), 'written to disk as directory indexes');
+});
+
+test('code paths are stable and readable', () => {
+  assert.equal(lib.codePath('api-5l'), '/codes/api/5l/');
+  assert.equal(lib.codePath('csa-z245-1'), '/codes/csa/z245-1/');
+  assert.equal(lib.codePath('iso-iec-17025'), '/codes/iso/iec-17025/');
+  assert.equal(lib.comparePath('iso-3183', 'api-5l'), '/codes/compare/api-5l-vs-iso-3183/', 'order-independent');
+});
+
+test('every page meets the SEO rules: title, description, canonical, one H1, valid JSON-LD', () => {
+  for (const [path] of built.pages) {
+    const d = doc(path);
+    const title = d.title;
+    assert.ok(title.endsWith(' | UpSkill Sprint') && title.length <= 65, `${path} title "${title}"`);
+    const desc = d.querySelector('meta[name="description"]').content;
+    assert.ok(desc.length >= 100 && desc.length <= 165, `${path} description ${desc.length}`);
+    const canonical = d.querySelector('link[rel="canonical"]').href;
+    assert.equal(canonical, 'https://upskillsprint.com' + path);
+    assert.equal(d.querySelector('meta[property="og:url"]').content, canonical);
+    assert.equal(d.querySelector('meta[property="og:description"]').content, desc);
+    assert.equal(d.querySelectorAll('h1').length, 1, path);
+    const ld = JSON.parse(d.querySelector('script[type="application/ld+json"]').textContent);
+    const crumbs = ld['@graph'][0].itemListElement;
+    assert.equal(crumbs[crumbs.length - 1].item, canonical, path);
+    assert.equal(ld['@graph'][1].url, canonical);
+  }
+});
+
+test('pages carry the canonical chrome and the required site scripts', () => {
+  const html = built.pages.get('/codes/api/5l/');
+  assert.ok(html.includes(block('### 4.1 Header')), 'header matches guide §4.1');
+  assert.ok(html.includes(block('### 4.2 Footer')), 'footer matches guide §4.2');
+  for (const tag of ['<script src="/theme.js"></script>', '<script src="/site-sections.js"></script>', '<body class="osx-page"', '/assets/osiris-tool-theme.css'])
+    assert.ok(html.includes(tag), tag);
+});
+
+test('every internal link on every page goes to a generated page or a real repo page', () => {
+  const missing = new Set();
+  for (const [path] of built.pages) {
+    for (const a of doc(path).querySelectorAll('main a[href^="/"], .cf-back a')) {
+      const href = a.getAttribute('href').split(/[?#]/)[0];
+      if (built.pages.has(href)) continue;
+      const file = href.replace(/^\//, '').replace(/\/$/, '');
+      if (!file || [file + '.html', join(file, 'index.html'), file].some(c => existsSync(join(ROOT, c)))) continue;
+      missing.add(`${path} -> ${href}`);
+    }
+  }
+  assert.deepEqual([...missing], []);
+});
+
+test('a code page states check status honestly and shows where it is mandatory', () => {
+  const fiveL = doc('/codes/api/5l/');
+  assert.match(fiveL.querySelector('.cf-check-ok').textContent, /Checked against the publisher on 2026-11-20\. Current edition: 47th \(2026\)/);
+  assert.match(fiveL.body.textContent, /PHMSA requires it through 49 CFR 192\.7, which calls for a fixed edition: 46th \(2018\)/);
+  assert.ok(fiveL.querySelector('a[href="/codes/compare/api-5l-vs-iso-3183/"]'));
+  assert.ok(fiveL.querySelector('a[href="/codes/pack/line-pipe-mill-qc/"]'));
+  const sixA = doc('/codes/api/6a/');
+  assert.match(sixA.querySelector('.cf-check-todo').textContent, /Not yet checked/);
+  assert.equal(sixA.body.textContent.includes('Current edition'), false, 'no edition claimed for an unchecked code');
+});
+
+test('pack pages keep the consult box for regulated work only', () => {
+  assert.ok(doc('/codes/pack/pipeline-integrity/').querySelector('.cf-consult'));
+  assert.equal(doc('/codes/pack/storage-tanks/').querySelector('.cf-consult'), null);
+  assert.equal(doc('/codes/pack/pipeline-integrity/').querySelectorAll('.cf-pack-why').length, 7);
+});
+
+test('compare pages exist only for equivalent or similar pairs', () => {
+  const records = json('standards').standards;
+  const pairs = new Set();
+  for (const r of records) for (const rel of r.relations) if (rel.type === 'equivalent' || rel.type === 'similar') pairs.add([r.id, rel.to].sort().join('|'));
+  const comparePages = [...built.pages.keys()].filter(path => path.startsWith('/codes/compare/'));
+  assert.equal(comparePages.length, pairs.size);
+  assert.equal(built.pages.has('/codes/compare/astm-a370-vs-astm-e8/'), false, '"references" is not a comparison');
+});
+
+test('titles and descriptions are trimmed at word boundaries, and text is escaped', () => {
+  const long = lib.pageTitle('API 579-1/ASME FFS-1: Fitness-For-Service with a very long extra title that keeps going');
+  assert.ok(long.length <= 65 && long.endsWith('… | UpSkill Sprint'), long);
+  assert.equal(lib.pageTitle('Short'), 'Short | UpSkill Sprint');
+  assert.ok(lib.metaDescription('x '.repeat(120)).length <= 160);
+  assert.equal(lib.esc('<script>"&'), '&lt;script&gt;&quot;&amp;');
+  for (const html of built.pages.values()) assert.equal((html.match(/<script\b/g) || []).length, 4, 'only the site scripts and JSON-LD');
+});
+
+test('the build generates the pages after staging and before the sitemap, and the snapshot lists them', () => {
+  const build = JSON.parse(read('package.json')).scripts['build:site'];
+  const at = step => build.indexOf(`node scripts/${step}.mjs`);
+  assert.ok(at('stage-public-site') < at('build-code-finder-pages') && at('build-code-finder-pages') < at('build-sitemap'));
+  assert.ok(at('build-code-finder-pages') < at('inject-skip-link'), 'pages get the skip link');
+  const sitemap = read('sitemap.xml');
+  for (const path of built.pages.keys()) assert.ok(sitemap.includes(`<loc>https://upskillsprint.com${path}</loc>`), path);
+});
