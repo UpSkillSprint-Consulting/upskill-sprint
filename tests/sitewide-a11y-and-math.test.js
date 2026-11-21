@@ -125,6 +125,9 @@ test('all directly authored sitemap pages have concise branded metadata', () => 
   for (const [, url] of read('sitemap.xml').matchAll(/<loc>(.*?)<\/loc>/g)) {
     const route = new URL(url).pathname;
     if (generated.has(route)) continue;
+    // Code Finder pages are generated into public-site/ by scripts/build-code-finder-pages.mjs;
+    // tests/code-finder-pages.test.js checks the same title, description and og rules on every one.
+    if (route.startsWith('/codes/')) continue;
     const file = path.join(process.cwd(), route.endsWith('/') ? route + 'index.html' : route + '.html');
     const head = fs.readFileSync(file, 'utf8').split('</head>')[0]
       .replace(/<(style|script)\b[^>]*>[\s\S]*?<\/\1>/gi, '');
