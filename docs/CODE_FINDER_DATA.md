@@ -104,7 +104,12 @@ The tests require at least 9 in 10 wizard answer pairs to reach a pack that fits
 
 ## Export leads
 
-Downloading a pack (CSV or print to PDF) asks for an email once per browser. The address is posted to the Netlify form **`code-finder-export`** with the pack slug and an optional, unticked-by-default `marketing_opt_in`. Netlify stores the submission, and `form-submission-notification.mjs` emails it to hello@. Only addresses with `marketing_opt_in=yes` may be added to update emails (CASL).
+Downloading a pack (CSV or print to PDF) asks for an email once per browser. The address is posted to the Netlify form **`code-finder-export`** with the pack slug and an optional, unticked-by-default `marketing_opt_in`. Netlify stores the submission, and `form-submission-notification.mjs` (via `netlify/functions/_shared/code-finder-export-email.mjs`) sends two emails through Resend:
+
+- **To the visitor:** "Your Code Finder pack: <title>", listing every code with its reason, check status and page link, the consulting note on regulated packs, the lessons, and the pack spreadsheet attached as CSV. Reply-to is hello@. It is a one-time, requested (transactional) email and shows the CASL mailing address from `NEWSLETTER_POSTAL_ADDRESS`.
+- **To hello@:** "Code Finder lead: <pack title>", with the email, the pack and whether they opted in to updates. Reply-to is the visitor.
+
+Only addresses with `marketing_opt_in=yes` may be added to update emails (CASL). The Netlify dashboard's own form email (its subject still reads "New lesson request") duplicates this alert; remove it under Forms → Form notifications.
 
 ## Indexable pages (`/codes/...`)
 

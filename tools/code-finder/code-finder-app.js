@@ -417,7 +417,7 @@
       setUnlocked();
       els.exportForm.hidden = true;
       els.exportMsg.textContent = '';
-      els.status.textContent = 'Downloads unlocked. Thank you.';
+      els.status.textContent = 'Downloads unlocked. We have also emailed you a copy of this pack.';
       if (pendingExport) doExport(pendingExport);
       pendingExport = null;
     }).catch(function () {
