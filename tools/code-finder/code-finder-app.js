@@ -221,6 +221,9 @@
       return h('li', {}, [h('a', {href: entry.href, text: (entry.type === 'tool' ? 'Tool: ' : 'Lesson: ') + entry.label})]);
     });
     if (learn.length) parts.push(h('div', {class: 'cf-learn'}, [h('h4', {text: 'Learn it on UpSkill Sprint'}), h('ul', {}, learn)]));
+    var cut = record.id.indexOf('-');
+    parts.push(h('p', {class: 'cf-publisher'}, [h('a', {href: '/codes/' + record.id.slice(0, cut) + '/' + record.id.slice(cut + 1) + '/',
+      text: 'Full page for ' + record.designation})]));
     var bodyInfo = index.catalog.taxonomy.bodies.filter(function (b) { return b.code === record.body; })[0];
     if (bodyInfo) parts.push(h('p', {class: 'cf-publisher'}, [h('a', {href: bodyInfo.catalog, rel: 'noopener', target: '_blank',
       text: 'Find ' + record.designation + ' in the ' + bodyInfo.name + ' catalog'}), h('span', {class: 'cf-sr', text: ' (opens in a new tab)'})]));
