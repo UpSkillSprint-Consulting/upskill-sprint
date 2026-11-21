@@ -121,5 +121,44 @@ test('the build generates the pages after staging and before the sitemap, and th
   assert.ok(at('stage-public-site') < at('build-code-finder-pages') && at('build-code-finder-pages') < at('build-sitemap'));
   assert.ok(at('build-code-finder-pages') < at('inject-skip-link'), 'pages get the skip link');
   const sitemap = read('sitemap.xml');
-  for (const path of built.pages.keys()) assert.ok(sitemap.includes(`<loc>https://upskillsprint.com${path}</loc>`), path);
+  for (const [path, html] of built.pages) {
+    const listed = sitemap.includes(`<loc>https://upskillsprint.com${path}</loc>`);
+    assert.equal(listed, !noindex(html), `${path} ${listed ? 'is listed but noindex' : 'is indexable but missing from sitemap.xml'}`);
+  }
+});
+
+// ---------- Thin-content guard ----------
+const noindex = html => html.includes('<meta name="robots" content="noindex, follow">');
+
+test('only code pages with our own key points are indexed; thin ones stay live as noindex, follow', () => {
+  for (const record of json('standards').standards) {
+    const html = built.pages.get(lib.codePath(record.id));
+    const rich = (record.keyPoints || []).length >= 3;
+    assert.equal(noindex(html), !rich, record.id);
+    assert.equal(html.includes(`What ${record.designation.replace(/&/g, '&amp;')} covers</h2>`), rich, record.id + ' key points section');
+  }
+  const rich = json('standards').standards.filter(r => (r.keyPoints || []).length >= 3).length;
+  assert.ok(rich >= 50, `first enrichment batch: ${rich}`);
+  assert.equal(built.counts.indexed, [...built.pages.values()].filter(html => !noindex(html)).length);
+});
+
+test('an enriched page shows what the code covers and practical tips', () => {
+  const d = doc('/codes/api/5l/');
+  const covers = [...d.querySelectorAll('h2')].find(h => h.textContent === 'What API Spec 5L covers');
+  assert.ok(covers);
+  assert.ok(covers.nextElementSibling.querySelectorAll('li').length >= 3);
+  assert.ok([...d.querySelectorAll('h2')].some(h => h.textContent === 'Practical tips'));
+});
+
+test('hub, category, industry and pack pages are always indexed and still link to thin code pages', () => {
+  for (const path of ['/codes/', '/codes/category/welding/', '/codes/industry/oil-gas/', '/codes/pack/storage-tanks/'])
+    assert.equal(noindex(built.pages.get(path)), false, path);
+  assert.ok(doc('/codes/').querySelector('a[href="/codes/api/6a/"]'), 'noindex pages remain reachable (follow)');
+});
+
+test('a comparison is indexed only when both codes are enriched', () => {
+  assert.equal(noindex(built.pages.get('/codes/compare/api-5l-vs-iso-3183/')), false);
+  assert.ok(doc('/codes/compare/api-5l-vs-iso-3183/').querySelector('.cf-compare-points'));
+  const thinPair = [...built.pages.keys()].find(path => path.startsWith('/codes/compare/') && noindex(built.pages.get(path)));
+  assert.ok(thinPair, 'at least one comparison waits for enrichment');
 });

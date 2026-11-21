@@ -177,6 +177,9 @@ test('cards show check status honestly and fill details only when opened', async
   details.dispatchEvent(new page.window.Event('toggle'));
   assert.match(details.textContent, /PHMSA requires it through 49 CFR 192\.7, which calls for a fixed edition: 46th \(2018\)/);
   assert.match(details.textContent, /Equivalent ISO 3183/);
+  assert.ok(details.querySelectorAll('.cf-keypoints li').length >= 3, 'key points shown in the card');
+  assert.match(details.querySelector('.cf-tips').textContent, /Practical tips/);
+  assert.ok(details.querySelector('a[href="/codes/api/5l/"]'), 'link to the full page');
   await page.search('api 6a');
   assert.match(page.cards()[0].querySelector('.cf-check-todo').textContent, /Not yet checked/);
 });

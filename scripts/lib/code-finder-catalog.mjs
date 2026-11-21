@@ -20,9 +20,12 @@ export const ADOPTION_STYLES = ['dated', 'as-amended'];
 export const LEARNING_TYPES = ['lesson', 'tool'];
 export const SUMMARY_MIN = 40;
 export const SUMMARY_MAX = 280;
+export const KEY_POINTS_MIN = 3;
+// A record has enough of our own content to deserve an indexable page.
+export const isRich = record => Array.isArray(record.keyPoints) && record.keyPoints.length >= KEY_POINTS_MIN;
 // Facets a standard must tag (at least one value each) and the taxonomy list each one draws from.
 export const REQUIRED_FACETS = {industries: 'industries', categories: 'categories', useCases: 'useCases', jurisdictions: 'jurisdictions'};
-const RECORD_KEYS = new Set(['id', 'body', 'designation', 'title', 'docType', 'status', 'summary', 'industries', 'categories',
+const RECORD_KEYS = new Set(['id', 'body', 'designation', 'title', 'docType', 'status', 'summary', 'keyPoints', 'tips', 'industries', 'categories',
   'useCases', 'jurisdictions', 'materials', 'relations', 'adoptions', 'learning', 'edition', 'year', 'verified']);
 const ADOPTION_KEYS = new Set(['jurisdiction', 'regulator', 'instrument', 'editionCited', 'style', 'verified']);
 const SYNONYM_TARGETS = {records: null, categories: 'categories', useCases: 'useCases', industries: 'industries'};
@@ -123,6 +126,17 @@ export function validateCatalog({taxonomy, standards, synonyms, scenarios, wizar
     if (isString(record?.summary)) {
       if (record.summary.length < SUMMARY_MIN || record.summary.length > SUMMARY_MAX) errors.push(`${where}: summary must be ${SUMMARY_MIN}-${SUMMARY_MAX} characters (is ${record.summary.length})`);
       if (/[\r\n]/.test(record.summary)) errors.push(`${where}: summary must be one line`);
+    }
+    // Optional enrichment: "What it covers" key points and practical tips, in our own words.
+    // A code page is only indexed once it has at least KEY_POINTS_MIN key points (see isRich).
+    for (const [field, min, max] of [['keyPoints', KEY_POINTS_MIN, 6], ['tips', 1, 3]]) {
+      const items = record?.[field];
+      if (items === undefined) continue;
+      if (!Array.isArray(items) || items.length < min || items.length > max) errors.push(`${where}: ${field} needs ${min}-${max} items`);
+      for (const item of Array.isArray(items) ? items : []) {
+        if (!isString(item) || item.length < 20 || item.length > 240) errors.push(`${where}: each ${field} item must be 20-240 characters`);
+        else if (/\bshall\b/i.test(item)) errors.push(`${where}: ${field} item reads like standard text ("shall")`);
+      }
     }
     for (const [field, facet] of Object.entries(REQUIRED_FACETS)) checkSlugList(where, field, record?.[field], facets[facet] || new Set(), errors, {required: true});
     checkSlugList(where, 'materials', record?.materials, facets.materials || new Set(), errors, {required: false});
@@ -270,5 +284,6 @@ export function catalogStats({standards}, today = new Date()) {
   const records = standards.standards;
   const byBody = {};
   for (const record of records) byBody[record.body] = (byBody[record.body] || 0) + 1;
-  return {total: records.length, byBody, verified: records.filter(record => !isStale(record, today)).length};
+  return {total: records.length, byBody, verified: records.filter(record => !isStale(record, today)).length,
+    rich: records.filter(isRich).length};
 }

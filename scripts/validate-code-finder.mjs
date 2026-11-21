@@ -12,4 +12,4 @@ if (errors.length) {
   process.exit(1);
 }
 const stats = catalogStats(catalog);
-console.log(`Code Finder catalog valid: ${stats.total} records ${JSON.stringify(stats.byBody)}, ${stats.verified} verified in the last 12 months.`);
+console.log(`Code Finder catalog valid: ${stats.total} records ${JSON.stringify(stats.byBody)}, ${stats.verified} verified in the last 12 months, ${stats.rich} with key points (indexable pages).`);

@@ -206,7 +206,12 @@
     row('Categories', record.categories.map(function (s) { return labelOf('categories', s); }));
     row('Use it to', record.useCases.map(function (s) { return labelOf('useCases', s); }));
     row('Region', record.jurisdictions.map(function (s) { return labelOf('jurisdictions', s); }));
-    var parts = [body, adoptionsBlock(record)];
+    var parts = [];
+    if (record.keyPoints) parts.push(h('div', {class: 'cf-keypoints'}, [h('h4', {text: 'What it covers'}),
+      h('ul', {}, record.keyPoints.map(function (point) { return h('li', {text: point}); }))]));
+    if (record.tips) parts.push(h('div', {class: 'cf-tips'}, [h('h4', {text: 'Practical tips'}),
+      h('ul', {}, record.tips.map(function (tip) { return h('li', {text: tip}); }))]));
+    parts.push(body, adoptionsBlock(record));
     var rel = E.related(index, record.id).filter(function (item) { return index.byId[item.to]; });
     if (rel.length) {
       parts.push(h('div', {class: 'cf-relations'}, [h('h4', {text: 'Related codes'}), h('ul', {}, rel.map(function (item) {

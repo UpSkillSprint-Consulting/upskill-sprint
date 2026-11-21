@@ -137,3 +137,10 @@ test('every starter pack and wizard answer is valid, and packs only list real co
   expectProblem(copy => copy.wizard.questions[0].options.push({label: 'Space', values: ['space']}), /values has unknown value "space"/);
   expectProblem(copy => { copy.wizard.questions[1].facet = 'materials'; }, /facet must be industries or useCases/);
 });
+
+test('key points and tips are checked: count, length and no copied "shall" text', () => {
+  expectProblem(copy => { record(copy, 'api-5l').keyPoints = ['Only one point here, which is too few.']; }, /api-5l: keyPoints needs 3-6 items/);
+  expectProblem(copy => { record(copy, 'api-5l').keyPoints[0] = 'The pipe shall be hydrostatically tested at the mill.'; }, /keyPoints item reads like standard text/);
+  expectProblem(copy => { record(copy, 'api-5l').tips = ['short']; }, /each tips item must be 20-240 characters/);
+  expectProblem(copy => { record(copy, 'api-6a').tips = []; }, /api-6a: tips needs 1-3 items/);
+});

@@ -57,6 +57,8 @@ Add an object to `standards.standards`:
 | `learning` | Links to our own lessons or tools: `{"type": "lesson", "href": "/lessons/...", "label": "Gauge R&R study"}`. `label` is the link text users see. The build checks the page exists. |
 | `edition`, `year` | Only on verified records. Leave both out until someone has checked the current edition. |
 | `verified` | `null` until a person checks the record against the publisher's catalog; then the check date. Records older than 12 months show as stale. |
+| `keyPoints` | Optional, 3-6 bullets of 20-240 characters: what the code covers, in our own words (no "shall"). **A code page is only indexed by search engines once it has key points**; until then it is published with `noindex, follow` and left out of the sitemap, so thin pages never count against the site. |
+| `tips` | Optional, 1-3 practical tips from real work (what to check on the order, common audit findings). |
 
 ## Adding a facet value or synonym
 
@@ -108,4 +110,10 @@ Downloading a pack (CSV or print to PDF) asks for an email once per browser. The
 
 `scripts/build-code-finder-pages.mjs` runs in `npm run build:site` and writes one static page per code (`/codes/api/5l/`), category, industry, starter pack and equivalent/similar pair (`/codes/compare/api-5l-vs-iso-3183/`), plus the `/codes/` hub, into `public-site/`. These pages are build output: never commit them. They pick up data changes automatically.
 
-When codes, packs or relations are added or removed, refresh the committed `sitemap.xml` snapshot from `public-site/sitemap.xml` after a build. `tests/code-finder-pages.test.js` fails until every generated page is listed.
+Comparison pages are indexed only when both codes have key points. Hub, category, industry and pack pages are always indexed.
+
+When codes, key points, packs or relations change, refresh the committed `sitemap.xml` snapshot from `public-site/sitemap.xml` after a build. `tests/code-finder-pages.test.js` fails until every generated page is listed.
+
+## Enrichment backlog
+
+57 of 159 codes have key points (Nov 2026: line pipe and OCTG, mechanical testing, chemistry and metallography, structural, welding, pipelines, pressure equipment, NDT, SPC/MSA and quality systems). Enrich the rest in batches of 15-20, starting with codes that appear in starter packs. Each batch is a data-only PR: add `keyPoints` (and `tips` where useful), rebuild, refresh `sitemap.xml`, run `npm run test:code-finder`.

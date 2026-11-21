@@ -11,7 +11,7 @@ import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {createRequire} from 'node:module';
 import {dirname, join, resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {loadCatalog} from './lib/code-finder-catalog.mjs';
+import {isRich, loadCatalog} from './lib/code-finder-catalog.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://upskillsprint.com';
@@ -50,7 +50,8 @@ function chrome(toolHtml) {
   return {header, footer};
 }
 
-function layout({title, description, path, breadcrumb, about, body, chromeParts}) {
+// Thin pages stay live and linked but are kept out of search until they have our own content.
+function layout({title, description, path, breadcrumb, about, body, chromeParts, index = true}) {
   const url = SITE + path;
   const graph = [{
     '@type': 'BreadcrumbList',
@@ -67,7 +68,7 @@ function layout({title, description, path, breadcrumb, about, body, chromeParts}
 <meta name="color-scheme" content="light dark">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
-<link rel="canonical" href="${esc(url)}">
+${index ? '' : '<meta name="robots" content="noindex, follow">\n'}<link rel="canonical" href="${esc(url)}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
@@ -157,6 +158,8 @@ export async function buildCodeFinderPages(siteDir = join(ROOT, 'public-site')) 
   ${statusBlock(record)}
   <p class="cf-page-actions"><a class="osx-btn" href="/tools/code-finder/?q=${encodeURIComponent(record.designation)}">Open in Code Finder</a> <a class="osx-btn-ghost" href="${esc(bodyCatalog[record.body])}" rel="noopener">Find it in the ${esc(bodyName[record.body] || record.body)} catalog</a></p>
 </header>
+${isRich(record) ? `<section class="cf-page-section" aria-labelledby="h-covers"><h2 id="h-covers">What ${esc(record.designation)} covers</h2><ul class="cf-page-list">${record.keyPoints.map(point => `<li>${esc(point)}</li>`).join('')}</ul></section>` : ''}
+${record.tips ? `<section class="cf-page-section" aria-labelledby="h-tips"><h2 id="h-tips">Practical tips</h2><ul class="cf-page-list">${record.tips.map(tip => `<li>${esc(tip)}</li>`).join('')}</ul></section>` : ''}
 <section class="cf-page-section" aria-labelledby="h-where"><h2 id="h-where">Where ${esc(record.designation)} is used</h2>
   <div class="cf-details-grid">
     <div class="cf-dl"><h3>Industries</h3><p>${facetLinks('industries', record.industries, 'industry')}</p></div>
@@ -178,7 +181,7 @@ ${record.learning.length ? `<section class="cf-page-section" aria-labelledby="h-
       description: metaDescription(record.summary, `What ${record.designation} covers, where it applies and related codes.`),
       path: codePath(record.id), breadcrumb: [...base, ['Codes', '/codes/'], [record.designation, codePath(record.id)]],
       about: {'@type': 'CreativeWork', name: main, publisher: {'@type': 'Organization', name: bodyName[record.body] || record.body}},
-      body, chromeParts
+      body, chromeParts, index: isRich(record)
     }));
   }
 
@@ -239,8 +242,9 @@ ${row('Region', facets(a, 'jurisdictions'), facets(b, 'jurisdictions'))}
 ${row('Industries', facets(a, 'industries'), facets(b, 'industries'))}
 ${row('Mandatory in', a.adoptions.map(x => esc(x.regulator + ' (' + x.instrument + ')')).join('; ') || 'None recorded', b.adoptions.map(x => esc(x.regulator + ' (' + x.instrument + ')')).join('; ') || 'None recorded')}
 ${row('Check status', E.isStale(a) ? 'Not yet checked' : 'Checked ' + esc(a.verified), E.isStale(b) ? 'Not yet checked' : 'Checked ' + esc(b.verified))}
-</tbody></table></div>`,
-      chromeParts
+</tbody></table></div>
+${isRich(a) && isRich(b) ? `<div class="cf-details-grid cf-compare-points">${[a, b].map(r => `<section class="cf-page-section" aria-labelledby="h-kp-${r.id}"><h2 id="h-kp-${r.id}">What ${esc(r.designation)} covers</h2><ul class="cf-page-list">${r.keyPoints.map(point => `<li>${esc(point)}</li>`).join('')}</ul></section>`).join('')}</div>` : ''}`,
+      chromeParts, index: isRich(a) && isRich(b)
     }));
   }
 
@@ -266,7 +270,8 @@ ${byBody.map(({body, rows}) => `<section class="cf-page-section" aria-labelledby
     await mkdir(dirname(file), {recursive: true});
     await writeFile(file, html);
   }
-  const counts = {codes: records.length, packs: catalog.scenarios.packs.length, compare: comparePairs.size, total: pages.size};
+  const indexed = [...pages.values()].filter(html => !html.includes('<meta name="robots" content="noindex')).length;
+  const counts = {codes: records.length, packs: catalog.scenarios.packs.length, compare: comparePairs.size, total: pages.size, indexed};
   console.log('Code Finder pages built:', JSON.stringify(counts));
   return {pages, counts};
 }

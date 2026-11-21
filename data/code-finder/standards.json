@@ -9,6 +9,17 @@
       "docType": "specification",
       "status": "active",
       "summary": "Requirements for seamless and welded steel line pipe used to carry oil, gas, CO2 and water: PSL 1 and PSL 2 levels, chemistry, mechanical tests, NDT, hydrotest and marking.",
+      "keyPoints": [
+        "Two product levels: PSL 1 is the basic level; PSL 2 adds tighter chemistry, a carbon-equivalent limit, required Charpy toughness, maximum strength limits and more NDT.",
+        "Grades are named by minimum yield strength in ksi (for example X52, X65, X70), with matching MPa names such as L360.",
+        "Covers seamless and welded pipe (ERW, LSAW, SAWH and others), plus dimensions, tolerances, hydrostatic testing and marking.",
+        "Annexes add requirements for sour service, offshore service and pipe that must resist running ductile fracture.",
+        "The mill certificate and marking must show the grade, PSL and any annexes the order invoked."
+      ],
+      "tips": [
+        "Read the purchase order first: PSL, annexes and supplementary requirements change what has to be tested.",
+        "Check which edition your regulator cites. In the US, PHMSA references a specific edition, which may be older than the latest one."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-midstream",
@@ -77,6 +88,15 @@
       "docType": "specification",
       "status": "active",
       "summary": "Requirements for steel casing and tubing (OCTG) used in oil and gas wells: grades, heat treatment, dimensions, threading, testing and inspection.",
+      "keyPoints": [
+        "The main specification for steel casing and tubing (oil country tubular goods) used in wells.",
+        "Grades such as J55, K55, N80, L80, C90, T95 and P110 differ in strength, heat treatment and whether they suit sour service.",
+        "Covers product levels (PSL 1 to 3), heat treatment, chemistry, mechanical and hardness tests, NDT, hydrotest and dimensions.",
+        "Threads and connections are covered by API Spec 5B; premium connections are proprietary."
+      ],
+      "tips": [
+        "Sour-service grades (such as L80 Type 1, C90, T95) need hardness control; check the hardness results on the certificate."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-upstream",
@@ -496,6 +516,11 @@
       "docType": "code",
       "status": "active",
       "summary": "Design, materials, fabrication, erection, welding and testing of welded steel tanks that store oil and similar liquids at near-atmospheric pressure.",
+      "keyPoints": [
+        "Design and construction of welded steel tanks for storing oil and similar liquids at near-atmospheric pressure.",
+        "Covers materials, shell, bottom and roof design, welding, inspection and hydrostatic testing.",
+        "Annexes cover floating roofs, seismic design, stainless steel tanks and more."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-midstream",
@@ -568,6 +593,11 @@
       "docType": "code",
       "status": "active",
       "summary": "How to inspect in-service aboveground storage tanks, judge whether they are fit to keep running, and repair or rebuild them.",
+      "keyPoints": [
+        "Inspection, repair, alteration and reconstruction of aboveground storage tanks built to API 650 or similar.",
+        "Sets internal and external inspection intervals, usually based on corrosion rate.",
+        "Includes rules for judging bottom, shell and roof thickness, and settlement."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-midstream",
@@ -671,6 +701,14 @@
       "docType": "code",
       "status": "active",
       "summary": "Inspection intervals, inspector duties, repairs and rerating for pressure vessels once they are in service.",
+      "keyPoints": [
+        "Inspection code for pressure vessels in service: inspection intervals, inspector duties, repair, alteration and rerating.",
+        "Intervals depend on corrosion rate and remaining life, or on a risk-based inspection program.",
+        "Requires an API-certified inspector for key decisions."
+      ],
+      "tips": [
+        "Thickness data are only useful if the same locations are measured each time; mark and record them."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-downstream",
@@ -745,6 +783,11 @@
       "docType": "code",
       "status": "active",
       "summary": "Inspection, repair and rerating rules for in-service process piping in refineries and chemical plants.",
+      "keyPoints": [
+        "Inspection code for in-service process piping: intervals, thickness monitoring, repairs, alterations and rerating.",
+        "Piping is grouped into classes by consequence of failure, which sets inspection intervals.",
+        "Covers injection points, dead legs and other high-risk locations."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-downstream",
@@ -820,6 +863,14 @@
       "docType": "practice",
       "status": "active",
       "summary": "Step-by-step methods to decide whether damaged equipment (corrosion, cracks, dents, fire damage) can keep running, be rerated or must be repaired.",
+      "keyPoints": [
+        "Fitness-for-service methods to decide whether damaged equipment can stay in service, be rerated or must be repaired.",
+        "Covers corrosion (general and local), pitting, cracks, dents and gouges, fire damage, creep and other damage.",
+        "Uses three levels of assessment, from simple screening to detailed engineering analysis."
+      ],
+      "tips": [
+        "Start at Level 1; only move up if it fails, because higher levels need more data and expertise."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-downstream",
@@ -888,6 +939,14 @@
       "docType": "practice",
       "status": "active",
       "summary": "The elements of a risk-based inspection (RBI) program: rank equipment by likelihood and consequence of failure and focus inspection where risk is highest.",
+      "keyPoints": [
+        "Sets out the elements of a risk-based inspection program for fixed equipment.",
+        "Ranks equipment by probability and consequence of failure so inspection effort goes where risk is highest.",
+        "Covers data needs, damage mechanism review, inspection planning and reassessment."
+      ],
+      "tips": [
+        "RBI is only as good as its damage-mechanism review; involve materials and process people, not just inspectors."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-downstream",
@@ -1097,6 +1156,14 @@
       "docType": "code",
       "status": "active",
       "summary": "Welding procedure and welder qualification, production welding, inspection and acceptance criteria for pipeline girth welds.",
+      "keyPoints": [
+        "Covers welding of pipelines and related facilities: procedure qualification, welder qualification, production welding and inspection.",
+        "Gives acceptance criteria for defects found by radiography, ultrasonic and other NDT methods.",
+        "Includes an annex for alternative acceptance criteria based on fracture mechanics (engineering critical assessment)."
+      ],
+      "tips": [
+        "Canadian pipelines follow CSA Z662 welding clauses; confirm which code the owner requires before qualifying procedures."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-midstream",
@@ -1135,6 +1202,14 @@
       "docType": "practice",
       "status": "active",
       "summary": "How to plan, run and document hydrostatic and pneumatic pressure tests on steel pipelines.",
+      "keyPoints": [
+        "How to plan, run and record pressure tests on steel pipelines using water or, where permitted, gas.",
+        "Covers test medium, pressures and durations, temperature effects and how to judge leaks or pressure changes.",
+        "Includes safety planning for stored energy during the test."
+      ],
+      "tips": [
+        "Temperature changes during a hydrotest change pressure; log temperature alongside pressure."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-midstream"
@@ -1199,6 +1274,14 @@
       "docType": "specification",
       "status": "active",
       "summary": "How to qualify in-line inspection tools (smart pigs), their crews and the data analysis so results can be trusted.",
+      "keyPoints": [
+        "Qualifies in-line inspection (smart pig) systems: the tool, the procedures, the people and the data analysis.",
+        "Requires the vendor to state tool performance (detection, sizing accuracy and confidence) and to show it holds in practice.",
+        "Links to personnel qualification for ILI data analysts."
+      ],
+      "tips": [
+        "Compare dig results against the ILI calls to check the tool met its stated sizing accuracy."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-midstream"
@@ -1420,6 +1503,11 @@
       "docType": "management-system",
       "status": "active",
       "summary": "Quality management system requirements for oil and gas product manufacturers; adds risk, contingency and supplier controls on top of ISO 9001-style clauses.",
+      "keyPoints": [
+        "Quality management system requirements for manufacturers in the oil and gas industry.",
+        "Builds on ISO 9001 and adds requirements such as risk assessment, contingency planning, management of change and tighter supplier control.",
+        "Required to hold an API monogram license."
+      ],
       "industries": [
         "oil-gas",
         "pipe-tube-mfg",
@@ -1503,6 +1591,15 @@
       "docType": "code",
       "status": "active",
       "summary": "Canada's pipeline code: design, materials, construction, welding, testing, operation, integrity management and abandonment of oil and gas pipelines.",
+      "keyPoints": [
+        "Canada's oil and gas pipeline code, covering design, materials, construction, welding, pressure testing, operation, integrity management and abandonment.",
+        "Points to the CSA Z245 series for pipe, fittings, flanges, valves and coatings.",
+        "Includes specific clauses for sour service, offshore pipelines and distribution systems.",
+        "Requires operators to run integrity and safety management programs."
+      ],
+      "tips": [
+        "Federal and provincial regulators adopt Z662 differently; check whether yours applies it as amended or a fixed edition."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-midstream",
@@ -1573,6 +1670,16 @@
       "docType": "specification",
       "status": "active",
       "summary": "Canadian requirements for steel line pipe for oil and gas pipelines, with MPa grades, toughness categories and sour-service options.",
+      "keyPoints": [
+        "Canadian line pipe for oil and gas pipelines built under CSA Z662, with grades named by minimum yield strength in MPa (for example Grade 359, 448, 483).",
+        "Pipe is ordered by category: Category I has no notch-toughness requirement, while the higher categories add Charpy toughness testing at a stated test temperature.",
+        "Includes options for sour service and for pipe made by the seamless, ERW and submerged-arc processes.",
+        "Sets chemistry, mechanical testing, NDT, hydrostatic test, dimensional and marking requirements."
+      ],
+      "tips": [
+        "The order must state the category and test temperature; without them the mill will default to the minimum.",
+        "Projects sometimes accept API 5L pipe with supplements instead; get that agreed in writing with the owner."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-midstream",
@@ -1888,6 +1995,15 @@
       "docType": "specification",
       "status": "active",
       "summary": "Canada's structural steel standard for plates, shapes, hollow sections and bars, with grades such as 300W, 350W and 350WT.",
+      "keyPoints": [
+        "Canada's structural steel standard: G40.20 gives general requirements and G40.21 gives the grades.",
+        "Grades are named by minimum yield in MPa plus a letter: W (weldable), WT (weldable with notch toughness), A (atmospheric corrosion resistant), AT and Q/QT.",
+        "Covers plates, shapes, hollow structural sections and bars.",
+        "Toughness categories for WT grades set the Charpy test temperature."
+      ],
+      "tips": [
+        "For bridges and cold-climate structures, specify a WT grade with the right toughness category."
+      ],
       "industries": [
         "construction",
         "steelmaking",
@@ -2034,6 +2150,14 @@
       "docType": "code",
       "status": "active",
       "summary": "Welding design, workmanship, procedures and inspection for steel structures in Canada.",
+      "keyPoints": [
+        "Canada's welding standard for steel structures: design of welded connections, workmanship, procedures and inspection.",
+        "Welding procedures are qualified or prequalified, and the work is done by a company certified to CSA W47.1.",
+        "Covers statically and cyclically loaded structures, with stricter rules for fatigue-loaded work."
+      ],
+      "tips": [
+        "Prequalified joints save testing, but only if every essential variable stays inside the limits."
+      ],
       "industries": [
         "construction",
         "pipe-tube-mfg",
@@ -2073,6 +2197,14 @@
       "docType": "management-system",
       "status": "active",
       "summary": "How companies that weld steel get certified in Canada, including welding supervisors, engineers and procedure approval.",
+      "keyPoints": [
+        "How companies that fusion-weld steel are certified in Canada, administered by the Canadian Welding Bureau (CWB).",
+        "Requires qualified welding procedures, qualified welders and operators, and a designated welding engineer and supervisor.",
+        "Certification divisions reflect how much of the welding responsibility sits in-house."
+      ],
+      "tips": [
+        "Keep welder qualification records current; lapsed tickets are a common audit finding."
+      ],
       "industries": [
         "construction",
         "manufacturing",
@@ -2165,6 +2297,14 @@
       "docType": "code",
       "status": "active",
       "summary": "Canadian requirements for registering, building and inspecting boilers, pressure vessels and pressure piping; adopted by provincial safety authorities.",
+      "keyPoints": [
+        "Canada's boiler, pressure vessel and pressure piping code, adopted by provincial and territorial safety authorities.",
+        "Covers design registration, construction, inspection and certification; much of the design detail points to ASME codes.",
+        "Each province adds its own regulations on top of B51."
+      ],
+      "tips": [
+        "Register designs with the right jurisdiction before fabrication starts."
+      ],
       "industries": [
         "power-utilities",
         "oil-gas",
@@ -2587,6 +2727,14 @@
       "docType": "specification",
       "status": "active",
       "summary": "Basic carbon structural steel for shapes, plates and bars in bolted, riveted or welded construction.",
+      "keyPoints": [
+        "A basic carbon structural steel for shapes, plates and bars in bolted or welded construction.",
+        "Minimum yield strength is 36 ksi for most sizes (lower for very thick plate).",
+        "General requirements such as tolerances and test frequency come from ASTM A6."
+      ],
+      "tips": [
+        "For wide-flange shapes in US buildings, A992 has largely replaced A36."
+      ],
       "industries": [
         "construction",
         "steelmaking",
@@ -2663,6 +2811,11 @@
       "docType": "specification",
       "status": "active",
       "summary": "HSLA structural steel grades 42 to 65 for shapes, plates and bars.",
+      "keyPoints": [
+        "High-strength low-alloy structural steel with grades 42, 50, 55, 60 and 65 (minimum yield in ksi).",
+        "Uses small additions of niobium (columbium) and/or vanadium for strength.",
+        "Grade 50 is a common choice for plates and shapes where more strength than A36 is needed."
+      ],
       "industries": [
         "construction",
         "steelmaking",
@@ -2739,6 +2892,11 @@
       "docType": "specification",
       "status": "active",
       "summary": "Cold-formed round, square and rectangular structural tubing (HSS).",
+      "keyPoints": [
+        "Cold-formed welded and seamless carbon steel hollow structural sections (round, square and rectangular).",
+        "Grades B and C differ in strength; the yield strength of rounds and shaped sections differs within a grade.",
+        "Wall thickness tolerance means the actual wall can be thinner than nominal, which designers account for."
+      ],
       "industries": [
         "construction",
         "pipe-tube-mfg"
@@ -3201,6 +3359,15 @@
       "docType": "test-method",
       "status": "active",
       "summary": "The main mechanical testing reference for steel products: tension, bend, hardness and Charpy impact, with specimen and reporting rules.",
+      "keyPoints": [
+        "The main mechanical testing reference for steel products: tension, bend, Brinell and Rockwell hardness, and Charpy impact.",
+        "Explains where to take specimens and in which direction (longitudinal or transverse) for plate, pipe, bar, forgings and fasteners.",
+        "Points to the core methods (E8 for tension, E23 for Charpy, E10 and E18 for hardness) and adds steel-specific rules.",
+        "Includes hardness-to-tensile conversion tables, used only where a product spec allows them."
+      ],
+      "tips": [
+        "Product specs (such as API 5L or A106) override A370 where they give different specimen locations or sizes."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg",
@@ -3253,6 +3420,14 @@
       "docType": "test-method",
       "status": "active",
       "summary": "How heat and product chemistry of steel are sampled, analyzed and reported against specifications.",
+      "keyPoints": [
+        "How to sample, analyze and report the chemical composition of steel products.",
+        "Separates heat analysis (from the ladle) from product analysis (from the finished product).",
+        "Explains how to round results and how product-analysis tolerances apply against the spec limits."
+      ],
+      "tips": [
+        "Product-analysis tolerances only apply where the product spec allows them; do not use them to pass a heat analysis."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg",
@@ -3323,6 +3498,16 @@
       "docType": "test-method",
       "status": "active",
       "summary": "How to run a room-temperature tensile test to get yield strength, tensile strength, elongation and reduction of area.",
+      "keyPoints": [
+        "Room-temperature tension test for metals, giving yield strength, tensile strength, elongation and reduction of area.",
+        "Defines standard specimen shapes (round, rectangular, full-section tube) and how to measure gauge length.",
+        "Sets limits on testing speed, because strain rate changes the yield result.",
+        "Explains offset and extension-under-load methods for finding yield strength."
+      ],
+      "tips": [
+        "Record the specimen type and gauge length on the report; elongation values are only comparable for the same geometry.",
+        "Check extensometer class and testing-machine verification dates before a dispute, not after."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg",
@@ -3363,6 +3548,16 @@
       "docType": "test-method",
       "status": "active",
       "summary": "How to run Charpy and Izod impact tests to measure toughness, including specimen, machine and temperature rules.",
+      "keyPoints": [
+        "Notched-bar impact testing (Charpy and Izod) that measures the energy a notched specimen absorbs when broken at a set temperature.",
+        "Defines specimen size, notch geometry, machine requirements and how to condition specimens to the test temperature.",
+        "Results are usually reported as absorbed energy, and often also as lateral expansion and percent shear fracture.",
+        "Sub-size specimens are allowed for thin material; the product spec says how to scale the acceptance values."
+      ],
+      "tips": [
+        "The time from leaving the temperature bath to impact is limited; slow transfers are a common cause of bad low-temperature results.",
+        "Check that the machine has a current indirect verification with reference specimens."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg",
@@ -3399,6 +3594,15 @@
       "docType": "test-method",
       "status": "active",
       "summary": "How to run and verify Rockwell hardness tests.",
+      "keyPoints": [
+        "Rockwell hardness testing of metals using a preliminary and a total test force on a diamond or ball indenter.",
+        "Covers the regular scales (such as HRB, HRC) and superficial scales (such as HR15N, HR30T).",
+        "Sets requirements for specimen thickness, surface preparation, spacing between indents and curvature corrections.",
+        "Includes daily verification of the tester with reference test blocks."
+      ],
+      "tips": [
+        "Thin or curved parts need the correct scale and correction; otherwise readings are biased."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg",
@@ -3434,6 +3638,14 @@
       "docType": "test-method",
       "status": "active",
       "summary": "How to run and verify Brinell hardness tests, common on castings, forgings and plate.",
+      "keyPoints": [
+        "Brinell hardness testing using a hard ball pressed into the surface and measuring the indentation diameter.",
+        "Common on castings, forgings and heavy sections where the larger indent averages out coarse structure.",
+        "Results are reported with the ball size and force (for example HBW 10/3000)."
+      ],
+      "tips": [
+        "Optical measurement of the indent is a common source of operator variation; include it in your gauge R&R."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg",
@@ -3463,6 +3675,14 @@
       "docType": "test-method",
       "status": "active",
       "summary": "How to run Vickers and Knoop hardness tests, used for weld hardness traverses and thin sections.",
+      "keyPoints": [
+        "Vickers and Knoop hardness testing with a diamond indenter and a measured indentation.",
+        "Used for thin sections, coatings and weld hardness traverses across the weld, heat-affected zone and base metal.",
+        "Covers test forces, measurement of the indent diagonals and verification of the tester."
+      ],
+      "tips": [
+        "For sour-service welds, the hardness traverse layout is usually set by the project spec; follow it exactly."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg",
@@ -3495,6 +3715,14 @@
       "docType": "test-method",
       "status": "active",
       "summary": "How to measure and report grain size number from polished and etched metal samples.",
+      "keyPoints": [
+        "Methods for measuring average grain size: comparison charts, the planimetric method and the intercept method.",
+        "Results are reported as an ASTM grain size number; a higher number means finer grains.",
+        "Finer grains generally improve toughness and strength in steel."
+      ],
+      "tips": [
+        "State which method was used; comparison-chart results are quicker but less precise than intercept counts."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg"
@@ -3528,6 +3756,14 @@
       "docType": "test-method",
       "status": "active",
       "summary": "How to rate non-metallic inclusions (sulfides, oxides) in steel under the microscope.",
+      "keyPoints": [
+        "Rates non-metallic inclusions (sulfides, aluminates, silicates and oxides) in steel under the microscope.",
+        "Inclusions are rated by type and as thin or heavy series, and by severity.",
+        "Inclusion ratings are a measure of steel cleanliness, which affects toughness and fatigue."
+      ],
+      "tips": [
+        "Sample location and orientation matter; polish a longitudinal section unless the spec says otherwise."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg"
@@ -3591,6 +3827,15 @@
       "docType": "test-method",
       "status": "active",
       "summary": "Spark OES analysis of carbon and low-alloy steel, the workhorse method for heat and product chemistry.",
+      "keyPoints": [
+        "Spark atomic emission spectrometry (spark OES) for carbon and low-alloy steel.",
+        "The workhorse method for fast heat and product chemistry in steel mills.",
+        "Covers sample preparation, calibration with certified reference materials and checking analytical drift."
+      ],
+      "tips": [
+        "Standardize against certified reference materials at the frequency the method and your lab procedure require.",
+        "Carbon, nitrogen and other light elements may need combustion or fusion methods (ASTM E1019) for low levels."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg"
@@ -3623,6 +3868,14 @@
       "docType": "test-method",
       "status": "active",
       "summary": "Combustion and inert gas fusion methods for C, S, N and O in steel.",
+      "keyPoints": [
+        "Combustion and inert gas fusion methods for carbon, sulfur, nitrogen and oxygen in steel and other alloys.",
+        "Used where very low levels must be measured accurately, such as nitrogen and oxygen in clean steels.",
+        "Instruments are calibrated with certified reference materials of similar composition to the samples being tested."
+      ],
+      "tips": [
+        "Sample contamination (oil, oxide scale) is the main cause of high oxygen and carbon readings."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg"
@@ -3650,6 +3903,14 @@
       "docType": "test-method",
       "status": "active",
       "summary": "The DWTT used to check that line pipe steel fractures in a ductile way.",
+      "keyPoints": [
+        "The drop-weight tear test (DWTT) for ferritic steels, used mainly on line pipe.",
+        "A notched full-thickness specimen is broken by a falling weight, and the percent shear area on the fracture is rated.",
+        "High shear area at the test temperature shows the steel will fracture in a ductile way, which helps stop running cracks in gas pipelines."
+      ],
+      "tips": [
+        "API 5L and CSA Z245.1 set their own DWTT details; follow the pipe spec where it differs."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg",
@@ -3687,6 +3948,14 @@
       "docType": "test-method",
       "status": "active",
       "summary": "How to measure fracture toughness (J, CTOD, K) on metal specimens.",
+      "keyPoints": [
+        "Measures fracture toughness of metals using J-integral, CTOD and K-based methods on pre-cracked specimens.",
+        "Results feed engineering critical assessments and fitness-for-service decisions.",
+        "Covers specimen types, fatigue pre-cracking, loading and how to validate the result."
+      ],
+      "tips": [
+        "Toughness depends strongly on specimen size, notch location and temperature; match them to the assessment."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg",
@@ -3747,6 +4016,11 @@
       "docType": "practice",
       "status": "active",
       "summary": "Ultrasonic inspection of pipe and tube for longitudinal and transverse flaws, including reference standards.",
+      "keyPoints": [
+        "Ultrasonic testing of metal pipe and tubing for longitudinal and, where required, transverse imperfections.",
+        "Uses reference standards with artificial notches to set the test sensitivity.",
+        "The product spec sets notch size and acceptance."
+      ],
       "industries": [
         "pipe-tube-mfg"
       ],
@@ -3801,6 +4075,11 @@
       "docType": "practice",
       "status": "active",
       "summary": "Magnetic flux leakage inspection of steel pipe and tube.",
+      "keyPoints": [
+        "Magnetic flux leakage testing of ferromagnetic steel tubular products.",
+        "Detects surface and near-surface imperfections by measuring flux that leaks at defects.",
+        "Sensitivity is set using a reference standard with artificial notches or holes."
+      ],
       "industries": [
         "pipe-tube-mfg"
       ],
@@ -3861,6 +4140,11 @@
       "docType": "practice",
       "status": "active",
       "summary": "Minimum requirements for magnetic particle testing of ferromagnetic parts.",
+      "keyPoints": [
+        "Minimum requirements for magnetic particle testing of ferromagnetic materials.",
+        "Covers magnetizing methods, particle types (wet or dry, visible or fluorescent), lighting and demagnetization.",
+        "Requires a written procedure and checks of system performance."
+      ],
       "industries": [
         "manufacturing",
         "aerospace",
@@ -3894,6 +4178,11 @@
       "docType": "practice",
       "status": "active",
       "summary": "Minimum requirements for liquid penetrant testing to find surface-breaking flaws.",
+      "keyPoints": [
+        "Minimum requirements for liquid penetrant testing to find surface-breaking defects.",
+        "Covers penetrant types, sensitivity levels, removal methods, developers and process controls.",
+        "Requires checks of dwell times, temperatures and penetrant system performance."
+      ],
       "industries": [
         "manufacturing",
         "aerospace"
@@ -3921,6 +4210,14 @@
       "docType": "practice",
       "status": "active",
       "summary": "How to round test results before comparing them to spec limits.",
+      "keyPoints": [
+        "How to round test results before comparing them to specification limits.",
+        "Explains the absolute and rounding methods for judging conformance.",
+        "Applies when a spec says to use it, which many ASTM product specs do for chemistry and mechanical results."
+      ],
+      "tips": [
+        "Round once, at the end, using the number of digits the spec limit implies."
+      ],
       "industries": [
         "manufacturing",
         "steelmaking"
@@ -4009,6 +4306,11 @@
       "docType": "practice",
       "status": "active",
       "summary": "How to run a round-robin study across labs to work out a test method's repeatability and reproducibility.",
+      "keyPoints": [
+        "How to run an interlaboratory study to find the repeatability and reproducibility of a test method.",
+        "Several labs test the same materials; the results give precision statements for the method.",
+        "Includes consistency statistics (h and k) to flag labs or results that do not fit."
+      ],
       "industries": [
         "manufacturing"
       ],
@@ -4048,6 +4350,14 @@
       "docType": "practice",
       "status": "active",
       "summary": "How to build and read Shewhart-type control charts for variables and attributes data.",
+      "keyPoints": [
+        "How to build and read Shewhart control charts for variables (such as X-bar and R) and attributes (such as p and c) data.",
+        "Explains how to set control limits from process data, not from specification limits.",
+        "Covers rational subgrouping and rules for detecting signals of special causes."
+      ],
+      "tips": [
+        "Control limits come from the process; never set them from the spec."
+      ],
       "industries": [
         "manufacturing",
         "steelmaking"
@@ -4086,6 +4396,14 @@
       "docType": "practice",
       "status": "active",
       "summary": "How to calculate and interpret Cp, Cpk, Pp and Ppk.",
+      "keyPoints": [
+        "How to calculate and interpret process capability (Cp, Cpk) and process performance (Pp, Ppk) indices.",
+        "Capability uses within-subgroup variation from a stable process; performance uses overall variation.",
+        "Requires a stable, in-control process before capability indices mean anything."
+      ],
+      "tips": [
+        "Check the data for normality and stability before reporting Cpk."
+      ],
       "industries": [
         "manufacturing",
         "steelmaking"
@@ -4119,6 +4437,14 @@
       "docType": "guide",
       "status": "active",
       "summary": "How to check a measurement system for bias, linearity, stability and gauge R&R.",
+      "keyPoints": [
+        "Guide to measurement systems analysis: bias, linearity, stability, repeatability and reproducibility.",
+        "Explains gauge R&R studies and how to judge whether a measurement system can tell good parts from bad.",
+        "Links measurement variation to process and specification decisions."
+      ],
+      "tips": [
+        "Use parts that cover the real process range in a gauge R&R, or the %GRR will look worse than it is."
+      ],
       "industries": [
         "manufacturing",
         "steelmaking"
@@ -4247,6 +4573,15 @@
       "docType": "management-system",
       "status": "active",
       "summary": "The world's main quality management system standard: context, leadership, risk, operations, measurement and improvement.",
+      "keyPoints": [
+        "Requirements for a quality management system that consistently delivers products and services that meet customer and legal requirements.",
+        "Built on the plan-do-check-act cycle and risk-based thinking.",
+        "Covers context and interested parties, leadership, planning, support, operation, performance evaluation and improvement.",
+        "Certification is done by accredited third-party registrars."
+      ],
+      "tips": [
+        "A transition period applies after a new edition is published; check the deadline with your registrar."
+      ],
       "industries": [
         "manufacturing",
         "steelmaking",
@@ -4321,6 +4656,11 @@
       "docType": "guide",
       "status": "active",
       "summary": "How to plan and run management system audits and build auditor competence.",
+      "keyPoints": [
+        "Guidance on auditing management systems: managing an audit program, running audits and auditor competence.",
+        "Applies to internal audits and to audits of suppliers.",
+        "Built around audit principles such as integrity, fair presentation and an evidence-based approach."
+      ],
       "industries": [
         "manufacturing",
         "steelmaking",
@@ -4481,6 +4821,11 @@
       "docType": "guide",
       "status": "active",
       "summary": "Principles, framework and process for managing any kind of risk in an organization.",
+      "keyPoints": [
+        "Principles, a framework and a process for managing risk in any organization.",
+        "The process covers establishing context, identifying, analyzing and evaluating risk, treating it, and monitoring and review.",
+        "It is guidance, not a certifiable standard."
+      ],
       "industries": [
         "manufacturing",
         "steelmaking",
@@ -4517,6 +4862,11 @@
       "docType": "guide",
       "status": "active",
       "summary": "A toolbox of risk assessment techniques (HAZOP, FMEA, bow-tie, fault tree and more) and when to use each.",
+      "keyPoints": [
+        "A toolbox of risk assessment techniques and when to use each one.",
+        "Covers methods such as HAZOP, FMEA, fault tree analysis, event tree analysis, bow-tie and Monte Carlo simulation.",
+        "Designed to support the risk process in ISO 31000."
+      ],
       "industries": [
         "manufacturing",
         "steelmaking",
@@ -4597,6 +4947,11 @@
       "docType": "management-system",
       "status": "active",
       "summary": "The quality management system standard for medical device makers; incorporated into the US FDA QMSR from February 2, 2026.",
+      "keyPoints": [
+        "Quality management system requirements for medical device organizations, aimed at meeting regulatory requirements.",
+        "Puts more weight than ISO 9001 on documentation, risk-based process control, design controls and traceability.",
+        "Incorporated by reference into the US FDA Quality Management System Regulation (QMSR) from February 2, 2026."
+      ],
       "industries": [
         "medical-devices"
       ],
@@ -4766,6 +5121,14 @@
       "docType": "management-system",
       "status": "active",
       "summary": "What a test or calibration lab must do to show it is competent and its results are valid; the basis for lab accreditation.",
+      "keyPoints": [
+        "Requirements for the competence, impartiality and consistent operation of testing and calibration laboratories.",
+        "Covers method validation, measurement uncertainty, traceability, proficiency testing and reporting.",
+        "Labs are accredited against it by accreditation bodies such as SCC in Canada and A2LA in the US."
+      ],
+      "tips": [
+        "Accreditation applies to a defined scope of tests; check a lab's scope covers the test you are buying."
+      ],
       "industries": [
         "steelmaking",
         "manufacturing",
@@ -4858,6 +5221,11 @@
       "docType": "practice",
       "status": "active",
       "summary": "How to run an interlaboratory study to get repeatability and reproducibility of a test method.",
+      "keyPoints": [
+        "The ISO method for finding repeatability and reproducibility of a standard measurement method through an interlaboratory study.",
+        "Uses statistical tests to find outlying labs and results before calculating precision.",
+        "Part of the ISO 5725 series on accuracy (trueness and precision)."
+      ],
       "industries": [
         "manufacturing",
         "steelmaking"
@@ -4896,6 +5264,11 @@
       "docType": "practice",
       "status": "active",
       "summary": "How to build and use Shewhart control charts for process control.",
+      "keyPoints": [
+        "The ISO guide to Shewhart control charts for variables and attributes data.",
+        "Covers chart selection, calculating control limits and interpreting out-of-control signals.",
+        "Part of the ISO 7870 control chart series."
+      ],
       "industries": [
         "manufacturing",
         "steelmaking"
@@ -4966,6 +5339,14 @@
       "docType": "practice",
       "status": "active",
       "summary": "AQL sampling plans for accepting or rejecting lots by attributes inspection.",
+      "keyPoints": [
+        "Acceptance sampling plans for inspection by attributes, indexed by acceptable quality limit (AQL).",
+        "Includes normal, tightened and reduced inspection, with switching rules between them.",
+        "Sample size depends on lot size and inspection level."
+      ],
+      "tips": [
+        "AQL is not a promise of lot quality; it is the worst average quality the plan accepts most of the time."
+      ],
       "industries": [
         "manufacturing",
         "food",
@@ -5064,6 +5445,15 @@
       "docType": "specification",
       "status": "active",
       "summary": "International requirements for seamless and welded steel line pipe, with PSL 1 and PSL 2 levels and annexes for sour and offshore service.",
+      "keyPoints": [
+        "The international line pipe standard, written from the same base text as API 5L with PSL 1 and PSL 2 levels.",
+        "Grades use both L-numbers (MPa) and X-numbers (ksi), such as L485 / X70.",
+        "Annexes cover sour service, offshore service and resistance to running ductile fracture.",
+        "Editions of ISO 3183 and API 5L have drifted apart, so a pipe certified to one is not automatically compliant with the other."
+      ],
+      "tips": [
+        "If a project names both, ask which takes precedence when they disagree."
+      ],
       "industries": [
         "oil-gas",
         "oil-gas-midstream",
@@ -5138,6 +5528,14 @@
       "docType": "specification",
       "status": "active",
       "summary": "Defines mill certificate types such as 2.2, 3.1 and 3.2 so buyers know what a certificate proves.",
+      "keyPoints": [
+        "Defines the types of inspection documents for metallic products, such as 2.1, 2.2, 3.1 and 3.2.",
+        "Type 3.1 is issued by the manufacturer's inspection representative independent of production; 3.2 adds a purchaser's or third-party inspector.",
+        "The purchase order should state which document type is needed."
+      ],
+      "tips": [
+        "Many buyers say \"3.1 cert\" when they mean any mill test report; confirm what the contract actually requires."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg",
@@ -5167,6 +5565,14 @@
       "docType": "specification",
       "status": "active",
       "summary": "How NDT technicians are trained, examined and certified at levels 1, 2 and 3.",
+      "keyPoints": [
+        "Qualification and certification of NDT personnel at levels 1, 2 and 3, by method and industry sector.",
+        "Requires training hours, work experience, a vision test and exams before certification.",
+        "Certification is issued by an independent certification body and must be renewed."
+      ],
+      "tips": [
+        "Canada's CGSB NDT certification follows the ISO 9712 scheme."
+      ],
       "industries": [
         "manufacturing",
         "pipe-tube-mfg",
@@ -5254,6 +5660,15 @@
       "docType": "test-method",
       "status": "active",
       "summary": "How to run the Charpy impact test to measure absorbed energy.",
+      "keyPoints": [
+        "The ISO Charpy pendulum impact test method: notched specimens broken at a set temperature to measure absorbed energy.",
+        "Covers V-notch and U-notch specimens, striker radius, temperature control and reporting.",
+        "Striker radius (2 mm or 8 mm) must be reported, because results from the two strikers are not interchangeable.",
+        "Machine verification is covered in the companion part of the series."
+      ],
+      "tips": [
+        "When converting a spec written to ASTM E23, confirm the striker radius before comparing results."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg",
@@ -5287,6 +5702,14 @@
       "docType": "test-method",
       "status": "active",
       "summary": "How to run a room-temperature tensile test on metals.",
+      "keyPoints": [
+        "The ISO room-temperature tensile test method for metals.",
+        "Allows control by strain rate or stress rate; the method used must be reported because it affects results.",
+        "Covers specimen shapes, gauge lengths and how to determine yield, tensile strength and elongation."
+      ],
+      "tips": [
+        "ISO and ASTM elongation results are not directly comparable unless the gauge length matches."
+      ],
       "industries": [
         "steelmaking",
         "pipe-tube-mfg",
