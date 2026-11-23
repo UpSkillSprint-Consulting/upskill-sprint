@@ -162,3 +162,51 @@ test('a comparison is indexed only when both codes are enriched', () => {
   const thinPair = [...built.pages.keys()].find(path => path.startsWith('/codes/compare/') && noindex(built.pages.get(path)));
   assert.ok(thinPair, 'at least one comparison waits for enrichment');
 });
+
+test('publisher lists use Oxford-free Canadian grammar for 1, 2 or 3+ names', () => {
+  assert.equal(lib.formatCanadianList(['ASTM']), 'ASTM');
+  assert.equal(lib.formatCanadianList(['ASTM', 'ISO']), 'ASTM and ISO');
+  assert.equal(lib.formatCanadianList(['API', 'CSA', 'ISO']), 'API, CSA and ISO');
+  assert.equal(lib.formatCanadianList(['API', 'CSA', 'ASTM', 'ISO']), 'API, CSA, ASTM and ISO');
+  assert.equal(lib.formatCanadianList([]), '');
+  const order = ['API', 'CSA', 'ASTM', 'ISO'];
+  assert.equal(lib.facetCodesPhrase([{body: 'ASTM'}], order), '1 ASTM code');
+  assert.equal(lib.facetCodesPhrase([{body: 'ISO'}, {body: 'ASTM'}, {body: 'ASTM'}], order), '3 ASTM and ISO codes');
+  assert.equal(lib.publishersPresent([{body: 'ISO'}, {body: 'API'}], order).join(), 'API,ISO');
+});
+
+test('category and industry descriptions name only the publishers on that page', () => {
+  const chemistry = doc('/codes/category/chemistry-analysis/');
+  const chemDesc = chemistry.querySelector('meta[name="description"]').content;
+  assert.match(chemDesc, /^5 ASTM codes for chemistry and analysis/);
+  assert.doesNotMatch(chemDesc, /API|CSA|ISO/);
+  assert.equal(chemistry.querySelector('meta[property="og:description"]').content, chemDesc);
+
+  const fuel = doc('/codes/category/fuel-gas/').querySelector('meta[name="description"]').content;
+  assert.match(fuel, /^3 CSA codes for fuel gas/);
+  assert.doesNotMatch(fuel, /API|ASTM|ISO/);
+
+  const mechanical = doc('/codes/category/mechanical-testing/').querySelector('meta[name="description"]').content;
+  assert.match(mechanical, /^14 ASTM and ISO codes for mechanical testing/);
+  assert.doesNotMatch(mechanical, /API|CSA,/);
+  assert.doesNotMatch(mechanical, /, and /); // Oxford-free
+
+  const welding = doc('/codes/category/welding/').querySelector('meta[name="description"]').content;
+  assert.match(welding, /^11 API, CSA, ASTM and ISO codes for welding/);
+  assert.doesNotMatch(welding, /ASTM, and ISO/);
+
+  const nuclear = doc('/codes/industry/nuclear/').querySelector('meta[name="description"]').content;
+  assert.match(nuclear, /^1 CSA code for nuclear, with a plain-language summary/);
+  assert.doesNotMatch(nuclear, /API|ASTM|ISO|codes /);
+
+  const aerospace = doc('/codes/industry/aerospace/').querySelector('meta[name="description"]').content;
+  assert.match(aerospace, /^5 ASTM and ISO codes for aerospace/);
+  assert.doesNotMatch(aerospace, /API|CSA/);
+
+  const oil = doc('/codes/industry/oil-gas/').querySelector('meta[name="description"]').content;
+  assert.match(oil, /API, CSA, ASTM and ISO codes for oil and gas/);
+
+  // The hub still names every publisher, because every publisher is on that page.
+  const hub = doc('/codes/').querySelector('meta[name="description"]').content;
+  assert.match(hub, /API, CSA, ASTM and ISO codes and standards/);
+});
