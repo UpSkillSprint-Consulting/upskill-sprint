@@ -45395,7 +45395,7 @@
       "id": "quality-engineering--top-down-vs-bottom-up-risk-assessment",
       "path": "/lessons/quality-engineering/top-down-vs-bottom-up-risk-assessment",
       "title": "Top-Down vs. Bottom-Up Risk Assessment",
-      "description": "Learn when to dig down from a bad outcome (FTA, RCA) or walk up from each part (FMEA, HACCP), where HAZOP and bow-tie fit, and how it all maps to ISO 31000.",
+      "description": "Learn when to dig down from a bad outcome (FTA, RCA) or walk up from each part (FMEA, HACCP), and where HAZOP, HAZID, HAZAN and bow-tie fit on ISO 31000.",
       "topic": "quality-engineering",
       "level": "intermediate",
       "minutes": 25,

@@ -43,6 +43,10 @@ test('metadata, head and SEO follow the lesson guide', () => {
   const desc = doc.querySelector('meta[name="description"]').content;
   assert(desc.length >= 120 && desc.length <= 160, String(desc.length));
   assert.match(desc, /top-down vs\. bottom-up risk assessment/i);
+  assert.match(desc, /HAZID/);
+  assert.match(desc, /HAZAN/);
+  assert.match(meta.card_description, /HAZID/);
+  assert.match(meta.card_description, /HAZAN/);
   assert.equal(doc.querySelector('meta[property="og:description"]').content, desc);
   assert.equal(doc.querySelector('meta[property="og:title"]').content, doc.title);
   const canonical = `https://upskillsprint.com${URL_PATH}`;
@@ -478,6 +482,19 @@ test('the quiz emits upskill-quiz-result for unanswered, wrong and all-correct s
   assert.match(document.getElementById('quiz-result').textContent, /Score: 10 \/ 10/);
   assert.deepEqual(errors, []);
   window.close();
+});
+
+test('the lessons-library card and search index describe HAZID and HAZAN', () => {
+  const index = JSON.parse(read('assets/search/lesson-search-index.json'));
+  const entry = index.lessons.find(l => l.path === URL_PATH);
+  assert(entry, 'search index entry');
+  assert.equal(entry.description, meta.card_description);
+  assert.match(entry.description, /HAZID/);
+  assert.match(entry.description, /HAZAN/);
+  assert.match(entry.keywords.join(' '), /hazid/);
+  assert.match(entry.keywords.join(' '), /hazan/);
+  const twitter = doc.querySelector('meta[name="twitter:description"]');
+  assert.equal(twitter, null, 'no twitter:description to keep in sync; only twitter:card is present');
 });
 
 // Canonical side-by-side wording, taken from the Quick Reference poster,
