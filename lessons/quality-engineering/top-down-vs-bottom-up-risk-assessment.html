@@ -194,7 +194,16 @@
 #lesson-content .td-eg{margin:6px 0 0;padding:8px 10px;border-radius:8px;background:var(--lesson-tdbu-surface);color:var(--lesson-tdbu-text);font-size:14.5px;line-height:1.4}
 
 /* ---------- table ---------- */
-#lesson-content .td-table-scroll{overflow-x:auto;margin-top:12px;border-radius:12px}
+#lesson-content .td-table-scroll{overflow-x:auto;margin-top:12px;border-radius:12px;-webkit-overflow-scrolling:touch}
+#lesson-content .td-scroll-hint{display:none;margin:8px 0 0;font-size:14px;line-height:1.5;color:var(--lesson-tdbu-text-2)}
+@media (max-width:640px){#lesson-content .td-scroll-hint{display:block}}
+#lesson-content .td-compare-scroll{
+  background:
+    linear-gradient(90deg, var(--lesson-tdbu-page) 30%, transparent) 0 0 / 24px 100% local no-repeat,
+    linear-gradient(270deg, var(--lesson-tdbu-page) 30%, transparent) 100% 0 / 24px 100% local no-repeat,
+    linear-gradient(90deg, color-mix(in srgb, var(--lesson-tdbu-text) 28%, transparent), transparent) 0 0 / 16px 100% scroll no-repeat,
+    linear-gradient(270deg, color-mix(in srgb, var(--lesson-tdbu-text) 28%, transparent), transparent) 100% 0 / 16px 100% scroll no-repeat;
+}
 #lesson-content table.td-table{width:100%;border-collapse:separate;border-spacing:0 6px;min-width:560px}
 #lesson-content .td-table th, #lesson-content .td-table td{text-align:left;padding:9px 12px;font-size:15.5px;line-height:1.4;vertical-align:top}
 #lesson-content .td-table thead th{color:var(--lesson-tdbu-on-fill);font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
@@ -562,7 +571,8 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       </div>
     </div>
     <h3 id="td-compare-h">Side by side</h3>
-    <div class="td-table-scroll" tabindex="0" role="region" aria-label="Top-down and bottom-up compared">
+    <p class="td-scroll-hint">Scroll sideways to see all columns.</p>
+    <div class="td-table-scroll td-compare-scroll" tabindex="0" role="region" aria-label="Top-down and bottom-up compared">
       <table class="td-table">
         <thead><tr><th scope="col" class="is-corner"><span class="td-vh">Aspect</span></th><th scope="col" class="is-td">Top-down</th><th scope="col" class="is-bu">Bottom-up</th></tr></thead>
         <tbody>
