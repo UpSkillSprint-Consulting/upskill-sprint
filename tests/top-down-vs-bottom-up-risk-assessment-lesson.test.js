@@ -493,7 +493,8 @@ const SIDE_BY_SIDE = {
 test('the side-by-side table uses one shared wording block', () => {
   const heading = doc.getElementById('td-compare-h');
   assert.equal(heading.textContent, 'Side by side');
-  const table = heading.nextElementSibling.querySelector('table.td-table');
+  // After the #420 scroll cue, a hint paragraph sits between the heading and the table.
+  const table = heading.parentElement.querySelector('.td-compare-scroll table.td-table');
   const rows = [...table.querySelectorAll('tbody tr')].map(tr => {
     const cells = [...tr.children].map(el => el.textContent.replace(/\s+/g, ' ').trim());
     return [cells[0], cells.slice(1)];
@@ -501,3 +502,32 @@ test('the side-by-side table uses one shared wording block', () => {
   assert.deepEqual(Object.fromEntries(rows), SIDE_BY_SIDE);
   assert(rows.some(([label]) => label === 'Best for'), 'Best for row stays on the page');
 });
+
+test('the side-by-side comparison table has a mobile scroll cue and stays keyboard-accessible', () => {
+  const heading = doc.getElementById('td-compare-h');
+  assert.equal(heading.textContent, 'Side by side');
+  const hint = heading.nextElementSibling;
+  assert.equal(hint.tagName, 'P');
+  assert.equal(hint.className, 'td-scroll-hint');
+  assert.equal(hint.textContent, 'Scroll sideways to see all columns.');
+  assert(hint.hasAttribute('data-search-exclude'), 'UI hint stays out of the search index');
+  const region = hint.nextElementSibling;
+  assert(region.classList.contains('td-table-scroll'));
+  assert(region.classList.contains('td-compare-scroll'));
+  assert.equal(region.getAttribute('tabindex'), '0');
+  assert.equal(region.getAttribute('role'), 'region');
+  assert.equal(region.getAttribute('aria-label'), 'Top-down and bottom-up compared');
+  const css = doc.getElementById('tdbu-style').textContent;
+  assert.match(css, /#lesson-content \.td-scroll-hint\{display:none;/);
+  assert.match(css, /@media \(max-width:640px\)\{#lesson-content \.td-scroll-hint\{display:block\}\}/);
+  assert.match(css, /#lesson-content \.td-compare-scroll\{/);
+  assert(css.includes('scroll no-repeat'), 'edge shadow uses a scroll-attached gradient');
+  const scrolls = [...doc.querySelectorAll('.td-table-scroll')];
+  assert.equal(scrolls.length, 3);
+  assert.equal(scrolls.filter(el => el.classList.contains('td-compare-scroll')).length, 1);
+  for (const sc of scrolls) {
+    assert.equal(sc.getAttribute('tabindex'), '0');
+    assert.equal(sc.getAttribute('role'), 'region');
+  }
+});
+

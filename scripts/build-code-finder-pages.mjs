@@ -43,6 +43,31 @@ export function metaDescription(text, tail) {
   return out;
 }
 
+// Oxford-free Canadian list: "ASTM"; "ASTM and ISO"; "API, CSA and ISO".
+export function formatCanadianList(items) {
+  const list = [...items].filter(Boolean);
+  if (list.length === 0) return '';
+  if (list.length === 1) return list[0];
+  if (list.length === 2) return `${list[0]} and ${list[1]}`;
+  return `${list.slice(0, -1).join(', ')} and ${list[list.length - 1]}`;
+}
+
+export function publishersPresent(records, bodyOrder) {
+  const present = new Set(records.map(record => record.body));
+  const ordered = bodyOrder.filter(code => present.has(code));
+  for (const code of present) {
+    if (!ordered.includes(code)) ordered.push(code);
+  }
+  return ordered;
+}
+
+export function facetCodesPhrase(records, bodyOrder) {
+  const n = records.length;
+  const pubs = formatCanadianList(publishersPresent(records, bodyOrder));
+  const noun = n === 1 ? 'code' : 'codes';
+  return `${n} ${pubs} ${noun}`;
+}
+
 function chrome(toolHtml) {
   const header = toolHtml.match(/<input type="checkbox" id="mnav-check"[\s\S]*?<\/header>\n/)?.[0];
   const footer = toolHtml.match(/<footer class="site">[\s\S]*?<\/footer>\n?/)?.[0];
@@ -186,15 +211,17 @@ ${record.learning.length ? `<section class="cf-page-section" aria-labelledby="h-
   }
 
   // ---------- Category and industry lists ----------
+  const bodyOrder = catalog.taxonomy.bodies.map(body => body.code);
   for (const [facet, kind, noun] of [['categories', 'category', 'category'], ['industries', 'industry', 'industry']]) {
     for (const entry of catalog.taxonomy.facets[facet]) {
       const matches = E.search(index, '', {[facet]: [entry.slug]}).results.map(item => item.record);
       if (!matches.length) continue;
       const path = `/codes/${kind}/${entry.slug}/`;
       const h1 = kind === 'category' ? `${entry.label} codes and standards` : `Codes and standards for ${entry.label.toLowerCase()}`;
+      const summary = matches.length === 1 ? 'with a plain-language summary' : 'each with a plain-language summary';
       add(path, layout({
         title: pageTitle(h1),
-        description: metaDescription(`${matches.length} API, CSA, ASTM and ISO codes for ${entry.label.toLowerCase()}, each with a plain-language summary`, 'Filter them further in the free Code Finder tool.'),
+        description: metaDescription(`${facetCodesPhrase(matches, bodyOrder)} for ${entry.label.toLowerCase()}, ${summary}`, 'Filter them further in the free Code Finder tool.'),
         path, breadcrumb: [...base, ['Codes', '/codes/'], [entry.label, path]],
         body: `<header class="cf-page-head"><p class="osx-brand cf-kicker">Code Finder · by ${noun}</p><h1>${esc(h1)}</h1><p class="cf-lead">${matches.length} codes, grouped by publisher. <a href="/tools/code-finder/?${E.PARAM[facet]}=${entry.slug}">Filter and search them in Code Finder</a>.</p></header><ul class="cf-page-rows">${matches.map(record => codeRow(record)).join('')}</ul>`,
         chromeParts

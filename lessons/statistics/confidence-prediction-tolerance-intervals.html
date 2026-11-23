@@ -113,6 +113,27 @@
     .cpti-hero h1 { font-size: clamp(1.9rem, 5vw, 2.9rem); line-height: 1.12; margin: 0 0 14px; color: var(--cpti-ink); }
     .cpti-lede { font-size: 1.12rem !important; max-width: none; margin: 0 0 18px; }
     .cpti-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+
+    .cpti-video { margin: 0 0 44px; }
+    .cpti-video-intro { margin: 0 0 12px; }
+    .cpti-video-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--cpti-surface-2);
+      border: 1px solid var(--cpti-line);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--cpti-shadow);
+    }
+    .cpti-video-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .cpti-video-fallback { margin: 10px 0 0; font-size: .95rem !important; }
     .cpti-pills li { font-size: .85rem !important; line-height: 1.2 !important; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--cpti-line); background: var(--cpti-surface-2); color: var(--cpti-ink); }
 
     .cpti-section { margin: 0 0 44px; }
@@ -264,6 +285,14 @@
   </div>
 
   <div class="cpti-wrap">
+
+    <figure class="cpti-video" id="cpti-minitab-video">
+      <p class="cpti-video-intro">Watch the step-by-step Minitab walkthrough.</p>
+      <div class="cpti-video-frame">
+        <iframe src="https://www.youtube-nocookie.com/embed/SOWj6O2tIyM" title="Confidence, Prediction and Tolerance Interval (Minitab Example)" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <figcaption class="cpti-video-fallback">Prefer a direct link? <a href="https://youtu.be/SOWj6O2tIyM">Watch on YouTube: Confidence, Prediction and Tolerance Interval (Minitab Example)</a> (13:37).</figcaption>
+    </figure>
 
     <section class="cpti-section" id="what-you-will-learn" aria-labelledby="learn-heading">
       <h2 id="learn-heading">What you will be able to do</h2>

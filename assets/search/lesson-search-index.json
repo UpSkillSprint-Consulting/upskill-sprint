@@ -18972,10 +18972,11 @@
           "breadcrumb": [
             "Confidence vs Prediction vs Tolerance Intervals"
           ],
-          "text": "All three give you a lower and an upper limit. They answer three very different questions. Move the sliders below and watch the three intervals grow, shrink, and hit their floors in real time. Beginner 45 min Interactive Excel + Minitab CSSBB · CQE",
-          "excerpt": "All three give you a lower and an upper limit. They answer three very different questions. Move the sliders below and watch the three intervals grow, shrink, and hit their floors in real time. Beginner 45 min Interactive Excel + Minitab CSSBB · CQE",
+          "text": "All three give you a lower and an upper limit. They answer three very different questions. Move the sliders below and watch the three intervals grow, shrink, and hit their floors in real time. Beginner 45 min Interactive Excel + Minitab CSSBB · CQE Watch the step-by-step Minitab walkthrough. Prefer a direct link? Watch on YouTube: Confidence, Prediction and Tolerance Interval (Minitab Example) (13:37).",
+          "excerpt": "All three give you a lower and an upper limit. They answer three very different questions. Move the sliders below and watch the three intervals grow, shrink, and hit their floors in real time. Beginner 45 min Interactive Excel + Minitab CSSBB · CQE Watch the…",
           "kinds": [
-            "section"
+            "section",
+            "example"
           ]
         },
         {
