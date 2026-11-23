@@ -341,3 +341,28 @@ test('the quiz emits upskill-quiz-result for unanswered, wrong and all-correct s
   assert.deepEqual(errors, []);
   window.close();
 });
+
+test('the Minitab walkthrough is a public, lazy, 16:9 youtube-nocookie embed with a link fallback', () => {
+  const figure = staticDoc.getElementById('cpti-minitab-video');
+  assert.equal(figure.tagName, 'FIGURE');
+  const hero = staticDoc.querySelector('.cpti-hero');
+  const learn = staticDoc.getElementById('what-you-will-learn');
+  assert.ok(hero.contains(staticDoc.querySelector('h1')));
+  assert.equal(hero.nextElementSibling, figure.parentElement);
+  assert.equal(figure.parentElement.firstElementChild, figure);
+  assert.ok(learn.compareDocumentPosition(figure) & 2, 'video sits before the learning outcomes');
+  assert.match(figure.querySelector('.cpti-video-intro').textContent, /Watch the step-by-step Minitab walkthrough/);
+  const frame = figure.querySelector('iframe');
+  assert.equal(frame.getAttribute('src'), 'https://www.youtube-nocookie.com/embed/SOWj6O2tIyM');
+  assert.equal(frame.getAttribute('title'), 'Confidence, Prediction and Tolerance Interval (Minitab Example)');
+  assert.equal(frame.getAttribute('loading'), 'lazy');
+  assert.equal(frame.getAttribute('referrerpolicy'), 'strict-origin-when-cross-origin');
+  assert.ok(frame.hasAttribute('allowfullscreen'));
+  const fallback = figure.querySelector('.cpti-video-fallback a');
+  assert.equal(fallback.getAttribute('href'), 'https://youtu.be/SOWj6O2tIyM');
+  assert.match(fallback.textContent, /Confidence, Prediction and Tolerance Interval \(Minitab Example\)/);
+  const css = html.match(/<style id="cpti-lesson-style">([\s\S]*?)<\/style>/)[1];
+  assert.match(css, /\.cpti-video-frame\s*\{[^}]*aspect-ratio:\s*16\s*\/\s*9/);
+  assert.equal(staticDoc.body.hasAttribute('data-require-auth'), false);
+  assert.ok(!figure.closest('[hidden], [aria-hidden="true"]'));
+});
