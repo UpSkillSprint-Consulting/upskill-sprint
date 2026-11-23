@@ -487,6 +487,7 @@ test('the side-by-side comparison table has a mobile scroll cue and stays keyboa
   assert.equal(hint.tagName, 'P');
   assert.equal(hint.className, 'td-scroll-hint');
   assert.equal(hint.textContent, 'Scroll sideways to see all columns.');
+  assert(hint.hasAttribute('data-search-exclude'), 'UI hint stays out of the search index');
   const region = hint.nextElementSibling;
   assert(region.classList.contains('td-table-scroll'));
   assert(region.classList.contains('td-compare-scroll'));
