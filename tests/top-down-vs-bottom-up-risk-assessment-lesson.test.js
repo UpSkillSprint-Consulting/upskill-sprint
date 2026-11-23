@@ -480,6 +480,29 @@ test('the quiz emits upskill-quiz-result for unanswered, wrong and all-correct s
   window.close();
 });
 
+// Canonical side-by-side wording, taken from the Quick Reference poster,
+// which is the only poster that includes every row of this table.
+const SIDE_BY_SIDE = {
+  'Starts at': ['A defined bad outcome', 'A part, step or failure mode'],
+  'Logic': ['Deductive: outcome → causes', 'Inductive: cause → effects'],
+  'Blind spot': ['Causes nobody put in the tree', 'Combinations and interactions between parts'],
+  'Best for': ['One known or feared failure', 'Full coverage before failures happen'],
+  'Pairs with': ['RCA, CAPA, 8D', 'DFMEA, PFMEA action plans']
+};
+
+test('the side-by-side table uses one shared wording block', () => {
+  const heading = doc.getElementById('td-compare-h');
+  assert.equal(heading.textContent, 'Side by side');
+  // After the #420 scroll cue, a hint paragraph sits between the heading and the table.
+  const table = heading.parentElement.querySelector('.td-compare-scroll table.td-table');
+  const rows = [...table.querySelectorAll('tbody tr')].map(tr => {
+    const cells = [...tr.children].map(el => el.textContent.replace(/\s+/g, ' ').trim());
+    return [cells[0], cells.slice(1)];
+  });
+  assert.deepEqual(Object.fromEntries(rows), SIDE_BY_SIDE);
+  assert(rows.some(([label]) => label === 'Best for'), 'Best for row stays on the page');
+});
+
 test('the side-by-side comparison table has a mobile scroll cue and stays keyboard-accessible', () => {
   const heading = doc.getElementById('td-compare-h');
   assert.equal(heading.textContent, 'Side by side');
@@ -499,7 +522,6 @@ test('the side-by-side comparison table has a mobile scroll cue and stays keyboa
   assert.match(css, /@media \(max-width:640px\)\{#lesson-content \.td-scroll-hint\{display:block\}\}/);
   assert.match(css, /#lesson-content \.td-compare-scroll\{/);
   assert(css.includes('scroll no-repeat'), 'edge shadow uses a scroll-attached gradient');
-  // Other wide tables keep keyboard access and are not given this cue.
   const scrolls = [...doc.querySelectorAll('.td-table-scroll')];
   assert.equal(scrolls.length, 3);
   assert.equal(scrolls.filter(el => el.classList.contains('td-compare-scroll')).length, 1);
@@ -508,3 +530,4 @@ test('the side-by-side comparison table has a mobile scroll cue and stays keyboa
     assert.equal(sc.getAttribute('role'), 'region');
   }
 });
+

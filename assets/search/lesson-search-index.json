@@ -45655,8 +45655,8 @@
             "Meet the 9 tools, sorted by direction",
             "Side by side"
           ],
-          "text": "Aspect Top-down Bottom-up Starts at A defined bad outcome A part, step or failure mode Logic Deductive : outcome → causes Inductive : cause → effects Blind spot Causes nobody put in the tree Two failures together, and interactions Best for One known or feared failure Full coverage before anything fails Pairs with RCA, CAPA, 8D DFMEA, PFMEA action plans Why HAZOP is “middle-out”: textbooks file it as top-down and as bottom-up. It really starts at a deviation in the middle and works both ways, just like the bow-tie. Part 3 · Timing",
-          "excerpt": "Aspect Top-down Bottom-up Starts at A defined bad outcome A part, step or failure mode Logic Deductive : outcome → causes Inductive : cause → effects Blind spot Causes nobody put in the tree Two failures together, and interactions Best for One known or feared…",
+          "text": "Aspect Top-down Bottom-up Starts at A defined bad outcome A part, step or failure mode Logic Deductive : outcome → causes Inductive : cause → effects Blind spot Causes nobody put in the tree Combinations and interactions between parts Best for One known or feared failure Full coverage before failures happen Pairs with RCA, CAPA, 8D DFMEA, PFMEA action plans Why HAZOP is “middle-out”: textbooks file it as top-down and as bottom-up. It really starts at a deviation in the middle and works both ways, just like the bow-tie. Part 3 · Timing",
+          "excerpt": "Aspect Top-down Bottom-up Starts at A defined bad outcome A part, step or failure mode Logic Deductive : outcome → causes Inductive : cause → effects Blind spot Causes nobody put in the tree Combinations and interactions between parts Best for One known or…",
           "kinds": [
             "section"
           ]
