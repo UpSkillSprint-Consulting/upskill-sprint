@@ -200,6 +200,35 @@
   @media(max-width:650px) {.site-inner{flex-direction:column;align-items:stretch;gap:7px}.brand span{font-size:.91rem}.nav-right{justify-content:space-between}.theme-toggle{min-width:112px;white-space:nowrap}}
   @media(prefers-reduced-motion:reduce) {html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
   </style>
+<style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
   <script src="cusum-ewma-assets/cusum-ewma-downloads.js" defer></script>
 </head>
 <body data-lesson-page="true" data-category="quality-engineering" data-level="intermediate" data-interactive="true" data-lesson-type="general">
@@ -418,33 +447,52 @@
       <ol class="step-rail"><li>Open the 100-row CSV and create both charts for each process.</li><li>Before seeing the results, record whether you expect an upward shift, downward shift, slow drift, or isolated spike.</li><li>Compare first-signal positions with the results table; note the effect of changing λ from .20 to .10 and .40.</li><li>For ore grade, create an I-MR chart and investigate sample 45. Write two sentences explaining why your I chart and CUSUM disagree.</li><li>Write an action plan: baseline validation, suspected process causes, evidence needed, and a rule for returning to routine monitoring.</li></ol>
     </section>
     <!-- EDIT: Quiz questions; exactly five questions and explanations. -->
-    <section class="lesson-section" id="quiz">
-      <span class="section-label">11 / Check your understanding</span><h2>Five questions. Can you think like a process investigator?</h2>
-      <p>Choose one option per question. Submit to see your score and an explanation for every answer. Answers are evaluated locally without a page reload.</p>
-      <form id="lesson-quiz" novalidate>
-        <div class="question" data-answer="b"><fieldset><legend>1. What does an upper CUSUM mainly detect?</legend>
-          <label class="option"><input name="q1" type="radio" value="a"> A single reading above specification.</label>
-          <label class="option"><input name="q1" type="radio" value="b"> Accumulated evidence of readings above the reference mean.</label>
-          <label class="option"><input name="q1" type="radio" value="c"> Whether process variation is exactly zero.</label></fieldset><div class="quiz-feedback" aria-live="polite" hidden></div></div>
-        <div class="question" data-answer="c"><fieldset><legend>2. With μ₀ = 6.40, σ = .04, k = .5, and previous upper CUSUM = .06, what is the new upper CUSUM after x = 6.45?</legend>
-          <label class="option"><input name="q2" type="radio" value="a"> 0.05 mm.</label>
-          <label class="option"><input name="q2" type="radio" value="b"> 0.11 mm.</label>
-          <label class="option"><input name="q2" type="radio" value="c"> 0.09 mm.</label></fieldset><div class="quiz-feedback" aria-live="polite" hidden></div></div>
-        <div class="question" data-answer="a"><fieldset><legend>3. Why does pipe-wall Lower CUSUM stay close to zero when Upper CUSUM rises?</legend>
-          <label class="option"><input name="q3" type="radio" value="a"> There is little accumulated evidence of sustained readings below target.</label>
-          <label class="option"><input name="q3" type="radio" value="b"> Pipe wall thickness is becoming zero.</label>
-          <label class="option"><input name="q3" type="radio" value="c"> Minitab deleted the lower data.</label></fieldset><div class="quiz-feedback" aria-live="polite" hidden></div></div>
-        <div class="question" data-answer="b"><fieldset><legend>4. Why can an ore-grade point exceed μ₀ + 3σ without a CUSUM signal?</legend>
-          <label class="option"><input name="q4" type="radio" value="a"> It is mathematically impossible for both statements to hold.</label>
-          <label class="option"><input name="q4" type="radio" value="b"> A one-off spike can be extreme in raw units but insufficient to carry CUSUM beyond H.</label>
-          <label class="option"><input name="q4" type="radio" value="c"> CUSUM only works for pipe thickness.</label></fieldset><div class="quiz-feedback" aria-live="polite" hidden></div></div>
-        <div class="question" data-answer="c"><fieldset><legend>5. Before comparing CUSUM and EWMA on production data, what is the best action?</legend>
-          <label class="option"><input name="q5" type="radio" value="a"> Estimate σ from all observations even when a shift is suspected.</label>
-          <label class="option"><input name="q5" type="radio" value="b"> Change all chart parameters until both give the same signal.</label>
-          <label class="option"><input name="q5" type="radio" value="c"> Verify sample order, stable baseline, measurement system, and appropriate parameter choices.</label></fieldset><div class="quiz-feedback" aria-live="polite" hidden></div></div>
-        <div class="lab-actions"><button type="submit" class="btn primary">Submit quiz</button><button type="button" class="btn" id="quiz-reset">Reset quiz</button></div>
-        <p class="quiz-score" id="quiz-score" role="status" aria-live="polite"></p>
-      </form>
+    <!-- EDIT: Quiz questions — exact site-wide quiz contract. -->
+    <section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+      <p class="lesson-kicker">Knowledge check</p>
+      <h2 id="quiz-heading">Check your understanding</h2>
+      <div class="quiz">
+        <div class="quiz-head"><h3>Comprehension quiz</h3><p>Can you spot the hidden shift? Choose each answer, then get a score and an explanation.</p></div>
+        <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="The upper CUSUM accumulates qualifying above-target evidence. It is not the specification acceptance limit.">
+        <legend>1. What does an upper CUSUM mainly detect?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> A single reading above specification.</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> Accumulated evidence of readings above the reference mean.</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> Whether process variation is exactly zero.</label>
+        <div class="quiz-feedback" aria-live="polite"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="First, K = 0.5 × 0.04 = 0.02. Then the new upper CUSUM is max(0, 0.06 + 6.45 − 6.40 − 0.02) = 0.09 mm.">
+        <legend>2. With μ₀ = 6.40, σ = .04, k = .5, and previous upper CUSUM = .06, what is the new upper CUSUM after x = 6.45?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> 0.05 mm.</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> 0.11 mm.</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> 0.09 mm.</label>
+        <div class="quiz-feedback" aria-live="polite"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="The lower CUSUM tracks downward evidence. Its statistic can be zero even while measured pipe thickness remains around 6.40 mm.">
+        <legend>3. Why does pipe-wall Lower CUSUM stay close to zero when Upper CUSUM rises?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> There is little accumulated evidence of sustained readings below target.</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> Pipe wall thickness is becoming zero.</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Minitab deleted the lower data.</label>
+        <div class="quiz-feedback" aria-live="polite"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="An isolated extreme ore-grade reading can exceed a historical Individuals limit without pushing cumulative evidence beyond the CUSUM decision interval.">
+        <legend>4. Why can an ore-grade point exceed μ₀ + 3σ without a CUSUM signal?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> It is mathematically impossible for both statements to hold.</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> A one-off spike can be extreme in raw units but insufficient to carry CUSUM beyond H.</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> CUSUM only works for pipe thickness.</label>
+        <div class="quiz-feedback" aria-live="polite"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="First verify chronology, baseline stability, measurement-system performance, autocorrelation and parameter settings.">
+        <legend>5. Before comparing CUSUM and EWMA on production data, what is the best action?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> Estimate σ from all observations even when a shift is suspected.</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> Change all chart parameters until both give the same signal.</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> Verify sample order, stable baseline, measurement system, and appropriate parameter choices.</label>
+        <div class="quiz-feedback" aria-live="polite"></div>
+      </fieldset>
+          <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button><button type="button" id="quiz-reset" class="btn">Reset quiz</button></div>
+          <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+        </form>
+      </div>
     </section>
     <section class="lesson-section" id="summary">
       <span class="section-label">12 / The takeaway</span><h2>One process. Two ways to catch a hidden change.</h2>
@@ -481,14 +529,6 @@
   const svgNS = 'http://www.w3.org/2000/svg';
   const demoReadings = $('readings').value;
   const initialParams = {target: '6.40', sigma: '0.04', kfactor: '0.5', hfactor: '4', lambda: '0.2'};
-  const quizExplanations = [
-    'The upper one-sided CUSUM accumulates positive deviations that exceed its allowance K. It tests evidence of an upward mean shift; it is not a specification check.',
-    'K = 0.5 × 0.04 = 0.02. Therefore C⁺ = max(0, 0.06 + 6.45 − 6.40 − 0.02) = 0.09 mm.',
-    'The lower CUSUM does not accumulate when readings fail to provide sufficient downward evidence. A plotted statistic of zero does not mean the physical wall thickness is zero.',
-    'The ore-grade spike at sample 45 is 1.398%, which exceeds 1.25 + 3(0.035) = 1.355%. But the upper CUSUM score remains under H = 0.14, so the two chart rules legitimately disagree.',
-    'Monitoring design requires trustworthy ordering, a stable reference mean and standard deviation, credible measurements and tuned detection/false-alarm performance.'
-  ];
-
   function parseReadings(text) {
     const cells = text.trim().split(/[\s,;]+/).filter(Boolean);
     if (cells.length < 3 || cells.length > 80) throw new Error('Enter between 3 and 80 chronological readings.');
@@ -633,34 +673,13 @@
     $('practice-answer').hidden=showing;
   });
 
-  const quiz=$('lesson-quiz');
-  quiz.addEventListener('submit',event=>{
-    event.preventDefault();
-    let score=0,answered=0;
-    const questions=[...quiz.querySelectorAll('.question')];
-    questions.forEach((question,i)=>{
-      const correct=question.dataset.answer;
-      const chosen=question.querySelector('input:checked');
-      if(chosen)answered++;
-      if(chosen && chosen.value===correct)score++;
-      question.querySelectorAll('.option').forEach(label=>{
-        label.classList.remove('correct','incorrect');
-        const input=label.querySelector('input');
-        if(input.value===correct)label.classList.add('correct');
-        if(chosen && input===chosen && chosen.value!==correct)label.classList.add('incorrect');
-      });
-      const feedback=question.querySelector('.quiz-feedback');
-      feedback.hidden=false;
-      const prefix=chosen?(chosen.value===correct?'Correct. ':'Not quite. '):'No selection. ';
-      feedback.textContent=prefix+quizExplanations[i];
+  $('quiz-reset').addEventListener('click',()=> {
+    const form=$('quiz-form');form.reset();
+    form.querySelectorAll('.quiz-question').forEach(q=>{
+      q.classList.remove('is-correct','is-incorrect');
+      const fb=q.querySelector('.quiz-feedback');if(fb){fb.className='quiz-feedback';fb.textContent='';}
     });
-    $('quiz-score').textContent=`Score: ${score} / 5 (${score*20}%). ${answered<5 ? `You answered ${answered} of 5 questions.` : score===5?'Excellent: you spotted all five concepts.':'Review each explanation and try again.'}`;
-  });
-  $('quiz-reset').addEventListener('click',()=>{
-    quiz.reset();
-    quiz.querySelectorAll('.option').forEach(label=>label.classList.remove('correct','incorrect'));
-    quiz.querySelectorAll('.quiz-feedback').forEach(el=>{el.hidden=true;el.textContent=''});
-    $('quiz-score').textContent='';
+    const result=$('quiz-result');result.className='quiz-result';result.textContent='';
   });
 
   /* SITE INTEGRATION: /theme.js owns theme switching on the published website.
@@ -695,6 +714,32 @@
 })();
 </script>
 
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
 <style id="cusum-ewma-dark-overrides">
 html[data-theme="dark"] [aria-label="Return to lesson category"] a { color: #7dd3fc !important; }
 </style>
