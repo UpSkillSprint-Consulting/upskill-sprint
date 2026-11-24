@@ -22,7 +22,7 @@ governance rules §20 · page skeleton §2 · head/SEO §2.1 · chrome §4 ·
 engineering-tool theme §9.8 · Excel Coach §25 ·
 catalog §12 · access rules (Supabase) §12.4 · sitemap §12.5 · learning paths §12.6 · images §13.2 · downloadable posters §13.3 ·
 accessibility §21 · math notation §22 · commands §16 · PR workflow §17 ·
-PR checklist §18 · known site-wide defects §23 · mandatory 15-persona audit §26.
+PR checklist §18 · known site-wide defects §23 · mandatory 16-persona audit §26.
 
 ---
 
@@ -61,7 +61,7 @@ When asked to create or update a lesson:
    reason stated.
 8. Never invent product facts, menu paths, formulas, or data. If unsure, state the
    uncertainty rather than fabricating.
-9. Perform the mandatory **15-persona audit (§26)** for every new or updated lesson.
+9. Perform the mandatory **16-persona audit (§26)** for every new or updated lesson.
    Correct the gaps, recheck affected behaviour, and include the completed audit record
    alongside §18 in the PR body. Any unverified mandatory gate keeps the PR draft.
 
@@ -1849,7 +1849,8 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] Downloadable poster or print PDF? It has the §13.3 UpSkill Sprint header band (wordmark, nav with the active tab, badge) and navy footer band (on-dark wordmark, tagline, links, contact, lesson URL, © bar). It is a vector, one-page PDF with fonts and logos embedded, and the lesson test checks it.
 - [ ] Update task? No existing content removed/shortened; headings + body text preserved.
 **Multi-persona audit (§26)**
-- [ ] All 15 persona reviews recorded using the §26.4 PR audit record; justified N/A entries only.
+- [ ] All 16 persona reviews recorded using the §26.4 PR audit record; justified N/A entries only.
+- [ ] A16: chart proportions measured and compared in rendered views; compact interactive plots, aspect ratios, label readability and changed states verified (§26.5).
 - [ ] All in-scope audit findings corrected and rechecked against the final branch head; no unresolved critical or high findings.
 - [ ] Evidence distinguishes source review from actual execution, rendered review and software output; blocked checks disclosed and PR kept draft.
 **Validation (§16)**
@@ -2290,7 +2291,8 @@ the charts, then write only what the visuals still need.
 - Horizontal arrows and roadmaps stack and point downward on phones. Grids reflow
   (`repeat(auto-fit, minmax(…))`). Nothing scrolls sideways (§10).
 - Desktop: cap wide charts (about 680px) so their text does not grow huge, and keep every
-  visual inside the page column (§9.9).
+  visual inside the page column (§9.9). Audit relative chart proportions and compact
+  interactive plot sizing separately under §26.5 (A16).
 
 ### 24.6 Reference implementation
 
@@ -2358,7 +2360,7 @@ When updating the Excel Coach in `assets/lessons/excel-formula-fluency/sprint/co
 
 ## 26. Mandatory multi-persona lesson audit framework (Ernest's standard, Nov 2026)
 
-Every new lesson and every lesson update MUST undergo the 15-persona audit below before
+Every new lesson and every lesson update MUST undergo the 16-persona audit below before
 it is declared ready for review. This framework applies across all lesson categories, not
 just statistics or Minitab. It supplements, and never replaces or relaxes, §§0–25,
 the Content Preservation Rule (§14), the validation commands (§16), the PR checklist
@@ -2369,7 +2371,7 @@ certified the lesson. An agent may perform the reviews itself, but MUST change i
 review perspective for each pass, inspect the actual current lesson, and document
 evidence and limitations. Never report a simulated expert review as human approval.
 
-### 26.1 The 15 required audit personas
+### 26.1 The 16 required audit personas
 
 | ID | Persona | Audit criteria and acceptance evidence |
 |---|---|---|
@@ -2388,6 +2390,7 @@ evidence and limitations. Never report a simulated expert review as human approv
 | A13 | **Editorial Reviewer** | Check grammar, spelling, consistent terminology and notation, clarity, tone, factual precision, captions, headings, duplication and unnecessary jargon. Define terms before use; retain the lesson's existing instructional substance under §14. Use the site's applicable language conventions. |
 | A14 | **Certification Exam Candidate** | For relevant lessons, verify alignment with the applicable current certification body of knowledge, exam terminology, realistic practice problems, calculation accuracy, distractors, answers and explanations. Cite authoritative scope or distinguish general preparation from claimed exam coverage. For lessons with no relevant certification, record the justified non-applicability; do not invent exam alignment. |
 | A15 | **SEO Specialist** | Verify §§2.1–2.2 and 12: natural search intent and keyword use, title/description limits, canonical and social metadata, structured data, logical headings, descriptive internal links, related lessons, catalog and search discoverability, sitemap and indexability consistent with access rules. Check generated outputs and preview where applicable; never change access just to improve SEO. |
+| A16 | **Chart Proportion & Visual Scale Auditor** | Audit the rendered dimensions, aspect ratios, relative visual weight, whitespace and label readability of every chart, ellipse, simulator and infographic against neighbouring visuals and the lesson's overall aesthetic. Check default and changed interactive states, expanded panels, both themes and 1280px/390px viewports. Verify that controls may span a panel without forcing the plot to fill its width, that plots are centred and proportionate, and that chart geometry and numerical scales are not distorted. Record measured rendered sizes and comparisons; correct oversized or undersized plots and recheck. Follow §24.5 and §26.5. |
 
 ### 26.2 Audit sequence and remediation (MUST)
 
@@ -2400,7 +2403,7 @@ evidence and limitations. Never report a simulated expert review as human approv
    not merely a recommendation list. Preserve content under §14; fix related inaccuracies
    without silently deleting instructional material. Add regression tests for changed
    behaviour. Escalate out-of-scope issues, governance conflicts or unresolvable uncertainty.
-4. Review the rendered design and learner journeys (A04, A09–A11) using the required local
+4. Review the rendered design and learner journeys (A04, A09–A11, A16) using the required local
    build and deploy preview, then run the technical and discoverability gates (A12, A15).
    Run all validation commands in §16 in their specified order. Revisit earlier passes
    if any change affects their findings.
@@ -2408,7 +2411,7 @@ evidence and limitations. Never report a simulated expert review as human approv
    commits and refresh the evidence. A previous pass does not remain valid for changed
    content or behaviour without re-verification. A source-only audit may identify defects
    but cannot certify a rendered UI, actual software execution, accessibility or deployment.
-6. Include all 15 results and their evidence in the PR body, in addition to §18.
+6. Include all 16 results and their evidence in the PR body, in addition to §18.
    Keep the PR draft until all applicable acceptance criteria and existing mandatory gates
    are met. Never merge, approve, auto-merge, deploy to production or bypass §20.
 
@@ -2474,13 +2477,14 @@ not silently marked passed. A blocked or failed required gate keeps the PR draft
 | A13 | Editorial Reviewer | | | |
 | A14 | Certification Exam Candidate | | | |
 | A15 | SEO Specialist | | | |
+| A16 | Chart Proportion & Visual Scale Auditor | | | |
 
 #### Finding log
 | Finding / persona(s) | Severity | Location and observed gap | Learner impact | Fix / commit | Recheck evidence |
 |---|---|---|---|---|---|
 
 #### Readiness
-- [ ] All 15 persona results recorded; every N/A justified.
+- [ ] All 16 persona results recorded; every N/A justified.
 - [ ] All in-scope gaps corrected and rechecked; no unresolved critical or high findings.
 - [ ] Evidence reflects final branch head; §16 and §18 mandatory gates satisfied.
 - [ ] Any remaining limitations or owner decisions disclosed; PR remains draft if blocked.
@@ -2489,4 +2493,37 @@ not silently marked passed. A blocked or failed required gate keeps the PR draft
 The audit framework is a lesson-quality gate, not permission to alter repository settings,
 change access, execute SQL, or merge. It applies prospectively to every new lesson and
 every subsequent lesson update; it does not mandate bulk edits to untouched lessons.
+
+### 26.5 Chart proportion and visual scale acceptance criteria (A16)
+
+This independent audit complements the Visual Designer, UX/UI Specialist and Mobile User
+passes. It MUST explicitly inspect relative visual scale, not merely whether a chart fits
+the viewport or has readable labels.
+
+- Inventory all static and interactive plots, scatterplots, covariance ellipses, diagrams,
+  and full-size reveal panels. Compare each rendered width and height with its surrounding
+  content and comparable figures; identify disproportionately large or small visuals.
+- Use compact, centred chart containers with responsive width, an intentional maximum width,
+  and preserved intrinsic SVG aspect ratio. Do not stretch a plot just because its card,
+  sliders or feedback occupy a wide container. Maintain appropriate axis scales and equal
+  physical unit scaling where geometric interpretation requires it.
+- As a starting point for simple desktop interactive ellipses, use about 360px maximum
+  plot width; for compact time-series simulators, about 420px. These are design reference
+  sizes, not mandatory universal caps. Justify larger figures when complexity, labels or
+  learning needs warrant them; respect §24.5's general desktop guidance of about 680px
+  for wide charts. Full-size inspection plots may expand separately on demand.
+- Review at 1280px and 390px in light and dark mode. On phones, plots must shrink within
+  their containers without distortion, clipped annotations, sideways page overflow or
+  unreadably small labels (about 10px minimum rendered chart text per §24.5).
+- Compare proportions at initial, extreme and reset slider values, and with relevant
+  dropdowns open. Avoid layout jumps, excessive empty space, obstructed controls, and
+  chart heights that overwhelm instructions or feedback. Keep touch targets at least 44px.
+- Record the actual rendered width and height (CSS pixels), viewport, theme, state, and
+  comparison figure or design rationale for each distinct plot layout; group identical
+  layouts only if representative measurements and inspection cover their variants.
+  Source CSS inspection alone cannot certify rendered proportions.
+- Fix layout problems using scoped lesson CSS or responsive SVG geometry, not changes to
+  the statistical data, arbitrary axis distortions or site-wide styling. Add regression
+  coverage for layout constraints when applicable and rerun affected interactive tests.
+  Mark A16 BLOCKED if rendered review cannot be performed.
 
