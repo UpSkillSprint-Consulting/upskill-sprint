@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const html=fs.readFileSync('lessons/statistics/multivariate-statistical-process-control.html','utf8');
 test('saved Minitab plots retain signals and limits',()=>{for(const [id,expected] of [['saved-t',[41,51]],['saved-gv',[46,51]],['combined-t',[41,51]],['combined-v',[46,51]],['saved-mewma',Array.from({length:16},(_,i)=>i+45)]]){const tag=html.match(new RegExp('<svg id="'+id+'"[^>]*>'))[0];const data=tag.match(/data-series="([^"]+)"/)[1].split(',').map(Number);const limit=Number(tag.match(/data-ucl="([^"]+)"/)[1]);assert.equal(data.length,60);assert.deepEqual(data.flatMap((v,i)=>v>limit?[i+1]:[]),expected);}});
-test('lesson includes accessible interactive controls and quiz',()=>{assert.match(html,/id="ms-r"/);assert.match(html,/id="ms-lambda"/);assert.match(html,/aria-live="polite"/);assert.match(html,/upskill-quiz-result/);assert.equal((html.match(/class="quiz-question"/g)||[]).length,6);assert.match(html,/<details class="ms-impl"/);});
+test('lesson includes accessible interactive controls and quiz',()=>{assert.match(html,/id="ms-r"/);assert.match(html,/id="ms-lambda"/);assert.match(html,/aria-live="polite"/);assert.match(html,/upskill-quiz-result/);assert.equal((html.match(/class="quiz-question"/g)||[]).length,12);assert.match(html,/<details class="ms-impl"/);});
 
 
 const {JSDOM}=require('jsdom');
@@ -50,10 +50,12 @@ test('quiz dispatches score and live labs respond and reset',()=>{
  let score;d.addEventListener('upskill-quiz-result',e=>score=e.detail.score);
  d.getElementById('quiz-submit').click();assert.equal(score,0);
  for(const q of d.querySelectorAll('.quiz-question'))q.querySelector('input[value="'+q.dataset.answer+'"]').checked=true;
- d.getElementById('quiz-submit').click();assert.equal(score,6);
+ d.getElementById('quiz-submit').click();assert.equal(score,12);
  const r=d.getElementById('ms-r'),live=d.getElementById('ms-live');r.value='0';r.dispatchEvent(new w.Event('input'));assert.match(live.textContent,/4\.50/);d.getElementById('ms-reset').click();assert.match(live.textContent,/22\.50/);
  const l=d.getElementById('ms-lambda');l.value='1';l.dispatchEvent(new w.Event('input'));assert.match(d.getElementById('ms-memory-live').textContent,/100%/);d.getElementById('ms-memory-reset').click();assert.equal(Number(l.value),.2);
  w.close();
 });
 
 test('additional visual labs render and respond to controls',()=>{const dom=new JSDOM(html,{runScripts:'outside-only',url:'https://upskillsprint.com/lessons/statistics/'+slug});const w=dom.window,d=w.document;for(const sc of d.querySelectorAll('script:not([src])'))if(!sc.type)w.eval(sc.textContent);assert.equal(d.querySelectorAll('.ms-visual-grid .ms-data-dot').length,40);assert.equal(d.querySelectorAll('.ms-matrix-diag').length,2);const s=d.getElementById('ms-gv-sd');s.value='20';s.dispatchEvent(new w.Event('input'));assert.match(d.getElementById('ms-gv-live').textContent,/57600\.00/);d.getElementById('ms-gv-reset').click();assert.match(d.getElementById('ms-gv-live').textContent,/3600\.00/);const goal=d.getElementById('ms-goal');goal.value='drift';goal.dispatchEvent(new w.Event('change'));assert.equal(d.getElementById('ms-choice-name').textContent,'MEWMA');assert.equal(d.querySelectorAll('.ms-menu-items a').length,4);w.close();});
+
+test('student audit: calculation exercises, real MEWMA statistic lab and assignment',()=>{const dom=new JSDOM(html,{runScripts:'outside-only',url:'https://upskillsprint.com/lessons/statistics/'+slug});const w=dom.window,d=w.document;for(const sc of d.querySelectorAll('script:not([src])'))if(!sc.type)w.eval(sc.textContent);assert.equal(d.querySelectorAll('.quiz-question').length,12);assert.ok(d.getElementById('why-mspc'));assert.ok(d.getElementById('student-assignment'));const s=d.getElementById('audit-shift'),l=d.getElementById('audit-weight');s.value='0';s.dispatchEvent(new w.Event('input'));assert.match(d.getElementById('audit-mewma-live').textContent,/MEWMA = 0\.000/);s.value='2';l.value='1';l.dispatchEvent(new w.Event('input'));assert.match(d.getElementById('audit-mewma-live').textContent,/T² = 4\.000; MEWMA = 4\.000/);d.getElementById('audit-mewma-reset').click();assert.equal(Number(l.value),.2);w.close();});
