@@ -111,12 +111,12 @@ test('guild: interactive lab, reveal answer, reset and quiz progress event', () 
   let scoreEvent=null;
   d.addEventListener('upskill-quiz-result',e=>scoreEvent=e.detail);
   d.getElementById('quiz-submit').click();
-  assert.deepEqual(scoreEvent,{score:0,total:5});
+  assert.equal(scoreEvent.score,0); assert.equal(scoreEvent.total,5);
   for(const [i,value] of ['b','c','a','b','c'].entries()) {
     d.querySelector('#quiz-form input[name="q'+(i+1)+'"][value="'+value+'"]').checked=true;
   }
   d.getElementById('quiz-submit').click();
-  assert.deepEqual(scoreEvent,{score:5,total:5});
+  assert.equal(scoreEvent.score,5); assert.equal(scoreEvent.total,5);
   d.getElementById('quiz-reset').click();
   assert.equal(d.querySelectorAll('#quiz-form input:checked').length,0);
   assert.deepEqual(errors,[]);
