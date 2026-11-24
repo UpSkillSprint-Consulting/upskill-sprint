@@ -3,664 +3,8 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 62,
   "contentLessonCount": 61,
-  "sectionCount": 3162,
+  "sectionCount": 3169,
   "lessons": [
-    {
-      "id": "quality-engineering--cusum-vs-ewma-control-charts",
-      "path": "/lessons/quality-engineering/cusum-vs-ewma-control-charts",
-      "title": "CUSUM vs. EWMA: Detect the Hidden Shift",
-      "description": "Discover hidden process shifts with real Minitab outputs, a live simulator, and four hands-on quality engineering case studies.",
-      "topic": "quality-engineering",
-      "level": "intermediate",
-      "minutes": 35,
-      "interactive": true,
-      "keywords": [
-        "CUSUM",
-        "EWMA",
-        "Minitab",
-        "control charts",
-        "statistical process control",
-        "SPC",
-        "small shift",
-        "quality engineering",
-        "CUSUM EWMA Minitab statistical process control SPC time weighted control chart small process shifts calculations manufacturing"
-      ],
-      "placeholder": false,
-      "contentAvailable": true,
-      "sections": [
-        {
-          "id": "lesson-section-cusum-vs-ewma-control-charts-complete-guide-and-minitab-practice",
-          "heading": "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice"
-          ],
-          "text": "The pipe looks fine. Every reading seems ordinary. But a tiny change has been building for 30 samples. Can your control chart spot it before the process drifts too far? Intermediate 35 minutes Interactive lesson Minitab + downloadable data Start exploring Try the live lab See actual Minitab outputs The mission: Learn to spot small, persistent process changes, tell them apart from one-off spikes, and explain what a CUSUM or EWMA signal actually means. 01 / Your objectives",
-          "excerpt": "The pipe looks fine. Every reading seems ordinary. But a tiny change has been building for 30 samples. Can your control chart spot it before the process drifts too far? Intermediate 35 minutes Interactive lesson Minitab + downloadable data Start exploring Try…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-what-you-will-be-able-to-do",
-          "heading": "What you will be able to do",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "What you will be able to do"
-          ],
-          "text": "",
-          "excerpt": "What you will be able to do",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-understand-and-calculate",
-          "heading": "Understand and calculate",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "What you will be able to do",
-            "Understand and calculate"
-          ],
-          "text": "Explain how CUSUM and EWMA remember earlier observations. Calculate upper/lower CUSUM and EWMA statistics by hand. Describe how K, H, λ and L affect detection.",
-          "excerpt": "Explain how CUSUM and EWMA remember earlier observations. Calculate upper/lower CUSUM and EWMA statistics by hand. Describe how K, H, λ and L affect detection.",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-interpret-and-apply",
-          "heading": "Interpret and apply",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "What you will be able to do",
-            "Interpret and apply"
-          ],
-          "text": "Read Minitab output and identify its first signal. Distinguish a sustained shift from an isolated unusual reading. Select a chart and document a practical response to a signal. Prerequisites: Know what a process mean, standard deviation, and control limit are. Basic Minitab navigation helps, but each step is explained. Data and screenshots are from a synthetic teaching project, not production records. 02 / The big idea",
-          "excerpt": "Read Minitab output and identify its first signal. Distinguish a sustained shift from an isolated unusual reading. Select a chart and document a practical response to a signal. Prerequisites: Know what a process mean, standard deviation, and control limit…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-two-process-detectives-two-different-notebooks",
-          "heading": "Two process detectives, two different notebooks",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Two process detectives, two different notebooks"
-          ],
-          "text": "Imagine a temperature sensor repeatedly reports 0.3°C above its normal average. Each individual reading is harmless-looking. A traditional Individuals chart inspects each point. A time-weighted chart asks: “Is this becoming a pattern?” ∑",
-          "excerpt": "Imagine a temperature sensor repeatedly reports 0.3°C above its normal average. Each individual reading is harmless-looking. A traditional Individuals chart inspects each point. A time-weighted chart asks: “Is this becoming a pattern?” ∑",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-cusum-the-running-evidence-counter",
-          "heading": "CUSUM: the running evidence counter",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Two process detectives, two different notebooks",
-            "CUSUM: the running evidence counter"
-          ],
-          "text": "Every new reading adds or subtracts from a running score. A string of readings on the same side of target makes one score grow. When the evidence passes a decision limit, you investigate. Think: a detective keeping two separate tallies: “above target” and “below target.” λ",
-          "excerpt": "Every new reading adds or subtracts from a running score. A string of readings on the same side of target makes one score grow. When the evidence passes a decision limit, you investigate. Think: a detective keeping two separate tallies: “above target” and…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-ewma-the-intelligent-smoothing-filter",
-          "heading": "EWMA: the intelligent smoothing filter",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Two process detectives, two different notebooks",
-            "EWMA: the intelligent smoothing filter"
-          ],
-          "text": "The latest reading gets some weight; the previous smoothed result gets the rest. Random zigzags look quieter, while a lasting change gradually pulls the smoothed line away from target. Think: a temperature display that remembers its history but favors recent readings. Neither is a pass/fail specification chart. Control limits ask whether the process behaves consistently with its historical statistical model. Engineering specifications ask whether the product meets requirements. They are not interchangeable.",
-          "excerpt": "The latest reading gets some weight; the previous smoothed result gets the rest. Random zigzags look quieter, while a lasting change gradually pulls the smoothed line away from target. Think: a temperature display that remembers its history but favors recent…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-which-chart-answers-which-question",
-          "heading": "Which chart answers which question?",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Two process detectives, two different notebooks",
-            "Which chart answers which question?"
-          ],
-          "text": "Question CUSUM EWMA How does it remember? Accumulates qualifying deviations; each one-sided tally is floored at zero. Uses exponentially declining weights on older measurements. What is plotted? Two separate statistics: upward and downward evidence. One weighted process average. What tunes sensitivity? Reference allowance K and decision interval H. Weight λ and control-limit multiplier L. One isolated spike? May not signal if its accumulated score does not reach H. Can be diluted by smoothing, depending on λ. Typical use Small persistent bias in product thickness or fill weight. Subtle drift in temperatures, measurements or processes. Is one always faster? No. Detection performance depends on the shift, variation, false-alarm design and tuning. Compare under the same conditions.",
-          "excerpt": "Question CUSUM EWMA How does it remember? Accumulates qualifying deviations; each one-sided tally is floored at zero. Uses exponentially declining weights on older measurements. What is plotted? Two separate statistics: upward and downward evidence. One…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-essential-vocabulary",
-          "heading": "Essential vocabulary",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Two process detectives, two different notebooks",
-            "Essential vocabulary"
-          ],
-          "text": "Term Plain meaning How to use it Target, μ₀ The in-control reference average Established from validated process history or engineering target. Historical σ Normal short-term process spread Use trustworthy, stable historical data; not the suspected shifted period. K / k CUSUM allowance: ignore tiny random wiggles K is in measurement units; k = K/σ for individuals. H / h CUSUM alarm threshold H in measurement units; h = H/σ for individuals. λ (lambda) How much the newest point matters Smaller means more smoothing; larger means more immediate reaction. ARL Average run length, expected number of samples until a signal Distinguish in-control false-alarm ARL from out-of-control detection ARL. 03 / The mathematics, made approachable",
-          "excerpt": "Term Plain meaning How to use it Target, μ₀ The in-control reference average Established from validated process history or engineering target. Historical σ Normal short-term process spread Use trustworthy, stable historical data; not the suspected shifted…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-the-formulas-are-simply-a-way-of-remembering",
-          "heading": "The formulas are simply a way of remembering",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "The formulas are simply a way of remembering"
-          ],
-          "text": "",
-          "excerpt": "The formulas are simply a way of remembering",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-cusum-an-upward-notebook-and-a-downward-notebook",
-          "heading": "CUSUM: an upward notebook and a downward notebook",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "The formulas are simply a way of remembering",
-            "CUSUM: an upward notebook and a downward notebook"
-          ],
-          "text": "Upper CUSUM: accumulate increases C i + = max ( 0 , C i − 1 + + x i − μ 0 − K ) Signals upward evidence when C⁺ > H. Lower CUSUM: accumulate decreases C i − = max ( 0 , C i − 1 − + μ 0 − x i − K ) We calculate a positive magnitude C⁻ but plot it below zero as −C⁻. K = kσ; H = hσ; common teaching settings: k = 0.5, h = 4 For individuals, choosing k = δ/2 designs for a shift of δσ. Using k = 0.5 targets a shift of approximately one standard deviation. Starting values C⁺₀ = C⁻₀ = 0; no fast initial response (FIR). Why the blue line hugs zero: If measurements tend to be above the target, the upward score accumulates. The downward score keeps getting clipped to zero. On Minitab's chart it is drawn as a negative line near the horizontal axis.",
-          "excerpt": "Upper CUSUM: accumulate increases C i + = max ( 0 , C i − 1 + + x i − μ 0 − K ) Signals upward evidence when C⁺ > H. Lower CUSUM: accumulate decreases C i − = max ( 0 , C i − 1 − + μ 0 − x i − K ) We calculate a positive magnitude C⁻ but plot it below zero as…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-ewma-a-moving-average-with-a-memory",
-          "heading": "EWMA: a moving average with a memory",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "The formulas are simply a way of remembering",
-            "EWMA: a moving average with a memory"
-          ],
-          "text": "Z i = λ x i + ( 1 − λ ) Z i − 1 Z₀ = μ₀ in this lesson. For λ = 0.20: today's point supplies 20%; the previous smoothed value supplies 80%.",
-          "excerpt": "Z i = λ x i + ( 1 − λ ) Z i − 1 Z₀ = μ₀ in this lesson. For λ = 0.20: today's point supplies 20%; the previous smoothed value supplies 80%.",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-ewma-control-limits",
-          "heading": "EWMA control limits",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "The formulas are simply a way of remembering",
-            "EWMA control limits"
-          ],
-          "text": "Time-varying upper and lower limits for individual observations μ 0 ± L σ λ 2 − λ [ 1 − ( 1 − λ ) 2 i ] Use + for UCL and − for LCL. For long-run limits, the bracketed term approaches 1. L = 3 is a common starting multiplier. For equal-sized subgroups, replace σ by σ/√n. Assumptions matter: These calculations presume continuous measurements, an appropriate stable historical mean and σ, meaningful sampling order, and no problematic within-series autocorrelation. Monitoring changes in process variation needs an additional chart or analysis. 04 / Work it out",
-          "excerpt": "Time-varying upper and lower limits for individual observations μ 0 ± L σ λ 2 − λ [ 1 − ( 1 − λ ) 2 i ] Use + for UCL and − for LCL. For long-run limits, the bracketed term approaches 1. L = 3 is a common starting multiplier. For equal-sized subgroups,…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-one-small-thickness-shift-two-very-different-stories",
-          "heading": "One small thickness shift. Two very different stories.",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "One small thickness shift. Two very different stories."
-          ],
-          "text": "Your pipe wall thickness target is 6.40 mm and historically σ = 0.04 mm . Six consecutive pipes measure 6.45 mm . None is wildly different on its own. Does the sequence matter? 6.40 Target, mm 0.04 Historical σ, mm 6.45 Each new reading, mm",
-          "excerpt": "Your pipe wall thickness target is 6.40 mm and historically σ = 0.04 mm . Six consecutive pipes measure 6.45 mm . None is wildly different on its own. Does the sequence matter? 6.40 Target, mm 0.04 Historical σ, mm 6.45 Each new reading, mm",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-part-a-cusum-tallies-the-evidence",
-          "heading": "Part A — CUSUM tallies the evidence",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "One small thickness shift. Two very different stories.",
-            "Part A — CUSUM tallies the evidence"
-          ],
-          "text": "Set K = 0.5 × 0.04 = 0.02 mm and H = 4 × 0.04 = 0.16 mm . Every 6.45 mm reading adds 6.45 − 6.40 − 0.02 = 0.03 mm to the upper tally. C⁺₁ = max(0, 0 + 6.45 − 6.40 − 0.02) = 0.03 mm Sample Reading Upper CUSUM Lower CUSUM plotted Result 1 6.45 0.03 0 Below H 2 6.45 0.06 0 Below H 3 6.45 0.09 0 Below H 4 6.45 0.12 0 Below H 5 6.45 0.15 0 Below H 6 6.45 0.18 0 Signal: 0.18 > 0.16",
-          "excerpt": "Set K = 0.5 × 0.04 = 0.02 mm and H = 4 × 0.04 = 0.16 mm . Every 6.45 mm reading adds 6.45 − 6.40 − 0.02 = 0.03 mm to the upper tally. C⁺₁ = max(0, 0 + 6.45 − 6.40 − 0.02) = 0.03 mm Sample Reading Upper CUSUM Lower CUSUM plotted Result 1 6.45 0.03 0 Below H 2…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-part-b-ewma-smoothly-follows-the-shift",
-          "heading": "Part B — EWMA smoothly follows the shift",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "One small thickness shift. Two very different stories.",
-            "Part B — EWMA smoothly follows the shift"
-          ],
-          "text": "Start at Z₀ = 6.40 mm. With λ = 0.20, each new point contributes 20% of its value: Z₁ = 0.20 × 6.45 + 0.80 × 6.40 = 6.4100 mm Z₂ = 0.20 × 6.45 + 0.80 × 6.4100 = 6.4180 mm Sample EWMA Zᵢ (mm) Time-varying UCL (mm) Signal? 1 6.4100 6.4240 No 2 6.4180 6.4307 No 3 6.4244 6.4344 No 4 6.4295 6.4365 No 5 6.4336 6.4378 No 6 6.4369 6.4386 No 7 6.4395 6.4391 Yes Takeaway: with this particular repeated-reading example and these settings, CUSUM signals at sample 6, EWMA at sample 7. That is not a general claim that CUSUM is always faster.",
-          "excerpt": "Start at Z₀ = 6.40 mm. With λ = 0.20, each new point contributes 20% of its value: Z₁ = 0.20 × 6.45 + 0.80 × 6.40 = 6.4100 mm Z₂ = 0.20 × 6.45 + 0.80 × 6.4100 = 6.4180 mm Sample EWMA Zᵢ (mm) Time-varying UCL (mm) Signal? 1 6.4100 6.4240 No 2 6.4180 6.4307 No…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-a-question-that-trips-up-even-experienced-analysts",
-          "heading": "A question that trips up even experienced analysts",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "One small thickness shift. Two very different stories.",
-            "A question that trips up even experienced analysts"
-          ],
-          "text": "If thickness returns to exactly 6.40 mm, why does an elevated CUSUM fall instead of going horizontal? Because the allowance K is still subtracted on every new reading . When xᵢ = μ₀, the upper tally becomes max(0, previous C⁺ − K). With K = 0.02 mm, a CUSUM of 0.18 goes to 0.16, then 0.14, and so on. EWMA also declines toward 6.40, but by exponential smoothing. Neither statistic automatically resets just because it crossed its control limit. 05 / Interactive process lab",
-          "excerpt": "If thickness returns to exactly 6.40 mm, why does an elevated CUSUM fall instead of going horizontal? Because the allowance K is still subtracted on every new reading . When xᵢ = μ₀, the upper tally becomes max(0, previous C⁺ − K). With K = 0.02 mm, a CUSUM…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-change-the-process-watch-both-detectives-react",
-          "heading": "Change the process. Watch both detectives react.",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Change the process. Watch both detectives react."
-          ],
-          "text": "You control the readings and chart settings. The graphs, signal positions and calculation table update locally in your browser. Try changing only λ or H, then ask how your detection timing changes.",
-          "excerpt": "You control the readings and chart settings. The graphs, signal positions and calculation table update locally in your browser. Try changing only λ or H, then ask how your detection timing changes.",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-build-your-own-monitoring-experiment",
-          "heading": "Build your own monitoring experiment",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Change the process. Watch both detectives react.",
-            "Build your own monitoring experiment"
-          ],
-          "text": "Target μ₀ Measurement units Historical σ Must be > 0 CUSUM k K = k × σ CUSUM h H = h × σ EWMA λ = 0.20 EWMA L fixed at 3 Ordered measurements (commas, spaces or new lines) Enter 3–80 finite numerical readings. Keep the chronological order. The model uses time-dependent EWMA limits, starting Z₀ = μ₀ and initial CUSUM scores of zero. — First CUSUM signal — First EWMA signal — Observations",
-          "excerpt": "Target μ₀ Measurement units Historical σ Must be > 0 CUSUM k K = k × σ CUSUM h H = h × σ EWMA λ = 0.20 EWMA L fixed at 3 Ordered measurements (commas, spaces or new lines) Enter 3–80 finite numerical readings. Keep the chronological order. The model uses…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-cusum-evidence",
-          "heading": "CUSUM evidence",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Change the process. Watch both detectives react.",
-            "Build your own monitoring experiment",
-            "CUSUM evidence"
-          ],
-          "text": "Upper CUSUM Lower CUSUM Decision limits",
-          "excerpt": "Upper CUSUM Lower CUSUM Decision limits",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-ewma-smoothed-average",
-          "heading": "EWMA smoothed average",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Change the process. Watch both detectives react.",
-            "Build your own monitoring experiment",
-            "EWMA smoothed average"
-          ],
-          "text": "EWMA statistic Control limits Show the first 12 calculation rows i xᵢ C⁺ −C⁻ EWMA Zᵢ EWMA UCL The simulator is a teaching calculator. It applies individual-observation tabular CUSUM and time-varying 3σ EWMA limits. It does not implement Minitab's entire option set, estimated historical parameters, or production alarm governance. 06 / Interpretation rules",
-          "excerpt": "EWMA statistic Control limits Show the first 12 calculation rows i xᵢ C⁺ −C⁻ EWMA Zᵢ EWMA UCL The simulator is a teaching calculator. It applies individual-observation tabular CUSUM and time-varying 3σ EWMA limits. It does not implement Minitab's entire…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-when-you-see-this-it-means-this",
-          "heading": "When you see this, it means this",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "When you see this, it means this"
-          ],
-          "text": "What the plot shows What it suggests What you should do Upper CUSUM rises beyond +H Evidence of persistent observations above target. Investigate a possible upward mean shift and time of onset. Lower CUSUM falls below −H Evidence of persistent observations below target. Investigate downward bias or loss of process output. Opposite CUSUM stays on zero Not enough evidence has accumulated in that direction. Do not confuse a zero evidence score with an actual process reading of zero. EWMA crosses an upper/lower limit The weighted average is inconsistent with the in-control model. Verify data and investigate a shift; check phase and historical settings. Isolated large raw point, no CUSUM signal A single spike may be caught by Individuals chart but not by a small-shift design. Use complementary monitoring for spikes and shifts. CUSUM stays above H after a signal Evidence is still accumulated, possibly even after some recovery. Do not expect Minitab to reset the score automatically at H. 07 / Minitab walkthrough",
-          "excerpt": "What the plot shows What it suggests What you should do Upper CUSUM rises beyond +H Evidence of persistent observations above target. Investigate a possible upward mean shift and time of onset. Lower CUSUM falls below −H Evidence of persistent observations…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-recreate-the-analysis-in-minitab",
-          "heading": "Recreate the analysis in Minitab",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Recreate the analysis in Minitab"
-          ],
-          "text": "Use the same historical parameters for a fair comparison. Your supplied Minitab project preserves seven analysis commands, allowing you to inspect the settings alongside the plots. Practice CSV Excel calculation workbook Original Minitab project",
-          "excerpt": "Use the same historical parameters for a fair comparison. Your supplied Minitab project preserves seven analysis commands, allowing you to inspect the settings alongside the plots. Practice CSV Excel calculation workbook Original Minitab project",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-prepare-the-worksheet",
-          "heading": "Prepare the worksheet",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Recreate the analysis in Minitab",
-            "Prepare the worksheet"
-          ],
-          "text": "Import the CSV through File → Open Worksheet . Keep Sample_No as chronological order; the remaining columns hold individual observations. Confirm measurements are numerical, no row order was scrambled, and each observation represents subgroup size 1. Decide on the established historical target and σ rather than estimating limits from a knowingly shifted period.",
-          "excerpt": "Import the CSV through File → Open Worksheet . Keep Sample_No as chronological order; the remaining columns hold individual observations. Confirm measurements are numerical, no row order was scrambled, and each observation represents subgroup size 1. Decide…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-create-cusum",
-          "heading": "Create CUSUM",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Recreate the analysis in Minitab",
-            "Create CUSUM"
-          ],
-          "text": "Go to Stat → Control Charts → Time-Weighted Charts → CUSUM . Select the process column, e.g., Pipe_Wall_mm ; set subgroup size to 1 . Enter target 6.40 and historical σ 0.04 in the relevant options. Choose tabular CUSUM with h = 4 and k = 0.5 ; leave FIR off for this lesson. Inspect both the positive and negative CUSUM lines and the Minitab test-results section.",
-          "excerpt": "Go to Stat → Control Charts → Time-Weighted Charts → CUSUM . Select the process column, e.g., Pipe_Wall_mm ; set subgroup size to 1 . Enter target 6.40 and historical σ 0.04 in the relevant options. Choose tabular CUSUM with h = 4 and k = 0.5 ; leave FIR off…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-create-ewma",
-          "heading": "Create EWMA",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Recreate the analysis in Minitab",
-            "Create EWMA"
-          ],
-          "text": "Go to Stat → Control Charts → Time-Weighted Charts → EWMA . Select the same column and subgroup size 1 . Enter historical mean 6.40 , historical σ 0.04 and weight 0.20 . Use the default 3σ control limits, with other settings unchanged. Inspect the first limit crossing and compare it with the CUSUM result.",
-          "excerpt": "Go to Stat → Control Charts → Time-Weighted Charts → EWMA . Select the same column and subgroup size 1 . Enter historical mean 6.40 , historical σ 0.04 and weight 0.20 . Use the default 3σ control limits, with other settings unchanged. Inspect the first limit…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-use-these-settings-for-all-four-case-studies",
-          "heading": "Use these settings for all four case studies",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Recreate the analysis in Minitab",
-            "Use these settings for all four case studies"
-          ],
-          "text": "Column Target μ₀ Historical σ CUSUM EWMA Pipe_Wall_mm 6.40 0.04 h = 4, k = .5 λ = .20, L = 3 Reactor_Temp_C 210 1.50 h = 4, k = .5 λ = .20, L = 3 Fill_Weight_g 500 2.00 h = 4, k = .5 λ = .20, L = 3 Ore_Grade_pct 1.25 0.035 h = 4, k = .5 λ = .20, L = 3 Software note: The supplied .mpx contains seven saved graphs: both charts for pipe wall, reactor temperature and filling weight, plus only the ore-grade CUSUM. The ore-grade EWMA displayed below is an independently calculated companion illustration, not an original saved Minitab screenshot. The other non-screenshot charts are faithful calculation-based reconstructions from the supplied worksheet and chart commands. 08 / Four real Minitab practice cases",
-          "excerpt": "Column Target μ₀ Historical σ CUSUM EWMA Pipe_Wall_mm 6.40 0.04 h = 4, k = .5 λ = .20, L = 3 Reactor_Temp_C 210 1.50 h = 4, k = .5 λ = .20, L = 3 Fill_Weight_g 500 2.00 h = 4, k = .5 λ = .20, L = 3 Ore_Grade_pct 1.25 0.035 h = 4, k = .5 λ = .20, L = 3…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-read-the-actual-project-outputs-not-just-textbook-drawings",
-          "heading": "Read the actual project outputs, not just textbook drawings",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Read the actual project outputs, not just textbook drawings"
-          ],
-          "text": "The two CUSUM screenshots below came directly from the Minitab images supplied with this lesson. The other plots were reconstructed from the same 100-row dataset using the saved historical parameters and stated formulas. Compare the pattern, the control limits, and the first signal—not just how dramatic the line looks. Case A / sustained upward shift",
-          "excerpt": "The two CUSUM screenshots below came directly from the Minitab images supplied with this lesson. The other plots were reconstructed from the same 100-row dataset using the saved historical parameters and stated formulas. Compare the pattern, the control…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-pipe-wall-thickness-the-warning-you-can-almost-miss",
-          "heading": "Pipe wall thickness: the warning you can almost miss",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Read the actual project outputs, not just textbook drawings",
-            "Pipe wall thickness: the warning you can almost miss"
-          ],
-          "text": "CUSUM sample 33 · EWMA sample 33 Target 6.40 mm, σ = 0.04 mm, H = 0.16 mm. The process begins near target, then higher thickness readings become more persistent. CUSUM eventually builds evidence above +H. Original Minitab screenshot · Pipe_Wall_mm CUSUM Read it: the red upper sum crosses UCL = +0.16 at sample 33. The blue lower sum, which tracks opposite-direction evidence , remains near zero. It does not represent zero pipe thickness. The red statistic is not reset at the first signal. EWMA reconstruction · Pipe_Wall_mm With λ = .20 and the same historical target and σ, the calculated EWMA also first crosses its upper limit at sample 33. Later intervals below the EWMA limit do not erase the earlier signal. What would you investigate? Check gauge calibration, material/coil changes, forming and sizing settings, tool wear, and whether the change aligns with maintenance or changeover records. The chart tells you when and in which direction the evidence appeared—not the physical root cause. Case B / gradual upward drift",
-          "excerpt": "CUSUM sample 33 · EWMA sample 33 Target 6.40 mm, σ = 0.04 mm, H = 0.16 mm. The process begins near target, then higher thickness readings become more persistent. CUSUM eventually builds evidence above +H. Original Minitab screenshot · Pipe_Wall_mm CUSUM Read…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-reactor-temperature-the-slow-creep",
-          "heading": "Reactor temperature: the slow creep",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Read the actual project outputs, not just textbook drawings",
-            "Reactor temperature: the slow creep"
-          ],
-          "text": "CUSUM sample 63 · EWMA sample 69 Target 210°C, σ = 1.5°C. The readings increasingly favor higher temperatures. Individual values never exceed the historical mean ±3σ (205.5–214.5°C) in this dataset, yet the time-weighted charts detect a sustained change. CUSUM reconstruction · Reactor_Temp_C H = 4 × 1.50 = 6.00°C. First upward signal: sample 63. EWMA reconstruction · Reactor_Temp_C First calculated upper signal: sample 69. EWMA emphasizes the sustained high average. Practical response: Examine sensor calibration, controller bias, heat-transfer changes, cooling effectiveness, and operating conditions around samples 55–70. Do not assume that the first signal is the exact moment the physical change began. Case C / sustained downward shift",
-          "excerpt": "CUSUM sample 63 · EWMA sample 69 Target 210°C, σ = 1.5°C. The readings increasingly favor higher temperatures. Individual values never exceed the historical mean ±3σ (205.5–214.5°C) in this dataset, yet the time-weighted charts detect a sustained change.…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-filling-weight-the-process-is-giving-away-too-little",
-          "heading": "Filling weight: the process is giving away too little",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Read the actual project outputs, not just textbook drawings",
-            "Filling weight: the process is giving away too little"
-          ],
-          "text": "CUSUM sample 37 · EWMA sample 38 Target 500 g, σ = 2 g. The persistent movement is downward, so the lower CUSUM becomes the one to watch. In its negative plotting convention, it crosses −H = −8 g. CUSUM reconstruction · Fill_Weight_g First lower-direction signal: sample 37; the negative cumulative statistic continues downward. EWMA reconstruction · Fill_Weight_g First lower-direction signal: sample 38; subsequent oscillations do not undo the initial finding. Practical response: Review filler-valve timing, scale calibration, product density, fill-head behavior, and batch transitions. If the product has a minimum legally required net content, product-conformance review is separate from SPC detection. Case D / isolated special observation",
-          "excerpt": "CUSUM sample 37 · EWMA sample 38 Target 500 g, σ = 2 g. The persistent movement is downward, so the lower CUSUM becomes the one to watch. In its negative plotting convention, it crosses −H = −8 g. CUSUM reconstruction · Fill_Weight_g First lower-direction…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-ore-grade-a-spectacular-spike-with-no-cusum-signal",
-          "heading": "Ore grade: a spectacular spike with no CUSUM signal",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Read the actual project outputs, not just textbook drawings",
-            "Ore grade: a spectacular spike with no CUSUM signal"
-          ],
-          "text": "CUSUM: no signal · EWMA: no signal Target 1.25% grade, σ = 0.035 percentage points. At sample 45 , ore grade reaches 1.398% . That's 4.23 historical standard deviations above target —well past a traditional Individuals-chart 3σ upper boundary of 1.355% . Original Minitab screenshot · Ore_Grade_pct CUSUM The upward statistic approaches +0.14 near samples 45 and 68; the largest computed value is 0.1386, below H = 0.14. The lower statistic also remains within −0.14. Near-limit behavior is not itself a beyond-limit signal. Calculated companion graphic · Ore_Grade_pct EWMA (not saved in source Minitab project) At λ = .20, the single extreme reading is smoothed. Under these settings, no EWMA control-limit crossing occurs in the 100 samples. Teaching moment: “No CUSUM signal” does not mean “nothing unusual happened.” The sample-45 raw grade would exceed a historical 3σ Individuals limit. Use a chart designed for spikes when missing one abnormal observation would matter.",
-          "excerpt": "CUSUM: no signal · EWMA: no signal Target 1.25% grade, σ = 0.035 percentage points. At sample 45 , ore grade reaches 1.398% . That's 4.23 historical standard deviations above target —well past a traditional Individuals-chart 3σ upper boundary of 1.355% .…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-results-side-by-side",
-          "heading": "Results side by side",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Read the actual project outputs, not just textbook drawings",
-            "Results side by side"
-          ],
-          "text": "Process Pattern First CUSUM signal First EWMA signal* Historical 3σ raw-point signals Pipe wall Upward shift 33 33 59 Reactor Gradual upward drift 63 69 None Filling Downward shift 37 38 38, 66 Ore grade Isolated spike None None 45 *First-signal positions are independently calculated from the supplied dataset using the stated starting values, k = .5, h = 4, λ = .20, L = 3, and time-varying EWMA limits. The raw-point comparison checks observations against fixed μ₀ ± 3σ, not an estimated I-MR chart with moving-range limits. Different Minitab options or chart rules can change signals. 09 / Pitfalls and exam traps",
-          "excerpt": "Process Pattern First CUSUM signal First EWMA signal* Historical 3σ raw-point signals Pipe wall Upward shift 33 33 59 Reactor Gradual upward drift 63 69 None Filling Downward shift 37 38 38, 66 Ore grade Isolated spike None None 45 *First-signal positions are…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-eight-mistakes-that-can-ruin-a-sound-analysis",
-          "heading": "Eight mistakes that can ruin a sound analysis",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Eight mistakes that can ruin a sound analysis"
-          ],
-          "text": "Type Mistake Better practice Calculation Forgetting K in the CUSUM update. Subtract K at every step; even readings at target reduce a positive CUSUM by K. Calculation Mixing h with H or k with K. For individual readings, H = hσ and K = kσ; check units. Interpretation Thinking the lower zero line means zero process values. It records insufficient accumulated downward evidence. Interpretation Expecting CUSUM to reset when it first passes H. An out-of-control signal does not automatically clear the historical score. Assumptions Estimating historical σ from shifted production. Use validated baseline data; mixing regimes masks change. Assumptions Ignoring autocorrelation or changing product mix. Investigate serial dependence; stratify or model heterogeneous data. Software Comparing different charts with different baselines or wrong subgroup sizes. Fix chronology, subgroup size, historical target, σ and settings before comparing. Exam trap Claiming CUSUM is always better than EWMA or replaces an Individuals chart. Design around desired shift detection, false-alarm performance and complementary spike monitoring. 10 / Challenge yourself",
-          "excerpt": "Type Mistake Better practice Calculation Forgetting K in the CUSUM update. Subtract K at every step; even readings at target reduce a positive CUSUM by K. Calculation Mixing h with H or k with K. For individual readings, H = hσ and K = kσ; check units.…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-can-you-diagnose-a-downward-shift-without-minitab",
-          "heading": "Can you diagnose a downward shift without Minitab?",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Can you diagnose a downward shift without Minitab?"
-          ],
-          "text": "A filling process has target 500 g and historical σ = 2 g. With k = 0.5 and h = 4, the first six readings are all 497 g . Calculate K, H, the first three downward CUSUM magnitudes, and the first sample that triggers the lower decision limit. Explain why the upper tally is zero.",
-          "excerpt": "A filling process has target 500 g and historical σ = 2 g. With k = 0.5 and h = 4, the first six readings are all 497 g . Calculate K, H, the first three downward CUSUM magnitudes, and the first sample that triggers the lower decision limit. Explain why the…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-worked-solution",
-          "heading": "Worked solution",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Can you diagnose a downward shift without Minitab?",
-            "Worked solution"
-          ],
-          "text": "Step 1: K = 0.5 × 2 = 1 g, and H = 4 × 2 = 8 g. Step 2: Each low reading adds 500 − 497 − 1 = 2 g to the downward CUSUM magnitude. Step 3: The lower magnitudes at samples 1–3 are 2, 4 and 6 g . At sample 4 it equals 8 g. At sample 5 it becomes 10 g , which is strictly beyond the decision limit; the plotted lower score is −10 g. Step 4: The upper tally remains at zero because 497 − 500 − 1 = −4 g and max(0, previous score − 4) cannot accumulate upward evidence starting from zero. Interpretation: Five modestly low fills provide sufficient sustained downward evidence; investigate a fill-system shift rather than blaming the most recent sample alone.",
-          "excerpt": "Step 1: K = 0.5 × 2 = 1 g, and H = 4 × 2 = 8 g. Step 2: Each low reading adds 500 − 497 − 1 = 2 g to the downward CUSUM magnitude. Step 3: The lower magnitudes at samples 1–3 are 2, 4 and 6 g . At sample 4 it equals 8 g. At sample 5 it becomes 10 g , which is…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-try-a-full-minitab-investigation",
-          "heading": "Try a full Minitab investigation",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Can you diagnose a downward shift without Minitab?",
-            "Try a full Minitab investigation"
-          ],
-          "text": "Open the 100-row CSV and create both charts for each process. Before seeing the results, record whether you expect an upward shift, downward shift, slow drift, or isolated spike. Compare first-signal positions with the results table; note the effect of changing λ from .20 to .10 and .40. For ore grade, create an I-MR chart and investigate sample 45. Write two sentences explaining why your I chart and CUSUM disagree. Write an action plan: baseline validation, suspected process causes, evidence needed, and a rule for returning to routine monitoring. 12 / The takeaway",
-          "excerpt": "Open the 100-row CSV and create both charts for each process. Before seeing the results, record whether you expect an upward shift, downward shift, slow drift, or isolated spike. Compare first-signal positions with the results table; note the effect of…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-one-process-two-ways-to-catch-a-hidden-change",
-          "heading": "One process. Two ways to catch a hidden change.",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "One process. Two ways to catch a hidden change."
-          ],
-          "text": "",
-          "excerpt": "One process. Two ways to catch a hidden change.",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-remember-these-seven-ideas",
-          "heading": "Remember these seven ideas",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "One process. Two ways to catch a hidden change.",
-            "Remember these seven ideas"
-          ],
-          "text": "CUSUM adds evidence; EWMA smooths evidence. CUSUM has distinct upper and lower directions. EWMA weighs the newest point by λ. Historical target and σ must be justified. Control limits are not product specification limits. An alarm does not diagnose the root cause. Use complementary charts for isolated spikes and persistent shifts. Your practical decision rule",
-          "excerpt": "CUSUM adds evidence; EWMA smooths evidence. CUSUM has distinct upper and lower directions. EWMA weighs the newest point by λ. Historical target and σ must be justified. Control limits are not product specification limits. An alarm does not diagnose the root…",
-          "kinds": [
-            "section",
-            "example",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-if-you-suspect-a-subtle-sustained-change",
-          "heading": "If you suspect a subtle sustained change",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "One process. Two ways to catch a hidden change.",
-            "If you suspect a subtle sustained change"
-          ],
-          "text": "Use CUSUM or EWMA after validating the baseline. Tune for the shift that matters and a tolerable false-alarm rate. If one extreme observation itself is critical, add a Shewhart Individuals chart. Remember this: “CUSUM keeps the score. EWMA keeps the memory. Neither knows the root cause.” Next lesson: Average Run Length (ARL), false alarms and choosing k, h, λ and L.",
-          "excerpt": "Use CUSUM or EWMA after validating the baseline. Tune for the shift that matters and a tolerable false-alarm rate. If one extreme observation itself is critical, add a Shewhart Individuals chart. Remember this: “CUSUM keeps the score. EWMA keeps the memory.…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-references-and-further-study",
-          "heading": "References and further study",
-          "breadcrumb": [
-            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
-            "One process. Two ways to catch a hidden change.",
-            "References and further study"
-          ],
-          "text": "Minitab: CUSUM methods and formulas . Minitab: EWMA methods and formulas . Minitab: Interpret CUSUM results . NIST/SEMATECH: CUSUM control charts . NIST/SEMATECH: EWMA control charts . Provenance: The screenshot pair comes from the user's supplied Minitab images. Seven model commands and the raw data were read from the accompanying Minitab .mpx project and 100-row CSV. Calculated reconstructions and first-signal tables are explicitly identified as such. All datasets are synthetic and for teaching only.",
-          "excerpt": "Minitab: CUSUM methods and formulas . Minitab: EWMA methods and formulas . Minitab: Interpret CUSUM results . NIST/SEMATECH: CUSUM control charts . NIST/SEMATECH: EWMA control charts . Provenance: The screenshot pair comes from the user's supplied Minitab…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        }
-      ]
-    },
     {
       "id": "root-cause-analysis-5-whys-fishbone",
       "path": "/lessons/root-cause-analysis-5-whys-fishbone",
@@ -40508,6 +39852,768 @@
           "excerpt": "Expression Operation order Plain-English meaning \\(y_{i\\cdot}\\) Sum Add all observations in row i \\(y_{i\\cdot}^{2}\\) Sum, then square Square the row total \\(\\displaystyle \\sum_j y_{ij}^{2}\\) Square, then sum Square each observation in row i and add them…",
           "kinds": [
             "section"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quality-engineering--cusum-vs-ewma-control-charts",
+      "path": "/lessons/quality-engineering/cusum-vs-ewma-control-charts",
+      "title": "CUSUM vs. EWMA: Detect the Hidden Shift",
+      "description": "Learn time-weighted control charts with real Minitab project outputs, a live simulator and four manufacturing case studies.",
+      "topic": "quality-engineering",
+      "level": "intermediate",
+      "minutes": 35,
+      "interactive": true,
+      "keywords": [
+        "CUSUM",
+        "EWMA",
+        "Minitab",
+        "control charts",
+        "statistical process control",
+        "SPC",
+        "small shift",
+        "quality engineering",
+        "cusum ewma minitab statistical process control small shifts chart detection reference decision interval lambda manufacturing tutorials"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "lesson-section-cusum-vs-ewma-control-charts-complete-guide-and-minitab-practice",
+          "heading": "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice"
+          ],
+          "text": "The pipe looks fine. Every reading seems ordinary. But a tiny change has been building for 30 samples. Can your control chart spot it before the process drifts too far? CUSUM COUNT THE EVIDENCE A small bias becomes a big tally. EWMA SMOOTH THE STORY Recent readings carry more weight. Intermediate 35 minutes Interactive lesson Minitab + downloadable data Start exploring Try the live lab See actual Minitab outputs The mission: Learn to spot small, persistent process changes, tell them apart from one-off spikes, and explain what a CUSUM or EWMA signal actually means. 01 / Your objectives",
+          "excerpt": "The pipe looks fine. Every reading seems ordinary. But a tiny change has been building for 30 samples. Can your control chart spot it before the process drifts too far? CUSUM COUNT THE EVIDENCE A small bias becomes a big tally. EWMA SMOOTH THE STORY Recent…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-what-you-will-be-able-to-do",
+          "heading": "What you will be able to do",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "What you will be able to do"
+          ],
+          "text": "",
+          "excerpt": "",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-understand-and-calculate",
+          "heading": "Understand and calculate",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "What you will be able to do",
+            "Understand and calculate"
+          ],
+          "text": "Explain how CUSUM and EWMA remember earlier observations. Calculate upper/lower CUSUM and EWMA statistics by hand. Describe how K, H, λ and L affect detection.",
+          "excerpt": "Explain how CUSUM and EWMA remember earlier observations. Calculate upper/lower CUSUM and EWMA statistics by hand. Describe how K, H, λ and L affect detection.",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-interpret-and-apply",
+          "heading": "Interpret and apply",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "What you will be able to do",
+            "Interpret and apply"
+          ],
+          "text": "Read Minitab output and identify its first signal. Distinguish a sustained shift from an isolated unusual reading. Select a chart and document a practical response to a signal. Prerequisites: Know what a process mean, standard deviation, and control limit are. Basic Minitab navigation helps, but each step is explained. Data and screenshots are from a synthetic teaching project, not production records. 02 / The big idea",
+          "excerpt": "Read Minitab output and identify its first signal. Distinguish a sustained shift from an isolated unusual reading. Select a chart and document a practical response to a signal. Prerequisites: Know what a process mean, standard deviation, and control limit…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-two-process-detectives-two-different-notebooks",
+          "heading": "Two process detectives, two different notebooks",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Two process detectives, two different notebooks"
+          ],
+          "text": "Imagine a temperature sensor repeatedly reports 0.3°C above its normal average. Each individual reading is harmless-looking. A traditional Individuals chart inspects each point. A time-weighted chart asks: “Is this becoming a pattern?” ∑",
+          "excerpt": "Imagine a temperature sensor repeatedly reports 0.3°C above its normal average. Each individual reading is harmless-looking. A traditional Individuals chart inspects each point. A time-weighted chart asks: “Is this becoming a pattern?” ∑",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-cusum-the-running-evidence-counter",
+          "heading": "CUSUM: the running evidence counter",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Two process detectives, two different notebooks",
+            "CUSUM: the running evidence counter"
+          ],
+          "text": "Every new reading adds or subtracts from a running score. A string of readings on the same side of target makes one score grow. When the evidence passes a decision limit, you investigate. Think: a detective keeping two separate tallies: “above target” and “below target.” λ",
+          "excerpt": "Every new reading adds or subtracts from a running score. A string of readings on the same side of target makes one score grow. When the evidence passes a decision limit, you investigate. Think: a detective keeping two separate tallies: “above target” and…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-ewma-the-intelligent-smoothing-filter",
+          "heading": "EWMA: the intelligent smoothing filter",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Two process detectives, two different notebooks",
+            "EWMA: the intelligent smoothing filter"
+          ],
+          "text": "The latest reading gets some weight; the previous smoothed result gets the rest. Random zigzags look quieter, while a lasting change gradually pulls the smoothed line away from target. Think: a temperature display that remembers its history but favors recent readings. Neither is a pass/fail specification chart. Control limits ask whether the process behaves consistently with its historical statistical model. Engineering specifications ask whether the product meets requirements. They are not interchangeable.",
+          "excerpt": "The latest reading gets some weight; the previous smoothed result gets the rest. Random zigzags look quieter, while a lasting change gradually pulls the smoothed line away from target. Think: a temperature display that remembers its history but favors recent…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-which-chart-answers-which-question",
+          "heading": "Which chart answers which question?",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Two process detectives, two different notebooks",
+            "Which chart answers which question?"
+          ],
+          "text": "Question CUSUM EWMA How does it remember? Accumulates qualifying deviations; each one-sided tally is floored at zero. Uses exponentially declining weights on older measurements. What is plotted? Two separate statistics: upward and downward evidence. One weighted process average. What tunes sensitivity? Reference allowance K and decision interval H. Weight λ and control-limit multiplier L. One isolated spike? May not signal if its accumulated score does not reach H. Can be diluted by smoothing, depending on λ. Typical use Small persistent bias in product thickness or fill weight. Subtle drift in temperatures, measurements or processes. Is one always faster? No. Detection performance depends on the shift, variation, false-alarm design and tuning. Compare under the same conditions.",
+          "excerpt": "Question CUSUM EWMA How does it remember? Accumulates qualifying deviations; each one-sided tally is floored at zero. Uses exponentially declining weights on older measurements. What is plotted? Two separate statistics: upward and downward evidence. One…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-how-to-monitor-a-real-process-a-seven-step-playbook",
+          "heading": "How to monitor a real process: a seven-step playbook",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Two process detectives, two different notebooks",
+            "How to monitor a real process: a seven-step playbook"
+          ],
+          "text": "Define the process question. Are you looking for a small lasting upward or downward shift, gradual drift, or one dramatic abnormal reading? CUSUM and EWMA are primarily mean-shift monitors; retain an Individuals chart if isolated spikes matter. Validate the measuring system and order. Keep observations chronological, preserve units and subgroup size, and check for missing readings, sensor changes, or mixed product grades. Establish a trusted baseline. Obtain μ₀ and σ from a stable, representative historical period. Confirm that the reference process did not already contain a shift. Check assumptions. Examine serial correlation, changing product mix, measurement drift and distributional behaviour. Strong autocorrelation can invalidate nominal alarm performance. Choose a monitoring design. For tabular CUSUM select k and h; for EWMA select λ and L. Compare expected signal delay and in-control false-alarm rate using ARL before production deployment. Calculate, plot and interpret. Apply the update formula in sample order, check the chart-specific limits, and distinguish a statistical signal from an engineering specification failure. Investigate and document. Verify readings, determine likely special causes, record corrective action, and define who authorizes a documented restart. Crossing H does not automatically reset the CUSUM. What the charts cannot tell you: Neither chart identifies the root cause, proves a product is out of specification, or directly monitors changing variance. A signal means “investigate,” not “automatically reject the product.”",
+          "excerpt": "Define the process question. Are you looking for a small lasting upward or downward shift, gradual drift, or one dramatic abnormal reading? CUSUM and EWMA are primarily mean-shift monitors; retain an Individuals chart if isolated spikes matter. Validate the…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-essential-vocabulary",
+          "heading": "Essential vocabulary",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Two process detectives, two different notebooks",
+            "Essential vocabulary"
+          ],
+          "text": "Term Plain meaning How to use it Target, μ₀ The in-control reference average Established from validated process history or engineering target. Historical σ Normal short-term process spread Use trustworthy, stable historical data; not the suspected shifted period. K / k CUSUM allowance: ignore tiny random wiggles K is in measurement units; k = K/σ for individuals. H / h CUSUM alarm threshold H in measurement units; h = H/σ for individuals. λ (lambda) How much the newest point matters Smaller means more smoothing; larger means more immediate reaction. ARL Average run length, expected number of samples until a signal Distinguish in-control false-alarm ARL from out-of-control detection ARL. 03 / The mathematics, made approachable",
+          "excerpt": "Term Plain meaning How to use it Target, μ₀ The in-control reference average Established from validated process history or engineering target. Historical σ Normal short-term process spread Use trustworthy, stable historical data; not the suspected shifted…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-the-formulas-are-simply-a-way-of-remembering",
+          "heading": "The formulas are simply a way of remembering",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "The formulas are simply a way of remembering"
+          ],
+          "text": "",
+          "excerpt": "",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-cusum-an-upward-notebook-and-a-downward-notebook",
+          "heading": "CUSUM: an upward notebook and a downward notebook",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "The formulas are simply a way of remembering",
+            "CUSUM: an upward notebook and a downward notebook"
+          ],
+          "text": "Upper CUSUM: accumulate increases \\[ C_i^{+}=\\max\\!\\left(0,\\ C_{i-1}^{+}+(x_i-\\mu_0)-K\\right) \\] Signals upward evidence when C⁺ > H. Lower CUSUM: accumulate decreases \\[ C_i^{-}=\\max\\!\\left(0,\\ C_{i-1}^{-}+(\\mu_0-x_i)-K\\right) \\] We calculate a positive magnitude C⁻ but plot it below zero as −C⁻. \\[K=k\\sigma,\\qquad H=h\\sigma,\\qquad k=0.5,\\qquad h=4\\] For individuals, choosing k = δ/2 designs for a shift of δσ. Using k = 0.5 targets a shift of approximately one standard deviation. Starting values C⁺₀ = C⁻₀ = 0; no fast initial response (FIR). Why the blue line hugs zero: If measurements tend to be above the target, the upward score accumulates. The downward score keeps getting clipped to zero. On Minitab's chart it is drawn as a negative line near the horizontal axis.",
+          "excerpt": "Upper CUSUM: accumulate increases \\[ C_i^{+}=\\max\\!\\left(0,\\ C_{i-1}^{+}+(x_i-\\mu_0)-K\\right) \\] Signals upward evidence when C⁺ > H. Lower CUSUM: accumulate decreases \\[ C_i^{-}=\\max\\!\\left(0,\\ C_{i-1}^{-}+(\\mu_0-x_i)-K\\right) \\] We calculate a positive…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-ewma-a-moving-average-with-a-memory",
+          "heading": "EWMA: a moving average with a memory",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "The formulas are simply a way of remembering",
+            "EWMA: a moving average with a memory"
+          ],
+          "text": "\\[ Z_i=\\lambda x_i+(1-\\lambda)Z_{i-1} \\] Z₀ = μ₀ in this lesson. For λ = 0.20: today's point supplies 20%; the previous smoothed value supplies 80%.",
+          "excerpt": "\\[ Z_i=\\lambda x_i+(1-\\lambda)Z_{i-1} \\] Z₀ = μ₀ in this lesson. For λ = 0.20: today's point supplies 20%; the previous smoothed value supplies 80%.",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-ewma-control-limits",
+          "heading": "EWMA control limits",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "The formulas are simply a way of remembering",
+            "EWMA control limits"
+          ],
+          "text": "Time-varying upper and lower limits for individual observations \\[ \\mathrm{UCL}_i,\\mathrm{LCL}_i=\\mu_0\\pm L\\sigma\\sqrt{\\frac{\\lambda}{2-\\lambda}\\left[1-(1-\\lambda)^{2i}\\right]} \\] Use + for UCL and − for LCL. For long-run limits, the bracketed term approaches 1. L = 3 is a common starting multiplier. For equal-sized subgroups, replace σ by σ/√n. Assumptions and limits of these formulas: These formulas apply to ordered, individual continuous measurements with a trustworthy, stable historical μ₀ and σ. The limits are derived under an independent-observation process model. Strong autocorrelation, a changing product mix, or a drifting measurement system can invalidate the stated false-alarm performance. For subgroup means of constant size n, use σ/√n; do not substitute individual-observation limits. Use a separate dispersion chart to monitor variance. These equations are not intended as standalone acceptance criteria or a root-cause diagnosis. 04 / Work it out",
+          "excerpt": "Time-varying upper and lower limits for individual observations \\[ \\mathrm{UCL}_i,\\mathrm{LCL}_i=\\mu_0\\pm L\\sigma\\sqrt{\\frac{\\lambda}{2-\\lambda}\\left[1-(1-\\lambda)^{2i}\\right]} \\] Use + for UCL and − for LCL. For long-run limits, the bracketed term approaches…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-one-small-thickness-shift-two-very-different-stories",
+          "heading": "One small thickness shift. Two very different stories.",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "One small thickness shift. Two very different stories."
+          ],
+          "text": "Your pipe wall thickness target is 6.40 mm and historically σ = 0.04 mm . Six consecutive pipes measure 6.45 mm . None is wildly different on its own. Does the sequence matter? 6.40 Target, mm 0.04 Historical σ, mm 6.45 Each new reading, mm",
+          "excerpt": "Your pipe wall thickness target is 6.40 mm and historically σ = 0.04 mm . Six consecutive pipes measure 6.45 mm . None is wildly different on its own. Does the sequence matter? 6.40 Target, mm 0.04 Historical σ, mm 6.45 Each new reading, mm",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-part-a-cusum-tallies-the-evidence",
+          "heading": "Part A — CUSUM tallies the evidence",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "One small thickness shift. Two very different stories.",
+            "Part A — CUSUM tallies the evidence"
+          ],
+          "text": "Set K = 0.5 × 0.04 = 0.02 mm and H = 4 × 0.04 = 0.16 mm . Every 6.45 mm reading adds 6.45 − 6.40 − 0.02 = 0.03 mm to the upper tally. \\[C_1^{+}=\\max(0,\\ 0+6.45-6.40-0.02)=0.03\\ \\mathrm{mm}\\] Sample Reading Upper CUSUM Lower CUSUM plotted Result 1 6.45 0.03 0 Below H 2 6.45 0.06 0 Below H 3 6.45 0.09 0 Below H 4 6.45 0.12 0 Below H 5 6.45 0.15 0 Below H 6 6.45 0.18 0 Signal: 0.18 > 0.16",
+          "excerpt": "Set K = 0.5 × 0.04 = 0.02 mm and H = 4 × 0.04 = 0.16 mm . Every 6.45 mm reading adds 6.45 − 6.40 − 0.02 = 0.03 mm to the upper tally. \\[C_1^{+}=\\max(0,\\ 0+6.45-6.40-0.02)=0.03\\ \\mathrm{mm}\\] Sample Reading Upper CUSUM Lower CUSUM plotted Result 1 6.45 0.03 0…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-part-b-ewma-smoothly-follows-the-shift",
+          "heading": "Part B — EWMA smoothly follows the shift",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "One small thickness shift. Two very different stories.",
+            "Part B — EWMA smoothly follows the shift"
+          ],
+          "text": "Start at Z₀ = 6.40 mm. With λ = 0.20, each new point contributes 20% of its value: \\[Z_1=0.20(6.45)+0.80(6.40)=6.4100\\ \\mathrm{mm}\\] \\[Z_2=0.20(6.45)+0.80(6.4100)=6.4180\\ \\mathrm{mm}\\] Sample EWMA Zᵢ (mm) Time-varying UCL (mm) Signal? 1 6.4100 6.4240 No 2 6.4180 6.4307 No 3 6.4244 6.4344 No 4 6.4295 6.4365 No 5 6.4336 6.4378 No 6 6.4369 6.4386 No 7 6.4395 6.4391 Yes Takeaway: with this particular repeated-reading example and these settings, CUSUM signals at sample 6, EWMA at sample 7. That is not a general claim that CUSUM is always faster.",
+          "excerpt": "Start at Z₀ = 6.40 mm. With λ = 0.20, each new point contributes 20% of its value: \\[Z_1=0.20(6.45)+0.80(6.40)=6.4100\\ \\mathrm{mm}\\] \\[Z_2=0.20(6.45)+0.80(6.4100)=6.4180\\ \\mathrm{mm}\\] Sample EWMA Zᵢ (mm) Time-varying UCL (mm) Signal? 1 6.4100 6.4240 No 2…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-a-question-that-trips-up-even-experienced-analysts",
+          "heading": "A question that trips up even experienced analysts",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "One small thickness shift. Two very different stories.",
+            "A question that trips up even experienced analysts"
+          ],
+          "text": "If thickness returns to exactly 6.40 mm, why does an elevated CUSUM fall instead of going horizontal? Because the allowance K is still subtracted on every new reading . When xᵢ = μ₀, the upper tally becomes max(0, previous C⁺ − K). With K = 0.02 mm, a CUSUM of 0.18 goes to 0.16, then 0.14, and so on. EWMA also declines toward 6.40, but by exponential smoothing. Neither statistic automatically resets just because it crossed its control limit. 05 / Interactive process lab",
+          "excerpt": "If thickness returns to exactly 6.40 mm, why does an elevated CUSUM fall instead of going horizontal? Because the allowance K is still subtracted on every new reading . When xᵢ = μ₀, the upper tally becomes max(0, previous C⁺ − K). With K = 0.02 mm, a CUSUM…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-change-the-process-watch-both-detectives-react",
+          "heading": "Change the process. Watch both detectives react.",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Change the process. Watch both detectives react."
+          ],
+          "text": "You control the readings and chart settings. The graphs, signal positions and calculation table update locally in your browser. Try changing only λ or H, then ask how your detection timing changes.",
+          "excerpt": "You control the readings and chart settings. The graphs, signal positions and calculation table update locally in your browser. Try changing only λ or H, then ask how your detection timing changes.",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-build-your-own-monitoring-experiment",
+          "heading": "Build your own monitoring experiment",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Change the process. Watch both detectives react.",
+            "Build your own monitoring experiment"
+          ],
+          "text": "Target μ₀ Measurement units Historical σ Must be > 0 CUSUM k K = k × σ CUSUM h H = h × σ EWMA λ = 0.20 EWMA L fixed at 3 Ordered measurements (commas, spaces or new lines) Enter 3–80 finite numerical readings. Keep the chronological order. The model uses time-dependent EWMA limits, starting Z₀ = μ₀ and initial CUSUM scores of zero. — First CUSUM signal — First EWMA signal — Observations",
+          "excerpt": "Target μ₀ Measurement units Historical σ Must be > 0 CUSUM k K = k × σ CUSUM h H = h × σ EWMA λ = 0.20 EWMA L fixed at 3 Ordered measurements (commas, spaces or new lines) Enter 3–80 finite numerical readings. Keep the chronological order. The model uses…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-cusum-evidence",
+          "heading": "CUSUM evidence",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Change the process. Watch both detectives react.",
+            "Build your own monitoring experiment",
+            "CUSUM evidence"
+          ],
+          "text": "Upper CUSUM Lower CUSUM Decision limits",
+          "excerpt": "Upper CUSUM Lower CUSUM Decision limits",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-ewma-smoothed-average",
+          "heading": "EWMA smoothed average",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Change the process. Watch both detectives react.",
+            "Build your own monitoring experiment",
+            "EWMA smoothed average"
+          ],
+          "text": "EWMA statistic Control limits Show the first 12 calculation rows i xᵢ C⁺ −C⁻ EWMA Zᵢ EWMA UCL The simulator is a teaching calculator. It applies individual-observation tabular CUSUM and time-varying 3σ EWMA limits. It does not implement Minitab's entire option set, estimated historical parameters, or production alarm governance. 06 / Interpretation rules",
+          "excerpt": "EWMA statistic Control limits Show the first 12 calculation rows i xᵢ C⁺ −C⁻ EWMA Zᵢ EWMA UCL The simulator is a teaching calculator. It applies individual-observation tabular CUSUM and time-varying 3σ EWMA limits. It does not implement Minitab's entire…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-when-you-see-this-it-means-this",
+          "heading": "When you see this, it means this",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "When you see this, it means this"
+          ],
+          "text": "What the plot shows What it suggests What you should do Upper CUSUM rises beyond +H Evidence of persistent observations above target. Investigate a possible upward mean shift and time of onset. Lower CUSUM falls below −H Evidence of persistent observations below target. Investigate downward bias or loss of process output. Opposite CUSUM stays on zero Not enough evidence has accumulated in that direction. Do not confuse a zero evidence score with an actual process reading of zero. EWMA crosses an upper/lower limit The weighted average is inconsistent with the in-control model. Verify data and investigate a shift; check phase and historical settings. Isolated large raw point, no CUSUM signal A single spike may be caught by Individuals chart but not by a small-shift design. Use complementary monitoring for spikes and shifts. CUSUM stays above H after a signal Evidence is still accumulated, possibly even after some recovery. Do not expect Minitab to reset the score automatically at H. 07 / Minitab walkthrough",
+          "excerpt": "What the plot shows What it suggests What you should do Upper CUSUM rises beyond +H Evidence of persistent observations above target. Investigate a possible upward mean shift and time of onset. Lower CUSUM falls below −H Evidence of persistent observations…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-recreate-the-analysis-in-minitab",
+          "heading": "Recreate the analysis in Minitab",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Recreate the analysis in Minitab"
+          ],
+          "text": "Use the same historical parameters for a fair comparison. Your supplied Minitab project preserves seven analysis commands, allowing you to inspect the settings alongside the plots. Practice CSV Excel calculation workbook Original Minitab project",
+          "excerpt": "Use the same historical parameters for a fair comparison. Your supplied Minitab project preserves seven analysis commands, allowing you to inspect the settings alongside the plots. Practice CSV Excel calculation workbook Original Minitab project",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-prepare-the-worksheet",
+          "heading": "Prepare the worksheet",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Recreate the analysis in Minitab",
+            "Prepare the worksheet"
+          ],
+          "text": "Import the CSV through File → Open Worksheet . Keep Sample_No as chronological order; the remaining columns hold individual observations. Confirm measurements are numerical, no row order was scrambled, and each observation represents subgroup size 1. Decide on the established historical target and σ rather than estimating limits from a knowingly shifted period.",
+          "excerpt": "Import the CSV through File → Open Worksheet . Keep Sample_No as chronological order; the remaining columns hold individual observations. Confirm measurements are numerical, no row order was scrambled, and each observation represents subgroup size 1. Decide…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-create-cusum",
+          "heading": "Create CUSUM",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Recreate the analysis in Minitab",
+            "Create CUSUM"
+          ],
+          "text": "Go to Stat → Control Charts → Time-Weighted Charts → CUSUM . Select the process column, e.g., Pipe_Wall_mm ; set subgroup size to 1 . Enter target 6.40 and historical σ 0.04 in the relevant options. Choose tabular CUSUM with h = 4 and k = 0.5 ; leave FIR off for this lesson. Inspect both the positive and negative CUSUM lines and the Minitab test-results section.",
+          "excerpt": "Go to Stat → Control Charts → Time-Weighted Charts → CUSUM . Select the process column, e.g., Pipe_Wall_mm ; set subgroup size to 1 . Enter target 6.40 and historical σ 0.04 in the relevant options. Choose tabular CUSUM with h = 4 and k = 0.5 ; leave FIR off…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-create-ewma",
+          "heading": "Create EWMA",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Recreate the analysis in Minitab",
+            "Create EWMA"
+          ],
+          "text": "Go to Stat → Control Charts → Time-Weighted Charts → EWMA . Select the same column and subgroup size 1 . Enter historical mean 6.40 , historical σ 0.04 and weight 0.20 . Use the default 3σ control limits, with other settings unchanged. Inspect the first limit crossing and compare it with the CUSUM result.",
+          "excerpt": "Go to Stat → Control Charts → Time-Weighted Charts → EWMA . Select the same column and subgroup size 1 . Enter historical mean 6.40 , historical σ 0.04 and weight 0.20 . Use the default 3σ control limits, with other settings unchanged. Inspect the first limit…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-use-these-settings-for-all-four-case-studies",
+          "heading": "Use these settings for all four case studies",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Recreate the analysis in Minitab",
+            "Use these settings for all four case studies"
+          ],
+          "text": "Column Target μ₀ Historical σ CUSUM EWMA Pipe_Wall_mm 6.40 0.04 h = 4, k = .5 λ = .20, L = 3 Reactor_Temp_C 210 1.50 h = 4, k = .5 λ = .20, L = 3 Fill_Weight_g 500 2.00 h = 4, k = .5 λ = .20, L = 3 Ore_Grade_pct 1.25 0.035 h = 4, k = .5 λ = .20, L = 3 Software note: The supplied .mpx contains seven saved graphs: both charts for pipe wall, reactor temperature and filling weight, plus only the ore-grade CUSUM. The ore-grade EWMA displayed below is an independently calculated companion illustration, not an original saved Minitab screenshot. The other non-screenshot charts are faithful calculation-based reconstructions from the supplied worksheet and chart commands. 08 / Four real Minitab practice cases",
+          "excerpt": "Column Target μ₀ Historical σ CUSUM EWMA Pipe_Wall_mm 6.40 0.04 h = 4, k = .5 λ = .20, L = 3 Reactor_Temp_C 210 1.50 h = 4, k = .5 λ = .20, L = 3 Fill_Weight_g 500 2.00 h = 4, k = .5 λ = .20, L = 3 Ore_Grade_pct 1.25 0.035 h = 4, k = .5 λ = .20, L = 3…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-read-the-actual-project-outputs-not-just-textbook-drawings",
+          "heading": "Read the actual project outputs, not just textbook drawings",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Read the actual project outputs, not just textbook drawings"
+          ],
+          "text": "The two CUSUM screenshots below came directly from the Minitab images supplied with this lesson. The other plots were reconstructed from the same 100-row dataset using the saved historical parameters and stated formulas. Compare the pattern, the control limits, and the first signal—not just how dramatic the line looks. Case A / sustained upward shift",
+          "excerpt": "The two CUSUM screenshots below came directly from the Minitab images supplied with this lesson. The other plots were reconstructed from the same 100-row dataset using the saved historical parameters and stated formulas. Compare the pattern, the control…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-pipe-wall-thickness-the-warning-you-can-almost-miss",
+          "heading": "Pipe wall thickness: the warning you can almost miss",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Read the actual project outputs, not just textbook drawings",
+            "Pipe wall thickness: the warning you can almost miss"
+          ],
+          "text": "CUSUM sample 33 · EWMA sample 33 Target 6.40 mm, σ = 0.04 mm, H = 0.16 mm. The process begins near target, then higher thickness readings become more persistent. CUSUM eventually builds evidence above +H. Original Minitab screenshot · Pipe_Wall_mm CUSUM Read it: the red upper sum crosses UCL = +0.16 at sample 33. The blue lower sum, which tracks opposite-direction evidence , remains near zero. It does not represent zero pipe thickness. The red statistic is not reset at the first signal. EWMA reconstruction · Pipe_Wall_mm With λ = .20 and the same historical target and σ, the calculated EWMA also first crosses its upper limit at sample 33. Later intervals below the EWMA limit do not erase the earlier signal. What would you investigate? Check gauge calibration, material/coil changes, forming and sizing settings, tool wear, and whether the change aligns with maintenance or changeover records. The chart tells you when and in which direction the evidence appeared—not the physical root cause. Case B / gradual upward drift",
+          "excerpt": "CUSUM sample 33 · EWMA sample 33 Target 6.40 mm, σ = 0.04 mm, H = 0.16 mm. The process begins near target, then higher thickness readings become more persistent. CUSUM eventually builds evidence above +H. Original Minitab screenshot · Pipe_Wall_mm CUSUM Read…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-reactor-temperature-the-slow-creep",
+          "heading": "Reactor temperature: the slow creep",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Read the actual project outputs, not just textbook drawings",
+            "Reactor temperature: the slow creep"
+          ],
+          "text": "CUSUM sample 63 · EWMA sample 69 Target 210°C, σ = 1.5°C. The readings increasingly favor higher temperatures. Individual values never exceed the historical mean ±3σ (205.5–214.5°C) in this dataset, yet the time-weighted charts detect a sustained change. CUSUM reconstruction · Reactor_Temp_C H = 4 × 1.50 = 6.00°C. First upward signal: sample 63. EWMA reconstruction · Reactor_Temp_C First calculated upper signal: sample 69. EWMA emphasizes the sustained high average. Practical response: Examine sensor calibration, controller bias, heat-transfer changes, cooling effectiveness, and operating conditions around samples 55–70. Do not assume that the first signal is the exact moment the physical change began. Case C / sustained downward shift",
+          "excerpt": "CUSUM sample 63 · EWMA sample 69 Target 210°C, σ = 1.5°C. The readings increasingly favor higher temperatures. Individual values never exceed the historical mean ±3σ (205.5–214.5°C) in this dataset, yet the time-weighted charts detect a sustained change.…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-filling-weight-the-process-is-giving-away-too-little",
+          "heading": "Filling weight: the process is giving away too little",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Read the actual project outputs, not just textbook drawings",
+            "Filling weight: the process is giving away too little"
+          ],
+          "text": "CUSUM sample 37 · EWMA sample 38 Target 500 g, σ = 2 g. The persistent movement is downward, so the lower CUSUM becomes the one to watch. In its negative plotting convention, it crosses −H = −8 g. CUSUM reconstruction · Fill_Weight_g First lower-direction signal: sample 37; the negative cumulative statistic continues downward. EWMA reconstruction · Fill_Weight_g First lower-direction signal: sample 38; subsequent oscillations do not undo the initial finding. Practical response: Review filler-valve timing, scale calibration, product density, fill-head behavior, and batch transitions. If the product has a minimum legally required net content, product-conformance review is separate from SPC detection. Case D / isolated special observation",
+          "excerpt": "CUSUM sample 37 · EWMA sample 38 Target 500 g, σ = 2 g. The persistent movement is downward, so the lower CUSUM becomes the one to watch. In its negative plotting convention, it crosses −H = −8 g. CUSUM reconstruction · Fill_Weight_g First lower-direction…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-ore-grade-a-spectacular-spike-with-no-cusum-signal",
+          "heading": "Ore grade: a spectacular spike with no CUSUM signal",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Read the actual project outputs, not just textbook drawings",
+            "Ore grade: a spectacular spike with no CUSUM signal"
+          ],
+          "text": "CUSUM: no signal · EWMA: no signal Target 1.25% grade, σ = 0.035 percentage points. At sample 45 , ore grade reaches 1.398% . That's 4.23 historical standard deviations above target —well past a traditional Individuals-chart 3σ upper boundary of 1.355% . Original Minitab screenshot · Ore_Grade_pct CUSUM The upward statistic approaches +0.14 near samples 45 and 68; the largest computed value is 0.1386, below H = 0.14. The lower statistic also remains within −0.14. Near-limit behavior is not itself a beyond-limit signal. Calculated companion graphic · Ore_Grade_pct EWMA (not saved in source Minitab project) At λ = .20, the single extreme reading is smoothed. Under these settings, no EWMA control-limit crossing occurs in the 100 samples. Teaching moment: “No CUSUM signal” does not mean “nothing unusual happened.” The sample-45 raw grade would exceed a historical 3σ Individuals limit. Use a chart designed for spikes when missing one abnormal observation would matter.",
+          "excerpt": "CUSUM: no signal · EWMA: no signal Target 1.25% grade, σ = 0.035 percentage points. At sample 45 , ore grade reaches 1.398% . That's 4.23 historical standard deviations above target —well past a traditional Individuals-chart 3σ upper boundary of 1.355% .…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-results-side-by-side",
+          "heading": "Results side by side",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Read the actual project outputs, not just textbook drawings",
+            "Results side by side"
+          ],
+          "text": "Process Pattern First CUSUM signal First EWMA signal* Historical 3σ raw-point signals Pipe wall Upward shift 33 33 59 Reactor Gradual upward drift 63 69 None Filling Downward shift 37 38 38, 66 Ore grade Isolated spike None None 45 *First-signal positions are independently calculated from the supplied dataset using the stated starting values, k = .5, h = 4, λ = .20, L = 3, and time-varying EWMA limits. The raw-point comparison checks observations against fixed μ₀ ± 3σ, not an estimated I-MR chart with moving-range limits. Different Minitab options or chart rules can change signals. Your software superpower",
+          "excerpt": "Process Pattern First CUSUM signal First EWMA signal* Historical 3σ raw-point signals Pipe wall Upward shift 33 33 59 Reactor Gradual upward drift 63 69 None Filling Downward shift 37 38 38, 66 Ore grade Isolated spike None None 45 *First-signal positions are…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "cusum-ewma-implementation-h",
+          "heading": "Statistics Implementation",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Statistics Implementation"
+          ],
+          "text": "Psst. The spreadsheet formulas and Minitab settings are hiding right here. You've unlocked the settings. Now put the math to work. Unlock the cheat codes Hide the cheat codes",
+          "excerpt": "Psst. The spreadsheet formulas and Minitab settings are hiding right here. You've unlocked the settings. Now put the math to work. Unlock the cheat codes Hide the cheat codes",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "cusum-ewma-excel-functions",
+          "heading": "1. Excel Functions",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Statistics Implementation",
+            "1. Excel Functions"
+          ],
+          "text": "Excel has no single native CUSUM or EWMA chart function. Build the recursive statistics with cell formulas; use Minitab for production-style charting. Function Syntax Purpose When to use it MAX =MAX(0,C2+B3-$G$1-$G$2*$G$3) Prevents one-sided CUSUM from going below zero. Every new upper CUSUM reading. AVERAGE =AVERAGE(B2:B31) Computes the reference mean. Only after validating a stable Phase I baseline. STDEV.S =STDEV.S(B2:B31) Estimates sample variability. A validated historical reference period; not a shifted mixed period. SQRT =SQRT($G$4/(2-$G$4)*(1-(1-$G$4)^(2*A2))) Calculates the EWMA control-limit factor. When computing time-varying upper and lower limits. POWER =POWER(1-$G$4,2*A2) Alternative form for exponentiation. When you prefer an explicit exponent function to ^ . IF =IF(C2>$G$2*$G$6,\"Investigate\",\"Monitor\") Labels an exceedance. For an instructional signal column, not an automated production decision.",
+          "excerpt": "Excel has no single native CUSUM or EWMA chart function. Build the recursive statistics with cell formulas; use Minitab for production-style charting. Function Syntax Purpose When to use it MAX =MAX(0,C2+B3-$G$1-$G$2*$G$3) Prevents one-sided CUSUM from going…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "cusum-ewma-excel-use-cases",
+          "heading": "2. Excel Use Cases",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Statistics Implementation",
+            "2. Excel Use Cases"
+          ],
+          "text": "Place the target in G1 (6.40), historical standard deviation in G2 (0.04), k in G3 (0.5), lambda in G4 (0.20), L in G5 (3), and h in G6 (4). Put sample number in column A and thickness readings in B. Cell Formula Meaning C2 =MAX(0,B2-$G$1-$G$2*$G$3) Initial upper CUSUM. C3 =MAX(0,C2+B3-$G$1-$G$2*$G$3) Recursive upper CUSUM. D2 =MAX(0,$G$1-B2-$G$2*$G$3) Initial lower CUSUM magnitude; plot its negative. D3 =MAX(0,D2+$G$1-B3-$G$2*$G$3) Recursive lower CUSUM magnitude. E2 =$G$4*B2+(1-$G$4)*$G$1 First EWMA after starting at target. E3 =$G$4*B3+(1-$G$4)*E2 Recursive EWMA. F2 =$G$1+$G$5*$G$2*SQRT($G$4/(2-$G$4)*(1-(1-$G$4)^(2*A2))) Time-dependent EWMA upper limit. With consecutive 6.45 mm measurements, CUSUM first exceeds 0.16 mm at sample 6; EWMA crosses its time-dependent upper limit at sample 7. Use the downloadable workbook to check your own formulas.",
+          "excerpt": "Place the target in G1 (6.40), historical standard deviation in G2 (0.04), k in G3 (0.5), lambda in G4 (0.20), L in G5 (3), and h in G6 (4). Put sample number in column A and thickness readings in B. Cell Formula Meaning C2 =MAX(0,B2-$G$1-$G$2*$G$3) Initial…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "cusum-ewma-minitab",
+          "heading": "3. Minitab Navigation",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Statistics Implementation",
+            "3. Minitab Navigation"
+          ],
+          "text": "Stat → Control Charts → Time-Weighted Charts → CUSUM for tabular CUSUM (individuals, target 6.40, historical sigma 0.04, k 0.5, h 4); or Stat → Control Charts → Time-Weighted Charts → EWMA for a 0.20 weight and historical parameters. Use Stat → Control Charts → Variables Charts for Individuals → I-MR to investigate isolated spikes alongside small-shift charts.",
+          "excerpt": "Stat → Control Charts → Time-Weighted Charts → CUSUM for tabular CUSUM (individuals, target 6.40, historical sigma 0.04, k 0.5, h 4); or Stat → Control Charts → Time-Weighted Charts → EWMA for a 0.20 weight and historical parameters. Use Stat → Control Charts…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "cusum-ewma-exam-tips",
+          "heading": "4. Exam Tips",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Statistics Implementation",
+            "4. Exam Tips"
+          ],
+          "text": "ASQ CQE/CSSBB questions may test the difference between a control limit and a specification, the meaning of a chart signal, or the correct direction of a CUSUM shift. Always identify the chart's target, dispersion estimate, sampling structure and tuning parameters before interpreting a signal. 09 / Pitfalls and exam traps",
+          "excerpt": "ASQ CQE/CSSBB questions may test the difference between a control limit and a specification, the meaning of a chart signal, or the correct direction of a CUSUM shift. Always identify the chart's target, dispersion estimate, sampling structure and tuning…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-eight-mistakes-that-can-ruin-a-sound-analysis",
+          "heading": "Eight mistakes that can ruin a sound analysis",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Eight mistakes that can ruin a sound analysis"
+          ],
+          "text": "Type Mistake Why it fails / how to recognize it How to avoid it Calculation Forgetting K in the CUSUM update. A positive score grows on every above-target reading even when the excess is smaller than the allowance. Check the first three hand calculations. Subtract K at every update; a reading at target reduces a positive upper CUSUM by K. Calculation Mixing h with H or k with K. You compare a thickness score in millimetres directly with a dimensionless number such as h = 4. For individual readings calculate H = hσ and K = kσ, then compare like units. Interpretation Thinking the lower line at zero means zero process values. The physical measurements are near target while the evidence statistic lies at zero: they are different quantities. Read the y-axis label. Zero means insufficient accumulated downward evidence. Interpretation Expecting CUSUM to reset automatically at H. The upper score remains elevated after the first limit crossing. A signal is an investigation trigger, not a mathematical reset command. Apply a documented corrective-action and restart policy; do not silently force the plotted score to zero. Assumptions Estimating σ from already shifted production. Inflated historical variation can conceal the change you are trying to detect. Compare with a known stable baseline period. Validate Phase I stability and use an established historical μ₀ and σ in Phase II monitoring. Assumptions Ignoring autocorrelation or changing product mix. Adjacent readings are dependent or combine distinct grades, so nominal control limits may produce too many or too few alarms. Examine time dependence; stratify process families or use an appropriate residual model. Software Comparing charts with inconsistent baselines or subgroup sizes. CUSUM and EWMA disagree because one chart estimated μ and the other used historical μ₀, or because subgroup sizes differ. Confirm chronological order, subgroup size 1, μ₀, σ, FIR choice and each chart's tuning options. Exam trap Claiming CUSUM always beats EWMA or replaces Individuals charts. One isolated ore-grade spike can violate a historical 3σ Individuals limit without crossing CUSUM H; detection depends on shift size and configuration. Compare designs at a stated false-alarm ARL, and retain complementary spike monitoring. 10 / Challenge yourself",
+          "excerpt": "Type Mistake Why it fails / how to recognize it How to avoid it Calculation Forgetting K in the CUSUM update. A positive score grows on every above-target reading even when the excess is smaller than the allowance. Check the first three hand calculations.…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-can-you-diagnose-a-downward-shift-without-minitab",
+          "heading": "Can you diagnose a downward shift without Minitab?",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Can you diagnose a downward shift without Minitab?"
+          ],
+          "text": "A filling process has target 500 g and historical σ = 2 g. With k = 0.5 and h = 4, the first six readings are all 497 g . Calculate K, H, the first three downward CUSUM magnitudes, and the first sample that triggers the lower decision limit. Explain why the upper tally is zero.",
+          "excerpt": "A filling process has target 500 g and historical σ = 2 g. With k = 0.5 and h = 4, the first six readings are all 497 g . Calculate K, H, the first three downward CUSUM magnitudes, and the first sample that triggers the lower decision limit. Explain why the…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-worked-solution",
+          "heading": "Worked solution",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Can you diagnose a downward shift without Minitab?",
+            "Worked solution"
+          ],
+          "text": "Step 1: K = 0.5 × 2 = 1 g, and H = 4 × 2 = 8 g. Step 2: Each low reading adds 500 − 497 − 1 = 2 g to the downward CUSUM magnitude. Step 3: The lower magnitudes at samples 1–3 are 2, 4 and 6 g . At sample 4 it equals 8 g. At sample 5 it becomes 10 g , which is strictly beyond the decision limit; the plotted lower score is −10 g. Step 4: The upper tally remains at zero because 497 − 500 − 1 = −4 g and max(0, previous score − 4) cannot accumulate upward evidence starting from zero. Interpretation: Five modestly low fills provide sufficient sustained downward evidence; investigate a fill-system shift rather than blaming the most recent sample alone.",
+          "excerpt": "Step 1: K = 0.5 × 2 = 1 g, and H = 4 × 2 = 8 g. Step 2: Each low reading adds 500 − 497 − 1 = 2 g to the downward CUSUM magnitude. Step 3: The lower magnitudes at samples 1–3 are 2, 4 and 6 g . At sample 4 it equals 8 g. At sample 5 it becomes 10 g , which is…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-try-a-full-minitab-investigation",
+          "heading": "Try a full Minitab investigation",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Can you diagnose a downward shift without Minitab?",
+            "Try a full Minitab investigation"
+          ],
+          "text": "Open the 100-row CSV and create both charts for each process. Before seeing the results, record whether you expect an upward shift, downward shift, slow drift, or isolated spike. Compare first-signal positions with the results table; note the effect of changing λ from .20 to .10 and .40. For ore grade, create an I-MR chart and investigate sample 45. Write two sentences explaining why your I chart and CUSUM disagree. Write an action plan: baseline validation, suspected process causes, evidence needed, and a rule for returning to routine monitoring. 12 / The takeaway",
+          "excerpt": "Open the 100-row CSV and create both charts for each process. Before seeing the results, record whether you expect an upward shift, downward shift, slow drift, or isolated spike. Compare first-signal positions with the results table; note the effect of…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-one-process-two-ways-to-catch-a-hidden-change",
+          "heading": "One process. Two ways to catch a hidden change.",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "One process. Two ways to catch a hidden change."
+          ],
+          "text": "",
+          "excerpt": "",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-remember-these-seven-ideas",
+          "heading": "Remember these seven ideas",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "One process. Two ways to catch a hidden change.",
+            "Remember these seven ideas"
+          ],
+          "text": "CUSUM adds evidence; EWMA smooths evidence. CUSUM has distinct upper and lower directions. EWMA weighs the newest point by λ. Historical target and σ must be justified. Control limits are not product specification limits. An alarm does not diagnose the root cause. Use complementary charts for isolated spikes and persistent shifts. Your practical decision rule",
+          "excerpt": "CUSUM adds evidence; EWMA smooths evidence. CUSUM has distinct upper and lower directions. EWMA weighs the newest point by λ. Historical target and σ must be justified. Control limits are not product specification limits. An alarm does not diagnose the root…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-if-you-suspect-a-subtle-sustained-change",
+          "heading": "If you suspect a subtle sustained change",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "One process. Two ways to catch a hidden change.",
+            "If you suspect a subtle sustained change"
+          ],
+          "text": "Use CUSUM or EWMA after validating the baseline. Tune for the shift that matters and a tolerable false-alarm rate. If one extreme observation itself is critical, add a Shewhart Individuals chart. Remember this: “CUSUM keeps the score. EWMA keeps the memory. Neither knows the root cause.” Next lesson: Average Run Length (ARL), false alarms and choosing k, h, λ and L.",
+          "excerpt": "Use CUSUM or EWMA after validating the baseline. Tune for the shift that matters and a tolerable false-alarm rate. If one extreme observation itself is critical, add a Shewhart Individuals chart. Remember this: “CUSUM keeps the score. EWMA keeps the memory.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-references-and-further-study",
+          "heading": "References and further study",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "One process. Two ways to catch a hidden change.",
+            "References and further study"
+          ],
+          "text": "Minitab: CUSUM methods and formulas . Minitab: EWMA methods and formulas . Minitab: Interpret CUSUM results . NIST/SEMATECH: CUSUM control charts . NIST/SEMATECH: EWMA control charts . Provenance: The screenshot pair comes from the user's supplied Minitab images. Seven model commands and the raw data were read from the accompanying Minitab .mpx project and 100-row CSV. Calculated reconstructions and first-signal tables are explicitly identified as such. All datasets are synthetic and for teaching only.",
+          "excerpt": "Minitab: CUSUM methods and formulas . Minitab: EWMA methods and formulas . Minitab: Interpret CUSUM results . NIST/SEMATECH: CUSUM control charts . NIST/SEMATECH: EWMA control charts . Provenance: The screenshot pair comes from the user's supplied Minitab…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "related-heading",
+          "heading": "Related lessons",
+          "breadcrumb": [
+            "CUSUM vs. EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Related lessons"
+          ],
+          "text": "Selecting control charts in Minitab — decide which SPC chart matches the data structure. Understanding Pareto charts — prioritize the problems identified by process monitoring. 5 Whys versus Fishbone — investigate possible special causes after a control-chart alarm.",
+          "excerpt": "Selecting control charts in Minitab — decide which SPC chart matches the data structure. Understanding Pareto charts — prioritize the problems identified by process monitoring. 5 Whys versus Fishbone — investigate possible special causes after a control-chart…",
+          "kinds": [
+            "section",
+            "example"
           ]
         }
       ]
