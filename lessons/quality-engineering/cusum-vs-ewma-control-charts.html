@@ -199,6 +199,17 @@
         <tr><td>Typical use</td><td>Small persistent bias in product thickness or fill weight.</td><td>Subtle drift in temperatures, measurements or processes.</td></tr>
         <tr><td>Is one always faster?</td><td colspan="2">No. Detection performance depends on the shift, variation, false-alarm design and tuning. Compare under the same conditions.</td></tr>
       </tbody></table></div>
+      <h3>How to monitor a real process: a seven-step playbook</h3>
+      <ol class="step-rail">
+        <li><strong>Define the process question.</strong> Are you looking for a small lasting upward or downward shift, gradual drift, or one dramatic abnormal reading? CUSUM and EWMA are primarily mean-shift monitors; retain an Individuals chart if isolated spikes matter.</li>
+        <li><strong>Validate the measuring system and order.</strong> Keep observations chronological, preserve units and subgroup size, and check for missing readings, sensor changes, or mixed product grades.</li>
+        <li><strong>Establish a trusted baseline.</strong> Obtain μ₀ and σ from a stable, representative historical period. Confirm that the reference process did not already contain a shift.</li>
+        <li><strong>Check assumptions.</strong> Examine serial correlation, changing product mix, measurement drift and distributional behaviour. Strong autocorrelation can invalidate nominal alarm performance.</li>
+        <li><strong>Choose a monitoring design.</strong> For tabular CUSUM select k and h; for EWMA select λ and L. Compare expected signal delay and in-control false-alarm rate using ARL before production deployment.</li>
+        <li><strong>Calculate, plot and interpret.</strong> Apply the update formula in sample order, check the chart-specific limits, and distinguish a statistical signal from an engineering specification failure.</li>
+        <li><strong>Investigate and document.</strong> Verify readings, determine likely special causes, record corrective action, and define who authorizes a documented restart. Crossing H does not automatically reset the CUSUM.</li>
+      </ol>
+      <div class="callout"><strong>What the charts cannot tell you:</strong> Neither chart identifies the root cause, proves a product is out of specification, or directly monitors changing variance. A signal means “investigate,” not “automatically reject the product.”</div>
       <h3>Essential vocabulary</h3>
       <div class="table-wrap"><table class="comparison"><thead><tr><th>Term</th><th>Plain meaning</th><th>How to use it</th></tr></thead><tbody>
         <tr><td>Target, μ₀</td><td>The in-control reference average</td><td>Established from validated process history or engineering target.</td></tr>
@@ -222,7 +233,7 @@
       <div class="formula"><p><strong>Time-varying upper and lower limits for individual observations</strong></p>
       <math display="block" aria-label="target plus or minus L sigma times square root lambda over two minus lambda times one minus one minus lambda raised to two i"><mrow><msub><mi>μ</mi><mn>0</mn></msub><mo>±</mo><mi>L</mi><mi>σ</mi><msqrt><mfrac><mi>λ</mi><mrow><mn>2</mn><mo>−</mo><mi>λ</mi></mrow></mfrac><mo>[</mo><mn>1</mn><mo>−</mo><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>λ</mi><mo>)</mo></mrow><mrow><mn>2</mn><mi>i</mi></mrow></msup><mo>]</mo></msqrt></mrow></math>
       <small>Use + for UCL and − for LCL. For long-run limits, the bracketed term approaches 1. L = 3 is a common starting multiplier. For equal-sized subgroups, replace σ by σ/√n.</small></div>
-      <div class="callout"><strong>Assumptions matter:</strong> These calculations presume continuous measurements, an appropriate stable historical mean and σ, meaningful sampling order, and no problematic within-series autocorrelation. Monitoring changes in process variation needs an additional chart or analysis.</div>
+      <div class="callout"><strong>Assumptions and limits of these formulas:</strong> These formulas apply to ordered, individual continuous measurements with a trustworthy, stable historical μ₀ and σ. The limits are derived under an independent-observation process model. Strong autocorrelation, a changing product mix, or a drifting measurement system can invalidate the stated false-alarm performance. For subgroup means of constant size n, use σ/√n; do not substitute individual-observation limits. Use a separate dispersion chart to monitor variance. These equations are not intended as standalone acceptance criteria or a root-cause diagnosis.</div>
     </section>
     <!-- EDIT: Worked example -->
     <section class="lesson-section" id="worked-example">
@@ -336,15 +347,15 @@
     </section>
     <section class="lesson-section" id="pitfalls">
       <span class="section-label">09 / Pitfalls and exam traps</span><h2>Eight mistakes that can ruin a sound analysis</h2>
-      <div class="table-wrap"><table class="comparison"><thead><tr><th>Type</th><th>Mistake</th><th>Better practice</th></tr></thead><tbody>
-      <tr><td>Calculation</td><td>Forgetting K in the CUSUM update.</td><td>Subtract K at every step; even readings at target reduce a positive CUSUM by K.</td></tr>
-      <tr><td>Calculation</td><td>Mixing h with H or k with K.</td><td>For individual readings, H = hσ and K = kσ; check units.</td></tr>
-      <tr><td>Interpretation</td><td>Thinking the lower zero line means zero process values.</td><td>It records insufficient accumulated <em>downward</em> evidence.</td></tr>
-      <tr><td>Interpretation</td><td>Expecting CUSUM to reset when it first passes H.</td><td>An out-of-control signal does not automatically clear the historical score.</td></tr>
-      <tr><td>Assumptions</td><td>Estimating historical σ from shifted production.</td><td>Use validated baseline data; mixing regimes masks change.</td></tr>
-      <tr><td>Assumptions</td><td>Ignoring autocorrelation or changing product mix.</td><td>Investigate serial dependence; stratify or model heterogeneous data.</td></tr>
-      <tr><td>Software</td><td>Comparing different charts with different baselines or wrong subgroup sizes.</td><td>Fix chronology, subgroup size, historical target, σ and settings before comparing.</td></tr>
-      <tr><td>Exam trap</td><td>Claiming CUSUM is always better than EWMA or replaces an Individuals chart.</td><td>Design around desired shift detection, false-alarm performance and complementary spike monitoring.</td></tr>
+      <div class="table-wrap"><table class="comparison"><thead><tr><th>Type</th><th>Mistake</th><th>Why it fails / how to recognize it</th><th>How to avoid it</th></tr></thead><tbody>
+      <tr><td>Calculation</td><td>Forgetting K in the CUSUM update.</td><td>A positive score grows on every above-target reading even when the excess is smaller than the allowance. Check the first three hand calculations.</td><td>Subtract K at every update; a reading at target reduces a positive upper CUSUM by K.</td></tr>
+      <tr><td>Calculation</td><td>Mixing h with H or k with K.</td><td>You compare a thickness score in millimetres directly with a dimensionless number such as h = 4.</td><td>For individual readings calculate H = hσ and K = kσ, then compare like units.</td></tr>
+      <tr><td>Interpretation</td><td>Thinking the lower line at zero means zero process values.</td><td>The physical measurements are near target while the evidence statistic lies at zero: they are different quantities.</td><td>Read the y-axis label. Zero means insufficient accumulated <em>downward</em> evidence.</td></tr>
+      <tr><td>Interpretation</td><td>Expecting CUSUM to reset automatically at H.</td><td>The upper score remains elevated after the first limit crossing. A signal is an investigation trigger, not a mathematical reset command.</td><td>Apply a documented corrective-action and restart policy; do not silently force the plotted score to zero.</td></tr>
+      <tr><td>Assumptions</td><td>Estimating σ from already shifted production.</td><td>Inflated historical variation can conceal the change you are trying to detect. Compare with a known stable baseline period.</td><td>Validate Phase I stability and use an established historical μ₀ and σ in Phase II monitoring.</td></tr>
+      <tr><td>Assumptions</td><td>Ignoring autocorrelation or changing product mix.</td><td>Adjacent readings are dependent or combine distinct grades, so nominal control limits may produce too many or too few alarms.</td><td>Examine time dependence; stratify process families or use an appropriate residual model.</td></tr>
+      <tr><td>Software</td><td>Comparing charts with inconsistent baselines or subgroup sizes.</td><td>CUSUM and EWMA disagree because one chart estimated μ and the other used historical μ₀, or because subgroup sizes differ.</td><td>Confirm chronological order, subgroup size 1, μ₀, σ, FIR choice and each chart's tuning options.</td></tr>
+      <tr><td>Exam trap</td><td>Claiming CUSUM always beats EWMA or replaces Individuals charts.</td><td>One isolated ore-grade spike can violate a historical 3σ Individuals limit without crossing CUSUM H; detection depends on shift size and configuration.</td><td>Compare designs at a stated false-alarm ARL, and retain complementary spike monitoring.</td></tr>
       </tbody></table></div>
     </section>
     <section class="lesson-section" id="practice">
