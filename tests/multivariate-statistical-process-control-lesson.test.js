@@ -73,3 +73,5 @@ test('interactive chart sizing stays scoped to the four compact live plots',()=>
 });
 
  test('specimen comparison panels retain all points inside common plotting bounds',()=>{const d=doc();for(const id of [40,41,46,51]){const svg=d.querySelector('svg[aria-labelledby="specimens-'+id+'-title specimens-'+id+'-desc"]');assert.equal(svg.getAttribute('viewBox'),'0 0 340 250');const dots=[...svg.querySelectorAll('circle.ms-data-dot')];assert.equal(dots.length,10);for(const dot of dots){const x=+dot.getAttribute('cx'),y=+dot.getAttribute('cy'),r=+dot.getAttribute('r');assert.ok(x-r>=43&&x+r<=297&&y-r>=12&&y+r<=228);}}});
+
+test('correlation experiment caps the entire panel, including slider and feedback',()=>{const d=doc();const panel=d.querySelector('.ms-correlation-lab');assert.ok(panel);assert.ok(panel.contains(d.getElementById('ms-r')));assert.ok(panel.contains(d.getElementById('ms-live')));assert.ok(panel.contains(d.getElementById('ms-reset')));assert.match(html,/#lesson-content \.ms-correlation-lab\s*\{[^}]*max-width:\s*560px/);});
