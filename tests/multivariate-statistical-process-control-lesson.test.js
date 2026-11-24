@@ -61,3 +61,13 @@ test('additional visual labs render and respond to controls',()=>{const dom=new 
 test('student audit: calculation exercises, real MEWMA statistic lab and assignment',()=>{const dom=new JSDOM(html,{runScripts:'outside-only',url:'https://upskillsprint.com/lessons/statistics/'+slug});const w=dom.window,d=w.document;for(const sc of d.querySelectorAll('script:not([src])'))if(!sc.type)w.eval(sc.textContent);assert.equal(d.querySelectorAll('.quiz-question').length,12);assert.ok(d.getElementById('why-mspc'));assert.ok(d.getElementById('student-assignment'));const s=d.getElementById('audit-shift'),l=d.getElementById('audit-weight');s.value='0';s.dispatchEvent(new w.Event('input'));assert.match(d.getElementById('audit-mewma-live').textContent,/MEWMA = 0\.000/);s.value='2';l.value='1';l.dispatchEvent(new w.Event('input'));assert.match(d.getElementById('audit-mewma-live').textContent,/T² = 4\.000; MEWMA = 4\.000/);d.getElementById('audit-mewma-reset').click();assert.equal(Number(l.value),.2);w.close();});
 
 test('first-time Minitab walkthrough includes exact worksheet and matrix checkpoints for every chart',()=>{const d=doc();assert.ok(d.getElementById('minitab-first-start'));assert.ok(d.getElementById('minitab-troubleshooting'));for(const id of ['setup-t2','setup-gv','setup-combined','setup-mewma']){const e=d.getElementById(id);assert.equal(e.open,false);assert.match(e.textContent,/C5 C6/);assert.match(e.textContent,/1:2/);assert.match(e.textContent,/Display Data/);assert.match(e.textContent,/C3 C4/);assert.match(e.textContent,/C1/);assert.ok(e.querySelector('a[download]'));assert.ok(e.querySelector('a[href="#minitab-troubleshooting"]'));}assert.match(d.getElementById('setup-mewma').textContent,/ARL\s*200/);assert.match(d.getElementById('setup-mewma').textContent,/0\.20/);assert.doesNotMatch(d.getElementById('setup-gv').querySelector('.ms-dialog:last-of-type')?.textContent||'',/500 600/);});
+
+test('interactive chart sizing stays scoped to the four compact live plots',()=>{
+ const d=doc();
+ const plots=[...d.querySelectorAll('.ms-lab > svg.ms-lab-plot')];
+ assert.equal(plots.length,4);
+ for(const kind of ['correlation','dispersion','memory','joint-shift'])assert.equal(d.querySelectorAll('.ms-lab-plot-'+kind).length,1);
+ assert.equal(d.querySelectorAll('.ms-chart-card svg.ms-lab-plot').length,0);
+ assert.match(html,/#lesson-content \.ms-lab > svg\.ms-lab-plot\s*\{[^}]*max-width:\s*420px/);
+ assert.match(html,/\.ms-lab-plot-dispersion\s*\{[^}]*max-width:\s*360px/);
+});
