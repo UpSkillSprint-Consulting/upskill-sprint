@@ -71,7 +71,8 @@ jobs:
             tests/mean-median-mode-and-spread-lesson.test.js \
             tests/probability-distributions-lesson.test.js \
             tests/excel-statistical-functions-map-lesson.test.js \
-            tests/top-down-vs-bottom-up-risk-assessment-lesson.test.js
+            tests/top-down-vs-bottom-up-risk-assessment-lesson.test.js \
+            tests/multivariate-statistical-process-control-lesson.test.js
       - name: Build the exact production site and generated lessons
         run: npm run build:site
       - name: Require generated SQL lesson content in the production index
