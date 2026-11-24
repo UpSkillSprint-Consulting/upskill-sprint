@@ -77,3 +77,17 @@ test('interactive chart sizing stays scoped to the four compact live plots',()=>
 test('correlation experiment caps the entire panel, including slider and feedback',()=>{const d=doc();const panel=d.querySelector('.ms-correlation-lab');assert.ok(panel);assert.ok(panel.contains(d.getElementById('ms-r')));assert.ok(panel.contains(d.getElementById('ms-live')));assert.ok(panel.contains(d.getElementById('ms-reset')));assert.match(html,/#lesson-content \.ms-correlation-lab\s*\{[^}]*max-width:\s*560px/);});
 
 test('dispersion experiment caps the entire panel, including both sliders and feedback',()=>{const d=doc();const panel=d.getElementById('ms-gv-lab');assert.ok(panel);for(const id of ['ms-gv-sd','ms-gv-r','ms-gv-live','ms-gv-reset'])assert.ok(panel.contains(d.getElementById(id)));assert.match(html,/#lesson-content #ms-gv-lab\s*\{[^}]*max-width:\s*560px/);});
+
+test('A16 visual containers have content-appropriate width caps and matrix remains readable',()=>{
+ const d=doc();const panel=d.querySelector('.ms-matrix-copy-panel');assert.ok(panel);
+ const table=panel.querySelector('table');assert.match(table.caption.textContent,/Saved Matrix Copy output/);
+ assert.deepEqual([...table.querySelectorAll('td')].map(e=>e.textContent),['100','80','80','100']);
+ assert.equal(d.querySelectorAll('.ms-test-output-panel').length,2);
+ assert.equal(d.querySelectorAll('.ms-workspace-panel').length,1);
+ assert.equal(d.querySelectorAll('.ms-lab').length,5);
+ assert.match(html,/#lesson-content \.ms-lab\s*\{[^}]*max-width:\s*560px/);
+ assert.match(html,/#lesson-content \.ms-matrix-copy-panel\s*\{[^}]*max-width:\s*460px/);
+ assert.match(html,/#lesson-content \.ms-matrix-copy-panel table\s*\{[^}]*width:\s*100%;[^}]*max-width:\s*360px/);
+ assert.match(html,/#lesson-content \.ms-dialog\s*\{[^}]*max-width:\s*560px/);
+ assert.match(html,/#lesson-content \.ms-chart\.ms-chart-card\s*\{[^}]*max-width:\s*680px/);
+});
