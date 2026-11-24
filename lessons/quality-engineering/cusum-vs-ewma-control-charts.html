@@ -199,6 +199,34 @@
   @media(max-width:650px) {.site-inner {padding:11px 16px}.shell {padding:0 16px}.brand span {font-size:.79rem}.site-back {font-size:.75rem}.nav-right {gap:6px}.theme-toggle {font-size:.75rem;padding:7px 9px}.two-col,.three-col,.formula-grid,.stat-strip,.field-grid {grid-template-columns:1fr}.lesson-section {padding:35px 0}.lab {padding:15px}.figure {margin:13px 0}.hero {padding:36px 0 24px}h1 {font-size:2.15rem}.lesson-toc {gap:7px}.lesson-toc a {padding:5px 8px}.comparison th,.comparison td {padding:9px 8px;font-size:.89rem}}
   @media(max-width:650px) {.site-inner{flex-direction:column;align-items:stretch;gap:7px}.brand span{font-size:.91rem}.nav-right{justify-content:space-between}.theme-toggle{min-width:112px;white-space:nowrap}}
   @media(prefers-reduced-motion:reduce) {html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+  
+  /* EDIT: Visual-first teaching poster and statistics implementation */
+  .lesson-poster {display:grid;grid-template-columns:minmax(0,1fr) 58px minmax(0,1fr);align-items:center;gap:12px;margin:22px 0 26px}
+  .lesson-poster-panel {padding:19px 22px;border-radius:19px;display:flex;flex-direction:column;gap:5px;min-width:0;color:#fff}
+  .lesson-poster-cusum {background:#9e3440}
+  .lesson-poster-ewma {background:#075e70}
+  .lesson-poster-panel strong {font-size:clamp(1.1rem,2.8vw,2rem);line-height:1.06;letter-spacing:-.03em}
+  .poster-eyebrow {font-size:.79rem;font-weight:900;letter-spacing:.18em}
+  .poster-caption {font-size:.86rem;line-height:1.4}
+  .lesson-poster svg {width:100%;height:auto;max-height:115px;color:#fff}
+  .poster-versus {background:var(--lesson-surface);border:2px solid var(--lesson-line);color:var(--lesson-ink);border-radius:50%;display:grid;place-items:center;aspect-ratio:1;font-size:1rem;font-weight:900}
+  .cusum-ewma-impl {margin:32px 0;border:2px solid var(--lesson-teal);border-radius:18px;overflow:hidden;background:var(--lesson-surface);color:var(--lesson-ink)}
+  .cusum-ewma-impl-summary {display:flex;flex-direction:column;gap:7px;cursor:pointer;list-style:none;padding:22px;outline-offset:-5px}
+  .cusum-ewma-impl-summary::-webkit-details-marker {display:none}
+  .cusum-ewma-impl-summary h2 {margin:0}
+  .cusum-ewma-impl-summary:hover .impl-pill {transform:translateY(-3px)}
+  .cusum-ewma-impl-summary:focus-visible {outline:3px solid var(--lesson-amber)}
+  .impl-pill {display:inline-flex;align-items:center;justify-content:space-between;align-self:flex-start;gap:20px;min-height:44px;padding:8px 16px;border-radius:999px;background:var(--lesson-teal);color:var(--lesson-paper);font-weight:800;transition:transform .18s}
+  .impl-tease {color:var(--lesson-ink-soft)}
+  .cusum-ewma-impl:not([open]) .impl-hide, .cusum-ewma-impl[open] .impl-show {display:none}
+  .cusum-ewma-impl:not([open]) .impl-pill {animation:lesson-cusum-ewma-nudge 4.8s infinite}
+  .cusum-ewma-impl[open] .impl-pill span[aria-hidden] {transform:rotate(180deg)}
+  .cusum-ewma-impl-body {padding:4px 22px 24px}
+  .cusum-ewma-impl-body h3 {margin-top:28px}
+  @keyframes lesson-cusum-ewma-nudge {0%,83%,100%{transform:rotate(0)}88%{transform:rotate(-2.5deg)}93%{transform:rotate(2.5deg)}97%{transform:rotate(0)}}
+  @media (max-width:600px){.lesson-poster {grid-template-columns:minmax(0,1fr);gap:6px}.poster-versus{width:46px;justify-self:center}.lesson-poster-panel{padding:18px}.cusum-ewma-impl-summary,.cusum-ewma-impl-body{padding-left:16px;padding-right:16px}}
+  @media (prefers-reduced-motion:reduce){.cusum-ewma-impl:not([open]) .impl-pill{animation:none}.impl-pill{transition:none}}
+
   </style>
 <style id="uss-quiz-style">
 .quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
@@ -246,6 +274,24 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <span class="eyebrow">Quality Engineering / Statistical Process Control</span>
       <h1>CUSUM vs. EWMA Control Charts: <span style="color:var(--lesson-teal-dark)">Complete Guide and Minitab Practice</span></h1>
       <p class="hero-lead">The pipe looks fine. Every reading seems ordinary. But a tiny change has been building for 30 samples. Can your control chart spot it before the process drifts too far?</p>
+      <div class="lesson-poster" aria-label="CUSUM adds persistent deviations while EWMA smooths measurements">
+      <div class="lesson-poster-panel lesson-poster-cusum"><span class="poster-eyebrow">CUSUM</span><strong>COUNT THE EVIDENCE</strong>
+        <svg viewBox="0 0 320 110" role="img" aria-label="CUSUM chart path climbs as positive evidence accumulates">
+          <path d="M20 87 H300" stroke="currentColor" opacity=".5" stroke-width="2" fill="none"/>
+          <path d="M20 87 L59 83 L99 75 L139 60 L178 55 L216 37 L256 22 L297 10" stroke="currentColor" stroke-width="7" stroke-linejoin="round" fill="none"/>
+          <path d="M20 48 H300" stroke="white" opacity=".8" stroke-dasharray="9 8" stroke-width="2"/>
+          <text x="30" y="43" fill="white" font-size="13" font-weight="700">Decision limit</text>
+        </svg><span class="poster-caption">A small bias becomes a big tally.</span>
+      </div>
+      <span class="poster-versus" aria-hidden="true">VS</span>
+      <div class="lesson-poster-panel lesson-poster-ewma"><span class="poster-eyebrow">EWMA</span><strong>SMOOTH THE STORY</strong>
+        <svg viewBox="0 0 320 110" role="img" aria-label="Raw readings fluctuate sharply while EWMA follows a smooth gradual rise">
+          <path d="M20 83 L55 36 L91 93 L128 43 L165 80 L203 20 L240 59 L278 8 L299 43" stroke="white" opacity=".55" stroke-width="3" fill="none"/>
+          <path d="M20 76 Q60 73 94 72 T162 61 T231 43 T299 24" stroke="currentColor" stroke-width="7" fill="none"/>
+          <text x="28" y="102" fill="white" font-size="13" font-weight="700">Weighted average</text>
+        </svg><span class="poster-caption">Recent readings carry more weight.</span>
+      </div>
+    </div>
       <div class="hero-meta"><span>Intermediate</span><span>35 minutes</span><span>Interactive lesson</span><span>Minitab + downloadable data</span></div>
       <div class="hero-actions"><a class="btn primary" href="#key-concepts">Start exploring</a><a class="btn" href="#simulator">Try the live lab</a><a class="btn" href="#minitab-cases">See actual Minitab outputs</a></div>
       <p class="hero-note"><strong>The mission:</strong> Learn to spot small, persistent process changes, tell them apart from one-off spikes, and explain what a CUSUM or EWMA signal actually means.</p>
@@ -418,6 +464,46 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       </tbody></table></div>
       <p class="quiet">*First-signal positions are independently calculated from the supplied dataset using the stated starting values, k = .5, h = 4, λ = .20, L = 3, and time-varying EWMA limits. The raw-point comparison checks observations against fixed μ₀ ± 3σ, not an estimated I-MR chart with moving-range limits. Different Minitab options or chart rules can change signals.</p>
     </section>
+<!-- EDIT: Statistics Implementation — closed by default, four required parts. -->
+    <details class="cusum-ewma-impl" id="cusum-ewma-implementation">
+      <summary class="cusum-ewma-impl-summary">
+        <span class="section-label">Your software superpower</span>
+        <h2 id="cusum-ewma-implementation-h">Statistics Implementation</h2>
+        <span class="impl-tease impl-show">Psst. The spreadsheet formulas and Minitab settings are hiding right here.</span>
+        <span class="impl-tease impl-hide">You've unlocked the settings. Now put the math to work.</span>
+        <span class="impl-pill"><span class="impl-show">Unlock the cheat codes</span><span class="impl-hide">Hide the cheat codes</span><span aria-hidden="true">⌄</span></span>
+      </summary>
+      <div class="cusum-ewma-impl-body">
+        <h3 id="cusum-ewma-excel-functions">1. Excel Functions</h3>
+        <p>Excel has no single native CUSUM or EWMA chart function. Build the recursive statistics with cell formulas; use Minitab for production-style charting.</p>
+        <div class="table-wrap" role="region" tabindex="0" aria-label="Excel statistical functions">
+          <table class="comparison"><thead><tr><th>Function</th><th>Syntax</th><th>Purpose</th><th>When to use it</th></tr></thead><tbody>
+            <tr><td>MAX</td><td><code>=MAX(0,C2+B3-$G$1-$G$2*$G$3)</code></td><td>Prevents one-sided CUSUM from going below zero.</td><td>Every new upper CUSUM reading.</td></tr>
+            <tr><td>AVERAGE</td><td><code>=AVERAGE(B2:B31)</code></td><td>Computes the reference mean.</td><td>Only after validating a stable Phase I baseline.</td></tr>
+            <tr><td>STDEV.S</td><td><code>=STDEV.S(B2:B31)</code></td><td>Estimates sample variability.</td><td>A validated historical reference period; not a shifted mixed period.</td></tr>
+            <tr><td>SQRT</td><td><code>=SQRT($G$4/(2-$G$4)*(1-(1-$G$4)^(2*A2)))</code></td><td>Calculates the EWMA control-limit factor.</td><td>When computing time-varying upper and lower limits.</td></tr>
+            <tr><td>POWER</td><td><code>=POWER(1-$G$4,2*A2)</code></td><td>Alternative form for exponentiation.</td><td>When you prefer an explicit exponent function to <code>^</code>.</td></tr>
+            <tr><td>IF</td><td><code>=IF(C2&gt;$G$2*$G$6,"Investigate","Monitor")</code></td><td>Labels an exceedance.</td><td>For an instructional signal column, not an automated production decision.</td></tr>
+          </tbody></table>
+        </div>
+        <h3 id="cusum-ewma-excel-use-cases">2. Excel Use Cases</h3>
+        <p>Place the target in <code>G1</code> (6.40), historical standard deviation in <code>G2</code> (0.04), k in <code>G3</code> (0.5), lambda in <code>G4</code> (0.20), L in <code>G5</code> (3), and h in <code>G6</code> (4). Put sample number in column A and thickness readings in B.</p>
+        <div class="table-wrap" role="region" tabindex="0" aria-label="Excel implementation formulas"><table class="comparison"><thead><tr><th>Cell</th><th>Formula</th><th>Meaning</th></tr></thead><tbody>
+          <tr><td>C2</td><td><code>=MAX(0,B2-$G$1-$G$2*$G$3)</code></td><td>Initial upper CUSUM.</td></tr>
+          <tr><td>C3</td><td><code>=MAX(0,C2+B3-$G$1-$G$2*$G$3)</code></td><td>Recursive upper CUSUM.</td></tr>
+          <tr><td>D2</td><td><code>=MAX(0,$G$1-B2-$G$2*$G$3)</code></td><td>Initial lower CUSUM magnitude; plot its negative.</td></tr>
+          <tr><td>D3</td><td><code>=MAX(0,D2+$G$1-B3-$G$2*$G$3)</code></td><td>Recursive lower CUSUM magnitude.</td></tr>
+          <tr><td>E2</td><td><code>=$G$4*B2+(1-$G$4)*$G$1</code></td><td>First EWMA after starting at target.</td></tr>
+          <tr><td>E3</td><td><code>=$G$4*B3+(1-$G$4)*E2</code></td><td>Recursive EWMA.</td></tr>
+          <tr><td>F2</td><td><code>=$G$1+$G$5*$G$2*SQRT($G$4/(2-$G$4)*(1-(1-$G$4)^(2*A2)))</code></td><td>Time-dependent EWMA upper limit.</td></tr>
+        </tbody></table></div>
+        <p>With consecutive 6.45 mm measurements, CUSUM first exceeds 0.16 mm at sample 6; EWMA crosses its time-dependent upper limit at sample 7. Use the downloadable workbook to check your own formulas.</p>
+        <h3 id="cusum-ewma-minitab">3. Minitab Navigation</h3>
+        <p><code>Stat → Control Charts → Time-Weighted Charts → CUSUM</code> for tabular CUSUM (individuals, target 6.40, historical sigma 0.04, k 0.5, h 4); or <code>Stat → Control Charts → Time-Weighted Charts → EWMA</code> for a 0.20 weight and historical parameters. Use <code>Stat → Control Charts → Variables Charts for Individuals → I-MR</code> to investigate isolated spikes alongside small-shift charts.</p>
+        <h3 id="cusum-ewma-exam-tips">4. Exam Tips</h3>
+        <p>ASQ CQE/CSSBB questions may test the difference between a control limit and a specification, the meaning of a chart signal, or the correct direction of a CUSUM shift. Always identify the chart's target, dispersion estimate, sampling structure and tuning parameters before interpreting a signal.</p>
+      </div>
+    </details>
     <section class="lesson-section" id="pitfalls">
       <span class="section-label">09 / Pitfalls and exam traps</span><h2>Eight mistakes that can ruin a sound analysis</h2>
       <div class="table-wrap"><table class="comparison"><thead><tr><th>Type</th><th>Mistake</th><th>Why it fails / how to recognize it</th><th>How to avoid it</th></tr></thead><tbody>
@@ -707,8 +793,15 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     }
   });
   obs.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  const statsPanel=$('cusum-ewma-implementation');
+  function openStatisticsForHash(){
+    const hash=decodeURIComponent(location.hash).replace(/^#/,'');
+    if(hash==='cusum-ewma-implementation' || ['cusum-ewma-excel-functions','cusum-ewma-excel-use-cases','cusum-ewma-minitab','cusum-ewma-exam-tips'].includes(hash)){statsPanel.open=true;}
+  }
+  window.addEventListener('hashchange',openStatisticsForHash);
+  document.querySelectorAll('a[href^="#cusum-ewma-"]').forEach(a=>a.addEventListener('click',()=>{statsPanel.open=true;}));
+  openStatisticsForHash();
   runLab();
-
 
 })();
 </script>
