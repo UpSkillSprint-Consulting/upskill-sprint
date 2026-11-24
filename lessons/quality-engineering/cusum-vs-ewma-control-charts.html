@@ -314,7 +314,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <div class="two-col"><div class="feature"><span class="concept-number">∑</span><h3>CUSUM: the running evidence counter</h3><p>Every new reading adds or subtracts from a running score. A string of readings on the same side of target makes one score grow. When the evidence passes a decision limit, you investigate.</p><p><strong>Think:</strong> a detective keeping two separate tallies: “above target” and “below target.”</p></div><div class="feature"><span class="concept-number">λ</span><h3>EWMA: the intelligent smoothing filter</h3><p>The latest reading gets some weight; the previous smoothed result gets the rest. Random zigzags look quieter, while a lasting change gradually pulls the smoothed line away from target.</p><p><strong>Think:</strong> a temperature display that remembers its history but favors recent readings.</p></div></div>
       <div class="callout"><strong>Neither is a pass/fail specification chart.</strong> Control limits ask whether the process behaves consistently with its historical statistical model. Engineering specifications ask whether the product meets requirements. They are not interchangeable.</div>
       <h3>Which chart answers which question?</h3>
-      <div class="table-wrap"><table class="comparison"><thead><tr><th>Question</th><th>CUSUM</th><th>EWMA</th></tr></thead><tbody>
+      <div class="table-wrap" role="region" tabindex="0" aria-label="CUSUM and EWMA chart comparison"><table class="comparison"><thead><tr><th>Question</th><th>CUSUM</th><th>EWMA</th></tr></thead><tbody>
         <tr><td>How does it remember?</td><td>Accumulates qualifying deviations; each one-sided tally is floored at zero.</td><td>Uses exponentially declining weights on older measurements.</td></tr>
         <tr><td>What is plotted?</td><td>Two separate statistics: upward and downward evidence.</td><td>One weighted process average.</td></tr>
         <tr><td>What tunes sensitivity?</td><td>Reference allowance K and decision interval H.</td><td>Weight λ and control-limit multiplier L.</td></tr>
@@ -334,7 +334,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       </ol>
       <div class="callout"><strong>What the charts cannot tell you:</strong> Neither chart identifies the root cause, proves a product is out of specification, or directly monitors changing variance. A signal means “investigate,” not “automatically reject the product.”</div>
       <h3>Essential vocabulary</h3>
-      <div class="table-wrap"><table class="comparison"><thead><tr><th>Term</th><th>Plain meaning</th><th>How to use it</th></tr></thead><tbody>
+      <div class="table-wrap" role="region" tabindex="0" aria-label="Control chart terminology"><table class="comparison"><thead><tr><th>Term</th><th>Plain meaning</th><th>How to use it</th></tr></thead><tbody>
         <tr><td>Target, μ₀</td><td>The in-control reference average</td><td>Established from validated process history or engineering target.</td></tr>
         <tr><td>Historical σ</td><td>Normal short-term process spread</td><td>Use trustworthy, stable historical data; not the suspected shifted period.</td></tr>
         <tr><td>K / k</td><td>CUSUM allowance: ignore tiny random wiggles</td><td>K is in measurement units; k = K/σ for individuals.</td></tr>
@@ -366,13 +366,13 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <h3>Part A — CUSUM tallies the evidence</h3>
       <p>Set K = 0.5 × 0.04 = <strong>0.02 mm</strong> and H = 4 × 0.04 = <strong>0.16 mm</strong>. Every 6.45 mm reading adds <strong>6.45 − 6.40 − 0.02 = 0.03 mm</strong> to the upper tally.</p>
       <div class="formula"><div class="math-display">\[C_1^{+}=\max(0,\ 0+6.45-6.40-0.02)=0.03\ \mathrm{mm}\]</div></div>
-      <div class="table-wrap"><table class="comparison"><thead><tr><th>Sample</th><th>Reading</th><th>Upper CUSUM</th><th>Lower CUSUM plotted</th><th>Result</th></tr></thead><tbody>
+      <div class="table-wrap" role="region" tabindex="0" aria-label="CUSUM worked example readings"><table class="comparison"><thead><tr><th>Sample</th><th>Reading</th><th>Upper CUSUM</th><th>Lower CUSUM plotted</th><th>Result</th></tr></thead><tbody>
       <tr><td>1</td><td>6.45</td><td>0.03</td><td>0</td><td>Below H</td></tr><tr><td>2</td><td>6.45</td><td>0.06</td><td>0</td><td>Below H</td></tr><tr><td>3</td><td>6.45</td><td>0.09</td><td>0</td><td>Below H</td></tr><tr><td>4</td><td>6.45</td><td>0.12</td><td>0</td><td>Below H</td></tr><tr><td>5</td><td>6.45</td><td>0.15</td><td>0</td><td>Below H</td></tr><tr><td><strong>6</strong></td><td><strong>6.45</strong></td><td><strong>0.18</strong></td><td>0</td><td><strong>Signal: 0.18 &gt; 0.16</strong></td></tr>
       </tbody></table></div>
       <h3>Part B — EWMA smoothly follows the shift</h3>
       <p>Start at Z₀ = 6.40 mm. With λ = 0.20, each new point contributes 20% of its value:</p>
       <div class="formula"><div class="math-display">\[Z_1=0.20(6.45)+0.80(6.40)=6.4100\ \mathrm{mm}\]</div><div class="math-display">\[Z_2=0.20(6.45)+0.80(6.4100)=6.4180\ \mathrm{mm}\]</div></div>
-      <div class="table-wrap"><table class="comparison"><thead><tr><th>Sample</th><th>EWMA Zᵢ (mm)</th><th>Time-varying UCL (mm)</th><th>Signal?</th></tr></thead><tbody>
+      <div class="table-wrap" role="region" tabindex="0" aria-label="EWMA worked example limits"><table class="comparison"><thead><tr><th>Sample</th><th>EWMA Zᵢ (mm)</th><th>Time-varying UCL (mm)</th><th>Signal?</th></tr></thead><tbody>
       <tr><td>1</td><td>6.4100</td><td>6.4240</td><td>No</td></tr><tr><td>2</td><td>6.4180</td><td>6.4307</td><td>No</td></tr><tr><td>3</td><td>6.4244</td><td>6.4344</td><td>No</td></tr><tr><td>4</td><td>6.4295</td><td>6.4365</td><td>No</td></tr><tr><td>5</td><td>6.4336</td><td>6.4378</td><td>No</td></tr><tr><td>6</td><td>6.4369</td><td>6.4386</td><td>No</td></tr><tr><td><strong>7</strong></td><td><strong>6.4395</strong></td><td><strong>6.4391</strong></td><td><strong>Yes</strong></td></tr>
       </tbody></table></div>
       <p><strong>Takeaway:</strong> with this particular repeated-reading example and these settings, CUSUM signals at sample 6, EWMA at sample 7. That is not a general claim that CUSUM is always faster.</p>
@@ -398,13 +398,13 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <div class="live-status" id="lab-status" role="status" aria-live="polite">The model uses time-dependent EWMA limits, starting Z₀ = μ₀ and initial CUSUM scores of zero.</div>
         <div class="stat-strip"><div><span class="mini-metric" id="lab-cusum-signal">—</span>First CUSUM signal</div><div><span class="mini-metric" id="lab-ewma-signal">—</span>First EWMA signal</div><div><span class="mini-metric" id="lab-n">—</span>Observations</div></div>
         <div class="chart-pair"><div class="chartbox"><h4>CUSUM evidence</h4><svg id="live-cusum" viewBox="0 0 600 290" role="img" aria-label="Calculated upper and lower CUSUM time series with upper and lower decision limits"></svg><div class="legend"><span class="pl">Upper CUSUM</span><span>Lower CUSUM</span><span class="limits">Decision limits</span></div></div><div class="chartbox"><h4>EWMA smoothed average</h4><svg id="live-ewma" viewBox="0 0 600 290" role="img" aria-label="Calculated EWMA time series with upper and lower time-varying control limits"></svg><div class="legend"><span>EWMA statistic</span><span class="limits">Control limits</span></div></div></div>
-        <details><summary>Show the first 12 calculation rows</summary><div class="table-wrap"><table class="comparison" id="calculation-table"><thead><tr><th>i</th><th>xᵢ</th><th>C⁺</th><th>−C⁻</th><th>EWMA Zᵢ</th><th>EWMA UCL</th></tr></thead><tbody id="calc-rows"></tbody></table></div></details>
+        <details><summary>Show the first 12 calculation rows</summary><div class="table-wrap" role="region" tabindex="0" aria-label="Interactive simulator calculations"><table class="comparison" id="calculation-table"><thead><tr><th>i</th><th>xᵢ</th><th>C⁺</th><th>−C⁻</th><th>EWMA Zᵢ</th><th>EWMA UCL</th></tr></thead><tbody id="calc-rows"></tbody></table></div></details>
         <p class="quiet">The simulator is a teaching calculator. It applies individual-observation tabular CUSUM and time-varying 3σ EWMA limits. It does not implement Minitab's entire option set, estimated historical parameters, or production alarm governance.</p>
       </div>
     </section>
     <section class="lesson-section" id="interpretation">
       <span class="section-label">06 / Interpretation rules</span><h2>When you see this, it means this</h2>
-      <div class="table-wrap"><table class="comparison"><thead><tr><th>What the plot shows</th><th>What it suggests</th><th>What you should do</th></tr></thead><tbody>
+      <div class="table-wrap" role="region" tabindex="0" aria-label="Control chart interpretation rules"><table class="comparison"><thead><tr><th>What the plot shows</th><th>What it suggests</th><th>What you should do</th></tr></thead><tbody>
         <tr><td>Upper CUSUM rises beyond +H</td><td>Evidence of persistent observations above target.</td><td>Investigate a possible upward mean shift and time of onset.</td></tr>
         <tr><td>Lower CUSUM falls below −H</td><td>Evidence of persistent observations below target.</td><td>Investigate downward bias or loss of process output.</td></tr>
         <tr><td>Opposite CUSUM stays on zero</td><td>Not enough evidence has accumulated in that direction.</td><td>Do not confuse a zero evidence score with an actual process reading of zero.</td></tr>
@@ -422,7 +422,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <div class="two-col"><div class="feature"><h3>Create CUSUM</h3><ol class="step-rail"><li>Go to <strong>Stat → Control Charts → Time-Weighted Charts → CUSUM</strong>.</li><li>Select the process column, e.g., <code>Pipe_Wall_mm</code>; set subgroup size to <strong>1</strong>.</li><li>Enter target <strong>6.40</strong> and historical σ <strong>0.04</strong> in the relevant options.</li><li>Choose tabular CUSUM with <strong>h = 4</strong> and <strong>k = 0.5</strong>; leave FIR off for this lesson.</li><li>Inspect both the positive and negative CUSUM lines and the Minitab test-results section.</li></ol></div>
       <div class="feature"><h3>Create EWMA</h3><ol class="step-rail"><li>Go to <strong>Stat → Control Charts → Time-Weighted Charts → EWMA</strong>.</li><li>Select the same column and subgroup size <strong>1</strong>.</li><li>Enter historical mean <strong>6.40</strong>, historical σ <strong>0.04</strong> and weight <strong>0.20</strong>.</li><li>Use the default <strong>3σ</strong> control limits, with other settings unchanged.</li><li>Inspect the first limit crossing and compare it with the CUSUM result.</li></ol></div></div>
       <h3>Use these settings for all four case studies</h3>
-      <div class="table-wrap"><table class="comparison"><thead><tr><th>Column</th><th>Target μ₀</th><th>Historical σ</th><th>CUSUM</th><th>EWMA</th></tr></thead><tbody>
+      <div class="table-wrap" role="region" tabindex="0" aria-label="Four Minitab case-study settings"><table class="comparison"><thead><tr><th>Column</th><th>Target μ₀</th><th>Historical σ</th><th>CUSUM</th><th>EWMA</th></tr></thead><tbody>
         <tr><td><code>Pipe_Wall_mm</code></td><td>6.40</td><td>0.04</td><td>h = 4, k = .5</td><td>λ = .20, L = 3</td></tr>
         <tr><td><code>Reactor_Temp_C</code></td><td>210</td><td>1.50</td><td>h = 4, k = .5</td><td>λ = .20, L = 3</td></tr>
         <tr><td><code>Fill_Weight_g</code></td><td>500</td><td>2.00</td><td>h = 4, k = .5</td><td>λ = .20, L = 3</td></tr>
@@ -460,7 +460,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <div class="callout amber"><strong>Teaching moment:</strong> “No CUSUM signal” does <em>not</em> mean “nothing unusual happened.” The sample-45 raw grade would exceed a historical 3σ Individuals limit. Use a chart designed for spikes when missing one abnormal observation would matter.</div>
       </div>
       <h3>Results side by side</h3>
-      <div class="table-wrap"><table class="comparison"><thead><tr><th>Process</th><th>Pattern</th><th>First CUSUM signal</th><th>First EWMA signal*</th><th>Historical 3σ raw-point signals</th></tr></thead><tbody>
+      <div class="table-wrap" role="region" tabindex="0" aria-label="CUSUM and EWMA detection comparison"><table class="comparison"><thead><tr><th>Process</th><th>Pattern</th><th>First CUSUM signal</th><th>First EWMA signal*</th><th>Historical 3σ raw-point signals</th></tr></thead><tbody>
         <tr><td>Pipe wall</td><td>Upward shift</td><td>33</td><td>33</td><td>59</td></tr>
         <tr><td>Reactor</td><td>Gradual upward drift</td><td>63</td><td>69</td><td>None</td></tr>
         <tr><td>Filling</td><td>Downward shift</td><td>37</td><td>38</td><td>38, 66</td></tr>
@@ -510,7 +510,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     </details>
     <section class="lesson-section" id="pitfalls">
       <span class="section-label">09 / Pitfalls and exam traps</span><h2>Eight mistakes that can ruin a sound analysis</h2>
-      <div class="table-wrap"><table class="comparison"><thead><tr><th>Type</th><th>Mistake</th><th>Why it fails / how to recognize it</th><th>How to avoid it</th></tr></thead><tbody>
+      <div class="table-wrap" role="region" tabindex="0" aria-label="Calculation and interpretation mistakes"><table class="comparison"><thead><tr><th>Type</th><th>Mistake</th><th>Why it fails / how to recognize it</th><th>How to avoid it</th></tr></thead><tbody>
       <tr><td>Calculation</td><td>Forgetting K in the CUSUM update.</td><td>A positive score grows on every above-target reading even when the excess is smaller than the allowance. Check the first three hand calculations.</td><td>Subtract K at every update; a reading at target reduces a positive upper CUSUM by K.</td></tr>
       <tr><td>Calculation</td><td>Mixing h with H or k with K.</td><td>You compare a thickness score in millimetres directly with a dimensionless number such as h = 4.</td><td>For individual readings calculate H = hσ and K = kσ, then compare like units.</td></tr>
       <tr><td>Interpretation</td><td>Thinking the lower line at zero means zero process values.</td><td>The physical measurements are near target while the evidence statistic lies at zero: they are different quantities.</td><td>Read the y-axis label. Zero means insufficient accumulated <em>downward</em> evidence.</td></tr>
