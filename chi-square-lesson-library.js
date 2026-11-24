@@ -480,7 +480,7 @@
       search: 'cusum ewma minitab statistical process control small shifts chart detection reference decision interval lambda manufacturing tutorials',
       meta: '<span>Intermediate</span><span>Interactive</span><span>35 min</span><span>Minitab + Excel</span>',
       title: 'CUSUM vs. EWMA: Detect the Hidden Shift',
-      description: 'Learn CUSUM and EWMA with Minitab charts, synthetic industrial data, a live calculator and complete practice exercises.'
+      description: 'Learn time-weighted control charts with real Minitab project outputs, a live simulator and four manufacturing case studies.'
     },
     {
       marker: 'data-introduction-to-calculus-for-quality-and-reliability-engineers',
