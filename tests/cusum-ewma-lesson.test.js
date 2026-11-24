@@ -17,8 +17,8 @@ const assets = path.join(root, 'assets/lessons', slug);
 function guideBlock(heading) {
   const start = guide.indexOf(heading);
   assert.ok(start >= 0, 'guide heading: ' + heading);
-  const begin = guide.indexOf('``html', start);
-  const end = guide.indexOf('\n``', begin + 7);
+  const begin = guide.indexOf('```html', start);
+  const end = guide.indexOf('\n```', begin + 7);
   assert.ok(begin >= 0 && end > begin, 'fenced HTML in guide');
   return guide.slice(begin + 7, end).trim();
 }
