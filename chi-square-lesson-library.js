@@ -243,6 +243,18 @@
       description: 'See how CI, PI and TI differ with live sliders, a width-vs-sample-size chart, a coverage simulator, every formula, and Excel and Minitab steps.'
     },
     {
+      marker: 'data-multivariate-statistical-process-control',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/multivariate-statistical-process-control',
+      topic: 'statistics',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'multivariate spc hotelling t2 generalized variance mewma covariance matrix minitab control charts',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>60 min</span><span>Minitab</span>',
+      title: 'Multivariate Statistical Control Chart (MSPC) – Hotelling\'s T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice',
+      description: 'Learn to detect joint mean and dispersion shifts with Hotelling’s T², generalized variance and MEWMA, then reproduce five saved Minitab plots.'
+    },
+    {
       marker: 'data-beyond-the-bell',
       sectionId: 'statistics',
       path: '/lessons/statistics/beyond-the-bell-the-normal-distribution-and-its-relatives',
