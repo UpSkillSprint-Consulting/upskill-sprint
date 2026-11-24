@@ -147,3 +147,13 @@ test('guild: public access decision has an idempotent, unapplied SQL handoff', (
   assert.match(sql, /on conflict \(resource_key\) do update/i);
   assert.doesNotMatch(html, /data-require-auth|data-required-access|data-access-resource/);
 });
+
+test('guild: all horizontal calculation tables support keyboard access and named regions', () => {
+  const regions=[...doc.querySelectorAll('#lesson-content .table-wrap')];
+  assert.ok(regions.length >= 8, 'expected calculations and comparison tables');
+  for (const region of regions) {
+    assert.equal(region.getAttribute('role'),'region');
+    assert.equal(region.getAttribute('tabindex'),'0');
+    assert.ok((region.getAttribute('aria-label')||'').trim().length > 5);
+  }
+});
