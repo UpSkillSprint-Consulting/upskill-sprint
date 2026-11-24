@@ -200,6 +200,9 @@
   @media(max-width:650px) {.site-inner{flex-direction:column;align-items:stretch;gap:7px}.brand span{font-size:.91rem}.nav-right{justify-content:space-between}.theme-toggle{min-width:112px;white-space:nowrap}}
   @media(prefers-reduced-motion:reduce) {html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
   
+
+  .math-display {margin:14px 0;max-width:100%;overflow-x:auto;text-align:center;line-height:1.6}
+  .math-display mjx-container {color:currentColor;max-width:100%}
   /* EDIT: Visual-first teaching poster and statistics implementation */
   .lesson-poster {display:grid;grid-template-columns:minmax(0,1fr) 58px minmax(0,1fr);align-items:center;gap:12px;margin:22px 0 26px}
   .lesson-poster-panel {padding:19px 22px;border-radius:19px;display:flex;flex-direction:column;gap:5px;min-width:0;color:#fff}
@@ -342,15 +345,15 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     <section class="lesson-section" id="formulas">
       <span class="section-label">03 / The mathematics, made approachable</span><h2>The formulas are simply a way of remembering</h2>
       <h3>CUSUM: an upward notebook and a downward notebook</h3>
-      <div class="formula-grid"><div class="formula"><strong>Upper CUSUM: accumulate increases</strong><math display="block" aria-label="C plus i equals maximum of zero and previous C plus plus x minus target minus K"><mrow><msubsup><mi>C</mi><mi>i</mi><mo>+</mo></msubsup><mo>=</mo><mi>max</mi><mo>(</mo><mn>0</mn><mo>,</mo><msubsup><mi>C</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow><mo>+</mo></msubsup><mo>+</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><msub><mi>μ</mi><mn>0</mn></msub><mo>−</mo><mi>K</mi><mo>)</mo></mrow></math><small>Signals upward evidence when C⁺ &gt; H.</small></div>
-      <div class="formula"><strong>Lower CUSUM: accumulate decreases</strong><math display="block" aria-label="C minus i equals maximum of zero and previous C minus plus target minus x minus K"><mrow><msubsup><mi>C</mi><mi>i</mi><mo>−</mo></msubsup><mo>=</mo><mi>max</mi><mo>(</mo><mn>0</mn><mo>,</mo><msubsup><mi>C</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow><mo>−</mo></msubsup><mo>+</mo><msub><mi>μ</mi><mn>0</mn></msub><mo>−</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mi>K</mi><mo>)</mo></mrow></math><small>We calculate a positive magnitude C⁻ but plot it below zero as −C⁻.</small></div></div>
-      <div class="formula"><span class="formula-line">K = kσ; &nbsp; H = hσ; &nbsp; common teaching settings: k = 0.5, h = 4</span><small>For individuals, choosing k = δ/2 designs for a shift of δσ. Using k = 0.5 targets a shift of approximately one standard deviation. Starting values C⁺₀ = C⁻₀ = 0; no fast initial response (FIR).</small></div>
+      <div class="formula-grid"><div class="formula"><strong>Upper CUSUM: accumulate increases</strong><div class="math-display">\[ C_i^{+}=\max\!\left(0,\ C_{i-1}^{+}+(x_i-\mu_0)-K\right) \]</div><small>Signals upward evidence when C⁺ &gt; H.</small></div>
+      <div class="formula"><strong>Lower CUSUM: accumulate decreases</strong><div class="math-display">\[ C_i^{-}=\max\!\left(0,\ C_{i-1}^{-}+(\mu_0-x_i)-K\right) \]</div><small>We calculate a positive magnitude C⁻ but plot it below zero as −C⁻.</small></div></div>
+      <div class="formula"><div class="math-display">\[K=k\sigma,\qquad H=h\sigma,\qquad k=0.5,\qquad h=4\]</div><small>For individuals, choosing k = δ/2 designs for a shift of δσ. Using k = 0.5 targets a shift of approximately one standard deviation. Starting values C⁺₀ = C⁻₀ = 0; no fast initial response (FIR).</small></div>
       <div class="callout amber"><strong>Why the blue line hugs zero:</strong> If measurements tend to be above the target, the upward score accumulates. The downward score keeps getting clipped to zero. On Minitab's chart it is drawn as a negative line near the horizontal axis.</div>
       <h3>EWMA: a moving average with a memory</h3>
-      <div class="formula"><math display="block" aria-label="Z i equals lambda times x i plus one minus lambda times previous Z"><mrow><msub><mi>Z</mi><mi>i</mi></msub><mo>=</mo><mi>λ</mi><msub><mi>x</mi><mi>i</mi></msub><mo>+</mo><mo>(</mo><mn>1</mn><mo>−</mo><mi>λ</mi><mo>)</mo><msub><mi>Z</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow></math><small>Z₀ = μ₀ in this lesson. For λ = 0.20: today's point supplies 20%; the previous smoothed value supplies 80%.</small></div>
+      <div class="formula"><div class="math-display">\[ Z_i=\lambda x_i+(1-\lambda)Z_{i-1} \]</div><small>Z₀ = μ₀ in this lesson. For λ = 0.20: today's point supplies 20%; the previous smoothed value supplies 80%.</small></div>
       <h3>EWMA control limits</h3>
       <div class="formula"><p><strong>Time-varying upper and lower limits for individual observations</strong></p>
-      <math display="block" aria-label="target plus or minus L sigma times square root lambda over two minus lambda times one minus one minus lambda raised to two i"><mrow><msub><mi>μ</mi><mn>0</mn></msub><mo>±</mo><mi>L</mi><mi>σ</mi><msqrt><mfrac><mi>λ</mi><mrow><mn>2</mn><mo>−</mo><mi>λ</mi></mrow></mfrac><mo>[</mo><mn>1</mn><mo>−</mo><msup><mrow><mo>(</mo><mn>1</mn><mo>−</mo><mi>λ</mi><mo>)</mo></mrow><mrow><mn>2</mn><mi>i</mi></mrow></msup><mo>]</mo></msqrt></mrow></math>
+      <div class="math-display">\[ \mathrm{UCL}_i,\mathrm{LCL}_i=\mu_0\pm L\sigma\sqrt{\frac{\lambda}{2-\lambda}\left[1-(1-\lambda)^{2i}\right]} \]</div>
       <small>Use + for UCL and − for LCL. For long-run limits, the bracketed term approaches 1. L = 3 is a common starting multiplier. For equal-sized subgroups, replace σ by σ/√n.</small></div>
       <div class="callout"><strong>Assumptions and limits of these formulas:</strong> These formulas apply to ordered, individual continuous measurements with a trustworthy, stable historical μ₀ and σ. The limits are derived under an independent-observation process model. Strong autocorrelation, a changing product mix, or a drifting measurement system can invalidate the stated false-alarm performance. For subgroup means of constant size n, use σ/√n; do not substitute individual-observation limits. Use a separate dispersion chart to monitor variance. These equations are not intended as standalone acceptance criteria or a root-cause diagnosis.</div>
     </section>
@@ -361,13 +364,13 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <div class="stat-strip"><div><span class="mini-metric">6.40</span>Target, mm</div><div><span class="mini-metric">0.04</span>Historical σ, mm</div><div><span class="mini-metric">6.45</span>Each new reading, mm</div></div>
       <h3>Part A — CUSUM tallies the evidence</h3>
       <p>Set K = 0.5 × 0.04 = <strong>0.02 mm</strong> and H = 4 × 0.04 = <strong>0.16 mm</strong>. Every 6.45 mm reading adds <strong>6.45 − 6.40 − 0.02 = 0.03 mm</strong> to the upper tally.</p>
-      <div class="formula"><span class="formula-line">C⁺₁ = max(0, 0 + 6.45 − 6.40 − 0.02) = 0.03 mm</span></div>
+      <div class="formula"><div class="math-display">\[C_1^{+}=\max(0,\ 0+6.45-6.40-0.02)=0.03\ \mathrm{mm}\]</div></div>
       <div class="table-wrap"><table class="comparison"><thead><tr><th>Sample</th><th>Reading</th><th>Upper CUSUM</th><th>Lower CUSUM plotted</th><th>Result</th></tr></thead><tbody>
       <tr><td>1</td><td>6.45</td><td>0.03</td><td>0</td><td>Below H</td></tr><tr><td>2</td><td>6.45</td><td>0.06</td><td>0</td><td>Below H</td></tr><tr><td>3</td><td>6.45</td><td>0.09</td><td>0</td><td>Below H</td></tr><tr><td>4</td><td>6.45</td><td>0.12</td><td>0</td><td>Below H</td></tr><tr><td>5</td><td>6.45</td><td>0.15</td><td>0</td><td>Below H</td></tr><tr><td><strong>6</strong></td><td><strong>6.45</strong></td><td><strong>0.18</strong></td><td>0</td><td><strong>Signal: 0.18 &gt; 0.16</strong></td></tr>
       </tbody></table></div>
       <h3>Part B — EWMA smoothly follows the shift</h3>
       <p>Start at Z₀ = 6.40 mm. With λ = 0.20, each new point contributes 20% of its value:</p>
-      <div class="formula"><span class="formula-line">Z₁ = 0.20 × 6.45 + 0.80 × 6.40 = 6.4100 mm</span><span class="formula-line">Z₂ = 0.20 × 6.45 + 0.80 × 6.4100 = 6.4180 mm</span></div>
+      <div class="formula"><div class="math-display">\[Z_1=0.20(6.45)+0.80(6.40)=6.4100\ \mathrm{mm}\]</div><div class="math-display">\[Z_2=0.20(6.45)+0.80(6.4100)=6.4180\ \mathrm{mm}\]</div></div>
       <div class="table-wrap"><table class="comparison"><thead><tr><th>Sample</th><th>EWMA Zᵢ (mm)</th><th>Time-varying UCL (mm)</th><th>Signal?</th></tr></thead><tbody>
       <tr><td>1</td><td>6.4100</td><td>6.4240</td><td>No</td></tr><tr><td>2</td><td>6.4180</td><td>6.4307</td><td>No</td></tr><tr><td>3</td><td>6.4244</td><td>6.4344</td><td>No</td></tr><tr><td>4</td><td>6.4295</td><td>6.4365</td><td>No</td></tr><tr><td>5</td><td>6.4336</td><td>6.4378</td><td>No</td></tr><tr><td>6</td><td>6.4369</td><td>6.4386</td><td>No</td></tr><tr><td><strong>7</strong></td><td><strong>6.4395</strong></td><td><strong>6.4391</strong></td><td><strong>Yes</strong></td></tr>
       </tbody></table></div>
