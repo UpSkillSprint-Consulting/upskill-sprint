@@ -471,6 +471,18 @@
       description: 'Read two- and three-index notation, totals and means, with worked ANOVA and chi-square examples and an eight-question quiz.'
     },
     {
+      marker: 'data-cusum-ewma-control-charts',
+      sectionId: 'quality-engineering',
+      path: '/lessons/quality-engineering/cusum-vs-ewma-control-charts',
+      topic: 'quality-engineering',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'cusum ewma minitab statistical process control small shifts chart detection reference decision interval lambda manufacturing tutorials',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>35 min</span><span>Minitab + Excel</span>',
+      title: 'CUSUM vs. EWMA: Detect the Hidden Shift',
+      description: 'Learn CUSUM and EWMA with Minitab charts, synthetic industrial data, a live calculator and complete practice exercises.'
+    },
+    {
       marker: 'data-introduction-to-calculus-for-quality-and-reliability-engineers',
       sectionId: 'quality-engineering',
       path: '/lessons/quality-engineering/introduction-to-calculus-for-quality-and-reliability-engineers',
