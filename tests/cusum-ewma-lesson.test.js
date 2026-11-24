@@ -136,3 +136,14 @@ test('guild: statistical implementation and source registration', () => {
   assert.ok(catalog.includes("marker: 'data-cusum-ewma-control-charts'"));
   assert.ok(catalog.includes("path: '/lessons/quality-engineering/cusum-vs-ewma-control-charts'"));
 });
+
+test('guild: public access decision has an idempotent, unapplied SQL handoff', () => {
+  const metadata=JSON.parse(html.match(/<!-- UPSKILLSPRINT_LESSON_META\s*([\s\S]*?)\s*-->/)[1]);
+  assert.equal(metadata.access_level, 'public');
+  const key='lesson:/lessons/quality-engineering/cusum-vs-ewma-control-charts';
+  const sql=fs.readFileSync(path.join(root, 'supabase/public-cusum-ewma-access.sql'), 'utf8');
+  assert.ok(sql.includes(key));
+  assert.match(sql, /'public'/);
+  assert.match(sql, /on conflict \(resource_key\) do update/i);
+  assert.doesNotMatch(html, /data-require-auth|data-required-access|data-access-resource/);
+});
