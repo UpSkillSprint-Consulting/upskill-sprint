@@ -71,3 +71,5 @@ test('interactive chart sizing stays scoped to the four compact live plots',()=>
  assert.match(html,/#lesson-content \.ms-lab > svg\.ms-lab-plot\s*\{[^}]*max-width:\s*420px/);
  assert.match(html,/\.ms-lab-plot-dispersion\s*\{[^}]*max-width:\s*360px/);
 });
+
+ test('specimen comparison panels retain all points inside common plotting bounds',()=>{const d=doc();for(const id of [40,41,46,51]){const svg=d.querySelector('svg[aria-labelledby="specimens-'+id+'-title specimens-'+id+'-desc"]');assert.equal(svg.getAttribute('viewBox'),'0 0 340 250');const dots=[...svg.querySelectorAll('circle.ms-data-dot')];assert.equal(dots.length,10);for(const dot of dots){const x=+dot.getAttribute('cx'),y=+dot.getAttribute('cy'),r=+dot.getAttribute('r');assert.ok(x-r>=43&&x+r<=297&&y-r>=12&&y+r<=228);}}});
