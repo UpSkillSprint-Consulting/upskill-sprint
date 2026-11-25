@@ -91,3 +91,5 @@ test('A16 visual containers have content-appropriate width caps and matrix remai
  assert.match(html,/#lesson-content \.ms-dialog\s*\{[^}]*max-width:\s*560px/);
  assert.match(html,/#lesson-content \.ms-chart\.ms-chart-card\s*\{[^}]*max-width:\s*680px/);
 });
+
+test('canonical dropdown navigation loads its shared styles and behavior',()=>{const d=doc();assert.equal(d.querySelectorAll('head link[rel="stylesheet"][href="/site-nav.css"]').length,1);assert.equal(d.querySelectorAll('head script[src="/site-nav.js"][defer]').length,1);assert.equal(d.querySelectorAll('header.site nav.desktop-nav .nav-chevron').length,6);assert.ok(fs.existsSync('site-nav.css'));assert.ok(fs.existsSync('site-nav.js'));});
