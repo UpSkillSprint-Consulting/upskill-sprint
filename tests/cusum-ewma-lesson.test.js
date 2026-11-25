@@ -157,3 +157,11 @@ test('guild: all horizontal calculation tables support keyboard access and named
     assert.ok((region.getAttribute('aria-label')||'').trim().length > 5);
   }
 });
+
+test('canonical dropdown navigation loads shared styles and behavior', () => {
+  assert.equal(doc.querySelectorAll('head link[rel="stylesheet"][href="/site-nav.css"]').length, 1);
+  assert.equal(doc.querySelectorAll('head script[src="/site-nav.js"][defer]').length, 1);
+  assert.equal(doc.querySelectorAll('header.site nav.desktop-nav .nav-chevron').length, 6);
+  assert.ok(fs.existsSync(path.join(root, 'site-nav.css')));
+  assert.ok(fs.existsSync(path.join(root, 'site-nav.js')));
+});
