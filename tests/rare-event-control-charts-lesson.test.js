@@ -1,0 +1,16 @@
+'use strict';
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const test = require('node:test');
+const root = path.join(__dirname,'..');
+const slug = 'rare-event-control-charts';
+const html = fs.readFileSync(path.join(root,'lessons/quality-engineering',slug+'.html'),'utf8');
+const dir = path.join(root,'assets/lessons',slug);
+const rows = name => fs.readFileSync(path.join(dir,name),'utf8').trim().split(/\r?\n/).slice(1).map(x=>x.split(','));
+function gaps(r) {return r.slice(1).map((v,i)=>(Date.parse(v[2].replace(' ','T')+(v[2].length===10?'T00:00Z':'Z'))-Date.parse(r[i][2].replace(' ','T')+(r[i][2].length===10?'T00:00Z':'Z')))/86400000);}
+function near(a,b,t=1e-5){assert.ok(Math.abs(a-b)<t,a+' != '+b);}
+test('rare-event lesson metadata and public access',()=>{assert.ok(html.startsWith('<!DOCTYPE html>\n<html lang="en">\n<!-- UPSKILLSPRINT_LESSON_META'));const m=JSON.parse(html.match(/<!-- UPSKILLSPRINT_LESSON_META\s*([\s\S]*?)\s*-->/)[1]);assert.equal(m.slug,slug);assert.equal(m.access_level,'public');assert.equal(m.category_slug,'quality-engineering');assert.equal((html.match(/<main id="lesson-content">/g)||[]).length,1);assert.equal((html.match(/<h1\b/g)||[]).length,1);assert.match(html,/upskill-quiz-result/);assert.match(html,/Statistics Implementation/);});
+test('raw records preserve ordering and interval numbering',()=>{const g=rows('g-payment-dates.csv'),t=rows('t-pump-timestamps.csv');assert.equal(g.length,38);assert.equal(t.length,38);const gg=gaps(g),tt=gaps(t);assert.equal(gg.length,37);assert.equal(tt.length,37);assert.ok(gg.every(x=>x>=0));assert.ok(tt.every(x=>x>0));assert.equal(gg[25],87);assert.deepEqual(gg.slice(27,30),[0,0,0]);near(tt[25],52.09513888888889);near(tt[26]*1440,8);near(gg.slice(0,25).reduce((a,b)=>a+b,0)/25,12.12);near(tt.slice(0,25).reduce((a,b)=>a+b,0)/25,5.76025);});
+test('fixed limit checkpoints and independent tests 1, 2 and Benneyan',()=>{const p=.08,F=x=>1-(1-p)**(x+1),quant=q=>{const hi=Math.ceil(Math.log(1-q)/Math.log(1-p))-1,lo=hi-1;return Math.max(0,lo+(q-F(lo))/(F(hi)-F(lo)));};const g=[quant(.00135),quant(.5),quant(.99865)],t=[-7*Math.log(.99865),7*Math.log(2),-7*Math.log(.00135)];near(g[0],0);near(g[1],7.32,.01);near(g[2],78.25,.01);near(t[1],4.85,.01);near(t[2],46.25,.01);const gs=gaps(rows('g-payment-dates.csv')),ts=gaps(rows('t-pump-timestamps.csv'));const beyond=(data,lim)=>data.flatMap((x,i)=>x<lim[0]||x>lim[2]?[i+2]:[]);assert.deepEqual(beyond(gs,g),[27]);assert.deepEqual(beyond(ts,t),[27,28]);const run=(data,cl)=>{let n=0,side=0,out=[];data.forEach((x,i)=>{const s=Math.sign(x-cl);n=s===0?0:s===side?n+1:1;side=s;if(n>=9)out.push(i+2);});return out;};assert.deepEqual(run(gs,g[1]),[36,37,38]);assert.deepEqual(run(ts,t[1]),[36,37,38]);const r=Math.ceil(Math.log(.00135)/Math.log(p));assert.equal(r,3);});
+test('original binary deliverables present before publication',()=>{for(const f of ['realistic-rare-event-logs.xlsx','rare-event-g-and-t-minitab-practice.xlsx','g-and-t-minitab-practice.mpx','g-original-minitab.png','t-original-minitab.png'])assert.ok(fs.existsSync(path.join(dir,f)),f+' missing — keep draft');});
