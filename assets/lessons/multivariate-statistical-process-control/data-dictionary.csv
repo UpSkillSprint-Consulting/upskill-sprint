@@ -1,0 +1,5 @@
+Column,Unit,Meaning
+Subgroup,ID,Chronological rational subgroup 1 through 60
+Specimen,ID,Paired specimen within subgroup 1 through 10
+YS_MPa,MPa,Yield strength synthetic teaching data
+UTS_MPa,MPa,Ultimate tensile strength synthetic teaching data
