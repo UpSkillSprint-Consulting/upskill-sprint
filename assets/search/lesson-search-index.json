@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 64,
   "contentLessonCount": 63,
-  "sectionCount": 3312,
+  "sectionCount": 3316,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -48909,7 +48909,7 @@
       "description": "Learn G and T charts from raw event dates, explore geometric and Weibull control limits, and practise interpreting rare-event signals in Minitab.",
       "topic": "quality-engineering",
       "level": "intermediate",
-      "minutes": 65,
+      "minutes": 70,
       "interactive": true,
       "keywords": [
         "rare event control charts",
@@ -48946,7 +48946,7 @@
             "Rare Event Control Charts (G & T)",
             "1. When zero is not enough"
           ],
-          "text": "Suppose a mill inspects 1,000 pipes per day for critical weld failures. Two failures in ten days give eight zero-count days. A P chart is legitimate, but most points sit at zero and moderate increases in event frequency can be difficult to detect. Illustrative daily counts; a P chart would divide each count by 1,000. 10,000 pipes inspected 2 critical failures 8/10 zero-failure days G counts acceptable units separating failures; T measures the elapsed exposure. Neither accumulates previous observations. Chart What it plots Use Shewhart X̄-R / I-MR Individual or subgroup measurements Sudden changes in thickness, temperature or fill weight P / NP / C / U Fractions, defective counts or defects Routine attribute monitoring with known exposure CUSUM Cumulative deviations Small sustained shifts EWMA Exponentially weighted history Small shifts and drift MSPC Joint correlated variables (Hotelling T², etc.) Multivariate process behaviour G Discrete gaps Rare adverse events T Elapsed time Rare breakdowns or incidents \\[C_i^+=\\max(0,C_{i-1}^++Z_i-k),\\qquad E_i=\\lambda X_i+(1-\\lambda)E_{i-1}\\] \\[T^2=(\\mathbf{x}-\\boldsymbol{\\mu})^\\mathsf{T}\\Sigma^{-1}(\\mathbf{x}-\\boldsymbol{\\mu})\\] Here the CUSUM uses standardized deviation Z and reference value k, EWMA weights the current observation X by lambda, and Hotelling's statistic uses a vector of measurements, baseline means and covariance. Rare-event T is not Hotelling's T².",
+          "text": "Suppose a mill inspects 1,000 pipes per day for critical weld failures. Two failures in ten days give eight zero-count days. A P chart is legitimate, but most points sit at zero and moderate increases in event frequency can be difficult to detect. Illustrative daily counts; a P chart would divide each count by 1,000. 10,000 pipes inspected 2 critical failures 8/10 zero-failure days G counts acceptable units separating failures; T measures the elapsed exposure. Neither accumulates previous observations. Chart What it plots Use Shewhart \\(\\bar{X}\\)-R / I-MR Individual or subgroup measurements Sudden changes in thickness, temperature or fill weight P / NP / C / U Fractions, defective counts or defects Routine attribute monitoring with known exposure CUSUM Cumulative deviations Small sustained shifts EWMA Exponentially weighted history Small shifts and drift MSPC Joint correlated variables (Hotelling T², etc.) Multivariate process behaviour G Discrete gaps Rare adverse events T Elapsed time Rare breakdowns or incidents \\[C_i^+=\\max(0,C_{i-1}^++Z_i-k),\\qquad E_i=\\lambda X_i+(1-\\lambda)E_{i-1}\\] \\[T^2=(\\mathbf{x}-\\boldsymbol{\\mu})^\\mathsf{T}\\Sigma^{-1}(\\mathbf{x}-\\boldsymbol{\\mu})\\] Here the CUSUM uses the standardized deviation \\(Z_i\\) and reference value \\(k\\); the EWMA \\(E_i\\) weights the current observation \\(X_i\\) by \\(\\lambda\\); and Hotelling's statistic uses a vector of measurements \\(\\mathbf{x}\\), baseline means \\(\\boldsymbol{\\mu}\\) and covariance \\(\\Sigma\\). Rare-event T is not Hotelling's \\(T^2\\).",
           "excerpt": "Suppose a mill inspects 1,000 pipes per day for critical weld failures. Two failures in ten days give eight zero-count days. A P chart is legitimate, but most points sit at zero and moderate increases in event frequency can be difficult to detect.…",
           "kinds": [
             "section",
@@ -48960,7 +48960,7 @@
             "Rare Event Control Charts (G & T)",
             "2. G chart: count the gaps"
           ],
-          "text": "Use the G chart for independent opportunities with a stable event probability. Examples: critical weld defects, incorrect payments, lost deliveries, surgical infections and serious complaints. If product mix or daily exposure changes materially, stratify or use an exposure-adjusted model. Failed pipe Good pipes between 100 Starting point 251 150 332 80 633 300 634 0 835 200 \\[G_i=N_i-N_{i-1}-1\\] Here N is a sequential unit number. If the input is event dates, Minitab uses the actual integer difference in days, without subtracting one. Same-day distinct events generate zero.",
+          "text": "Use the G chart for independent opportunities with a stable event probability. Examples: critical weld defects, incorrect payments, lost deliveries, surgical infections and serious complaints. If product mix or daily exposure changes materially, stratify or use an exposure-adjusted model. Failed pipe Good pipes between 100 Starting point 251 150 332 80 633 300 634 0 835 200 \\[G_i=N_i-N_{i-1}-1\\] Here \\(N_i\\) is the sequential unit number of event \\(i\\). If the input is event dates, Minitab uses the actual integer difference in days, without subtracting one. Same-day distinct events generate zero.",
           "excerpt": "Use the G chart for independent opportunities with a stable event probability. Examples: critical weld defects, incorrect payments, lost deliveries, surgical infections and serious complaints. If product mix or daily exposure changes materially, stratify or…",
           "kinds": [
             "section",
@@ -48975,8 +48975,8 @@
             "2. G chart: count the gaps",
             "The geometric model"
           ],
-          "text": "\\[P(X=x)=p(1-p)^x,\\quad F(x)=1-(1-p)^{x+1},\\quad x=0,1,2,\\ldots\\] \\[\\widehat p=\\frac{n}{n+\\sum_{i=1}^n x_i}=\\frac{1}{1+\\bar x},\\quad E(X)=\\frac{1-p}{p},\\quad \\mathrm{Var}(X)=\\frac{1-p}{p^2}\\] p is the event probability per opportunity; n is the number of completed intervals; x is the number-between count. The date-based model is a practical approximation when same-day multiple events exist. Its p is not the transaction-level defect probability. \\[Q(q)=\\left\\lceil\\frac{\\ln(1-q)}{\\ln(1-p)}\\right\\rceil-1\\] \\[LCL=Q(0.00135),\\quad CL=Q(0.5),\\quad UCL=Q(0.99865)\\] Minitab interpolates between the two adjacent geometric CDF values rather than using integer quantiles directly, then clips the lower limit at zero. For adjacent integer counts a and b=a+1 with F(a) ≤ q ≤ F(b), the interpolated value is: \\[Q_{\\mathrm{interp}}(q)=a+\\frac{q-F(a)}{F(b)-F(a)}\\] At p=0.005, the mean is 199 good pipes; the interpolated median is about 137.28 and the UCL about 1,317.22. The LCL is zero. A gap of 1,550 may indicate improvement; two successive zero gaps indicate a cluster. Worked example, fixed p = 0.005. A square or ring identifies a signal, not merely colour.",
-          "excerpt": "\\[P(X=x)=p(1-p)^x,\\quad F(x)=1-(1-p)^{x+1},\\quad x=0,1,2,\\ldots\\] \\[\\widehat p=\\frac{n}{n+\\sum_{i=1}^n x_i}=\\frac{1}{1+\\bar x},\\quad E(X)=\\frac{1-p}{p},\\quad \\mathrm{Var}(X)=\\frac{1-p}{p^2}\\] p is the event probability per opportunity; n is the number of…",
+          "text": "\\[P(X=x)=p(1-p)^x,\\quad F(x)=1-(1-p)^{x+1},\\quad x=0,1,2,\\ldots\\] \\[\\widehat p=\\frac{n}{n+\\sum_{i=1}^n x_i}=\\frac{1}{1+\\bar x},\\quad E(X)=\\frac{1-p}{p},\\quad \\mathrm{Var}(X)=\\frac{1-p}{p^2}\\] \\(p\\) is the event probability per opportunity; \\(n\\) is the number of completed intervals; \\(x_i\\) is the number-between count and \\(\\bar{x}\\) its mean. The date-based model is a practical approximation when same-day multiple events exist. Its \\(p\\) is not the transaction-level defect probability. \\[Q(q)=\\left\\lceil\\frac{\\ln(1-q)}{\\ln(1-p)}\\right\\rceil-1\\] \\[LCL=Q(0.00135),\\quad CL=Q(0.5),\\quad UCL=Q(0.99865)\\] Minitab interpolates between the two adjacent geometric CDF values rather than using integer quantiles directly, then clips the lower limit at zero. For adjacent integer counts \\(a\\) and \\(b = a + 1\\) with \\(F(a) \\le q \\le F(b)\\), the interpolated value is: \\[Q_{\\mathrm{interp}}(q)=a+\\frac{q-F(a)}{F(b)-F(a)}\\] At \\(p = 0.005\\), the mean is 199 good pipes; the interpolated median is about 137.28 and the UCL about 1,317.22. The LCL is zero. A gap of 1,550 may indicate improvement; two successive zero gaps indicate a cluster. Worked example, fixed \\(p = 0.005\\). A square or ring identifies a signal, not merely colour.",
+          "excerpt": "\\[P(X=x)=p(1-p)^x,\\quad F(x)=1-(1-p)^{x+1},\\quad x=0,1,2,\\ldots\\] \\[\\widehat p=\\frac{n}{n+\\sum_{i=1}^n x_i}=\\frac{1}{1+\\bar x},\\quad E(X)=\\frac{1-p}{p},\\quad \\mathrm{Var}(X)=\\frac{1-p}{p^2}\\] \\(p\\) is the event probability per opportunity; \\(n\\) is the number…",
           "kinds": [
             "section",
             "example",
@@ -48991,8 +48991,8 @@
             "2. G chart: count the gaps",
             "Benneyan test: catch repeated zeros"
           ],
-          "text": "When the LCL is zero, a nonnegative count cannot fall below it. The Benneyan test counts consecutive points equal to the LCL; for the zero-LCL case the threshold is: \\[r=\\left\\lceil\\frac{\\ln[\\Phi(-K)]}{\\ln p}\\right\\rceil\\] K is the Test 1 normal-equivalent threshold (default 3); Phi is the standard normal CDF. At p=0.005, r=2; at p=0.08, r=3. Three zero gaps mean four distinct events on the same date, or four consecutive defective units in a unit-based chart. Consecutive zero intervals 3",
-          "excerpt": "When the LCL is zero, a nonnegative count cannot fall below it. The Benneyan test counts consecutive points equal to the LCL; for the zero-LCL case the threshold is: \\[r=\\left\\lceil\\frac{\\ln[\\Phi(-K)]}{\\ln p}\\right\\rceil\\] K is the Test 1 normal-equivalent…",
+          "text": "When the LCL is zero, a nonnegative count cannot fall below it. The Benneyan test counts consecutive points equal to the LCL; for the zero-LCL case the threshold is: \\[r=\\left\\lceil\\frac{\\ln[\\Phi(-K)]}{\\ln p}\\right\\rceil\\] \\(K\\) is the Test 1 normal-equivalent threshold (default 3), \\(\\Phi\\) is the standard normal CDF, so \\(\\Phi(-3) \\approx 0.00135\\), and \\(r\\) is the number of consecutive zero gaps that signals. At \\(p = 0.005\\), \\(r = 2\\); at \\(p = 0.08\\), \\(r = 3\\). Three zero gaps mean four distinct events on the same date, or four consecutive defective units in a unit-based chart. Consecutive zero intervals 3",
+          "excerpt": "When the LCL is zero, a nonnegative count cannot fall below it. The Benneyan test counts consecutive points equal to the LCL; for the zero-LCL case the threshold is: \\[r=\\left\\lceil\\frac{\\ln[\\Phi(-K)]}{\\ln p}\\right\\rceil\\] \\(K\\) is the Test 1…",
           "kinds": [
             "section",
             "formula"
@@ -49005,7 +49005,7 @@
             "Rare Event Control Charts (G & T)",
             "3. T chart: measure the time"
           ],
-          "text": "Use the T chart when exact timestamps or actual operating durations are available. Examples include equipment trips, server outages, compressor failures and incidents per operating hour. Event Timestamp Elapsed hours 1 Nov 1, 08:00 Starting point 2 Nov 3, 08:00 48 3 Nov 4, 20:00 36 4 Nov 8, 08:00 84 5 Nov 8, 10:00 2 6 Nov 10, 08:00 46 \\[T_i=t_i-t_{i-1}\\] t is the event timestamp. Use a consistent time unit and actual exposure when equipment is idle.",
+          "text": "Use the T chart when exact timestamps or actual operating durations are available. Examples include equipment trips, server outages, compressor failures and incidents per operating hour. Event Timestamp Elapsed hours 1 Nov 1, 08:00 Starting point 2 Nov 3, 08:00 48 3 Nov 4, 20:00 36 4 Nov 8, 08:00 84 5 Nov 8, 10:00 2 6 Nov 10, 08:00 46 \\[T_i=t_i-t_{i-1}\\] \\(t_i\\) is the timestamp of event \\(i\\) and \\(T_i\\) the elapsed time since the previous event. Use a consistent time unit and actual exposure when equipment is idle.",
           "excerpt": "Use the T chart when exact timestamps or actual operating durations are available. Examples include equipment trips, server outages, compressor failures and incidents per operating hour. Event Timestamp Elapsed hours 1 Nov 1, 08:00 Starting point 2 Nov 3,…",
           "kinds": [
             "section",
@@ -49035,8 +49035,8 @@
             "3. T chart: measure the time",
             "Weibull"
           ],
-          "text": "Flexible hazard. Shape determines whether hazard rises or falls. \\[F(t)=1-e^{-(t/\\eta)^\\beta}\\] \\[f(t)=\\frac{\\beta}{\\eta}(t/\\eta)^{\\beta-1}e^{-(t/\\eta)^\\beta}\\] \\[E(T)=\\eta\\Gamma(1+1/\\beta),\\qquad h(t)=\\frac{\\beta}{\\eta}(t/\\eta)^{\\beta-1}\\] theta is exponential scale, lambda is rate, beta is Weibull shape, eta is Weibull scale, and Gamma is the gamma function. The exponential estimator is the mean of complete positive intervals; Minitab uses a different fitting procedure if zero durations are present. \\[Q_{\\mathrm{exp}}(q)=-\\theta\\ln(1-q),\\qquad Q_{\\mathrm{Wei}}(q)=\\eta[-\\ln(1-q)]^{1/\\beta}\\] \\[LCL=Q(0.00135),\\quad CL=Q(0.5),\\quad UCL=Q(0.99865)\\] Shape 0.5: decreasing hazard; shape 1: constant; shape 2: increasing. These are model behaviours, not proof of an actual failure mechanism. 2 days Worked mean interval 1.3863 Median days 13.2153 Upper limit days 0.002702 Lower limit days (~3.89 min) 1.8 minutes is below the lower limit; 15 days exceeds the upper limit. Both require investigation.",
-          "excerpt": "Flexible hazard. Shape determines whether hazard rises or falls. \\[F(t)=1-e^{-(t/\\eta)^\\beta}\\] \\[f(t)=\\frac{\\beta}{\\eta}(t/\\eta)^{\\beta-1}e^{-(t/\\eta)^\\beta}\\] \\[E(T)=\\eta\\Gamma(1+1/\\beta),\\qquad h(t)=\\frac{\\beta}{\\eta}(t/\\eta)^{\\beta-1}\\] theta is…",
+          "text": "Flexible hazard. Shape determines whether hazard rises or falls. \\[F(t)=1-e^{-(t/\\eta)^\\beta}\\] \\[f(t)=\\frac{\\beta}{\\eta}(t/\\eta)^{\\beta-1}e^{-(t/\\eta)^\\beta}\\] \\[E(T)=\\eta\\Gamma(1+1/\\beta),\\qquad h(t)=\\frac{\\beta}{\\eta}(t/\\eta)^{\\beta-1}\\] \\(\\theta\\) is the exponential scale, \\(\\lambda\\) the rate, \\(\\beta\\) the Weibull shape, \\(\\eta\\) the Weibull scale, \\(\\Gamma\\) the gamma function and \\(h(t)\\) the hazard (instantaneous event rate). The exponential estimator is the mean of complete positive intervals; Minitab uses a different fitting procedure if zero durations are present. \\[Q_{\\mathrm{exp}}(q)=-\\theta\\ln(1-q),\\qquad Q_{\\mathrm{Wei}}(q)=\\eta[-\\ln(1-q)]^{1/\\beta}\\] \\[LCL=Q(0.00135),\\quad CL=Q(0.5),\\quad UCL=Q(0.99865)\\] Shape 0.5: decreasing hazard; shape 1: constant; shape 2: increasing. These are model behaviours, not proof of an actual failure mechanism. 2 days Worked mean interval 1.3863 Median days 13.2153 Upper limit days 0.002702 Lower limit days (~3.89 min) 1.8 minutes is below the lower limit; 15 days exceeds the upper limit. Both require investigation.",
+          "excerpt": "Flexible hazard. Shape determines whether hazard rises or falls. \\[F(t)=1-e^{-(t/\\eta)^\\beta}\\] \\[f(t)=\\frac{\\beta}{\\eta}(t/\\eta)^{\\beta-1}e^{-(t/\\eta)^\\beta}\\] \\[E(T)=\\eta\\Gamma(1+1/\\beta),\\qquad h(t)=\\frac{\\beta}{\\eta}(t/\\eta)^{\\beta-1}\\] \\(\\theta\\) is the…",
           "kinds": [
             "section",
             "example",
@@ -49050,8 +49050,8 @@
             "Rare Event Control Charts (G & T)",
             "4. Interactive distribution laboratory"
           ],
-          "text": "Change the parameters and observe the probability distributions, control limits and signal thresholds. Try p=0.005 and p=0.08, then set Weibull shape to one and scale to seven to reproduce the T practice benchmark.",
-          "excerpt": "Change the parameters and observe the probability distributions, control limits and signal thresholds. Try p=0.005 and p=0.08, then set Weibull shape to one and scale to seven to reproduce the T practice benchmark.",
+          "text": "Change the parameters and observe the probability distributions, control limits and signal thresholds. Try \\(p = 0.005\\) and \\(p = 0.08\\), then set the Weibull shape to one and the scale to seven to reproduce the T practice benchmark.",
+          "excerpt": "Change the parameters and observe the probability distributions, control limits and signal thresholds. Try \\(p = 0.005\\) and \\(p = 0.08\\), then set the Weibull shape to one and the scale to seven to reproduce the T practice benchmark.",
           "kinds": [
             "section",
             "example",
@@ -49122,8 +49122,24 @@
             "5. Minitab practice from raw records",
             "Practice files"
           ],
-          "text": "The two CSV files are date/time and record-ID extracts from the original workbook. Import either directly into Minitab. G payment dates CSV T pump timestamps CSV Original Excel workbooks and Minitab project: pending binary attachment in this draft. The CSV extracts are available above.",
-          "excerpt": "The two CSV files are date/time and record-ID extracts from the original workbook. Import either directly into Minitab. G payment dates CSV T pump timestamps CSV Original Excel workbooks and Minitab project: pending binary attachment in this draft. The CSV…",
+          "text": "The two CSV files are date/time and record-ID extracts from the original workbook. Import either directly into Minitab. Download G payment dates (CSV, 2 KB) Download T pump timestamps (CSV, 2 KB) Original Excel workbooks and Minitab project: pending binary attachment in this draft. The CSV extracts are available above.",
+          "excerpt": "The two CSV files are date/time and record-ID extracts from the original workbook. Import either directly into Minitab. Download G payment dates (CSV, 2 KB) Download T pump timestamps (CSV, 2 KB) Original Excel workbooks and Minitab project: pending binary…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "re-data-dictionary",
+          "heading": "Data dictionary",
+          "breadcrumb": [
+            "Rare Event Control Charts (G & T)",
+            "5. Minitab practice from raw records",
+            "Practice files",
+            "Data dictionary"
+          ],
+          "text": "Column File Meaning Observation Both Event record number, 1–38, in time order. It matches Minitab’s observation number. Exception_ID G Payment exception reference (PEX-…). Event_Date G Date of the critical payment exception (YYYY-MM-DD). Several exceptions can share a date. Work_Order T Maintenance work order for the pump trip (WO-…). Trip_Date_Time T Date and time of the protective trip (YYYY-MM-DD hh:mm:ss). Period Both “Reference” for records 1–26 (the Phase I baseline) or “Monitoring” for later records. All records are simulated for teaching.",
+          "excerpt": "Column File Meaning Observation Both Event record number, 1–38, in time order. It matches Minitab’s observation number. Exception_ID G Payment exception reference (PEX-…). Event_Date G Date of the critical payment exception (YYYY-MM-DD). Several exceptions…",
           "kinds": [
             "section",
             "example"
@@ -49137,8 +49153,24 @@
             "5. Minitab practice from raw records",
             "Exercise A · Payment processing exceptions (G)"
           ],
-          "text": "A bank processes approximately 10,000 transactions daily. Critical exceptions include duplicates, incorrect currency, routing and settlement amount. The daily model's historical event probability is 0.08, not the per-transaction probability. Exception ID Event_Date PEX-2025-01041 2025-01-04 PEX-2025-01042 2025-01-12 PEX-2025-01043 2025-02-02 PEX-2025-01044 2025-02-05 PEX-2025-01045 2025-02-21 Minitab derives 8, 21, 3 and 16 days from the dates. Choose File → Open, select the original workbook's G Payment Exceptions sheet or the G CSV. Confirm Event_Date is a date column. Stat → Control Charts → Rare Event Charts → G . Form of data: Dates of events . Variables: Event_Date. G Chart Options → Parameters: historical proportion 0.08. Tests: select Test 1 (default 3), Test 2 (9 consecutive points) and Benneyan. Click OK twice. Identify signals, trace them to the event record, and examine transaction exposure. Reveal the expected results and investigation 78.25 UCL (days) 7.32 CL (days) 0 LCL (days) Calculated reconstruction of the supplied data; original software image is pending attachment in this draft. Minitab observation Signal Interpretation 27 1 87 days; Nov 3 2025 to Jan 29 2026. Investigate potential improvement or missing reporting. 31 B Four events on Feb 3 2026 produce three consecutive zero intervals. 36–38 2 Nine or more successive points below the centre line; sustained increase in frequency. Observed mean days between payment exceptions, before and after the long gap. First 25 completed intervals average 12.12 days. Last 11 average 2.91 days, about 76.0% shorter (4.17 times the reciprocal interval rate). Daily transaction exposure averages 10,000.47, with sample CV 2.37% and range 9,600–10,398. That supports similar daily exposure, but same-day multiple exceptions still make the daily geometric model approximate.",
+          "text": "A bank processes approximately 10,000 transactions daily. Critical exceptions include duplicates, incorrect currency, routing and settlement amount. The daily model's historical event probability is 0.08, not the per-transaction probability. Exception ID Event_Date PEX-2025-01041 2025-01-04 PEX-2025-01042 2025-01-12 PEX-2025-01043 2025-02-02 PEX-2025-01044 2025-02-05 PEX-2025-01045 2025-02-21 Minitab derives 8, 21, 3 and 16 days from the dates. Choose File → Open, select the original workbook's G Payment Exceptions sheet or the G CSV. Confirm Event_Date is a date column. Stat → Control Charts → Rare Event Charts → G . Form of data: Dates of events . Variables: Event_Date. G Chart Options → Parameters: historical proportion 0.08. Tests: select Test 1 (default 3), Test 2 (9 consecutive points) and Benneyan. Click OK twice. Identify signals, trace them to the event record, and examine transaction exposure.",
           "excerpt": "A bank processes approximately 10,000 transactions daily. Critical exceptions include duplicates, incorrect currency, routing and settlement amount. The daily model's historical event probability is 0.08, not the per-transaction probability. Exception ID…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "g-output-heading",
+          "heading": "Read the actual Minitab G chart",
+          "breadcrumb": [
+            "Rare Event Control Charts (G & T)",
+            "5. Minitab practice from raw records",
+            "Exercise A · Payment processing exceptions (G)",
+            "Read the actual Minitab G chart"
+          ],
+          "text": "Actual Minitab output supplied by the learner, reproduced without changing its pixels. Select the chart to inspect it at full size. What does the footnote mean? “An estimated historical parameter is used in the calculations” appears because you typed the historical value (0.08) in Options. Minitab did not estimate it from these 38 records. Leave Parameters blank and the footnote and limits change. The horizontal axis is the event record number, and the vertical axis is days between payment exceptions. Record 1 has no preceding gap. The green centre line is the historical median of 7.32 days; the red lines are probability limits, not specifications. 27 · Test 1 · Long interval 87 days The red square above 78.25 indicates an unusually long gap. Check for improved payment controls, missing reports or reduced exposure. 31 · Benneyan test (B) 3 zeros Four exceptions on February 3 produce three successive zero-day gaps. The third zero triggers B; none can fall below the zero LCL. 36–38 · Test 2 · Sustained change 11 gaps Observations 28–38 are all below the 7.32-day median. The ninth point triggers Test 2 at 36; two further points repeat the signal. Conclusion: The payment process is statistically unstable. The final sequence indicates more frequent exceptions; investigate the transaction-level exposure and the same-day cluster before estimating the true per-transaction defect rate. Reveal the expected results and investigation 78.25 UCL (days) 7.32 CL (days) 0 LCL (days) Calculated SVG reconstruction for comparison with the actual Minitab output above. Minitab observation Signal Interpretation 27 1 87 days; Nov 3 2025 to Jan 29 2026. Investigate potential improvement or missing reporting. 31 B Four events on Feb 3 2026 produce three consecutive zero intervals. 36–38 2 Nine or more successive points below the centre line; sustained increase in frequency. Observed mean days between payment exceptions, before and after the long gap. First 25 completed intervals average 12.12 days. Last 11 average 2.91 days, about 76.0% shorter (4.17 times the reciprocal interval rate). Daily transaction exposure in the original workbook’s transaction log averages 10,000.47, with sample CV 2.37% and range 9,600–10,398. That supports similar daily exposure, but same-day multiple exceptions still make the daily geometric model approximate.",
+          "excerpt": "Actual Minitab output supplied by the learner, reproduced without changing its pixels. Select the chart to inspect it at full size. What does the footnote mean? “An estimated historical parameter is used in the calculations” appears because you typed the…",
           "kinds": [
             "section",
             "example"
@@ -49152,8 +49184,24 @@
             "5. Minitab practice from raw records",
             "Exercise B · Cooling-water pump P-204A (T)"
           ],
-          "text": "The maintenance log records protective trips, work orders and alarm descriptions. Treat the pump as continuously exposed for this exercise. In real work exclude planned downtime or use operating hours. Work order Trip_Date_Time WO-2025-03801 2025-02-03 06:42:00 WO-2025-03802 2025-02-06 07:46:00 WO-2025-03803 2025-02-17 03:53:00 WO-2025-03804 2025-02-18 01:42:00 WO-2025-03805 2025-02-25 06:08:00 Open the workbook T Pump Trip Log sheet or T CSV. Check that Trip_Date_Time is a date/time column. Stat → Control Charts → Rare Event Charts → T . Select Dates/Times of events or Time between events , then Trip_Date_Time. T Chart Options → Parameters: Exponential; historical scale 7 (days). Enable Test 1 and Test 2 (default 3 and 9). Click OK twice. Trace signals to work orders and propose engineering investigations. Reveal the expected results and investigation 46.25 UCL days 4.85 CL days 0.009456 LCL days (13.62 min) Calculated reconstruction of the supplied data; original software image is pending attachment in this draft. Minitab observation Signal Interpretation 27 1 52.095 days between trips; potential improvement. 28 1 8 minutes between low-suction-pressure alarms; below 13.62 minutes. 36–38 2 Nine or more successive gaps below the centre line. Actual interval is about 41% below the lower limit. Work orders WO-2025-03827 and 03828 record trips at 09:08 and 09:16 on Aug 18 2025. Check suction valve position, inlet restriction, strainer, cavitation, instrumentation and restart procedure. The repeat alarm is a lead, not proof of root cause. 7.00 days Historical scale 5.76 days First 25 intervals 1.02 days Last 11 intervals Mean time between trips, in days. The final mean gap is 85.4% shorter than the seven-day benchmark, equivalent to about 6.86 times the reciprocal interval rate. These are observed comparisons, not a causal estimate.",
+          "text": "The maintenance log records protective trips, work orders and alarm descriptions. Treat the pump as continuously exposed for this exercise. In real work exclude planned downtime or use operating hours. Work order Trip_Date_Time WO-2025-03801 2025-02-03 06:42:00 WO-2025-03802 2025-02-06 07:46:00 WO-2025-03803 2025-02-17 03:53:00 WO-2025-03804 2025-02-18 01:42:00 WO-2025-03805 2025-02-25 06:08:00 Open the workbook T Pump Trip Log sheet or T CSV. Check that Trip_Date_Time is a date/time column. Stat → Control Charts → Rare Event Charts → T . Select Dates/Times of events or Time between events , then Trip_Date_Time. T Chart Options → Parameters: Exponential; historical scale 7 (days). Enable Test 1 and Test 2 (default 3 and 9). Click OK twice. Trace signals to work orders and propose engineering investigations.",
           "excerpt": "The maintenance log records protective trips, work orders and alarm descriptions. Treat the pump as continuously exposed for this exercise. In real work exclude planned downtime or use operating hours. Work order Trip_Date_Time WO-2025-03801 2025-02-03…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "t-output-heading",
+          "heading": "Read the actual Minitab T chart",
+          "breadcrumb": [
+            "Rare Event Control Charts (G & T)",
+            "5. Minitab practice from raw records",
+            "Exercise B · Cooling-water pump P-204A (T)",
+            "Read the actual Minitab T chart"
+          ],
+          "text": "Actual Minitab output supplied by the learner, reproduced without changing its pixels. Select the chart to inspect it at full size. Footnote check: “At least one estimated historical parameter is used in the calculations” confirms the historical scale of 7 days came from Options, not from these records. The chart measures elapsed days between protective pump trips. The exponential scale is seven days, but its median is 4.85 days. The plotted LCL rounds to 0.01 days; use the unrounded 0.009456 days (13.62 minutes) for interpretation. 27 · Test 1 · Long interval 52.10 days The interval exceeds the 46.25-day UCL. Investigate possible improvements, idle time and completeness of the trip log. 28 · Test 1 · Short interval 8 minutes The pump tripped again at 09:16 after a 09:08 low-suction-pressure trip. Eight minutes is below the 13.62-minute LCL. Check suction pressure, restrictions and restart procedure. 36–38 · Test 2 · Sustained change 11 gaps Observations 28–38 are all below 4.85 days. Most are inside the limits individually, yet nine consecutive points trigger Test 2 at 36. Conclusion: Pump reliability is statistically unstable. The final intervals average about 1.02 days compared with a seven-day historical mean. Verify operating exposure and investigate the recurring trip mechanism; the chart does not prove a root cause. Reveal the expected results and investigation 46.25 UCL days 4.85 CL days 0.009456 LCL days (13.62 min) Calculated SVG reconstruction for comparison with the actual Minitab output above. Minitab observation Signal Interpretation 27 1 52.095 days between trips; potential improvement. 28 1 8 minutes between low-suction-pressure alarms; below 13.62 minutes. 36–38 2 Nine or more successive gaps below the centre line. Actual interval is about 41% below the lower limit. Work orders WO-2025-03827 and 03828 record trips at 09:08 and 09:16 on Aug 18 2025. Check suction valve position, inlet restriction, strainer, cavitation, instrumentation and restart procedure. The repeat alarm is a lead, not proof of root cause. 7.00 days Historical scale 5.76 days First 25 intervals 1.02 days Last 11 intervals Mean time between trips, in days. The final mean gap is 85.4% shorter than the seven-day benchmark, equivalent to about 6.86 times the reciprocal interval rate. These are observed comparisons, not a causal estimate.",
+          "excerpt": "Actual Minitab output supplied by the learner, reproduced without changing its pixels. Select the chart to inspect it at full size. Footnote check: “At least one estimated historical parameter is used in the calculations” confirms the historical scale of 7…",
           "kinds": [
             "section",
             "example"
@@ -49181,7 +49229,7 @@
             "Rare Event Control Charts (G & T)",
             "6. Phase I vs. Phase II"
           ],
-          "text": "Phase I · establish Use a reference period, inspect signals and investigate special causes before freezing limits. Phase II · monitor Apply the frozen parameters to the subsequent observations. Do not let a deteriorating process redefine its own benchmark. Subset the first 26 event records (25 completed intervals), e.g. Data → Subset Worksheet. Recreate each chart, leaving historical parameters blank. Evaluate baseline stability and model suitability. Record the parameters, then apply them to the complete data. Do not automatically use Period as a stage variable; default stage limits can be recalculated independently. Compare an exponential and Weibull T chart using a distribution identification plot for complete positive intervals. Evaluate fit and engineering plausibility. Expected reference estimates: geometric number-between model p = 1/(1+12.12) ≈ 0.07622; exponential scale ≈ 5.76025 days. Your signal patterns may change with the limits.",
+          "text": "Phase I · establish Use a reference period, inspect signals and investigate special causes before freezing limits. Phase II · monitor Apply the frozen parameters to the subsequent observations. Do not let a deteriorating process redefine its own benchmark. Subset the first 26 event records (25 completed intervals), e.g. Data → Subset Worksheet. Recreate each chart, leaving historical parameters blank. Evaluate baseline stability and model suitability. Record the parameters, then apply them to the complete data. Do not automatically use Period as a stage variable; default stage limits can be recalculated independently. Compare an exponential and Weibull T chart using a distribution identification plot for complete positive intervals. Evaluate fit and engineering plausibility. Expected reference estimates: geometric number-between model \\(\\hat{p} = 1/(1+12.12) \\approx 0.07622\\); exponential scale \\(\\hat{\\theta} \\approx 5.76025\\) days. Your signal patterns may change with the limits.",
           "excerpt": "Phase I · establish Use a reference period, inspect signals and investigate special causes before freezing limits. Phase II · monitor Apply the frozen parameters to the subsequent observations. Do not let a deteriorating process redefine its own benchmark.…",
           "kinds": [
             "section",
@@ -49278,7 +49326,7 @@
             "Statistics Implementation",
             "Excel Functions"
           ],
-          "text": "Function Syntax Purpose When to use DAYS =DAYS(B3,B2) Integer day difference Date-only log Subtraction =B3-B2 Elapsed days including fractions Timestamp log AVERAGE =AVERAGE(C3:C27) Mean completed interval Reference estimation LN =LN(0.5) Log quantile Geometric or exponential limits EXPON.DIST =EXPON.DIST(x,lambda,TRUE) Cumulative probability Exponential fit WEIBULL.DIST =WEIBULL.DIST(x,shape,scale,TRUE) Cumulative probability Weibull model ROUNDUP =ROUNDUP(LN(0.00135)/LN(p),0) Zero-run threshold Benneyan test at default 3 sigma",
+          "text": "Function Syntax Purpose When to use DAYS =DAYS(B3,B2) Integer day difference Date-only log Subtraction =B3-B2 Elapsed days including fractions Timestamp log AVERAGE =AVERAGE(C3:C27) Mean completed interval Reference estimation LN =LN(0.5) Log quantile Geometric or exponential limits EXPON.DIST =EXPON.DIST(x,lambda,TRUE) Cumulative probability Exponential fit WEIBULL.DIST =WEIBULL.DIST(x,shape,scale,TRUE) Cumulative probability Weibull model ROUNDUP =ROUNDUP(LN(0.00135)/LN(p),0) Zero-run threshold Benneyan test at default 3 sigma NEGBINOM.DIST =NEGBINOM.DIST(x,1,p,TRUE) Geometric CDF \\(F(x)=1-(1-p)^{x+1}\\) Checking a G gap or limit (one “success” = one event) GAMMA =E4*GAMMA(1+1/E3) Weibull mean \\(\\eta\\,\\Gamma(1+1/\\beta)\\) Comparing a Weibull T chart’s mean with its median NORM.S.DIST =NORM.S.DIST(-3,TRUE) Tail area 0.00135 behind the limits Changing the Test 1 sigma level",
           "excerpt": "Function Syntax Purpose When to use DAYS =DAYS(B3,B2) Integer day difference Date-only log Subtraction =B3-B2 Elapsed days including fractions Timestamp log AVERAGE =AVERAGE(C3:C27) Mean completed interval Reference estimation LN =LN(0.5) Log quantile…",
           "kinds": [
             "section",
@@ -49301,6 +49349,23 @@
           ]
         },
         {
+          "id": "lesson-section-excel-checkpoints-for-the-practice-data",
+          "heading": "Excel checkpoints for the practice data",
+          "breadcrumb": [
+            "Rare Event Control Charts (G & T)",
+            "Statistics Implementation",
+            "Excel Use Cases",
+            "Excel checkpoints for the practice data"
+          ],
+          "text": "Formula Result =AVERAGE(C3:C27) on the G log 12.12 days =1/(1+AVERAGE(C3:C27)) 0.07622 =AVERAGE(C3:C27) on the T log 5.76025 days =-7*LN(0.99865)*1440 13.62 minutes =7*LN(2) and =-7*LN(0.00135) 4.85 and 46.25 days =NEGBINOM.DIST(78,1,0.08,TRUE) and =NEGBINOM.DIST(79,1,0.08,TRUE) 0.99862 and 0.99873: they bracket 0.99865, so the UCL lies between 78 and 79 (78.25)",
+          "excerpt": "Formula Result =AVERAGE(C3:C27) on the G log 12.12 days =1/(1+AVERAGE(C3:C27)) 0.07622 =AVERAGE(C3:C27) on the T log 5.76025 days =-7*LN(0.99865)*1440 13.62 minutes =7*LN(2) and =-7*LN(0.00135) 4.85 and 46.25 days =NEGBINOM.DIST(78,1,0.08,TRUE) and…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
           "id": "re-minitab",
           "heading": "Minitab Navigation",
           "breadcrumb": [
@@ -49308,7 +49373,7 @@
             "Statistics Implementation",
             "Minitab Navigation"
           ],
-          "text": "Stat → Control Charts → Rare Event Charts → G for dates/counts; Stat → Control Charts → Rare Event Charts → T for timestamps/durations. See the practice above. For direct count data, select Number of opportunities between events or Number of opportunities until an event as appropriate; Minitab converts until counts to between counts.",
+          "text": "Stat → Control Charts → Rare Event Charts → G for dates/counts; Stat → Control Charts → Rare Event Charts → T for timestamps/durations. See the practice above. For direct count data, select Number of opportunities between events or Number of opportunities until an event as appropriate; Minitab converts until counts to between counts. Which option should you choose? Use G when you count opportunities (units, transactions, days) between events; use T when you have exact times or operating hours. Fill Options → Parameters only with a trusted Phase I value; otherwise leave it blank and let Minitab estimate it.",
           "excerpt": "Stat → Control Charts → Rare Event Charts → G for dates/counts; Stat → Control Charts → Rare Event Charts → T for timestamps/durations. See the practice above. For direct count data, select Number of opportunities between events or Number of opportunities…",
           "kinds": [
             "section",
@@ -49323,7 +49388,7 @@
             "Statistics Implementation",
             "Exam Tips"
           ],
-          "text": "Focus on chart selection, distribution assumptions, common versus special causes, false alarms, and interpreting data against a stable baseline. G/T charts are useful applied SPC methods; do not assume they are named explicitly in the ASQ CQE or CSSBB exam outlines. Consult the applicable current body of knowledge.",
+          "text": "Focus on chart selection, distribution assumptions, common versus special causes, false alarms, and interpreting data against a stable baseline. G/T charts are useful applied SPC methods; do not assume they are named explicitly in the ASQ CQE or CSSBB exam outlines. Consult the applicable current body of knowledge. The CQE body of knowledge asks you to apply reliability models such as the exponential and Weibull, and indices such as MTBF and failure rate. The T chart is that idea in action: the exponential scale is the MTBF. Know that the exponential is the Weibull with shape 1, so its hazard is constant. Remember the skew: the centre line of a G or T chart is the median, not the mean, and the lower limit is often zero or close to it. Control limits are not targets or specifications; a long gap can be good news, so check reporting before celebrating.",
           "excerpt": "Focus on chart selection, distribution assumptions, common versus special causes, false alarms, and interpreting data against a stable baseline. G/T charts are useful applied SPC methods; do not assume they are named explicitly in the ASQ CQE or CSSBB exam…",
           "kinds": [
             "section"
@@ -49349,8 +49414,8 @@
             "Rare Event Control Charts (G & T)",
             "Related lessons"
           ],
-          "text": "Control charts explained — review Shewhart foundations. CUSUM vs. EWMA control charts — detect subtle changes. Selecting control charts in Minitab — choose by data type. Signal or Noise: ARL and Nelson rules — understand false alarms.",
-          "excerpt": "Control charts explained — review Shewhart foundations. CUSUM vs. EWMA control charts — detect subtle changes. Selecting control charts in Minitab — choose by data type. Signal or Noise: ARL and Nelson rules — understand false alarms.",
+          "text": "Control charts explained — review Shewhart foundations. CUSUM vs. EWMA control charts — detect subtle changes. Selecting control charts in Minitab — choose by data type. Signal or Noise: ARL and Nelson rules — understand false alarms. Introduction to reliability and maintainability — go deeper on MTBF, exponential and Weibull models.",
+          "excerpt": "Control charts explained — review Shewhart foundations. CUSUM vs. EWMA control charts — detect subtle changes. Selecting control charts in Minitab — choose by data type. Signal or Noise: ARL and Nelson rules — understand false alarms. Introduction to…",
           "kinds": [
             "section"
           ]
