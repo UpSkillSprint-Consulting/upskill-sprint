@@ -1714,7 +1714,7 @@ const [base, ...paths] = process.argv.slice(2);
 
 Pass condition: no violations. Until PR #259 is merged, the one tolerated exception is the
 §23 site-chrome item (`aria-prohibited-attr` on `.mobile-menu-btn` at 390px). After it merges,
-you may drop the `#lesson-progress-widget` exclusion from the script. Re-run the same script against the deploy preview origin
+you may drop the `#lesson-progress-widget` exclusion from the script. The script opens every `<details>` before scanning; also run it once with that line removed, so axe sees the default state a learner first meets (both runs: 0 violations). Re-run the same script against the deploy preview origin
 (`https://deploy-preview-<PR>--upskillsprint.netlify.app`) in step 6. If no Chrome is
 available, install `puppeteer` instead of `puppeteer-core` and drop `executablePath`. Keep the
 server running for step 5b.

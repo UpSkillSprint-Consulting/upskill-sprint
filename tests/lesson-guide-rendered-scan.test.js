@@ -47,4 +47,5 @@ test('guide requires both environments and records them', () => {
   assert.ok(guide.includes('**Every top-level block must still share the lesson\'s left and right edges**'));
   assert.ok(guide.includes('### 22.7 Layout traps with rendered math (MUST)'));
   assert.ok(guide.includes('#quiz .quiz-actions button{min-height:44px}'));
+  assert.ok(guide.includes('also run it once with that line removed, so axe sees the default state'));
 });
