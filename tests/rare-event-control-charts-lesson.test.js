@@ -84,7 +84,7 @@ test('Statistics Implementation (§11.1), contents chips and footnote guidance',
 });
 
 test('downloads, data dictionary and related lessons', () => {
-  for (const a of doc.querySelectorAll('a[download]')) { assert.ok(fs.existsSync(path.join(root, a.getAttribute('href')))); assert.match(a.textContent, /\(CSV, \d+ KB\)/); }
+  for (const a of doc.querySelectorAll('a[download]')) { assert.ok(fs.existsSync(path.join(root, a.getAttribute('href')))); assert.match(a.textContent, /\((CSV|XLSX|MPX), \d+ KB\)/); }
   const described = [...doc.querySelectorAll('[aria-label="Data dictionary for the two CSV files"] tbody tr td:first-child')].map(td => td.textContent);
   for (const f of ['g-payment-dates.csv', 't-pump-timestamps.csv']) for (const col of fs.readFileSync(path.join(dir, f), 'utf8').split(/\r?\n/)[0].split(',')) assert.ok(described.includes(col), col);
   const rel = [...doc.querySelectorAll('.related-lessons li')];
@@ -97,4 +97,86 @@ test('formula boxes are not static landmarks; only overflowing ones become named
   assert.match(html, /#lesson-content \.re-controls select\{width:100%;max-width:100%\}/);
   const labels = [...doc.querySelectorAll('[role="region"][aria-label]')].map(e => e.getAttribute('aria-label'));
   assert.equal(new Set(labels).size, labels.length, 'region names are unique');
+});
+
+/* Original binary deliverables (supplied by Ernest, 26 Nov 2026). */
+const crypto = require('node:crypto');
+const zlib = require('node:zlib');
+const originals = {
+  'realistic-rare-event-logs.xlsx': 'fe775a9ed0667a8e17f6f8f6c48c9d6f131a881fd8b30dc7edc0491b630d58c1',
+  'rare-event-g-and-t-minitab-practice.xlsx': '27fb91f23a9f7b6390448614b3828e3f2b32f812338ec374b9efa1cea96fc866',
+  'g-and-t-minitab-practice.mpx': '57615624bf0650662656ad046e88206fa289f7c42cc859b7eec612b0688dc938',
+  'g-original-minitab.png': 'eb5c1044d3c3879ca21569810a50d50b04265d68e9c878c609110a70ad642fc5',
+  't-original-minitab.png': 'bd6d36721b5325efbf4ff9766ce3b463890c7b2776adf59dcca7ce894b9f2875'
+};
+// Minimal ZIP reader (central directory) so the test needs no extra dependency.
+function unzipEntries(buf) {
+  const eocd = buf.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
+  const count = buf.readUInt16LE(eocd + 10);
+  let p = buf.readUInt32LE(eocd + 16);
+  const out = {};
+  for (let i = 0; i < count; i++) {
+    const method = buf.readUInt16LE(p + 10), size = buf.readUInt32LE(p + 20);
+    const nameLen = buf.readUInt16LE(p + 28), extra = buf.readUInt16LE(p + 30), comment = buf.readUInt16LE(p + 32);
+    const local = buf.readUInt32LE(p + 42), name = buf.toString('utf8', p + 46, p + 46 + nameLen);
+    const start = local + 30 + buf.readUInt16LE(local + 26) + buf.readUInt16LE(local + 28);
+    const raw = buf.subarray(start, start + size);
+    out[name] = method === 8 ? zlib.inflateRawSync(raw) : raw;
+    p += 46 + nameLen + extra + comment;
+  }
+  return out;
+}
+
+test('original workbooks, Minitab project and screenshots are byte-identical to the supplied files', () => {
+  for (const [f, sha] of Object.entries(originals)) {
+    assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir, f))).digest('hex'), sha, f);
+  }
+});
+
+test('original files are offered as downloads with honest sizes and the pending notice is gone', () => {
+  assert.doesNotMatch(html, /pending binary attachment/);
+  for (const f of ['realistic-rare-event-logs.xlsx', 'rare-event-g-and-t-minitab-practice.xlsx', 'g-and-t-minitab-practice.mpx']) {
+    const a = doc.querySelector('#re-original-assets a[href="/assets/lessons/' + slug + '/' + f + '"]');
+    assert.ok(a && a.hasAttribute('download'), f);
+    const kb = Math.round(fs.statSync(path.join(dir, f)).size / 1000); // same 1000-byte KB as the CSV labels
+    assert.match(a.textContent, new RegExp('\\(' + f.split('.').pop().toUpperCase() + ', ' + kb + ' KB\\)'), f);
+  }
+});
+
+test('raw-records workbook holds every CSV record and the exposure figures quoted in the lesson', () => {
+  const x = unzipEntries(fs.readFileSync(path.join(dir, 'realistic-rare-event-logs.xlsx')));
+  const strings = Object.entries(x).filter(([n]) => /^xl\/(sharedStrings|worksheets\/sheet\d+)\.xml$/.test(n)).map(([, b]) => b.toString('utf8')).join('\n');
+  for (const r of rows('g-payment-dates.csv')) assert.ok(strings.includes('>' + r[1] + '<'), r[1]);
+  for (const r of rows('t-pump-timestamps.csv')) assert.ok(strings.includes('>' + r[1] + '<'), r[1]);
+  const book = x['xl/workbook.xml'].toString('utf8');
+  for (const s of ['G Payment Exceptions', 'T Pump Trip Log', 'Daily Exposure', 'Answer Key']) assert.ok(book.includes('name="' + s + '"'), s);
+  // Daily Exposure = third sheet: column B transactions, column C critical exceptions.
+  const rel = x['xl/_rels/workbook.xml.rels'].toString('utf8');
+  const rid = book.match(/name="Daily Exposure"[^>]*r:id="([^"]+)"/)[1];
+  const target = rel.match(new RegExp('Id="' + rid + '"[^>]*Target="([^"]+)"'))?.[1] || rel.match(new RegExp('Target="([^"]+)"[^>]*Id="' + rid + '"'))[1];
+  const sheet = x['xl/' + target.replace(/^\/?xl\//, '')].toString('utf8');
+  const col = c => [...sheet.matchAll(new RegExp('<(?:x:)?c r="' + c + '(\\d+)"[^>]*>(?:<(?:x:)?f>[^<]*</(?:x:)?f>)?<(?:x:)?v>([^<]+)</(?:x:)?v>', 'g'))].filter(m => m[1] !== '1').map(m => Number(m[2]));
+  const tx = col('B'), ex = col('C');
+  assert.equal(tx.length, 423);
+  const mean = tx.reduce((a, b) => a + b, 0) / tx.length;
+  const sd = Math.sqrt(tx.reduce((a, b) => a + (b - mean) ** 2, 0) / (tx.length - 1));
+  near(mean, 10000.47, 0.005);
+  near(100 * sd / mean, 2.37, 0.005);
+  assert.equal(Math.min(...tx), 9600);
+  assert.equal(Math.max(...tx), 10398);
+  assert.equal(ex.reduce((a, b) => a + b, 0), 38);
+  assert.match(html, /averages 10,000\.47, with sample CV 2\.37% and range 9,600–10,398/);
+});
+
+test('Minitab project holds the five worksheets and the G and T charts the lesson describes', () => {
+  const x = unzipEntries(fs.readFileSync(path.join(dir, 'g-and-t-minitab-practice.mpx')));
+  const metaJson = Object.entries(x).find(([n]) => /project_metadata.*\.json$/.test(n))[1].toString('utf8');
+  for (const s of ['G Practice', 'T Practice', 'Daily Exposure', 'T Pump Trip Log', 'G Payment Exceptions']) assert.ok(metaJson.includes('"Name": "' + s + '"') || metaJson.includes('"Name":"' + s + '"'), s);
+  const all = Object.entries(x).filter(([n]) => /\/(graph|figure)\.json$/.test(n)).map(([, b]) => b.toString('utf8')).join('\n');
+  for (const s of ['G Chart of Event_Date', 'T Chart of Trip_Date_Time', 'UCL=78.25', 'LCL=0"', 'UCL=46.25', 'LCL=0.01']) assert.ok(all.includes(s), s);
+  // Footnote wording quoted in the lesson must match Minitab's own text for each chart.
+  assert.ok(all.includes('An estimated historical parameter is used in the calculations.'));
+  assert.ok(all.includes('At least one estimated historical parameter is used in the calculations.'));
+  assert.ok(html.includes('“An estimated historical parameter is used in the calculations”'));
+  assert.ok(html.includes('“At least one estimated historical parameter is used in the calculations”'));
 });

@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 64,
   "contentLessonCount": 63,
-  "sectionCount": 3316,
+  "sectionCount": 3317,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -49122,8 +49122,24 @@
             "5. Minitab practice from raw records",
             "Practice files"
           ],
-          "text": "The two CSV files are date/time and record-ID extracts from the original workbook. Import either directly into Minitab. Download G payment dates (CSV, 2 KB) Download T pump timestamps (CSV, 2 KB) Original Excel workbooks and Minitab project: pending binary attachment in this draft. The CSV extracts are available above.",
-          "excerpt": "The two CSV files are date/time and record-ID extracts from the original workbook. Import either directly into Minitab. Download G payment dates (CSV, 2 KB) Download T pump timestamps (CSV, 2 KB) Original Excel workbooks and Minitab project: pending binary…",
+          "text": "The two CSV files are date/time and record-ID extracts from the original workbook. Import either directly into Minitab. Download G payment dates (CSV, 2 KB) Download T pump timestamps (CSV, 2 KB)",
+          "excerpt": "The two CSV files are date/time and record-ID extracts from the original workbook. Import either directly into Minitab. Download G payment dates (CSV, 2 KB) Download T pump timestamps (CSV, 2 KB)",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-original-files",
+          "heading": "Original files",
+          "breadcrumb": [
+            "Rare Event Control Charts (G & T)",
+            "5. Minitab practice from raw records",
+            "Practice files",
+            "Original files"
+          ],
+          "text": "The workbook adds the Daily Exposure sheet and an answer key; the project holds all worksheets and both charts. Download raw-records workbook (XLSX, 23 KB) Download interval extension workbook (XLSX, 9 KB) Download Minitab project (MPX, 107 KB)",
+          "excerpt": "The workbook adds the Daily Exposure sheet and an answer key; the project holds all worksheets and both charts. Download raw-records workbook (XLSX, 23 KB) Download interval extension workbook (XLSX, 9 KB) Download Minitab project (MPX, 107 KB)",
           "kinds": [
             "section",
             "example"
