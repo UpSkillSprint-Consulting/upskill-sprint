@@ -150,3 +150,10 @@ test('structure: quiz in main, related lessons in #327 format, accessible tables
  for(const a of d.querySelectorAll('#downloads a[download]'))assert.match(a.textContent,/Download \S+\.csv \(CSV, \d+ KB\)/);
  assert.equal(d.querySelectorAll('main div[aria-label]:not([role]),main span[aria-label]:not([role])').length,0);
 });
+test('scroll regions really scroll and hero poster labels stay readable (rendered-layout guards)',()=>{
+ const css=[...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map(m=>m[1]).join('\n');
+ assert.match(css,/(^|[\s}])\.ms-scroll\{overflow:auto\}/m,'the .ms-scroll rule must stand on its own selector');
+ assert.doesNotMatch(css,/\.ms-(open|closed)\b/,'no leftovers of the removed summary spans');
+ for(const style of html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)){let b=0;for(const ch of style[1]){if(ch==='{')b++;if(ch==='}')b--;assert.ok(b>=0);}assert.equal(b,0,'balanced braces');}
+ assert.match(css,/#lesson-content \.ms-visual-hero svg text\{font-size:12\.5px\}/);
+});
