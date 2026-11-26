@@ -60,7 +60,7 @@ test('additional visual labs render and respond to controls',()=>{const dom=new 
 
 test('student audit: calculation exercises, real MEWMA statistic lab and assignment',()=>{const dom=new JSDOM(html,{runScripts:'outside-only',url:'https://upskillsprint.com/lessons/statistics/'+slug});const w=dom.window,d=w.document;for(const sc of d.querySelectorAll('script:not([src])'))if(!sc.type)w.eval(sc.textContent);assert.equal(d.querySelectorAll('.quiz-question').length,12);assert.ok(d.getElementById('why-mspc'));assert.ok(d.getElementById('student-assignment'));const s=d.getElementById('audit-shift'),l=d.getElementById('audit-weight');s.value='0';s.dispatchEvent(new w.Event('input'));assert.match(d.getElementById('audit-mewma-live').textContent,/MEWMA = 0\.000/);s.value='2';l.value='1';l.dispatchEvent(new w.Event('input'));assert.match(d.getElementById('audit-mewma-live').textContent,/T² = 4\.000; MEWMA = 4\.000/);d.getElementById('audit-mewma-reset').click();assert.equal(Number(l.value),.2);w.close();});
 
-test('first-time Minitab walkthrough includes exact worksheet and matrix checkpoints for every chart',()=>{const d=doc();assert.ok(d.getElementById('minitab-first-start'));assert.ok(d.getElementById('minitab-troubleshooting'));for(const id of ['setup-t2','setup-gv','setup-combined','setup-mewma']){const e=d.getElementById(id);assert.equal(e.open,false);assert.match(e.textContent,/C5 C6/);assert.match(e.textContent,/1:2/);assert.match(e.textContent,/Display Data/);assert.match(e.textContent,/C3 C4/);assert.match(e.textContent,/C1/);assert.ok(e.querySelector('a[download]'));assert.ok(e.querySelector('a[href="#minitab-troubleshooting"]'));}assert.match(d.getElementById('setup-mewma').textContent,/ARL\s*200/);assert.match(d.getElementById('setup-mewma').textContent,/0\.20/);assert.doesNotMatch(d.getElementById('setup-gv').querySelector('.ms-dialog:last-of-type')?.textContent||'',/500 600/);});
+test('first-time Minitab walkthrough includes exact worksheet and matrix checkpoints for every chart',()=>{const d=doc();assert.ok(d.getElementById('minitab-first-start'));assert.ok(d.getElementById('minitab-troubleshooting'));const stepB=d.getElementById('minitab-step-b').closest('section');assert.match(stepB.textContent,/C5 C6/);assert.match(stepB.textContent,/1:2/);assert.match(stepB.textContent,/Columns to Matrix/);assert.equal((html.match(/id="minitab-step-b1"/g)||[]).length,1);for(const id of ['setup-t2','setup-gv','setup-combined','setup-mewma']){const e=d.getElementById(id);assert.equal(e.open,false);assert.ok(e.querySelector('a[href="#minitab-step-b"]'));assert.match(e.textContent,/Columns to Matrix/);assert.match(e.textContent,/Display Data/);assert.match(e.textContent,/C3 C4/);assert.match(e.textContent,/C1/);assert.ok(e.querySelector('a[download]'));assert.ok(e.querySelector('a[href="#minitab-troubleshooting"]'));}assert.match(d.getElementById('setup-mewma').textContent,/ARL\s*200/);assert.match(d.getElementById('setup-mewma').textContent,/0\.20/);assert.doesNotMatch(d.getElementById('setup-gv').querySelector('.ms-dialog:last-of-type')?.textContent||'',/500 600/);});
 
 test('interactive chart sizing stays scoped to the four compact live plots',()=>{
  const d=doc();
@@ -93,3 +93,60 @@ test('A16 visual containers have content-appropriate width caps and matrix remai
 });
 
 test('canonical dropdown navigation loads its shared styles and behavior',()=>{const d=doc();assert.equal(d.querySelectorAll('head link[rel="stylesheet"][href="/site-nav.css"]').length,1);assert.equal(d.querySelectorAll('head script[src="/site-nav.js"][defer]').length,1);assert.equal(d.querySelectorAll('header.site nav.desktop-nav .nav-chevron').length,6);assert.ok(fs.existsSync('site-nav.css'));assert.ok(fs.existsSync('site-nav.js'));});
+
+/* Guide and persona-audit remediation (26 Nov 2026). */
+const metaOf=()=>JSON.parse(html.match(/<!-- UPSKILLSPRINT_LESSON_META\s*([\s\S]*?)-->/)[1]);
+const entryOf=()=>{const i=catalog.indexOf("marker: 'data-multivariate-statistical-process-control'");return catalog.slice(catalog.lastIndexOf('{',i),catalog.indexOf('}',i)+1);};
+test('title names MSPC correctly and agrees across page, catalog, SQL and minutes',()=>{
+ const meta=metaOf(),d=doc();
+ assert.match(meta.title,/^Multivariate Statistical Process Control \(MSPC\)/);
+ assert.doesNotMatch(html+catalog+sql,/Statistical Control Chart \(MSPC\)/);
+ assert.equal(d.querySelector('main#lesson-content h1').textContent,meta.title);
+ const entry=entryOf();
+ assert.ok(entry.includes("title: '"+meta.card_title.replace(/'/g,"\\'")+"'"),'catalog title = card_title');
+ assert.ok(meta.card_title.length<=70,'short catalog/email title');
+ assert.ok(entry.includes('<span>'+meta.estimated_minutes+' min</span>'));
+ assert.match(d.querySelector('.ms-hero > p').textContent,new RegExp(meta.estimated_minutes+' MIN'));
+ assert.ok(sql.includes("'"+meta.title.replace(/'/g,"''")+"'"),'SQL display name = title');
+ assert.ok(d.title.endsWith(' | UpSkill Sprint')&&d.title.length<=65);
+});
+test('Statistics Implementation follows guide §11.1',()=>{
+ const d=doc(),p=d.getElementById('implementation');
+ assert.equal(p.tagName,'DETAILS');assert.ok(!p.hasAttribute('open'));
+ const sm=p.querySelector(':scope > summary');
+ assert.ok(sm.querySelector('.ms-kicker')&&sm.querySelector('h2')&&sm.querySelector('.ms-impl-pill'));
+ assert.equal(sm.querySelectorAll('.ms-impl-show').length,2);assert.equal(sm.querySelectorAll('.ms-impl-hide').length,2);
+ const ids=['excel-functions','excel-use-cases','minitab','exam-tips'];const pos=ids.map(id=>{assert.ok(p.querySelector('#'+id),id);return html.indexOf('id="'+id+'"');});
+ assert.deepEqual([...pos].sort((a,b)=>a-b),pos);
+ assert.match(html,/@keyframes lesson-multivariate-statistical-process-control-nudge/);
+ assert.match(html,/prefers-reduced-motion:reduce\)\{#lesson-content \.ms-impl:not\(\[open\]\) \.ms-impl-pill\{animation:none\}/);
+ assert.doesNotMatch(html,/@keyframes nudge\b/);
+ assert.ok(d.querySelector('a[href="#implementation"]'));
+ assert.match(p.querySelector('#exam-tips').parentElement.textContent,/do not name Hotelling/);
+ const dom=new JSDOM(html,{runScripts:'outside-only',url:'https://upskillsprint.com/lessons/statistics/'+slug+'#exam-tips'});const w=dom.window;
+ for(const sc of w.document.querySelectorAll('script:not([src])'))if(!sc.type)w.eval(sc.textContent);
+ assert.equal(w.document.getElementById('implementation').open,true,'hash to a part opens the panel');w.close();
+});
+test('math with values is LaTeX, prose stays within the text budget',()=>{
+ const d=doc(),meta=metaOf(),main=d.querySelector('main#lesson-content').cloneNode(true);
+ main.querySelectorAll('script,style,svg,code,[aria-hidden="true"]').forEach(e=>e.remove());
+ const text=main.textContent.replace(/\\\[[\s\S]*?\\\]/g,' ').replace(/\\\([\s\S]*?\\\)/g,' ');
+ assert.doesNotMatch(text,/T²\s*[=≈]|[≈λ×√]|between −1|superscript −1/);
+ const prose=d.querySelector('main#lesson-content').cloneNode(true);prose.querySelectorAll('script,style,svg,#quiz').forEach(e=>e.remove());
+ const words=prose.textContent.replace(/\\\[[\s\S]*?\\\]/g,' M ').replace(/\\\([\s\S]*?\\\)/g,' M ').split(/\s+/).filter(Boolean).length;
+ assert.ok(words<=meta.estimated_minutes*50,words+' words for '+meta.estimated_minutes+' min');
+ for(const p of d.querySelectorAll('main p')){const n=p.textContent.replace(/\\\([\s\S]*?\\\)/g,' M ').split(/\s+/).filter(Boolean).length;assert.ok(n<=60,'paragraph over 60 words: '+p.textContent.slice(0,60));}
+});
+test('structure: quiz in main, related lessons in #327 format, accessible tables and downloads',()=>{
+ const d=doc(),main=d.querySelector('main#lesson-content');
+ assert.ok(main.querySelector('#quiz'),'quiz inside main');
+ const q=block('### 7.3 Quiz grader','html').trim(),qs=block('### 7.1 Quiz styles','html').trim();assert.ok(html.includes(q));assert.ok(html.includes(qs));
+ assert.equal(d.querySelectorAll('#quiz .quiz-question').length,12);
+ const rel=main.querySelector('section.related-lessons');assert.ok(rel);const items=[...rel.querySelectorAll('li')];
+ assert.ok(items.length>=3&&items.length<=5);
+ for(const li of items){const a=li.querySelector('a');assert.ok(fs.existsSync(a.getAttribute('href').slice(1)+'.html'),a.getAttribute('href'));assert.match(li.textContent,/ — \S/);}
+ for(const t of main.querySelectorAll('table')){const r=t.parentElement;assert.equal(r.getAttribute('role'),'region');assert.equal(r.getAttribute('tabindex'),'0');assert.ok(r.getAttribute('aria-label'));}
+ for(const th of main.querySelectorAll('thead th'))assert.equal(th.getAttribute('scope'),'col');
+ for(const a of d.querySelectorAll('#downloads a[download]'))assert.match(a.textContent,/Download \S+\.csv \(CSV, \d+ KB\)/);
+ assert.equal(d.querySelectorAll('main div[aria-label]:not([role]),main span[aria-label]:not([role])').length,0);
+});

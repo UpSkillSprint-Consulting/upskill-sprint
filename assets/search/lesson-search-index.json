@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 62,
   "contentLessonCount": 61,
-  "sectionCount": 3239,
+  "sectionCount": 3237,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -19440,30 +19440,31 @@
     {
       "id": "statistics--multivariate-statistical-process-control",
       "path": "/lessons/statistics/multivariate-statistical-process-control",
-      "title": "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+      "title": "Multivariate SPC: Hotelling's T², Generalized Variance and MEWMA",
       "description": "Learn to detect joint mean and dispersion shifts with Hotelling’s T², generalized variance and MEWMA, then reproduce five saved Minitab plots.",
       "topic": "statistics",
       "level": "intermediate",
-      "minutes": 185,
+      "minutes": 180,
       "interactive": true,
       "keywords": [
         "multivariate SPC",
+        "multivariate statistical process control",
         "Hotelling T2",
         "generalized variance",
         "MEWMA",
         "covariance matrix",
         "Minitab",
         "control charts",
-        "multivariate spc hotelling t2 generalized variance mewma covariance matrix minitab control charts"
+        "multivariate spc multivariate statistical process control mspc hotelling t2 t squared generalized variance mewma covariance matrix minitab control charts"
       ],
       "placeholder": false,
       "contentAvailable": true,
       "sections": [
         {
-          "id": "lesson-section-multivariate-statistical-control-chart-mspc-hotelling-s-t2-generalized-variance-and-multivariate-ewma-control-charts-complete-guide-and-minitab-practice",
-          "heading": "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+          "id": "lesson-section-multivariate-statistical-process-control-mspc-hotelling-s-t2-generalized-variance-and-multivariate-ewma-control-charts-complete-guide-and-minitab-practice",
+          "heading": "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice"
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice"
           ],
           "text": "Two pipes pass their individual strength checks. One follows the usual relationship between yield and tensile strength; the other breaks it. Can your control chart tell them apart? Multivariate statistical process control (MSPC) can. Three complementary detectors",
           "excerpt": "Two pipes pass their individual strength checks. One follows the usual relationship between yield and tensile strength; the other breaks it. Can your control chart tell them apart? Multivariate statistical process control (MSPC) can. Three complementary…",
@@ -19476,7 +19477,7 @@
           "id": "lesson-section-one-process-three-ways-to-detect-change",
           "heading": "One process. Three ways to detect change.",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "One process. Three ways to detect change."
           ],
           "text": "T² Has the center moved? Joint mean shift GV Has the spread changed? Joint dispersion MEWMA Is a shift persisting? Persistent drift Start exploring Try the live lab See actual Minitab outputs 01 / Your objectives",
@@ -19491,7 +19492,7 @@
           "id": "lesson-section-what-you-will-be-able-to-do",
           "heading": "What you will be able to do",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "What you will be able to do"
           ],
           "text": "",
@@ -19505,7 +19506,7 @@
           "id": "lesson-section-understand-and-calculate",
           "heading": "Understand and calculate",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "What you will be able to do",
             "Understand and calculate"
           ],
@@ -19521,7 +19522,7 @@
           "id": "lesson-section-interpret-and-apply",
           "heading": "Interpret and apply",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "What you will be able to do",
             "Interpret and apply"
           ],
@@ -19536,7 +19537,7 @@
           "id": "lesson-section-before-the-mathematics-why-do-we-need-multivariate-spc",
           "heading": "Before the mathematics: why do we need multivariate SPC?",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Before the mathematics: why do we need multivariate SPC?"
           ],
           "text": "Univariate SPC monitors one characteristic at a time. Multivariate SPC monitors several related characteristics as a vector. A process can look normal on each separate chart while its usual relationship between characteristics changes.",
@@ -19550,7 +19551,7 @@
           "id": "lesson-section-separate-charts-see-two-acceptable-readings",
           "heading": "Separate charts see two acceptable readings",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Before the mathematics: why do we need multivariate SPC?",
             "Separate charts see two acceptable readings"
           ],
@@ -19565,7 +19566,7 @@
           "id": "lesson-section-the-joint-chart-sees-an-abnormal-combination",
           "heading": "The joint chart sees an abnormal combination",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Before the mathematics: why do we need multivariate SPC?",
             "The joint chart sees an abnormal combination"
           ],
@@ -19581,7 +19582,7 @@
           "id": "lesson-section-what-does-one-point-represent",
           "heading": "What does one point represent?",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Before the mathematics: why do we need multivariate SPC?",
             "What does one point represent?"
           ],
@@ -19597,7 +19598,7 @@
           "id": "hidden",
           "heading": "The hidden signal: two variables, one story",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "The hidden signal: two variables, one story"
           ],
           "text": "Yield strength (YS) and ultimate tensile strength (UTS) often move together. A pipe with unusually high YS and low UTS may be suspicious even if each value is within its own control limits. Control limits describe statistical behaviour, not engineering specifications.",
@@ -19611,12 +19612,12 @@
           "id": "lesson-section-pipe-a",
           "heading": "Pipe A",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "The hidden signal: two variables, one story",
             "Pipe A"
           ],
-          "text": "515 MPa YS, 615 MPa UTS. Both rise together. T² = 2.5",
-          "excerpt": "515 MPa YS, 615 MPa UTS. Both rise together. T² = 2.5",
+          "text": "515 MPa YS, 615 MPa UTS. Both rise together. \\(T^2 = 2.5\\)",
+          "excerpt": "515 MPa YS, 615 MPa UTS. Both rise together. \\(T^2 = 2.5\\)",
           "kinds": [
             "section",
             "example",
@@ -19627,12 +19628,12 @@
           "id": "lesson-section-pipe-b",
           "heading": "Pipe B",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "The hidden signal: two variables, one story",
             "Pipe B"
           ],
-          "text": "515 MPa YS, 585 MPa UTS. The usual relationship breaks. T² = 22.5",
-          "excerpt": "515 MPa YS, 585 MPa UTS. The usual relationship breaks. T² = 22.5",
+          "text": "515 MPa YS, 585 MPa UTS. The usual relationship breaks. \\(T^2 = 22.5\\)",
+          "excerpt": "515 MPa YS, 585 MPa UTS. The usual relationship breaks. \\(T^2 = 22.5\\)",
           "kinds": [
             "section",
             "example",
@@ -19643,7 +19644,7 @@
           "id": "lesson-section-try-it-move-the-correlation",
           "heading": "Try it: move the correlation",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "The hidden signal: two variables, one story",
             "Try it: move the correlation"
           ],
@@ -19658,7 +19659,7 @@
           "id": "lesson-section-which-detective-answers-which-question",
           "heading": "Which detective answers which question?",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Which detective answers which question?"
           ],
           "text": "Chart What it remembers What it detects What it cannot establish Shewhart Current point Large individual mean or spread changes, depending on chart Unusual joint combinations CUSUM Accumulated deviations Small sustained univariate mean shift Changing covariance EWMA Weighted history Univariate drift Joint location T² Current vector Joint location change Direction or cause by itself GV Current subgroup covariance Change in determinant Every possible covariance change MEWMA Weighted vector history Persistent joint location shift Dispersion change specifically",
@@ -19673,12 +19674,12 @@
           "id": "lesson-section-essential-vocabulary",
           "heading": "Essential vocabulary",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Which detective answers which question?",
             "Essential vocabulary"
           ],
-          "text": "Vector A row of paired measurements, not separate unrelated samples. Covariance How two deviations move together, in product units. Correlation Standardized covariance, between −1 and +1. Rational subgroup Measurements collected under comparable short-term conditions. ARL Expected number of plotted points before a signal. Decomposition A diagnostic contribution analysis, not proof of causality.",
-          "excerpt": "Vector A row of paired measurements, not separate unrelated samples. Covariance How two deviations move together, in product units. Correlation Standardized covariance, between −1 and +1. Rational subgroup Measurements collected under comparable short-term…",
+          "text": "Vector A row of paired measurements, not separate unrelated samples. Covariance How two deviations move together, in product units. Correlation Standardized covariance, between \\(-1\\) and \\(+1\\). Rational subgroup Measurements collected under comparable short-term conditions. ARL Expected number of plotted points before a signal. Decomposition A diagnostic contribution analysis, not proof of causality.",
+          "excerpt": "Vector A row of paired measurements, not separate unrelated samples. Covariance How two deviations move together, in product units. Correlation Standardized covariance, between \\(-1\\) and \\(+1\\). Rational subgroup Measurements collected under comparable…",
           "kinds": [
             "section",
             "example"
@@ -19688,11 +19689,11 @@
           "id": "covariance",
           "heading": "Covariance: the process fingerprint",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Covariance: the process fingerprint"
           ],
-          "text": "A variance describes the spread of one variable. Covariance describes how two variables move together. Correlation scales covariance to a unitless number between −1 and +1. 100 YS variance (MPa²) 80 YS–UTS covariance (MPa²) 0.80 Correlation \\[S=\\begin{bmatrix}100&80\\\\80&100\\end{bmatrix},\\quad r=\\frac{80}{10(10)}=0.8\\] The diagonal entries are variances; off-diagonal entries are covariances. Both standard deviations equal 10 MPa. Positive covariance means the variables tend to move in the same direction. M1 YS UTS YS 100 Variance · MPa² 80 Covariance · MPa² UTS 80 Covariance · MPa² 100 Variance · MPa² Diagonal · individual variation Off-diagonal · joint variation Read along the diagonal for each variable's own spread; read the two matching off-diagonal cells for the relationship. Matrix order is YS, UTS. This is the reference M1 matrix used throughout the Minitab exercise.",
-          "excerpt": "A variance describes the spread of one variable. Covariance describes how two variables move together. Correlation scales covariance to a unitless number between −1 and +1. 100 YS variance (MPa²) 80 YS–UTS covariance (MPa²) 0.80 Correlation…",
+          "text": "A variance describes the spread of one variable. Covariance describes how two variables move together. Correlation scales covariance to a unitless number between \\(-1\\) and \\(+1\\). 100 YS variance (MPa²) 80 YS–UTS covariance (MPa²) 0.80 Correlation \\[S=\\begin{bmatrix}100&80\\\\80&100\\end{bmatrix},\\quad r=\\frac{80}{10(10)}=0.8\\] The diagonal entries are variances; off-diagonal entries are covariances. Both standard deviations equal 10 MPa. Positive covariance means the variables tend to move in the same direction. M1 YS UTS YS 100 Variance · MPa² 80 Covariance · MPa² UTS 80 Covariance · MPa² 100 Variance · MPa² Diagonal · individual variation Off-diagonal · joint variation Read along the diagonal for each variable's own spread; read the two matching off-diagonal cells for the relationship. Matrix order is YS, UTS. This is the reference M1 matrix used throughout the Minitab exercise.",
+          "excerpt": "A variance describes the spread of one variable. Covariance describes how two variables move together. Correlation scales covariance to a unitless number between \\(-1\\) and \\(+1\\). 100 YS variance (MPa²) 80 YS–UTS covariance (MPa²) 0.80 Correlation…",
           "kinds": [
             "section",
             "example",
@@ -19703,11 +19704,11 @@
           "id": "lesson-section-calculate-it-from-measurements",
           "heading": "Calculate it from measurements",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Covariance: the process fingerprint",
             "Calculate it from measurements"
           ],
-          "text": "For paired observations, the sample covariance is \\[s_{xy}=\\frac{\\sum_{i=1}^{N}(x_i-\\bar x)(y_i-\\bar y)}{N-1}\\] where \\(N\\) is the number of paired observations and the bars represent sample means. Replacing \\(y\\) with \\(x\\) gives the sample variance. For YS values 480, 490, 500, 510, 520 and UTS values 580, 595, 590, 615, 620, the means are 500 and 600. The sums of squared deviations are 1000 and 1150; cross-products total 1000. YS UTS YS − 500 UTS − 600 YS dev² UTS dev² Cross-product 480 580 -20 -20 400 400 400 490 595 -10 -5 100 25 50 500 590 0 -10 0 100 0 510 615 10 15 100 225 150 520 620 20 20 400 400 400 Sum 0 0 1000 1150 1000 Divide each sum by \\(N-1=4\\), not 5, because these are sample estimates. The standard deviations are \\(\\sqrt{250}=15.81\\) and \\(\\sqrt{287.5}=16.96\\) MPa. Their correlation is \\(250/\\sqrt{250(287.5)}=0.9325\\). Notice this small teaching sample has its own covariance matrix; do not substitute it for the historical 100/80 matrix. \\[S=\\begin{bmatrix}250&250\\\\250&287.5\\end{bmatrix}\\] With rational subgroups, estimate within-subgroup covariance rather than blindly using overall covariance. For equal subgroup sizes, average their covariance matrices. For unequal sizes, weight by degrees of freedom. Individual-observation charts may use successive-difference estimators. Phase I Investigate baseline Freeze Means and covariance Phase II Monitor new data Use comparable grades, sizes, test orientations and measurement methods. Do not discard points simply because they signal; investigate and document assignable causes.",
+          "text": "For paired observations, the sample covariance is \\[s_{xy}=\\frac{\\sum_{i=1}^{N}(x_i-\\bar x)(y_i-\\bar y)}{N-1}\\] where \\(N\\) is the number of paired observations and the bars represent sample means. Replacing \\(y\\) with \\(x\\) gives the sample variance. For YS values 480, 490, 500, 510, 520 and UTS values 580, 595, 590, 615, 620, the means are 500 and 600. The sums of squared deviations are 1000 and 1150; cross-products total 1000. YS UTS \\(\\text{YS} - 500\\) \\(\\text{UTS} - 600\\) \\((\\text{YS} - 500)^2\\) \\((\\text{UTS} - 600)^2\\) Cross-product 480 580 -20 -20 400 400 400 490 595 -10 -5 100 25 50 500 590 0 -10 0 100 0 510 615 10 15 100 225 150 520 620 20 20 400 400 400 Sum 0 0 1000 1150 1000 Divide each sum by \\(N-1=4\\), not 5, because these are sample estimates. The standard deviations are \\(\\sqrt{250}=15.81\\) and \\(\\sqrt{287.5}=16.96\\) MPa. Their correlation is \\(250/\\sqrt{250(287.5)}=0.9325\\). Notice this small teaching sample has its own covariance matrix; do not substitute it for the historical 100/80 matrix. \\[S=\\begin{bmatrix}250&250\\\\250&287.5\\end{bmatrix}\\] With rational subgroups, estimate within-subgroup covariance rather than blindly using overall covariance. For equal subgroup sizes, average their covariance matrices. For unequal sizes, weight by degrees of freedom. Individual-observation charts may use successive-difference estimators. Phase I Investigate baseline Freeze Means and covariance Phase II Monitor new data Use comparable grades, sizes, test orientations and measurement methods. Do not discard points simply because they signal; investigate and document assignable causes.",
           "excerpt": "For paired observations, the sample covariance is \\[s_{xy}=\\frac{\\sum_{i=1}^{N}(x_i-\\bar x)(y_i-\\bar y)}{N-1}\\] where \\(N\\) is the number of paired observations and the bars represent sample means. Replacing \\(y\\) with \\(x\\) gives the sample variance. For YS…",
           "kinds": [
             "section",
@@ -19719,7 +19720,7 @@
           "id": "lesson-section-build-a-historical-covariance-matrix-from-real-measurements-not-an-invented-matrix",
           "heading": "Build a historical covariance matrix from real measurements — not an invented matrix",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Build a historical covariance matrix from real measurements — not an invented matrix"
           ],
           "text": "The fixed matrix in the saved project is a teaching assumption. When you monitor an actual production process, estimate the mean and covariance from a representative, stable baseline. Here is an independent Phase I example using only the first 40 subgroups of the original practice dataset (400 measurements). These estimates are separate from the saved chart settings.",
@@ -19733,7 +19734,7 @@
           "id": "lesson-section-step-1-establish-location",
           "heading": "Step 1 — establish location",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Build a historical covariance matrix from real measurements — not an invented matrix",
             "Step 1 — establish location"
           ],
@@ -19749,7 +19750,7 @@
           "id": "lesson-section-step-2-estimate-within-subgroup-variation",
           "heading": "Step 2 — estimate within-subgroup variation",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Build a historical covariance matrix from real measurements — not an invented matrix",
             "Step 2 — estimate within-subgroup variation"
           ],
@@ -19765,12 +19766,12 @@
           "id": "lesson-section-why-pool-the-individual-subgroup-matrices",
           "heading": "Why pool the individual subgroup matrices?",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Build a historical covariance matrix from real measurements — not an invented matrix",
             "Why pool the individual subgroup matrices?"
           ],
-          "text": "\\[S_{\\mathrm{pool}}=\\frac{\\sum_{i=1}^{m}(n_i-1)S_i}{\\sum_{i=1}^{m}(n_i-1)}\\] For equal sizes, simply average the subgroup covariance matrices. For this example the denominator is 40 × 9 = 360. The pooled estimate describes short-term variation, while covariance across all 400 readings can include between-subgroup movements. Estimate and store historical parameters in Minitab Open the T²/GV worksheet. Use Data → Subset Worksheet to create a baseline worksheet containing only subgroup IDs 1 through 40. Create a T² chart using the YS and UTS columns and Subgroup as subgroup identifiers. Leave historical parameters unspecified so Minitab estimates them. Review the chart for instability; investigate special causes and document any justified exclusions. A historical window is not automatically stable. In T² Options → Storage, select means and covariance matrices. Run the analysis and inspect the saved matrix with Data → Display Data. Compare the values against the teaching estimate above, allowing for estimator differences. For prospective monitoring, copy the historical matrix and means to the worksheet containing future observations. Enter the actual number of baseline subgroups used (40 in this example, if none were excluded). Do not recalculate the reference from the future data every time an alarm occurs. Official Minitab instructions for storing statistics . Before deployment, confirm the variables share a stable joint distribution, the paired measurements are meaningful, the matrix is positive definite and sampling assumptions are adequate. A near-singular matrix is a warning of redundant variables or insufficient information. 01 · Joint location",
-          "excerpt": "\\[S_{\\mathrm{pool}}=\\frac{\\sum_{i=1}^{m}(n_i-1)S_i}{\\sum_{i=1}^{m}(n_i-1)}\\] For equal sizes, simply average the subgroup covariance matrices. For this example the denominator is 40 × 9 = 360. The pooled estimate describes short-term variation, while…",
+          "text": "\\[S_{\\mathrm{pool}}=\\frac{\\sum_{i=1}^{m}(n_i-1)S_i}{\\sum_{i=1}^{m}(n_i-1)}\\] For equal sizes, simply average the subgroup covariance matrices. For this example the denominator is \\(40 \\times 9 = 360\\). The pooled estimate describes short-term variation, while covariance across all 400 readings can include between-subgroup movements. Estimate and store historical parameters in Minitab Open the T²/GV worksheet. Use Data → Subset Worksheet to create a baseline worksheet containing only subgroup IDs 1 through 40. Create a T² chart using the YS and UTS columns and Subgroup as subgroup identifiers. Leave historical parameters unspecified so Minitab estimates them. Review the chart for instability; investigate special causes and document any justified exclusions. A historical window is not automatically stable. In T² Options → Storage, select means and covariance matrices. Run the analysis and inspect the saved matrix with Data → Display Data. Compare the values against the teaching estimate above, allowing for estimator differences. For prospective monitoring, copy the historical matrix and means to the worksheet containing future observations. Enter the actual number of baseline subgroups used (40 in this example, if none were excluded). Do not recalculate the reference from the future data every time an alarm occurs. Official Minitab instructions for storing statistics . Before deployment, confirm the variables share a stable joint distribution, the paired measurements are meaningful, the matrix is positive definite and sampling assumptions are adequate. A near-singular matrix is a warning of redundant variables or insufficient information. 01 · Joint location",
+          "excerpt": "\\[S_{\\mathrm{pool}}=\\frac{\\sum_{i=1}^{m}(n_i-1)S_i}{\\sum_{i=1}^{m}(n_i-1)}\\] For equal sizes, simply average the subgroup covariance matrices. For this example the denominator is \\(40 \\times 9 = 360\\). The pooled estimate describes short-term variation, while…",
           "kinds": [
             "section",
             "example",
@@ -19781,10 +19782,10 @@
           "id": "t2",
           "heading": "Hotelling's T²: detect a joint mean shift",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Hotelling's T²: detect a joint mean shift"
           ],
-          "text": "\\[T_i^2=n(\\bar{\\mathbf x}_i-\\boldsymbol\\mu_0)^T S^{-1}(\\bar{\\mathbf x}_i-\\boldsymbol\\mu_0)\\] Here \\(n\\) is subgroup size, \\(\\bar{\\mathbf x}_i\\) the subgroup mean vector, \\(\\boldsymbol\\mu_0\\) the reference mean vector, and \\(S\\) the reference covariance matrix. The inverse covariance adjusts the distance for natural spread and relationships. A superscript T means transpose: it turns a column into a row. The superscript −1 denotes the inverse matrix, not the reciprocal of each entry. Multiply the row of mean deviations, the inverse covariance, and the column of deviations in that order; the result is one number. For one observation and two variables with standardized deviations \\(z_1,z_2\\) and correlation \\(r\\): \\[T^2=\\frac{z_1^2-2rz_1z_2+z_2^2}{1-r^2}\\] Pipe A gives 2.5 and Pipe B gives 22.5 when both standard deviations are 10 MPa and correlation is 0.8. With known population parameters the theoretical limit is a chi-square quantile; estimated parameters require chart-specific limits. The saved Minitab UCL is 27.1452, not the illustrative 11.83 limit used for the individual-observation lab. Why the upper control limits differ For a known mean and known covariance, independent normal subgroup means have \\(T^2\\sim\\chi_p^2\\). For \\(p=2\\) and upper-tail probability 0.0027, the quantile is 11.829. This is the introductory ellipse threshold. The saved chart instead uses Minitab's historical-sample-count setting of 2 and returns 27.1452. Use that number to reproduce the saved project, not as a general production recommendation. When the parameters are estimated, the reference sample size, the estimator and whether the plotted observations were used to estimate the baseline affect the distribution. Phase I and Phase II limits need not match. For a new production chart use Minitab's documented formula for that design rather than copying either exercise limit. The MEWMA limit also depends on the weight and run-length target. Joint location Saved data · reconstructed",
+          "text": "\\[T_i^2=n(\\bar{\\mathbf x}_i-\\boldsymbol\\mu_0)^T S^{-1}(\\bar{\\mathbf x}_i-\\boldsymbol\\mu_0)\\] Here \\(n\\) is subgroup size, \\(\\bar{\\mathbf x}_i\\) the subgroup mean vector, \\(\\boldsymbol\\mu_0\\) the reference mean vector, and \\(S\\) the reference covariance matrix. The inverse covariance adjusts the distance for natural spread and relationships. A superscript T means transpose: it turns a column into a row. The superscript \\(-1\\) denotes the inverse matrix, not the reciprocal of each entry. Multiply the row of mean deviations, the inverse covariance, and the column of deviations in that order; the result is one number. For one observation and two variables with standardized deviations \\(z_1,z_2\\) and correlation \\(r\\): \\[T^2=\\frac{z_1^2-2rz_1z_2+z_2^2}{1-r^2}\\] Pipe A gives 2.5 and Pipe B gives 22.5 when both standard deviations are 10 MPa and correlation is 0.8. With known population parameters the theoretical limit is a chi-square quantile; estimated parameters require chart-specific limits. The saved Minitab UCL is 27.1452, not the illustrative 11.83 limit used for the individual-observation lab. Why the upper control limits differ For a known mean and known covariance, independent normal subgroup means have \\(T^2\\sim\\chi_p^2\\). For \\(p=2\\) and upper-tail probability 0.0027, the quantile is 11.829. This is the introductory ellipse threshold. The saved chart instead uses Minitab's historical-sample-count setting of 2 and returns 27.1452. Use that number to reproduce the saved project, not as a general production recommendation. When the parameters are estimated, the reference sample size, the estimator and whether the plotted observations were used to estimate the baseline affect the distribution. Phase I and Phase II limits need not match. For a new production chart use Minitab's documented formula for that design rather than copying either exercise limit. The MEWMA limit also depends on the weight and run-length target. Joint location Saved data · reconstructed",
           "excerpt": "\\[T_i^2=n(\\bar{\\mathbf x}_i-\\boldsymbol\\mu_0)^T S^{-1}(\\bar{\\mathbf x}_i-\\boldsymbol\\mu_0)\\] Here \\(n\\) is subgroup size, \\(\\bar{\\mathbf x}_i\\) the subgroup mean vector, \\(\\boldsymbol\\mu_0\\) the reference mean vector, and \\(S\\) the reference covariance…",
           "kinds": [
             "section",
@@ -19796,7 +19797,7 @@
           "id": "lesson-section-t2-control-chart",
           "heading": "T² control chart",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Hotelling's T²: detect a joint mean shift",
             "T² control chart"
           ],
@@ -19809,30 +19810,15 @@
           ]
         },
         {
-          "id": "lesson-section-1-enter-historical-covariance-values-into-the-worksheet",
-          "heading": "1. Enter historical covariance values into the worksheet",
+          "id": "lesson-section-1-2-create-the-stored-matrix-m1",
+          "heading": "1–2. Create the stored matrix M1",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Hotelling's T²: detect a joint mean shift",
-            "1. Enter historical covariance values into the worksheet"
+            "1–2. Create the stored matrix M1"
           ],
-          "text": "Use two unused columns. In a fresh four-column worksheet, click the shaded name cell below C5 and type Cov_YS; name C6 Cov_UTS. Press Enter to confirm each name. Now enter the four numbers into the numbered data cells (not the name row). Do not add these values to the measurement columns. Worksheet row C5 Cov_YS C6 Cov_UTS 1 100 80 2 80 100 3 onward Leave empty Leave empty",
-          "excerpt": "Use two unused columns. In a fresh four-column worksheet, click the shaded name cell below C5 and type Cov_YS; name C6 Cov_UTS. Press Enter to confirm each name. Now enter the four numbers into the numbered data cells (not the name row). Do not add these…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-2-turn-the-two-columns-into-a-stored-matrix",
-          "heading": "2. Turn the two columns into a stored matrix",
-          "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Hotelling's T²: detect a joint mean shift",
-            "2. Turn the two columns into a stored matrix"
-          ],
-          "text": "Choose Data → Copy → Columns to Matrix . Click the source field, enter C5 C6 in that order (or the actual column numbers). Set the destination to the current worksheet and type M1 in its matrix field. If M1 already exists, inspect it before overwriting, or choose a free matrix number. Open Subset the Data . Choose to include specified rows, select the row-number option and type 1:2 . Confirm the subset dialog, then the copy dialog. This excludes blank trailing cells. Do not look for an extra visible worksheet column called M1; Minitab stores matrices as worksheet objects. Choose Data → Display Data , enter M1 and click OK. In the output verify two rows and two columns containing 100,80 and 80,100. You may optionally name the stored matrix Copy. If your original MPX already contains Copy, reuse that verified matrix. Columns to Matrix · illustrative field map Source columns C5 C6 Current worksheet matrix M1 Subset: include rows 1:2 Click OK in Subset the Data, then OK in Columns to Matrix. Confirm the resulting matrix with Display Data. Reference covariance is symmetric and positive definite: diagonal entries 100 and determinant 3600. Official matrix-copy guide · Viewing stored matrices .",
-          "excerpt": "Choose Data → Copy → Columns to Matrix . Click the source field, enter C5 C6 in that order (or the actual column numbers). Set the destination to the current worksheet and type M1 in its matrix field. If M1 already exists, inspect it before overwriting, or…",
+          "text": "Do this once per worksheet. Follow Step B : type 100, 80 and 80, 100 into C5:C6, then use Data → Copy → Columns to Matrix to store them as M1 . Check it with Data → Display Data (two rows: 100, 80 and 80, 100) before you continue.",
+          "excerpt": "Do this once per worksheet. Follow Step B : type 100, 80 and 80, 100 into C5:C6, then use Data → Copy → Columns to Matrix to store them as M1 . Check it with Data → Display Data (two rows: 100, 80 and 80, 100) before you continue.",
           "kinds": [
             "section",
             "example"
@@ -19842,7 +19828,7 @@
           "id": "lesson-section-3-open-the-chart-and-fill-in-its-main-dialog",
           "heading": "3. Open the chart and fill in its main dialog",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Hotelling's T²: detect a joint mean shift",
             "3. Open the chart and fill in its main dialog"
           ],
@@ -19858,7 +19844,7 @@
           "id": "lesson-section-4-enter-historical-parameters-in-the-options-dialog",
           "heading": "4. Enter historical parameters in the Options dialog",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Hotelling's T²: detect a joint mean shift",
             "4. Enter historical parameters in the Options dialog"
           ],
@@ -19874,7 +19860,7 @@
           "id": "lesson-section-5-run-the-chart-and-check-the-output",
           "heading": "5. Run the chart and check the output",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Hotelling's T²: detect a joint mean shift",
             "5. Run the chart and check the output"
           ],
@@ -19890,7 +19876,7 @@
           "id": "gv",
           "heading": "Generalized Variance: detect joint dispersion",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Generalized Variance: detect joint dispersion"
           ],
           "text": "\\[GV_i=\\det(S_i)=s_1^2s_2^2(1-r^2)\\] For two variables, \\(s_1,s_2\\) are subgroup standard deviations and \\(r\\) is their subgroup correlation. The determinant measures joint dispersion, not the arithmetic sum of variances. 3,600 Both SDs 10; correlation 0.8 18,225 Both SDs 15; correlation 0.8 9,600 Both SDs 10; correlation 0.2 Even when each standard deviation is unchanged, weaker correlation can increase generalized variance. Conversely, different covariance matrices can have the same determinant. A sign reversal of correlation alone is invisible to this statistic.",
@@ -19905,7 +19891,7 @@
           "id": "lesson-section-live-lab-change-spread-without-moving-the-center",
           "heading": "Live lab: change spread without moving the center",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Generalized Variance: detect joint dispersion",
             "Live lab: change spread without moving the center"
           ],
@@ -19920,7 +19906,7 @@
           "id": "lesson-section-gv-control-chart",
           "heading": "GV control chart",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Generalized Variance: detect joint dispersion",
             "GV control chart"
           ],
@@ -19932,30 +19918,15 @@
           ]
         },
         {
-          "id": "lesson-section-1-enter-historical-covariance-values-into-the-worksheet-2",
-          "heading": "1. Enter historical covariance values into the worksheet",
+          "id": "lesson-section-1-2-create-the-stored-matrix-m1-2",
+          "heading": "1–2. Create the stored matrix M1",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Generalized Variance: detect joint dispersion",
-            "1. Enter historical covariance values into the worksheet"
+            "1–2. Create the stored matrix M1"
           ],
-          "text": "Use two unused columns. In a fresh four-column worksheet, click the shaded name cell below C5 and type Cov_YS; name C6 Cov_UTS. Press Enter to confirm each name. Now enter the four numbers into the numbered data cells (not the name row). Do not add these values to the measurement columns. Worksheet row C5 Cov_YS C6 Cov_UTS 1 100 80 2 80 100 3 onward Leave empty Leave empty",
-          "excerpt": "Use two unused columns. In a fresh four-column worksheet, click the shaded name cell below C5 and type Cov_YS; name C6 Cov_UTS. Press Enter to confirm each name. Now enter the four numbers into the numbered data cells (not the name row). Do not add these…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-2-turn-the-two-columns-into-a-stored-matrix-2",
-          "heading": "2. Turn the two columns into a stored matrix",
-          "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
-            "Generalized Variance: detect joint dispersion",
-            "2. Turn the two columns into a stored matrix"
-          ],
-          "text": "Choose Data → Copy → Columns to Matrix . Click the source field, enter C5 C6 in that order (or the actual column numbers). Set the destination to the current worksheet and type M1 in its matrix field. If M1 already exists, inspect it before overwriting, or choose a free matrix number. Open Subset the Data . Choose to include specified rows, select the row-number option and type 1:2 . Confirm the subset dialog, then the copy dialog. This excludes blank trailing cells. Do not look for an extra visible worksheet column called M1; Minitab stores matrices as worksheet objects. Choose Data → Display Data , enter M1 and click OK. In the output verify two rows and two columns containing 100,80 and 80,100. You may optionally name the stored matrix Copy. If your original MPX already contains Copy, reuse that verified matrix. Columns to Matrix · illustrative field map Source columns C5 C6 Current worksheet matrix M1 Subset: include rows 1:2 Click OK in Subset the Data, then OK in Columns to Matrix. Confirm the resulting matrix with Display Data. Reference covariance is symmetric and positive definite: diagonal entries 100 and determinant 3600. Official matrix-copy guide · Viewing stored matrices .",
-          "excerpt": "Choose Data → Copy → Columns to Matrix . Click the source field, enter C5 C6 in that order (or the actual column numbers). Set the destination to the current worksheet and type M1 in its matrix field. If M1 already exists, inspect it before overwriting, or…",
+          "text": "Do this once per worksheet. Follow Step B : type 100, 80 and 80, 100 into C5:C6, then use Data → Copy → Columns to Matrix to store them as M1 . Check it with Data → Display Data (two rows: 100, 80 and 80, 100) before you continue.",
+          "excerpt": "Do this once per worksheet. Follow Step B : type 100, 80 and 80, 100 into C5:C6, then use Data → Copy → Columns to Matrix to store them as M1 . Check it with Data → Display Data (two rows: 100, 80 and 80, 100) before you continue.",
           "kinds": [
             "section",
             "example"
@@ -19965,7 +19936,7 @@
           "id": "lesson-section-3-open-the-chart-and-fill-in-its-main-dialog-2",
           "heading": "3. Open the chart and fill in its main dialog",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Generalized Variance: detect joint dispersion",
             "3. Open the chart and fill in its main dialog"
           ],
@@ -19981,7 +19952,7 @@
           "id": "lesson-section-4-enter-historical-parameters-in-the-options-dialog-2",
           "heading": "4. Enter historical parameters in the Options dialog",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Generalized Variance: detect joint dispersion",
             "4. Enter historical parameters in the Options dialog"
           ],
@@ -19996,7 +19967,7 @@
           "id": "lesson-section-5-run-the-chart-and-check-the-output-2",
           "heading": "5. Run the chart and check the output",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Generalized Variance: detect joint dispersion",
             "5. Run the chart and check the output"
           ],
@@ -20012,7 +19983,7 @@
           "id": "combined",
           "heading": "T²–Generalized Variance: the two-panel detective",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "T²–Generalized Variance: the two-panel detective"
           ],
           "text": "Read both panels at the same subgroup index. Their alarms answer different questions; neither establishes a root cause.",
@@ -20026,7 +19997,7 @@
           "id": "lesson-section-neither-signals",
           "heading": "Neither signals",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "T²–Generalized Variance: the two-panel detective",
             "Neither signals"
           ],
@@ -20042,7 +20013,7 @@
           "id": "lesson-section-location-only",
           "heading": "Location only",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "T²–Generalized Variance: the two-panel detective",
             "Location only"
           ],
@@ -20058,7 +20029,7 @@
           "id": "lesson-section-dispersion-only",
           "heading": "Dispersion only",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "T²–Generalized Variance: the two-panel detective",
             "Dispersion only"
           ],
@@ -20074,7 +20045,7 @@
           "id": "lesson-section-both-signal",
           "heading": "Both signal",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "T²–Generalized Variance: the two-panel detective",
             "Both signal"
           ],
@@ -20090,7 +20061,7 @@
           "id": "lesson-section-t2-control-chart-2",
           "heading": "T² control chart",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "T²–Generalized Variance: the two-panel detective",
             "T² control chart"
           ],
@@ -20105,7 +20076,7 @@
           "id": "lesson-section-gv-control-chart-2",
           "heading": "GV control chart",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "T²–Generalized Variance: the two-panel detective",
             "GV control chart"
           ],
@@ -20118,30 +20089,15 @@
           ]
         },
         {
-          "id": "lesson-section-1-enter-historical-covariance-values-into-the-worksheet-3",
-          "heading": "1. Enter historical covariance values into the worksheet",
+          "id": "lesson-section-1-2-create-the-stored-matrix-m1-3",
+          "heading": "1–2. Create the stored matrix M1",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "T²–Generalized Variance: the two-panel detective",
-            "1. Enter historical covariance values into the worksheet"
+            "1–2. Create the stored matrix M1"
           ],
-          "text": "Use two unused columns. In a fresh four-column worksheet, click the shaded name cell below C5 and type Cov_YS; name C6 Cov_UTS. Press Enter to confirm each name. Now enter the four numbers into the numbered data cells (not the name row). Do not add these values to the measurement columns. Worksheet row C5 Cov_YS C6 Cov_UTS 1 100 80 2 80 100 3 onward Leave empty Leave empty",
-          "excerpt": "Use two unused columns. In a fresh four-column worksheet, click the shaded name cell below C5 and type Cov_YS; name C6 Cov_UTS. Press Enter to confirm each name. Now enter the four numbers into the numbered data cells (not the name row). Do not add these…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-2-turn-the-two-columns-into-a-stored-matrix-3",
-          "heading": "2. Turn the two columns into a stored matrix",
-          "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
-            "T²–Generalized Variance: the two-panel detective",
-            "2. Turn the two columns into a stored matrix"
-          ],
-          "text": "Choose Data → Copy → Columns to Matrix . Click the source field, enter C5 C6 in that order (or the actual column numbers). Set the destination to the current worksheet and type M1 in its matrix field. If M1 already exists, inspect it before overwriting, or choose a free matrix number. Open Subset the Data . Choose to include specified rows, select the row-number option and type 1:2 . Confirm the subset dialog, then the copy dialog. This excludes blank trailing cells. Do not look for an extra visible worksheet column called M1; Minitab stores matrices as worksheet objects. Choose Data → Display Data , enter M1 and click OK. In the output verify two rows and two columns containing 100,80 and 80,100. You may optionally name the stored matrix Copy. If your original MPX already contains Copy, reuse that verified matrix. Columns to Matrix · illustrative field map Source columns C5 C6 Current worksheet matrix M1 Subset: include rows 1:2 Click OK in Subset the Data, then OK in Columns to Matrix. Confirm the resulting matrix with Display Data. Reference covariance is symmetric and positive definite: diagonal entries 100 and determinant 3600. Official matrix-copy guide · Viewing stored matrices .",
-          "excerpt": "Choose Data → Copy → Columns to Matrix . Click the source field, enter C5 C6 in that order (or the actual column numbers). Set the destination to the current worksheet and type M1 in its matrix field. If M1 already exists, inspect it before overwriting, or…",
+          "text": "Do this once per worksheet. Follow Step B : type 100, 80 and 80, 100 into C5:C6, then use Data → Copy → Columns to Matrix to store them as M1 . Check it with Data → Display Data (two rows: 100, 80 and 80, 100) before you continue.",
+          "excerpt": "Do this once per worksheet. Follow Step B : type 100, 80 and 80, 100 into C5:C6, then use Data → Copy → Columns to Matrix to store them as M1 . Check it with Data → Display Data (two rows: 100, 80 and 80, 100) before you continue.",
           "kinds": [
             "section",
             "example"
@@ -20151,7 +20107,7 @@
           "id": "lesson-section-3-open-the-chart-and-fill-in-its-main-dialog-3",
           "heading": "3. Open the chart and fill in its main dialog",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "T²–Generalized Variance: the two-panel detective",
             "3. Open the chart and fill in its main dialog"
           ],
@@ -20167,7 +20123,7 @@
           "id": "lesson-section-4-enter-historical-parameters-in-the-options-dialog-3",
           "heading": "4. Enter historical parameters in the Options dialog",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "T²–Generalized Variance: the two-panel detective",
             "4. Enter historical parameters in the Options dialog"
           ],
@@ -20183,7 +20139,7 @@
           "id": "lesson-section-5-run-the-chart-and-check-the-output-3",
           "heading": "5. Run the chart and check the output",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "T²–Generalized Variance: the two-panel detective",
             "5. Run the chart and check the output"
           ],
@@ -20199,10 +20155,10 @@
           "id": "mewma",
           "heading": "MEWMA: remember the past",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "MEWMA: remember the past"
           ],
-          "text": "\\[\\mathbf Z_i=\\lambda(\\bar{\\mathbf x}_i-\\boldsymbol\\mu_0)+(1-\\lambda)\\mathbf Z_{i-1}\\] Start with a zero vector. The weight \\(\\lambda\\) determines how much the newest subgroup contributes. Smaller weights retain more history. \\[\\Sigma_{Z_i}=\\frac{\\lambda}{2-\\lambda}(1-(1-\\lambda)^{2i})\\frac{S}{n}\\] \\[M_i=\\mathbf Z_i^T\\Sigma_{Z_i}^{-1}\\mathbf Z_i\\] These formulas assume independent equal-sized subgroups and fixed reference covariance. The weighted vector's covariance changes during startup. MEWMA limits are calibrated for run-length performance rather than borrowed from T². Weight λ: 0.20",
+          "text": "\\[\\mathbf Z_i=\\lambda(\\bar{\\mathbf x}_i-\\boldsymbol\\mu_0)+(1-\\lambda)\\mathbf Z_{i-1}\\] Start with a zero vector. The weight \\(\\lambda\\) determines how much the newest subgroup contributes. Smaller weights retain more history. \\[\\Sigma_{Z_i}=\\frac{\\lambda}{2-\\lambda}(1-(1-\\lambda)^{2i})\\frac{S}{n}\\] \\[M_i=\\mathbf Z_i^T\\Sigma_{Z_i}^{-1}\\mathbf Z_i\\] These formulas assume independent equal-sized subgroups and fixed reference covariance. The weighted vector's covariance changes during startup. MEWMA limits are calibrated for run-length performance rather than borrowed from T². Weight \\(\\lambda\\): 0.20",
           "excerpt": "\\[\\mathbf Z_i=\\lambda(\\bar{\\mathbf x}_i-\\boldsymbol\\mu_0)+(1-\\lambda)\\mathbf Z_{i-1}\\] Start with a zero vector. The weight \\(\\lambda\\) determines how much the newest subgroup contributes. Smaller weights retain more history.…",
           "kinds": [
             "section",
@@ -20214,7 +20170,7 @@
           "id": "lesson-section-live-mewma-calculation-on-a-joint-shift",
           "heading": "Live MEWMA calculation on a joint shift",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "MEWMA: remember the past",
             "Live MEWMA calculation on a joint shift"
           ],
@@ -20230,7 +20186,7 @@
           "id": "lesson-section-mewma-control-chart",
           "heading": "MEWMA control chart",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "MEWMA: remember the past",
             "MEWMA control chart"
           ],
@@ -20242,30 +20198,15 @@
           ]
         },
         {
-          "id": "lesson-section-1-enter-historical-covariance-values-into-the-worksheet-4",
-          "heading": "1. Enter historical covariance values into the worksheet",
+          "id": "lesson-section-1-2-create-the-stored-matrix-m1-4",
+          "heading": "1–2. Create the stored matrix M1",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "MEWMA: remember the past",
-            "1. Enter historical covariance values into the worksheet"
+            "1–2. Create the stored matrix M1"
           ],
-          "text": "Use two unused columns. In a fresh four-column worksheet, click the shaded name cell below C5 and type Cov_YS; name C6 Cov_UTS. Press Enter to confirm each name. Now enter the four numbers into the numbered data cells (not the name row). Do not add these values to the measurement columns. Worksheet row C5 Cov_YS C6 Cov_UTS 1 100 80 2 80 100 3 onward Leave empty Leave empty",
-          "excerpt": "Use two unused columns. In a fresh four-column worksheet, click the shaded name cell below C5 and type Cov_YS; name C6 Cov_UTS. Press Enter to confirm each name. Now enter the four numbers into the numbered data cells (not the name row). Do not add these…",
-          "kinds": [
-            "section",
-            "example"
-          ]
-        },
-        {
-          "id": "lesson-section-2-turn-the-two-columns-into-a-stored-matrix-4",
-          "heading": "2. Turn the two columns into a stored matrix",
-          "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
-            "MEWMA: remember the past",
-            "2. Turn the two columns into a stored matrix"
-          ],
-          "text": "Choose Data → Copy → Columns to Matrix . Click the source field, enter C5 C6 in that order (or the actual column numbers). Set the destination to the current worksheet and type M1 in its matrix field. If M1 already exists, inspect it before overwriting, or choose a free matrix number. Open Subset the Data . Choose to include specified rows, select the row-number option and type 1:2 . Confirm the subset dialog, then the copy dialog. This excludes blank trailing cells. Do not look for an extra visible worksheet column called M1; Minitab stores matrices as worksheet objects. Choose Data → Display Data , enter M1 and click OK. In the output verify two rows and two columns containing 100,80 and 80,100. You may optionally name the stored matrix Copy. If your original MPX already contains Copy, reuse that verified matrix. Columns to Matrix · illustrative field map Source columns C5 C6 Current worksheet matrix M1 Subset: include rows 1:2 Click OK in Subset the Data, then OK in Columns to Matrix. Confirm the resulting matrix with Display Data. Reference covariance is symmetric and positive definite: diagonal entries 100 and determinant 3600. Official matrix-copy guide · Viewing stored matrices .",
-          "excerpt": "Choose Data → Copy → Columns to Matrix . Click the source field, enter C5 C6 in that order (or the actual column numbers). Set the destination to the current worksheet and type M1 in its matrix field. If M1 already exists, inspect it before overwriting, or…",
+          "text": "The MEWMA worksheet needs its own M1, because matrices belong to one worksheet. Follow Step B : type 100, 80 and 80, 100 into C5:C6, then use Data → Copy → Columns to Matrix to store them as M1 . Check it with Data → Display Data (two rows: 100, 80 and 80, 100) before you continue.",
+          "excerpt": "The MEWMA worksheet needs its own M1, because matrices belong to one worksheet. Follow Step B : type 100, 80 and 80, 100 into C5:C6, then use Data → Copy → Columns to Matrix to store them as M1 . Check it with Data → Display Data (two rows: 100, 80 and 80,…",
           "kinds": [
             "section",
             "example"
@@ -20275,7 +20216,7 @@
           "id": "lesson-section-3-open-the-chart-and-fill-in-its-main-dialog-4",
           "heading": "3. Open the chart and fill in its main dialog",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "MEWMA: remember the past",
             "3. Open the chart and fill in its main dialog"
           ],
@@ -20291,7 +20232,7 @@
           "id": "lesson-section-4-enter-historical-parameters-in-the-options-dialog-4",
           "heading": "4. Enter historical parameters in the Options dialog",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "MEWMA: remember the past",
             "4. Enter historical parameters in the Options dialog"
           ],
@@ -20306,7 +20247,7 @@
           "id": "lesson-section-5-run-the-chart-and-check-the-output-4",
           "heading": "5. Run the chart and check the output",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "MEWMA: remember the past",
             "5. Run the chart and check the output"
           ],
@@ -20321,7 +20262,7 @@
           "id": "lesson-section-behind-the-chart-calculate-the-statistics-yourself",
           "heading": "Behind the chart: calculate the statistics yourself",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Behind the chart: calculate the statistics yourself"
           ],
           "text": "",
@@ -20336,7 +20277,7 @@
           "id": "lesson-section-hotelling-s-t2-why-the-inverse-matrix-matters",
           "heading": "Hotelling's T² — why the inverse matrix matters",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Behind the chart: calculate the statistics yourself",
             "Hotelling's T² — why the inverse matrix matters"
           ],
@@ -20352,7 +20293,7 @@
           "id": "lesson-section-generalized-variance-from-subgroup-measurements-to-a-control-limit",
           "heading": "Generalized Variance — from subgroup measurements to a control limit",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Behind the chart: calculate the statistics yourself",
             "Generalized Variance — from subgroup measurements to a control limit"
           ],
@@ -20368,7 +20309,7 @@
           "id": "lesson-section-reproduce-minitab-s-generalized-variance-control-limits",
           "heading": "Reproduce Minitab's Generalized Variance control limits",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Behind the chart: calculate the statistics yourself",
             "Reproduce Minitab's Generalized Variance control limits"
           ],
@@ -20384,12 +20325,12 @@
           "id": "lesson-section-mewma-three-observations-step-by-step",
           "heading": "MEWMA — three observations, step by step",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Behind the chart: calculate the statistics yourself",
             "MEWMA — three observations, step by step"
           ],
-          "text": "Let the subgroup mean shift by +2 MPa in YS and −2 MPa in UTS. With weight 0.2, the first weighted vector is (0.4, −0.4), the second is (0.72, −0.72), and the third is (0.976, −0.976). Noise-free teaching example, not saved Minitab data Subgroup YS weighted deviation UTS weighted deviation 1 0.400 −0.400 2 0.720 −0.720 3 0.976 −0.976 4 1.181 −1.181 5 1.345 −1.345 If subgroup 6 returns exactly to the historical mean, its deviation vector is zero, so the previous weighted vector is multiplied by 0.8. The memory decays instead of instantly resetting. This is unlike standard T², which uses the current subgroup alone.",
-          "excerpt": "Let the subgroup mean shift by +2 MPa in YS and −2 MPa in UTS. With weight 0.2, the first weighted vector is (0.4, −0.4), the second is (0.72, −0.72), and the third is (0.976, −0.976). Noise-free teaching example, not saved Minitab data Subgroup YS weighted…",
+          "text": "Let the subgroup mean shift by \\(+2\\) MPa in YS and \\(-2\\) MPa in UTS. With weight 0.2, the first weighted vector is \\((0.4,\\ -0.4)\\), the second is \\((0.72,\\ -0.72)\\), and the third is \\((0.976,\\ -0.976)\\). Noise-free teaching example, not saved Minitab data Subgroup YS weighted deviation UTS weighted deviation 1 0.400 −0.400 2 0.720 −0.720 3 0.976 −0.976 4 1.181 −1.181 5 1.345 −1.345 If subgroup 6 returns exactly to the historical mean, its deviation vector is zero, so the previous weighted vector is multiplied by 0.8. The memory decays instead of instantly resetting. This is unlike standard T², which uses the current subgroup alone.",
+          "excerpt": "Let the subgroup mean shift by \\(+2\\) MPa in YS and \\(-2\\) MPa in UTS. With weight 0.2, the first weighted vector is \\((0.4,\\ -0.4)\\), the second is \\((0.72,\\ -0.72)\\), and the third is \\((0.976,\\ -0.976)\\). Noise-free teaching example, not saved Minitab data…",
           "kinds": [
             "section",
             "example",
@@ -20400,7 +20341,7 @@
           "id": "lesson-section-control-limits-are-not-interchangeable",
           "heading": "Control limits are not interchangeable",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Behind the chart: calculate the statistics yourself",
             "Control limits are not interchangeable"
           ],
@@ -20416,7 +20357,7 @@
           "id": "choose",
           "heading": "Which control chart should I use?",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Which control chart should I use?"
           ],
           "text": "",
@@ -20430,7 +20371,7 @@
           "id": "lesson-section-one-variable",
           "heading": "One variable",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Which control chart should I use?",
             "One variable"
           ],
@@ -20445,7 +20386,7 @@
           "id": "lesson-section-several-variables",
           "heading": "Several variables",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Which control chart should I use?",
             "Several variables"
           ],
@@ -20461,7 +20402,7 @@
           "id": "lesson-section-chart-selection-lab",
           "heading": "Chart-selection lab",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Which control chart should I use?",
             "Chart-selection lab"
           ],
@@ -20476,7 +20417,7 @@
           "id": "lesson-section-new-to-minitab-start-here-before-creating-any-chart",
           "heading": "New to Minitab? Start here before creating any chart",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "New to Minitab? Start here before creating any chart"
           ],
           "text": "This lab uses the desktop Minitab Statistical Software interface. Menu wording and screen layout can vary by release. These are illustrated controls, not screenshots; the menu paths below were checked against Minitab's official help. Use an installed or licensed instance with multivariate charts available.",
@@ -20490,7 +20431,7 @@
           "id": "lesson-section-meet-the-three-parts-of-your-workspace",
           "heading": "Meet the three parts of your workspace",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "New to Minitab? Start here before creating any chart",
             "Meet the three parts of your workspace"
           ],
@@ -20505,7 +20446,7 @@
           "id": "lesson-section-step-a-download-and-import-the-first-worksheet",
           "heading": "Step A — download and import the first worksheet",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "New to Minitab? Start here before creating any chart",
             "Step A — download and import the first worksheet"
           ],
@@ -20518,15 +20459,48 @@
           ]
         },
         {
-          "id": "lesson-section-step-b-complete-the-common-matrix-setup-once-per-worksheet",
-          "heading": "Step B — complete the common matrix setup once per worksheet",
+          "id": "minitab-step-b",
+          "heading": "Step B — create the stored covariance matrix once per worksheet",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "New to Minitab? Start here before creating any chart",
-            "Step B — complete the common matrix setup once per worksheet"
+            "Step B — create the stored covariance matrix once per worksheet"
           ],
-          "text": "Open the chart-specific guide below for the exact matrix-entry sequence. Reuse M1 for the first three charts. When you switch to the MEWMA worksheet, create or copy a matrix into that worksheet too. Matrix numbers are not globally shared across worksheets. 1 · Create T² 2 · Create GV 3 · Create combined chart 4 · Create MEWMA",
-          "excerpt": "Open the chart-specific guide below for the exact matrix-entry sequence. Reuse M1 for the first three charts. When you switch to the MEWMA worksheet, create or copy a matrix into that worksheet too. Matrix numbers are not globally shared across worksheets. 1…",
+          "text": "Every chart below reads the historical covariance from a stored matrix called M1 . Build it once on the T² and GV worksheet and reuse it for the first three charts. The MEWMA worksheet needs its own copy, because matrices belong to one worksheet.",
+          "excerpt": "Every chart below reads the historical covariance from a stored matrix called M1 . Build it once on the T² and GV worksheet and reuse it for the first three charts. The MEWMA worksheet needs its own copy, because matrices belong to one worksheet.",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "minitab-step-b1",
+          "heading": "B1. Enter the historical covariance values",
+          "breadcrumb": [
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "New to Minitab? Start here before creating any chart",
+            "Step B — create the stored covariance matrix once per worksheet",
+            "B1. Enter the historical covariance values"
+          ],
+          "text": "Use two unused columns. In a fresh four-column worksheet, click the shaded name cell below C5 and type Cov_YS; name C6 Cov_UTS. Press Enter to confirm each name. Now enter the four numbers into the numbered data cells (not the name row). Do not add these values to the measurement columns. Worksheet row C5 Cov_YS C6 Cov_UTS 1 100 80 2 80 100 3 onward Leave empty Leave empty",
+          "excerpt": "Use two unused columns. In a fresh four-column worksheet, click the shaded name cell below C5 and type Cov_YS; name C6 Cov_UTS. Press Enter to confirm each name. Now enter the four numbers into the numbered data cells (not the name row). Do not add these…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "minitab-step-b2",
+          "heading": "B2. Turn the two columns into a stored matrix",
+          "breadcrumb": [
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "New to Minitab? Start here before creating any chart",
+            "Step B — create the stored covariance matrix once per worksheet",
+            "B2. Turn the two columns into a stored matrix"
+          ],
+          "text": "Choose Data → Copy → Columns to Matrix . Click the source field, enter C5 C6 in that order (or the actual column numbers). Set the destination to the current worksheet and type M1 in its matrix field. If M1 already exists, inspect it before overwriting, or choose a free matrix number. Open Subset the Data . Choose to include specified rows, select the row-number option and type 1:2 . Confirm the subset dialog, then the copy dialog. This excludes blank trailing cells. Do not look for an extra visible worksheet column called M1; Minitab stores matrices as worksheet objects. Choose Data → Display Data , enter M1 and click OK. In the output verify two rows and two columns containing 100,80 and 80,100. You may optionally name the stored matrix Copy. If your original MPX already contains Copy, reuse that verified matrix. Columns to Matrix · illustrative field map Source columns C5 C6 Current worksheet matrix M1 Subset: include rows 1:2 Click OK in Subset the Data, then OK in Columns to Matrix. Confirm the resulting matrix with Display Data. Reference covariance is symmetric and positive definite: diagonal entries 100 and determinant 3600. Official matrix-copy guide · Viewing stored matrices . Now open the chart you want: 1 · Create T² 2 · Create GV 3 · Create combined chart 4 · Create MEWMA",
+          "excerpt": "Choose Data → Copy → Columns to Matrix . Click the source field, enter C5 C6 in that order (or the actual column numbers). Set the destination to the current worksheet and type M1 in its matrix field. If M1 already exists, inspect it before overwriting, or…",
           "kinds": [
             "section",
             "example",
@@ -20537,7 +20511,7 @@
           "id": "lesson-section-download-the-original-practice-measurements-and-answer-tables",
           "heading": "Download the original practice measurements and answer tables",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Download the original practice measurements and answer tables"
           ],
           "text": "Both measurement files match the original Minitab worksheet values row for row. The calculated-statistics tables independently reproduce all plotted values to the precision shown in the lesson. CSV · 01",
@@ -20551,12 +20525,12 @@
           "id": "lesson-section-t2-and-gv-original-measurements",
           "heading": "T² and GV — original measurements",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Download the original practice measurements and answer tables",
             "T² and GV — original measurements"
           ],
-          "text": "600 observations · T², GV and combined charts Download CSV CSV · 02",
-          "excerpt": "600 observations · T², GV and combined charts Download CSV CSV · 02",
+          "text": "600 observations · T², GV and combined charts Download T2_GV_Practice.csv (CSV, 14 KB) CSV · 02",
+          "excerpt": "600 observations · T², GV and combined charts Download T2_GV_Practice.csv (CSV, 14 KB) CSV · 02",
           "kinds": [
             "section",
             "example",
@@ -20567,12 +20541,12 @@
           "id": "lesson-section-mewma-original-measurements",
           "heading": "MEWMA — original measurements",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Download the original practice measurements and answer tables",
             "MEWMA — original measurements"
           ],
-          "text": "600 observations · MEWMA chart Download CSV CSV · 03",
-          "excerpt": "600 observations · MEWMA chart Download CSV CSV · 03",
+          "text": "600 observations · MEWMA chart Download MEWMA_Practice.csv (CSV, 14 KB) CSV · 03",
+          "excerpt": "600 observations · MEWMA chart Download MEWMA_Practice.csv (CSV, 14 KB) CSV · 03",
           "kinds": [
             "section",
             "example"
@@ -20582,12 +20556,12 @@
           "id": "lesson-section-data-dictionary",
           "heading": "Data dictionary",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Download the original practice measurements and answer tables",
             "Data dictionary"
           ],
-          "text": "4 column definitions · Units and meaning Download CSV CSV · 04",
-          "excerpt": "4 column definitions · Units and meaning Download CSV CSV · 04",
+          "text": "4 column definitions · Units and meaning Download data-dictionary.csv (CSV, 1 KB) CSV · 04",
+          "excerpt": "4 column definitions · Units and meaning Download data-dictionary.csv (CSV, 1 KB) CSV · 04",
           "kinds": [
             "section",
             "example"
@@ -20597,12 +20571,12 @@
           "id": "lesson-section-t2-and-gv-answer-table",
           "heading": "T² and GV — answer table",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Download the original practice measurements and answer tables",
             "T² and GV — answer table"
           ],
-          "text": "60 subgroup results · Verify your T² and GV calculations Download CSV CSV · 05",
-          "excerpt": "60 subgroup results · Verify your T² and GV calculations Download CSV CSV · 05",
+          "text": "60 subgroup results · Verify your T² and GV calculations Download T2_GV_calculated_statistics.csv (CSV, 6 KB) CSV · 05",
+          "excerpt": "60 subgroup results · Verify your T² and GV calculations Download T2_GV_calculated_statistics.csv (CSV, 6 KB) CSV · 05",
           "kinds": [
             "section",
             "example",
@@ -20613,12 +20587,12 @@
           "id": "lesson-section-mewma-answer-table",
           "heading": "MEWMA — answer table",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Download the original practice measurements and answer tables",
             "MEWMA — answer table"
           ],
-          "text": "60 subgroup results · Verify your MEWMA calculations Download CSV",
-          "excerpt": "60 subgroup results · Verify your MEWMA calculations Download CSV",
+          "text": "60 subgroup results · Verify your MEWMA calculations Download MEWMA_calculated_statistics.csv (CSV, 4 KB)",
+          "excerpt": "60 subgroup results · Verify your MEWMA calculations Download MEWMA_calculated_statistics.csv (CSV, 4 KB)",
           "kinds": [
             "section",
             "example"
@@ -20628,7 +20602,7 @@
           "id": "practice",
           "heading": "Minitab practice: reproduce the five panels",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Minitab practice: reproduce the five panels"
           ],
           "text": "Minitab · Multivariate Charts T²–Generalized Variance… T²… Generalized Variance… Multivariate EWMA… Illustrated menu, not a native screenshot. Select a chart to open its own step-by-step guide. The saved project uses two synthetic steel-property datasets, 60 subgroups each, 10 specimens per subgroup. Historical means are 500 and 600 MPa; the reference covariance matrix is the 100/80 matrix above. Import the practice CSV. Select YS_MPa and UTS_MPa in that order. Enter 100, 80 in one empty column and 80, 100 in a second. Use Data → Copy → Columns to Matrix to store M1. Verify M1 using Data → Display Data . Select Subgroup (C1) in the Subgroup sizes field; constant 10 is an equivalent alternative for these contiguous equal-size groups. In chart options, enter means 500 600 and historical covariance M1 where supported. For the saved T² and combined chart, the historical sample-count field was set to 2. This reproduces the saved output only; it is not an appropriate baseline estimation count for the theoretical matrix. See the chart-specific expandable instructions. Repeat for the standalone T², GV and combined chart. Compare the output to the saved figures above. Open the MEWMA dataset and repeat with the Multivariate EWMA chart. Use ARL 200. Reproduce weight 0.20 first; then try 0.10 and 0.40 and record the first signal. For a real baseline, use stable subgroups only, leave historical parameters blank initially, and store estimates in chart options. Use the actual number of historical subgroups if a count is requested. Never fabricate a sample count for population parameters. Saved plot limits and values are reproduced above; precise reproduction requires matching the original options. The verified original worksheet CSVs are available in the Downloads section above. Each contains exactly 600 paired observations.",
@@ -20643,7 +20617,7 @@
           "id": "lesson-section-my-minitab-output-looks-different-troubleshoot-before-continuing",
           "heading": "My Minitab output looks different — troubleshoot before continuing",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "My Minitab output looks different — troubleshoot before continuing"
           ],
           "text": "Symptom Check and fix CSV appears in one column Reopen with comma delimiter and preview four columns. C3-T or C4-T; variables unavailable A strength column is text. Reimport numeric values with the correct decimal separator and header setting. 600 points or unexpected group sizes Use Subgroup (C1) or constant 10, not Specimen or constant 1. Verify the 60 groups have 10 consecutive paired rows. M1 missing from the dialog Activate the correct worksheet. Use Data → Display Data to check matrix storage; create M1 there or copy it using Data → Copy → Matrices to Matrices. Matrix size or positive-definiteness error Use only rows 1:2 of C5 C6. Verify 100,80 / 80,100. Do not include header text, empty cells or extra columns. Different T² UCL Check means 500 600, M1, historical count 2 for saved exercise, subgroup IDs and default stages. Different GV UCL Check historical covariance (not an overall covariance recalculated from all rows), group size and data file. Different MEWMA UCL or signals Use MEWMA_Practice.csv, ARL 200, weight .20, historical means and covariance; preserve chronology. Cannot locate test results Select the analysis in Navigator and inspect its output, not only the graph editor. Compare the saved results section. Numbers differ only in final displayed decimals Minitab rounds graph labels. Compare unrounded stored statistics or the answer tables before diagnosing an error.",
@@ -20658,7 +20632,7 @@
           "id": "lesson-section-save-your-work-and-export-a-chart",
           "heading": "Save your work and export a chart",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "My Minitab output looks different — troubleshoot before continuing",
             "Save your work and export a chart"
           ],
@@ -20673,7 +20647,7 @@
           "id": "lesson-section-reproduce-the-saved-results-one-subgroup-at-a-time",
           "heading": "Reproduce the saved results, one subgroup at a time",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Reproduce the saved results, one subgroup at a time"
           ],
           "text": "",
@@ -20687,7 +20661,7 @@
           "id": "lesson-section-subgroup-40-reference-window-example",
           "heading": "Subgroup 40 · Reference-window example",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Reproduce the saved results, one subgroup at a time",
             "Subgroup 40 · Reference-window example"
           ],
@@ -20703,7 +20677,7 @@
           "id": "lesson-section-subgroup-41-location-signal",
           "heading": "Subgroup 41 · Location signal",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Reproduce the saved results, one subgroup at a time",
             "Subgroup 41 · Location signal"
           ],
@@ -20719,7 +20693,7 @@
           "id": "lesson-section-subgroup-46-dispersion-signal",
           "heading": "Subgroup 46 · Dispersion signal",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Reproduce the saved results, one subgroup at a time",
             "Subgroup 46 · Dispersion signal"
           ],
@@ -20735,7 +20709,7 @@
           "id": "lesson-section-subgroup-51-both-signals",
           "heading": "Subgroup 51 · Both signals",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Reproduce the saved results, one subgroup at a time",
             "Subgroup 51 · Both signals"
           ],
@@ -20751,7 +20725,7 @@
           "id": "lesson-section-subgroup-41-a-mean-shift-in-opposite-directions",
           "heading": "Subgroup 41 — a mean shift in opposite directions",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Reproduce the saved results, one subgroup at a time",
             "Subgroup 41 — a mean shift in opposite directions"
           ],
@@ -20767,11 +20741,11 @@
           "id": "lesson-section-subgroup-46-spread-changes-not-the-mean",
           "heading": "Subgroup 46 — spread changes, not the mean",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Reproduce the saved results, one subgroup at a time",
             "Subgroup 46 — spread changes, not the mean"
           ],
-          "text": "Calculate each sample variance and covariance from the ten paired rows (divide by nine). The entries below come from the original worksheet. \\[S_{46}=\\begin{bmatrix}384.767&410.554\\\\410.554&561.262\\end{bmatrix}\\] Its determinant is 47400.30 MPa⁴, versus UCL 11446.02. Yet the T² is 3.6050. A conventional location chart could miss this dispersion disturbance.",
+          "text": "Calculate each sample variance and covariance from the ten paired rows (divide by nine). The entries below come from the original worksheet. \\[S_{46}=\\begin{bmatrix}384.767&410.554\\\\410.554&561.262\\end{bmatrix}\\] Its determinant is 47400.30 MPa⁴, versus UCL 11446.02. Yet its \\(T^2\\) is only 3.6050. A conventional location chart could miss this dispersion disturbance.",
           "excerpt": "Calculate each sample variance and covariance from the ten paired rows (divide by nine). The entries below come from the original worksheet. \\[S_{46}=\\begin{bmatrix}384.767&410.554\\\\410.554&561.262\\end{bmatrix}\\] Its determinant is 47400.30 MPa⁴, versus UCL…",
           "kinds": [
             "section",
@@ -20783,12 +20757,12 @@
           "id": "lesson-section-subgroup-51-both-panels-demand-attention",
           "heading": "Subgroup 51 — both panels demand attention",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Reproduce the saved results, one subgroup at a time",
             "Subgroup 51 — both panels demand attention"
           ],
-          "text": "Actual mean YS: 510.0000 MPa; actual mean UTS: 590.0000 MPa. T² is 99.9999 and GV is 135264.98. Check measurement integrity and spread first; then investigate the process shift.",
-          "excerpt": "Actual mean YS: 510.0000 MPa; actual mean UTS: 590.0000 MPa. T² is 99.9999 and GV is 135264.98. Check measurement integrity and spread first; then investigate the process shift.",
+          "text": "Actual mean YS: 510.0000 MPa; actual mean UTS: 590.0000 MPa. \\(T^2 = 99.9999\\) and \\(\\text{GV} = 135264.98\\). Check measurement integrity and spread first; then investigate the process shift.",
+          "excerpt": "Actual mean YS: 510.0000 MPa; actual mean UTS: 590.0000 MPa. \\(T^2 = 99.9999\\) and \\(\\text{GV} = 135264.98\\). Check measurement integrity and spread first; then investigate the process shift.",
           "kinds": [
             "section",
             "example",
@@ -20799,7 +20773,7 @@
           "id": "lesson-section-subgroup-45-a-memory-chart-crosses-its-threshold",
           "heading": "Subgroup 45 — a memory chart crosses its threshold",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Reproduce the saved results, one subgroup at a time",
             "Subgroup 45 — a memory chart crosses its threshold"
           ],
@@ -20814,7 +20788,7 @@
           "id": "lesson-section-read-the-actual-minitab-output-from-alarm-to-evidence",
           "heading": "Read the actual Minitab output: from alarm to evidence",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Read the actual Minitab output: from alarm to evidence"
           ],
           "text": "41 T² signals GV within limit Investigate location. 46 T² within limit GV signals Investigate spread. 51 T² signals GV signals Investigate spread and location. 45–60 MEWMA signals Separate dataset Investigate sustained drift. Saved Minitab signals from both practice datasets; MEWMA uses a different worksheet. These tables transcribe the saved Minitab project output groups, not hypothetical results or screenshots. The five graphs above are redrawn from saved graph data. Read the software output alongside each graph.",
@@ -20829,7 +20803,7 @@
           "id": "lesson-section-matrix-copy-historical-covariance-input",
           "heading": "Matrix Copy — historical covariance input",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Read the actual Minitab output: from alarm to evidence",
             "Matrix Copy — historical covariance input"
           ],
@@ -20844,7 +20818,7 @@
           "id": "lesson-section-test-results-for-t2-chart-of-ys-mpa-uts-mpa",
           "heading": "Test Results for T² Chart of YS_MPa, UTS_MPa",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Read the actual Minitab output: from alarm to evidence",
             "Test Results for T² Chart of YS_MPa, UTS_MPa"
           ],
@@ -20860,12 +20834,12 @@
           "id": "lesson-section-point-41",
           "heading": "Point 41",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Read the actual Minitab output: from alarm to evidence",
             "Point 41"
           ],
-          "text": "T² ≈ 100 versus UCL 27.15. GV ≈ 3149 versus UCL 11446. Investigate a joint location shift.",
-          "excerpt": "T² ≈ 100 versus UCL 27.15. GV ≈ 3149 versus UCL 11446. Investigate a joint location shift.",
+          "text": "\\(T^2 \\approx 100\\) versus UCL 27.15. \\(\\text{GV} \\approx 3149\\) versus UCL 11446. Investigate a joint location shift.",
+          "excerpt": "\\(T^2 \\approx 100\\) versus UCL 27.15. \\(\\text{GV} \\approx 3149\\) versus UCL 11446. Investigate a joint location shift.",
           "kinds": [
             "section",
             "example",
@@ -20876,12 +20850,12 @@
           "id": "lesson-section-point-51",
           "heading": "Point 51",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Read the actual Minitab output: from alarm to evidence",
             "Point 51"
           ],
-          "text": "T² ≈ 100 and GV ≈ 135265. Investigate dispersion first, then location. Both panels signal.",
-          "excerpt": "T² ≈ 100 and GV ≈ 135265. Investigate dispersion first, then location. Both panels signal.",
+          "text": "\\(T^2 \\approx 100\\) and \\(\\text{GV} \\approx 135265\\). Investigate dispersion first, then location. Both panels signal.",
+          "excerpt": "\\(T^2 \\approx 100\\) and \\(\\text{GV} \\approx 135265\\). Investigate dispersion first, then location. Both panels signal.",
           "kinds": [
             "section",
             "example",
@@ -20892,23 +20866,22 @@
           "id": "lesson-section-test-results-for-generalized-variance-chart-of-ys-mpa-uts-mpa",
           "heading": "Test Results for Generalized Variance Chart of YS_MPa, UTS_MPa",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Read the actual Minitab output: from alarm to evidence",
             "Test Results for Generalized Variance Chart of YS_MPa, UTS_MPa"
           ],
-          "text": "TEST. One point beyond control limits. Test Failed at points: 46, 51 Identical test results appear in the standalone GV and combined output. Point 46 is especially informative: its T² is only about 3.61, while GV is about 47,400. The mean can remain near the target while individual specimens become much more inconsistent.",
-          "excerpt": "TEST. One point beyond control limits. Test Failed at points: 46, 51 Identical test results appear in the standalone GV and combined output. Point 46 is especially informative: its T² is only about 3.61, while GV is about 47,400. The mean can remain near the…",
+          "text": "TEST. One point beyond control limits. Test Failed at points: 46, 51 Identical test results appear in the standalone GV and combined output. Point 46 is especially informative: its \\(T^2\\) is only about 3.61, while GV is about 47,400. The mean can remain near the target while individual specimens become much more inconsistent.",
+          "excerpt": "TEST. One point beyond control limits. Test Failed at points: 46, 51 Identical test results appear in the standalone GV and combined output. Point 46 is especially informative: its \\(T^2\\) is only about 3.61, while GV is about 47,400. The mean can remain near…",
           "kinds": [
             "section",
-            "example",
-            "formula"
+            "example"
           ]
         },
         {
           "id": "lesson-section-test-results-for-mewma-chart-of-ys-mpa-uts-mpa",
           "heading": "Test Results for MEWMA Chart of YS_MPa, UTS_MPa",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Read the actual Minitab output: from alarm to evidence",
             "Test Results for MEWMA Chart of YS_MPa, UTS_MPa"
           ],
@@ -20923,10 +20896,10 @@
           "id": "investigate",
           "heading": "Investigate, don't just alarm",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Investigate, don't just alarm"
           ],
-          "text": "01 Verify measurement 02 Inspect individual charts 03 Check covariance and decomposition 04 Confirm process cause Look for gauge problems, changes in grade or product mix, process settings, and operator or equipment changes. Decomposition helps identify variables that contribute to the signal conditional on the others; it does not prove causation. Other applications: monitor chemical reactor temperature, pressure and concentration; mining recovery and feed grade; finance risk factors; or dimensional characteristics such as diameter and ovality. Avoid redundant variables that make the covariance matrix singular. Use representative data, independent observations, sufficient sample size and appropriate distribution assumptions.",
+          "text": "01 Verify measurement 02 Inspect individual charts 03 Check covariance and decomposition 04 Confirm process cause Look for gauge problems, changes in grade or product mix, process settings, and operator or equipment changes. Decomposition helps identify variables that contribute to the signal conditional on the others; it does not prove causation. Other applications: monitor chemical reactor temperature, pressure and concentration; mining recovery and feed grade; finance risk factors; or dimensional characteristics such as diameter and ovality. Avoid redundant variables that make the covariance matrix singular. Use representative data, independent observations, sufficient sample size and appropriate distribution assumptions. Do it in software",
           "excerpt": "01 Verify measurement 02 Inspect individual charts 03 Check covariance and decomposition 04 Confirm process cause Look for gauge problems, changes in grade or product mix, process settings, and operator or equipment changes. Decomposition helps identify…",
           "kinds": [
             "section",
@@ -20934,26 +20907,26 @@
           ]
         },
         {
-          "id": "lesson-section-statistics-implementation",
+          "id": "implementation-h",
           "heading": "Statistics Implementation",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Statistics Implementation"
           ],
-          "text": "Psst. Make the software do the heavy lifting. Unlock the chart lab ▾ You found the chart lab. Hide it ▴",
-          "excerpt": "Psst. Make the software do the heavy lifting. Unlock the chart lab ▾ You found the chart lab. Hide it ▴",
+          "text": "Psst. Excel and Minitab do the heavy matrix lifting in here, and the sneakiest exam traps are hiding too. You found the secret level. Let the software crunch the matrices for you. Unlock the cheat codes Hide the cheat codes",
+          "excerpt": "Psst. Excel and Minitab do the heavy matrix lifting in here, and the sneakiest exam traps are hiding too. You found the secret level. Let the software crunch the matrices for you. Unlock the cheat codes Hide the cheat codes",
           "kinds": [
             "section",
             "example"
           ]
         },
         {
-          "id": "lesson-section-excel-functions",
-          "heading": "Excel Functions",
+          "id": "excel-functions",
+          "heading": "1. Excel Functions",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Statistics Implementation",
-            "Excel Functions"
+            "1. Excel Functions"
           ],
           "text": "Function Syntax Purpose When to use AVERAGE AVERAGE(range) Mean Reference center VAR.S / VAR.P VAR.S(range) Variance Sample / population COVARIANCE.S / COVARIANCE.P COVARIANCE.S(x,y) Covariance Paired sample / population CORREL CORREL(x,y) Correlation Relationship MINVERSE / MMULT / TRANSPOSE MINVERSE(matrix) Matrix calculations T² MDETERM MDETERM(matrix) Determinant GV CHISQ.INV.RT CHISQ.INV.RT(probability,deg_freedom) Upper quantile Known-parameter T² F.INV.RT F.INV.RT(probability,deg_freedom1,deg_freedom2) Upper F quantile Appropriate estimated-parameter formula",
           "excerpt": "Function Syntax Purpose When to use AVERAGE AVERAGE(range) Mean Reference center VAR.S / VAR.P VAR.S(range) Variance Sample / population COVARIANCE.S / COVARIANCE.P COVARIANCE.S(x,y) Covariance Paired sample / population CORREL CORREL(x,y) Correlation…",
@@ -20964,14 +20937,14 @@
           ]
         },
         {
-          "id": "lesson-section-excel-use-cases",
-          "heading": "Excel Use Cases",
+          "id": "excel-use-cases",
+          "heading": "2. Excel Use Cases",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Statistics Implementation",
-            "Excel Use Cases"
+            "2. Excel Use Cases"
           ],
-          "text": "For paired samples in B2:B6 and C2:C6, use =VAR.S(B2:B6) , =COVARIANCE.S(B2:B6,C2:C6) and =CORREL(B2:B6,C2:C6) . Put the covariance matrix in F2:G3 and a row of mean deviations in I2:J2. Calculate an individual T² using =MMULT(MMULT(I2:J2,MINVERSE(F2:G3)),TRANSPOSE(I2:J2)) . Multiply by subgroup size for subgroup means. Use =MDETERM(F2:G3) for generalized variance. Build the first subgroup in Excel — exact cell layout Open the T²/GV CSV so columns A:D are Subgroup, Specimen, YS_MPa and UTS_MPa, with headers in row 1. Rows 2:11 contain subgroup 1. Enter the following in unused cells. Cell Enter exactly Purpose F2:G3 100,80 / 80,100 (one number per cell) Historical covariance I2 =AVERAGE(C2:C11)-500 YS mean deviation J2 =AVERAGE(D2:D11)-600 UTS mean deviation K2 =10*MMULT(MMULT(I2:J2,MINVERSE(F2:G3)),TRANSPOSE(I2:J2)) Subgroup T² F5 =VAR.S(C2:C11) YS sample variance G5 =COVARIANCE.S(C2:C11,D2:D11) Covariance F6 =G5 Symmetric covariance G6 =VAR.S(D2:D11) UTS sample variance K3 =MDETERM(F5:G6) Subgroup GV Expected outputs: T² = 0.4978463 and GV = 1484.0634029. Compare with the answer-table CSV. For subgroup 2 use rows 12:21. Modern Excel returns the single-cell matrix product automatically; legacy versions may need Ctrl+Shift+Enter. For MEWMA on the second CSV, use the same I2:J2 deviations for its first subgroup. Put 0.2 in L1 and 0 in M1:N1. In M2 enter =$L$1*I2+(1-$L$1)*M1 ; in N2 use =$L$1*J2+(1-$L$1)*N1 . Put subgroup number 1 in O2. In P2 enter =10*MMULT(MMULT(M2:N2,MINVERSE($F$2:$G$3)),TRANSPOSE(M2:N2))/($L$1/(2-$L$1)*(1-(1-$L$1)^(2*O2))) . Expected first statistic: 0.8196323. Populate I:J with subsequent subgroup mean deviations and O with their sequential numbers before filling M:P down. Do not compare against a fixed saved MEWMA limit after changing lambda.",
+          "text": "For paired samples in B2:B6 and C2:C6, use =VAR.S(B2:B6) , =COVARIANCE.S(B2:B6,C2:C6) and =CORREL(B2:B6,C2:C6) . Put the covariance matrix in F2:G3 and a row of mean deviations in I2:J2. Calculate an individual T² using =MMULT(MMULT(I2:J2,MINVERSE(F2:G3)),TRANSPOSE(I2:J2)) . Multiply by subgroup size for subgroup means. Use =MDETERM(F2:G3) for generalized variance. Build the first subgroup in Excel — exact cell layout Open the T²/GV CSV so columns A:D are Subgroup, Specimen, YS_MPa and UTS_MPa, with headers in row 1. Rows 2:11 contain subgroup 1. Enter the following in unused cells. Cell Enter exactly Purpose F2:G3 100,80 / 80,100 (one number per cell) Historical covariance I2 =AVERAGE(C2:C11)-500 YS mean deviation J2 =AVERAGE(D2:D11)-600 UTS mean deviation K2 =10*MMULT(MMULT(I2:J2,MINVERSE(F2:G3)),TRANSPOSE(I2:J2)) Subgroup T² F5 =VAR.S(C2:C11) YS sample variance G5 =COVARIANCE.S(C2:C11,D2:D11) Covariance F6 =G5 Symmetric covariance G6 =VAR.S(D2:D11) UTS sample variance K3 =MDETERM(F5:G6) Subgroup GV Expected outputs: \\(T^2 = 0.4978463\\) and \\(\\text{GV} = 1484.0634029\\). Compare with the answer-table CSV. For subgroup 2 use rows 12:21. Modern Excel returns the single-cell matrix product automatically; legacy versions may need Ctrl+Shift+Enter. For MEWMA on the second CSV, use the same I2:J2 deviations for its first subgroup. Put 0.2 in L1 and 0 in M1:N1. In M2 enter =$L$1*I2+(1-$L$1)*M1 ; in N2 use =$L$1*J2+(1-$L$1)*N1 . Put subgroup number 1 in O2. In P2 enter =10*MMULT(MMULT(M2:N2,MINVERSE($F$2:$G$3)),TRANSPOSE(M2:N2))/($L$1/(2-$L$1)*(1-(1-$L$1)^(2*O2))) . Expected first statistic: 0.8196323. Populate I:J with subsequent subgroup mean deviations and O with their sequential numbers before filling M:P down. Do not compare against a fixed saved MEWMA limit after changing lambda.",
           "excerpt": "For paired samples in B2:B6 and C2:C6, use =VAR.S(B2:B6) , =COVARIANCE.S(B2:B6,C2:C6) and =CORREL(B2:B6,C2:C6) . Put the covariance matrix in F2:G3 and a row of mean deviations in I2:J2. Calculate an individual T² using…",
           "kinds": [
             "section",
@@ -20981,11 +20954,11 @@
         },
         {
           "id": "minitab",
-          "heading": "Minitab Navigation",
+          "heading": "3. Minitab Navigation",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Statistics Implementation",
-            "Minitab Navigation"
+            "3. Minitab Navigation"
           ],
           "text": "Stat → Control Charts → Multivariate Charts → T² , Generalized Variance , T²-Generalized Variance , or Multivariate EWMA . For ordinary sample covariance, use Stat → Basic Statistics → Covariance . For within-subgroup baseline estimates, use chart-specific storage options.",
           "excerpt": "Stat → Control Charts → Multivariate Charts → T² , Generalized Variance , T²-Generalized Variance , or Multivariate EWMA . For ordinary sample covariance, use Stat → Basic Statistics → Covariance . For within-subgroup baseline estimates, use chart-specific…",
@@ -20996,15 +20969,15 @@
           ]
         },
         {
-          "id": "lesson-section-exam-tips",
-          "heading": "Exam Tips",
+          "id": "exam-tips",
+          "heading": "4. Exam Tips",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Statistics Implementation",
-            "Exam Tips"
+            "4. Exam Tips"
           ],
-          "text": "For CSSBB/CQE study, distinguish statistical control from specification compliance, location from dispersion, and subgroup data from individuals. Know why covariance matters and why an out-of-control point requires investigation. Practice / Think like the analyst",
-          "excerpt": "For CSSBB/CQE study, distinguish statistical control from specification compliance, location from dispersion, and subgroup data from individuals. Know why covariance matters and why an out-of-control point requires investigation. Practice / Think like the…",
+          "text": "The ASQ CSSBB and CQE bodies of knowledge do not name Hotelling’s \\(T^2\\), generalized variance or MEWMA charts. Treat this lesson as beyond-the-exam depth, and know the ideas the exams do test. Covariance and correlation: the diagonal of a covariance matrix holds variances, and correlation is covariance scaled to between \\(-1\\) and \\(+1\\). Control limits are not specification limits. A signal means “investigate”, never “reject the product”. Rational subgroups and Phase I versus Phase II: build limits from a stable baseline, then freeze them to monitor new data. Location versus dispersion: a means chart and a spread chart answer different questions, just like \\(T^2\\) and GV here. Practice / Think like the analyst",
+          "excerpt": "The ASQ CSSBB and CQE bodies of knowledge do not name Hotelling’s \\(T^2\\), generalized variance or MEWMA charts. Treat this lesson as beyond-the-exam depth, and know the ideas the exams do test. Covariance and correlation: the diagonal of a covariance matrix…",
           "kinds": [
             "section",
             "example"
@@ -21014,7 +20987,7 @@
           "id": "lesson-section-can-you-solve-the-case-before-opening-minitab",
           "heading": "Can you solve the case before opening Minitab?",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Can you solve the case before opening Minitab?"
           ],
           "text": "",
@@ -21028,12 +21001,12 @@
           "id": "lesson-section-case-a-the-unusual-combination",
           "heading": "Case A: the unusual combination",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Can you solve the case before opening Minitab?",
             "Case A: the unusual combination"
           ],
-          "text": "Historical means 500 and 600 MPa. Both standard deviations 10 MPa, correlation 0.8. A new individual pipe measures 510 and 590 MPa. Calculate its T² and compare with the illustrative limit 11.83. Reveal worked solution The standardized deviations are +1 and −1. T² = 10. This does not exceed 11.83, although the combination is more unusual than both measurements rising together.",
-          "excerpt": "Historical means 500 and 600 MPa. Both standard deviations 10 MPa, correlation 0.8. A new individual pipe measures 510 and 590 MPa. Calculate its T² and compare with the illustrative limit 11.83. Reveal worked solution The standardized deviations are +1 and…",
+          "text": "Historical means 500 and 600 MPa. Both standard deviations 10 MPa, correlation 0.8. A new individual pipe measures 510 and 590 MPa. Calculate its T² and compare with the illustrative limit 11.83. Reveal worked solution The standardized deviations are \\(+1\\) and \\(-1\\), so \\(T^2 = 10\\). This does not exceed 11.83, although the combination is more unusual than both measurements rising together.",
+          "excerpt": "Historical means 500 and 600 MPa. Both standard deviations 10 MPa, correlation 0.8. A new individual pipe measures 510 and 590 MPa. Calculate its T² and compare with the illustrative limit 11.83. Reveal worked solution The standardized deviations are \\(+1\\)…",
           "kinds": [
             "section",
             "example",
@@ -21044,7 +21017,7 @@
           "id": "lesson-section-case-b-the-spread-changes",
           "heading": "Case B: the spread changes",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Can you solve the case before opening Minitab?",
             "Case B: the spread changes"
           ],
@@ -21059,7 +21032,7 @@
           "id": "lesson-section-case-c-the-drift-continues",
           "heading": "Case C: the drift continues",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Can you solve the case before opening Minitab?",
             "Case C: the drift continues"
           ],
@@ -21074,7 +21047,7 @@
           "id": "lesson-section-eight-mistakes-that-can-ruin-the-analysis",
           "heading": "Eight mistakes that can ruin the analysis",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Can you solve the case before opening Minitab?",
             "Eight mistakes that can ruin the analysis"
           ],
@@ -21089,7 +21062,7 @@
           "id": "lesson-section-mixing-product-families",
           "heading": "Mixing product families",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Can you solve the case before opening Minitab?",
             "Mixing product families"
           ],
@@ -21104,7 +21077,7 @@
           "id": "lesson-section-misaligned-rows",
           "heading": "Misaligned rows",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Can you solve the case before opening Minitab?",
             "Misaligned rows"
           ],
@@ -21119,7 +21092,7 @@
           "id": "lesson-section-using-overall-covariance-blindly",
           "heading": "Using overall covariance blindly",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Can you solve the case before opening Minitab?",
             "Using overall covariance blindly"
           ],
@@ -21134,7 +21107,7 @@
           "id": "lesson-section-re-estimating-every-day",
           "heading": "Re-estimating every day",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Can you solve the case before opening Minitab?",
             "Re-estimating every day"
           ],
@@ -21149,7 +21122,7 @@
           "id": "lesson-section-ignoring-dispersion",
           "heading": "Ignoring dispersion",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Can you solve the case before opening Minitab?",
             "Ignoring dispersion"
           ],
@@ -21164,7 +21137,7 @@
           "id": "lesson-section-inventing-a-historical-sample-count",
           "heading": "Inventing a historical sample count",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Can you solve the case before opening Minitab?",
             "Inventing a historical sample count"
           ],
@@ -21179,7 +21152,7 @@
           "id": "lesson-section-calling-every-alarm-a-defect",
           "heading": "Calling every alarm a defect",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Can you solve the case before opening Minitab?",
             "Calling every alarm a defect"
           ],
@@ -21194,7 +21167,7 @@
           "id": "lesson-section-treating-decomposition-as-causation",
           "heading": "Treating decomposition as causation",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Can you solve the case before opening Minitab?",
             "Treating decomposition as causation"
           ],
@@ -21209,7 +21182,7 @@
           "id": "references",
           "heading": "References",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "References"
           ],
           "text": "Source: supplied synthetic Minitab project, saved figures dated November 24, 2026. Chart coordinates and control limits are extracted from the saved QChartCompute records, not native screenshots. Original project contains graph definitions but no exported plot images. Full-size renderings retain the recorded numerical results. Minitab control chart documentation · NIST Engineering Statistics Handbook",
@@ -21223,7 +21196,7 @@
           "id": "lesson-section-your-independent-minitab-investigation",
           "heading": "Your independent Minitab investigation",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Your independent Minitab investigation"
           ],
           "text": "Allow 30–45 minutes after reading the lesson if you already know Minitab; beginners should allow additional time for importing data and creating matrices. Download both CSVs. Try this without looking at the answer tables first. Import T²/GV data, create the historical matrix, and generate standalone T², standalone GV and combined charts. Record the limits and signal indices. For each of subgroups 41, 46 and 51, calculate both subgroup averages and the covariance determinant. Decide whether location, dispersion or both require investigation. Import the MEWMA dataset, create its own M1 and run the chart at weight 0.20. Record the first signal and the following five statistics. Change weight to 0.10 and 0.40 in Minitab. Record the corresponding limits and first signals. Explain why a single observed detection delay cannot prove one design is generally superior. Write a three-sentence response to a production supervisor: what changed statistically, what cannot yet be concluded, and what physical evidence you would inspect next. Check your investigation Chart UCL Signal T² 27.1452 41 and 51 GV 11446.0181 46 and 51 Combined Same as standalone 41: location; 46: dispersion; 51: both MEWMA at 0.20 9.6476 45–60 MEWMA subgroups 45–50: 12.2859, 26.4353, 30.1773, 54.1370, 56.3070, 79.0883. For alternate weights use your own recalibrated Minitab outputs rather than the saved UCL. Independent numerical checkpoints (not Minitab control limits): Weight Subgroup 1 Subgroup 45 Subgroup 50 Subgroup 60 0.10 0.8196 10.7641 75.8192 110.2092 0.20 0.8196 12.2859 79.0883 63.7238 0.40 0.8196 10.6875 58.1590 28.0367 These values use the startup-adjusted covariance and the original MEWMA worksheet. They are statistic checkpoints only; obtain each weight-specific UCL from Minitab. Check the answer-table CSV for the exact group calculations. Suggested supervisor response: the joint strength mean changed at 41, dispersion changed at 46, and both signaled at 51. These results do not establish a material defect or its root cause. Verify test repeatability, product mix, rolling conditions and individual strength trends before taking action. Final recap",
@@ -21238,7 +21211,7 @@
           "id": "lesson-section-one-process-three-complementary-ways-to-detect-change",
           "heading": "One process. Three complementary ways to detect change.",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "One process. Three complementary ways to detect change."
           ],
           "text": "T² Where did the center move? Current mean vector · 41, 51 T²/GV dataset GV Did the joint spread change? Covariance determinant · 46, 51 T²/GV dataset MEWMA Is a small shift persisting? Weighted mean vector · 45–60 Separate MEWMA dataset Start with a trustworthy baseline. Choose a chart that answers the actual process question. Interpret statistical signals in context and confirm causes before changing the process.",
@@ -21253,11 +21226,11 @@
           "id": "related-heading",
           "heading": "Related lessons",
           "breadcrumb": [
-            "Multivariate Statistical Control Chart (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
+            "Multivariate Statistical Process Control (MSPC) – Hotelling's T², Generalized Variance & Multivariate EWMA Control Charts: Complete Guide and Minitab Practice",
             "Related lessons"
           ],
-          "text": "Variance, covariance, correlation and coefficient of variation Pearson, Spearman and Kendall correlation Minitab control chart selection and analysis Short-run SPC control charts",
-          "excerpt": "Variance, covariance, correlation and coefficient of variation Pearson, Spearman and Kendall correlation Minitab control chart selection and analysis Short-run SPC control charts",
+          "text": "Variance, covariance, correlation and coefficient of variation — rebuild the covariance ideas this lesson starts from. Pearson, Spearman and Kendall correlation — see why the YS/UTS relationship matters. Control charts explained — the one-variable Shewhart charts that MSPC extends. Minitab control chart selection and analysis — pick the right chart for your data in Minitab. Short-run SPC control charts — monitor when you have too little data for a long baseline.",
+          "excerpt": "Variance, covariance, correlation and coefficient of variation — rebuild the covariance ideas this lesson starts from. Pearson, Spearman and Kendall correlation — see why the YS/UTS relationship matters. Control charts explained — the one-variable Shewhart…",
           "kinds": [
             "section",
             "example"
