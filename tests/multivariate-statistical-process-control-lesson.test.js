@@ -157,3 +157,4 @@ test('scroll regions really scroll and hero poster labels stay readable (rendere
  for(const style of html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)){let b=0;for(const ch of style[1]){if(ch==='{')b++;if(ch==='}')b--;assert.ok(b>=0);}assert.equal(b,0,'balanced braces');}
  assert.match(css,/#lesson-content \.ms-visual-hero svg text\{font-size:12\.5px\}/);
 });
+test('download buttons wrap inside their cards',()=>{assert.match(html,/\.ms-resource a\{[^}]*max-width:100%;box-sizing:border-box;overflow-wrap:anywhere\}/);});
