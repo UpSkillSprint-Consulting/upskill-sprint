@@ -934,7 +934,13 @@ Worked example: the Engineering & Statistics Calculator,
   ```
   This exact bug shipped in PR #374: six linearize-data sections (`#why-linearize`, `#special-cases`, `#did-it-work`, `#worked-example`, `#python-r`, `#references`) lost their margins and ran to the screen edges (§23).
 - **No per-lesson `ch` caps.** The only exception is short display text, such as a lede or pull quote, capped at 44ch or less when that is clearly intentional. Where a reading column is genuinely wanted, use the shared token from `style.css`, `max-width: var(--text-measure);` (about 75ch), on the text element itself, never on the wrapper.
-- The `max-width:900px` wrappers in §7.1 (`.quiz-section`) and §8 (Return to lesson category) are the deliberate page-column width for those blocks and stay as they are; they are not text caps.
+- The `max-width:900px` wrappers in §7.1 (`.quiz-section`) and §8 (Return to lesson category) are the *default* column for those blocks; they are not text caps, and the canonical blocks stay byte-identical. **Every top-level block must still share the lesson's left and right edges** at 1280, 1600 and 390px: the hero, every section, the Statistics Implementation `<details>`, the quiz, related lessons and the §8 return link. When the lesson's own column is wider than 900px, add lesson-scoped rules after the canonical blocks, for example (1120px shell `.xx-shell`):
+  ```css
+  #lesson-content .xx-shell>.quiz-section{max-width:none}
+  /* §8 block carries an inline 900px cap and 20px padding, so it needs !important */
+  body[data-lesson-page]>section[aria-label="Return to lesson category"]{width:min(100% - 32px,1120px);max-width:none!important;padding:0!important}
+  ```
+  Match the shell's own width and phone rule. A deliberate edge-to-edge band (for example a full-bleed hero background) carries `data-full-bleed`, and its content still sits on the column. The §16 step 5b scan checks the edges.
 - `tests/layout-wrapper-override.test.js` fails the build when an element combines a wrapper class with a later class that sets `max-width`.
 
 ## 10. Mobile requirements (all lessons)
@@ -1710,8 +1716,237 @@ Pass condition: no violations. Until PR #259 is merged, the one tolerated except
 §23 site-chrome item (`aria-prohibited-attr` on `.mobile-menu-btn` at 390px). After it merges,
 you may drop the `#lesson-progress-widget` exclusion from the script. Re-run the same script against the deploy preview origin
 (`https://deploy-preview-<PR>--upskillsprint.netlify.app`) in step 6. If no Chrome is
-available, install `puppeteer` instead of `puppeteer-core` and drop `executablePath`. When
-you are done, stop the server and `rm -rf public-site`.
+available, install `puppeteer` instead of `puppeteer-core` and drop `executablePath`. Keep the
+server running for step 5b.
+
+**Step 5b: rendered layout scan (MANDATORY, math rendered).** axe does not measure layout.
+This scan does, in the states a learner actually sees. Run it against the same local build
+now and against the deploy preview in step 6. **Both runs are required** for A04, A09–A11 and
+A16 (§26.6). It reloads the lesson in hidden same-origin frames at 1280, 1600 and 390px in light
+and dark, waits for math, checks the page with every `<details>` closed, then opens them all and
+reports:
+- sideways page overflow;
+- untypeset math; an inline formula taller than three times its text; a formula wider than
+  its box that is not inside a named scroll region (checked before any panel is opened);
+- scroll areas that keyboard users cannot reach (panels closed and open);
+- top-level blocks in and after `main` whose left or right edge differs from the rest (§9.9);
+- chart text (any non-math SVG) under 10px, outside its chart, or overlapping other chart text;
+- ordinary words split mid-word in table cells; on phones, tables of up to three columns that
+  scroll sideways (wrap long code instead; wider tables may scroll in their named region);
+- images that fail to load or overflow; phone touch targets under 44px;
+- same-origin links, images and downloads that do not answer 200.
+
+The MathJax CDN is often unreachable from agent sandboxes. The runner then answers MathJax
+requests from the npm copy of **the version in `/assets/js/math.js`** (3.2.2 today); Chrome's
+SRI check against its `INTEGRITY` proves the bytes are identical, and if they are not, math
+stays raw and the scan says so. A report with `untypeset math` certifies nothing visual.
+```bash
+cd /tmp/axe-check && npm i puppeteer-core mathjax@3.2.2   # match VERSION in /assets/js/math.js
+# save the two files below into /tmp/axe-check, then:
+CHROME_PATH=/usr/bin/google-chrome node run-rendered-scan.cjs http://localhost:4173/lessons/<category>/<slug>
+```
+```js
+// rendered-lesson-scan.js: run on the lesson page itself (deploy preview or local build).
+// Browser console / Claude in Chrome: paste the whole script; it resolves to a report object.
+// Puppeteer: await page.evaluate(fs.readFileSync('rendered-lesson-scan.js', 'utf8')).
+// It reloads the lesson in hidden same-origin frames at each width and theme, opens every
+// <details>, waits for math, and measures. Any entry in `problems` fails A04/A11/A16 (§26.6).
+(async () => {
+  const widths = [1280, 1600, 390];
+  const themes = ['light', 'dark'];
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const base = location.origin + location.pathname;
+  const savedTheme = localStorage.getItem('upskill-theme');
+  const report = { page: location.pathname, problems: [], views: {}, links: { checked: 0, broken: [] } };
+  const box = r => [Math.round(r.left), Math.round(r.right)];
+  const hit = (a, b) => Math.min(a.right, b.right) - Math.max(a.left, b.left) > 1 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 1;
+
+  for (const theme of themes) for (const width of widths) {
+    const view = theme + ' ' + width;
+    const add = (kind, detail) => report.problems.push('[' + view + '] ' + kind + ': ' + detail);
+    localStorage.setItem('upskill-theme', theme);
+    const frame = document.createElement('iframe');
+    frame.style.cssText = 'position:fixed;left:0;top:0;width:' + width + 'px;height:900px;border:0;visibility:hidden';
+    frame.src = base + '?rendered-scan=' + theme + '-' + width;
+    const loaded = new Promise(r => { frame.onload = r; });
+    document.body.appendChild(frame);
+    await loaded;
+    const w = frame.contentWindow, d = frame.contentDocument;
+    if (w.UpskillMath) await Promise.race([w.UpskillMath.ready.catch(() => {}), wait(15000)]);
+    await wait(600);
+    const main = d.querySelector('main#lesson-content') || d.querySelector('main');
+    // Scroll areas must be keyboard-reachable in the default state (panels closed) and after opening.
+    const unreachable = when => main.querySelectorAll('*').forEach(el => {
+      const ox = w.getComputedStyle(el).overflowX;
+      if ((ox === 'auto' || ox === 'scroll') && el.scrollWidth > el.clientWidth + 1 && !el.hasAttribute('tabindex') && !el.querySelector('a, button, input, select, textarea, [tabindex]'))
+        add('scroll area not keyboard-reachable (' + when + ')', (el.id ? '#' + el.id : el.className || el.tagName) + ' ' + el.scrollWidth + '/' + el.clientWidth + 'px');
+    });
+    unreachable('panels closed');
+    // Formulas wider than their box must sit in a named scroll region before anything is clicked.
+    main.querySelectorAll('mjx-container').forEach(m => {
+      // Measure the drawn SVG: a display formula's container is a block as wide as its parent.
+      const r = (m.querySelector('svg') || m).getBoundingClientRect();
+      if (!r.width || m.closest('[role="region"]')) return;
+      if (r.right > m.parentElement.getBoundingClientRect().right + 1) add('formula overflows without a named scroll region (panels closed)', '#' + ((m.closest('[id]') || {}).id || '?'));
+    });
+    d.querySelectorAll('main details').forEach(x => { x.open = true; });
+    w.dispatchEvent(new w.Event('resize'));
+    await wait(1000);
+    unreachable('panels open');
+    const v = report.views[view] = {};
+
+    // 1. No sideways page scroll.
+    const overflow = d.documentElement.scrollWidth - w.innerWidth;
+    if (overflow > 0) add('page overflow', overflow + 'px');
+
+    // 2. Math typeset, sized like text, and inside its box (or a named scroll region).
+    const raw = (main.innerText.match(/\\\(|\\\)|\\\[|\\\]/g) || []).length;
+    v.formulas = main.querySelectorAll('mjx-container').length;
+    if (raw) add('untypeset math', raw + ' raw TeX delimiters (math did not render: use the deploy preview)');
+    for (const m of main.querySelectorAll('mjx-container')) {
+      const r = (m.querySelector('svg') || m).getBoundingClientRect();
+      if (!r.width) continue;
+      const fs = parseFloat(w.getComputedStyle(m.parentElement).fontSize);
+      const where = (m.closest('[id]') || {}).id || m.parentElement.tagName.toLowerCase();
+      if (m.getAttribute('display') !== 'true' && r.height > 3 * fs) add('inline formula too large', Math.round(r.width) + 'x' + Math.round(r.height) + 'px at ' + fs + 'px text, in #' + where);
+      const holder = m.closest('[role="region"]');
+      const limit = (holder || m.parentElement).getBoundingClientRect();
+      if (!holder && r.right > limit.right + 1) add('formula wider than its box', '#' + where);
+    }
+
+    // 3. Top-level sections share one column: identical left and right edges.
+    // Includes blocks placed after <main>, such as the §8 "Return to lesson category" link.
+    const blocks = [...main.querySelectorAll('section, details, nav, aside')]
+      .filter(b => !b.parentElement.closest('main section, main details, main nav, main aside'))
+      .concat([...d.querySelectorAll('body > section')])
+      .filter(b => b.getBoundingClientRect().width > 0 && !b.hasAttribute('data-full-bleed')); // deliberate edge-to-edge bands opt out
+    const edges = blocks.map(b => box(b.getBoundingClientRect()).join('-'));
+    v.sectionEdges = [...new Set(edges)];
+    if (v.sectionEdges.length > 1) {
+      const common = edges.sort((a, b) => edges.filter(x => x === b).length - edges.filter(x => x === a).length)[0];
+      blocks.forEach(b => {
+        const e = box(b.getBoundingClientRect()).join('-');
+        if (e !== common) add('section edge mismatch', (b.id ? '#' + b.id : b.getAttribute('aria-label') || b.tagName.toLowerCase() + '.' + [...b.classList].join('.')) + ' spans ' + e + ', column is ' + common);
+      });
+    }
+
+    // 4. Chart text: readable, inside its chart, never overlapping other chart text.
+    v.charts = [];
+    for (const svg of main.querySelectorAll('svg')) {
+      if (svg.closest('mjx-container')) continue;
+      const sb = svg.getBoundingClientRect();
+      if (!sb.width) continue;
+      const name = svg.id ? '#' + svg.id : (svg.getAttribute('aria-label') || 'svg');
+      v.charts.push(name + ' ' + Math.round(sb.width) + 'x' + Math.round(sb.height));
+      const scale = svg.getScreenCTM() ? svg.getScreenCTM().a : 1;
+      const texts = [...svg.querySelectorAll('text')].map(t => ({ t, r: t.getBoundingClientRect() })).filter(x => x.r.width);
+      for (const x of texts) {
+        const px = parseFloat(w.getComputedStyle(x.t).fontSize) * scale;
+        if (px < 10) add('chart text under 10px', name + ' "' + x.t.textContent + '" ' + px.toFixed(1) + 'px');
+        if (x.r.left < sb.left - 1 || x.r.right > sb.right + 1 || x.r.top < sb.top - 1 || x.r.bottom > sb.bottom + 1) add('chart text outside chart', name + ' "' + x.t.textContent + '"');
+      }
+      for (let i = 0; i < texts.length; i++) for (let j = i + 1; j < texts.length; j++) {
+        if (hit(texts[i].r, texts[j].r)) add('chart labels overlap', name + ' "' + texts[i].t.textContent + '" and "' + texts[j].t.textContent + '"');
+      }
+    }
+
+    // 5. Table cells are not crushed: an ordinary word (outside <code> and math) wider than its
+    //    cell is being split mid-word, which is unreadable even inside a scroll region.
+    const ctx = d.createElement('canvas').getContext('2d');
+    for (const cell of main.querySelectorAll('td, th')) {
+      const room = cell.clientWidth - parseFloat(w.getComputedStyle(cell).paddingLeft) - parseFloat(w.getComputedStyle(cell).paddingRight);
+      const walker = d.createTreeWalker(cell, w.NodeFilter.SHOW_TEXT);
+      for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+        if (n.parentElement.closest('code, kbd, mjx-container')) continue;
+        ctx.font = w.getComputedStyle(n.parentElement).font;
+        const word = n.textContent.split(/\s+/).sort((a, b) => ctx.measureText(b).width - ctx.measureText(a).width)[0];
+        if (word && ctx.measureText(word).width > room + 1) { add('cramped table cell', '"' + word + '" is ' + Math.round(ctx.measureText(word).width) + 'px in a ' + Math.round(room) + 'px column'); break; }
+      }
+    }
+
+    //    On phones, tables of up to three columns must fit without sideways scrolling
+    //    (wrap long code); wider tables may scroll inside their named region.
+    if (width <= 480) for (const t of main.querySelectorAll('table')) {
+      const cols = t.rows[0] ? t.rows[0].cells.length : 0;
+      const region = t.parentElement.getBoundingClientRect();
+      if (cols && cols <= 3 && t.getBoundingClientRect().width > region.width + 1) add('narrow table scrolls on phone', (t.closest('[aria-label]') || {}).getAttribute ? t.closest('[aria-label]').getAttribute('aria-label') + ' (' + cols + ' columns, ' + Math.round(t.getBoundingClientRect().width) + 'px in ' + Math.round(region.width) + 'px)' : cols + ' columns');
+    }
+
+    // 6. Images load, decode and fit their container (lazy images are forced to load).
+    for (const img of main.querySelectorAll('img')) {
+      img.loading = 'eager';
+      await img.decode().catch(() => {});
+      const r = img.getBoundingClientRect(), parent = img.parentElement.getBoundingClientRect();
+      if (!img.naturalWidth) add('image did not load', img.getAttribute('src'));
+      else if (r.width > parent.width + 1) add('image wider than its container', img.getAttribute('src'));
+    }
+
+    // 7. Touch targets on phones.
+    if (width <= 480) for (const c of main.querySelectorAll('button, select, summary, a[download], .quiz-option')) {
+      const r = c.getBoundingClientRect();
+      if (r.width && Math.round(r.height) < 44) add('touch target under 44px', (c.id ? '#' + c.id : c.tagName.toLowerCase()) + ' ' + Math.round(r.height) + 'px');
+    }
+    frame.remove();
+  }
+  if (savedTheme === null) localStorage.removeItem('upskill-theme'); else localStorage.setItem('upskill-theme', savedTheme);
+
+  // 8. Every same-origin link, image and download in the lesson answers 200.
+  const urls = [...new Set([...document.querySelectorAll('main a[href], main img[src]')]
+    .map(e => new URL(e.getAttribute('href') || e.getAttribute('src'), location.href))
+    .filter(u => u.origin === location.origin).map(u => u.pathname))];
+  for (const u of urls) {
+    let res = await fetch(u).catch(() => ({ status: 0 }));
+    // Netlify serves /path from /path.html; plain local servers may not when a /path/ folder also exists.
+    if (res.status === 404 && !/\.[a-z0-9]+$/i.test(u)) res = await fetch(u + '.html').catch(() => ({ status: 0 }));
+    report.links.checked++;
+    if (res.status !== 200) report.links.broken.push(res.status + ' ' + u);
+  }
+  report.links.broken.forEach(b => report.problems.push('[links] broken: ' + b));
+  report.ok = report.problems.length === 0;
+  return report;
+})();
+```
+```js
+// run-rendered-scan.cjs: node run-rendered-scan.cjs <lesson-url> [scan-file]; exits 1 when report.ok is false.
+// Renders math locally even when the MathJax CDN is blocked: requests for
+// cdn.jsdelivr.net/npm/mathjax@<VERSION>/es5/... are answered from the npm copy of the same
+// version. Chrome's SRI check against INTEGRITY in /assets/js/math.js proves the bytes match;
+// if they do not, math stays untypeset and the scan reports it.
+const fs = require('fs');
+const path = require('path');
+const puppeteer = require('puppeteer-core');
+const [url, scanFile = path.join(__dirname, 'rendered-lesson-scan.js')] = process.argv.slice(2);
+const mathjaxRoot = path.dirname(require.resolve('mathjax/package.json'));
+
+(async () => {
+  const browser = await puppeteer.launch({ executablePath: process.env.CHROME_PATH || '/usr/bin/google-chrome', headless: 'new', args: ['--no-sandbox'] });
+  const page = await browser.newPage();
+  await page.setRequestInterception(true);
+  page.on('request', req => {
+    const m = req.url().match(/cdn\.jsdelivr\.net\/npm\/mathjax@[\d.]+\/(es5\/[\w/.-]+\.js)/);
+    const file = m && path.join(mathjaxRoot, m[1]);
+    if (file && fs.existsSync(file)) req.respond({ status: 200, contentType: 'application/javascript', headers: { 'Access-Control-Allow-Origin': '*' }, body: fs.readFileSync(file) });
+    else req.continue();
+  });
+  await page.setViewport({ width: 1280, height: 900 });
+  await page.goto(url, { waitUntil: 'networkidle2', timeout: 90000 });
+  const report = await page.evaluate(fs.readFileSync(scanFile, 'utf8'));
+  for (const [view, v] of Object.entries(report.views)) console.log(view.padEnd(11), 'formulas', v.formulas, '| section edges', v.sectionEdges.join(' '), '| charts', v.charts.length);
+  console.log('links checked', report.links.checked, '| problems', report.problems.length);
+  report.problems.forEach(p => console.log('  ' + p));
+  await browser.close();
+  process.exit(report.ok ? 0 : 1);
+})();
+```
+On the deploy preview (step 6), open the lesson in Chrome and paste `rendered-lesson-scan.js`
+into the DevTools console, or run it with Claude in Chrome's JavaScript tool; it resolves to
+the same report. Pass condition on both runs: `report.ok === true`. Every remaining problem is
+fixed, or Ernest's explicit decision is recorded in the PR (§26.3).
+
+The scan covers the default state with panels open and closed. It does not move sliders or
+change selects: §26.5 still requires extreme and reset values to be re-measured (the same
+overlap, outside-chart and overflow checks, run after each change). When you are done, stop
+the server and `rm -rf public-site`.
 
 **Step 6: Netlify deploy preview (MANDATORY).** After pushing, wait for the
 `netlify/upskillsprint/deploy-preview` check to pass. Then open
@@ -1720,7 +1955,8 @@ you are done, stop the server and `rm -rf public-site`.
 - run the step 5 axe script against the preview;
 - confirm the lesson appears on `/lessons` in its category and in site search;
 - confirm every download, image, and internal link works;
-- if the page has math, confirm it typesets (no raw `\(`…`\)` visible) in both themes.
+- if the page has math, confirm it typesets (no raw `\(`…`\)` visible) in both themes;
+- run the step 5b rendered scan on the preview and paste its six-view summary into the PR.
 
 Paste the preview URL into the PR body. A PR is not ready for review until this is done.
 
@@ -1810,7 +2046,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] Announcement email (§12.7): `<meta name="upskill:email-teaser">` present (40–160 chars, plain text) — teaser: "…" — understood that merging to main emails every opted-in subscriber automatically.
 **Page structure & head**
 - [ ] No per-lesson `max-width: NNch` caps on prose (short display text of 44ch or less excepted); prose classes set no `max-width`; boxes, cards and callouts fill their container (§9.9).
-- [ ] No element combines a page-wrapper class with a prose class that sets `max-width`. At 1280px and 1600px, every section's text edges line up with the page column; nothing runs edge to edge (§9.9).
+- [ ] No element combines a page-wrapper class with a prose class that sets `max-width`. At 1280px, 1600px and 390px every top-level block (hero, sections, Statistics Implementation, quiz, related lessons, §8 return link) shares the same left and right edges; nothing runs edge to edge unless marked `data-full-bleed` (§9.9).
 - [ ] Filename is lowercase-hyphenated; equals slug; in lessons/<category_slug>/.
 - [ ] <html lang="en"> is immediately followed by the UPSKILLSPRINT_LESSON_META comment; JSON valid; all required fields; >=5 search_keywords; suggested_github_path correct.
 - [ ] <title> ends with " | UpSkill Sprint" and is ≤65 chars in total (test-locked older titles exempt, §2.1); meta description ≤165 chars; canonical extensionless (slash only for directory index); og:type/title/description/image/url + twitter:card; favicon links.
@@ -1851,6 +2087,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 **Multi-persona audit (§26)**
 - [ ] All 16 persona reviews recorded using the §26.4 PR audit record; justified N/A entries only.
 - [ ] A16: chart proportions measured and compared in rendered views; compact interactive plots, aspect ratios, label readability and changed states verified (§26.5).
+- [ ] A04, A09–A11, A16 evidence comes from the §16 step 5b scan on both the local build and the deploy preview, plus a human-eye review of every section in both themes at 1280 and 390 (§26.6).
 - [ ] All in-scope audit findings corrected and rechecked against the final branch head; no unresolved critical or high findings.
 - [ ] Evidence distinguishes source review from actual execution, rendered review and software output; blocked checks disclosed and PR kept draft.
 **Validation (§16)**
@@ -1858,6 +2095,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] Full suite: no new failures vs origin/main (branch N fails / main N fails).
 - [ ] npm run build:site exits 0; side effects restored; git status clean apart from intended files.
 - [ ] Local axe scan: 0 violations in light/dark × 1280/390 (except §23 chrome item).
+- [ ] Rendered layout scan (§16 step 5b): `ok` on the local build (math rendered) **and** on the deploy preview, final head; slider/select extremes re-measured (§26.5).
 - [ ] All GitHub checks pass; Netlify deploy preview verified (URL: …) in both themes at desktop and mobile.
 - [ ] If the lesson uses the Excel Coach, the changes follow [§25 Excel Coach](#25-excel-coach-engineering-tool) (diagnosis plus Next:, no answer leaks, local-only logging).
 ```
@@ -2180,6 +2418,30 @@ Correct:
 <p>where \(\bar{x}\) is the sample mean.</p>
 ```
 
+### 22.7 Layout traps with rendered math (MUST)
+
+- **MathJax draws every formula as an inline `<svg>`.** A lesson rule that targets `svg` by
+  descendant (`.xx-chart svg{width:100%}`, `figure svg{…}`) also resizes the formulas inside
+  that container: in PR #427 a caption formula rendered 640×134px. Scope chart rules to the
+  chart itself (`.xx-chart > svg`, or a class on the chart's SVG). Never put bare descendant
+  `svg` rules on containers that can hold text.
+- **Inline lesson scripts run before the deferred `/assets/js/math.js`.** At that moment
+  `window.UpskillMath` does not exist yet. Code that must run after typesetting waits for it:
+  ```js
+  const afterMath = () => { if (window.UpskillMath) window.UpskillMath.ready.then(() => { /* measure formulas */ }); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', afterMath); else afterMath();
+  ```
+- **Formulas wider than a phone column** scroll inside their box. Mark only the boxes that
+  actually overflow as `tabindex="0" role="region"` with a unique `aria-label`, re-check with a
+  `ResizeObserver` (widths settle after typesetting and change with the viewport), and give
+  sighted readers a visible cue such as a `::after` "Swipe sideways to see the whole formula"
+  line on `[role="region"]` boxes. Static `role="region"` on every formula box fails axe
+  (duplicate landmarks).
+- Measure the drawn `<svg>` inside `mjx-container`, not the container: a display formula's
+  container is a block as wide as its parent even when the formula overflows.
+- Unit tests run without MathJax. Rendered checks (§16 step 5b) run with it, locally through the
+  SRI-matched npm copy and on the deploy preview.
+
 ---
 
 ## 23. Known site-wide defects and baseline failures (do not "fix" inside a lesson PR)
@@ -2193,6 +2455,8 @@ PR that Ernest asked for.
 | Quiz kicker `#0f6b78` is 3.0:1 in dark mode | §7.1 canonical style (copied into lessons; tests lock it) | Fixed in shared `/lessons-theme.css` by PR #259. Until it merges, add the §7.1 rule. |
 | Back-link `#1f4e78` is about 2:1 in dark mode | §8 canonical markup | Fixed in shared `/lessons-theme.css` by PR #259. Until it merges, add the §8 rule. |
 | `aria-label` on `<label class="mobile-menu-btn">` [aria-prohibited-attr] at mobile width, and the menu has no keyboard access | §4.1 canonical header | Fixed at runtime in `/site-sections.js` by PR #259. Keep pasting the §4.1 block unchanged. |
+| §7.1 quiz submit button is 39px tall (11px padding, 15px text), under the 44px touch target | §7.1 canonical style | Leave the canonical block unchanged; add `#quiz .quiz-actions button{min-height:44px}` after it until the shared CSS is fixed. The §16 step 5b scan flags it. |
+| §7.1 `.quiz-section` and §8 return link cap at 900px, so they do not line up with wider lesson columns | §7.1, §8 canonical markup | Add the lesson-scoped rules in §9.9; the step 5b scan reports the edges. |
 | Injected `#lesson-progress-widget` outside landmarks [region] | `progress.js` | Fixed by PR #259 (`<aside aria-label="Lesson progress">`). Until it merges, keep the exclusion in the §16 axe script. |
 | No shared math renderer | §22 | Shared `/assets/js/math.js` added by PR #259. New lessons use it (§22.1). Existing lessons migrate when next updated. |
 | Legacy `How to Add a New Lesson.dc.html` at the repo root (not deployed; its `support.js` 404s) | repo root | Deletion proposed in PR #258, pending Ernest's OK. Do not link to it or copy it. |
@@ -2403,8 +2667,9 @@ evidence and limitations. Never report a simulated expert review as human approv
    not merely a recommendation list. Preserve content under §14; fix related inaccuracies
    without silently deleting instructional material. Add regression tests for changed
    behaviour. Escalate out-of-scope issues, governance conflicts or unresolvable uncertainty.
-4. Review the rendered design and learner journeys (A04, A09–A11, A16) using the required local
-   build and deploy preview, then run the technical and discoverability gates (A12, A15).
+4. Review the rendered design and learner journeys (A04, A09–A11, A16) on **both** the local
+   build and the deploy preview of the final head, with math rendered, following §26.6. One of
+   the two is never enough. Then run the technical and discoverability gates (A12, A15).
    Run all validation commands in §16 in their specified order. Revisit earlier passes
    if any change affects their findings.
 5. Re-audit the fixes against the final branch head. Re-run affected checks after subsequent
@@ -2458,6 +2723,9 @@ not silently marked passed. A blocked or failed required gate keeps the PR draft
 - Final audited commit SHA:
 - Local build / deploy preview URL:
 - Software and version (where relevant):
+- Rendered scan §16 step 5b, local build (math rendered): `ok` / problems, six-view summary:
+- Rendered scan §16 step 5b, deploy preview: `ok` / problems, six-view summary:
+- Changed states re-measured (§26.5): controls and values checked, result:
 - Evidence limitations / owner decisions:
 
 | ID | Audit persona | Status | Findings / fixes | Verification evidence |
@@ -2526,4 +2794,41 @@ the viewport or has readable labels.
   the statistical data, arbitrary axis distortions or site-wide styling. Add regression
   coverage for layout constraints when applicable and rerun affected interactive tests.
   Mark A16 BLOCKED if rendered review cannot be performed.
+
+### 26.6 Rendered evidence rules (A04, A09–A11, A16) (MUST)
+
+These rules exist because an audit marked these personas PASS while a caption formula
+rendered at 640×134px, the quiz stopped short of the column and chart labels collided
+(PR #427). Each check had been run against a proxy instead of the property:
+
+| What was checked | What it did not prove |
+|---|---|
+| No raw `\(` left on the page | that formulas render at text size |
+| Chart text is 12px or larger | that labels do not overlap |
+| No sideways page scroll | that sections line up |
+| axe passes with panels open | that the page is right before anything is clicked |
+
+1. **Both environments, final head.** Run the §16 step 5b scan on the local build and on the
+   deploy preview. If math cannot render locally even through the SRI-matched npm copy, or the
+   preview cannot be opened (for example the browser extension is disconnected), the
+   affected personas are BLOCKED for that half and the PR stays draft until it is done.
+   Asking Ernest to paste the scan into his browser console on the preview is acceptable; record
+   that he ran it.
+2. **Measure the property.** Formula sizes, section edges, label overlaps and touch targets
+   are measured in rendered pixels, as the scan does. A count, a font size or the absence of
+   overflow is not evidence for a different property.
+3. **Every state.** Default state with panels closed, every panel open, and the extreme and
+   reset values of every slider and select (§26.5), in both themes at 1280 and 390 (and 1600
+   for edges).
+4. **Look as well as measure.** Review full-page renders of every section in both themes at
+   1280 and 390 with math rendered. Scans miss things a reader sees, such as a formula cut off
+   with no hint that it scrolls, or a table that needs sideways scrolling to read a result.
+5. **A guide rule is not a pass.** If a rule seems to permit a visible inconsistency (for
+   example the §7.1 900px quiz cap), record the conflict as a finding and fix it within the
+   lesson or escalate it; do not pass it.
+6. **PASS needs both scans `ok`** on the final head plus the human-eye review. Any change after
+   the scans (CSS, JS, content that moves layout) means re-running them.
+7. **Name the source of every result** in the §26.4 table: preview, local render, executed
+   test, calculation or source review. CI check names are not evidence of what they do not
+   run (see §23 for the "Node 22 full suite" check).
 
