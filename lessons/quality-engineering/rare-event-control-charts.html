@@ -65,10 +65,10 @@
 #lesson-content .re-stat{font-size:1.8rem;font-weight:800;display:block;color:var(--lesson-accent);font-variant-numeric:tabular-nums}
 #lesson-content .re-table,#lesson-content .re-math{overflow-x:auto;max-width:100%;margin:12px 0}
 #lesson-content table{border-collapse:collapse;width:100%}#lesson-content th,#lesson-content td{padding:10px 12px;border-bottom:1px solid var(--lesson-line);text-align:left;vertical-align:top}
-#lesson-content th{background:var(--lesson-paper);color:var(--lesson-ink)}#lesson-content .re-chart{width:100%;max-width:640px;margin:15px auto}#lesson-content .re-chart svg{display:block;width:100%;height:auto;overflow:visible}
-#lesson-content .re-chart svg text{font:12px system-ui;fill:var(--lesson-ink)}#lesson-content .re-chart svg .axis{stroke:var(--lesson-line)}#lesson-content .re-chart svg .curve{stroke:var(--lesson-plot);stroke-width:2.4;fill:none}#lesson-content .re-chart svg .limit{stroke:var(--lesson-alert);stroke-dasharray:5 3;stroke-width:1.5}#lesson-content .re-chart svg .center{stroke:var(--lesson-good);stroke-width:1.5}
-#lesson-content .re-chart svg .point{fill:var(--lesson-plot)}#lesson-content .re-chart svg .signal{fill:var(--lesson-surface);stroke:var(--lesson-alert);stroke-width:2.5}
-#lesson-content .re-chart svg .event{fill:var(--lesson-alert)}#lesson-content .re-chart svg .good{fill:var(--lesson-good)}#lesson-content figcaption{color:var(--lesson-muted);font-size:.9rem;margin-top:8px}
+#lesson-content th{background:var(--lesson-paper);color:var(--lesson-ink)}#lesson-content .re-chart{width:100%;max-width:640px;margin:15px auto}#lesson-content .re-chart > svg{display:block;width:100%;height:auto;overflow:visible}
+#lesson-content .re-chart > svg text{font:12px system-ui;fill:var(--lesson-ink)}#lesson-content .re-chart > svg .axis{stroke:var(--lesson-line)}#lesson-content .re-chart > svg .curve{stroke:var(--lesson-plot);stroke-width:2.4;fill:none}#lesson-content .re-chart > svg .limit{stroke:var(--lesson-alert);stroke-dasharray:5 3;stroke-width:1.5}#lesson-content .re-chart > svg .center{stroke:var(--lesson-good);stroke-width:1.5}
+#lesson-content .re-chart > svg .point{fill:var(--lesson-plot)}#lesson-content .re-chart > svg .signal{fill:var(--lesson-surface);stroke:var(--lesson-alert);stroke-width:2.5}
+#lesson-content .re-chart > svg .event{fill:var(--lesson-alert)}#lesson-content .re-chart > svg .good{fill:var(--lesson-good)}#lesson-content figcaption{color:var(--lesson-muted);font-size:.9rem;margin-top:8px}
 #lesson-content .re-controls{display:grid;gap:12px}#lesson-content .re-controls label{font-weight:650;display:block}#lesson-content .re-controls input[type=range]{width:100%;min-height:44px;accent-color:var(--lesson-accent)}#lesson-content .re-controls select,#lesson-content .re-controls button,#lesson-content .re-button{min-height:44px;font:inherit;padding:8px 14px;border:1px solid var(--lesson-line);border-radius:8px;background:var(--lesson-surface);color:var(--lesson-ink)}
 #lesson-content .re-button{display:inline-flex;align-items:center;justify-content:center;font-weight:700;margin:6px 5px 6px 0}
 #lesson-content .re-callout{border-left:4px solid var(--lesson-accent);padding:12px 16px;background:var(--lesson-paper);color:var(--lesson-ink);border-radius:6px;margin:16px 0}
@@ -76,19 +76,19 @@
 #lesson-content .re-impl summary{list-style:none;cursor:pointer}#lesson-content .re-impl summary::-webkit-details-marker{display:none}#lesson-content .re-impl .re-hide,#lesson-content .re-impl[open] .re-show{display:none}#lesson-content .re-impl[open] .re-hide{display:inline}#lesson-content .re-impl .re-hint{display:inline-flex;align-items:center;min-height:44px;padding:10px 18px;background:#075762;color:#fff;border-radius:30px;margin-top:10px;font-weight:700}#lesson-content .re-impl:not([open]) .re-hint{animation:lesson-rare-event-nudge 5s infinite}#lesson-content .re-impl summary:hover .re-hint{transform:translateY(-2px)}
 @keyframes lesson-rare-event-nudge{0%,85%,100%{transform:rotate(0)}90%{transform:rotate(-2deg)}95%{transform:rotate(2deg)}}
 @media(prefers-reduced-motion:reduce){#lesson-content .re-impl:not([open]) .re-hint{animation:none}}
-@media(max-width:520px){#lesson-content .re-poster{grid-template-columns:1fr}#lesson-content .re-shell{width:calc(100% - 24px)}#lesson-content .re-section{padding:14px}#lesson-content .re-chart svg text{font-size:13px}}
+@media(max-width:520px){#lesson-content .re-poster{grid-template-columns:1fr}#lesson-content .re-shell{width:calc(100% - 24px)}#lesson-content .re-section{padding:14px}#lesson-content .re-chart > svg text{font-size:13px}}
 #lesson-content .re-toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 4px;padding:0;list-style:none}
 #lesson-content .re-toc a{display:inline-flex;align-items:center;min-height:44px;padding:6px 13px;border:1px solid var(--lesson-line);border-radius:999px;background:var(--lesson-surface);color:var(--lesson-ink);font-weight:700;font-size:.9rem;text-decoration:none}
 #lesson-content .re-toc a:hover{border-color:var(--lesson-accent)}
-#lesson-content .re-chart svg .track{fill:var(--lesson-line)}
-#lesson-content .re-chart svg .hz{fill:none;stroke-width:2.6}
-#lesson-content .re-chart svg .hz-05{stroke:var(--lesson-hz-05);stroke-dasharray:6 4}
-#lesson-content .re-chart svg .hz-1{stroke:var(--lesson-plot)}
-#lesson-content .re-chart svg .hz-2{stroke:var(--lesson-good);stroke-dasharray:2 3}
-#lesson-content .re-chart svg text.hz-label{font-weight:700}
+#lesson-content .re-chart > svg .track{fill:var(--lesson-line)}
+#lesson-content .re-chart > svg .hz{fill:none;stroke-width:2.6}
+#lesson-content .re-chart > svg .hz-05{stroke:var(--lesson-hz-05);stroke-dasharray:6 4}
+#lesson-content .re-chart > svg .hz-1{stroke:var(--lesson-plot)}
+#lesson-content .re-chart > svg .hz-2{stroke:var(--lesson-good);stroke-dasharray:2 3}
+#lesson-content .re-chart > svg text.hz-label{font-weight:700}
 #lesson-content .re-note{font-size:.93rem;color:var(--lesson-muted)}
 #lesson-content .re-checkpoints td:last-child{font-variant-numeric:tabular-nums;font-weight:700}
-#lesson-content .re-controls>*{min-width:0}#lesson-content .re-controls select{width:100%;max-width:100%}#lesson-content .re-controls input[type=range]{max-width:100%}
+/* The §7.1 quiz wrapper caps at 900px; in this 1120px column the quiz card should line up with every other section. */#lesson-content .re-shell>.quiz-section.re-section{max-width:none}#lesson-content .re-controls>*{min-width:0}#lesson-content .re-controls select{width:100%;max-width:100%}#lesson-content .re-controls input[type=range]{max-width:100%}
 html[data-theme="dark"] #lesson-content{--lesson-hz-05:#f3bb67;--lesson-paper:#0c1b2b;--lesson-ink:#edf5fc;--lesson-muted:#bacddd;--lesson-surface:#14283b;--lesson-line:#39536a;--lesson-accent:#7de2df;--lesson-alert:#ff9bab;--lesson-good:#83e6ab;--lesson-plot:#82c8ff}
 </style>
 <style id="uss-quiz-style">

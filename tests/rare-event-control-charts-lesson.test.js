@@ -180,3 +180,19 @@ test('Minitab project holds the five worksheets and the G and T charts the lesso
   assert.ok(html.includes('“An estimated historical parameter is used in the calculations”'));
   assert.ok(html.includes('“At least one estimated historical parameter is used in the calculations”'));
 });
+
+/* Layout regressions reported 26 Nov 2026. */
+test('chart SVG rules cannot resize MathJax SVG formulas inside figure captions', () => {
+  const css = [...doc.querySelectorAll('style')].map(s => s.textContent).join('\n');
+  // MathJax renders with tex-svg, so any descendant ".re-chart svg" rule would also hit the formula.
+  assert.doesNotMatch(css, /\.re-chart\s+svg/);
+  assert.match(css, /#lesson-content \.re-chart > svg\{display:block;width:100%;height:auto;overflow:visible\}/);
+  for (const fig of doc.querySelectorAll('#lesson-content .re-chart')) for (const svg of fig.querySelectorAll('svg')) assert.equal(svg.parentElement, fig, 'chart SVGs must be direct children of .re-chart');
+  assert.ok(doc.querySelector('#re-gexample').closest('.re-chart').querySelector('figcaption').textContent.includes('\\(p = 0.005\\)'));
+});
+
+test('every top-level section spans the same column, including the quiz', () => {
+  const css = [...doc.querySelectorAll('style')].map(s => s.textContent).join('\n');
+  assert.match(css, /#lesson-content \.re-shell>\.quiz-section\.re-section\{max-width:none\}/);
+  assert.ok(doc.querySelector('.re-shell > section#quiz.quiz-section.re-section'));
+});
