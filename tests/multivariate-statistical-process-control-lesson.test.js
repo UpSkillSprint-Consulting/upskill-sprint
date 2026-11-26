@@ -158,3 +158,4 @@ test('scroll regions really scroll and hero poster labels stay readable (rendere
  assert.match(css,/#lesson-content \.ms-visual-hero svg text\{font-size:12\.5px\}/);
 });
 test('download buttons wrap inside their cards',()=>{assert.match(html,/\.ms-resource a\{[^}]*max-width:100%;box-sizing:border-box;overflow-wrap:anywhere\}/);});
+test('sitemap snapshot lists the lesson',()=>{assert.ok(fs.readFileSync('sitemap.xml','utf8').includes('<loc>https://upskillsprint.com/lessons/statistics/'+slug+'</loc>'));});

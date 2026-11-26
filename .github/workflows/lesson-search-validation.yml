@@ -72,6 +72,7 @@ jobs:
             tests/probability-distributions-lesson.test.js \
             tests/excel-statistical-functions-map-lesson.test.js \
             tests/top-down-vs-bottom-up-risk-assessment-lesson.test.js \
+            tests/cusum-ewma-lesson.test.js \
             tests/multivariate-statistical-process-control-lesson.test.js
       - name: Build the exact production site and generated lessons
         run: npm run build:site

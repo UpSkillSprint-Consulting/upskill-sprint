@@ -603,6 +603,18 @@
       description: 'Run an end-to-end quality investigation from process mapping and root-cause evidence through corrective-action planning and sustainment.'
     },
     {
+      marker: 'data-cusum-ewma-control-charts',
+      sectionId: 'quality-engineering',
+      path: '/lessons/quality-engineering/cusum-vs-ewma-control-charts',
+      topic: 'quality-engineering',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'cusum ewma cusum vs ewma minitab statistical process control spc small shift detection decision interval reference value lambda time weighted control charts',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>75 min</span><span>Minitab + Excel</span>',
+      title: 'CUSUM vs. EWMA: Detect the Hidden Shift',
+      description: 'Learn time-weighted control charts with real Minitab project outputs, a live simulator and four manufacturing case studies.'
+    },
+    {
       marker: 'data-pmp-formula-encyclopedia',
       sectionId: 'project-management',
       path: '/lessons/project-management/pmp-formula-encyclopedia',
