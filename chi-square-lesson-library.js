@@ -471,18 +471,6 @@
       description: 'Read two- and three-index notation, totals and means, with worked ANOVA and chi-square examples and an eight-question quiz.'
     },
     {
-      marker: 'data-cusum-ewma-control-charts',
-      sectionId: 'quality-engineering',
-      path: '/lessons/quality-engineering/cusum-vs-ewma-control-charts',
-      topic: 'quality-engineering',
-      level: 'intermediate',
-      interactive: 'true',
-      search: 'cusum ewma minitab statistical process control small shifts chart detection reference decision interval lambda manufacturing tutorials',
-      meta: '<span>Intermediate</span><span>Interactive</span><span>35 min</span><span>Minitab + Excel</span>',
-      title: 'CUSUM vs. EWMA: Detect the Hidden Shift',
-      description: 'Learn time-weighted control charts with real Minitab project outputs, a live simulator and four manufacturing case studies.'
-    },
-    {
       marker: 'data-introduction-to-calculus-for-quality-and-reliability-engineers',
       sectionId: 'quality-engineering',
       path: '/lessons/quality-engineering/introduction-to-calculus-for-quality-and-reliability-engineers',
@@ -601,6 +589,18 @@
       meta: '<span>Advanced</span><span>Interactive</span><span>45 min</span>',
       title: 'The Complete Quality Toolbox: All 14 Tools',
       description: 'Run an end-to-end quality investigation from process mapping and root-cause evidence through corrective-action planning and sustainment.'
+    },
+    {
+      marker: 'data-cusum-ewma-control-charts',
+      sectionId: 'quality-engineering',
+      path: '/lessons/quality-engineering/cusum-vs-ewma-control-charts',
+      topic: 'quality-engineering',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'cusum ewma cusum vs ewma minitab statistical process control spc small shift detection decision interval reference value lambda time weighted control charts',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>75 min</span><span>Minitab + Excel</span>',
+      title: 'CUSUM vs. EWMA: Detect the Hidden Shift',
+      description: 'Learn time-weighted control charts with real Minitab project outputs, a live simulator and four manufacturing case studies.'
     },
     {
       marker: 'data-pmp-formula-encyclopedia',
