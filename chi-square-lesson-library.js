@@ -615,6 +615,18 @@
       description: 'Learn time-weighted control charts with real Minitab project outputs, a live simulator and four manufacturing case studies.'
     },
     {
+      marker: 'data-rare-event-control-charts',
+      sectionId: 'quality-engineering',
+      path: '/lessons/quality-engineering/rare-event-control-charts',
+      topic: 'quality-engineering',
+      level: 'intermediate',
+      interactive: 'true',
+      search: 'rare event control charts G chart T chart geometric exponential Weibull Benneyan test Minitab reliability statistical process control',
+      meta: '<span>Intermediate</span><span>Interactive</span><span>65 min</span>',
+      title: 'Rare Event Control Charts (G & T)',
+      description: 'Learn G and T charts from raw event dates, explore geometric and Weibull control limits, and practise interpreting rare-event signals in Minitab.'
+    },
+    {
       marker: 'data-pmp-formula-encyclopedia',
       sectionId: 'project-management',
       path: '/lessons/project-management/pmp-formula-encyclopedia',
