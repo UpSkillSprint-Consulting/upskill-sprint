@@ -213,3 +213,48 @@ test('control-chart labels keep clear of each other: ticks, axis title, unit, li
   // Each Test 1 point keeps its own label because 27 (long gap) and 28 (8 minutes) sit far apart vertically.
   assert.equal(texts.filter(t => t.s === '1').length, 2);
 });
+
+test('return-to-category block matches the lesson column and the quiz button meets the 44px target', () => {
+  const css = [...doc.querySelectorAll('style')].map(s => s.textContent).join('\n');
+  const shell = css.match(/\.re-shell\{width:(min\(100% - 32px,1120px\))/)[1];
+  assert.ok(css.includes('body[data-lesson-page]>section[aria-label="Return to lesson category"]{width:' + shell + ';max-width:none!important;padding:0!important}'));
+  assert.match(css, /@media\(max-width:520px\)\{body\[data-lesson-page\]>section\[aria-label="Return to lesson category"\]\{width:calc\(100% - 24px\)\}\}/);
+  assert.match(css, /#quiz \.quiz-actions button\{min-height:44px\}/);
+  assert.ok(doc.querySelector('main + section[aria-label="Return to lesson category"]'), '§8 block stays canonical, after main');
+});
+
+test('distribution charts right-align the last x tick so extreme slider values stay inside the chart', () => {
+  assert.ok(html.includes('label(c,X(max*i/3),188,(max*i/3).toFixed(max<10?1:0),i===3?"end":"middle")'));
+  const w = live();
+  const p = w.document.getElementById('re-p');
+  p.value = p.min; p.dispatchEvent(new w.Event('input'));
+  const ticks = [...w.document.querySelectorAll('#re-gdist text')].filter(t => t.getAttribute('y') === '188');
+  assert.equal(ticks.length, 4);
+  assert.equal(ticks[3].getAttribute('text-anchor'), 'end');
+});
+
+test('phone layout: overflowing formulas show a swipe cue; narrow tables can wrap long formulas and identifiers', () => {
+  const css = [...doc.querySelectorAll('style')].map(s => s.textContent).join('\n');
+  assert.match(css, /#lesson-content \.re-math\[role="region"\]::after\{content:"Swipe sideways to see the whole formula \\2192";content:"Swipe sideways to see the whole formula \\2192" \/ "";display:block;position:sticky;left:0/);
+  assert.ok(css.includes('#lesson-content .re-table table:not(:has(th:nth-child(4))) code{overflow-wrap:anywhere}'));
+  assert.ok(css.includes('@media(max-width:520px){#lesson-content .re-table table{font-size:14px}#lesson-content .re-table th,#lesson-content .re-table td{padding:8px}'));
+  assert.match(css, /\.re-table table:has\(th:nth-child\(4\)\)\{min-width:560px\}/);
+  // CSS-only wrapping keeps search-index text intact (no <wbr>, which the index builder turns into spaces).
+  assert.ok(!html.includes('<wbr>'));
+  assert.ok(doc.querySelector('[aria-label="Excel checkpoints"]').textContent.includes('=NEGBINOM.DIST(78,1,0.08,TRUE)'));
+});
+
+test('formula regions are marked after the deferred math loader runs, not before it exists', async () => {
+  // The inline lesson script runs before the deferred /assets/js/math.js, so it must wait for DOMContentLoaded.
+  assert.ok(html.includes('if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",afterMath);else afterMath();'));
+  assert.ok(html.includes('const wideObserver=window.ResizeObserver?new ResizeObserver(queueWide):null;'));
+  let subscribed = 0;
+  new JSDOM(html, { url: 'https://upskillsprint.com/lessons/quality-engineering/' + slug, runScripts: 'dangerously', beforeParse(win) {
+    // Simulate the deferred loader: UpskillMath appears only after the inline scripts have run.
+    win.document.addEventListener('readystatechange', () => {
+      if (win.document.readyState === 'interactive' && !win.UpskillMath) win.UpskillMath = { ready: { then(fn) { subscribed++; return Promise.resolve(fn({ startup: { promise: Promise.resolve() } })); } } };
+    });
+  } });
+  await new Promise(r => setTimeout(r, 30));
+  assert.equal(subscribed, 1, 'lesson waits for the deferred math loader before marking wide formulas');
+});
