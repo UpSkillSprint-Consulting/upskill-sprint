@@ -196,3 +196,20 @@ test('every top-level section spans the same column, including the quiz', () => 
   assert.match(css, /#lesson-content \.re-shell>\.quiz-section\.re-section\{max-width:none\}/);
   assert.ok(doc.querySelector('.re-shell > section#quiz.quiz-section.re-section'));
 });
+
+test('control-chart labels keep clear of each other: ticks, axis title, unit, limit names', () => {
+  const w = live();
+  const svg = w.document.getElementById('re-tactual');
+  const texts = [...svg.querySelectorAll('text')].map(t => ({ s: t.textContent, x: Number(t.getAttribute('x')), y: Number(t.getAttribute('y')) }));
+  const ticks = texts.filter(t => /^\d+$/.test(t.s) && t.y > 200);
+  assert.ok(ticks.length >= 5);
+  for (const t of ticks) assert.equal(t.y, 214, 'tick numbers sit 18px under the plot');
+  const title = texts.find(t => t.s === 'Minitab observation');
+  assert.equal(title.y, 236);
+  assert.ok(title.y - 214 >= 20, 'axis title clears the 13px tick numbers');
+  assert.ok(texts.find(t => t.s === 'Days').y >= 13, 'unit label stays inside the viewBox');
+  const lastTick = Math.max(...ticks.map(t => t.x));
+  for (const n of ['LCL', 'CL', 'UCL']) assert.ok(texts.find(t => t.s === n).x >= lastTick + 12, n + ' clears the last tick number');
+  // Each Test 1 point keeps its own label because 27 (long gap) and 28 (8 minutes) sit far apart vertically.
+  assert.equal(texts.filter(t => t.s === '1').length, 2);
+});

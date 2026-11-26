@@ -246,12 +246,14 @@ function node(tag,attrs={},txt){const n=document.createElementNS(svgNS,tag);Obje
 function setup(id,h=230){const el=$(id);if(!el)return null;const w=Math.max(285,Math.min(640,Math.round(el.parentElement.getBoundingClientRect().width)||340));el.replaceChildren();el.setAttribute("viewBox","0 0 "+w+" "+h);return {el,w,h,add:(tag,a,s)=>el.append(node(tag,a,s))};}
 const label=(c,x,y,s,anchor="middle")=>c.add("text",{x,y,"text-anchor":anchor},s);
 function plot(id,values,limits,signals={},start=1,unit="Days",title="Event interval"){
- const c=setup(id,240);if(!c)return;const l=42,r=c.w-62,t=15,b=196,top=Math.max(...values,...limits,1)*1.12, X=i=>l+(r-l)*i/(Math.max(1,values.length-1)),Y=v=>b-(b-t)*v/top;
+ const c=setup(id,240);if(!c)return;const l=42,r=c.w-62,t=26,b=196,top=Math.max(...values,...limits,1)*1.12, X=i=>l+(r-l)*i/(Math.max(1,values.length-1)),Y=v=>b-(b-t)*v/top;
  for(let k=0;k<=4;k++){const v=top*k/4;c.add("line",{x1:l,x2:r,y1:Y(v),y2:Y(v),class:"axis"});label(c,l-5,Y(v)+4,v.toFixed(top<4?1:0),"end");}
- const names=["LCL","CL","UCL"];limits.forEach((v,i)=>{c.add("line",{x1:l,x2:r,y1:Y(v),y2:Y(v),class:i===1?"center":"limit"});label(c,r+5,Y(v)+(i===0?13:-3),names[i],"start");});
+ const names=["LCL","CL","UCL"];limits.forEach((v,i)=>{c.add("line",{x1:l,x2:r,y1:Y(v),y2:Y(v),class:i===1?"center":"limit"});label(c,r+12,Y(v)+(i===0?13:-3),names[i],"start");});
  c.el.dataset.values=JSON.stringify(values.map(v=>+v.toFixed(6)));c.el.dataset.limits=JSON.stringify(limits.map(v=>+v.toFixed(6)));c.el.dataset.signals=Object.keys(signals).join(",");c.add("polyline",{points:values.map((v,i)=>X(i)+","+Y(v)).join(" "),class:"curve"});
- values.forEach((v,i)=>{const n=i+start, s=signals[n];c.add("circle",{cx:X(i),cy:Y(v),r:s?4.5:2.8,class:s?"signal":"point"});if(s)label(c,X(i),Math.max(10,Y(v)-9),s);if(i===0||i===values.length-1||n%Math.ceil(values.length/6)===0)label(c,X(i),b+30,n);});
- label(c,(l+r)/2,235,title);label(c,l,10,unit,"start");
+ const step=(r-l)/Math.max(1,values.length-1),tight=step<14;
+ values.forEach((v,i)=>{const n=i+start, s=signals[n];c.add("circle",{cx:X(i),cy:Y(v),r:s?4.5:2.8,class:s?"signal":"point"});if(!s)return;if(!tight){label(c,X(i),Math.max(t,Y(v)-9),s);return;}const near=(k)=>k>0&&signals[k+start-1]===s&&signals[k+start]===s&&Math.abs(Y(values[k])-Y(values[k-1]))<14;if(near(i))return;let j=i;while(j+1<values.length&&near(j+1))j++;const ys=values.slice(i,j+1).map(Y);label(c,(X(i)+X(j))/2,Math.max(t,Math.min(...ys)-9),s);});
+ values.forEach((v,i)=>{const n=i+start;if(i===0||i===values.length-1||n%Math.ceil(values.length/6)===0)label(c,X(i),b+18,n);});
+ label(c,(l+r)/2,236,title);label(c,l,14,unit,"start");
 }
 function dist(id,kind,p,b,s){
  const c=setup(id,210);if(!c)return;const lim=kind==="g"?gl(p):tl(b,s),max=lim[2]*1.08,l=35,r=c.w-12,y0=168,yt=15,X=x=>l+(r-l)*x/max;
