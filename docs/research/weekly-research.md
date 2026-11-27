@@ -171,7 +171,7 @@ steel_pipe: "Direct fit: tensile and yield prediction by grade, heat and mill so
 exam: [CSSBB, CQE]
 exam_topic: "Regression validation, prediction intervals and model generalization"
 lesson_idea: yes
-status: "Published to ticker (PR #PRNUM)"
+status: "Published to ticker (PR #429)"
 ```
 
 #### Charpy curve models lose accuracy on brand-new steels
@@ -200,7 +200,7 @@ steel_pipe: "Direct fit: Charpy transition curves for line-pipe, plate and cast 
 exam: [CQE, CSSBB]
 exam_topic: "Nonlinear regression, model validation, destructive testing"
 lesson_idea: yes
-status: "Published to ticker (PR #PRNUM)"
+status: "Published to ticker (PR #429)"
 ```
 
 #### Pinpoint when a sensor curve's shape changed
@@ -229,15 +229,15 @@ steel_pipe: "Possible fit for forming-press, expander or hydrotest pressure-time
 exam: [CSSBB, CQE]
 exam_topic: "CUSUM, change-point detection, Phase I/II monitoring"
 lesson_idea: no
-status: "Published to ticker (PR #PRNUM)"
+status: "Published to ticker (PR #429)"
 ```
 
 ### Combined ranking (Claude fills this in on Friday)
 | Rank | Headline | Contributor | Evidence | Readiness | Status |
 |---|---|---|---|---|---|
-| 1 | Test steel strength models on grades they haven't seen | Claude | Medium | Ready to apply | Published to ticker (PR #PRNUM) |
-| 2 | Charpy curve models lose accuracy on brand-new steels | Claude | Medium | Worth piloting | Published to ticker (PR #PRNUM) |
-| 3 | Pinpoint when a sensor curve's shape changed | Claude | Medium | Worth watching | Published to ticker (PR #PRNUM) |
+| 1 | Test steel strength models on grades they haven't seen | Claude | Medium | Ready to apply | Published to ticker (PR #429) |
+| 2 | Charpy curve models lose accuracy on brand-new steels | Claude | Medium | Worth piloting | Published to ticker (PR #429) |
+| 3 | Pinpoint when a sensor curve's shape changed | Claude | Medium | Worth watching | Published to ticker (PR #429) |
 
 ### Notes
 - GPT added no picks and opened no `research/week-2026-11-27` PR, so Claude opened `ticker/weekly-2026-11-27`.
