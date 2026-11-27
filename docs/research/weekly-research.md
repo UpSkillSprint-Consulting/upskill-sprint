@@ -122,10 +122,10 @@ status: Proposed
 
 ---
 
-## Week of 2026-11-27
+## Week of 2026-12-04
 
 ### GPT picks
-_GPT adds up to 3 picks here by Thursday 2026-11-26._
+_GPT adds up to 3 picks here by Thursday 2026-12-03._
 
 ### Claude picks
 _Claude adds these in the Friday run._
@@ -135,6 +135,117 @@ _Claude adds these in the Friday run._
 |---|---|---|---|---|---|
 
 ### Notes
+
+---
+
+## Week of 2026-11-27
+
+### GPT picks
+None this week.
+
+### Claude picks
+
+#### Test steel strength models on grades they haven't seen
+```yaml
+pick_id: 2026-11-27-claude-steel-family-holdout
+contributor: Claude
+ticker_text: "Test steel strength models on grades they haven't seen"
+link: https://arxiv.org/abs/2611.06953
+link_type: arxiv
+published: 2026-11-05
+venue: arXiv
+peer_reviewed: no
+data: real
+sample_size: "1,636 tensile records across 594 grades and 17 families; 27 sources; 60 lab tests from 68 heats in the top-quality tier"
+evidence: Medium
+evidence_why: "Preprint, but built on real measured tensile data and audited across four different hold-out schemes."
+limitations: "Not peer reviewed (only a short demo version is in IJCAI-26 proceedings); data are compiled published tables and lab tests, not one mill's production stream; restricted source data not released; per-heat predictions needed to recheck the uncertainty; compliance score not checked against real pass/fail; LLM interface not user-tested. Published date estimated from the arXiv ID (abstract date line could not be read)."
+readiness: Ready to apply
+topic: predictive-quality
+what_it_is: "A steel tensile-strength prediction system that combines metallurgical features, gradient boosting and conformal prediction intervals. Its main finding is how much reported accuracy depends on what is held out: random rows, grade, steel family or data source."
+plant_problem: "A strength model that scores well in a random split can fall apart on a new grade or a new supplier's data, and its prediction intervals stop covering the real values."
+excel: "Add Grade/Family/Source columns; hold out a whole family or source as the test sheet; compare RSQ and the share of actuals inside the interval"
+minitab: "Stat > Regression > Fit Regression Model; then Stat > Regression > Regression > Predict for prediction intervals on a held-out worksheet; the built-in K-fold validation uses random folds, so build the group hold-out by hand"
+python: "scikit-learn (GroupKFold, LeaveOneGroupOut, GradientBoostingRegressor), catboost, mapie (conformal intervals)"
+steel_pipe: "Direct fit: tensile and yield prediction by grade, heat and mill source for plate, coil and pipe."
+exam: [CSSBB, CQE]
+exam_topic: "Regression validation, prediction intervals and model generalization"
+lesson_idea: yes
+status: "Published to ticker (PR #PRNUM)"
+```
+
+#### Charpy curve models lose accuracy on brand-new steels
+```yaml
+pick_id: 2026-11-27-claude-charpy-transition-curve-ml
+contributor: Claude
+ticker_text: "Charpy curve models lose accuracy on brand-new steels"
+link: https://www.mdpi.com/2075-4701/16/11/1269
+link_type: journal
+published: 2026-11-19
+venue: Metals (MDPI)
+peer_reviewed: yes
+data: real
+sample_size: "604 Charpy V-notch results, 58 steels, 40 publications; external test on 4 in-house cast steels, 2 specimens per temperature at 4 temperatures"
+evidence: Medium
+evidence_why: "Peer reviewed with real Charpy data, but the database is compiled from the literature and the external test is only 4 steels with 2 specimens per temperature."
+limitations: "Headline R-squared of 0.71–0.89 comes from random splits that leak same-steel data; on unseen steels R-squared drops to 0.12–0.32 and transition-temperature error is 35–41 °C; tuning folds overlap reporting folds; unreported elements coded as zero; sub-size specimens not converted; simple in-house-only baselines matched the best fine-tuned model; no upper-shelf data in-house."
+readiness: Worth piloting
+topic: predictive-quality
+what_it_is: "The authors trained models to predict the full Charpy ductile-to-brittle transition curve from chemistry and heat treatment, comparing direct prediction of impact energy with models that fit the four parameters of a tanh curve. The curve-constrained model held up best on four new cast steels, but every model lost most of its accuracy on steels it had not seen."
+plant_problem: "Estimating impact toughness and transition temperature for a new grade or heat-treatment before running a full temperature series, and knowing how far to trust that estimate."
+excel: "Fit the tanh transition curve with Solver (minimize SSE on A, B, T0, C); hold out whole steels when checking any prediction"
+minitab: "Stat > Regression > Nonlinear Regression (tanh curve per steel); Stat > Regression > Fit Regression Model for the composition model"
+python: "scipy.optimize.curve_fit, scikit-learn (GroupKFold by steel), pytorch"
+steel_pipe: "Direct fit: Charpy transition curves for line-pipe, plate and cast steels; supports deciding which test temperatures to run."
+exam: [CQE, CSSBB]
+exam_topic: "Nonlinear regression, model validation, destructive testing"
+lesson_idea: yes
+status: "Published to ticker (PR #PRNUM)"
+```
+
+#### Pinpoint when a sensor curve's shape changed
+```yaml
+pick_id: 2026-11-27-claude-sensor-curve-change-point
+contributor: Claude
+ticker_text: "Pinpoint when a sensor curve's shape changed"
+link: https://arxiv.org/abs/2611.13464
+link_type: arxiv
+published: 2026-11-10
+venue: arXiv
+peer_reviewed: no
+data: both
+sample_size: "3,400 simulated sequences; injection-pressure curves from 204 molding cycles; UCI hydraulic rig benchmark of 80 curves per valve state"
+evidence: Medium
+evidence_why: "Preprint tested on real industrial curve data (injection molding) as well as simulation."
+limitations: "Not peer reviewed; detects a single mean change only; permutation p-values assume exchangeable cycles, but the molding data are strongly autocorrelated (lag-1 about 0.9), so its p-values are descriptive only; the hydraulic change is constructed, not an observed fault; full data section not read. Published date estimated from the arXiv ID (abstract date line could not be read)."
+readiness: Worth watching
+topic: anomaly
+what_it_is: "A change-point method for processes where each cycle produces a whole curve (a pressure or force profile). It learns which part of the curve to watch and then runs a CUSUM scan to find the cycle where the process changed."
+plant_problem: "Finding when a press, roll or forming profile shifted after the fact, when summary numbers like peak or mean look normal but the curve shape moved."
+excel: "none (approximate: pick a feature such as the value at a fixed time point, then a cumulative-sum column of deviations from the Phase I mean and find its peak)"
+minitab: "Stat > Control Charts > Time-Weighted Charts > CUSUM on a chosen curve feature; no functional change-point tool in Minitab"
+python: "numpy, pytorch, ruptures (classical change-point comparison)"
+steel_pipe: "Possible fit for forming-press, expander or hydrotest pressure-time curves; not tested on metals data."
+exam: [CSSBB, CQE]
+exam_topic: "CUSUM, change-point detection, Phase I/II monitoring"
+lesson_idea: no
+status: "Published to ticker (PR #PRNUM)"
+```
+
+### Combined ranking (Claude fills this in on Friday)
+| Rank | Headline | Contributor | Evidence | Readiness | Status |
+|---|---|---|---|---|---|
+| 1 | Test steel strength models on grades they haven't seen | Claude | Medium | Ready to apply | Published to ticker (PR #PRNUM) |
+| 2 | Charpy curve models lose accuracy on brand-new steels | Claude | Medium | Worth piloting | Published to ticker (PR #PRNUM) |
+| 3 | Pinpoint when a sensor curve's shape changed | Claude | Medium | Worth watching | Published to ticker (PR #PRNUM) |
+
+### Notes
+- GPT added no picks and opened no `research/week-2026-11-27` PR, so Claude opened `ticker/weekly-2026-11-27`.
+- Thin week: no qualifying quality-journal paper surfaced in the past 7 days, so the window was widened to 30 days.
+- arXiv abstract pages for 2611.06953 and 2611.13464 loaded and match the descriptions, but the "Submitted on" line could not be read. Both IDs are November 2026, so they are inside the 30-day window; the `published` dates are estimates from the ID sequence.
+- Charpy paper: journal page opened and checked (online 2026-11-19). The DOI printed there is 10.3390/met16111269; the doi.org redirect could not be opened in the automated check, so the journal page is the link.
+- Two of this week's three picks repeat last week's grouped-validation lesson (GPT pick, PR #413) on steel data. Together they make a strong case for a site lesson on validating predictive-quality models by heat, grade and source.
+- Checked and dropped: arXiv 2611.33582 (explainable change-point authorization) and 2611.34228 (generative change-point detection), pages would not load, so not assessed.
 
 ---
 
