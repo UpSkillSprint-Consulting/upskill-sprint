@@ -2,20 +2,56 @@
   "_howto": "Headlines for the scrolling updates bar (site-ticker.js). Add new items at the top. Fields: id (unique, never reuse), date (YYYY-MM-DD), tag (Lesson | Exam | Tool | Research | Update | Soon), text (your own words, under ~60 characters), href (a site path starting with /, or a direct https:// link to the source for Research items; those open in a new tab), expires (optional YYYY-MM-DD; shows through that day). Research items are weekly: only the newest dated batch shows, so a new Friday's picks replace the previous week's automatically. Items older than 90 days drop off automatically; at most 8 show. A new top item brings the bar back for visitors who closed it.",
   "updates": [
     {
-      "id": "2026-11-20-research-grouped-model-validation",
-      "date": "2026-11-20",
+      "id": "2026-11-27-research-steel-family-holdout",
+      "date": "2026-11-27",
       "tag": "Research",
-      "text": "Stop row-level leakage in manufacturing models",
-      "href": "https://doi.org/10.3390/info17111095",
-      "expires": "2026-12-04"
+      "text": "Test steel strength models on grades they haven't seen",
+      "href": "https://arxiv.org/abs/2611.06953",
+      "expires": "2026-12-11"
     },
     {
-      "id": "2026-11-20-research-forging-through-section-case",
-      "date": "2026-11-20",
+      "id": "2026-11-27-research-charpy-transition-curve-ml",
+      "date": "2026-11-27",
       "tag": "Research",
-      "text": "Test a big forging's core, not just its surface",
-      "href": "https://www.mdpi.com/1996-1944/19/21/4482",
-      "expires": "2026-12-04"
+      "text": "Charpy curve models lose accuracy on brand-new steels",
+      "href": "https://www.mdpi.com/2075-4701/16/11/1269",
+      "expires": "2026-12-11"
+    },
+    {
+      "id": "2026-11-27-research-sensor-curve-change-point",
+      "date": "2026-11-27",
+      "tag": "Research",
+      "text": "Pinpoint when a sensor curve's shape changed",
+      "href": "https://arxiv.org/abs/2611.13464",
+      "expires": "2026-12-11"
+    },
+    {
+      "id": "2026-11-26-rare-event-control-charts",
+      "date": "2026-11-26",
+      "tag": "Lesson",
+      "text": "New lesson: G and T charts for rare events",
+      "href": "/lessons/quality-engineering/rare-event-control-charts"
+    },
+    {
+      "id": "2026-11-26-multivariate-spc",
+      "date": "2026-11-26",
+      "tag": "Lesson",
+      "text": "New lesson: multivariate SPC with Hotelling T-squared",
+      "href": "/lessons/statistics/multivariate-statistical-process-control"
+    },
+    {
+      "id": "2026-11-26-cusum-vs-ewma",
+      "date": "2026-11-26",
+      "tag": "Lesson",
+      "text": "New lesson: CUSUM vs. EWMA control charts",
+      "href": "/lessons/quality-engineering/cusum-vs-ewma-control-charts"
+    },
+    {
+      "id": "2026-11-20-code-finder",
+      "date": "2026-11-20",
+      "tag": "Tool",
+      "text": "New tool: Code Finder for codes and standards",
+      "href": "/tools/code-finder/"
     },
     {
       "id": "2026-11-18-top-down-vs-bottom-up-risk",
